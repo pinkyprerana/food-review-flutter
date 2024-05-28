@@ -50,9 +50,9 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(initializationProvider, (_, __) {});
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarColor: AppColors.colorTransparent,
+      statusBarBrightness: Brightness.dark,
+      // statusBarIconBrightness: Brightness.dark,
+      // statusBarColor: AppColors.colorTransparent,
     ));
     return ScreenUtilInit(
       designSize: const Size(360, 690),

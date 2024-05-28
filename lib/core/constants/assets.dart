@@ -2,9 +2,11 @@ class Assets {
   static const String logo = 'assets/images/logo.png';
   static const String logoTransparent = 'assets/images/logo-transparent.png';
   static const String logoFull = 'assets/images/login_full.jpeg';
-  // static const String backgroundLogo = 'assets/images/app_background.png';
-  // static const String landingBg = 'assets/images/landing_bg.png';
-  // static const String landingFullLogo = 'assets/images/landing_full_logo.png';
+  static const String landingintro = 'assets/images/landing-intro.png';
+
+  // Icons
+  static const String curryIcon = 'assets/icons/curry.png';
+
   // static const String loginReactionLogo = 'assets/images/login_reaction.png';
   // static const String signupReactionLogo = 'assets/images/signup_reaction.png';
 

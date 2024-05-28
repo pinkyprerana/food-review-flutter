@@ -14,11 +14,12 @@ class CustomBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isScreenSmall = size.height < 750;
     return Positioned(
       top: 40,
       child: Transform.rotate(
         // angle: 0,
-        angle: (size.height < 750 ? -25.98 : -21.98) * (math.pi / 180),
+        angle: (isScreenSmall ? -25.98 : -21.98) * (math.pi / 180),
 
         child: Container(
           height: 2.sh,
