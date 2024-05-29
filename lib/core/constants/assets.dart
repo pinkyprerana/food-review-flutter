@@ -2,13 +2,21 @@ class Assets {
   static const String logo = 'assets/images/logo.png';
   static const String logoTransparent = 'assets/images/logo-transparent.png';
   static const String logoFull = 'assets/images/login_full.jpeg';
+  //
   static const String landingintro = 'assets/images/landing-intro.png';
+  //
+  static const String ftbCustomShapeImage1 =
+      'assets/images/ftb-custom-shape-img1.png';
+  static const String reviewImg1 = 'assets/images/review-img1.png';
+  static const String reviewImg2 = 'assets/images/review-img2.png';
 
   // Icons
   static const String curryIcon = 'assets/icons/curry.png';
-
-  // static const String loginReactionLogo = 'assets/images/login_reaction.png';
-  // static const String signupReactionLogo = 'assets/images/signup_reaction.png';
+  static const String googleIcon = 'assets/icons/google-icon.png';
+  static const String facebookIcon = 'assets/icons/facebook-icon.png';
+  static const String appleIcon = 'assets/icons/apple-icon.png';
+  static const String eyeOpen = 'assets/icons/eye.png';
+  static const String thumbsUp = 'assets/icons/thumbsup.png';
 
   // static const String emailIcon = 'assets/images/email_icon.png';
   // static const String profileIcon = 'assets/images/profile_icon.png';

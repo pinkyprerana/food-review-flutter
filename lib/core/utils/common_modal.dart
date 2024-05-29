@@ -38,7 +38,7 @@ Future<void> commonModal(BuildContext context, Widget child,
           )
         : Container(
             // padding: EdgeInsets.only(
-            //     bottom: MediaQuery.of(context).viewInsets.bottom),
+            //     bottom: MediaQuery.of(context).viewInsets.bottom).r,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: backgroundColor,

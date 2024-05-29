@@ -51,7 +51,7 @@ class MainApp extends ConsumerWidget {
     ref.listen(initializationProvider, (_, __) {});
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarBrightness: Brightness.dark,
-      // statusBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
       // statusBarColor: AppColors.colorTransparent,
     ));
     return ScreenUtilInit(

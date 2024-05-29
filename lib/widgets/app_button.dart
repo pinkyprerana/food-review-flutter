@@ -42,13 +42,6 @@ class AppButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
           color: color ?? AppColors.colorPrimary,
-          // gradient: color == null
-          //     ? const LinearGradient(
-          //         begin: Alignment(1.00, -0.03),
-          //         end: Alignment(-1, 0.03),
-          //         colors: [AppColors.colorPrimary1, AppColors.colorPrimary1],
-          //       )
-          //     : null,
         ),
         alignment: Alignment.center,
         child: loading

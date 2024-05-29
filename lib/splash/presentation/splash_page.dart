@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
@@ -28,21 +27,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Material(
       color: Colors.white,
-      child: SizedBox(
-        height: 1.sh,
-        width: 1.sw,
-        child: Stack(
-          children: [
-            CustomBackground(size: size),
-            Align(
-              child: Image.asset(
-                Assets.logoTransparent,
-              ),
-            ),
-          ],
+      child: CustomBackground(
+        child: Align(
+          child: Image.asset(
+            Assets.logoTransparent,
+          ),
         ),
       ),
     );
