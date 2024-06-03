@@ -53,6 +53,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
     signupLastNameTextController.clear();
     signupEmailTextController.clear();
     signupContactNumberTextController.clear();
+    signupPasswordTextController.clear();
+    signupConfirmPasswordTextController.clear();
   }
 
   void login({VoidCallback? onSuccess}) {
@@ -89,8 +91,39 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (signupContactNumberTextController.text.length < 8) {
       showToastMessage('Please enter a valid contact number');
       return;
+    } else if (signupPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter a password');
+      return;
+    } else if (signupPasswordTextController.text.length < 6) {
+      showToastMessage('Password must be atleast 6 characters');
+      return;
+    } else if (signupConfirmPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter confirmed password');
+      return;
+    } else if (signupConfirmPasswordTextController.text !=
+        signupPasswordTextController.text) {
+      showToastMessage('Password and Confirm password Doesn\'t match');
+      return;
     }
 
+    onSuccess?.call();
+  }
+
+  void resetPassword({VoidCallback? onSuccess}) async {
+    if (fpPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter a new password');
+      return;
+    } else if (fpPasswordTextController.text.length < 6) {
+      showToastMessage('Password must be atleast 6 characters');
+      return;
+    } else if (fpConfirmPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter a new confirmed password');
+      return;
+    } else if (fpPasswordTextController.text !=
+        fpConfirmPasswordTextController.text) {
+      showToastMessage('New password and Confirm password Doesn\'t match');
+      return;
+    }
     onSuccess?.call();
   }
 }

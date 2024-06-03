@@ -31,6 +31,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final lastNameFN = FocusNode();
   final emailFN = FocusNode();
   final contactFN = FocusNode();
+  final passwordFN = FocusNode();
+  final confirmPasswordFN = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 0.25.sh,
+                  height: 0.22.sh,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0).r,
                     child: Center(
@@ -62,7 +64,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                 ),
                 Container(
-                  height: 0.75.sh,
+                  height: isScreenSmall ? null : 0.78.sh,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -92,7 +94,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               fontSize: 16.sp,
                             ),
                           ),
-                          8.verticalSpace,
+                          6.verticalSpace,
                           Text(
                             'Register with us now to our platform',
                             style:
@@ -104,7 +106,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                         ],
                       ),
-                      const Spacer(),
+                      isScreenSmall ? 20.verticalSpace : const Spacer(),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +121,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 focusNode: firstNameFN,
                                 label: 'First Name',
                                 hint: 'Enter first name',
-                                width: 0.42.sw,
+                                width: 0.43.sw,
                                 keyboardType: TextInputType.text,
                                 maxLength: 20,
                                 onFieldSubmitted: (p0) => FocusScope.of(context)
@@ -131,7 +133,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 focusNode: lastNameFN,
                                 label: 'Last Name',
                                 hint: 'Enter last name',
-                                width: 0.42.sw,
+                                width: 0.43.sw,
                                 keyboardType: TextInputType.text,
                                 maxLength: 20,
                                 onFieldSubmitted: (p0) => FocusScope.of(context)
@@ -139,7 +141,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             ],
                           ),
-                          16.verticalSpace,
+                          8.verticalSpace,
                           CustomInputField(
                             controller: stateNotifier.signupEmailTextController,
                             focusNode: emailFN,
@@ -149,7 +151,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             onFieldSubmitted: (p0) =>
                                 FocusScope.of(context).requestFocus(contactFN),
                           ),
-                          16.verticalSpace,
+                          8.verticalSpace,
                           CustomInputField(
                             controller:
                                 stateNotifier.signupContactNumberTextController,
@@ -158,6 +160,30 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             hint: 'Enter contact number',
                             keyboardType: TextInputType.phone,
                             maxLength: 14,
+                            onFieldSubmitted: (p0) =>
+                                FocusScope.of(context).requestFocus(passwordFN),
+                          ),
+                          8.verticalSpace,
+                          CustomInputField(
+                            controller:
+                                stateNotifier.signupPasswordTextController,
+                            focusNode: passwordFN,
+                            label: 'Password',
+                            hint: 'Enter password',
+                            isPassword: true,
+                            keyboardType: TextInputType.text,
+                            onFieldSubmitted: (p0) => FocusScope.of(context)
+                                .requestFocus(confirmPasswordFN),
+                          ),
+                          8.verticalSpace,
+                          CustomInputField(
+                            controller: stateNotifier
+                                .signupConfirmPasswordTextController,
+                            focusNode: confirmPasswordFN,
+                            isPassword: true,
+                            label: 'Confirm password',
+                            hint: 'Enter Confirm password',
+                            keyboardType: TextInputType.text,
                             onFieldSubmitted: (p0) => dismissKeyboard(context),
                           ),
                           24.verticalSpace,
@@ -165,18 +191,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             text: 'Register',
                             onPressed: () async {
                               dismissKeyboard(context);
-                              stateNotifier.register(
-                                onSuccess: () {
-                                  stateNotifier.clearRegistrationFields();
-                                  // AutoRouter.of(context)
-                                  //     .push(const RegisterRoute());
-                                },
-                              );
+                              // stateNotifier.register(
+                              // onSuccess: () {
+                              // stateNotifier.clearRegistrationFields();
+                              AutoRouter.of(context)
+                                  .push(const SelectPreferenceRoute());
+                              // },
+                              // );
                             },
                           ),
                         ],
                       ),
-                      isScreenSmall ? 15.verticalSpace : 30.verticalSpace,
+                      15.verticalSpace,
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +221,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ],
                         ],
                       ),
-                      const Spacer(),
+                      isScreenSmall ? 20.verticalSpace : const Spacer(),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -11,6 +11,7 @@ class AppColors {
   static const Color colorGreen = Color(0xFF0B9521);
   static const Color colorWhite = Color(0xFFFFFFFF);
   static const Color colorGrey2 = Color(0xFFE8E8EA);
+  static const Color colorGrey3 = Color(0xFFE4E4E4);
   static const Color colorBlack = Color(0xFF000000);
   static const Color colorBlack2 = Color(0xFF010101);
   static const Color colorNavy = Color(0xFF2F3240);
@@ -21,6 +22,15 @@ class AppColors {
     Color(0xFFFFFFFF),
     Color(0xFFE3E3E3),
     Color(0xFFD5D5D5),
+  ];
+  static const List<Color> postDetailGradient = [
+    Color.fromRGBO(10, 10, 10, 0.46),
+    Color.fromRGBO(0, 0, 0, 0),
+  ];
+
+  static const List<Color> postGradient = [
+    Color.fromRGBO(0, 0, 0, 0),
+    Color.fromRGBO(0, 0, 0, 1),
   ];
 
   // static const Color colorLightBlack = Color(0xFF333333);

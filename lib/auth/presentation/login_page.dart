@@ -36,7 +36,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 0.25.sh,
+                  height: 0.22.sh,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0).r,
                     child: Center(
@@ -50,7 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 Container(
-                  height: 0.75.sh,
+                  height: 0.78.sh,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -106,7 +106,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               FocusScope.of(context).requestFocus(passwordNode);
                             },
                           ),
-                          16.verticalSpace,
+                          8.verticalSpace,
                           CustomInputField(
                             focusNode: passwordNode,
                             controller:
@@ -118,14 +118,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             onFieldSubmitted: (val) => dismissKeyboard(context),
                           ),
                           15.verticalSpace,
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'Forgot Your Password?',
-                              style: AppTextStyles.textStylePoppinsRegular
-                                  .copyWith(
-                                color: AppColors.colorPrimary,
-                                fontSize: 13.sp,
+                          GestureDetector(
+                            onTap: () => AutoRouter.of(context)
+                                .push(const ForgotPasswordRoute()),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'Forgot Your Password?',
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
+                                  color: AppColors.colorPrimary,
+                                  fontSize: 13.sp,
+                                ),
                               ),
                             ),
                           ),
@@ -134,13 +138,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             text: 'Login',
                             onPressed: () async {
                               dismissKeyboard(context);
-                              stateNotifier.login(
-                                onSuccess: () {
-                                  // stateNotifier.clearLoginFields();
-                                  // AutoRouter.of(context)
-                                  //     .push(const RegisterRoute());
-                                },
-                              );
+                              // stateNotifier.login(
+                              // onSuccess: () {
+                              stateNotifier.clearLoginFields();
+                              AutoRouter.of(context).pushAndPopUntil(
+                                  const BaseRoute(),
+                                  predicate: (_) => false);
+                              // },
+                              // );
                             },
                           ),
                         ],

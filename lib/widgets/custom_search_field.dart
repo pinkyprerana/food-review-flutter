@@ -3,22 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
-class CustomInputField extends StatefulWidget {
-  const CustomInputField({
-    required this.label,
-    required this.hint,
+class CustomSearchField extends StatefulWidget {
+  const CustomSearchField({
+    // required this.label,
+    this.hint = 'Search',
     this.maxLength,
     this.width,
     this.controller,
     this.focusNode,
-    this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.onFieldSubmitted,
     super.key,
   });
-  final String label;
+  // final String label;
   final String hint;
-  final bool isPassword;
   final TextInputType? keyboardType;
   final int? maxLength;
   final double? width;
@@ -27,10 +25,10 @@ class CustomInputField extends StatefulWidget {
   final Function(String)? onFieldSubmitted;
 
   @override
-  State<CustomInputField> createState() => _CustomInputFieldState();
+  State<CustomSearchField> createState() => _CustomSearchFieldState();
 }
 
-class _CustomInputFieldState extends State<CustomInputField> {
+class _CustomSearchFieldState extends State<CustomSearchField> {
   bool isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
         maxLength: widget.maxLength,
         decoration: InputDecoration(
           counterText: '',
-          labelText: widget.label,
           labelStyle: AppTextStyles.textStylePoppinsLight.copyWith(
             color: AppColors.colorPrimaryAlpha,
             fontSize: 11.sp,
@@ -57,30 +54,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
             color: AppColors.colorPrimaryAlpha,
           ),
           border: InputBorder.none,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          suffix: widget.isPassword
-              ? GestureDetector(
-                  onTap: () => setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  }),
-                  child: isPasswordVisible
-                      ? const Icon(
-                          Icons.visibility_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        )
-                      : const Icon(
-                          Icons.visibility_off_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                )
-              : const Icon(
-                  Icons.text_fields_rounded,
-                  color: AppColors.colorTransparent,
-                ),
-          prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
+          // floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
         keyboardType: widget.keyboardType,
-        obscureText: widget.isPassword && !isPasswordVisible,
         style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
         onFieldSubmitted: widget.onFieldSubmitted,
       ),

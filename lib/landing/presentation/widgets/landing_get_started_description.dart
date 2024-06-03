@@ -45,11 +45,14 @@ class LandingGetStartedDescription extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            'Register With Us',
-            style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-              fontSize: 13,
-              color: AppColors.colorPrimary,
+          GestureDetector(
+            onTap: () => AutoRouter.of(context).push(const RegisterRoute()),
+            child: Text(
+              'Register With Us',
+              style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                fontSize: 13,
+                color: AppColors.colorPrimary,
+              ),
             ),
           ),
           Column(

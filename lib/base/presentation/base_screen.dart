@@ -1,0 +1,85 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/base/presentation/bottom_navigation.dart';
+import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:for_the_table/core/utils/app_loader.dart';
+import 'package:for_the_table/home/presentation/home_page.dart';
+
+import '../shared/providers.dart';
+
+@RoutePage()
+class BasePage extends ConsumerStatefulWidget {
+  const BasePage({super.key});
+
+  @override
+  ConsumerState<BasePage> createState() => BasePageState();
+}
+
+class BasePageState extends ConsumerState<BasePage> {
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(baseNotifierProvider);
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        bottomNavigationBar: const BottomNavigation(),
+        // appBar: AppBar(
+        //   systemOverlayStyle: state.bottomNavIndex == 2
+        //       ? SystemUiOverlayStyle.dark
+        //       : SystemUiOverlayStyle.light,
+        //   backgroundColor: AppColors.colorTransparent,
+        //   elevation: 0,
+        //   automaticallyImplyLeading: false,
+        // ),
+        body: Stack(
+          children: [
+            Offstage(
+              offstage: (state.bottomNavIndex != 0),
+              child: const AppLoader(color: AppColors.colorWhite),
+            ),
+            widgetView(state.bottomNavIndex),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget widgetView(int index) {
+    switch (index) {
+      case 0:
+        return const HomePage();
+      case 1:
+        return Container(
+          height: 1.sh,
+          width: 1.sw,
+          color: Colors.green,
+        );
+      case 2:
+        return Container(
+          height: 1.sh,
+          width: 1.sw,
+          color: Colors.blue,
+        );
+      case 3:
+        return Container(
+          height: 1.sh,
+          width: 1.sw,
+          color: Colors.amber,
+        );
+      case 4:
+        return Container(
+          height: 1.sh,
+          width: 1.sw,
+          color: Colors.tealAccent,
+        );
+      default:
+        return Container();
+    }
+  }
+}
