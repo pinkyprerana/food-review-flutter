@@ -39,22 +39,6 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
     'Vegan',
     'Dairy Food',
     'hello worls',
-    'random1',
-    'random11',
-    'random12',
-    'random14',
-    'random16454',
-    'random1456t',
-    'random1t',
-    'random1sf',
-    'random1a456',
-    'random1dsf',
-    'random15745',
-    'random176',
-    'random1sfg',
-    'random1t2',
-    'random10',
-    'random18',
   ];
 
   @override
@@ -203,13 +187,9 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                     text: 'Submit',
                     onPressed: () {
                       dismissKeyboard(context);
-                      if (!Validator.validateEmail(
-                          stateNotifier.fpEmailTextController.text)) {
-                        showToastMessage('Please enter valid email');
-                      } else {
-                        // TODO: Handle forgot password logic here
-                        AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_)=> false);
-                      }
+                      // TODO: Handle forgot password logic here
+                      AutoRouter.of(context).pushAndPopUntil(const BaseRoute(),
+                          predicate: (_) => false);
                     },
                   ),
                 ],

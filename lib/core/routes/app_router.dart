@@ -10,6 +10,9 @@ import 'package:for_the_table/landing/presentation/landing_get_started_page.dart
 import 'package:for_the_table/landing/presentation/landing_intro_page.dart';
 import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart';
 import 'package:for_the_table/splash/presentation/splash_page.dart';
+import 'package:for_the_table/list/presentation/list_page.dart';
+import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
+import 'package:for_the_table/profile/presentation/profile_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -61,6 +64,18 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: HomeRoute.page,
           path: '/home',
+        ),
+        AutoRoute(
+          page: ListRoute.page,
+          path: '/list',
+        ),
+        AutoRoute(
+          page: StandingsRoute.page,
+          path: '/standings',
+        ),
+        AutoRoute(
+          page: ProfileRoute.page,
+          path: '/myProfile',
         ),
       ];
 }

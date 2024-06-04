@@ -18,7 +18,7 @@ class LandingIntroDescription extends StatelessWidget {
     final isScreenSmall = size.height < 750;
     return Container(
       height: 0.5.sh,
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20).r,
+      padding: const EdgeInsets.only(left: 6, right: 6, bottom: 20).r,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,8 +73,8 @@ class IntroRatingDescription extends StatelessWidget {
         RichText(
           text: TextSpan(
             style: TextStyle(
-              height: 1,
-              fontSize: 34.sp,
+              height: 1.1,
+              fontSize: 35.sp,
             ),
             children: [
               TextSpan(

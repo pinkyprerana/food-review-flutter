@@ -6,7 +6,7 @@ import 'package:for_the_table/core/utils/common_util.dart';
 
 class AppButton extends StatelessWidget {
   final void Function()? onPressed;
-  final String text;
+  final String? text;
   final Widget? child;
   final Color? color;
   final Color? textColor;
@@ -14,11 +14,12 @@ class AppButton extends StatelessWidget {
   final bool disable;
   final double? width;
   final double? height;
+  final double radius;
 
   const AppButton({
     super.key,
     this.onPressed,
-    required this.text,
+    this.text,
     this.loading = false,
     this.disable = false,
     this.child,
@@ -26,6 +27,7 @@ class AppButton extends StatelessWidget {
     this.textColor,
     this.width,
     this.height,
+    this.radius = 13,
   });
 
   @override
@@ -40,7 +42,7 @@ class AppButton extends StatelessWidget {
         width: width ?? MediaQuery.of(context).size.width,
         height: height ?? 56,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: BorderRadius.circular(radius),
           color: color ?? AppColors.colorPrimary,
         ),
         alignment: Alignment.center,
@@ -48,7 +50,7 @@ class AppButton extends StatelessWidget {
             ? loader()
             : child ??
                 Text(
-                  text,
+                  text ?? '',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.textStylePoppinsBold.copyWith(
                     fontSize: 15.sp,

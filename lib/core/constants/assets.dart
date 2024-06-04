@@ -16,7 +16,7 @@ class Assets {
   static const String listInactive = 'assets/icons/list.png';
   static const String listActive = 'assets/icons/list-active.png';
   static const String post = 'assets/icons/post.png';
-  static const String leaderboardInactive = 'assets/icons/leaderboard.png'; 
+  static const String leaderboardInactive = 'assets/icons/leaderboard.png';
   static const String leaderboardActive = 'assets/icons/leaderboard-active.png';
   static const String profileInactive = 'assets/icons/profile.png';
   static const String profileActive = 'assets/icons/profile-active.png';
@@ -35,4 +35,12 @@ class Assets {
   static const String send = 'assets/icons/send.png';
   static const String dish = 'assets/icons/dish.png';
   static const String save = 'assets/icons/save.png';
+  static const String listing = 'assets/icons/listing.png';
+  static const String map = 'assets/icons/map.png';
+  static const String locationMarker = 'assets/icons/location.png';
+  static const String listingSelected = 'assets/icons/listing-selected.png';
+  static const String mapSelected = 'assets/icons/map-selected.png';
+  static const String marker = 'assets/icons/marker_sm.png';
+  static const String customMarker = 'assets/icons/custom-marker.png';
+  static const String standingIndex = 'assets/icons/standing-index.png';
 }

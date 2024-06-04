@@ -27,6 +27,7 @@ android {
     namespace = "com.example.for_the_table"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,7 +39,10 @@ android {
         applicationId = "com.example.for_the_table"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
+        
+        // minSdk = flutter.minSdkVersion
+        // Minimum Android version for Google Maps SDK
+        minSdk = 21
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName

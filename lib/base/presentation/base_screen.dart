@@ -7,6 +7,9 @@ import 'package:for_the_table/base/presentation/bottom_navigation.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_loader.dart';
 import 'package:for_the_table/home/presentation/home_page.dart';
+import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
+import 'package:for_the_table/list/presentation/list_page.dart';
+import 'package:for_the_table/profile/presentation/profile_page.dart';
 
 import '../shared/providers.dart';
 
@@ -55,11 +58,7 @@ class BasePageState extends ConsumerState<BasePage> {
       case 0:
         return const HomePage();
       case 1:
-        return Container(
-          height: 1.sh,
-          width: 1.sw,
-          color: Colors.green,
-        );
+        return const ListPage();
       case 2:
         return Container(
           height: 1.sh,
@@ -67,17 +66,9 @@ class BasePageState extends ConsumerState<BasePage> {
           color: Colors.blue,
         );
       case 3:
-        return Container(
-          height: 1.sh,
-          width: 1.sw,
-          color: Colors.amber,
-        );
+        return const StandingsPage();
       case 4:
-        return Container(
-          height: 1.sh,
-          width: 1.sw,
-          color: Colors.tealAccent,
-        );
+        return const ProfilePage();
       default:
         return Container();
     }

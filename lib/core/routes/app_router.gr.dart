@@ -45,10 +45,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LandingIntroPage(),
       );
     },
+    ListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ListPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LoginPage(),
+      );
+    },
+    ProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfilePage(),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -73,6 +85,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SplashPage(),
+      );
+    },
+    StandingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const StandingsPage(),
       );
     },
     VerifyOtpRoute.name: (routeData) {
@@ -155,6 +173,20 @@ class LandingIntroRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ListPage]
+class ListRoute extends PageRouteInfo<void> {
+  const ListRoute({List<PageRouteInfo>? children})
+      : super(
+          ListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginPage]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -164,6 +196,20 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfilePage]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -220,6 +266,20 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [StandingsPage]
+class StandingsRoute extends PageRouteInfo<void> {
+  const StandingsRoute({List<PageRouteInfo>? children})
+      : super(
+          StandingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'StandingsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

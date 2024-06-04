@@ -9,10 +9,13 @@ class CustomSearchField extends StatefulWidget {
     this.hint = 'Search',
     this.maxLength,
     this.width,
+    this.height,
     this.controller,
     this.focusNode,
+    this.isBorder = false,
     this.keyboardType = TextInputType.text,
     this.onFieldSubmitted,
+    this.bgColor,
     super.key,
   });
   // final String label;
@@ -20,9 +23,12 @@ class CustomSearchField extends StatefulWidget {
   final TextInputType? keyboardType;
   final int? maxLength;
   final double? width;
+  final double? height;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(String)? onFieldSubmitted;
+  final Color? bgColor;
+  final bool isBorder;
 
   @override
   State<CustomSearchField> createState() => _CustomSearchFieldState();
@@ -33,12 +39,15 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.r,
+      height: widget.height ?? 60.r,
       width: widget.width ?? double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 16).r,
       decoration: BoxDecoration(
-          color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+        color: widget.bgColor ?? AppColors.colorGrey,
+        borderRadius: BorderRadius.circular(10),
+        border: widget.isBorder ? Border.all(color: AppColors.colorGrey) : null,
+      ),
       child: TextFormField(
         controller: widget.controller,
         focusNode: widget.focusNode,
