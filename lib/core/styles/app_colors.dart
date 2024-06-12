@@ -16,6 +16,13 @@ class AppColors {
   static const Color colorBlack2 = Color(0xFF010101);
   static const Color colorNavy = Color(0xFF2F3240);
   static const Color colorRed = Color(0xFFDE4349);
+  static const Color colorCream = Color(0xffEBEBEB);
+  static const Color colorBorder = Color(0xffF4F3F3);
+  static const Color colorShadow = Color(0xff8145E3);
+  static const Color colorText = Color(0xff2C2C44);
+  static const Color colorText2 = Color(0xff2F3240);
+  static const Color colorText3 = Color(0xff6F6F6F);
+  static const Color colorSmallProfileContainerBorder = Color(0xffF4F3F3);
 
   // Linear Default Gradient
   static const List<Color> colorGreyGradient = [

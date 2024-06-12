@@ -9,6 +9,7 @@ class Assets {
       'assets/images/ftb-custom-shape-img1.png';
   static const String reviewImg1 = 'assets/images/review-img1.png';
   static const String reviewImg2 = 'assets/images/review-img2.png';
+  static const String profileImage = 'assets/images/girl.jpg';
 
   // base assets
   static const String feedActive = 'assets/icons/feed.png';
@@ -43,4 +44,5 @@ class Assets {
   static const String marker = 'assets/icons/marker_sm.png';
   static const String customMarker = 'assets/icons/custom-marker.png';
   static const String standingIndex = 'assets/icons/standing-index.png';
+  static const String settings = 'assets/icons/settings.png';
 }

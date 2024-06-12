@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
+import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 
 @RoutePage()
@@ -61,51 +63,127 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomSearchField(
-                height: 50.r,
-                bgColor: AppColors.colorBackground,
-                isBorder: true,
-              ),
-              16.verticalSpace,
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Standing List',
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
-                              color: AppColors.colorPrimary,
-                              fontSize: 13.sp,
-                            ),
+              Container(
+                width: double.infinity,
+                height: 350.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: AppColors.colorCream,
+                  border: Border.all(width: 1, color: AppColors.colorBorder),
+                ),
+                child: Column(
+                  children: [
+                    const Spacer(),
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          // height: 286,
+                          decoration: BoxDecoration(
+                            color: AppColors.colorWhite,
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          Text(
-                            '10 Users',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
-                              color: AppColors.colorPrimaryAlpha,
-                              fontSize: 10.sp,
-                            ),
+                          child: Column(
+                            children: [
+                              80.verticalSpace,
+                              Text(
+                                'Aspendakidis',
+                                style: AppTextStyles.textStylePoppinsSemiBold
+                                    .copyWith(
+                                  fontSize: 16.sp,
+                                  color: AppColors.colorText2,
+                                ),
+                              ),
+                              5.verticalSpace,
+                              Text(
+                                'Joined May 23, 2024',
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
+                                  fontSize: 10.sp,
+                                  color: AppColors.colorText3,
+                                ),
+                              ),
+                              10.verticalSpace,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  AppButton(
+                                    width: 168.w,
+                                    text: 'Edit Profile',
+                                  ),
+                                  5.horizontalSpace,
+                                  SmallProfileContainer(
+                                      widget: Center(
+                                    child: Image.asset(Assets.settings),
+                                  ))
+                                ],
+                              )
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  16.verticalSpace,
-                  Container(
-                    color: Colors.white,
-                    height: 0.72.sh,
-                  ),
-                ],
+                        ),
+                        Positioned(
+                          top: -55,
+                          left: 0,
+                          right: 0,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Center(
+                                child: Container(
+                                  width: 110.w,
+                                  height: 110.h,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: AppColors.colorWhite,
+                                          width: 4),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: AppColors.colorShadow
+                                                .withOpacity(0.1),
+                                            offset: const Offset(0, 2),
+                                            blurRadius: 10,
+                                            spreadRadius: 0)
+                                      ],
+                                      image: DecorationImage(
+                                        image: AssetImage(Assets.profileImage),
+                                        fit: BoxFit.cover,
+                                      )),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: -12,
+                                left: 0,
+                                right: 0,
+                                child: Center(
+                                  child: Container(
+                                    width: 35,
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(17),
+                                      color: AppColors.colorWhite,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '01',
+                                        style: AppTextStyles
+                                            .textStylePoppinsMedium
+                                            .copyWith(
+                                                fontSize: 13.sp,
+                                                color: AppColors.colorText),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               )
             ],
           ),
