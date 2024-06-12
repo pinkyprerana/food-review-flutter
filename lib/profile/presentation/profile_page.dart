@@ -73,114 +73,118 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Column(
                   children: [
-                    const Spacer(),
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          // height: 286,
-                          decoration: BoxDecoration(
-                            color: AppColors.colorWhite,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            children: [
-                              80.verticalSpace,
-                              Text(
-                                'Aspendakidis',
-                                style: AppTextStyles.textStylePoppinsSemiBold
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: AppColors.colorText2,
-                                ),
-                              ),
-                              5.verticalSpace,
-                              Text(
-                                'Joined May 23, 2024',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColors.colorText3,
-                                ),
-                              ),
-                              10.verticalSpace,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  AppButton(
-                                    width: 168.w,
-                                    text: 'Edit Profile',
+                    // const Spacer(),
+                    90.verticalSpace,
+                    Expanded(
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            // height: 286,
+                            decoration: BoxDecoration(
+                              color: AppColors.colorWhite,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              children: [
+                                80.verticalSpace,
+                                Text(
+                                  'Aspendakidis',
+                                  style: AppTextStyles.textStylePoppinsSemiBold
+                                      .copyWith(
+                                    fontSize: 16.sp,
+                                    color: AppColors.colorText2,
                                   ),
-                                  5.horizontalSpace,
-                                  SmallProfileContainer(
-                                      widget: Center(
-                                    child: Image.asset(Assets.settings),
-                                  ))
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: -55,
-                          left: 0,
-                          right: 0,
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: 110.w,
-                                  height: 110.h,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: AppColors.colorWhite,
-                                          width: 4),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: AppColors.colorShadow
-                                                .withOpacity(0.1),
-                                            offset: const Offset(0, 2),
-                                            blurRadius: 10,
-                                            spreadRadius: 0)
-                                      ],
-                                      image: DecorationImage(
-                                        image: AssetImage(Assets.profileImage),
-                                        fit: BoxFit.cover,
-                                      )),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: -12,
-                                left: 0,
-                                right: 0,
-                                child: Center(
-                                  child: Container(
-                                    width: 35,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(17),
-                                      color: AppColors.colorWhite,
+                                5.verticalSpace,
+                                Text(
+                                  'Joined May 23, 2024',
+                                  style: AppTextStyles.textStylePoppinsRegular
+                                      .copyWith(
+                                    fontSize: 10.sp,
+                                    color: AppColors.colorText3,
+                                  ),
+                                ),
+                                10.verticalSpace,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    AppButton(
+                                      width: 168.w,
+                                      text: 'Edit Profile',
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        '01',
-                                        style: AppTextStyles
-                                            .textStylePoppinsMedium
-                                            .copyWith(
-                                                fontSize: 13.sp,
-                                                color: AppColors.colorText),
+                                    5.horizontalSpace,
+                                    SmallProfileContainer(
+                                        widget: Center(
+                                      child: Image.asset(Assets.settings),
+                                    ))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: -55,
+                            left: 0,
+                            right: 0,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Center(
+                                  child: Container(
+                                    width: 110.w,
+                                    height: 110.h,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: AppColors.colorWhite,
+                                            width: 4),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: AppColors.colorShadow
+                                                  .withOpacity(0.1),
+                                              offset: const Offset(0, 2),
+                                              blurRadius: 10,
+                                              spreadRadius: 0)
+                                        ],
+                                        image: DecorationImage(
+                                          image:
+                                              AssetImage(Assets.profileImage),
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: -12,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: Container(
+                                      width: 35,
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(17),
+                                        color: AppColors.colorWhite,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '01',
+                                          style: AppTextStyles
+                                              .textStylePoppinsMedium
+                                              .copyWith(
+                                                  fontSize: 13.sp,
+                                                  color: AppColors.colorText),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
