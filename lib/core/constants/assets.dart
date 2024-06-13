@@ -45,4 +45,5 @@ class Assets {
   static const String customMarker = 'assets/icons/custom-marker.png';
   static const String standingIndex = 'assets/icons/standing-index.png';
   static const String settings = 'assets/icons/settings.png';
+  static const String share = 'assets/icons/share.png';
 }
