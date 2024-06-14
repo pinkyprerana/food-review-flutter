@@ -50,4 +50,10 @@ class Assets {
   static const String dislike = 'assets/icons/dislike.png';
   static const String msg = 'assets/icons/msg.png';
   static const String logout = 'assets/icons/logout.png';
+  static const String back = 'assets/icons/back.png';
+  static const String sms = 'assets/icons/sms.png';
+  static const String call = 'assets/icons/call.png';
+  static const String lock = 'assets/icons/lock.png';
+  static const String house = 'assets/icons/house.png';
+  static const String doc = 'assets/icons/doc.png';
 }
