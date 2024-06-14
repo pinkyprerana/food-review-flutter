@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
@@ -56,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Container(
-          color: AppColors.colorWhite,
+          //color: AppColors.colorWhite,
           margin: const EdgeInsets.only(top: 20).r,
           padding: const EdgeInsets.symmetric(horizontal: 16).r,
           child: Column(
@@ -81,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           width: double.infinity,
                           padding:
-                              EdgeInsets.only(left: 20, right: 20, bottom: 20)
+                              EdgeInsets.only(left: 20, right: 20, bottom: 25)
                                   .r,
                           // height: 286,
                           decoration: BoxDecoration(
@@ -294,6 +295,38 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
+              ),
+              18.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recent Activity',
+                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                      fontSize: 13.sp,
+                      color: AppColors.colorPrimary,
+                    ),
+                  ),
+                  Text(
+                    'View All',
+                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 10.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                    ),
+                  ),
+                ],
+              ),
+              10.verticalSpace,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return const RecentActivityWidget(
+                      imgpath: Assets.sample,
+                      subtitle: 'Today, 01:35PM',
+                      title: 'You comment John’s post');
+                },
+                itemCount: 3,
               )
             ],
           ),
