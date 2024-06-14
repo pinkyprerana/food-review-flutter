@@ -16,7 +16,7 @@ class RecentActivityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0).r,
+      padding: const EdgeInsets.only(top: 5.0).r,
       child: ListTile(
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: AppColors.colorGrey, width: 1),

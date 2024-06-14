@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/profile/presentation/widgets/other_options_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/widgets/app_button.dart';
-import 'package:for_the_table/widgets/custom_search_field.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {
@@ -18,6 +18,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  List otherOptions = [
+    {'icon': Assets.dislike, 'title': 'Disliked Cuisines'},
+    {'icon': Assets.like, 'title': 'Liked Cuisines'},
+    {'icon': Assets.msg, 'title': 'FAQs'},
+    {'icon': Assets.logout, 'title': 'Logout'},
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
           margin: const EdgeInsets.only(top: 20).r,
           padding: const EdgeInsets.symmetric(horizontal: 16).r,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            // mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -81,9 +87,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Container(
                           width: double.infinity,
-                          padding:
-                              EdgeInsets.only(left: 20, right: 20, bottom: 25)
-                                  .r,
+                          padding: const EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 25)
+                              .r,
                           // height: 286,
                           decoration: BoxDecoration(
                             color: AppColors.colorWhite,
@@ -162,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
                                           ],
                                         ),
-                                        10.horizontalSpace,
+                                        5.horizontalSpace,
                                       ],
                                     ),
                                   ),
@@ -193,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
                                           ],
                                         ),
-                                        10.horizontalSpace,
+                                        5.horizontalSpace,
                                       ],
                                     ),
                                   ),
@@ -224,7 +230,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             ),
                                           ],
                                         ),
-                                        10.horizontalSpace,
+                                        5.horizontalSpace,
                                       ],
                                     ),
                                   ),
@@ -257,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             blurRadius: 10,
                                             spreadRadius: 0)
                                       ],
-                                      image: DecorationImage(
+                                      image: const DecorationImage(
                                         image: AssetImage(Assets.profileImage),
                                         fit: BoxFit.cover,
                                       )),
@@ -318,8 +324,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               10.verticalSpace,
               ListView.builder(
+                padding: const EdgeInsets.all(0.0),
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return const RecentActivityWidget(
                       imgpath: Assets.sample,
@@ -327,7 +334,41 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: 'You comment John’s post');
                 },
                 itemCount: 3,
-              )
+              ),
+              18.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recent Activity',
+                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                      fontSize: 13.sp,
+                      color: AppColors.colorPrimary,
+                    ),
+                  ),
+                  Text(
+                    'View All',
+                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 10.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                    ),
+                  ),
+                ],
+              ),
+              10.verticalSpace,
+              ListView.builder(
+                padding: const EdgeInsets.all(0.0),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return OtherOptionsWidget(
+                    imgpath: otherOptions[index]['icon'],
+                    title: otherOptions[index]['title'],
+                  );
+                },
+                itemCount: otherOptions.length,
+              ),
+              100.verticalSpace,
             ],
           ),
         ),

@@ -47,4 +47,7 @@ class Assets {
   static const String standingIndex = 'assets/icons/standing-index.png';
   static const String settings = 'assets/icons/settings.png';
   static const String share = 'assets/icons/share.png';
+  static const String dislike = 'assets/icons/dislike.png';
+  static const String msg = 'assets/icons/msg.png';
+  static const String logout = 'assets/icons/logout.png';
 }
