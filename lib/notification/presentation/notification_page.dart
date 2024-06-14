@@ -4,18 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/profile/presentation/widgets/edit_option_widget.dart';
+import 'package:for_the_table/notification/presentation/widgets/notification_widget.dart';
 
 @RoutePage()
-class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({super.key});
-  final List editOptions = const [
-    {'icon': Assets.sms, 'title': 'Email', 'subtitle': 'example@gmail.com'},
-    {'icon': Assets.call, 'title': 'Phone Number', 'subtitle': '123 456 7890'},
-    {'icon': Assets.lock, 'title': 'Change Password', 'subtitle': ''},
-    {'icon': Assets.house, 'title': 'Home City', 'subtitle': ''},
-    {'icon': Assets.doc, 'title': 'Profile Description', 'subtitle': ''},
-  ];
+class NotificationPage extends StatelessWidget {
+  const NotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +41,7 @@ class EditProfilePage extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Edit Profile',
+          'Notification',
           style: AppTextStyles.textStylePoppinsBold.copyWith(
             color: AppColors.colorPrimary,
             fontSize: 16.sp,
@@ -64,14 +57,37 @@ class EditProfilePage extends StatelessWidget {
                   padding: const EdgeInsets.all(0.0),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: editOptions.length,
+                  itemCount: 3,
                   itemBuilder: (context, index) {
-                    return EditOptionWidget(
-                      imgpath: editOptions[index]['icon'],
-                      title: editOptions[index]['title'],
-                      subtitle: editOptions[index]['subtitle'],
-                    );
-                  })
+                    return const NotificationWidget(
+                        imgpath: Assets.food2,
+                        title: 'A. Johnson has liked your post.',
+                        subtitle: '1 Hour ago');
+                  }),
+              15.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Yesterday',
+                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 10.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                    ),
+                  ),
+                ],
+              ),
+              ListView.builder(
+                  padding: const EdgeInsets.all(0.0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return const NotificationWidget(
+                        imgpath: Assets.food2,
+                        title: 'A. Johnson has liked your post.',
+                        subtitle: '1 Hour ago');
+                  }),
             ],
           ),
         ),

@@ -43,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         actions: [
           GestureDetector(
-            // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
+            onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
             child: Container(
               height: 26.r,
               width: 26.r,

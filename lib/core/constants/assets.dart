@@ -11,6 +11,8 @@ class Assets {
   static const String reviewImg2 = 'assets/images/review-img2.png';
   static const String profileImage = 'assets/images/girl.jpg';
   static const String sample = 'assets/images/sample.png';
+  static const String food = 'assets/images/food.png';
+  static const String food2 = 'assets/images/Rectangle525.png';
 
   // base assets
   static const String feedActive = 'assets/icons/feed.png';

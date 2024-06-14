@@ -43,10 +43,9 @@ class SettingsPage extends StatelessWidget {
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            width: 30.w,
-            height: 30.h,
             alignment: Alignment.center,
-            margin: const EdgeInsets.all(10),
+            margin:
+                const EdgeInsets.only(top: 10, left: 15, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),

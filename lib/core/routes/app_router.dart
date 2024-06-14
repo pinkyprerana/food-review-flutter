@@ -8,6 +8,7 @@ import 'package:for_the_table/base/presentation/base_screen.dart';
 import 'package:for_the_table/home/presentation/home_page.dart';
 import 'package:for_the_table/landing/presentation/landing_get_started_page.dart';
 import 'package:for_the_table/landing/presentation/landing_intro_page.dart';
+import 'package:for_the_table/notification/presentation/notification_page.dart';
 import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart';
 import 'package:for_the_table/profile/presentation/edit_profile_page.dart';
 import 'package:for_the_table/profile/presentation/settings_page.dart';
@@ -86,6 +87,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: SettingsRoute.page,
           path: '/settings',
+        ),
+        AutoRoute(
+          page: NotificationRoute.page,
+          path: '/notificationRoute',
         ),
       ];
 }
