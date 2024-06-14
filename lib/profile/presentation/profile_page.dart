@@ -128,10 +128,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                         .push(const EditProfileRoute()),
                                   ),
                                   // 8.horizontalSpace,
-                                  SmallProfileContainer(
-                                      widget: Center(
-                                    child: Image.asset(Assets.settings),
-                                  )),
+                                  GestureDetector(
+                                    onTap: () => AutoRouter.of(context)
+                                        .push(const SettingsRoute()),
+                                    child: SmallProfileContainer(
+                                        widget: Center(
+                                      child: Image.asset(Assets.settings),
+                                    )),
+                                  ),
                                   // 8.horizontalSpace,
                                   SmallProfileContainer(
                                       widget: Center(

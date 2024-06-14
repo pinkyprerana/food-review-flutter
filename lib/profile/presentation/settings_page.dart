@@ -4,17 +4,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/profile/presentation/widgets/edit_option_widget.dart';
+import 'package:for_the_table/profile/presentation/widgets/settings_option_widget.dart';
 
 @RoutePage()
-class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({super.key});
-  final List editOptions = const [
-    {'icon': Assets.sms, 'title': 'Email', 'subtitle': 'example@gmail.com'},
-    {'icon': Assets.call, 'title': 'Phone Number', 'subtitle': '123 456 7890'},
-    {'icon': Assets.lock, 'title': 'Change Password', 'subtitle': ''},
-    {'icon': Assets.house, 'title': 'Home City', 'subtitle': ''},
-    {'icon': Assets.doc, 'title': 'Profile Description', 'subtitle': ''},
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+  final List settingOptions = const [
+    {
+      'icon': Assets.oct,
+      'title': 'Manage Account',
+    },
+    {
+      'icon': Assets.noti,
+      'title': 'Notifications',
+    },
+    {
+      'icon': Assets.shield,
+      'title': 'Privacy Policy',
+    },
+    {
+      'icon': Assets.frame,
+      'title': 'App Info',
+    },
+    {
+      'icon': Assets.text,
+      'title': 'Help',
+    },
   ];
 
   @override
@@ -47,7 +62,7 @@ class EditProfilePage extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Edit Profile',
+          'Settings',
           style: AppTextStyles.textStylePoppinsBold.copyWith(
             color: AppColors.colorPrimary,
             fontSize: 16.sp,
@@ -63,13 +78,11 @@ class EditProfilePage extends StatelessWidget {
                   padding: const EdgeInsets.all(0.0),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: editOptions.length,
+                  itemCount: settingOptions.length,
                   itemBuilder: (context, index) {
-                    return EditOptionWidget(
-                      imgpath: editOptions[index]['icon'],
-                      title: editOptions[index]['title'],
-                      subtitle: editOptions[index]['subtitle'],
-                    );
+                    return SettingsOptionWidget(
+                        title: settingOptions[index]['title'],
+                        imgpath: settingOptions[index]['icon']);
                   })
             ],
           ),

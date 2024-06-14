@@ -4,15 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
-class EditOptionWidget extends StatelessWidget {
-  const EditOptionWidget(
-      {super.key,
-      required this.title,
-      required this.imgpath,
-      this.subtitle = ''});
+class SettingsOptionWidget extends StatelessWidget {
+  const SettingsOptionWidget({
+    super.key,
+    required this.title,
+    required this.imgpath,
+  });
   final String title;
   final String imgpath;
-  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +41,6 @@ class EditOptionWidget extends StatelessWidget {
               color: AppColors.colorPrimary,
             ),
           ),
-          subtitle: (subtitle != '')
-              ? Text(
-                  subtitle,
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    fontSize: 10.sp,
-                    color: AppColors.colorPrimaryAlpha,
-                  ),
-                )
-              : null,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

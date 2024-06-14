@@ -56,4 +56,9 @@ class Assets {
   static const String lock = 'assets/icons/lock.png';
   static const String house = 'assets/icons/house.png';
   static const String doc = 'assets/icons/doc.png';
+  static const String oct = 'assets/icons/oct.png';
+  static const String noti = 'assets/icons/noti.png';
+  static const String shield = 'assets/icons/shield.png';
+  static const String frame = 'assets/icons/frame.png';
+  static const String text = 'assets/icons/text.png';
 }
