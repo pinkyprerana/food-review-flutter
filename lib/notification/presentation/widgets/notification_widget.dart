@@ -24,7 +24,7 @@ class NotificationWidget extends StatelessWidget {
         ),
         leading: Container(
           width: 50.w,
-          height: 46.h,
+          height: 47.h,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
