@@ -340,17 +340,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recent Activity',
+                    'Other Options',
                     style: AppTextStyles.textStylePoppinsMedium.copyWith(
                       fontSize: 13.sp,
                       color: AppColors.colorPrimary,
-                    ),
-                  ),
-                  Text(
-                    'View All',
-                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      fontSize: 10.sp,
-                      color: AppColors.colorPrimaryAlpha,
                     ),
                   ),
                 ],
