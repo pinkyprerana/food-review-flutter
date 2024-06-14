@@ -45,7 +45,7 @@ class SettingsPage extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             margin:
-                const EdgeInsets.only(top: 10, left: 15, right: 0, bottom: 10),
+                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
