@@ -48,6 +48,17 @@ class NotificationWidget extends StatelessWidget {
             color: AppColors.colorPrimaryAlpha,
           ),
         ),
+        // trailing: Column(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        //     Row(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Icon(Icons.construction),
+        //       ],
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

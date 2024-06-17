@@ -6,6 +6,7 @@ import 'package:for_the_table/auth/presentation/reset_password_page.dart';
 import 'package:for_the_table/auth/presentation/verify_otp_page.dart';
 import 'package:for_the_table/base/presentation/base_screen.dart';
 import 'package:for_the_table/home/presentation/home_page.dart';
+import 'package:for_the_table/home/presentation/home_page_new.dart';
 import 'package:for_the_table/landing/presentation/landing_get_started_page.dart';
 import 'package:for_the_table/landing/presentation/landing_intro_page.dart';
 import 'package:for_the_table/notification/presentation/notification_page.dart';
@@ -63,6 +64,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: BaseRoute.page,
           path: '/onboarding',
+        ),
+        AutoRoute(
+          page: HomeRouteNew.page,
+          path: '/homeNew',
         ),
         AutoRoute(
           page: HomeRoute.page,

@@ -7,6 +7,7 @@ import 'package:for_the_table/base/presentation/bottom_navigation.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_loader.dart';
 import 'package:for_the_table/home/presentation/home_page.dart';
+import 'package:for_the_table/home/presentation/home_page_new.dart';
 import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
 import 'package:for_the_table/list/presentation/list_page.dart';
 import 'package:for_the_table/profile/presentation/profile_page.dart';
@@ -56,7 +57,8 @@ class BasePageState extends ConsumerState<BasePage> {
   Widget widgetView(int index) {
     switch (index) {
       case 0:
-        return const HomePage();
+        // return const HomePage();
+        return const HomePageNew();
       case 1:
         return const ListPage();
       case 2:

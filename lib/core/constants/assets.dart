@@ -13,6 +13,12 @@ class Assets {
   static const String sample = 'assets/images/sample.png';
   static const String food = 'assets/images/food.png';
   static const String food2 = 'assets/images/Rectangle525.png';
+  static const String follow1 = 'assets/images/follow1.png';
+  static const String follow2 = 'assets/images/follow2.png';
+  static const String rest1 = 'assets/images/rest1.png';
+  static const String rest2 = 'assets/images/rest2.png';
+  static const String rest3 = 'assets/images/rest3.png';
+  static const String rest4 = 'assets/images/rest4.png';
 
   // base assets
   static const String feedActive = 'assets/icons/feed.png';
@@ -63,4 +69,5 @@ class Assets {
   static const String shield = 'assets/icons/shield.png';
   static const String frame = 'assets/icons/frame.png';
   static const String text = 'assets/icons/text.png';
+  static const String star = 'assets/icons/star.png';
 }
