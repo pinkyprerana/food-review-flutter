@@ -126,6 +126,62 @@ void getModal(String title, BuildContext context) {
             ));
       }
       break;
+    case 'Change Password':
+      {
+        commonModal(context,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                      text: 'Change',
+                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 16.sp, color: AppColors.colorPrimary),
+                      children: [
+                        TextSpan(
+                          text: ' Password',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 16.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        )
+                      ],
+                    )),
+                    3.verticalSpace,
+                    Text(
+                      'Change your password below.',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                    ),
+                    20.verticalSpace,
+                    const CustomInputField(
+                      label: 'Old Password',
+                      hint: 'Enter old password',
+                      isPassword: true,
+                    ),
+                    10.verticalSpace,
+                    const CustomInputField(
+                      label: 'New Password',
+                      hint: 'Enter new password',
+                      isPassword: true,
+                    ),
+                    10.verticalSpace,
+                    const CustomInputField(
+                      label: 'Confirm New Password',
+                      hint: 'Confirm new password',
+                      isPassword: true,
+                    ),
+                    10.verticalSpace,
+                    const AppButton(
+                      text: 'Submit',
+                    )
+                  ],
+                ),
+              ],
+            ));
+      }
+      break;
     default:
       {
         null;
