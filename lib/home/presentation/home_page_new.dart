@@ -8,6 +8,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/home_post_widget.dart';
+import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/restaurant_widget.dart';
 
 @RoutePage()
@@ -110,7 +111,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                   ],
                 ),
               ),
-              20.verticalSpace,
+              5.verticalSpace,
               SizedBox(
                 height: 180.0.h,
                 child: ListView.builder(
@@ -125,7 +126,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       );
                     }),
               ),
-              20.verticalSpace,
+              10.verticalSpace,
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Row(
@@ -146,7 +147,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                   ],
                 ),
               ),
-              12.verticalSpace,
+              5.verticalSpace,
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: ListView.builder(
@@ -160,7 +161,40 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       );
                     }),
               ),
-              90.verticalSpace,
+              10.verticalSpace,
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Post List',
+                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 13.sp, color: AppColors.colorPrimary),
+                    ),
+                    Text(
+                      'View All',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        fontSize: 13.sp,
+                        color: AppColors.colorPrimaryAlpha,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              5.verticalSpace,
+              //list of posts
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: ListView.builder(
+                    itemCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(0),
+                    itemBuilder: (context, index) {
+                      return const PostWidget();
+                    }),
+              )
             ],
           ),
         ));

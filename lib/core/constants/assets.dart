@@ -19,6 +19,7 @@ class Assets {
   static const String rest2 = 'assets/images/rest2.png';
   static const String rest3 = 'assets/images/rest3.png';
   static const String rest4 = 'assets/images/rest4.png';
+  static const String post2 = 'assets/images/post.png';
 
   // base assets
   static const String feedActive = 'assets/icons/feed.png';
