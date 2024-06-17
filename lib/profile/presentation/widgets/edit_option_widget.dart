@@ -6,7 +6,6 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
-import 'package:for_the_table/widgets/custom_search_field.dart';
 
 class EditOptionWidget extends StatelessWidget {
   const EditOptionWidget(
@@ -23,49 +22,7 @@ class EditOptionWidget extends StatelessWidget {
     return GestureDetector(
       onTap: (title == 'Email' || title == 'Change Password')
           ? () {
-              if (title == 'Email') {
-                commonModal(context,
-                    child: Column(
-                      children: [
-                        RichText(
-                            text: TextSpan(
-                          text: 'Change',
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              fontSize: 16.sp, color: AppColors.colorPrimary),
-                          children: [
-                            TextSpan(
-                              text: ' Email Address',
-                              style:
-                                  AppTextStyles.textStylePoppinsMedium.copyWith(
-                                fontSize: 16.sp,
-                                color: AppColors.colorPrimaryAlpha,
-                              ),
-                            )
-                          ],
-                        )),
-                        3.verticalSpace,
-                        Text(
-                          'Change your email address below.',
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              fontSize: 13.sp,
-                              color: AppColors.colorPrimaryAlpha),
-                        ),
-                        20.verticalSpace,
-                        CustomInputField(
-                          label: 'Email Address',
-                          hint: 'Enter email address',
-                        ),
-                        10.verticalSpace,
-                        AppButton(
-                          text: 'Submit',
-                        )
-                      ],
-                    ));
-              }
-
-              // showModalBottomSheet<dynamic>(isScrollControlled: true,context: context, builder: (context) {
-              //   return commonModal()
-              // });
+              getModal(title, context);
             }
           : null,
       child: Padding(
@@ -121,5 +78,58 @@ class EditOptionWidget extends StatelessWidget {
             )),
       ),
     );
+  }
+}
+
+void getModal(String title, BuildContext context) {
+  switch (title) {
+    case 'Email':
+      {
+        commonModal(context,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                      text: 'Change',
+                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 16.sp, color: AppColors.colorPrimary),
+                      children: [
+                        TextSpan(
+                          text: ' Email Address',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 16.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        )
+                      ],
+                    )),
+                    3.verticalSpace,
+                    Text(
+                      'Change your email address below.',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                    ),
+                    20.verticalSpace,
+                    const CustomInputField(
+                      label: 'Email Address',
+                      hint: 'Enter email address',
+                    ),
+                    10.verticalSpace,
+                    const AppButton(
+                      text: 'Submit',
+                    )
+                  ],
+                ),
+              ],
+            ));
+      }
+      break;
+    default:
+      {
+        null;
+      }
+      break;
   }
 }
