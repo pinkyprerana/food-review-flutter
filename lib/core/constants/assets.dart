@@ -73,4 +73,6 @@ class Assets {
   static const String star = 'assets/icons/star.png';
   static const String dislike_emoji = 'assets/icons/dislike_emoji.png';
   static const String location2 = 'assets/icons/location2.png';
+  static const String comments = 'assets/icons/comments.png';
+  static const String bookmark = 'assets/icons/bookmark.png';
 }

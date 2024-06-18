@@ -177,18 +177,19 @@ class PostWidget extends StatelessWidget {
                               15.verticalSpace,
                               Column(
                                 children: [
-                                  Image.asset(Assets.like),
+                                  Image.asset(Assets.comments),
                                   Text(
                                     '00',
                                     style: AppTextStyles.textStylePoppinsRegular
                                         .copyWith(
                                       color: AppColors.colorWhite,
+                                      fontSize: 10.sp,
                                     ),
                                   )
                                 ],
                               ),
                               10.verticalSpace,
-                              Image.asset(Assets.like),
+                              Image.asset(Assets.bookmark),
                             ],
                           )
                         ],
