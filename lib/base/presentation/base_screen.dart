@@ -10,6 +10,7 @@ import 'package:for_the_table/home/presentation/home_page.dart';
 import 'package:for_the_table/home/presentation/home_page_new.dart';
 import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
 import 'package:for_the_table/list/presentation/list_page.dart';
+import 'package:for_the_table/post_feed/presentation/post_feed_page.dart';
 import 'package:for_the_table/profile/presentation/profile_page.dart';
 
 import '../shared/providers.dart';
@@ -73,11 +74,12 @@ class BasePageState extends ConsumerState<BasePage> {
         return const ProfilePage();
       default:
         // return Container();
-        return Container(
-          height: 1.sh,
-          width: 1.sw,
-          color: Colors.amber,
-        );
+        // return Container(
+        //   height: 1.sh,
+        //   width: 1.sw,
+        //   color: Colors.amber,
+        // );
+        return PostFeedPage();
     }
   }
 }
