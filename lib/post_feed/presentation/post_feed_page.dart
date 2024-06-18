@@ -71,7 +71,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(Assets.photo),
                       fit: BoxFit.cover,

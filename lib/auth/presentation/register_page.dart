@@ -43,6 +43,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     return PopScope(
       canPop: !state.isLoading,
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.colorBlack2,
         body: GestureDetector(
           onTap: () => dismissKeyboard(context),
@@ -72,9 +73,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       topRight: Radius.circular(30),
                     ),
                   ),
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: ListView(
+                    //crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Column(
                         mainAxisSize: MainAxisSize.min,
@@ -209,8 +210,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         children: [
                           for (int i = 0; i < socialIcons.length; i++) ...[
                             Container(
-                              height: isScreenSmall ? 50.r : 60.r,
-                              width: isScreenSmall ? 50.r : 60.r,
+                              height: isScreenSmall ? 50.r : 50.r,
+                              width: isScreenSmall ? 50.r : 50.r,
                               padding: const EdgeInsets.all(15),
                               decoration: BoxDecoration(
                                   color: AppColors.colorPrimaryAlpha,
@@ -222,6 +223,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         ],
                       ),
                       isScreenSmall ? 20.verticalSpace : const Spacer(),
+                      22.verticalSpace,
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -248,6 +250,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                         ],
                       ),
+                      20.verticalSpace,
                     ],
                   ),
                 ),

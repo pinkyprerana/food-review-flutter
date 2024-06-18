@@ -73,13 +73,7 @@ class BasePageState extends ConsumerState<BasePage> {
       case 4:
         return const ProfilePage();
       default:
-        // return Container();
-        // return Container(
-        //   height: 1.sh,
-        //   width: 1.sw,
-        //   color: Colors.amber,
-        // );
-        return PostFeedPage();
+        return const PostFeedPage();
     }
   }
 }
