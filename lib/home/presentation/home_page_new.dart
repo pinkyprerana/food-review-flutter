@@ -194,7 +194,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     itemBuilder: (context, index) {
                       return const PostWidget();
                     }),
-              )
+              ),
+              90.verticalSpace,
             ],
           ),
         ));

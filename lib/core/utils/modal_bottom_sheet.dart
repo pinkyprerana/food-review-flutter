@@ -10,44 +10,50 @@ Future<void> commonModal(
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return Wrap(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(
-                          top: 25, bottom: 15, left: 10, right: 10)
-                      .r,
-                  decoration: const BoxDecoration(
-                    color: AppColors.colorWhite,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+        return AnimatedPadding(
+          duration: Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Wrap(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                            top: 25, bottom: 15, left: 10, right: 10)
+                        .r,
+                    decoration: const BoxDecoration(
+                      color: AppColors.colorWhite,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
                     ),
+                    child: child,
                   ),
-                  child: child,
-                ),
-                Positioned(
-                    right: -1,
-                    top: -2,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 15, top: 10).r,
-                      width: 30.w,
-                      height: 30.h,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.colorPrimary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        size: 17,
-                        color: AppColors.colorWhite,
-                      ),
-                    ))
-              ],
-            ),
-          ],
+                  Positioned(
+                      right: -1,
+                      top: -2,
+                      child: Container(
+                        margin: EdgeInsets.only(right: 15, top: 10).r,
+                        width: 30.w,
+                        height: 30.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: AppColors.colorPrimary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.close,
+                          size: 17,
+                          color: AppColors.colorWhite,
+                        ),
+                      ))
+                ],
+              ),
+            ],
+          ),
         );
       });
 }

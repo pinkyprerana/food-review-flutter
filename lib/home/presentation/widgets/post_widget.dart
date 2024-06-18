@@ -11,7 +11,6 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.sizeOf(context);
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
       width: double.infinity,
@@ -31,13 +30,14 @@ class PostWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: BackdropFilter(
+                blendMode: BlendMode.srcIn,
                 filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                 child: Container(
                   padding: const EdgeInsets.only(
                           top: 15, left: 15, right: 15, bottom: 10)
                       .r,
                   width: double.infinity,
-                  // height: 170.h,
+                  //height: 170.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     gradient: LinearGradient(
