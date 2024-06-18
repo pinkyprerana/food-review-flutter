@@ -71,4 +71,6 @@ class Assets {
   static const String frame = 'assets/icons/frame.png';
   static const String text = 'assets/icons/text.png';
   static const String star = 'assets/icons/star.png';
+  static const String dislike_emoji = 'assets/icons/dislike_emoji.png';
+  static const String location2 = 'assets/icons/location2.png';
 }
