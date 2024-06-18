@@ -28,4 +28,8 @@ class BaseNotifier extends StateNotifier<BaseState> {
     state = state.copyWith(bottomNavIndex: 0);
     state = state.copyWith(lastBottomNavIndex: 0);
   }
+
+  void setBottomNavIndexToDefault() {
+    state = state.copyWith(bottomNavIndex: 5);
+  }
 }

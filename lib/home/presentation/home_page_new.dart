@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/base/shared/providers.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
@@ -36,6 +37,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(baseNotifierProvider);
+    final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: false,
@@ -172,11 +175,16 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
-                    Text(
-                      'View All',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                        fontSize: 13.sp,
-                        color: AppColors.colorPrimaryAlpha,
+                    GestureDetector(
+                      onTap: () {
+                        stateNotifier.setBottomNavIndexToDefault();
+                      },
+                      child: Text(
+                        'View All',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 13.sp,
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
                       ),
                     )
                   ],
