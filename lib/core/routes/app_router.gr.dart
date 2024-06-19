@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BasePage(),
       );
     },
+    CommentsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CommentsPage(),
+      );
+    },
     EditProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -136,6 +142,20 @@ class BaseRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BaseRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CommentsPage]
+class CommentsRoute extends PageRouteInfo<void> {
+  const CommentsRoute({List<PageRouteInfo>? children})
+      : super(
+          CommentsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CommentsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

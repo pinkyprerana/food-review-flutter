@@ -11,6 +11,7 @@ import 'package:for_the_table/landing/presentation/landing_get_started_page.dart
 import 'package:for_the_table/landing/presentation/landing_intro_page.dart';
 import 'package:for_the_table/notification/presentation/notification_page.dart';
 import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart';
+import 'package:for_the_table/post_feed/presentation/comments_page.dart';
 import 'package:for_the_table/profile/presentation/edit_profile_page.dart';
 import 'package:for_the_table/profile/presentation/settings_page.dart';
 import 'package:for_the_table/splash/presentation/splash_page.dart';
@@ -96,6 +97,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: NotificationRoute.page,
           path: '/notificationRoute',
+        ),
+        AutoRoute(
+          page: CommentsRoute.page,
+          path: '/commentsRoute',
         ),
       ];
 }

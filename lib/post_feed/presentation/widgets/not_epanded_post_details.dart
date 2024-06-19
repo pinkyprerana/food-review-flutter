@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/post_feed/presentation/widgets/comments_icon.dart';
 
 class NotEpandedPostDetails extends StatelessWidget {
   const NotEpandedPostDetails({super.key});
@@ -151,19 +152,7 @@ class NotEpandedPostDetails extends StatelessWidget {
                     children: [
                       Image.asset(Assets.like),
                       15.verticalSpace,
-                      Column(
-                        children: [
-                          Image.asset(Assets.comments),
-                          Text(
-                            '00',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
-                              color: AppColors.colorWhite,
-                              fontSize: 10.sp,
-                            ),
-                          )
-                        ],
-                      ),
+                      const CommentsIcon(),
                       10.verticalSpace,
                       Image.asset(Assets.bookmark),
                     ],
