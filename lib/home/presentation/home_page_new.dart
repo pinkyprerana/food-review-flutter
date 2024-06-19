@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/base/shared/providers.dart';
 import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/home/presentation/widgets/follow_option_widget.dart';
@@ -159,8 +160,12 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return RestaurantWidget(
-                        imgpath: restaurantlist[index]['image'],
+                      return GestureDetector(
+                        onTap: () => AutoRouter.of(context)
+                            .push(const RestaurantDetailRoute()),
+                        child: RestaurantWidget(
+                          imgpath: restaurantlist[index]['image'],
+                        ),
                       );
                     }),
               ),

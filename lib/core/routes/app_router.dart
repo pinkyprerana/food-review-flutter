@@ -14,6 +14,7 @@ import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart
 import 'package:for_the_table/post_feed/presentation/comments_page.dart';
 import 'package:for_the_table/profile/presentation/edit_profile_page.dart';
 import 'package:for_the_table/profile/presentation/settings_page.dart';
+import 'package:for_the_table/restaurant/presentation/restaurant_detail_page.dart';
 import 'package:for_the_table/splash/presentation/splash_page.dart';
 import 'package:for_the_table/list/presentation/list_page.dart';
 import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
@@ -101,6 +102,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: CommentsRoute.page,
           path: '/commentsRoute',
+        ),
+        AutoRoute(
+          page: RestaurantDetailRoute.page,
+          path: '/restaurantDetailRoute',
         ),
       ];
 }
