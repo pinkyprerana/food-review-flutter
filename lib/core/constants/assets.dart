@@ -76,4 +76,8 @@ class Assets {
   static const String location2 = 'assets/icons/location2.png';
   static const String comments = 'assets/icons/comments.png';
   static const String bookmark = 'assets/icons/bookmark.png';
+
+  //photo
+  static const String rotateCamera = 'assets/icons/rotate_camera.png';
+  static const String backArrowButton = 'assets/icons/backButton.png';
 }

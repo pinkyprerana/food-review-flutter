@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/base/presentation/bottom_item.dart';
@@ -5,6 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 
 // import '../../../core/utils/app_constants.dart';
+import '../../photo/presentation/photo_click_page.dart';
 import '../shared/providers.dart';
 
 class BottomNavigation extends ConsumerWidget {
@@ -116,6 +118,13 @@ class BottomNavigation extends ConsumerWidget {
                           if (index == 1) {
                             // cartNotifier.listItems();
                             stateNotifier.tapBottomNavIndex(index);
+                          } if (index == 2) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const PhotoClickPage(),
+                                fullscreenDialog: true,
+                              ),
+                            );
                           } else {
                             stateNotifier.tapBottomNavIndex(index);
                           }

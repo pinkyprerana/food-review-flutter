@@ -75,6 +75,23 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const NotificationPage(),
       );
     },
+    OpenGalleryRoute.name: (routeData) {
+      final args = routeData.argsAs<OpenGalleryRouteArgs>(
+          orElse: () => const OpenGalleryRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OpenGalleryPage(
+          key: args.key,
+          imageFile: args.imageFile,
+        ),
+      );
+    },
+    PhotoClickRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PhotoClickPage(),
+      );
+    },
     ProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -262,6 +279,58 @@ class NotificationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'NotificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OpenGalleryPage]
+class OpenGalleryRoute extends PageRouteInfo<OpenGalleryRouteArgs> {
+  OpenGalleryRoute({
+    Key? key,
+    XFile? imageFile,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OpenGalleryRoute.name,
+          args: OpenGalleryRouteArgs(
+            key: key,
+            imageFile: imageFile,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OpenGalleryRoute';
+
+  static const PageInfo<OpenGalleryRouteArgs> page =
+      PageInfo<OpenGalleryRouteArgs>(name);
+}
+
+class OpenGalleryRouteArgs {
+  const OpenGalleryRouteArgs({
+    this.key,
+    this.imageFile,
+  });
+
+  final Key? key;
+
+  final XFile? imageFile;
+
+  @override
+  String toString() {
+    return 'OpenGalleryRouteArgs{key: $key, imageFile: $imageFile}';
+  }
+}
+
+/// generated route for
+/// [PhotoClickPage]
+class PhotoClickRoute extends PageRouteInfo<void> {
+  const PhotoClickRoute({List<PageRouteInfo>? children})
+      : super(
+          PhotoClickRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PhotoClickRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

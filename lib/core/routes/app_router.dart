@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:for_the_table/auth/presentation/forget_password_page.dart';
 import 'package:for_the_table/auth/presentation/login_page.dart';
 import 'package:for_the_table/auth/presentation/register_page.dart';
@@ -17,6 +19,8 @@ import 'package:for_the_table/splash/presentation/splash_page.dart';
 import 'package:for_the_table/list/presentation/list_page.dart';
 import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
 import 'package:for_the_table/profile/presentation/profile_page.dart';
+import '../../photo/presentation/photo_click_page.dart';
+import '../../photo/presentation/open_gallery_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -96,6 +100,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: NotificationRoute.page,
           path: '/notificationRoute',
+        ),
+        AutoRoute(
+          page: OpenGalleryRoute.page,
+          path: '/openGallery',
         ),
       ];
 }
