@@ -28,6 +28,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   );
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -80,240 +81,361 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                 ),
                 child: Column(
                   children: [
-                    // const Spacer(),
-                    // 90.verticalSpace,
-                    Container(
-                      width: double.infinity,
-                      height: 200.h,
-                      color: Colors.red,
-                      child: GoogleMap(
-                        initialCameraPosition: _currentPosition,
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete();
-                        },
-                      ),
-                    ),
                     Stack(
-                      clipBehavior: Clip.none,
                       children: [
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 25)
-                              .r,
-                          // height: 286,
-                          decoration: BoxDecoration(
-                            color: AppColors.colorWhite,
+                          height: 175.h,
+                          // color: Colors.red,
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            children: [
-                              80.verticalSpace,
-                              Text(
-                                'Aspendakidis',
-                                style: AppTextStyles.textStylePoppinsSemiBold
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: AppColors.colorText2,
-                                ),
-                              ),
-                              5.verticalSpace,
-                              Text(
-                                'Joined May 23, 2024',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColors.colorText3,
-                                ),
-                              ),
-                              10.verticalSpace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AppButton(
-                                    width: 168.w,
-                                    text: 'Edit Profile',
-                                    onPressed: () => AutoRouter.of(context)
-                                        .push(const EditProfileRoute()),
-                                  ),
-                                  // 8.horizontalSpace,
-                                  GestureDetector(
-                                    onTap: () => AutoRouter.of(context)
-                                        .push(const SettingsRoute()),
-                                    child: SmallProfileContainer(
-                                        widget: Center(
-                                      child: Image.asset(Assets.settings),
-                                    )),
-                                  ),
-                                  // 8.horizontalSpace,
-                                  SmallProfileContainer(
-                                      widget: Center(
-                                    child: Image.asset(Assets.share),
-                                  )),
-                                ],
-                              ),
-                              10.verticalSpace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SmallProfileContainer(
-                                    widget: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '1.2M',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsBold
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Followers',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color: AppColors.colorText3,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.horizontalSpace,
-                                      ],
-                                    ),
-                                  ),
-                                  SmallProfileContainer(
-                                    widget: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '1.2M',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsBold
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Followers',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color: AppColors.colorText3,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.horizontalSpace,
-                                      ],
-                                    ),
-                                  ),
-                                  SmallProfileContainer(
-                                    widget: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '1.2M',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsBold
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Followers',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color: AppColors.colorText3,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.horizontalSpace,
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
+                            child: GoogleMap(
+                              initialCameraPosition: _currentPosition,
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete();
+                              },
+                            ),
                           ),
                         ),
-                        Positioned(
-                          top: -55,
-                          left: 0,
-                          right: 0,
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: 110.w,
-                                  height: 110.h,
+                        Column(
+                          children: [
+                            // const Spacer(),
+                            160.verticalSpace,
+
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  // padding: const EdgeInsets.only(
+                                  //         left: 20, right: 20, bottom: 25)
+                                  //     .r,
+
                                   decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: AppColors.colorWhite,
-                                          width: 4),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: AppColors.colorShadow
-                                                .withOpacity(0.1),
-                                            offset: const Offset(0, 2),
-                                            blurRadius: 10,
-                                            spreadRadius: 0)
-                                      ],
-                                      image: const DecorationImage(
-                                        image: AssetImage(Assets.profileImage),
-                                        fit: BoxFit.cover,
-                                      )),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: -12,
-                                left: 0,
-                                right: 0,
-                                child: Center(
-                                  child: Container(
-                                    width: 35,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(17),
-                                      color: AppColors.colorWhite,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '01',
-                                        style: AppTextStyles
-                                            .textStylePoppinsMedium
-                                            .copyWith(
-                                                fontSize: 13.sp,
-                                                color: AppColors.colorText),
+                                    color: AppColors.colorWhite,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      80.verticalSpace,
+                                      const Divider(
+                                        thickness: 1,
+                                        color: AppColors.colorBorder,
                                       ),
+                                      5.verticalSpace,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Text(
+                                          'Lorem ipsum dolor sit amet consectetur. Ipsum dolor purus ut aliquet sed volutpat sed',
+                                          style: AppTextStyles
+                                              .textStylePoppinsRegular
+                                              .copyWith(
+                                            fontSize: 12.sp,
+                                            color: AppColors.colorPrimaryAlpha,
+                                          ),
+                                        ),
+                                      ),
+                                      5.verticalSpace,
+                                      const Divider(
+                                        thickness: 1,
+                                        color: AppColors.colorBorder,
+                                      ),
+                                      10.verticalSpace,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.all(8).r,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10)
+                                                          .r,
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color:
+                                                        AppColors.colorBorder,
+                                                  )),
+                                              child: Text(
+                                                '4.5',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsSemiBold
+                                                    .copyWith(
+                                                  fontSize: 16.sp,
+                                                  color: AppColors.colorPrimary,
+                                                ),
+                                              ),
+                                            ),
+                                            5.horizontalSpace,
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Restaurant Score',
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 10.sp,
+                                                    color:
+                                                        AppColors.colorPrimary,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
+                                                ),
+                                                5.verticalSpace,
+                                                Text(
+                                                  'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 10.sp,
+                                                    color: AppColors
+                                                        .colorPrimaryAlpha,
+                                                  ),
+                                                  overflow: TextOverflow.clip,
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     AppButton(
+                                      //       width: 168.w,
+                                      //       text: 'Edit Profile',
+                                      //       onPressed: () =>
+                                      //           AutoRouter.of(context).push(
+                                      //               const EditProfileRoute()),
+                                      //     ),
+                                      //     // 8.horizontalSpace,
+                                      //     GestureDetector(
+                                      //       onTap: () => AutoRouter.of(context)
+                                      //           .push(const SettingsRoute()),
+                                      //       child: SmallProfileContainer(
+                                      //           widget: Center(
+                                      //         child:
+                                      //             Image.asset(Assets.settings),
+                                      //       )),
+                                      //     ),
+                                      //     // 8.horizontalSpace,
+                                      //     SmallProfileContainer(
+                                      //         widget: Center(
+                                      //       child: Image.asset(Assets.share),
+                                      //     )),
+                                      //   ],
+                                      // ),
+                                      10.verticalSpace,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SmallProfileContainer(
+                                            widget: Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '1.2M',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsBold
+                                                          .copyWith(
+                                                        fontSize: 14.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Followers',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
+                                                          .copyWith(
+                                                        fontSize: 10.sp,
+                                                        color: AppColors
+                                                            .colorText3,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                5.horizontalSpace,
+                                              ],
+                                            ),
+                                          ),
+                                          SmallProfileContainer(
+                                            widget: Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '1.2M',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsBold
+                                                          .copyWith(
+                                                        fontSize: 14.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Followers',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
+                                                          .copyWith(
+                                                        fontSize: 10.sp,
+                                                        color: AppColors
+                                                            .colorText3,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                5.horizontalSpace,
+                                              ],
+                                            ),
+                                          ),
+                                          SmallProfileContainer(
+                                            widget: Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '1.2M',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsBold
+                                                          .copyWith(
+                                                        fontSize: 14.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Followers',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
+                                                          .copyWith(
+                                                        fontSize: 10.sp,
+                                                        color: AppColors
+                                                            .colorText3,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                5.horizontalSpace,
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Positioned(
+                                  top: -55,
+                                  left: 0,
+                                  right: 190,
+                                  child: Center(
+                                    child: Container(
+                                      width: 110.w,
+                                      height: 110.h,
+                                      decoration: BoxDecoration(
+                                          // shape: BoxShape.circle,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: AppColors.colorWhite,
+                                              width: 4),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: AppColors.colorShadow
+                                                    .withOpacity(0.1),
+                                                offset: const Offset(0, 2),
+                                                blurRadius: 10,
+                                                spreadRadius: 0)
+                                          ],
+                                          image: const DecorationImage(
+                                            image:
+                                                AssetImage(Assets.profileImage),
+                                            fit: BoxFit.cover,
+                                          )),
                                     ),
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        )
+                                Positioned(
+                                  top: 10,
+                                  left: 140,
+                                  child: Container(
+                                    width: mediaQuery.width * 0.5,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'XYZ restaurant',
+                                              style: AppTextStyles
+                                                  .textStylePoppinsMedium
+                                                  .copyWith(
+                                                fontSize: 13.sp,
+                                                color: AppColors.colorPrimary,
+                                              ),
+                                            ),
+                                            Image.asset(
+                                              Assets.bookmark,
+                                              color: AppColors.colorPrimary,
+                                            )
+                                          ],
+                                        ),
+                                        5.verticalSpace,
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              Assets.locationBig,
+                                              color: AppColors.colorPrimary,
+                                            ),
+                                            3.horizontalSpace,
+                                            Expanded(
+                                              child: Text(
+                                                'Dummy locationDummy location',
+                                                // maxLines: 1,
+                                                // overflow: TextOverflow.ellipsis,
+                                                style: AppTextStyles
+                                                    .textStylePoppinsRegular
+                                                    .copyWith(
+                                                  fontSize: 10.sp,
+                                                  color: AppColors
+                                                      .colorPrimaryAlpha,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
