@@ -76,4 +76,5 @@ class Assets {
   static const String location2 = 'assets/icons/location2.png';
   static const String comments = 'assets/icons/comments.png';
   static const String bookmark = 'assets/icons/bookmark.png';
+  static const String price = 'assets/icons/price.png';
 }
