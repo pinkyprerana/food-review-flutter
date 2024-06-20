@@ -88,4 +88,5 @@ class Assets {
   static const String didnotLike = 'assets/icons/didnotLike.png';
   static const String fine = 'assets/icons/fine.png';
   static const String cancel = 'assets/icons/cancel.png';
+  static const String coverPhoto = 'assets/images/coverPhoto.png';
 }

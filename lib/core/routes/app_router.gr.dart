@@ -92,6 +92,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    PeopleProfileRoute.name: (routeData) {
+      final args = routeData.argsAs<PeopleProfileRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PeopleProfilePage(
+          key: args.key,
+          peoplename: args.peoplename,
+          peopleimage: args.peopleimage,
+        ),
+      );
+    },
     PhotoClickRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -344,6 +355,49 @@ class OpenGalleryRouteArgs {
   @override
   String toString() {
     return 'OpenGalleryRouteArgs{key: $key, imageFile: $imageFile}';
+  }
+}
+
+/// generated route for
+/// [PeopleProfilePage]
+class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
+  PeopleProfileRoute({
+    Key? key,
+    required String peoplename,
+    required String peopleimage,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PeopleProfileRoute.name,
+          args: PeopleProfileRouteArgs(
+            key: key,
+            peoplename: peoplename,
+            peopleimage: peopleimage,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PeopleProfileRoute';
+
+  static const PageInfo<PeopleProfileRouteArgs> page =
+      PageInfo<PeopleProfileRouteArgs>(name);
+}
+
+class PeopleProfileRouteArgs {
+  const PeopleProfileRouteArgs({
+    this.key,
+    required this.peoplename,
+    required this.peopleimage,
+  });
+
+  final Key? key;
+
+  final String peoplename;
+
+  final String peopleimage;
+
+  @override
+  String toString() {
+    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage}';
   }
 }
 

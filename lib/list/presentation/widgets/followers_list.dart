@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/app_button.dart';
+
+import '../../../core/routes/app_router.dart';
 
 class FollowersList extends StatelessWidget {
   FollowersList({
@@ -61,53 +64,60 @@ class FollowersList extends StatelessWidget {
             ),
             itemCount: 6,
             itemBuilder: (context, index) {
-              return Container(
-                padding: const EdgeInsets.all(8.0).r,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: AppColors.colorGrey3),
+              return GestureDetector(
+                onTap: ()=> AutoRouter.of(context).push( PeopleProfileRoute(
+                    peoplename: followers[index]['name'].toString(),
+                    peopleimage: followers[index]['image'].toString()
+                  )
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 24.r,
-                      child: Image.asset(
-                        followers[index]['image']!,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      followers[index]['name']!,
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                        color: AppColors.colorPrimary,
-                        fontSize: 13.sp,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      'Joined May 29, 2024',
-                      style: AppTextStyles.textStylePoppinsLight.copyWith(
-                        color: AppColors.colorPrimaryAlpha,
-                        fontSize: 8.sp,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    10.verticalSpace,
-                    AppButton(
-                      height: 21.h,
-                      width: 64.w,
-                      radius: 8,
-                      color: AppColors.colorNavy,
-                      child: Text(
-                        'Follow',
-                        style: AppTextStyles.textStylePoppinsBold.copyWith(
-                          color: AppColors.colorGrey2,
-                          fontSize: 10.sp,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0).r,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: AppColors.colorGrey3),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 24.r,
+                        child: Image.asset(
+                          followers[index]['image']!,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 10.h),
+                      Text(
+                        followers[index]['name']!,
+                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          color: AppColors.colorPrimary,
+                          fontSize: 13.sp,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'Joined May 29, 2024',
+                        style: AppTextStyles.textStylePoppinsLight.copyWith(
+                          color: AppColors.colorPrimaryAlpha,
+                          fontSize: 8.sp,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      10.verticalSpace,
+                      AppButton(
+                        height: 21.h,
+                        width: 64.w,
+                        radius: 8,
+                        color: AppColors.colorNavy,
+                        child: Text(
+                          'Follow',
+                          style: AppTextStyles.textStylePoppinsBold.copyWith(
+                            color: AppColors.colorGrey2,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

@@ -21,6 +21,7 @@ import 'package:for_the_table/splash/presentation/splash_page.dart';
 import 'package:for_the_table/list/presentation/list_page.dart';
 import 'package:for_the_table/leaderboard/presentation/standings_page.dart';
 import 'package:for_the_table/profile/presentation/profile_page.dart';
+import '../../people_profile/presentation/people_profile_screen.dart';
 import '../../photo/presentation/photo_click_page.dart';
 import '../../photo/presentation/open_gallery_screen.dart';
 
@@ -114,6 +115,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: OpenGalleryRoute.page,
           path: '/openGallery',
+        ),
+        AutoRoute(
+          page: PeopleProfileRoute.page,
+          path: '/peopleProfile',
         ),
       ];
 }
