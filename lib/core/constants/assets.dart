@@ -80,4 +80,8 @@ class Assets {
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';
   static const String backArrowButton = 'assets/icons/backButton.png';
+  static const String likedIt = 'assets/icons/likedIt.png';
+  static const String didnotLike = 'assets/icons/didnotLike.png';
+  static const String fine = 'assets/icons/fine.png';
+  static const String cancel = 'assets/icons/cancel.png';
 }
