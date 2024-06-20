@@ -80,4 +80,12 @@ class Assets {
   static const String locationBig = 'assets/icons/location_big.png';
   static const String rate = 'assets/icons/rate.png';
   static const String add = 'assets/icons/add.png';
+
+  //photo
+  static const String rotateCamera = 'assets/icons/rotate_camera.png';
+  static const String backArrowButton = 'assets/icons/backButton.png';
+  static const String likedIt = 'assets/icons/likedIt.png';
+  static const String didnotLike = 'assets/icons/didnotLike.png';
+  static const String fine = 'assets/icons/fine.png';
+  static const String cancel = 'assets/icons/cancel.png';
 }

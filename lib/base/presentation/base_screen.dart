@@ -13,6 +13,7 @@ import 'package:for_the_table/list/presentation/list_page.dart';
 import 'package:for_the_table/post_feed/presentation/post_feed_page.dart';
 import 'package:for_the_table/profile/presentation/profile_page.dart';
 
+import '../../photo/presentation/photo_click_page.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -63,11 +64,7 @@ class BasePageState extends ConsumerState<BasePage> {
       case 1:
         return const ListPage();
       case 2:
-        return Container(
-          height: 1.sh,
-          width: 1.sw,
-          color: Colors.blue,
-        );
+        return Container();
       case 3:
         return const StandingsPage();
       case 4:
