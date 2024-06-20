@@ -256,14 +256,23 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                                   Assets.rate),
                                                             ],
                                                           ),
-                                                          3.verticalSpace,
+                                                          10.verticalSpace,
                                                           Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .start,
                                                               children: [
                                                                 Text(
-                                                                    'Add a Title')
+                                                                  'Add a Title',
+                                                                  style: AppTextStyles
+                                                                      .textStylePoppinsMedium
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .colorPrimary,
+                                                                  ),
+                                                                )
                                                               ]),
                                                           5.verticalSpace,
                                                           const CustomInputField(
@@ -277,7 +286,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                                       .start,
                                                               children: [
                                                                 Text(
-                                                                    'Add a written review')
+                                                                  'Add a written review',
+                                                                  style: AppTextStyles
+                                                                      .textStylePoppinsMedium
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .colorPrimary,
+                                                                  ),
+                                                                )
                                                               ]),
                                                           5.verticalSpace,
                                                           SizedBox(
@@ -297,7 +315,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                                       .start,
                                                               children: [
                                                                 Text(
-                                                                    'Add a Photo or Video')
+                                                                  'Add a Photo or Video',
+                                                                  style: AppTextStyles
+                                                                      .textStylePoppinsMedium
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .colorPrimary,
+                                                                  ),
+                                                                )
                                                               ]),
                                                           5.verticalSpace,
                                                           DottedBorder(
