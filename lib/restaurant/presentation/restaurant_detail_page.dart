@@ -59,7 +59,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           ),
         ),
         title: Text(
-          'Restaurants',
+          'Restaurant',
           style: AppTextStyles.textStylePoppinsBold.copyWith(
             color: AppColors.colorPrimary,
             fontSize: 16.sp,
