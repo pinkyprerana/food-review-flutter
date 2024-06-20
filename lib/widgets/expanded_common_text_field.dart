@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
-class CustomInputField extends StatefulWidget {
-  const CustomInputField({
+class ExpandedCommonTextField extends StatefulWidget {
+  const ExpandedCommonTextField({
     this.label,
     required this.hint,
     this.maxLength,
@@ -14,6 +14,8 @@ class CustomInputField extends StatefulWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.onFieldSubmitted,
+    this.expands,
+    this.maxLines,
     super.key,
   });
   final String? label;
@@ -25,12 +27,15 @@ class CustomInputField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(String)? onFieldSubmitted;
+  final bool? expands;
+  final int? maxLines;
 
   @override
-  State<CustomInputField> createState() => _CustomInputFieldState();
+  State<ExpandedCommonTextField> createState() =>
+      _ExpandedCommonTextFieldState();
 }
 
-class _CustomInputFieldState extends State<CustomInputField> {
+class _ExpandedCommonTextFieldState extends State<ExpandedCommonTextField> {
   bool isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
@@ -42,8 +47,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
       decoration: BoxDecoration(
           color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
       child: TextFormField(
-        //expands: (widget.expands != null) ? widget.expands! : false,
-        //maxLines: (widget.maxLines != null) ? widget.maxLines : null,
+        expands: (widget.expands != null) ? widget.expands! : false,
+        maxLines: (widget.maxLines != null) ? widget.maxLines : null,
         controller: widget.controller,
         focusNode: widget.focusNode,
         maxLength: widget.maxLength,

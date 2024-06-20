@@ -12,6 +12,7 @@ import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
+import 'package:for_the_table/widgets/expanded_common_text_field.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:dotted_border/dotted_border.dart';
 
@@ -301,7 +302,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                           SizedBox(
                                                             height: 130.h,
                                                             child:
-                                                                const CustomInputField(
+                                                                const ExpandedCommonTextField(
                                                               maxLines: null,
                                                               expands: true,
                                                               hint:
