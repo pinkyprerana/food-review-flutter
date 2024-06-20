@@ -7,6 +7,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -266,8 +267,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                 spreadRadius: 0)
                                           ],
                                           image: const DecorationImage(
-                                            image:
-                                                AssetImage(Assets.profileImage),
+                                            image: AssetImage(Assets.rest1),
                                             fit: BoxFit.cover,
                                           )),
                                     ),
@@ -338,7 +338,29 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                     ),
                   ],
                 ),
-              )
+              ),
+              20.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Post List',
+                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                        fontSize: 13.sp, color: AppColors.colorPrimary),
+                  ),
+                ],
+              ),
+              10.verticalSpace,
+              //list of posts
+              ListView.builder(
+                  itemCount: 3,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (context, index) {
+                    return const PostWidget();
+                  }),
+              10.verticalSpace,
             ],
           ),
         ),
