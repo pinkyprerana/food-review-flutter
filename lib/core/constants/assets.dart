@@ -78,4 +78,6 @@ class Assets {
   static const String bookmark = 'assets/icons/bookmark.png';
   static const String price = 'assets/icons/price.png';
   static const String locationBig = 'assets/icons/location_big.png';
+  static const String rate = 'assets/icons/rate.png';
+  static const String add = 'assets/icons/add.png';
 }

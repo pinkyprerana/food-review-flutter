@@ -7,10 +7,13 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/widgets/app_button.dart';
+import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 @RoutePage()
 class RestaurantDetailPage extends StatefulWidget {
@@ -226,14 +229,120 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              'Write A Review',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color:
-                                                    AppColors.colorPrimaryAlpha,
+                                            GestureDetector(
+                                              onTap: () => commonModal(context,
+                                                  child: Stack(
+                                                    children: [
+                                                      Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Image.asset(
+                                                                  Assets.rate),
+                                                              2.horizontalSpace,
+                                                              Image.asset(
+                                                                  Assets.rate),
+                                                              2.horizontalSpace,
+                                                              Image.asset(
+                                                                  Assets.rate),
+                                                              2.horizontalSpace,
+                                                              Image.asset(
+                                                                  Assets.rate),
+                                                              2.horizontalSpace,
+                                                              Image.asset(
+                                                                  Assets.rate),
+                                                            ],
+                                                          ),
+                                                          3.verticalSpace,
+                                                          Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    'Add a Title')
+                                                              ]),
+                                                          5.verticalSpace,
+                                                          const CustomInputField(
+                                                            hint:
+                                                                'Write the title',
+                                                          ),
+                                                          20.verticalSpace,
+                                                          Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    'Add a written review')
+                                                              ]),
+                                                          5.verticalSpace,
+                                                          SizedBox(
+                                                            height: 130.h,
+                                                            child:
+                                                                const CustomInputField(
+                                                              maxLines: null,
+                                                              expands: true,
+                                                              hint:
+                                                                  'Write review',
+                                                            ),
+                                                          ),
+                                                          20.verticalSpace,
+                                                          Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    'Add a Photo or Video')
+                                                              ]),
+                                                          5.verticalSpace,
+                                                          DottedBorder(
+                                                              borderType:
+                                                                  BorderType
+                                                                      .RRect,
+                                                              radius:
+                                                                  const Radius
+                                                                      .circular(
+                                                                      10),
+                                                              strokeWidth: 1,
+                                                              color: const Color(
+                                                                  0xffCED0D2),
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                child: SizedBox(
+                                                                  width: 344.w,
+                                                                  height: 148.h,
+                                                                  child: Center(
+                                                                    child: Image
+                                                                        .asset(Assets
+                                                                            .add),
+                                                                  ),
+                                                                ),
+                                                              )),
+                                                          10.verticalSpace,
+                                                          const AppButton(
+                                                            text: 'Submit',
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )),
+                                              child: Text(
+                                                'Write A Review',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsRegular
+                                                    .copyWith(
+                                                  fontSize: 10.sp,
+                                                  color: AppColors
+                                                      .colorPrimaryAlpha,
+                                                ),
                                               ),
                                             )
                                           ],
