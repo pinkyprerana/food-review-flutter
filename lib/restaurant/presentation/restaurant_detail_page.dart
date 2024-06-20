@@ -173,174 +173,72 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                               ),
                                             ),
                                             5.horizontalSpace,
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Restaurant Score',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color:
-                                                        AppColors.colorPrimary,
-                                                    decoration: TextDecoration
-                                                        .underline,
+                                            Flexible(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    child: Text(
+                                                      'Restaurant Score',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
+                                                          .copyWith(
+                                                        fontSize: 10.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                                5.verticalSpace,
-                                                Text(
-                                                  'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors
-                                                        .colorPrimaryAlpha,
-                                                  ),
-                                                  overflow: TextOverflow.clip,
-                                                )
-                                              ],
+                                                  5.verticalSpace,
+                                                  Text(
+                                                    'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
+                                                    style: AppTextStyles
+                                                        .textStylePoppinsRegular
+                                                        .copyWith(
+                                                      fontSize: 10.sp,
+                                                      color: AppColors
+                                                          .colorPrimaryAlpha,
+                                                    ),
+                                                    overflow: TextOverflow.clip,
+                                                  )
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),
                                       ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     AppButton(
-                                      //       width: 168.w,
-                                      //       text: 'Edit Profile',
-                                      //       onPressed: () =>
-                                      //           AutoRouter.of(context).push(
-                                      //               const EditProfileRoute()),
-                                      //     ),
-                                      //     // 8.horizontalSpace,
-                                      //     GestureDetector(
-                                      //       onTap: () => AutoRouter.of(context)
-                                      //           .push(const SettingsRoute()),
-                                      //       child: SmallProfileContainer(
-                                      //           widget: Center(
-                                      //         child:
-                                      //             Image.asset(Assets.settings),
-                                      //       )),
-                                      //     ),
-                                      //     // 8.horizontalSpace,
-                                      //     SmallProfileContainer(
-                                      //         widget: Center(
-                                      //       child: Image.asset(Assets.share),
-                                      //     )),
-                                      //   ],
-                                      // ),
                                       10.verticalSpace,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SmallProfileContainer(
-                                            widget: Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '1.2M',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsBold
-                                                          .copyWith(
-                                                        fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .colorPrimary,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Followers',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
-                                                          .copyWith(
-                                                        fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .colorText3,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                5.horizontalSpace,
-                                              ],
-                                            ),
-                                          ),
-                                          SmallProfileContainer(
-                                            widget: Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '1.2M',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsBold
-                                                          .copyWith(
-                                                        fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .colorPrimary,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Followers',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
-                                                          .copyWith(
-                                                        fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .colorText3,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                5.horizontalSpace,
-                                              ],
-                                            ),
-                                          ),
-                                          SmallProfileContainer(
-                                            widget: Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '1.2M',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsBold
-                                                          .copyWith(
-                                                        fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .colorPrimary,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Followers',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
-                                                          .copyWith(
-                                                        fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .colorText3,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                5.horizontalSpace,
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
+                                      const Divider(
+                                        thickness: 1,
+                                        color: AppColors.colorBorder,
+                                      ),
+                                      10.verticalSpace,
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Write A Review',
+                                              style: AppTextStyles
+                                                  .textStylePoppinsRegular
+                                                  .copyWith(
+                                                fontSize: 10.sp,
+                                                color:
+                                                    AppColors.colorPrimaryAlpha,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      10.verticalSpace,
                                     ],
                                   ),
                                 ),
