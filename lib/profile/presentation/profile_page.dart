@@ -148,35 +148,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SmallProfileContainer(
-                                    widget: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '1.2M',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsBold
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
+                                  GestureDetector(
+                                    onTap: () => AutoRouter.of(context).push(const FollowListRoute()),
+                                    child: SmallProfileContainer(
+                                      widget: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '1.2M',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsBold
+                                                    .copyWith(
+                                                  fontSize: 14.sp,
+                                                  color: AppColors.colorPrimary,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              'Followers',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color: AppColors.colorText3,
+                                              Text(
+                                                'Followers',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsRegular
+                                                    .copyWith(
+                                                  fontSize: 10.sp,
+                                                  color: AppColors.colorText3,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.horizontalSpace,
-                                      ],
+                                            ],
+                                          ),
+                                          5.horizontalSpace,
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SmallProfileContainer(
@@ -196,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                             Text(
-                                              'Followers',
+                                              'Following',
                                               style: AppTextStyles
                                                   .textStylePoppinsRegular
                                                   .copyWith(

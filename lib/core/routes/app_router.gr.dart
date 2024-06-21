@@ -33,6 +33,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EditProfilePage(),
       );
     },
+    FollowListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FollowListPage(),
+      );
+    },
     ForgotPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -204,6 +210,20 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FollowListPage]
+class FollowListRoute extends PageRouteInfo<void> {
+  const FollowListRoute({List<PageRouteInfo>? children})
+      : super(
+          FollowListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FollowListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
