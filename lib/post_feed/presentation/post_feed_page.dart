@@ -95,6 +95,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     alignment: Alignment.center,
@@ -113,57 +114,33 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       ),
                     ),
                   ),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       _matchEngine!.currentItem?.nope();
-                  //     },
-                  //     child: const Text("Nope")),
-                  40.horizontalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10)
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
                             .r,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.colorWhite.withOpacity(0.10),
-                        ),
-                        child: Text(
-                          'For You',
-                          style: AppTextStyles.textStylePoppinsSemiBold
-                              .copyWith(
-                                  fontSize: 16.sp, color: AppColors.colorWhite),
-                        ),
-                      ),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       _matchEngine!.currentItem?.superLike();
-                      //     },
-                      //     child: const Text("Superlike")),
-                      10.horizontalSpace,
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10)
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.colorWhite.withOpacity(0.10),
+                    ),
+                    child: Text(
+                      'For The Table',
+                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                          fontSize: 16.sp, color: AppColors.colorWhite),
+                    ),
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
                             .r,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.colorWhite.withOpacity(0.10),
-                        ),
-                        child: Text(
-                          'Following',
-                          style: AppTextStyles.textStylePoppinsSemiBold
-                              .copyWith(
-                                  fontSize: 16.sp, color: AppColors.colorWhite),
-                        ),
-                      ),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       _matchEngine!.currentItem?.like();
-                      //     },
-                      //     child: const Text("Like"))
-                    ],
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.colorWhite.withOpacity(0.10),
+                    ),
+                    child: Text(
+                      'Following',
+                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                          fontSize: 16.sp, color: AppColors.colorWhite),
+                    ),
                   )
                 ],
               ),

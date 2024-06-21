@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import '../../core/constants/assets.dart';
 import '../../core/routes/app_router.dart';
 
-
 @RoutePage()
 class PhotoClickPage extends ConsumerStatefulWidget {
   const PhotoClickPage({super.key});
@@ -32,7 +31,8 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
   Future<void> _initializeCamera() async {
     cameras = await availableCameras();
-    _controller = CameraController(cameras![selectedCameraIndex], ResolutionPreset.high);
+    _controller =
+        CameraController(cameras![selectedCameraIndex], ResolutionPreset.high);
     await _controller!.initialize();
     if (!mounted) {
       return;
@@ -89,21 +89,22 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
           Positioned(
             bottom: 40,
             left: 20,
-            child:ClipRRect(
+            child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child:  imageFile == null
+                child: imageFile == null
                     ? Container(width: 40, height: 40, color: Colors.grey)
-                    : Image.file(File(imageFile!.path), width: 40, height: 40, fit: BoxFit.cover)),
+                    : Image.file(File(imageFile!.path),
+                        width: 40, height: 40, fit: BoxFit.cover)),
           ),
           Positioned(
             bottom: 40,
             right: 20,
             child: IconButton(
-                icon: Image.asset(
-                  height: 40,
-                  width: 40,
-                  Assets.rotateCamera,
-                ),
+              icon: Image.asset(
+                height: 40,
+                width: 40,
+                Assets.rotateCamera,
+              ),
               onPressed: _switchCamera,
             ),
           ),
@@ -115,15 +116,15 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
               child: FloatingActionButton(
                 backgroundColor: const Color(0xFFDE4349),
                 shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 3,color: Colors.white),
-                    borderRadius: BorderRadius.circular(100)
-                ),
+                    side: const BorderSide(width: 3, color: Colors.white),
+                    borderRadius: BorderRadius.circular(100)),
                 onPressed: () async {
                   final image = await _controller!.takePicture();
                   setState(() {
                     imageFile = image;
                   });
-                  AutoRouter.of(context).push(OpenGalleryRoute(imageFile: imageFile));
+                  AutoRouter.of(context)
+                      .push(OpenGalleryRoute(imageFile: imageFile));
                 },
               ),
             ),

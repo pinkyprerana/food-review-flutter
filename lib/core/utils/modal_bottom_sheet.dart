@@ -44,10 +44,13 @@ Future<void> commonModal(
                           color: AppColors.colorPrimary,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Icon(
-                          Icons.close,
-                          size: 17,
-                          color: AppColors.colorWhite,
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.close,
+                            size: 17,
+                            color: AppColors.colorWhite,
+                          ),
                         ),
                       ))
                 ],

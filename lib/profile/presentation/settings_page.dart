@@ -30,6 +30,14 @@ class SettingsPage extends StatelessWidget {
       'icon': Assets.text,
       'title': 'Help',
     },
+    {
+      'icon': Assets.close,
+      'title': 'Deactivate My Account',
+    },
+    {
+      'icon': Assets.delete,
+      'title': 'Delete My Account',
+    },
   ];
 
   @override
@@ -82,7 +90,14 @@ class SettingsPage extends StatelessWidget {
                     return SettingsOptionWidget(
                         title: settingOptions[index]['title'],
                         imgpath: settingOptions[index]['icon']);
-                  })
+                  }),
+              50.verticalSpace,
+              SettingsOptionWidget(
+                  title: settingOptions[5]['title'],
+                  imgpath: settingOptions[5]['icon']),
+              SettingsOptionWidget(
+                  title: settingOptions[6]['title'],
+                  imgpath: settingOptions[6]['icon']),
             ],
           ),
         ),

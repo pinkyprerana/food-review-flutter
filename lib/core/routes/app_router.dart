@@ -15,6 +15,8 @@ import 'package:for_the_table/notification/presentation/notification_page.dart';
 import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart';
 import 'package:for_the_table/post_feed/presentation/comments_page.dart';
 import 'package:for_the_table/profile/presentation/edit_profile_page.dart';
+import 'package:for_the_table/profile/presentation/faqs_page.dart';
+import 'package:for_the_table/profile/presentation/help_page.dart';
 import 'package:for_the_table/profile/presentation/settings_page.dart';
 import 'package:for_the_table/restaurant/presentation/restaurant_detail_page.dart';
 import 'package:for_the_table/splash/presentation/splash_page.dart';
@@ -114,6 +116,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: OpenGalleryRoute.page,
           path: '/openGallery',
+        ),
+        AutoRoute(
+          page: HelpRoute.page,
+          path: '/helpRoute',
+        ),
+        AutoRoute(
+          page: FaqsRoute.page,
+          path: '/faqsRoute',
         ),
       ];
 }

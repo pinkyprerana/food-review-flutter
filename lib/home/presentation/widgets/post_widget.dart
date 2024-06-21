@@ -123,16 +123,16 @@ class PostWidget extends StatelessWidget {
                                     ),
                                   ),
                                   8.horizontalSpace,
-                                  Image.asset(Assets.dislike_emoji),
+                                  // Image.asset(Assets.dislike_emoji),
                                   5.horizontalSpace,
-                                  Text(
-                                    'Didn\'t Like',
-                                    style: AppTextStyles.textStylePoppinsRegular
-                                        .copyWith(
-                                      fontSize: 10.sp,
-                                      color: AppColors.colorWhite,
-                                    ),
-                                  )
+                                  // Text(
+                                  //   'Didn\'t Like',
+                                  //   style: AppTextStyles.textStylePoppinsRegular
+                                  //       .copyWith(
+                                  //     fontSize: 10.sp,
+                                  //     color: AppColors.colorWhite,
+                                  //   ),
+                                  // )
                                 ],
                               ),
                               8.verticalSpace,

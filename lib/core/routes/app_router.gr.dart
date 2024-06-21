@@ -33,10 +33,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EditProfilePage(),
       );
     },
+    FaqsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FaqsPage(),
+      );
+    },
     ForgotPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ForgotPasswordPage(),
+      );
+    },
+    HelpRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HelpPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -198,6 +210,20 @@ class EditProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [FaqsPage]
+class FaqsRoute extends PageRouteInfo<void> {
+  const FaqsRoute({List<PageRouteInfo>? children})
+      : super(
+          FaqsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FaqsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [ForgotPasswordPage]
 class ForgotPasswordRoute extends PageRouteInfo<void> {
   const ForgotPasswordRoute({List<PageRouteInfo>? children})
@@ -207,6 +233,20 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ForgotPasswordRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HelpPage]
+class HelpRoute extends PageRouteInfo<void> {
+  const HelpRoute({List<PageRouteInfo>? children})
+      : super(
+          HelpRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HelpRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
