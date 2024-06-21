@@ -47,7 +47,7 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height ,
+                height: MediaQuery.of(context).size.height * 1.5 ,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
