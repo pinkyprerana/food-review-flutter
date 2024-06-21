@@ -36,11 +36,17 @@ class _FaqOptionState extends State<FaqOption> {
                     : AppColors.colorPrimary),
           ),
           trailing: (_isExpanded)
-              ? Icon(
-                  Icons.expand_less,
-                  color: AppColors.colorWhite,
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.expand_less,
+                    color: AppColors.colorWhite,
+                  ),
                 )
-              : Icon(Icons.expand_more),
+              : Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(Icons.expand_more),
+                ),
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
