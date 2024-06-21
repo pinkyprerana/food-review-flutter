@@ -27,12 +27,10 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
 }
 
 class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
-  bool isFollowing = true;
-
+  bool isFollowing = false;
 
   @override
   Widget build(BuildContext context) {
-    // final isFollowing = ref.watch(FollowNotifierProvider);
     final followNotifier = ref.watch(FollowNotifierProvider.notifier);
     return Scaffold(
       extendBody: true,
@@ -49,19 +47,24 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
             children: [
               Row(
                 children: [
-                IconButton(
-                  icon: Image.asset(Assets.backArrowButton, scale: 1.5,),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                5.horizontalSpace,
-                Text(
-                  'Profile',
-                  style: AppTextStyles.textStylePoppinsSemiBold
-                      .copyWith(fontSize: 15.sp, color: AppColors.colorBlack),
-                ),
-              ],
+                  IconButton(
+                    icon: Image.asset(
+                      Assets.backArrowButton,
+                      scale: 1.5,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  5.horizontalSpace,
+                  Text(
+                    'Profile',
+                    style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                      fontSize: 15.sp,
+                      color: AppColors.colorBlack,
+                    ),
+                  ),
+                ],
               ),
               20.verticalSpace,
               Container(
@@ -70,8 +73,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                   borderRadius: BorderRadius.circular(15),
                   color: AppColors.colorCream,
                   image: const DecorationImage(
-                      image: AssetImage(Assets.coverPhoto), //widget.coverphoto
-                    fit: BoxFit.fill
+                    image: AssetImage(Assets.coverPhoto), //widget.coverphoto
+                    fit: BoxFit.fill,
                   ),
                   border: Border.all(width: 1, color: AppColors.colorBorder),
                 ),
@@ -112,19 +115,23 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                               ),
                               10.verticalSpace,
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceAround,
                                 children: [
                                   AppButton(
-                                    width: 160.w,
-                                    text: isFollowing? 'Following':'Follow',
-                                    color:  isFollowing? AppColors.colorBackground : AppColors.colorBlack,
-                                    textColor:  isFollowing? AppColors.colorBlack: AppColors.colorBackground,
-                                    onPressed: (){
-                                      setState(() {
-                                        isFollowing = !isFollowing;
-                                      });
-                                    }
-                                  ),
+                                      width: 160.w,
+                                      text: isFollowing ? 'Following' : 'Follow',
+                                      color: isFollowing
+                                          ? AppColors.colorBackground
+                                          : AppColors.colorBlack,
+                                      textColor: isFollowing
+                                          ? AppColors.colorBlack
+                                          : AppColors.colorBackground,
+                                      onPressed: () {
+                                        setState(() {
+                                          isFollowing = !isFollowing;
+                                        });
+                                      }),
                                   SmallProfileContainer(
                                       widget: Center(
                                         child: Image.asset(Assets.share),
@@ -151,7 +158,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                                       .textStylePoppinsBold
                                                       .copyWith(
                                                     fontSize: 14.sp,
-                                                    color: AppColors.colorPrimary,
+                                                    color:
+                                                    AppColors.colorPrimary,
                                                   ),
                                                 ),
                                                 Text(
@@ -160,7 +168,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                                       .textStylePoppinsRegular
                                                       .copyWith(
                                                     fontSize: 10.sp,
-                                                    color: AppColors.colorText3,
+                                                    color:
+                                                    AppColors.colorText3,
                                                   ),
                                                 ),
                                               ],
@@ -184,7 +193,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                                   .textStylePoppinsBold
                                                   .copyWith(
                                                 fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
+                                                color:
+                                                AppColors.colorPrimary,
                                               ),
                                             ),
                                             Text(
@@ -193,7 +203,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                                   .textStylePoppinsRegular
                                                   .copyWith(
                                                 fontSize: 10.sp,
-                                                color: AppColors.colorText3,
+                                                color:
+                                                AppColors.colorText3,
                                               ),
                                             ),
                                           ],
@@ -204,9 +215,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   ),
                                 ],
                               ),
-                              isFollowing?
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              isFollowing
+                                  ? Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   SmallProfileContainer(
                                     widget: Column(
@@ -244,7 +256,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                             .textStylePoppinsBold
                                             .copyWith(
                                           fontSize: 14.sp,
-                                          color: AppColors.colorPrimary,
+                                          color:
+                                          AppColors.colorPrimary,
                                         ),
                                       ),
                                       Text(
@@ -260,7 +273,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   ),
                                 ],
                               )
-                                  :const SizedBox(),
+                                  : const SizedBox(),
                             ],
                           ),
                         ),
@@ -276,22 +289,22 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   width: 110.w,
                                   height: 110.h,
                                   decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: AppColors.colorWhite,
-                                          width: 4),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: AppColors.colorShadow
-                                                .withOpacity(0.1),
-                                            offset: const Offset(0, 2),
-                                            blurRadius: 10,
-                                            spreadRadius: 0)
-                                      ],
-                                      image:  DecorationImage(
-                                        image: AssetImage(widget.peopleimage),
-                                        fit: BoxFit.cover,
-                                      )),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: AppColors.colorWhite, width: 4),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: AppColors.colorShadow
+                                              .withOpacity(0.1),
+                                          offset: const Offset(0, 2),
+                                          blurRadius: 10,
+                                          spreadRadius: 0)
+                                    ],
+                                    image: DecorationImage(
+                                      image: AssetImage(widget.peopleimage),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Positioned(
@@ -328,17 +341,19 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                 ),
               ),
               18.verticalSpace,
-              Text("Posts",
+              Text(
+                "Posts",
                 style: AppTextStyles.textStylePoppinsMedium.copyWith(
                   fontSize: 13.sp,
                   color: AppColors.colorPrimary,
                 ),
               ),
-              isFollowing
-                  ?  SizedBox(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
-                child: GridView.builder(
+                child:
+                isFollowing
+                    ? GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -357,78 +372,22 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                               imageUrls[index],
                               fit: BoxFit.cover,
                             ),
-                            // isFollowing?
-                            //   ImageFiltered(
-                            //     imageFilter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                            //     child: Container(
-                            //       color: Colors.transparent,
-                            //     ),
-                            //   )
-                            //       : SizedBox()
-                            // ,
                             Positioned(
-                                top: 8,
-                                right: 8,
-                                child: Image.asset(Assets.save)
+                              top: 8,
+                              right: 8,
+                              child: isFollowing
+                                  ? Image.asset(Assets.save)
+                                  : const SizedBox(),
                             )
                           ],
                         ),
                       ),
                     );
                   },
-                ),
-              )
-              :BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  color: Colors.white.withOpacity(0.0),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    width: double.infinity,
-                    child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 3 / 3,
-                      ),
-                      itemCount: imageUrls.length,
-                      itemBuilder: (context, index) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            margin: const EdgeInsets.all(2),
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                Image.asset(
-                                  imageUrls[index],
-                                  fit: BoxFit.cover,
-                                ),
-                                // isFollowing?
-                                //   ImageFiltered(
-                                //     imageFilter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                                //     child: Container(
-                                //       color: Colors.transparent,
-                                //     ),
-                                //   )
-                                //       : SizedBox()
-                                // ,
-                                Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child: Image.asset(Assets.save)
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              )
-              ,
-              20.verticalSpace
+                )
+                    : Image.asset(Assets.blurred),
+              ),
+              20.verticalSpace,
             ],
           ),
         ),
@@ -437,8 +396,17 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   }
 
   final List<String> imageUrls = [
-   Assets.coverPhoto, Assets.photo,Assets.coverPhoto, Assets.photo,
-    Assets.coverPhoto, Assets.photo,Assets.coverPhoto, Assets.photo,
-    Assets.coverPhoto, Assets.photo,Assets.coverPhoto, Assets.photo,
+    Assets.coverPhoto,
+    Assets.photo,
+    Assets.coverPhoto,
+    Assets.photo,
+    Assets.coverPhoto,
+    Assets.photo,
+    Assets.coverPhoto,
+    Assets.photo,
+    Assets.coverPhoto,
+    Assets.photo,
+    Assets.coverPhoto,
+    Assets.photo,
   ];
 }

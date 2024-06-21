@@ -89,4 +89,5 @@ class Assets {
   static const String fine = 'assets/icons/fine.png';
   static const String cancel = 'assets/icons/cancel.png';
   static const String coverPhoto = 'assets/images/coverPhoto.png';
+  static const String blurred = 'assets/images/blurred.png';
 }
