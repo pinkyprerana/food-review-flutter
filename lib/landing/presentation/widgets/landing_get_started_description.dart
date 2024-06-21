@@ -27,86 +27,89 @@ class LandingGetStartedDescription extends StatelessWidget {
       padding:
           EdgeInsets.only(left: 10, right: 10, bottom: isScreenSmall ? 20 : 40)
               .r,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              LoginDescription(isScreenSmall: isScreenSmall),
-              isScreenSmall ? 16.verticalSpace : 44.verticalSpace,
-              AppButton(
-                text: 'Login With Email',
-                onPressed: () =>
-                    AutoRouter.of(context).push(const LoginRoute()),
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () => AutoRouter.of(context).push(const RegisterRoute()),
-            child: Text(
-              'Register With Us',
-              style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                fontSize: 13,
-                color: AppColors.colorPrimary,
-              ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LoginDescription(isScreenSmall: isScreenSmall),
+                isScreenSmall ? 16.verticalSpace : 44.verticalSpace,
+                AppButton(
+                  text: 'Login With Email',
+                  onPressed: () =>
+                      AutoRouter.of(context).push(const LoginRoute()),
+                ),
+              ],
             ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (int i = 0; i < socialIcons.length; i++) ...[
-                    Container(
-                      height: isScreenSmall ? 50.r : 60.r,
-                      width: isScreenSmall ? 50.r : 60.r,
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          color: AppColors.colorPrimaryAlpha,
-                          borderRadius: BorderRadius.circular(13)),
-                      child: Image.asset(socialIcons[i]),
-                    ),
-                    if (i != socialIcons.length - 1) 16.horizontalSpace
-                  ],
-                ],
-              ),
-              isScreenSmall ? 16.verticalSpace : 32.verticalSpace,
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    height: 1,
-                    fontSize: 12.sp,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'By continuing you agree to For The Table',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                        color: AppColors.colorPrimaryAlpha,
-                      ),
-                    ),
-                    const TextSpan(
-                      text: " \n",
-                    ),
-                    TextSpan(
-                      text: 'Terms of Services & Privacy Policy',
-                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                        color: AppColors.colorPrimaryAlpha,
-                      ),
-                    ),
-                  ],
+            20.verticalSpace,
+            GestureDetector(
+              onTap: () => AutoRouter.of(context).push(const RegisterRoute()),
+              child: Text(
+                'Register With Us',
+                style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                  fontSize: 13,
+                  color: AppColors.colorPrimary,
                 ),
               ),
-            ],
-          )
-        ],
+            ),
+            30.verticalSpace,
+            Column(
+              // mainAxisSize: MainAxisSize.min,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (int i = 0; i < socialIcons.length; i++) ...[
+                      Container(
+                        height: isScreenSmall ? 50.r : 60.r,
+                        width: isScreenSmall ? 50.r : 60.r,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                            color: AppColors.colorPrimaryAlpha,
+                            borderRadius: BorderRadius.circular(13)),
+                        child: Image.asset(socialIcons[i]),
+                      ),
+                      if (i != socialIcons.length - 1) 16.horizontalSpace
+                    ],
+                  ],
+                ),
+                isScreenSmall ? 16.verticalSpace : 32.verticalSpace,
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      height: 1,
+                      fontSize: 12.sp,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'By continuing you agree to For The Table',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
+                      ),
+                      const TextSpan(
+                        text: " \n",
+                      ),
+                      TextSpan(
+                        text: 'Terms of Services & Privacy Policy',
+                        style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

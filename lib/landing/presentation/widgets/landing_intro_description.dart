@@ -27,7 +27,7 @@ class LandingIntroDescription extends StatelessWidget {
           IntroRatingDescription(isScreenSmall: isScreenSmall),
           const Spacer(),
           AppButton(
-            text: 'Get Stared',
+            text: 'Get Started',
             onPressed: () =>
                 AutoRouter.of(context).push(const LandingGetStartedRoute()),
           ),
