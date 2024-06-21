@@ -12,6 +12,7 @@ import 'package:for_the_table/home/presentation/widgets/follow_option_widget.dar
 import 'package:for_the_table/home/presentation/widgets/home_post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/restaurant_widget.dart';
+import 'package:for_the_table/list/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 
 @RoutePage()
@@ -41,6 +42,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   Widget build(BuildContext context) {
     final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
+    final stateOfListScreen = ref.watch(listProvider);
+    final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: false,
@@ -90,11 +93,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
-                    Text(
-                      'View All',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                        fontSize: 13.sp,
-                        color: AppColors.colorPrimaryAlpha,
+                    GestureDetector(
+                      onTap: () {
+                        stateNotifierOfListScreen.setListIndex(0);
+                        AutoRouter.of(context).push(const ListRoute());
+                      },
+                      child: Text(
+                        'View All',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 13.sp,
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
                       ),
                     )
                   ],
@@ -126,11 +135,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
-                    Text(
-                      'View All',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                        fontSize: 13.sp,
-                        color: AppColors.colorPrimaryAlpha,
+                    GestureDetector(
+                      onTap: () {
+                        stateNotifierOfListScreen.setListIndex(1);
+                        AutoRouter.of(context).push(const ListRoute());
+                      },
+                      child: Text(
+                        'View All',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 13.sp,
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
                       ),
                     )
                   ],

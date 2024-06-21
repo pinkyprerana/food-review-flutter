@@ -34,6 +34,7 @@ class _ListPageState extends ConsumerState<ListPage> {
       extendBody: true,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         centerTitle: false,
         leadingWidth: 0,

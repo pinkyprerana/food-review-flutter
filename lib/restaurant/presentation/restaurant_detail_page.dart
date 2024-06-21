@@ -412,7 +412,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                 ),
                                 Positioned(
                                   top: 10,
-                                  left: 140,
+                                  left: 155,
                                   child: Container(
                                     width: mediaQuery.width * 0.5,
                                     child: Column(
@@ -431,17 +431,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                               ),
                                             ),
                                             IconButton(
-                                                onPressed: (){
-                                                  AutoRouter.of(context).push(const SavedRoute());
+                                                onPressed: () {
+                                                  AutoRouter.of(context)
+                                                      .push(const SavedRoute());
                                                 },
                                                 icon: Image.asset(
                                                   Assets.bookmark,
                                                   color: AppColors.colorPrimary,
-                                                )
-                                            )
+                                                ))
                                           ],
                                         ),
-                                        5.verticalSpace,
                                         Row(
                                           mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment:
