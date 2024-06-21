@@ -45,7 +45,7 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
     setState(() {
       int nextPage = (_currentPage + 1) % 2;
       if (_currentPage == 1) {
-        AutoRouter.of(context).pushAndPopUntil(const LandingIntroRoute(), predicate: (_) => false);
+        AutoRouter.of(context).pushAndPopUntil(const HomeRouteNew(), predicate: (_) => false);
       }else if (nextPage != 0 || _currentPage == 0) {
         _currentPage = nextPage;
       }
