@@ -12,6 +12,7 @@ import 'package:for_the_table/home/presentation/widgets/follow_option_widget.dar
 import 'package:for_the_table/home/presentation/widgets/home_post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/restaurant_widget.dart';
+import 'package:for_the_table/widgets/notification_icon.dart';
 
 @RoutePage()
 class HomePageNew extends ConsumerStatefulWidget {
@@ -72,23 +73,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 )),
               ),
             ),
-            GestureDetector(
-              // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
-              child: Container(
-                height: 26.r,
-                width: 26.r,
-                margin: const EdgeInsets.only(right: 16).r,
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.colorGrey2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                    child: Image.asset(
-                  Assets.bell,
-                  color: AppColors.colorPrimary,
-                )),
-              ),
-            ),
+            const NotificationIcon(),
           ],
         ),
         body: SingleChildScrollView(

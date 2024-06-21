@@ -10,6 +10,7 @@ import 'package:for_the_table/list/presentation/widgets/followers_list.dart';
 import 'package:for_the_table/list/presentation/widgets/restaurants_list.dart';
 import 'package:for_the_table/list/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
+import 'package:for_the_table/widgets/notification_icon.dart';
 
 @RoutePage()
 class ListPage extends ConsumerStatefulWidget {
@@ -43,25 +44,7 @@ class _ListPageState extends ConsumerState<ListPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: [
-          GestureDetector(
-            // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
-            child: Container(
-              height: 26.r,
-              width: 26.r,
-              margin: const EdgeInsets.only(right: 16).r,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.colorGrey2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                  child: Image.asset(
-                Assets.bell,
-                color: AppColors.colorPrimary,
-              )),
-            ),
-          ),
-        ],
+        actions: [const NotificationIcon()],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

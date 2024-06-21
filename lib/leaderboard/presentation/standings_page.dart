@@ -5,6 +5,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
+import 'package:for_the_table/widgets/notification_icon.dart';
 
 @RoutePage()
 class StandingsPage extends StatefulWidget {
@@ -94,25 +95,7 @@ class _StandingsPageState extends State<StandingsPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: [
-          GestureDetector(
-            // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
-            child: Container(
-              height: 26.r,
-              width: 26.r,
-              margin: const EdgeInsets.only(right: 16).r,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.colorGrey2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                  child: Image.asset(
-                Assets.bell,
-                color: AppColors.colorPrimary,
-              )),
-            ),
-          ),
-        ],
+        actions: [const NotificationIcon()],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

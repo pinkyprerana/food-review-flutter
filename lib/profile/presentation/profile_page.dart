@@ -149,7 +149,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   GestureDetector(
-                                    onTap: () => AutoRouter.of(context).push(const FollowListRoute()),
+                                    onTap: () => AutoRouter.of(context)
+                                        .push(const YourPeopleRoute()),
                                     child: SmallProfileContainer(
                                       widget: Row(
                                         children: [

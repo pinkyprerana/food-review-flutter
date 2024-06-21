@@ -51,12 +51,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FaqsPage(),
       );
     },
-    FollowListRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const FollowListPage(),
-      );
-    },
     ForgotPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -211,6 +205,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const VerifyOtpPage(),
       );
     },
+    YourPeopleRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const YourPeoplePage(),
+      );
+    },
   };
 }
 
@@ -294,20 +294,6 @@ class FaqsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FaqsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [FollowListPage]
-class FollowListRoute extends PageRouteInfo<void> {
-  const FollowListRoute({List<PageRouteInfo>? children})
-      : super(
-          FollowListRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'FollowListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -697,6 +683,20 @@ class VerifyOtpRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'VerifyOtpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [YourPeoplePage]
+class YourPeopleRoute extends PageRouteInfo<void> {
+  const YourPeopleRoute({List<PageRouteInfo>? children})
+      : super(
+          YourPeopleRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'YourPeopleRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
