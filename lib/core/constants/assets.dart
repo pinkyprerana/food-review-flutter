@@ -80,6 +80,7 @@ class Assets {
   static const String locationBig = 'assets/icons/location_big.png';
   static const String rate = 'assets/icons/rate.png';
   static const String add = 'assets/icons/add.png';
+  static const String saved = 'assets/icons/saved.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';
@@ -90,4 +91,8 @@ class Assets {
   static const String cancel = 'assets/icons/cancel.png';
   static const String delete = 'assets/icons/delete.png';
   static const String close = 'assets/icons/close.png';
+  static const String coverPhoto = 'assets/images/coverPhoto.png';
+  static const String blurred = 'assets/images/blurred.png';
+  static const String man = 'assets/images/man.png';
+  static const String woman = 'assets/images/woman.png';
 }

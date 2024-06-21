@@ -44,8 +44,8 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
 
   void _onContinuePressed() {
     setState(() {
-      int nextPage = (_currentPage + 1) % 3;
-      if (_currentPage == 2) {
+      int nextPage = (_currentPage + 1) % 2;
+      if (_currentPage == 1) {
         AutoRouter.of(context).pushAndPopUntil(const LandingIntroRoute(),
             predicate: (_) => false);
       } else if (nextPage != 0 || _currentPage == 0) {
@@ -151,91 +151,80 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                     controller: _pageController,
                     children: [
                       ///Select photo from gallery
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Select',
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                          fontSize: 14.sp,
-                                          color: AppColors.colorBlack),
-                                ),
-                                ElevatedButton(
-                                  style: ButtonStyle(
-                                    elevation:
-                                        WidgetStateProperty.all<double>(0),
-                                  ),
-                                  onPressed: _pickAssets,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Photos',
-                                        style: AppTextStyles.textStylePoppins
-                                            .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorRed),
-                                      ),
-                                      const Icon(Icons.keyboard_arrow_down,
-                                          color: AppColors.colorRed),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-
-                          //Todo: Show gallery images which is showing in _pickAssets
-                          Expanded(
-                            child: _selectedAssets != null &&
-                                    _selectedAssets!.isNotEmpty
-                                ? GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      mainAxisSpacing: 4.0,
-                                      crossAxisSpacing: 4.0,
-                                    ),
-                                    itemCount: _selectedAssets!.length,
-                                    itemBuilder: (context, index) {
-                                      final asset = _selectedAssets![index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          toggleSelection(asset);
-                                        },
-                                        child: Stack(
-                                          children: [
-                                            Image(
-                                              image: AssetEntityImageProvider(
-                                                asset,
-                                                isOriginal: false,
-                                                // thumbnailSize: const ThumbnailSize(200, 200),
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            if (isSelected(asset))
-                                              const Positioned(
-                                                bottom: 8,
-                                                right: 8,
-                                                child: Icon(
-                                                  Icons.check_circle,
-                                                  color: Colors.green,
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : const Center(child: Text('No images')),
-                          ),
-                        ],
-                      ),
+                      // Column(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Padding(
+                      //       padding: const EdgeInsets.all(10.0),
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text(
+                      //             'Select',
+                      //             style: AppTextStyles.textStylePoppinsMedium
+                      //                 .copyWith(fontSize: 14.sp, color: AppColors.colorBlack),
+                      //           ),
+                      //           ElevatedButton(
+                      //             style: ButtonStyle(elevation: WidgetStateProperty.all<double>(0),),
+                      //             onPressed: _pickAssets,
+                      //             child: Row(
+                      //               children: [
+                      //                 Text( 'Photos',
+                      //                   style: AppTextStyles.textStylePoppins
+                      //                       .copyWith(fontSize: 14.sp, color: AppColors.colorRed),
+                      //                 ),
+                      //                 const Icon(Icons.keyboard_arrow_down, color: AppColors.colorRed),
+                      //               ],
+                      //             ),
+                      //           )
+                      //         ],
+                      //       ),
+                      //     ),
+                      //
+                      //     //Todo: Show gallery images which is showing in _pickAssets
+                      //     Expanded(
+                      //       child: _selectedAssets != null && _selectedAssets!.isNotEmpty
+                      //           ? GridView.builder(
+                      //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      //           crossAxisCount: 3,
+                      //           mainAxisSpacing: 4.0,
+                      //           crossAxisSpacing: 4.0,
+                      //         ),
+                      //         itemCount: _selectedAssets!.length,
+                      //         itemBuilder: (context, index) {
+                      //           final asset = _selectedAssets![index];
+                      //           return GestureDetector(
+                      //             onTap: () {
+                      //               toggleSelection(asset);
+                      //             },
+                      //             child: Stack(
+                      //               children: [
+                      //                 Image(
+                      //                   image: AssetEntityImageProvider(
+                      //                     asset,
+                      //                     isOriginal: false,
+                      //                     // thumbnailSize: const ThumbnailSize(200, 200),
+                      //                   ),
+                      //                   fit: BoxFit.cover,
+                      //                 ),
+                      //                 if (isSelected(asset))
+                      //                   const Positioned(
+                      //                     bottom: 8,
+                      //                     right: 8,
+                      //                     child: Icon(
+                      //                       Icons.check_circle,
+                      //                       color: Colors.green,
+                      //                     ),
+                      //                   ),
+                      //               ],
+                      //             ),
+                      //           );
+                      //         },
+                      //       )
+                      //           : const Center(child: Text('No images')),
+                      //     ),
+                      //   ],
+                      // ),
 
                       /// Create post description
                       Padding(

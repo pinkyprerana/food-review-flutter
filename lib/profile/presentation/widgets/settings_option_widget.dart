@@ -32,6 +32,8 @@ class SettingsOptionWidget extends StatelessWidget {
           AutoRouter.of(context).push(const EditProfileRoute());
         } else if (title == 'App Info') {
           AutoRouter.of(context).push(const AppInfoRoute());
+        } else if (title == 'Privacy Policy') {
+          AutoRouter.of(context).push(const PrivacyPolicyRoute());
         } else {
           getModal('Delete My Account', context);
         }

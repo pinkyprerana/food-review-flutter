@@ -51,6 +51,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FaqsPage(),
       );
     },
+    FollowListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FollowListPage(),
+      );
+    },
     ForgotPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -122,10 +128,27 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    PeopleProfileRoute.name: (routeData) {
+      final args = routeData.argsAs<PeopleProfileRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PeopleProfilePage(
+          key: args.key,
+          peoplename: args.peoplename,
+          peopleimage: args.peopleimage,
+        ),
+      );
+    },
     PhotoClickRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PhotoClickPage(),
+      );
+    },
+    PrivacyPolicyRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PrivacyPolicyPage(),
       );
     },
     ProfileRoute.name: (routeData) {
@@ -150,6 +173,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const RestaurantDetailPage(),
+      );
+    },
+    SavedRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SavedPage(),
       );
     },
     SelectPreferenceRoute.name: (routeData) {
@@ -265,6 +294,20 @@ class FaqsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FaqsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FollowListPage]
+class FollowListRoute extends PageRouteInfo<void> {
+  const FollowListRoute({List<PageRouteInfo>? children})
+      : super(
+          FollowListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FollowListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -448,6 +491,49 @@ class OpenGalleryRouteArgs {
 }
 
 /// generated route for
+/// [PeopleProfilePage]
+class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
+  PeopleProfileRoute({
+    Key? key,
+    required String peoplename,
+    required String peopleimage,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PeopleProfileRoute.name,
+          args: PeopleProfileRouteArgs(
+            key: key,
+            peoplename: peoplename,
+            peopleimage: peopleimage,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PeopleProfileRoute';
+
+  static const PageInfo<PeopleProfileRouteArgs> page =
+      PageInfo<PeopleProfileRouteArgs>(name);
+}
+
+class PeopleProfileRouteArgs {
+  const PeopleProfileRouteArgs({
+    this.key,
+    required this.peoplename,
+    required this.peopleimage,
+  });
+
+  final Key? key;
+
+  final String peoplename;
+
+  final String peopleimage;
+
+  @override
+  String toString() {
+    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage}';
+  }
+}
+
+/// generated route for
 /// [PhotoClickPage]
 class PhotoClickRoute extends PageRouteInfo<void> {
   const PhotoClickRoute({List<PageRouteInfo>? children})
@@ -457,6 +543,20 @@ class PhotoClickRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PhotoClickRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PrivacyPolicyPage]
+class PrivacyPolicyRoute extends PageRouteInfo<void> {
+  const PrivacyPolicyRoute({List<PageRouteInfo>? children})
+      : super(
+          PrivacyPolicyRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PrivacyPolicyRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -513,6 +613,20 @@ class RestaurantDetailRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RestaurantDetailRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SavedPage]
+class SavedRoute extends PageRouteInfo<void> {
+  const SavedRoute({List<PageRouteInfo>? children})
+      : super(
+          SavedRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SavedRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
