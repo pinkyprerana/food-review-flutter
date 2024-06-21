@@ -14,9 +14,12 @@ import 'package:for_the_table/landing/presentation/landing_intro_page.dart';
 import 'package:for_the_table/notification/presentation/notification_page.dart';
 import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart';
 import 'package:for_the_table/post_feed/presentation/comments_page.dart';
+import 'package:for_the_table/profile/presentation/app_info_page.dart';
+import 'package:for_the_table/profile/presentation/disliked_posts_page.dart';
 import 'package:for_the_table/profile/presentation/edit_profile_page.dart';
 import 'package:for_the_table/profile/presentation/faqs_page.dart';
 import 'package:for_the_table/profile/presentation/help_page.dart';
+import 'package:for_the_table/profile/presentation/liked_posts_page.dart';
 import 'package:for_the_table/profile/presentation/settings_page.dart';
 import 'package:for_the_table/restaurant/presentation/restaurant_detail_page.dart';
 import 'package:for_the_table/splash/presentation/splash_page.dart';
@@ -124,6 +127,18 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: FaqsRoute.page,
           path: '/faqsRoute',
+        ),
+        AutoRoute(
+          page: LikedPostsRoute.page,
+          path: '/likedPostsRoute',
+        ),
+        AutoRoute(
+          page: DislikedPostsRoute.page,
+          path: '/dislikedPostsRoute',
+        ),
+        AutoRoute(
+          page: AppInfoRoute.page,
+          path: '/appInfoRoute',
         ),
       ];
 }

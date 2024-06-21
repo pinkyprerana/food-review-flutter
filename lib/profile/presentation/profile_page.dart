@@ -20,8 +20,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List otherOptions = [
-    {'icon': Assets.dislike, 'title': 'Disliked Cuisines'},
-    {'icon': Assets.like, 'title': 'Liked Cuisines'},
+    {'icon': Assets.dislike, 'title': 'Disliked Posts'},
+    {'icon': Assets.like, 'title': 'Liked Posts'},
     {'icon': Assets.msg, 'title': 'FAQs'},
     {'icon': Assets.logout, 'title': 'Logout'},
   ];

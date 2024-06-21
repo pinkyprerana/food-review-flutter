@@ -28,6 +28,10 @@ class SettingsOptionWidget extends StatelessWidget {
           AutoRouter.of(context).push(const NotificationRoute());
         } else if (title == 'Deactivate My Account') {
           getModal(title, context);
+        } else if (title == 'Manage Account') {
+          AutoRouter.of(context).push(const EditProfileRoute());
+        } else if (title == 'App Info') {
+          AutoRouter.of(context).push(const AppInfoRoute());
         } else {
           getModal('Delete My Account', context);
         }

@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AppInfoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AppInfoPage(),
+      );
+    },
     BaseRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -25,6 +31,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const CommentsPage(),
+      );
+    },
+    DislikedPostsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DislikedPostsPage(),
       );
     },
     EditProfileRoute.name: (routeData) {
@@ -73,6 +85,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LandingIntroPage(),
+      );
+    },
+    LikedPostsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LikedPostsPage(),
       );
     },
     ListRoute.name: (routeData) {
@@ -168,6 +186,20 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [AppInfoPage]
+class AppInfoRoute extends PageRouteInfo<void> {
+  const AppInfoRoute({List<PageRouteInfo>? children})
+      : super(
+          AppInfoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AppInfoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [BasePage]
 class BaseRoute extends PageRouteInfo<void> {
   const BaseRoute({List<PageRouteInfo>? children})
@@ -191,6 +223,20 @@ class CommentsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CommentsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DislikedPostsPage]
+class DislikedPostsRoute extends PageRouteInfo<void> {
+  const DislikedPostsRoute({List<PageRouteInfo>? children})
+      : super(
+          DislikedPostsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DislikedPostsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -303,6 +349,20 @@ class LandingIntroRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LandingIntroRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LikedPostsPage]
+class LikedPostsRoute extends PageRouteInfo<void> {
+  const LikedPostsRoute({List<PageRouteInfo>? children})
+      : super(
+          LikedPostsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LikedPostsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

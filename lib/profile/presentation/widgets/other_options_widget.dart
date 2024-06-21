@@ -74,6 +74,10 @@ class OtherOptionsWidget extends StatelessWidget {
               ));
         } else if (title == 'FAQs') {
           AutoRouter.of(context).push(const FaqsRoute());
+        } else if (title == 'Liked Posts') {
+          AutoRouter.of(context).push(const LikedPostsRoute());
+        } else if (title == 'Disliked Posts') {
+          AutoRouter.of(context).push(const DislikedPostsRoute());
         }
       },
       child: Padding(
