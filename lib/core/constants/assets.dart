@@ -80,6 +80,7 @@ class Assets {
   static const String locationBig = 'assets/icons/location_big.png';
   static const String rate = 'assets/icons/rate.png';
   static const String add = 'assets/icons/add.png';
+  static const String saved = 'assets/icons/saved.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';

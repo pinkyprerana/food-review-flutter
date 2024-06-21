@@ -24,7 +24,9 @@ import 'package:for_the_table/profile/presentation/profile_page.dart';
 import '../../people_profile/presentation/people_profile_screen.dart';
 import '../../photo/presentation/photo_click_page.dart';
 import '../../photo/presentation/open_gallery_screen.dart';
+import '../../profile/presentation/widgets/privacy_policy.dart';
 import '../../profile/presentation/widgets/your_people_list.dart';
+import '../../saved/presentation/saved.dart';
 
 part 'app_router.gr.dart';
 
@@ -124,6 +126,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: FollowListRoute.page,
           path: '/followingFollowerRequests'
+        ),
+        AutoRoute(
+            page: SavedRoute.page,
+            path: '/savedRoute'
+        ),
+        AutoRoute(
+            page: PrivacyPolicyRoute.page,
+            path: '/privacyPolicyRoute'
         )
       ];
 }

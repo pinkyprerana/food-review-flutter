@@ -115,6 +115,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PhotoClickPage(),
       );
     },
+    PrivacyPolicyRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PrivacyPolicyPage(),
+      );
+    },
     ProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -137,6 +143,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const RestaurantDetailPage(),
+      );
+    },
+    SavedRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SavedPage(),
       );
     },
     SelectPreferenceRoute.name: (routeData) {
@@ -436,6 +448,20 @@ class PhotoClickRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PrivacyPolicyPage]
+class PrivacyPolicyRoute extends PageRouteInfo<void> {
+  const PrivacyPolicyRoute({List<PageRouteInfo>? children})
+      : super(
+          PrivacyPolicyRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PrivacyPolicyRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [ProfilePage]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})
@@ -487,6 +513,20 @@ class RestaurantDetailRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RestaurantDetailRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SavedPage]
+class SavedRoute extends PageRouteInfo<void> {
+  const SavedRoute({List<PageRouteInfo>? children})
+      : super(
+          SavedRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SavedRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

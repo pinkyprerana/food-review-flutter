@@ -430,9 +430,14 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                 color: AppColors.colorPrimary,
                                               ),
                                             ),
-                                            Image.asset(
-                                              Assets.bookmark,
-                                              color: AppColors.colorPrimary,
+                                            IconButton(
+                                                onPressed: (){
+                                                  AutoRouter.of(context).push(const SavedRoute());
+                                                },
+                                                icon: Image.asset(
+                                                  Assets.bookmark,
+                                                  color: AppColors.colorPrimary,
+                                                )
                                             )
                                           ],
                                         ),
