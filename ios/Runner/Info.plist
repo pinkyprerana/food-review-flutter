@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>The reason for this is to access photos in library</string>
+	<key>NSCameraUsageDescription</key>
+    <string>The reason for this is to access camera in the device</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>The reason for this is to access location</string>
 	<key>CFBundleDisplayName</key>
 	<string>For The Table</string>
 	<key>CFBundleExecutable</key>

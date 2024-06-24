@@ -132,6 +132,8 @@ class SettingsOptionWidget extends StatelessWidget {
                           AppButton(
                             width: 166.w,
                             text: 'Deactivate',
+                            onPressed: () => AutoRouter.of(context)
+                                .push(const LandingIntroRoute()),
                           ),
                         ],
                       )
@@ -187,6 +189,8 @@ class SettingsOptionWidget extends StatelessWidget {
                           AppButton(
                             width: 166.w,
                             text: 'Delete',
+                            onPressed: () => AutoRouter.of(context)
+                                .push(const LandingIntroRoute()),
                           ),
                         ],
                       )

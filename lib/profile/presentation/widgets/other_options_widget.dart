@@ -65,6 +65,8 @@ class OtherOptionsWidget extends StatelessWidget {
                           AppButton(
                             width: 166.w,
                             text: 'Logout',
+                            onPressed: () => AutoRouter.of(context)
+                                .push(const LandingIntroRoute()),
                           ),
                         ],
                       )
