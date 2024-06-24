@@ -12,14 +12,14 @@ import '../shared/provider.dart';
 import 'widgets/custom_widgets.dart';
 
 @RoutePage()
-class FollowListPage extends ConsumerStatefulWidget{
-  const FollowListPage({super.key});
+class YourPeopleListPage extends ConsumerStatefulWidget{
+  const YourPeopleListPage({super.key});
 
   @override
-  ConsumerState<FollowListPage> createState() => _FollowListPageState();
+  ConsumerState<YourPeopleListPage> createState() => _YourPeopleListPageState();
 }
 
-class _FollowListPageState extends ConsumerState<FollowListPage> {
+class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
   @override
   Widget build(BuildContext context) {

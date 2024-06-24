@@ -116,15 +116,15 @@ class AppRouter extends _$AppRouter {
           path: '/restaurantDetailRoute',
         ),
         AutoRoute(
-          page: OpenGalleryRoute.page,
-          path: '/openGallery',
+          page: CreatePostRoute.page,
+          path: '/createPost',
         ),
         AutoRoute(
           page: PeopleProfileRoute.page,
           path: '/peopleProfile',
         ),
         AutoRoute(
-          page: FollowListRoute.page,
+          page: YourPeopleListRoute.page,
           path: '/followingFollowerRequests'
         ),
         AutoRoute(

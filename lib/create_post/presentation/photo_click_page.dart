@@ -121,7 +121,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                   setState(() {
                     imageFile = image;
                   });
-                  AutoRouter.of(context).push(OpenGalleryRoute(imageFile: imageFile));
+                  AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
                 },
               ),
             ),

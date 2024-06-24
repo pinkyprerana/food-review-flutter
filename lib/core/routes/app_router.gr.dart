@@ -27,16 +27,21 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CommentsPage(),
       );
     },
+    CreatePostRoute.name: (routeData) {
+      final args = routeData.argsAs<CreatePostRouteArgs>(
+          orElse: () => const CreatePostRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CreatePostPage(
+          key: args.key,
+          imageFile: args.imageFile,
+        ),
+      );
+    },
     EditProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const EditProfilePage(),
-      );
-    },
-    FollowListRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const FollowListPage(),
       );
     },
     ForgotPasswordRoute.name: (routeData) {
@@ -85,17 +90,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const NotificationPage(),
-      );
-    },
-    OpenGalleryRoute.name: (routeData) {
-      final args = routeData.argsAs<OpenGalleryRouteArgs>(
-          orElse: () => const OpenGalleryRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: OpenGalleryPage(
-          key: args.key,
-          imageFile: args.imageFile,
-        ),
       );
     },
     PeopleProfileRoute.name: (routeData) {
@@ -181,6 +175,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const VerifyOtpPage(),
       );
     },
+    YourPeopleListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const YourPeopleListPage(),
+      );
+    },
   };
 }
 
@@ -213,6 +213,44 @@ class CommentsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CreatePostPage]
+class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
+  CreatePostRoute({
+    Key? key,
+    XFile? imageFile,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CreatePostRoute.name,
+          args: CreatePostRouteArgs(
+            key: key,
+            imageFile: imageFile,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CreatePostRoute';
+
+  static const PageInfo<CreatePostRouteArgs> page =
+      PageInfo<CreatePostRouteArgs>(name);
+}
+
+class CreatePostRouteArgs {
+  const CreatePostRouteArgs({
+    this.key,
+    this.imageFile,
+  });
+
+  final Key? key;
+
+  final XFile? imageFile;
+
+  @override
+  String toString() {
+    return 'CreatePostRouteArgs{key: $key, imageFile: $imageFile}';
+  }
+}
+
+/// generated route for
 /// [EditProfilePage]
 class EditProfileRoute extends PageRouteInfo<void> {
   const EditProfileRoute({List<PageRouteInfo>? children})
@@ -222,20 +260,6 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [FollowListPage]
-class FollowListRoute extends PageRouteInfo<void> {
-  const FollowListRoute({List<PageRouteInfo>? children})
-      : super(
-          FollowListRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'FollowListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -350,44 +374,6 @@ class NotificationRoute extends PageRouteInfo<void> {
   static const String name = 'NotificationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [OpenGalleryPage]
-class OpenGalleryRoute extends PageRouteInfo<OpenGalleryRouteArgs> {
-  OpenGalleryRoute({
-    Key? key,
-    XFile? imageFile,
-    List<PageRouteInfo>? children,
-  }) : super(
-          OpenGalleryRoute.name,
-          args: OpenGalleryRouteArgs(
-            key: key,
-            imageFile: imageFile,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'OpenGalleryRoute';
-
-  static const PageInfo<OpenGalleryRouteArgs> page =
-      PageInfo<OpenGalleryRouteArgs>(name);
-}
-
-class OpenGalleryRouteArgs {
-  const OpenGalleryRouteArgs({
-    this.key,
-    this.imageFile,
-  });
-
-  final Key? key;
-
-  final XFile? imageFile;
-
-  @override
-  String toString() {
-    return 'OpenGalleryRouteArgs{key: $key, imageFile: $imageFile}';
-  }
 }
 
 /// generated route for
@@ -597,6 +583,20 @@ class VerifyOtpRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'VerifyOtpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [YourPeopleListPage]
+class YourPeopleListRoute extends PageRouteInfo<void> {
+  const YourPeopleListRoute({List<PageRouteInfo>? children})
+      : super(
+          YourPeopleListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'YourPeopleListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

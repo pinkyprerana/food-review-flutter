@@ -14,15 +14,15 @@ import '../shared/provider.dart';
 
 
 @RoutePage()
-class OpenGalleryPage extends ConsumerStatefulWidget {
+class CreatePostPage extends ConsumerStatefulWidget {
   final XFile? imageFile;
-  OpenGalleryPage({super.key, this.imageFile});
+  CreatePostPage({super.key, this.imageFile});
 
   @override
-  ConsumerState<OpenGalleryPage> createState() => _OpenGalleryPageState();
+  ConsumerState<CreatePostPage> createState() => _CreatePostPageState();
 }
 
-class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
+class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   @override
   void initState() {

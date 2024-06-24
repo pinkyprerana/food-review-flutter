@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   GestureDetector(
-                                    onTap: () => AutoRouter.of(context).push(const FollowListRoute()),
+                                    onTap: () => AutoRouter.of(context).push(const YourPeopleListRoute()),
                                     child: SmallProfileContainer(
                                       widget: Row(
                                         children: [
@@ -182,35 +182,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  SmallProfileContainer(
-                                    widget: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '1.2M',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsBold
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
+                                  GestureDetector(
+                                    onTap: () => AutoRouter.of(context).push(const YourPeopleListRoute()),
+                                    child: SmallProfileContainer(
+                                      widget: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '1.2M',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsBold
+                                                    .copyWith(
+                                                  fontSize: 14.sp,
+                                                  color: AppColors.colorPrimary,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              'Following',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color: AppColors.colorText3,
+                                              Text(
+                                                'Following',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsRegular
+                                                    .copyWith(
+                                                  fontSize: 10.sp,
+                                                  color: AppColors.colorText3,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.horizontalSpace,
-                                      ],
+                                            ],
+                                          ),
+                                          5.horizontalSpace,
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SmallProfileContainer(
