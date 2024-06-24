@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
-import '../../../core/constants/assets.dart';
-import '../../../core/styles/app_colors.dart';
-import '../../../core/styles/app_text_styles.dart';
-import '../../../widgets/app_button.dart';
-import 'custom_widgets.dart';
+import '../../core/constants/assets.dart';
+import '../../core/styles/app_colors.dart';
+import '../../core/styles/app_text_styles.dart';
+import '../../widgets/app_button.dart';
+import '../shared/provider.dart';
+import 'widgets/custom_widgets.dart';
 
 @RoutePage()
 class FollowListPage extends ConsumerStatefulWidget{
@@ -19,10 +20,12 @@ class FollowListPage extends ConsumerStatefulWidget{
 }
 
 class _FollowListPageState extends ConsumerState<FollowListPage> {
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final _selectedIndex = ref.watch(YourPeopleNotifierProvider).selectedIndex;
+    final stateNotifier = ref.read(YourPeopleNotifierProvider.notifier);
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -66,9 +69,7 @@ class _FollowListPageState extends ConsumerState<FollowListPage> {
                                         text: index == 0 ? 'Followers' : index == 1 ? 'Following' : 'Requests',
                                         isSelected: _selectedIndex == index,
                                         onPressed: () {
-                                        setState(() {
-                                          _selectedIndex = index;
-                                        });
+                                          stateNotifier.updateSelectedIndex(index);
                                         },
                                       ),
                     ),

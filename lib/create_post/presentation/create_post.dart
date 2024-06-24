@@ -4,13 +4,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:insta_assets_picker/insta_assets_picker.dart';
+import '../../base/shared/providers.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_input_field.dart';
+import '../shared/provider.dart';
 
 
 @RoutePage()
@@ -23,62 +23,18 @@ class OpenGalleryPage extends ConsumerStatefulWidget {
 }
 
 class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-  List<AssetEntity>? _selectedAssets;
-
-  void toggleSelection(AssetEntity asset) {
-    setState(() {
-      if (_selectedAssets!.contains(asset)) {
-        _selectedAssets!.remove(asset);
-      } else {
-        _selectedAssets!.add(asset);
-      }
-    });
-  }
-
-  bool isSelected(AssetEntity asset) {
-    return _selectedAssets!.contains(asset);
-  }
-
-  void _onContinuePressed() {
-    setState(() {
-      int nextPage = (_currentPage + 1) % 2;
-      if (_currentPage == 1) {
-        AutoRouter.of(context).pushAndPopUntil(const HomeRouteNew(), predicate: (_) => false);
-      }else if (nextPage != 0 || _currentPage == 0) {
-        _currentPage = nextPage;
-      }
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  Future<void> _pickAssets() async {
-    final List<AssetEntity>? result = await InstaAssetPicker.pickAssets(
-      context,
-      maxAssets: 10,
-      pickerTheme: ThemeData.dark(),
-      onCompleted: (Stream<InstaAssetsExportDetails> exportDetails) {  },
-    );
-    if (result != null) {
-      setState(() {
-        _selectedAssets = result;
-      });
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _pickAssets();
   }
 
   @override
   Widget build(BuildContext context) {
+    final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
+    final pageController = createPostNotifier.pageController;
+    var currentPage= ref.watch(CreatePostNotifierProvider).currentPage;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -90,6 +46,7 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                   IconButton(
                     icon: Image.asset(Assets.backArrowButton, scale: 1.5,),
                     onPressed: () {
+                      createPostNotifier.resetPage();
                       Navigator.of(context).pop();
                     },
                   ),
@@ -141,7 +98,7 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                   ),
                   child: PageView(
                     physics: const NeverScrollableScrollPhysics(),
-                    controller: _pageController,
+                    controller: pageController,
                     children: [
                       ///Select photo from gallery
                       // Column(
@@ -243,8 +200,6 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                                    maxLines: 5,
                                   decoration: InputDecoration(
                                     labelText: 'Post Description',
-                                    // helperText: 'Lorem ipsum dolor sit amet consectetur. Convallis vulputate a ut pretium augue sagittis parturient. Erat tortor ut risus neque pellentesque. \n #artist #traveller',
-                                    // hintText:'Lorem ipsum dolor sit amet consectetur. Convallis vulputate a ut pretium augue sagittis parturient. Erat tortor ut risus neque pellentesque. \n #artist #traveller',
                                     hintText: 'Enter post description',
                                     labelStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                                       color: AppColors.colorBlack,
@@ -413,7 +368,7 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                   ),
                 ),
 
-                _currentPage == 2
+                currentPage == 1
                     ? Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -422,12 +377,15 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                       AppButton(
                         width: MediaQuery.of(context).size.width * 0.73,
                         text: "Post",
-                        onPressed: _onContinuePressed,
+                        onPressed: (){
+                          createPostNotifier.onContinuePressed(context);
+                        },
                       ),
                       AppButton(
                         color: AppColors.colorPrimaryAlpha,
                         width: MediaQuery.of(context).size.width * 0.13,
                         onPressed: (){
+                          createPostNotifier.resetPage();
                           Navigator.pop(context);
                         },
                         child: Image.asset(Assets.cancel, color: AppColors.colorBackground, scale: 2,),
@@ -439,7 +397,7 @@ class _OpenGalleryPageState extends ConsumerState<OpenGalleryPage> {
                   padding: const EdgeInsets.all(16.0),
                   child: AppButton(
                     text: "Continue",
-                    onPressed: _onContinuePressed,
+                    onPressed: () => createPostNotifier.onContinuePressed(context),
                   ),
                 ),
               ],

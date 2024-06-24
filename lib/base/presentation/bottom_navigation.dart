@@ -6,7 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 
 // import '../../../core/utils/app_constants.dart';
-import '../../photo/presentation/photo_click_page.dart';
+import '../../create_post/presentation/photo_click_page.dart';
 import '../shared/providers.dart';
 
 class BottomNavigation extends ConsumerWidget {

@@ -3,8 +3,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_the_table/photo/presentation/open_gallery_screen.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../core/constants/assets.dart';
 import '../../core/routes/app_router.dart';
 
