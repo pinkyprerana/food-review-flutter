@@ -25,9 +25,10 @@ class LandingGetStartedDescription extends StatelessWidget {
     return Container(
       height: isScreenSmall ? 0.58.sh : 0.65.sh,
       padding:
-          EdgeInsets.only(left: 10, right: 10, bottom: isScreenSmall ? 20 : 40)
+          const EdgeInsets.only(left: 10, right: 10, bottom:10)
               .r,
       child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +38,7 @@ class LandingGetStartedDescription extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 LoginDescription(isScreenSmall: isScreenSmall),
-                isScreenSmall ? 16.verticalSpace : 44.verticalSpace,
+                isScreenSmall ? 16.verticalSpace : 30.verticalSpace,
                 AppButton(
                   text: 'Login With Email',
                   onPressed: () =>
@@ -45,7 +46,7 @@ class LandingGetStartedDescription extends StatelessWidget {
                 ),
               ],
             ),
-            20.verticalSpace,
+            isScreenSmall ? 10.verticalSpace : 20.verticalSpace,
             GestureDetector(
               onTap: () => AutoRouter.of(context).push(const RegisterRoute()),
               child: Text(
@@ -56,7 +57,7 @@ class LandingGetStartedDescription extends StatelessWidget {
                 ),
               ),
             ),
-            30.verticalSpace,
+            isScreenSmall ? 20.verticalSpace : 30.verticalSpace,
             Column(
               // mainAxisSize: MainAxisSize.min,
               // crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +85,7 @@ class LandingGetStartedDescription extends StatelessWidget {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: TextStyle(
-                      height: 1,
+                      height:  isScreenSmall ? 1 :1.2,
                       fontSize: 12.sp,
                     ),
                     children: [

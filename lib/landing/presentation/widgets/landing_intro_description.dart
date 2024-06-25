@@ -17,11 +17,11 @@ class LandingIntroDescription extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final isScreenSmall = size.height < 750;
     return Container(
-      height: 0.5.sh,
-      padding: const EdgeInsets.only(left: 6, right: 6, bottom: 20).r,
+      height: isScreenSmall? 0.5.sh : 0.45.sh,
+      padding: const EdgeInsets.only(left: 6, right: 6, bottom:20).r,
       child: Column(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IntroRatingDescription(isScreenSmall: isScreenSmall),

@@ -65,7 +65,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                 ),
                 Container(
-                  height: isScreenSmall ? null : 0.78.sh,
+                  height: isScreenSmall ? null : 0.9.sh,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -74,13 +74,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     ),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: ListView(
-                    //crossAxisAlignment: CrossAxisAlignment.stretch,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          isScreenSmall ? 10.verticalSpace : 20.verticalSpace,
                           CustomRichText(
                             firstText: 'Register',
                             secondText: 'Now',
@@ -107,7 +108,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                         ],
                       ),
-                      isScreenSmall ? 20.verticalSpace : const Spacer(),
+                      isScreenSmall ? 20.verticalSpace : 40.verticalSpace,
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
