@@ -9,8 +9,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
   final Dio _dio;
   final HiveDatabase _hiveDatabase;
 
-  // void setFollowIndex(int index) {
-  //   state = state.copyWith(followIndex: index);
-  //   print(state.followIndex);
-  // }
+   setFollowingState(bool following) {
+     state = state.copyWith(isFollowing: !state.isFollowing);
+  }
 }

@@ -26,11 +26,18 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
 }
 
 class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
-  bool isFollowing = false;
+  void updateFollowState() {
+    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    followNotifier.setFollowingState(!followNotifier.state.isFollowing);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final followNotifier = ref.watch(FollowNotifierProvider.notifier);
+    final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
+    void _handleFollowButtonPressed() {
+      final followNotifier = ref.read(FollowNotifierProvider.notifier);
+      followNotifier.setFollowingState(!isFollowing);
+    }
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -126,11 +133,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       textColor: isFollowing
                                           ? AppColors.colorBlack
                                           : AppColors.colorBackground,
-                                      onPressed: () {
-                                        setState(() {
-                                          isFollowing = !isFollowing;
-                                        });
-                                      }),
+                                        onPressed: _handleFollowButtonPressed,
+                                  ),
                                   SmallProfileContainer(
                                       widget: Center(
                                         child: Image.asset(Assets.share),

@@ -13,7 +13,7 @@ import 'package:for_the_table/list/presentation/list_page.dart';
 import 'package:for_the_table/post_feed/presentation/post_feed_page.dart';
 import 'package:for_the_table/profile/presentation/profile_page.dart';
 
-import '../../photo/presentation/photo_click_page.dart';
+import '../../create_post/presentation/photo_click_page.dart';
 import '../shared/providers.dart';
 
 @RoutePage()

@@ -58,7 +58,7 @@ class FollowOptionWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
               color: AppColors.colorNavy,
             ),
             child: Center(

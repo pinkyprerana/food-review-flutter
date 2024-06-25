@@ -3,8 +3,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/profile/presentation/widgets/custom_widgets.dart';
+
 import 'package:for_the_table/widgets/custom_search_field.dart';
+import 'package:for_the_table/your_lists/presentation/widgets/custom_widgets.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
