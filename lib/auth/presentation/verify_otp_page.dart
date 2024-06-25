@@ -77,7 +77,32 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
     );
 
     return Scaffold(
-      backgroundColor: AppColors.colorBlack2,
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        // leadingWidth: 60,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            alignment: Alignment.center,
+            margin:
+                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => dismissKeyboard(context),
         child: SingleChildScrollView(
@@ -93,14 +118,14 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    0.07.sh.verticalSpace,
+                    // 0.07.sh.verticalSpace,
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CustomRichText(
-                          firstText: 'Enter Your',
-                          secondText: 'OTP',
+                          firstText: 'Forgot Your',
+                          secondText: 'Password?',
                           firstTextStyle:
                               AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimary,
@@ -114,7 +139,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                         ),
                         10.verticalSpace,
                         Text(
-                          'Enter the OTP sent to your registered email',
+                          'Enter OTP sent to your registered email address',
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             color: AppColors.colorPrimaryAlpha,
                             fontSize: 12.sp,
@@ -125,6 +150,17 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                         Directionality(
                           textDirection: TextDirection.ltr,
                           child: Pinput(
+                            preFilledWidget: Center(
+                              child: Text(
+                                '_',
+                                style:
+                                    AppTextStyles.textStyleLatoLight.copyWith(
+                                  color: AppColors.colorPrimaryAlpha
+                                      .withOpacity(0.70),
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                            ),
                             controller: stateNotifier.fpOtpTextController,
                             focusNode: focusNode,
                             defaultPinTheme: defaultPinTheme,
@@ -146,14 +182,16 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                           text: 'Submit',
                           onPressed: () {
                             dismissKeyboard(context);
-                            if (stateNotifier
-                                .fpOtpTextController.text.isEmpty) {
-                              showToastMessage('Please enter valid OTP');
-                            } else {
-                              // TODO: Handle OTP verification logic here
-                              AutoRouter.of(context)
-                                  .push(const ResetPasswordRoute());
-                            }
+                            AutoRouter.of(context)
+                                .push(const ResetPasswordRoute());
+                            // if (stateNotifier
+                            //     .fpOtpTextController.text.isEmpty) {
+                            //   showToastMessage('Please enter valid OTP');
+                            // } else {
+                            //   // TODO: Handle OTP verification logic here
+                            //   AutoRouter.of(context)
+                            //       .push(const ResetPasswordRoute());
+                            // }
                           },
                         ),
                         10.verticalSpace,

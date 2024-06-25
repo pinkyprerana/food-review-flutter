@@ -29,7 +29,33 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     final stateNotifier = ref.read(authNotifierProvider.notifier);
     final state = ref.read(authNotifierProvider);
     return Scaffold(
-      backgroundColor: AppColors.colorBlack2,
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        // leadingWidth: 60,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            alignment: Alignment.center,
+            margin:
+                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
+              ],
+            ),
+          ),
+        ),
+      ),
+      // backgroundColor: AppColors.colorBlack2,
       body: GestureDetector(
         onTap: () => dismissKeyboard(context),
         child: SingleChildScrollView(
@@ -45,14 +71,14 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    0.07.sh.verticalSpace,
+                    // 0.07.sh.verticalSpace,
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         CustomRichText(
                           firstText: 'Forgot Your',
-                          secondText: 'Password',
+                          secondText: 'Password?',
                           firstTextStyle:
                               AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimary,
@@ -66,7 +92,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         ),
                         10.verticalSpace,
                         Text(
-                          'Enter your email address to reset password',
+                          'Enter your email address to receive reset link',
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             color: AppColors.colorPrimaryAlpha,
                             fontSize: 12.sp,
@@ -87,14 +113,15 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                           text: 'Submit',
                           onPressed: () {
                             dismissKeyboard(context);
-                            if (!Validator.validateEmail(
-                                stateNotifier.fpEmailTextController.text)) {
-                              showToastMessage('Please enter valid email');
-                            } else {
-                              // TODO: Handle forgot password logic here
-                              AutoRouter.of(context)
-                                  .push(const VerifyOtpRoute());
-                            }
+                            AutoRouter.of(context).push(const VerifyOtpRoute());
+                            // if (!Validator.validateEmail(
+                            //     stateNotifier.fpEmailTextController.text)) {
+                            //   showToastMessage('Please enter valid email');
+                            // } else {
+                            //   // TODO: Handle forgot password logic here
+                            //   AutoRouter.of(context)
+                            //       .push(const VerifyOtpRoute());
+                            // }
                           },
                         ),
                       ],

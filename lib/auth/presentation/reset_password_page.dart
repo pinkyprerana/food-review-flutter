@@ -28,7 +28,32 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
     final stateNotifier = ref.read(authNotifierProvider.notifier);
     final state = ref.read(authNotifierProvider);
     return Scaffold(
-      backgroundColor: AppColors.colorBlack2,
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        // leadingWidth: 60,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            alignment: Alignment.center,
+            margin:
+                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => dismissKeyboard(context),
         child: SingleChildScrollView(
@@ -44,7 +69,6 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    0.07.sh.verticalSpace,
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +120,7 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                         ),
                         10.verticalSpace,
                         AppButton(
-                          text: 'Submit',
+                          text: 'Reset Password',
                           onPressed: () {
                             dismissKeyboard(context);
                             stateNotifier.resetPassword(

@@ -95,7 +95,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     alignment: Alignment.center,
@@ -105,7 +105,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       borderRadius: BorderRadius.circular(10),
                       color: AppColors.colorWhite.withOpacity(0.10),
                     ),
-                    child: Padding(
+                    child: const Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Icon(
                         Icons.arrow_back_ios,
@@ -114,6 +114,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       ),
                     ),
                   ),
+                  10.horizontalSpace,
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
@@ -128,6 +129,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
                   ),
+                  5.horizontalSpace,
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 10)

@@ -28,9 +28,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CommentsRoute.name: (routeData) {
+      final args = routeData.argsAs<CommentsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const CommentsPage(),
+        child: CommentsPage(
+          key: args.key,
+          amount: args.amount,
+        ),
       );
     },
     CreatePostRoute.name: (routeData) {
@@ -250,16 +254,40 @@ class BaseRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [CommentsPage]
-class CommentsRoute extends PageRouteInfo<void> {
-  const CommentsRoute({List<PageRouteInfo>? children})
-      : super(
+class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
+  CommentsRoute({
+    Key? key,
+    required String amount,
+    List<PageRouteInfo>? children,
+  }) : super(
           CommentsRoute.name,
+          args: CommentsRouteArgs(
+            key: key,
+            amount: amount,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'CommentsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<CommentsRouteArgs> page =
+      PageInfo<CommentsRouteArgs>(name);
+}
+
+class CommentsRouteArgs {
+  const CommentsRouteArgs({
+    this.key,
+    required this.amount,
+  });
+
+  final Key? key;
+
+  final String amount;
+
+  @override
+  String toString() {
+    return 'CommentsRouteArgs{key: $key, amount: $amount}';
+  }
 }
 
 /// generated route for

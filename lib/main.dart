@@ -62,6 +62,12 @@ class MainApp extends ConsumerWidget {
       builder: (context, child) {
         return MaterialApp.router(
           theme: ThemeData(
+            // inputDecorationTheme: InputDecorationTheme(
+            //   contentPadding: EdgeInsets.symmetric(
+            //     vertical: 10,
+            //     horizontal: 20,
+            //   ),
+            // ),
             pageTransitionsTheme: const PageTransitionsTheme(builders: {
               TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

@@ -34,13 +34,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
   bool isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60.r,
-      width: widget.width ?? double.infinity,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 16).r,
-      decoration: BoxDecoration(
-          color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
       child: TextFormField(
         //expands: (widget.expands != null) ? widget.expands! : false,
         //maxLines: (widget.maxLines != null) ? widget.maxLines : null,
@@ -48,7 +43,11 @@ class _CustomInputFieldState extends State<CustomInputField> {
         focusNode: widget.focusNode,
         maxLength: widget.maxLength,
         decoration: InputDecoration(
-          counterText: '',
+          filled: true,
+          fillColor: AppColors.colorGrey,
+          alignLabelWithHint: true,
+          // contentPadding: EdgeInsets.symmetric(vertical: 15),
+          // counterText: '',
           labelText: (widget.label != null) ? widget.label : null,
           labelStyle: AppTextStyles.textStylePoppinsLight.copyWith(
             color: AppColors.colorPrimaryAlpha,
@@ -62,18 +61,19 @@ class _CustomInputFieldState extends State<CustomInputField> {
           floatingLabelBehavior: (widget.label != null)
               ? FloatingLabelBehavior.always
               : FloatingLabelBehavior.never,
-          suffix: widget.isPassword
+          suffixIcon: widget.isPassword
               ? GestureDetector(
                   onTap: () => setState(() {
                     isPasswordVisible = !isPasswordVisible;
+                    print("IVP: $isPasswordVisible");
                   }),
                   child: isPasswordVisible
                       ? const Icon(
-                          Icons.visibility_outlined,
+                          Icons.visibility_off_outlined,
                           color: AppColors.colorPrimaryAlpha,
                         )
                       : const Icon(
-                          Icons.visibility_off_outlined,
+                          Icons.visibility_outlined,
                           color: AppColors.colorPrimaryAlpha,
                         ),
                 )
@@ -85,6 +85,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
         ),
         keyboardType: widget.keyboardType,
         obscureText: widget.isPassword && !isPasswordVisible,
+        obscuringCharacter: '*',
         style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
         onFieldSubmitted: widget.onFieldSubmitted,
       ),

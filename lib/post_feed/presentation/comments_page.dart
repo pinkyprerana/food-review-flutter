@@ -10,7 +10,8 @@ import 'package:for_the_table/widgets/app_button.dart';
 
 @RoutePage()
 class CommentsPage extends StatelessWidget {
-  const CommentsPage({super.key});
+  const CommentsPage({super.key, required this.amount});
+  final String amount;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,9 @@ class CommentsPage extends StatelessWidget {
                     ],
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      20.verticalSpace,
                       Image.asset(Assets.like),
                       15.verticalSpace,
                       const CommentsIcon(),
@@ -176,8 +179,8 @@ class CommentsPage extends StatelessWidget {
                   ),
                   8.horizontalSpace,
                   Text(
-                    '\$100 For 2',
-                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    '\$$amount For 2',
+                    style: AppTextStyles.textStyleUbuntuRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,
                     ),

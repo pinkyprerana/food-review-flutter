@@ -67,4 +67,20 @@ class AppTextStyles {
       GoogleFonts.lexendZetta(fontWeight: FontWeight.w800);
   static TextStyle textStyleLexendExtraBold =
       GoogleFonts.lexendZetta(fontWeight: FontWeight.w900);
+
+  static TextStyle textStyleUbuntu = GoogleFonts.ubuntu();
+  static TextStyle textStyleUbuntuLight =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w300);
+  static TextStyle textStyleUbuntuRegular =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w400);
+  static TextStyle textStyleUbuntuMedium =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w500);
+  static TextStyle textStyleUbuntuSemiBold =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w600);
+  static TextStyle textStyleUbuntuBold =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w700);
+  static TextStyle textStyleUbuntuSemiExtraBold =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w800);
+  static TextStyle textStyleUbuntuExtraBold =
+      GoogleFonts.ubuntu(fontWeight: FontWeight.w900);
 }

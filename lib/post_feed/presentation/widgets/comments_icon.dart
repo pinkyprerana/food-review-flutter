@@ -12,7 +12,7 @@ class CommentsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AutoRouter.of(context).push(const CommentsRoute()),
+      onTap: () => AutoRouter.of(context).push(CommentsRoute(amount: '100')),
       child: Column(
         children: [
           Image.asset(Assets.comments),

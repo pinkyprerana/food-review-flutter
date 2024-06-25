@@ -76,7 +76,8 @@ class PostWidget extends StatelessWidget {
                           ),
                           8.horizontalSpace,
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
                               color: AppColors.colorWhite.withOpacity(0.20),
@@ -184,13 +185,13 @@ class PostWidget extends StatelessWidget {
                         ],
                       ),
 
-                      15.verticalSpace,
+                      10.verticalSpace,
                       Text(
                         'A memorable evening to be remembered.',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 13.sp,
+                          fontSize: 12.sp,
                           color: AppColors.colorWhite,
                         ),
                       )
