@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CreatePostState {
-  int get currentPage => throw _privateConstructorUsedError;
-  List<AssetEntity> get selectedAssets => throw _privateConstructorUsedError;
+  int get currentPage =>
+      throw _privateConstructorUsedError; // @Default([]) List<AssetEntity> selectedAssets,
   XFile? get imageFile => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,8 +31,7 @@ abstract class $CreatePostStateCopyWith<$Res> {
           CreatePostState value, $Res Function(CreatePostState) then) =
       _$CreatePostStateCopyWithImpl<$Res, CreatePostState>;
   @useResult
-  $Res call(
-      {int currentPage, List<AssetEntity> selectedAssets, XFile? imageFile});
+  $Res call({int currentPage, XFile? imageFile});
 }
 
 /// @nodoc
@@ -49,7 +48,6 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
   @override
   $Res call({
     Object? currentPage = null,
-    Object? selectedAssets = null,
     Object? imageFile = freezed,
   }) {
     return _then(_value.copyWith(
@@ -57,10 +55,6 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
               as int,
-      selectedAssets: null == selectedAssets
-          ? _value.selectedAssets
-          : selectedAssets // ignore: cast_nullable_to_non_nullable
-              as List<AssetEntity>,
       imageFile: freezed == imageFile
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
@@ -77,8 +71,7 @@ abstract class _$$CreatePostStateImplCopyWith<$Res>
       __$$CreatePostStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int currentPage, List<AssetEntity> selectedAssets, XFile? imageFile});
+  $Res call({int currentPage, XFile? imageFile});
 }
 
 /// @nodoc
@@ -93,7 +86,6 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentPage = null,
-    Object? selectedAssets = null,
     Object? imageFile = freezed,
   }) {
     return _then(_$CreatePostStateImpl(
@@ -101,10 +93,6 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
               as int,
-      selectedAssets: null == selectedAssets
-          ? _value._selectedAssets
-          : selectedAssets // ignore: cast_nullable_to_non_nullable
-              as List<AssetEntity>,
       imageFile: freezed == imageFile
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
@@ -116,30 +104,18 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreatePostStateImpl implements _CreatePostState {
-  const _$CreatePostStateImpl(
-      {this.currentPage = 0,
-      final List<AssetEntity> selectedAssets = const [],
-      this.imageFile})
-      : _selectedAssets = selectedAssets;
+  const _$CreatePostStateImpl({this.currentPage = 0, this.imageFile});
 
   @override
   @JsonKey()
   final int currentPage;
-  final List<AssetEntity> _selectedAssets;
-  @override
-  @JsonKey()
-  List<AssetEntity> get selectedAssets {
-    if (_selectedAssets is EqualUnmodifiableListView) return _selectedAssets;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedAssets);
-  }
-
+// @Default([]) List<AssetEntity> selectedAssets,
   @override
   final XFile? imageFile;
 
   @override
   String toString() {
-    return 'CreatePostState(currentPage: $currentPage, selectedAssets: $selectedAssets, imageFile: $imageFile)';
+    return 'CreatePostState(currentPage: $currentPage, imageFile: $imageFile)';
   }
 
   @override
@@ -149,15 +125,12 @@ class _$CreatePostStateImpl implements _CreatePostState {
             other is _$CreatePostStateImpl &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedAssets, _selectedAssets) &&
             (identical(other.imageFile, imageFile) ||
                 other.imageFile == imageFile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentPage,
-      const DeepCollectionEquality().hash(_selectedAssets), imageFile);
+  int get hashCode => Object.hash(runtimeType, currentPage, imageFile);
 
   @JsonKey(ignore: true)
   @override
@@ -169,15 +142,11 @@ class _$CreatePostStateImpl implements _CreatePostState {
 
 abstract class _CreatePostState implements CreatePostState {
   const factory _CreatePostState(
-      {final int currentPage,
-      final List<AssetEntity> selectedAssets,
-      final XFile? imageFile}) = _$CreatePostStateImpl;
+      {final int currentPage, final XFile? imageFile}) = _$CreatePostStateImpl;
 
   @override
   int get currentPage;
-  @override
-  List<AssetEntity> get selectedAssets;
-  @override
+  @override // @Default([]) List<AssetEntity> selectedAssets,
   XFile? get imageFile;
   @override
   @JsonKey(ignore: true)

@@ -8,6 +8,8 @@
     <string>The reason for this is to access photos in library</string>
 	<key>NSCameraUsageDescription</key>
     <string>The reason for this is to access camera in the device</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>The reason for this is to allow access to record video</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>The reason for this is to access location</string>
 	<key>CFBundleDisplayName</key>
