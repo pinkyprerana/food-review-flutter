@@ -95,8 +95,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        stateNotifier.setBottomNavIndexTo1();
                         stateNotifierOfListScreen.setListIndex(0);
-                        AutoRouter.of(context).push(const ListRoute());
                       },
                       child: Text(
                         'View All',
@@ -137,8 +137,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        stateNotifier.setBottomNavIndexTo1();
                         stateNotifierOfListScreen.setListIndex(1);
-                        AutoRouter.of(context).push(const ListRoute());
                       },
                       child: Text(
                         'View All',
