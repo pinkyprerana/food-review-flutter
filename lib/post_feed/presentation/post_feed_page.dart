@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/base/shared/providers.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
@@ -66,6 +67,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final stateNotifierForBase = ref.watch(baseNotifierProvider.notifier);
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -97,20 +99,25 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: 30.w,
-                    height: 30.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.colorWhite.withOpacity(0.10),
-                    ),
-                    child: const Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 15,
-                        color: AppColors.colorWhite,
+                  GestureDetector(
+                    onTap: () {
+                      stateNotifierForBase.resetBottomNavIndex(); // Added this
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 30.w,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.colorWhite.withOpacity(0.10),
+                      ),
+                      child: const Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 15,
+                          color: AppColors.colorWhite,
+                        ),
                       ),
                     ),
                   ),
