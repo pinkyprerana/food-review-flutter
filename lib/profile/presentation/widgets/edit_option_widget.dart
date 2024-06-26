@@ -248,7 +248,7 @@ void getModal(String title, BuildContext context) {
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
-                    20.verticalSpace,
+                    25.verticalSpace,
                     const CustomInputField(
                       label: 'Old Password',
                       hint: 'Enter old password',
@@ -268,7 +268,7 @@ void getModal(String title, BuildContext context) {
                     ),
                     10.verticalSpace,
                     const AppButton(
-                      text: 'Submit',
+                      text: 'Reset Password',
                     )
                   ],
                 ),

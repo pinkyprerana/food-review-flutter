@@ -101,7 +101,6 @@ class _StandingsPageState extends State<StandingsPage> {
         physics: const ClampingScrollPhysics(),
         child: Container(
           color: AppColors.colorWhite,
-          margin: const EdgeInsets.only(top: 20).r,
           padding: const EdgeInsets.symmetric(horizontal: 16).r,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -135,7 +134,7 @@ class _StandingsPageState extends State<StandingsPage> {
                             ),
                           ),
                           Text(
-                            '10 Users',
+                            '10 Standings',
                             style:
                                 AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
@@ -232,7 +231,7 @@ class _StandingsPageState extends State<StandingsPage> {
                                       4.verticalSpace,
                                       Container(
                                         padding: EdgeInsets.symmetric(
-                                                horizontal: 5, vertical: 5)
+                                                horizontal: 7, vertical: 3)
                                             .r,
                                         decoration: BoxDecoration(
                                             borderRadius:

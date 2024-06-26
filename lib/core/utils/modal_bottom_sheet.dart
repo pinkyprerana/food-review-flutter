@@ -34,7 +34,7 @@ Future<void> commonModal(
                   ),
                   Positioned(
                       right: -1,
-                      top: -2,
+                      top: 2,
                       child: Container(
                         margin: EdgeInsets.only(right: 15, top: 10).r,
                         width: 30.w,

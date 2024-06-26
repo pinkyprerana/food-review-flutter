@@ -50,7 +50,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           child: Container(
             alignment: Alignment.center,
             margin:
-            const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -299,9 +299,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 height: 60.r,
                                 width: double.infinity,
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16)
+                                        .r,
                                 decoration: BoxDecoration(
-                                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+                                    color: AppColors.colorGrey,
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
                                   // controller:,
                                   // focusNode: ,
@@ -309,7 +312,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                   decoration: InputDecoration(
                                     counterText: '',
                                     hintText: 'Select Restaurant',
-                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    hintStyle: AppTextStyles
+                                        .textStylePoppinsRegular
+                                        .copyWith(
                                       color: AppColors.colorPrimaryAlpha,
                                     ),
                                     border: InputBorder.none,
@@ -319,7 +324,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                     // ),
                                   ),
                                   keyboardType: TextInputType.text,
-                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
+                                  style: AppTextStyles.textStylePoppinsRegular
+                                      .copyWith(fontSize: 13.sp),
                                 ),
                               ),
                               10.verticalSpace,
@@ -327,9 +333,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 height: 60.r,
                                 width: double.infinity,
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16)
+                                        .r,
                                 decoration: BoxDecoration(
-                                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+                                    color: AppColors.colorGrey,
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
                                   // controller:,
                                   // focusNode: ,
@@ -337,7 +346,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                   decoration: InputDecoration(
                                     counterText: '',
                                     hintText: 'Location',
-                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    hintStyle: AppTextStyles
+                                        .textStylePoppinsRegular
+                                        .copyWith(
                                       color: AppColors.colorPrimaryAlpha,
                                     ),
                                     border: InputBorder.none,
@@ -347,7 +358,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                     // ),
                                   ),
                                   keyboardType: TextInputType.text,
-                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
+                                  style: AppTextStyles.textStylePoppinsRegular
+                                      .copyWith(fontSize: 13.sp),
                                 ),
                               ),
                               15.verticalSpace,
@@ -367,14 +379,16 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 decoration: BoxDecoration(
                                     color: AppColors.colorGrey,
                                     borderRadius: BorderRadius.circular(10)),
-                                padding: const EdgeInsets.all( 16).r,
+                                padding: const EdgeInsets.all(16).r,
                                 height: 56.r,
                                 child: DropdownButtonFormField<String>(
                                   dropdownColor: AppColors.colorGrey,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     hintText: "Select Cuisine",
-                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    hintStyle: AppTextStyles
+                                        .textStylePoppinsRegular
+                                        .copyWith(
                                       color: AppColors.colorPrimaryAlpha,
                                     ),
                                     focusedBorder: InputBorder.none,
