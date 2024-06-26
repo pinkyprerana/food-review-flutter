@@ -107,23 +107,26 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom: 30,
             left: 0,
             right: 0,
-            child: Center(
-              child: FloatingActionButton(
-                backgroundColor: const Color(0xFFDE4349),
-                shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 3, color: Colors.white),
-                    borderRadius: BorderRadius.circular(100)),
-                onPressed: () async {
-                  final image = await _controller!.takePicture();
-                  setState(() {
-                    imageFile = image;
-                  });
-                  AutoRouter.of(context)
-                      .push(CreatePostRoute(imageFile: imageFile));
-                },
+            child: SizedBox(
+              height: 80,
+              child: FittedBox(
+                child: FloatingActionButton(
+                  backgroundColor: const Color(0xFFDE4349),
+                  shape: RoundedRectangleBorder(
+                      side: const BorderSide(width: 4, color: Colors.white),
+                      borderRadius: BorderRadius.circular(100)),
+                  onPressed: () async {
+                    final image = await _controller!.takePicture();
+                    setState(() {
+                      imageFile = image;
+                    });
+                    AutoRouter.of(context)
+                        .push(CreatePostRoute(imageFile: imageFile));
+                  },
+                ),
               ),
             ),
           ),

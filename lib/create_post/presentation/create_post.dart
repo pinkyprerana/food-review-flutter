@@ -34,62 +34,74 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              20.verticalSpace,
-              Row(
-                children: [
-                  IconButton(
-                    icon: Image.asset(
-                      Assets.backArrowButton,
-                      scale: 1.5,
-                    ),
-                    onPressed: () {
-                      createPostNotifier.resetPage();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  5.horizontalSpace,
-                  Text(
-                    'Create Post',
-                    style: AppTextStyles.textStylePoppinsSemiBold
-                        .copyWith(fontSize: 15.sp, color: AppColors.colorBlack),
-                  ),
-                ],
-              ),
-              5.verticalSpace,
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                height: MediaQuery.of(context).size.height * 0.4,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: widget.imageFile == null
-                        ? const Text('No image selected.')
-                        : Image.file(
-                            File(widget.imageFile!.path),
-                            fit: BoxFit.fill,
-                            height: double.infinity,
-                            width: double.infinity,
-                          ),
-                  ),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            if (currentPage == 0) {
+              Navigator.pop(context);
+            } else {
+              createPostNotifier.pageController.jumpToPage(0);
+            }
+            createPostNotifier.resetPage();
+          },
+          child: Container(
+            alignment: Alignment.center,
+            margin:
+            const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
+              ],
+            ),
+          ),
+        ),
+        title: Text(
+          'Create Post',
+          style: AppTextStyles.textStylePoppinsBold.copyWith(
+            color: AppColors.colorPrimary,
+            fontSize: 16.sp,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          children: [
+            10.verticalSpace,
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: widget.imageFile == null
+                      ? const Text('No image selected.')
+                      : Image.file(
+                          File(widget.imageFile!.path),
+                          fit: BoxFit.fill,
+                          height: double.infinity,
+                          width: double.infinity,
+                        ),
                 ),
               ),
-            ],
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Column(
+            ),
+            Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.37,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -179,7 +191,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
                       /// Create post description
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -233,9 +245,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
                       /// Select restaurant
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -271,7 +283,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                         color: AppColors.colorBlack2,
                                         letterSpacing: 0),
                               ),
-                              10.verticalSpace,
+                              20.verticalSpace,
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
@@ -283,16 +295,62 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 ),
                               ),
                               10.verticalSpace,
-                              const CustomInputField(
-                                hint: 'Select Restaurant',
-                                label: '',
+                              Container(
+                                height: 60.r,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                                decoration: BoxDecoration(
+                                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+                                child: TextFormField(
+                                  // controller:,
+                                  // focusNode: ,
+                                  // maxLength: ,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    hintText: 'Select Restaurant',
+                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      color: AppColors.colorPrimaryAlpha,
+                                    ),
+                                    border: InputBorder.none,
+                                    // focusedBorder: OutlineInputBorder(
+                                    //   borderRadius: BorderRadius.circular(10),
+                                    //   borderSide: const BorderSide(color: AppColors.colorPrimary),
+                                    // ),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
+                                ),
                               ),
                               10.verticalSpace,
-                              const CustomInputField(
-                                hint: 'Location',
-                                label: '',
+                              Container(
+                                height: 60.r,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                                decoration: BoxDecoration(
+                                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+                                child: TextFormField(
+                                  // controller:,
+                                  // focusNode: ,
+                                  // maxLength: ,
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    hintText: 'Location',
+                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      color: AppColors.colorPrimaryAlpha,
+                                    ),
+                                    border: InputBorder.none,
+                                    // focusedBorder: OutlineInputBorder(
+                                    //   borderRadius: BorderRadius.circular(10),
+                                    //   borderSide: const BorderSide(color: AppColors.colorPrimary),
+                                    // ),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
+                                ),
                               ),
-                              10.verticalSpace,
+                              15.verticalSpace,
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
@@ -305,26 +363,18 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               ),
                               10.verticalSpace,
                               Container(
+                                alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                     color: AppColors.colorGrey,
                                     borderRadius: BorderRadius.circular(10)),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16)
-                                        .r,
-                                height: 55.r,
+                                padding: const EdgeInsets.all( 16).r,
+                                height: 56.r,
                                 child: DropdownButtonFormField<String>(
                                   dropdownColor: AppColors.colorGrey,
                                   decoration: InputDecoration(
+                                    isDense: true,
                                     hintText: "Select Cuisine",
-                                    labelStyle: AppTextStyles
-                                        .textStylePoppinsLight
-                                        .copyWith(
-                                      color: AppColors.colorPrimaryAlpha,
-                                      fontSize: 11.sp,
-                                    ),
-                                    hintStyle: AppTextStyles
-                                        .textStylePoppinsRegular
-                                        .copyWith(
+                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorPrimaryAlpha,
                                     ),
                                     focusedBorder: InputBorder.none,
@@ -364,8 +414,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   TextButton.icon(
                                     onPressed: () {},
@@ -417,6 +466,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                   ),
                                 ],
                               ),
+                              20.verticalSpace
                             ],
                           ),
                         ),
@@ -463,8 +513,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
