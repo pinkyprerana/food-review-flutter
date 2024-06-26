@@ -51,7 +51,7 @@ class _ListPageState extends ConsumerState<ListPage> {
         physics: const ClampingScrollPhysics(),
         child: Container(
           color: AppColors.colorWhite,
-          margin: const EdgeInsets.only(top: 5).r,
+          //margin: const EdgeInsets.only(top: 0).r,
           padding: const EdgeInsets.symmetric(horizontal: 16).r,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -94,7 +94,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                         selectedColor: AppColors.colorBlack2,
                         backgroundColor: AppColors.colorWhite,
                         padding: const EdgeInsets.symmetric(
-                          vertical: 10,
+                          vertical: 8,
                           horizontal: 8,
                         ).r,
                         labelStyle: TextStyle(

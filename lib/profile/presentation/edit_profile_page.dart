@@ -58,7 +58,7 @@ class EditProfilePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16).r,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5).r,
           child: Column(
             children: [
               ListView.builder(

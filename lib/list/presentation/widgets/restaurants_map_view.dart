@@ -117,96 +117,105 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.red,
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10).r,
-      ),
-      height: 0.52.sh,
-      child: Stack(
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          GoogleMap(
-            onMapCreated: (controller) async {
-              mapController = controller;
-              final loc = _getCenter();
-
-              Future<void> fitMarkersToView() async {
-                if (markers.isEmpty) {
-                  return;
-                }
-
-                LatLngBounds bounds = calculateBounds(markers.toList());
-                Size screenSize = MediaQuery.of(context).size;
-                double zoomLevel = calculateZoomLevel(bounds, screenSize);
-
-                await mapController.animateCamera(
-                    CameraUpdate.newCameraPosition(
-                        CameraPosition(target: loc, zoom: zoomLevel - 2)));
-              }
-
-              await fitMarkersToView();
-
-              setState(() {});
-            },
-            initialCameraPosition: const CameraPosition(
-                target: LatLng(40.740776, -73.990004),
-                zoom: 11.3 // Center of New York
-                ),
-            markers: markers,
-            zoomControlsEnabled: false,
-          ),
-          Positioned(
-            bottom: 20.0, // Adjust position as needed
-            right: 10.0, // Adjust position as needed
-            child: Column(
+          Container(
+            // color: Colors.red,
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10).r,
+            ),
+            height: 0.52.sh,
+            child: Stack(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    mapController.animateCamera(CameraUpdate.zoomIn());
+                GoogleMap(
+                  onMapCreated: (controller) async {
+                    mapController = controller;
+                    final loc = _getCenter();
+
+                    Future<void> fitMarkersToView() async {
+                      if (markers.isEmpty) {
+                        return;
+                      }
+
+                      LatLngBounds bounds = calculateBounds(markers.toList());
+                      Size screenSize = MediaQuery.of(context).size;
+                      double zoomLevel = calculateZoomLevel(bounds, screenSize);
+
+                      await mapController.animateCamera(
+                          CameraUpdate.newCameraPosition(CameraPosition(
+                              target: loc, zoom: zoomLevel - 2)));
+                    }
+
+                    await fitMarkersToView();
+
+                    setState(() {});
                   },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 44.r,
-                    width: 44.r,
-                    decoration: BoxDecoration(
-                      color: AppColors.colorWhite,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      '+',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                        color: AppColors.colorPrimary,
-                        fontSize: 14.sp,
+                  initialCameraPosition: const CameraPosition(
+                      target: LatLng(40.740776, -73.990004),
+                      zoom: 11.3 // Center of New York
                       ),
-                    ),
-                  ),
+                  markers: markers,
+                  zoomControlsEnabled: false,
                 ),
-                8.verticalSpace,
-                GestureDetector(
-                  onTap: () {
-                    mapController.animateCamera(CameraUpdate.zoomOut());
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 44.r,
-                    width: 44.r,
-                    decoration: BoxDecoration(
-                      color: AppColors.colorWhite,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      '-',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                        color: AppColors.colorPrimary,
-                        fontSize: 14.sp,
+                Positioned(
+                  bottom: 20.0, // Adjust position as needed
+                  right: 10.0, // Adjust position as needed
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          mapController.animateCamera(CameraUpdate.zoomIn());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 44.r,
+                          width: 44.r,
+                          decoration: BoxDecoration(
+                            color: AppColors.colorWhite,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            '+',
+                            style:
+                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                              color: AppColors.colorPrimary,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      8.verticalSpace,
+                      GestureDetector(
+                        onTap: () {
+                          mapController.animateCamera(CameraUpdate.zoomOut());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 44.r,
+                          width: 44.r,
+                          decoration: BoxDecoration(
+                            color: AppColors.colorWhite,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            '-',
+                            style:
+                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                              color: AppColors.colorPrimary,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
+          100.verticalSpace,
         ],
       ),
     );

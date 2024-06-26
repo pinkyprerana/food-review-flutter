@@ -48,7 +48,7 @@ class NotificationPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16).r,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,
           child: Column(
             children: [
               ListView.builder(
@@ -62,7 +62,7 @@ class NotificationPage extends StatelessWidget {
                         title: 'A. Johnson has liked your post.',
                         subtitle: '1 Hour ago');
                   }),
-              15.verticalSpace,
+              10.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

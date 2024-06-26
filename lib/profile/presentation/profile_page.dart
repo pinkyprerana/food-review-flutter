@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: const ClampingScrollPhysics(),
         child: Container(
           //color: AppColors.colorWhite,
-          margin: const EdgeInsets.only(top: 20).r,
+          margin: const EdgeInsets.only(top: 2).r,
           padding: const EdgeInsets.symmetric(horizontal: 16).r,
           child: Column(
             // mainAxisSize: MainAxisSize.min,
@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           child: Column(
                             children: [
-                              80.verticalSpace,
+                              70.verticalSpace,
                               Text(
                                 'Aspendakidis',
                                 style: AppTextStyles.textStylePoppinsSemiBold
@@ -363,7 +363,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              10.verticalSpace,
+              5.verticalSpace,
               ListView.builder(
                 padding: const EdgeInsets.all(0.0),
                 shrinkWrap: true,

@@ -27,56 +27,150 @@ class EditOptionWidget extends StatelessWidget {
           : null,
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0).r,
-        child: ListTile(
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(color: AppColors.colorGrey, width: 1),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-            ),
-            leading: Container(
-              padding: const EdgeInsets.all(10).r,
-              decoration: BoxDecoration(
-                color: AppColors.colorGrey,
-                border: Border.all(color: AppColors.colorGrey, width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Image(
-                image: AssetImage(imgpath),
-                color: AppColors.colorPrimary,
-              ),
-            ),
-            title: Text(
-              title,
-              style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                fontSize: 13.sp,
-                color: AppColors.colorPrimary,
-              ),
-            ),
-            subtitle: (subtitle != '')
-                ? Text(
-                    subtitle,
-                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      fontSize: 10.sp,
-                      color: AppColors.colorPrimaryAlpha,
-                    ),
-                  )
-                : null,
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
+              border: Border.all(width: 1, color: AppColors.colorGrey)),
+          child: Container(
+            // color: Colors.red,
+            child: Row(
               children: [
-                const VerticalDivider(
-                  color: AppColors.colorGrey,
-                  thickness: 1,
+                Container(
+                  margin: const EdgeInsets.only(left: 10).r,
+                  padding: const EdgeInsets.all(10).r,
+                  decoration: BoxDecoration(
+                    color: AppColors.colorGrey,
+                    border: Border.all(color: AppColors.colorGrey, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Image(
+                    image: AssetImage(imgpath),
+                    color: AppColors.colorPrimary,
+                  ),
                 ),
-                5.horizontalSpace,
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColors.colorArrowIcon,
-                  size: 15.6,
-                  weight: 500,
+                10.horizontalSpace,
+                Expanded(
+                  child: Container(
+                    // color: Colors.amber,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        (subtitle != '')
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    title,
+                                    style: AppTextStyles.textStylePoppinsMedium
+                                        .copyWith(
+                                      fontSize: 13.sp,
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                  ),
+                                  2.verticalSpace,
+                                  Text(
+                                    subtitle,
+                                    style: AppTextStyles.textStylePoppinsRegular
+                                        .copyWith(
+                                      fontSize: 10.sp,
+                                      color: AppColors.colorPrimaryAlpha,
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    title,
+                                    style: AppTextStyles.textStylePoppinsMedium
+                                        .copyWith(
+                                      fontSize: 13.sp,
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                  ),
+                                  2.verticalSpace,
+                                ],
+                              ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 56.w,
+                          height: 52.h,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: AppColors.colorGrey,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.colorArrowIcon,
+                            size: 15.6,
+                            weight: 500,
+                          ),
+                          // color: Colors.blue,
+                        ),
+                      ],
+                    ),
+                  ),
                 )
               ],
-            )),
+            ),
+          ),
+        ),
       ),
+      // child: ListTile(
+      //     shape: RoundedRectangleBorder(
+      //       side: const BorderSide(color: AppColors.colorGrey, width: 1),
+      //       borderRadius: BorderRadius.circular(15),
+      //     ),
+      //     leading: Container(
+      //       padding: const EdgeInsets.all(10).r,
+      //       decoration: BoxDecoration(
+      //         color: AppColors.colorGrey,
+      //         border: Border.all(color: AppColors.colorGrey, width: 1),
+      //         borderRadius: BorderRadius.circular(10),
+      //       ),
+      //       child: Image(
+      //         image: AssetImage(imgpath),
+      //         color: AppColors.colorPrimary,
+      //       ),
+      //     ),
+      //     title: Text(
+      //       title,
+      //       style: AppTextStyles.textStylePoppinsMedium.copyWith(
+      //         fontSize: 13.sp,
+      //         color: AppColors.colorPrimary,
+      //       ),
+      //     ),
+      //     subtitle: (subtitle != '')
+      //         ? Text(
+      //             subtitle,
+      //             style: AppTextStyles.textStylePoppinsRegular.copyWith(
+      //               fontSize: 10.sp,
+      //               color: AppColors.colorPrimaryAlpha,
+      //             ),
+      //           )
+      //         : null,
+      //     trailing: Row(
+      //       mainAxisSize: MainAxisSize.min,
+      //       children: [
+      //         const VerticalDivider(
+      //           color: AppColors.colorGrey,
+      //           thickness: 1,
+      //         ),
+      //         5.horizontalSpace,
+      //         const Icon(
+      //           Icons.arrow_forward_ios,
+      //           color: AppColors.colorArrowIcon,
+      //           size: 15.6,
+      //           weight: 500,
+      //         )
+      //       ],
+      //     )),
     );
   }
 }

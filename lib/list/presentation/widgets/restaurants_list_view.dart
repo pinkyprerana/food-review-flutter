@@ -80,7 +80,7 @@ class RestaurantListView extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.star,
-                                  color: AppColors.colorPrimary, size: 14.r),
+                                  color: AppColors.colorRatingStar, size: 14.r),
                               SizedBox(width: 4.w),
                               Text(
                                 restaurants[index]['rating']!,

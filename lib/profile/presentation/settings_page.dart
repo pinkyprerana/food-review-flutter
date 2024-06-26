@@ -88,14 +88,14 @@ class SettingsPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16).r,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,
           child: Column(
             children: [
               ListView.builder(
                   padding: const EdgeInsets.all(0.0),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: settingOptions.length,
+                  itemCount: settingOptions.length - 2,
                   itemBuilder: (context, index) {
                     return SettingsOptionWidget(
                         title: settingOptions[index]['title'],
@@ -110,6 +110,21 @@ class SettingsPage extends StatelessWidget {
               //     imgpath: settingOptions[6]['icon']),
             ],
           ),
+        ),
+      ),
+      bottomSheet: Container(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 35).r,
+        color: AppColors.colorWhite,
+        child: Wrap(
+          children: [
+            SettingsOptionWidget(
+                title: settingOptions[5]['title'],
+                imgpath: settingOptions[5]['icon']),
+            SettingsOptionWidget(
+                title: settingOptions[6]['title'],
+                imgpath: settingOptions[6]['icon']),
+            10.verticalSpace,
+          ],
         ),
       ),
     );

@@ -26,6 +26,7 @@ class AppColors {
   static const Color colorArrowIcon = Color(0xffDCDCDC);
   static const Color colorCommentPageBg = Color(0xff0A0A0A);
   static const Color colorCommentBoxBorder = Color(0xff2E2E2E);
+  static const Color colorRatingStar = Color(0xffF7CA57);
 
   // Linear Default Gradient
   static const List<Color> colorGreyGradient = [

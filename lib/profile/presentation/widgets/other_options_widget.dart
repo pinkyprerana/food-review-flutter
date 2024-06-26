@@ -1,14 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/constants/assets.dart';
+
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/app_outline_button.dart';
-import 'package:for_the_table/widgets/custom_input_field.dart';
 
 class OtherOptionsWidget extends StatelessWidget {
   const OtherOptionsWidget(
@@ -111,16 +110,22 @@ class OtherOptionsWidget extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                VerticalDivider(
+                const VerticalDivider(
                   color: AppColors.colorGrey,
                   thickness: 1,
                 ),
-                5.horizontalSpace,
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColors.colorArrowIcon,
-                  size: 15.6,
-                  weight: 500,
+                15.horizontalSpace,
+                const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.colorArrowIcon,
+                      size: 15.6,
+                      weight: 500,
+                    ),
+                  ],
                 )
               ],
             )),
