@@ -81,7 +81,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
                   Icons.text_fields_rounded,
                   color: AppColors.colorTransparent,
                 ),
-          prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
+          // prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
         ),
         keyboardType: widget.keyboardType,
         obscureText: widget.isPassword && !isPasswordVisible,

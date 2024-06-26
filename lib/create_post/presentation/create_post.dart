@@ -101,7 +101,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.37,
+                  height: MediaQuery.of(context).size.height * 0.38,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -192,54 +192,57 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       /// Create post description
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            10.verticalSpace,
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Posts',
-                                style: AppTextStyles.textStylePoppinsMedium
-                                    .copyWith(
-                                        fontSize: 14.sp,
-                                        color: AppColors.colorBlack),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            const CustomInputField(
-                              label: 'Post Title',
-                              hint: 'Enter post title',
-                            ),
-                            20.verticalSpace,
-                            TextField(
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                labelText: 'Post Description',
-                                hintText: 'Enter post description',
-                                labelStyle: AppTextStyles.textStylePoppinsMedium
-                                    .copyWith(
-                                  color: AppColors.colorBlack,
-                                  fontSize: 14.sp,
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              10.verticalSpace,
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  'Posts',
+                                  style: AppTextStyles.textStylePoppinsMedium
+                                      .copyWith(
+                                          fontSize: 14.sp,
+                                          color: AppColors.colorBlack),
                                 ),
-                                hintStyle: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
-                                  color: AppColors.colorPrimaryAlpha,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 1, color: AppColors.colorBlack),
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                border: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        width: 0, color: AppColors.colorBlack),
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
                               ),
-                            ),
-                            const Spacer(),
-                          ],
+                              const SizedBox(height: 20),
+                              const CustomInputField(
+                                label: 'Post Title',
+                                hint: 'Enter post title',
+                              ),
+                              20.verticalSpace,
+                              TextField(
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  labelText: 'Post Description',
+                                  hintText: 'Enter post description',
+                                  labelStyle: AppTextStyles.textStylePoppinsMedium
+                                      .copyWith(
+                                    color: AppColors.colorBlack,
+                                    fontSize: 14.sp,
+                                  ),
+                                  hintStyle: AppTextStyles.textStylePoppinsRegular
+                                      .copyWith(
+                                    color: AppColors.colorPrimaryAlpha,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 1, color: AppColors.colorBlack),
+                                      borderRadius: BorderRadius.circular(15.0)),
+                                  border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 0, color: AppColors.colorBlack),
+                                      borderRadius: BorderRadius.circular(15.0)),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
+                                ),
+                              ),
+                              20.verticalSpace
+                            ],
+                          ),
                         ),
                       ),
 
