@@ -117,7 +117,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             keyboardType: TextInputType.text,
                             onFieldSubmitted: (val) => dismissKeyboard(context),
                           ),
-                          15.verticalSpace,
+                          10.verticalSpace,
                           GestureDetector(
                             onTap: () => AutoRouter.of(context)
                                 .push(const ForgotPasswordRoute()),
@@ -133,7 +133,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               ),
                             ),
                           ),
-                          24.verticalSpace,
+                          10.verticalSpace,
                           AppButton(
                             text: 'Login',
                             onPressed: () async {

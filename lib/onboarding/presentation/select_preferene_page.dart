@@ -38,7 +38,6 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
     'Continental',
     'Vegan',
     'Dairy Food',
-    'hello worls',
   ];
 
   @override

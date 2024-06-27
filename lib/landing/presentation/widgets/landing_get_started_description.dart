@@ -24,9 +24,7 @@ class LandingGetStartedDescription extends StatelessWidget {
     final isScreenSmall = size.height < 750;
     return Container(
       height: isScreenSmall ? 0.58.sh : 0.65.sh,
-      padding:
-          const EdgeInsets.only(left: 10, right: 10, bottom:10)
-              .r,
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10).r,
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
@@ -85,7 +83,7 @@ class LandingGetStartedDescription extends StatelessWidget {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: TextStyle(
-                      height:  isScreenSmall ? 1 :1.2,
+                      height: isScreenSmall ? 1 : 1.2,
                       fontSize: 12.sp,
                     ),
                     children: [

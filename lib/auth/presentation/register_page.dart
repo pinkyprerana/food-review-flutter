@@ -65,7 +65,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                 ),
                 Container(
-                  height: isScreenSmall ? null : 0.9.sh,
+                  height: isScreenSmall ? null : 0.8.sh,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -108,7 +108,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                         ],
                       ),
-                      isScreenSmall ? 20.verticalSpace : 40.verticalSpace,
+                      isScreenSmall ? 30.verticalSpace : 60.verticalSpace,
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,7 +166,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 stateNotifier.signupContactNumberTextController,
                             focusNode: contactFN,
                             label: 'Contact Number',
-                            hint: '+1  Enter contact number',
+                            hint: 'Enter contact number',
                             keyboardType: TextInputType.phone,
                             // maxLength: 14,
                             onFieldSubmitted: (p0) =>
@@ -195,7 +195,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             keyboardType: TextInputType.text,
                             onFieldSubmitted: (p0) => dismissKeyboard(context),
                           ),
-                          24.verticalSpace,
+                          10.verticalSpace,
                           AppButton(
                             text: 'Register',
                             onPressed: () async {
@@ -230,7 +230,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ],
                         ],
                       ),
-                      isScreenSmall ? 20.verticalSpace : const Spacer(),
+                      // isScreenSmall ? 20.verticalSpace : const Spacer(),
                       22.verticalSpace,
                       Row(
                         mainAxisSize: MainAxisSize.max,
@@ -258,7 +258,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                         ],
                       ),
-                      20.verticalSpace,
                     ],
                   ),
                 ),
