@@ -3,6 +3,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/styles/app_colors.dart';
 import '../../core/constants/assets.dart';
 import '../../core/routes/app_router.dart';
 
@@ -19,6 +21,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   List<CameraDescription>? cameras;
   XFile? imageFile;
   int selectedCameraIndex = 0;
+  bool isIOS = Platform.isIOS;
 
   @override
   void initState() {
@@ -80,6 +83,30 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     }
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(
+                  top: 10, left: 20, right: 0, bottom: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.colorPrimary.withOpacity(0.20),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  5.horizontalSpace, //this is for centering the icon
+                  Icon(Icons.arrow_back_ios,
+                      color: AppColors.colorWhite, size: 15.h),
+                ],
+              ),
+            ),
+          )),
       body: Stack(
         fit: StackFit.expand,
         children: [

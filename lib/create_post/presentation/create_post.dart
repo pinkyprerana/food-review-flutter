@@ -82,7 +82,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.37,
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: ClipRRect(
@@ -219,23 +219,29 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 decoration: InputDecoration(
                                   labelText: 'Post Description',
                                   hintText: 'Enter post description',
-                                  labelStyle: AppTextStyles.textStylePoppinsMedium
+                                  labelStyle: AppTextStyles
+                                      .textStylePoppinsMedium
                                       .copyWith(
                                     color: AppColors.colorBlack,
                                     fontSize: 14.sp,
                                   ),
-                                  hintStyle: AppTextStyles.textStylePoppinsRegular
+                                  hintStyle: AppTextStyles
+                                      .textStylePoppinsRegular
                                       .copyWith(
                                     color: AppColors.colorPrimaryAlpha,
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                          width: 1, color: AppColors.colorBlack),
-                                      borderRadius: BorderRadius.circular(15.0)),
+                                          width: 1,
+                                          color: AppColors.colorBlack),
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
                                   border: OutlineInputBorder(
                                       borderSide: const BorderSide(
-                                          width: 0, color: AppColors.colorBlack),
-                                      borderRadius: BorderRadius.circular(15.0)),
+                                          width: 0,
+                                          color: AppColors.colorBlack),
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                 ),
