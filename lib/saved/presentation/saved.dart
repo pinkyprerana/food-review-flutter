@@ -20,73 +20,73 @@ class _SavedPageState extends ConsumerState<SavedPage> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: Image.asset(
-                      Assets.backArrowButton,
-                      scale: 1.5,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  5.horizontalSpace,
-                  Text(
-                    'Saved',
-                    style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                      fontSize: 15.sp,
-                      color: AppColors.colorBlack,
-                    ),
-                  ),
-                ],
-              ),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2 / 2,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                ),
-                itemCount: imageUrls.length,
-                itemBuilder: (context, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      margin: const EdgeInsets.all(2),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.asset(
-                            imageUrls[index],
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                              top: 8,
-                              right: 8,
-                              child: Image.asset(
-                                Assets.saved,
-                                scale: 2,
-                              ))
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              )
-            ],
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            alignment: Alignment.center,
+            margin:
+            const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
+              ],
+            ),
           ),
         ),
+        title: Text(
+          'Saved',
+          style: AppTextStyles.textStylePoppinsBold.copyWith(
+            color: AppColors.colorPrimary,
+            fontSize: 16.sp,
+          ),
+        ),
+      ),
+      body: GridView.builder(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(16),
+        physics: const BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 2 / 2,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
+        ),
+        itemCount: imageUrls.length,
+        itemBuilder: (context, index) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              margin: const EdgeInsets.all(2),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    imageUrls[index],
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Image.asset(
+                        Assets.saved,
+                        scale: 2,
+                      ))
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

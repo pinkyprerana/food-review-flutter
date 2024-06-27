@@ -29,32 +29,43 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            alignment: Alignment.center,
+            margin:
+            const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
+              ],
+            ),
+          ),
+        ),
+        title: Text(
+          'Your Follow List',
+          style: AppTextStyles.textStylePoppinsBold.copyWith(
+            color: AppColors.colorPrimary,
+            fontSize: 16.sp,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: Image.asset(
-                    Assets.backArrowButton,
-                    scale: 1.5,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                5.horizontalSpace,
-                Text(
-                  'Your Follow List',
-                  style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                    fontSize: 15.sp,
-                    color: AppColors.colorBlack,
-                  ),
-                ),
-              ],
-            ),
             const CustomSearchField(
               hint: 'Search',
             ),

@@ -159,7 +159,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 stateNotifier.signupContactNumberTextController,
                             focusNode: contactFN,
                             label: 'Contact Number',
-                            hint: 'Enter contact number',
+                            hint: '+1  Enter contact number',
                             keyboardType: TextInputType.phone,
                             maxLength: 14,
                             onFieldSubmitted: (p0) =>
