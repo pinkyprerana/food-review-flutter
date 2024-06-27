@@ -14,7 +14,7 @@ class EditProfilePage extends StatelessWidget {
     {'icon': Assets.call, 'title': 'Phone Number', 'subtitle': '123 456 7890'},
     {'icon': Assets.lock, 'title': 'Change Password', 'subtitle': ''},
     {'icon': Assets.house, 'title': 'Home City', 'subtitle': ''},
-    {'icon': Assets.doc, 'title': 'Profile Description', 'subtitle': ''},
+    {'icon': Assets.doc, 'title': 'Add Bio', 'subtitle': ''},
   ];
 
   @override
