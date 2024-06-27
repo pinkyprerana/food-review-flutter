@@ -15,8 +15,8 @@ class PostFeedItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(postFeedProvider);
-    final stateNotifier = ref.watch(postFeedProvider.notifier);
+    final state = ref.watch(postFeedNotifierProvider);
+    final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(

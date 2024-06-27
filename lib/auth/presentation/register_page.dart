@@ -117,29 +117,36 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CustomInputField(
-                                controller:
-                                    stateNotifier.signupFirstNameTextController,
-                                focusNode: firstNameFN,
-                                label: 'First Name',
-                                hint: 'Enter first name',
-                                width: 0.43.sw,
-                                keyboardType: TextInputType.text,
-                                maxLength: 20,
-                                onFieldSubmitted: (p0) => FocusScope.of(context)
-                                    .requestFocus(lastNameFN),
+                              Expanded(
+                                child: CustomInputField(
+                                  controller: stateNotifier
+                                      .signupFirstNameTextController,
+                                  focusNode: firstNameFN,
+                                  label: 'First Name',
+                                  hint: 'Enter first name',
+                                  width: 0.43.sw,
+                                  keyboardType: TextInputType.text,
+                                  // maxLength: 20,
+                                  onFieldSubmitted: (p0) =>
+                                      FocusScope.of(context)
+                                          .requestFocus(lastNameFN),
+                                ),
                               ),
-                              CustomInputField(
-                                controller:
-                                    stateNotifier.signupLastNameTextController,
-                                focusNode: lastNameFN,
-                                label: 'Last Name',
-                                hint: 'Enter last name',
-                                width: 0.43.sw,
-                                keyboardType: TextInputType.text,
-                                maxLength: 20,
-                                onFieldSubmitted: (p0) => FocusScope.of(context)
-                                    .requestFocus(emailFN),
+                              5.horizontalSpace,
+                              Expanded(
+                                child: CustomInputField(
+                                  controller: stateNotifier
+                                      .signupLastNameTextController,
+                                  focusNode: lastNameFN,
+                                  label: 'Last Name',
+                                  hint: 'Enter last name',
+                                  width: 0.43.sw,
+                                  keyboardType: TextInputType.text,
+                                  // maxLength: 20,
+                                  onFieldSubmitted: (p0) =>
+                                      FocusScope.of(context)
+                                          .requestFocus(emailFN),
+                                ),
                               ),
                             ],
                           ),
@@ -161,7 +168,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             label: 'Contact Number',
                             hint: '+1  Enter contact number',
                             keyboardType: TextInputType.phone,
-                            maxLength: 14,
+                            // maxLength: 14,
                             onFieldSubmitted: (p0) =>
                                 FocusScope.of(context).requestFocus(passwordFN),
                           ),

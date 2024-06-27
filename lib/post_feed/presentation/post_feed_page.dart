@@ -8,6 +8,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/post_feed/presentation/widgets/post_feed_item.dart';
+import 'package:for_the_table/post_feed/shared/provider.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -19,6 +20,7 @@ class PostFeedPage extends ConsumerStatefulWidget {
 }
 
 class _PostFeedPageState extends ConsumerState<PostFeedPage> {
+  List<String> buttonTexts = ['For The Table', 'Following'];
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -68,6 +70,8 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   @override
   Widget build(BuildContext context) {
     final stateNotifierForBase = ref.watch(baseNotifierProvider.notifier);
+    final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final state = ref.watch(postFeedNotifierProvider);
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -97,7 +101,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -121,36 +125,49 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       ),
                     ),
                   ),
-                  10.horizontalSpace,
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
-                            .r,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.colorWhite.withOpacity(0.10),
-                    ),
-                    child: Text(
-                      'For The Table',
-                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorWhite),
-                    ),
+                  SizedBox(
+                    height: 38.h,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: buttonTexts.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              stateNotifier.selectButton(index);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              alignment: Alignment.center,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15).r,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: (state.selectedIndex == index)
+                                    ? AppColors.colorWhite.withOpacity(0.5)
+                                    : AppColors.colorWhite.withOpacity(0.10),
+                              ),
+                              child: Text(
+                                buttonTexts[index],
+                                style: AppTextStyles.textStylePoppinsSemiBold
+                                    .copyWith(
+                                        fontSize: 16.sp,
+                                        color: AppColors.colorWhite),
+                              ),
+                            ),
+                          );
+                        }),
                   ),
-                  5.horizontalSpace,
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10)
-                            .r,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.colorWhite.withOpacity(0.10),
-                    ),
-                    child: Text(
-                      'Following',
-                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorWhite),
-                    ),
-                  )
+                      alignment: Alignment.center,
+                      width: 30.w,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.transparent,
+                      ),
+                      child: const SizedBox.shrink()),
                 ],
               ),
             ),

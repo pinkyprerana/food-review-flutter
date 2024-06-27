@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
+import 'package:for_the_table/profile/presentation/widgets/disliked_post_widget.dart';
 
 @RoutePage()
 class LikedPostsPage extends StatelessWidget {
@@ -59,7 +60,7 @@ class LikedPostsPage extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
-                    return const PostWidget();
+                    return const DislikedPostWidget();
                   }),
               10.verticalSpace,
             ],

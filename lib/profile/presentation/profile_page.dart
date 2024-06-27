@@ -8,6 +8,7 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/profile/presentation/widgets/other_options_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
+import 'package:for_the_table/profile/presentation/widgets/small_profile_contianer2.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 
 @RoutePage()
@@ -131,13 +132,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                   GestureDetector(
                                     onTap: () => AutoRouter.of(context)
                                         .push(const SettingsRoute()),
-                                    child: SmallProfileContainer(
+                                    child: SmallProfileContainer2(
                                         widget: Center(
                                       child: Image.asset(Assets.settings),
                                     )),
                                   ),
                                   // 8.horizontalSpace,
-                                  SmallProfileContainer(
+                                  SmallProfileContainer2(
                                       widget: Center(
                                     child: Image.asset(Assets.share),
                                   )),
@@ -226,7 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '1.2M',
+                                              '10',
                                               style: AppTextStyles
                                                   .textStylePoppinsBold
                                                   .copyWith(
@@ -235,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                             ),
                                             Text(
-                                              'Followers',
+                                              'Saved',
                                               style: AppTextStyles
                                                   .textStylePoppinsRegular
                                                   .copyWith(

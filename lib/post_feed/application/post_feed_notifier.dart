@@ -20,4 +20,9 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isExpanded: !state.isExpanded);
     AppLog.log('state.isExpanded===== ${state.isExpanded}');
   }
+
+  void selectButton(int index) {
+    state = state.copyWith(selectedIndex: index);
+    AppLog.log('selectedIndex ----------- ${state.selectedIndex}');
+  }
 }
