@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
@@ -162,13 +163,22 @@ class _StandingsPageState extends State<StandingsPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0).r,
-                                child: Image.asset(
-                                  users[index]['image']!,
-                                  width: 48.r,
-                                  height: 48.r,
-                                  fit: BoxFit.cover,
+                              GestureDetector(
+                                onTap: () {
+                                  AutoRouter.of(context)
+                                      .push(PeopleProfileRoute(
+                                    peoplename: users[index]['name'],
+                                    peopleimage: users[index]['image']!,
+                                  ));
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0).r,
+                                  child: Image.asset(
+                                    users[index]['image']!,
+                                    width: 48.r,
+                                    height: 48.r,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                               10.horizontalSpace,

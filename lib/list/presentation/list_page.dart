@@ -39,7 +39,7 @@ class _ListPageState extends ConsumerState<ListPage> {
         centerTitle: false,
         leadingWidth: 0,
         title: Text(
-          'Your List',
+          'Your Lists',
           style: AppTextStyles.textStylePoppinsBold.copyWith(
             color: AppColors.colorPrimary,
             fontSize: 16.sp,

@@ -14,11 +14,13 @@ import 'package:for_the_table/landing/presentation/landing_intro_page.dart';
 import 'package:for_the_table/notification/presentation/notification_page.dart';
 import 'package:for_the_table/onboarding/presentation/select_preferene_page.dart';
 import 'package:for_the_table/post_feed/presentation/comments_page.dart';
+import 'package:for_the_table/profile/presentation/add_bio_page.dart';
 import 'package:for_the_table/profile/presentation/app_info_page.dart';
 import 'package:for_the_table/profile/presentation/disliked_posts_page.dart';
 import 'package:for_the_table/profile/presentation/edit_profile_page.dart';
 import 'package:for_the_table/profile/presentation/faqs_page.dart';
 import 'package:for_the_table/profile/presentation/help_page.dart';
+import 'package:for_the_table/profile/presentation/home_city_page.dart';
 import 'package:for_the_table/profile/presentation/liked_posts_page.dart';
 import 'package:for_the_table/profile/presentation/settings_page.dart';
 import 'package:for_the_table/profile/presentation/your_people_page.dart';
@@ -166,6 +168,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: YourPeopleRoute.page,
           path: '/yourPeopleRoute',
+        ),
+        AutoRoute(
+          page: AddBioRoute.page,
+          path: '/addBioRoute',
+        ),
+        AutoRoute(
+          page: HomeCityRoute.page,
+          path: '/homeCityRoute',
         ),
       ];
 }

@@ -219,35 +219,39 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  SmallProfileContainer(
-                                    widget: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '10',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsBold
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.colorPrimary,
+                                  GestureDetector(
+                                    onTap: () => AutoRouter.of(context)
+                                        .push(const SavedRoute()),
+                                    child: SmallProfileContainer(
+                                      widget: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '10',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsBold
+                                                    .copyWith(
+                                                  fontSize: 14.sp,
+                                                  color: AppColors.colorPrimary,
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              'Saved',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                fontSize: 10.sp,
-                                                color: AppColors.colorText3,
+                                              Text(
+                                                'Saved',
+                                                style: AppTextStyles
+                                                    .textStylePoppinsRegular
+                                                    .copyWith(
+                                                  fontSize: 10.sp,
+                                                  color: AppColors.colorText3,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        5.horizontalSpace,
-                                      ],
+                                            ],
+                                          ),
+                                          5.horizontalSpace,
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],

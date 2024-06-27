@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
@@ -20,11 +22,24 @@ class EditOptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (title == 'Email' || title == 'Change Password')
-          ? () {
-              getModal(title, context);
-            }
-          : null,
+      // onTap: (title == 'Email' ||
+      //         title == 'Change Password' ||
+      //         title == 'Phone Number')
+      //     ? () {
+      //         getModal(title, context);
+      //       }
+      //     : null,
+      onTap: () {
+        if (title == 'Email' ||
+            title == 'Change Password' ||
+            title == 'Phone Number') {
+          getModal(title, context);
+        } else if (title == 'Add Bio') {
+          AutoRouter.of(context).push(const AddBioRoute());
+        } else if (title == 'Home City') {
+          AutoRouter.of(context).push(const HomeCityRoute());
+        }
+      },
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0).r,
         child: Container(
@@ -276,6 +291,49 @@ void getModal(String title, BuildContext context) {
             ));
       }
       break;
+    case 'Phone Number':
+      {
+        commonModal(context,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                      text: 'Change',
+                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 16.sp, color: AppColors.colorPrimary),
+                      children: [
+                        TextSpan(
+                          text: ' Phone Number',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 16.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        )
+                      ],
+                    )),
+                    3.verticalSpace,
+                    Text(
+                      'Change your phone number below.',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                    ),
+                    20.verticalSpace,
+                    const CustomInputField(
+                      label: 'Phone Number',
+                      hint: 'Phone Number',
+                      isPassword: false,
+                    ),
+                    10.verticalSpace,
+                    const AppButton(
+                      text: 'Save',
+                    )
+                  ],
+                ),
+              ],
+            ));
+      }
     default:
       {
         null;

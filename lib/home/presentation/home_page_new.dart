@@ -118,9 +118,18 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     itemCount: followOptions.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return FollowOptionWidget(
-                        imgpath: followOptions[index]['image'],
-                        name: followOptions[index]['name'],
+                      return GestureDetector(
+                        onTap: () {
+                          AutoRouter.of(context).push(PeopleProfileRoute(
+                            peoplename: 'Ahmad Gouse',
+                            peopleimage:
+                                'assets/images/temp/follower-sample2.png',
+                          ));
+                        },
+                        child: FollowOptionWidget(
+                          imgpath: followOptions[index]['image'],
+                          name: followOptions[index]['name'],
+                        ),
                       );
                     }),
               ),

@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/post_feed/presentation/widgets/comments_icon.dart';
@@ -51,47 +53,58 @@ class DislikedPostWidget extends StatelessWidget {
                     .r,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 20.w,
-                          height: 20.h,
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  Assets.follow1,
-                                ),
-                                fit: BoxFit.cover,
-                              )),
-                        ),
-                        8.horizontalSpace,
-                        Text(
-                          'Ahmad Gouse',
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              fontSize: 16.sp, color: AppColors.colorWhite),
-                        ),
-                        8.horizontalSpace,
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(70),
-                            color: AppColors.colorWhite.withOpacity(0.20),
+                    GestureDetector(
+                      onTap: () {
+                        AutoRouter.of(context).push(PeopleProfileRoute(
+                          peoplename: 'Ahmad Gouse',
+                          peopleimage:
+                              'assets/images/temp/follower-sample2.png',
+                        ));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 20.w,
+                            height: 20.h,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    Assets.follow1,
+                                  ),
+                                  fit: BoxFit.cover,
+                                )),
                           ),
-                          child: Center(
-                            child: Text(
-                              'Following',
-                              style: AppTextStyles.textStylePoppinsRegular
-                                  .copyWith(
-                                color: AppColors.colorWhite,
-                                fontSize: 10.sp,
+                          8.horizontalSpace,
+                          Text(
+                            'Ahmad Gouse',
+                            style: AppTextStyles.textStylePoppinsMedium
+                                .copyWith(
+                                    fontSize: 16.sp,
+                                    color: AppColors.colorWhite),
+                          ),
+                          8.horizontalSpace,
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(70),
+                              color: AppColors.colorWhite.withOpacity(0.20),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Following',
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
+                                  color: AppColors.colorWhite,
+                                  fontSize: 10.sp,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -130,6 +130,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
             child: Stack(
               children: [
                 GoogleMap(
+                  myLocationButtonEnabled: false,
                   onMapCreated: (controller) async {
                     mapController = controller;
                     final loc = _getCenter();

@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddBioRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddBioPage(),
+      );
+    },
     AppInfoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -76,6 +82,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const HelpPage(),
+      );
+    },
+    HomeCityRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HomeCityPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -222,6 +234,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AddBioPage]
+class AddBioRoute extends PageRouteInfo<void> {
+  const AddBioRoute({List<PageRouteInfo>? children})
+      : super(
+          AddBioRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddBioRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -394,6 +420,20 @@ class HelpRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HelpRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HomeCityPage]
+class HomeCityRoute extends PageRouteInfo<void> {
+  const HomeCityRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeCityRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeCityRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
