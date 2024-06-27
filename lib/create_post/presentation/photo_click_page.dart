@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../core/constants/assets.dart';
 import '../../core/routes/app_router.dart';
 
@@ -41,20 +42,20 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     setState(() {});
   }
 
-  // Future<void> _pickImageFromGallery() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //   setState(() {
-  //     imageFile = pickedFile;
-  //   });
-  //
-  //   if (pickedFile != null) {
-  //    AutoRouter.of(context).push(
-  //        OpenGalleryRoute(imageFile: pickedFile)
-  //    );
-  //   }
-  // }
+  Future<void> _pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      imageFile = pickedFile;
+    });
+
+    if (pickedFile != null) {
+     AutoRouter.of(context).push(
+         CreatePostRoute(imageFile: pickedFile)
+     );
+    }
+  }
 
   void _switchCamera() {
     selectedCameraIndex = selectedCameraIndex == 0 ? 1 : 0;
@@ -117,9 +118,18 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: imageFile == null
-                    ? Container(width: 40, height: 40, color: Colors.grey)
-                    : Image.file(File(imageFile!.path),
-                        width: 40, height: 40, fit: BoxFit.cover)),
+                    ? InkWell(
+                    onTap: () async {
+                      await _pickImageFromGallery();
+                    },
+                    child: Container(width: 40, height: 40, color: Colors.grey))
+                    : InkWell(
+                      onTap: () async {
+                        await _pickImageFromGallery();
+                      },
+                      child: Image.file(File(imageFile!.path),
+                          width: 40, height: 40, fit: BoxFit.cover),
+                    )),
           ),
           Positioned(
             bottom: 40,

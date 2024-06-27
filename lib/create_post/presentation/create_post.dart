@@ -32,7 +32,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
-
+    final imageFile = widget.imageFile;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -41,7 +41,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         leading: GestureDetector(
           onTap: () {
             if (currentPage == 0) {
-              Navigator.pop(context);
+              if(imageFile != null)
+               {
+                 Navigator.pop(context, null);
+               }else {
+                Navigator.pop(context);
+              }
             } else {
               createPostNotifier.pageController.jumpToPage(0);
             }
