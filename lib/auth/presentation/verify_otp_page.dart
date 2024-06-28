@@ -14,6 +14,8 @@ import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
 import 'package:pinput/pinput.dart';
 
+import '../../core/utils/validator.dart';
+
 @RoutePage()
 class VerifyOtpPage extends ConsumerStatefulWidget {
   const VerifyOtpPage({super.key});
@@ -182,16 +184,15 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                           text: 'Submit',
                           onPressed: () {
                             dismissKeyboard(context);
-                            AutoRouter.of(context)
-                                .push(const ResetPasswordRoute());
-                            // if (stateNotifier
-                            //     .fpOtpTextController.text.isEmpty) {
-                            //   showToastMessage('Please enter valid OTP');
-                            // } else {
-                            //   // TODO: Handle OTP verification logic here
-                            //   AutoRouter.of(context)
-                            //       .push(const ResetPasswordRoute());
-                            // }
+                            if (stateNotifier.fpOtpTextController.text.isEmpty) {
+                              showToastMessage('Please enter valid OTP');
+                            } else {
+                              stateNotifier.verifyOTP(() {
+                                FocusManager.instance.primaryFocus
+                                    ?.unfocus();
+                                AutoRouter.of(context).push(const ResetPasswordRoute());
+                              });
+                            }
                           },
                         ),
                         10.verticalSpace,
@@ -201,9 +202,21 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                           children: [
                             _canResendOtp
                                 ? GestureDetector(
-                                    onTap: () {
-                                      // Resend OTP logic here
+                                    onTap: () async {
                                       startTimer();
+                                      dismissKeyboard(context);
+                                      if (!Validator.validateEmail(
+                                          stateNotifier.fpEmailTextController.text)) {
+                                        showToastMessage('Please enter valid email');
+                                      } else {
+                                        stateNotifier.resendOTP(() {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          AutoRouter.of(context).pushAndPopUntil(
+                                              const VerifyOtpRoute(),
+                                              predicate: (_) => false);
+                                        });
+                                      }
                                     },
                                     child: Text(
                                       'Resend OTP',

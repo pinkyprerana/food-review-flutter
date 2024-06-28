@@ -310,8 +310,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     Center(
                                       child: GestureDetector(
                                         onTap: () {
-                                          // stateNotifier
-                                          //     .uploadProfileImage(context);
+                                          stateNotifier
+                                              .uploadProfileImage(context);
                                         },
                                         child: Container(
                                           width: 110.w,

@@ -200,13 +200,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             text: 'Register',
                             onPressed: () async {
                               dismissKeyboard(context);
-                              // stateNotifier.register(
-                              // onSuccess: () {
-                              // stateNotifier.clearRegistrationFields();
-                              AutoRouter.of(context)
-                                  .push(const SelectPreferenceRoute());
-                              // },
-                              // );
+                              stateNotifier.signUp(() {
+                                FocusManager.instance.primaryFocus
+                                    ?.unfocus();
+                                AutoRouter.of(context).pushAndPopUntil(
+                                    const SelectPreferenceRoute(),
+                                    predicate: (_) => false);
+                              });
                             },
                           ),
                         ],

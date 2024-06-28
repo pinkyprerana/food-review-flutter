@@ -62,44 +62,57 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
-//   Future<void> uploadProfileImage(BuildContext context) async {
-//     try {
-// XFile? pickedFile = await picker.pickImage(
-//       source: ImageSource.gallery,
-//       imageQuality: 50,
-//     );
+  Future<void> uploadProfileImage(BuildContext context) async {
+    try {
+      XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
 
-//     state = state.copyWith(isLoading: true);
+      state = state.copyWith(isLoading: true);
 
-//     final filePicked = File(pickedFile?.path ?? '');
+      final filePicked = File(pickedFile?.path ?? '');
 
-//     String fileName = filePicked.path.split('/').last;
+      String fileName = filePicked.path.split('/').last;
 
-//     AppLog.log('fileName --------->> $fileName');
+      AppLog.log('fileName --------->> $fileName');
 
-//     final data ={
-//   "email": state.fetchedUser?.email,
-//   "phone": state.fetchedUser?.phone,
-//   "profile_image": fileName,
-//   "first_name": state.fetchedUser?.firstName,
-//   "last_name": state.fetchedUser?.lastName,
-// };
+      final data = {
+        "email": state.fetchedUser?.email,
+        "phone": state.fetchedUser?.phone,
+        "profile_image": fileName,
+        "first_name": state.fetchedUser?.firstName,
+        "last_name": state.fetchedUser?.lastName,
+      };
 
-//   var headers = {
-//       'Accept': '*/*',
-//       'Content-Type': 'application/json',
-//       'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
-//     };
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
 
-//      _dio.options.headers.addAll(headers);
+      _dio.options.headers.addAll(headers);
 
-//      final response = await _dio.post<Map<String, dynamic>>('${AppUrls.BASE_URL}${AppUrls.profileUpdate}', data: data,);
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        data: data,
+      );
 
-//       if(response.statusCode == 200 && response.data != null) {
-//         state = state.copyWith(isLoading: false, profileImgPath:
-//                 '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}' ,);
-//       }
-//     }
+      if (response.statusCode == 200 && response.data != null) {
+        state = state.copyWith(
+          isLoading: false,
+          profileImgPath:
+              '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}',
+        );
+      } else {
+        showToastMessage('Please upload a media');
 
-//   }
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+
+      showToastMessage('Something, went wrong, please try again');
+    }
+  }
 }
