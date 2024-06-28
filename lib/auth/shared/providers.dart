@@ -5,7 +5,6 @@ import 'package:for_the_table/core/shared/providers.dart';
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (ref) => AuthNotifier(
-    ref.watch(dioProvider),
     ref.watch(hiveProvider),
     ref.watch(networkService)
   ),

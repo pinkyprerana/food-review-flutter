@@ -1,6 +1,4 @@
-// ignore_for_file: parameter_assignments, empty_catches
 import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/auth/application/auth_state.dart';
@@ -12,9 +10,8 @@ import '../../core/infrastructure/network_api_services.dart';
 import '../../core/utils/app_log.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this._dio, this._hiveDatabase, this._networkApiService) : super(const AuthState());
+  AuthNotifier( this._hiveDatabase, this._networkApiService) : super(const AuthState());
 
-  final Dio _dio;
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
@@ -38,15 +35,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final TextEditingController signupConfirmPasswordTextController =
       TextEditingController();
 
-  // final TextEditingController otpTextController = TextEditingController();
-  final TextEditingController fpEmailTextController = TextEditingController();
-  final TextEditingController fpOtpTextController = TextEditingController();
-
+  //forgot-password
+  final TextEditingController fpEmailTextController =
+      TextEditingController();
+  final TextEditingController fpOtpTextController =
+      TextEditingController();
   final TextEditingController fpPasswordTextController =
       TextEditingController();
   final TextEditingController fpConfirmPasswordTextController =
-      TextEditingController();
-  final TextEditingController fpNewPasswordTextController=
       TextEditingController();
 
   void clearLoginFields() {
@@ -107,7 +103,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       showToastMessage('Please enter your confirm password');
       return false;
     } else if (signupPasswordTextController.text.length < 6) {
-      showToastMessage('Please enter atlease 6 digit password');
+      showToastMessage('Please enter at lease 6 digit password');
       return false;
     } else if (signupPasswordTextController.text !=
         signupConfirmPasswordTextController.text) {
@@ -117,58 +113,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     else {
       return true;
     }
-  }
-
-  // void register({VoidCallback? onSuccess}) {
-  //   if (signupFirstNameTextController.text.isEmpty) {
-  //     showToastMessage('Please enter first name');
-  //     return;
-  //   } else if (signupLastNameTextController.text.isEmpty) {
-  //     showToastMessage('Please enter last name');
-  //     return;
-  //   } else if (!Validator.validateEmail(signupEmailTextController.text)) {
-  //     showToastMessage('Please enter valid email');
-  //     return;
-  //   } else if (signupContactNumberTextController.text.isEmpty) {
-  //     showToastMessage('Please enter contact number');
-  //     return;
-  //   } else if (signupContactNumberTextController.text.length < 8) {
-  //     showToastMessage('Please enter a valid contact number');
-  //     return;
-  //   } else if (signupPasswordTextController.text.isEmpty) {
-  //     showToastMessage('Please enter a password');
-  //     return;
-  //   } else if (signupPasswordTextController.text.length < 6) {
-  //     showToastMessage('Password must be atleast 6 characters');
-  //     return;
-  //   } else if (signupConfirmPasswordTextController.text.isEmpty) {
-  //     showToastMessage('Please enter confirmed password');
-  //     return;
-  //   } else if (signupConfirmPasswordTextController.text !=
-  //       signupPasswordTextController.text) {
-  //     showToastMessage('Password and Confirm password Doesn\'t match');
-  //     return;
-  //   }
-  //
-  //   onSuccess?.call();
-  // }
-
-  void resetPassword({VoidCallback? onSuccess}) async {
-    if (fpPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter a new password');
-      return;
-    } else if (fpPasswordTextController.text.length < 6) {
-      showToastMessage('Password must be atleast 6 characters');
-      return;
-    } else if (fpConfirmPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter a new confirmed password');
-      return;
-    } else if (fpPasswordTextController.text !=
-        fpConfirmPasswordTextController.text) {
-      showToastMessage('New password and Confirm password Doesn\'t match');
-      return;
-    }
-    onSuccess?.call();
   }
 
   Future<void> signIn(VoidCallback voidCallback) async {
@@ -381,9 +325,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         if (response.statusCode == 200) {
           AppLog.log(jsonEncode(jsonData));
           showToastMessage(jsonData['message']);
-          // forgotEmailTextController.clear();
           fpOtpTextController.clear();
-          // state = state.copyWith(selectedCode: null, token: jsonData['token']);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -396,16 +338,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> changePassword(VoidCallback voidCallback) async {
+  Future<void> resetPassword(VoidCallback voidCallback) async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(
           url: '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
           body: {
-            "new_password": fpNewPasswordTextController.text,
-            "confirm_password": fpConfirmPasswordTextController.text,
             "email": fpEmailTextController.text,
+            "new_password": fpPasswordTextController.text,
+            "confirm_password": fpConfirmPasswordTextController.text,
           });
       state = state.copyWith(isLoading: false);
 
@@ -418,7 +360,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          fpNewPasswordTextController.clear();
+          fpPasswordTextController.clear();
           fpConfirmPasswordTextController.clear();
           fpEmailTextController.clear();
           voidCallback.call();
