@@ -215,6 +215,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
+        showToastMessage('User already exists with the same phone number');
       } else {
         Map<String, dynamic> jsonData = response.data;
         if (jsonData['status'] == 200) {
