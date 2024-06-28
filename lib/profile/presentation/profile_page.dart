@@ -308,36 +308,43 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   clipBehavior: Clip.none,
                                   children: [
                                     Center(
-                                      child: Container(
-                                        width: 110.w,
-                                        height: 110.h,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: AppColors.colorWhite,
-                                                width: 4),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: AppColors.colorShadow
-                                                      .withOpacity(0.1),
-                                                  offset: const Offset(0, 2),
-                                                  blurRadius: 10,
-                                                  spreadRadius: 0)
-                                            ],
-                                            image: DecorationImage(
-                                              image: (state.fetchedUser
-                                                              ?.profileImage !=
-                                                          null &&
-                                                      state.fetchedUser
-                                                              ?.profileImage !=
-                                                          "")
-                                                  ? CachedNetworkImageProvider(
-                                                          state.profileImgPath)
-                                                      as ImageProvider
-                                                  : const AssetImage(
-                                                      Assets.noProfileImage),
-                                              fit: BoxFit.cover,
-                                            )),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          // stateNotifier
+                                          //     .uploadProfileImage(context);
+                                        },
+                                        child: Container(
+                                          width: 110.w,
+                                          height: 110.h,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: AppColors.colorWhite,
+                                                  width: 4),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: AppColors.colorShadow
+                                                        .withOpacity(0.1),
+                                                    offset: const Offset(0, 2),
+                                                    blurRadius: 10,
+                                                    spreadRadius: 0)
+                                              ],
+                                              image: DecorationImage(
+                                                image: (state.fetchedUser
+                                                                ?.profileImage !=
+                                                            null &&
+                                                        state.fetchedUser
+                                                                ?.profileImage !=
+                                                            "")
+                                                    ? CachedNetworkImageProvider(
+                                                            state
+                                                                .profileImgPath)
+                                                        as ImageProvider
+                                                    : const AssetImage(
+                                                        Assets.noProfileImage),
+                                                fit: BoxFit.cover,
+                                              )),
+                                        ),
                                       ),
                                     ),
                                     Positioned(
