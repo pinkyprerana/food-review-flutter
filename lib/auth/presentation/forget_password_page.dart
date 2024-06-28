@@ -113,15 +113,18 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                           text: 'Submit',
                           onPressed: () {
                             dismissKeyboard(context);
-                            AutoRouter.of(context).push(const VerifyOtpRoute());
-                            // if (!Validator.validateEmail(
-                            //     stateNotifier.fpEmailTextController.text)) {
-                            //   showToastMessage('Please enter valid email');
-                            // } else {
-                            //   // TODO: Handle forgot password logic here
-                            //   AutoRouter.of(context)
-                            //       .push(const VerifyOtpRoute());
-                            // }
+                            if (!Validator.validateEmail(
+                                stateNotifier.fpEmailTextController.text)) {
+                              showToastMessage('Please enter valid email');
+                            } else {
+                              stateNotifier.sendOTP(() {
+                                FocusManager.instance.primaryFocus
+                                    ?.unfocus();
+                                AutoRouter.of(context).pushAndPopUntil(
+                                    const VerifyOtpRoute(),
+                                    predicate: (_) => false);
+                              });
+                            }
                           },
                         ),
                       ],

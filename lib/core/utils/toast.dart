@@ -19,6 +19,6 @@ Future<void> showDioError(DioException e) async {
   }
 }
 
-Future<void> showconnectionWasInterruptedToastMesage() async {
+Future<void> showConnectionWasInterruptedToastMessage() async {
   await showToastMessage('Connection Was Interrupted');
 }
