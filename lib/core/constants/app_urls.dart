@@ -12,4 +12,6 @@ class AppUrls {
   static const signup = '/user/signup';
   static const signin = '/user/signin';
   static const profile = '/user/profile';
+  static const profilePicLocation =
+      'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
 }

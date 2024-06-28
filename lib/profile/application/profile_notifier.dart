@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +44,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         state = state.copyWith(
           isLoading: false,
           fetchedUser: fetchedUser,
+          profileImgPath:
+              '${AppUrls.profilePicLocation}/${fetchedUser.profileImage}',
         );
+        AppLog.log('state.fetchedUser =============== ${state.fetchedUser}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -55,5 +60,16 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       state = state.copyWith(isLoading: false);
     }
+  }
+
+  Future<void> uploadProfileImage(BuildContext context) async {
+    XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
+
+    state = state.copyWith(isLoading: true);
+
+    final filePicked = File(pickedFile?.path ?? '');
   }
 }

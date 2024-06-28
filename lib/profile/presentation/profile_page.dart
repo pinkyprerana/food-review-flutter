@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/profile/presentation/widgets/other_options_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
@@ -45,6 +47,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
 
     final hive = ref.read(hiveProvider);
+
+    // AppLog.log(
+    //     'state.fetchedUser.profileImage ============ ${state.fetchedUser?.profileImage}');
 
     return Scaffold(
       extendBody: true,
@@ -319,9 +324,18 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                   blurRadius: 10,
                                                   spreadRadius: 0)
                                             ],
-                                            image: const DecorationImage(
-                                              image: AssetImage(
-                                                  Assets.profileImage),
+                                            image: DecorationImage(
+                                              image: (state.fetchedUser
+                                                              ?.profileImage !=
+                                                          null &&
+                                                      state.fetchedUser
+                                                              ?.profileImage !=
+                                                          "")
+                                                  ? CachedNetworkImageProvider(
+                                                          state.profileImgPath)
+                                                      as ImageProvider
+                                                  : const AssetImage(
+                                                      Assets.noProfileImage),
                                               fit: BoxFit.cover,
                                             )),
                                       ),

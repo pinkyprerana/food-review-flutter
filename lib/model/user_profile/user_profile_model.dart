@@ -30,7 +30,7 @@ class ProfileDetails with _$ProfileDetails {
     @JsonKey(name: "email") String? email,
     @JsonKey(name: "bio") String? bio,
     @JsonKey(name: "city") String? city,
-    @JsonKey(name: "profile_image") String? profileImage,
+    @JsonKey(name: "profile_image") @Default('1') String profileImage,
     @JsonKey(name: "otp") String? otp,
     @JsonKey(name: "isOtpVerified") @Default(false) bool isOtpVerified,
     @JsonKey(name: "isVerified") bool? isVerified,

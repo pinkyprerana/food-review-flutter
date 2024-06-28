@@ -95,4 +95,5 @@ class Assets {
   static const String blurred = 'assets/images/blurred.png';
   static const String man = 'assets/images/man.png';
   static const String woman = 'assets/images/woman.png';
+  static const String noProfileImage = 'assets/images/no-profile-image.png';
 }
