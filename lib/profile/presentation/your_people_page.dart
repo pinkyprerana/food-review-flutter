@@ -46,7 +46,7 @@ class _YourPeoplePageState extends ConsumerState<YourPeoplePage> {
                 ),
                 5.horizontalSpace,
                 Text(
-                  'Your Follow List',
+                  'Your Follow Lists',
                   style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                     fontSize: 15.sp,
                     color: AppColors.colorBlack,
