@@ -48,8 +48,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     final hive = ref.read(hiveProvider);
 
-    // AppLog.log(
-    //     'state.fetchedUser.profileImage ============ ${state.fetchedUser?.profileImage}');
+    AppLog.log('state.profileImagePath ============ ${state.profileImgPath}');
 
     return Scaffold(
       extendBody: true,
