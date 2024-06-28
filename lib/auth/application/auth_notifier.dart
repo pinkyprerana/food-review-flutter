@@ -1,5 +1,7 @@
 // ignore_for_file: parameter_assignments, empty_catches
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,10 +10,15 @@ import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
 
+import '../../core/constants/app_urls.dart';
+import '../../core/infrastructure/network_api_services.dart';
+import '../../core/utils/app_log.dart';
+
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this._dio, this._hiveDatabase) : super(const AuthState());
+  AuthNotifier(this._dio, this._hiveDatabase, this._networkApiService) : super(const AuthState());
 
   final Dio _dio;
+  final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
   //login
@@ -57,22 +64,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
     signupConfirmPasswordTextController.clear();
   }
 
-  void login({VoidCallback? onSuccess}) {
+  bool validateLoginFields({VoidCallback? onSuccess}) {
     if (loginEmailTextController.text.isEmpty) {
       showToastMessage('Please enter email');
-      return;
+      return false;
     } else if (!Validator.validateEmail(loginEmailTextController.text)) {
       showToastMessage('Please enter valid email');
-      return;
+      return false;
     } else if (loginPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter password');
-      return;
+      return false;
     } else if (loginPasswordTextController.text.length < 6) {
-      showToastMessage('Password should be alteast 6 characters');
-      return;
+      showToastMessage('Password should be at least 6 characters');
+      return false;
+    } else {
+      return true;
     }
-
-    onSuccess?.call();
   }
 
   void register({VoidCallback? onSuccess}) {
@@ -126,4 +133,81 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
     onSuccess?.call();
   }
+
+  Future<void> signIn(VoidCallback voidCallback) async {
+    state = state.copyWith(isLoading: true);
+
+    final isInputValid = validateLoginFields();
+
+    if (!isInputValid) {
+      state = state.copyWith(isLoading: false);
+      return;
+    }
+
+    try {
+      var (response, dioException) = await _networkApiService
+          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.signin}', body: {
+        "email": loginEmailTextController.text.toLowerCase(),
+        "password": loginPasswordTextController.text,
+      });
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showconnectionWasInterruptedToastMesage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+        if (response.statusCode == 200) {
+          AppLog.log(jsonEncode(jsonData));
+          print(jsonData);
+
+          // if (state.rememberMe) {
+          //   await _hiveDatabase.box.put(AppPreferenceKeys.rememberMeEmail,
+          //       loginEmailTextController.text);
+          //   await _hiveDatabase.box.put(AppPreferenceKeys.rememberMePassword,
+          //       loginPasswordTextController.text);
+          // } else {
+          //   await _hiveDatabase.box.delete(AppPreferenceKeys.rememberMeEmail);
+          //   await _hiveDatabase.box
+          //       .delete(AppPreferenceKeys.rememberMePassword);
+          // }
+
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.token, jsonData['token'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userFirstName,
+              jsonData['data']['first_name'] ?? '');
+          _hiveDatabase.box.put(
+              AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
+          _hiveDatabase.box.put(
+              AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.profileImage,
+              jsonData['data']['profile_image'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
+          showToastMessage(jsonData["message"]);
+          loginEmailTextController.clear();
+          loginPasswordTextController.clear();
+          // state = state.copyWith(rememberMe: false);
+          voidCallback.call();
+        } else if (jsonData['message'] ==
+            "Sorry user is deleted by admin. Please contact with admin.") {
+          showToastMessage('Account has been deleted by Admin');
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showconnectionWasInterruptedToastMesage();
+    }
+  }
+
+
 }

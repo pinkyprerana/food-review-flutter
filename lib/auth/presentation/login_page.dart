@@ -137,15 +137,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           AppButton(
                             text: 'Login',
                             onPressed: () async {
-                              dismissKeyboard(context);
-                              // stateNotifier.login(
-                              // onSuccess: () {
-                              stateNotifier.clearLoginFields();
-                              AutoRouter.of(context).pushAndPopUntil(
-                                  const BaseRoute(),
-                                  predicate: (_) => false);
-                              // },
-                              // );
+                              stateNotifier.signIn(() {
+                                FocusManager.instance.primaryFocus
+                                    ?.unfocus();
+                                AutoRouter.of(context).pushAndPopUntil(
+                                    const BaseRoute(),
+                                    predicate: (_) => false);
+                              });
                             },
                           ),
                         ],

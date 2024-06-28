@@ -40,114 +40,23 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> navigate() async {
-    final stateNotifier = ref.read(splashNotifierProvider.notifier);
-
     final hive = ref.read(hiveProvider);
-
     final token = hive.box.get(AppPreferenceKeys.token);
+    final getStartedDone = await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
+    // final id = await hive.box.get(AppPreferenceKeys.userId);
 
-    if (token == null || token.toString().isEmpty) {
-      AutoRouter.of(context)
-          .pushAndPopUntil(const LandingIntroRoute(), predicate: (_) => false);
-
-      // AutoRouter.of(context)
-      //     .pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
-    } else {
-      showToastMessage('token is true');
-
-      // stateNotifier.getProfile(
-      //   onSuccess: (profileResponse) {
-      //     final role = profileResponse.role?.roleDisplayName;
-
-      //     if (role == "Influencer") {
-      //       if (profileResponse.age == null ||
-      //           (profileResponse.location?.isEmpty ?? false)) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerProfileRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.profileImage?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerAddPictureRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.socialMedias?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerAddSocialMediaRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.influencerTypes?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerSelectTypeRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.expertises?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerSelectNicheRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.interests?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerSelectContentTypeRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (!(profileResponse.signupCompleted ?? true)) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const InfluencerSuccessRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else {
-      //         AutoRouter.of(context)
-      //             .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
-      //       }
-      //     } else if (role == "Brand") {
-      //       if ((profileResponse.website?.isEmpty ?? false) ||
-      //           (profileResponse.location?.isEmpty ?? false)) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandOnboarding1Route(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.profileImage?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandOnboarding2Route(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.socialMedias?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandOnboarding3Route(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.influencerTypes?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandOnboarding4Route(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.expertises?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandOnboarding5Route(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (profileResponse.interests?.isEmpty ?? false) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandOnboarding6Route(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else if (!(profileResponse.signupCompleted ?? true)) {
-      //         AutoRouter.of(context).pushAndPopUntil(
-      //           const BrandSuccessRoute(),
-      //           predicate: (_) => false,
-      //         );
-      //       } else {
-      //         AutoRouter.of(context)
-      //             .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
-      //       }
-      //     }
-      //   },
-      //   onFailed: () {
-      //     AutoRouter.of(context)
-      //         .pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
-      //   },
-      // );
+    if (mounted) {
+      if (token != null && token.toString().isNotEmpty) {
+        AutoRouter.of(context)
+            .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
+      } else if (getStartedDone == 'true') {
+        AutoRouter.of(context)
+            .pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
+      } else {
+        AutoRouter.of(context)
+            .pushAndPopUntil(const LandingIntroRoute(), predicate: (_) => false);
+      }
     }
   }
+
 }

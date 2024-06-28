@@ -18,3 +18,7 @@ Future<void> showDioError(DioException e) async {
     await showToastMessage(e.response!.data as String);
   }
 }
+
+Future<void> showconnectionWasInterruptedToastMesage() async {
+  await showToastMessage('Connection Was Interrupted');
+}
