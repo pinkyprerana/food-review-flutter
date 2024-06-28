@@ -111,7 +111,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         10.verticalSpace,
                         AppButton(
                           text: 'Submit',
-                          onPressed: () {
+                          onPressed: () async {
                             dismissKeyboard(context);
                             if (!Validator.validateEmail(
                                 stateNotifier.fpEmailTextController.text)) {

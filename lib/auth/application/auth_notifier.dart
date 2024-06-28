@@ -38,7 +38,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final TextEditingController signupConfirmPasswordTextController =
       TextEditingController();
 
-  final TextEditingController otpTextController = TextEditingController();
+  // final TextEditingController otpTextController = TextEditingController();
   final TextEditingController fpEmailTextController = TextEditingController();
   final TextEditingController fpOtpTextController = TextEditingController();
 
@@ -327,13 +327,47 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> resendOTP(VoidCallback voidCallback) async {
+    if (fpEmailTextController.text.isEmpty) {
+      showToastMessage('Email Id is required');
+      return;
+    }
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequest(
+          url: '${AppUrls.BASE_URL}${'/user/resend-forgot-password-otp'}',
+          body: {
+            "email": fpEmailTextController.text,
+          });
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+        AppLog.log(jsonEncode(jsonData));
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          voidCallback.call();
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
   Future<void> verifyOTP(VoidCallback voidCallback) async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequest(url: '${AppUrls.BASE_URL}${'/user/forget-password-otp-verification'}', body: {
         "email": fpEmailTextController.text,
-        "otp": otpTextController.text,
+        "otp": fpOtpTextController.text,
       });
       state = state.copyWith(isLoading: false);
 
@@ -348,12 +382,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
           AppLog.log(jsonEncode(jsonData));
           showToastMessage(jsonData['message']);
           // forgotEmailTextController.clear();
-          otpTextController.clear();
+          fpOtpTextController.clear();
           // state = state.copyWith(selectedCode: null, token: jsonData['token']);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
-          otpTextController.text = '';
+          fpOtpTextController.text = '';
         }
       }
     } catch (error) {

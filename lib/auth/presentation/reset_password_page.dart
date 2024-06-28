@@ -123,13 +123,12 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                           text: 'Reset Password',
                           onPressed: () {
                             dismissKeyboard(context);
-                            stateNotifier.resetPassword(
-                              onSuccess: () {
-                                AutoRouter.of(context).pushAndPopUntil(
-                                    const LoginRoute(),
-                                    predicate: (_) => false);
-                              },
-                            );
+                            stateNotifier.changePassword(() {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              AutoRouter.of(context).pushAndPopUntil(
+                                  const LoginRoute(),
+                                  predicate: (_) => false);
+                            });
                           },
                         ),
                       ],
