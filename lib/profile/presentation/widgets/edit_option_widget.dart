@@ -301,6 +301,7 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
     case 'Phone Number':
       {
         commonModal(context, onTap: () {
+          stateNotifier.phoneNumber.text = '';
           Navigator.pop(context);
         },
             child: Stack(
@@ -329,14 +330,19 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                           fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
                     20.verticalSpace,
-                    const CustomInputField(
+                    CustomInputField(
+                      controller: stateNotifier.phoneNumber,
                       label: 'Phone Number',
                       hint: 'Phone Number',
                       isPassword: false,
                     ),
                     10.verticalSpace,
-                    const AppButton(
+                    AppButton(
+                      loading: state.isLoading,
                       text: 'Save',
+                      onPressed: () {
+                        stateNotifier.changePhoneNumber(context);
+                      },
                     )
                   ],
                 ),

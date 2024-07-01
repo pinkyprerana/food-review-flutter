@@ -25,6 +25,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final picker = ImagePicker();
 
   final TextEditingController emailAddress = TextEditingController();
+  final TextEditingController phoneNumber = TextEditingController();
 
   Future<void> getUserDetails({required BuildContext context}) async {
     try {
@@ -140,7 +141,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   Future<void> changeEmailAddress(BuildContext context) async {
     if (validateEmailField()) {
-      AppLog.log('message');
       try {
         state = state.copyWith(isLoading: true);
 
@@ -185,6 +185,70 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         state = state.copyWith(isLoading: false);
 
         emailAddress.text = '';
+
+        showToastMessage('Something, went wrong, please try again');
+      }
+    }
+  }
+
+  bool validatePhoneNumber() {
+    if (phoneNumber.text.isEmpty) {
+      showToastMessage('Please Enter Your Phone Number');
+      return false;
+    } else if (phoneNumber.text.isNotEmpty && phoneNumber.text.length < 10) {
+      showToastMessage('Please Enter A Valid Phone Number');
+      return false;
+    } else if (phoneNumber.text.isNotEmpty &&
+        !Validator.validatePhone(phoneNumber.text)) {
+      showToastMessage('Please enter a valid phone number');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> changePhoneNumber(BuildContext context) async {
+    if (validatePhoneNumber()) {
+      try {
+        state = state.copyWith(isLoading: true);
+
+        final FormData formData = FormData.fromMap({
+          "email": state.fetchedUser?.email,
+          "phone": phoneNumber.text,
+          "first_name": state.fetchedUser?.firstName,
+          "last_name": state.fetchedUser?.lastName,
+        });
+
+        var headers = {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+        };
+
+        _dio.options.headers.addAll(headers);
+
+        final response = await _dio.post<Map<String, dynamic>>(
+          '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+          data: formData,
+        );
+
+        if (response.statusCode == 200 && response.data != null) {
+          showToastMessage('Phone Number Changed');
+
+          phoneNumber.text = '';
+
+          state = state.copyWith(isLoading: false);
+        } else {
+          showToastMessage('Something went wrong, try again');
+
+          phoneNumber.text = '';
+
+          state = state.copyWith(isLoading: false);
+        }
+      } catch (error) {
+        state = state.copyWith(isLoading: false);
+
+        phoneNumber.text = '';
 
         showToastMessage('Something, went wrong, please try again');
       }
