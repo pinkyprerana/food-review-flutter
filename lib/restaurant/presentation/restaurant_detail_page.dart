@@ -232,6 +232,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                           children: [
                                             GestureDetector(
                                               onTap: () => commonModal(context,
+                                                  onTap: () {
+                                                Navigator.pop(context);
+                                              },
                                                   child: Stack(
                                                     children: [
                                                       Column(

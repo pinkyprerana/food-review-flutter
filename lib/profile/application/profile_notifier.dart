@@ -8,6 +8,7 @@ import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/model/user_profile/user_profile_model.dart';
 import 'package:for_the_table/profile/application/profile_state.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,6 +23,8 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final Dio _dio;
 
   final picker = ImagePicker();
+
+  final TextEditingController emailAddress = TextEditingController();
 
   Future<void> getUserDetails({required BuildContext context}) async {
     try {
@@ -119,6 +122,72 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       state = state.copyWith(isLoading: false);
 
       showToastMessage('Something, went wrong, please try again');
+    }
+  }
+
+  bool validateEmailField() {
+    if (emailAddress.text.isEmpty) {
+      showToastMessage('Please enter your Email Address');
+      return false;
+    } else if (emailAddress.text.isNotEmpty &&
+        !Validator.validateEmail(emailAddress.text)) {
+      showToastMessage('Please enter Valid Email');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> changeEmailAddress(BuildContext context) async {
+    if (validateEmailField()) {
+      AppLog.log('message');
+      try {
+        state = state.copyWith(isLoading: true);
+
+        final FormData formData = FormData.fromMap({
+          // if (pickedFile != null)
+          //   "profile_image": await MultipartFile.fromFile(
+          //     filePicked.path,
+          //   ),
+          "email": emailAddress.text,
+          "phone": state.fetchedUser?.phone,
+          "first_name": state.fetchedUser?.firstName,
+          "last_name": state.fetchedUser?.lastName,
+        });
+
+        var headers = {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+        };
+
+        _dio.options.headers.addAll(headers);
+
+        final response = await _dio.post<Map<String, dynamic>>(
+          '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+          data: formData,
+        );
+
+        if (response.statusCode == 200 && response.data != null) {
+          showToastMessage('Email Address Changed');
+
+          emailAddress.text = '';
+
+          state = state.copyWith(isLoading: false);
+        } else {
+          showToastMessage('Something went wrong, try again');
+
+          emailAddress.text = '';
+
+          state = state.copyWith(isLoading: false);
+        }
+      } catch (error) {
+        state = state.copyWith(isLoading: false);
+
+        emailAddress.text = '';
+
+        showToastMessage('Something, went wrong, please try again');
+      }
     }
   }
 }

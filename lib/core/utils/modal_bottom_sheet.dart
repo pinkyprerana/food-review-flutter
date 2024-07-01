@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 
 Future<void> commonModal(
   BuildContext context, {
   required Widget child,
+  required VoidCallback onTap,
 }) async {
   return showModalBottomSheet<dynamic>(
       context: context,
@@ -45,7 +47,9 @@ Future<void> commonModal(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () {
+                            onTap();
+                          },
                           child: const Icon(
                             Icons.close,
                             size: 17,
