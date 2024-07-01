@@ -77,13 +77,24 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       AppLog.log('fileName --------->> $fileName');
 
-      final data = {
+      final FormData formData = FormData.fromMap({
+        if (pickedFile != null)
+          "profile_image": await MultipartFile.fromFile(
+            filePicked.path,
+          ),
         "email": state.fetchedUser?.email,
         "phone": state.fetchedUser?.phone,
-        "profile_image": fileName,
         "first_name": state.fetchedUser?.firstName,
         "last_name": state.fetchedUser?.lastName,
-      };
+      });
+
+      // final data = {
+      //   "email": state.fetchedUser?.email,
+      //   "phone": state.fetchedUser?.phone,
+      //   "profile_image": fileName,
+      //   "first_name": state.fetchedUser?.firstName,
+      //   "last_name": state.fetchedUser?.lastName,
+      // };
 
       var headers = {
         'Accept': '*/*',
@@ -95,7 +106,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       final response = await _dio.post<Map<String, dynamic>>(
         '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
-        data: data,
+        data: formData,
       );
 
       if (response.statusCode == 200 && response.data != null) {
