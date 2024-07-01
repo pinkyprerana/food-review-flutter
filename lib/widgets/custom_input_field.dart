@@ -54,6 +54,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             fontSize: 11.sp,
           ),
           hintText: widget.hint,
+          counterText: "",
           hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
             color: AppColors.colorPrimaryAlpha,
           ),

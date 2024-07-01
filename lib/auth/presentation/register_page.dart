@@ -168,7 +168,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             label: 'Contact Number',
                             hint: 'Enter contact number',
                             keyboardType: TextInputType.phone,
-                            // maxLength: 14,
+                            maxLength: 14,
                             onFieldSubmitted: (p0) =>
                                 FocusScope.of(context).requestFocus(passwordFN),
                           ),
@@ -197,6 +197,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           10.verticalSpace,
                           AppButton(
+                            loading: state.isLoading,
                             text: 'Register',
                             onPressed: () async {
                               dismissKeyboard(context);

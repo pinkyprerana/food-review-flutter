@@ -15,7 +15,7 @@ Future<void> showToastMessage(String message,
 
 Future<void> showDioError(DioException e) async {
   if (e.response != null) {
-    await showToastMessage(e.response!.data as String);
+    await showToastMessage(e.response!.data['message'] as String);
   }
 }
 
