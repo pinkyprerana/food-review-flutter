@@ -130,7 +130,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   children: [
                                     70.verticalSpace,
                                     Text(
-                                      'Aspendakidis',
+                                      state.fetchedUser?.fullName ?? '',
                                       style: AppTextStyles
                                           .textStylePoppinsSemiBold
                                           .copyWith(
@@ -193,7 +193,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      '1.2M',
+                                                      state
+                                                              .userProfileResponseModel
+                                                              ?.stats
+                                                              ?.followerCount
+                                                              .toString() ??
+                                                          '',
                                                       style: AppTextStyles
                                                           .textStylePoppinsBold
                                                           .copyWith(
@@ -231,7 +236,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      '1.2M',
+                                                      state
+                                                              .userProfileResponseModel
+                                                              ?.stats
+                                                              ?.followingCount
+                                                              .toString() ??
+                                                          '',
                                                       style: AppTextStyles
                                                           .textStylePoppinsBold
                                                           .copyWith(
@@ -268,7 +278,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      '10',
+                                                      state
+                                                              .userProfileResponseModel
+                                                              ?.savePostStats
+                                                              ?.savePostCount
+                                                              .toString() ??
+                                                          '',
                                                       style: AppTextStyles
                                                           .textStylePoppinsBold
                                                           .copyWith(

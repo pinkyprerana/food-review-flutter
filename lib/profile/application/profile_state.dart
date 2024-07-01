@@ -12,6 +12,7 @@ class ProfileState with _$ProfileState {
     @Default(false) bool isLoading,
     @Default('') String profileImgPath,
     ProfileDetails? fetchedUser,
+    UserProfileModel? userProfileResponseModel,
   }) = _ProfileState;
   const ProfileState._();
 }

@@ -40,10 +40,13 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         AppLog.log('response ===== $response');
 
         final fetchedUser = ProfileDetails.fromJson(response.data!['data']);
+        final userProdileResponseModel =
+            UserProfileModel.fromJson(response.data);
 
         state = state.copyWith(
           isLoading: false,
           fetchedUser: fetchedUser,
+          userProfileResponseModel: userProdileResponseModel,
           profileImgPath:
               '${AppUrls.profilePicLocation}/${fetchedUser.profileImage}',
         );
@@ -87,14 +90,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         "first_name": state.fetchedUser?.firstName,
         "last_name": state.fetchedUser?.lastName,
       });
-
-      // final data = {
-      //   "email": state.fetchedUser?.email,
-      //   "phone": state.fetchedUser?.phone,
-      //   "profile_image": fileName,
-      //   "first_name": state.fetchedUser?.firstName,
-      //   "last_name": state.fetchedUser?.lastName,
-      // };
 
       var headers = {
         'Accept': '*/*',
