@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
 import 'package:for_the_table/restaurant/application/restaurant_state.dart';
@@ -28,9 +29,28 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     super.dispose();
   }
 
-  Future<void> getRestaurants({required BuildContext context}) async {
+  Future<void> loadMoreRestaurants(BuildContext context) async {
+    AppLog.log('state.currentPage: ------->> ${state.currentPage}');
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No more restaurants');
+      restaurantRefreshController.loadComplete();
+      return;
+    }
+
+    await getRestaurants(context: context, isLoadMore: true);
+    restaurantRefreshController.loadComplete();
+  }
+
+  Future<void> getRestaurants({
+    required BuildContext context,
+    bool isLoadMore = false,
+  }) async {
     try {
-      state = state.copyWith(isLoading: true);
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      }
 
       final data = {
         "perpage": 10,
@@ -58,8 +78,14 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<Restaurant>? restaurantList =
             reastaurantListResponseModel.restaurantList;
 
-        state =
-            state.copyWith(isLoading: false, restaurantList: restaurantList);
+        state = state.copyWith(
+          isLoading: false,
+          restaurantList: [
+            ...state.restaurantList ?? [],
+            ...restaurantList ?? []
+          ],
+          totalPages: reastaurantListResponseModel.pages ?? 0,
+        );
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');

@@ -49,7 +49,9 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                   enablePullUp: true,
                   enablePullDown: false,
                   onRefresh: () {},
-                  onLoading: () {},
+                  onLoading: () {
+                    stateNotifier.loadMoreRestaurants(context);
+                  },
                   footer: CustomFooter(
                     builder: (BuildContext context, mode) {
                       if (!state.isMoreDataFetchable) {
@@ -103,7 +105,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0).r,
                                 child: Image.asset(
-                                  widget.restaurants[index]['image']!,
+                                  widget.restaurants[0]['image']!,
                                   width: 48.r,
                                   height: 48.r,
                                   fit: BoxFit.cover,
