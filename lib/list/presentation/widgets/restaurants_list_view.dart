@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -104,12 +105,19 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0).r,
-                                child: Image.asset(
-                                  widget.restaurants[0]['image']!,
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.restaurantList?[index].image?[0]}',
                                   width: 48.r,
                                   height: 48.r,
                                   fit: BoxFit.cover,
                                 ),
+                                // child: Image.asset(
+                                //   widget.restaurants[0]['image']!,
+                                //   width: 48.r,
+                                //   height: 48.r,
+                                //   fit: BoxFit.cover,
+                                // ),
                               ),
                               10.horizontalSpace,
                               Expanded(
