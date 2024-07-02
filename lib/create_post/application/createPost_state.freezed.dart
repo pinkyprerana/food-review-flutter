@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CreatePostState {
-  int get currentPage =>
-      throw _privateConstructorUsedError; // @Default([]) List<AssetEntity> selectedAssets,
+  int get currentPage => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   XFile? get imageFile => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +31,7 @@ abstract class $CreatePostStateCopyWith<$Res> {
           CreatePostState value, $Res Function(CreatePostState) then) =
       _$CreatePostStateCopyWithImpl<$Res, CreatePostState>;
   @useResult
-  $Res call({int currentPage, XFile? imageFile});
+  $Res call({int currentPage, bool isLoading, XFile? imageFile});
 }
 
 /// @nodoc
@@ -48,6 +48,7 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
   @override
   $Res call({
     Object? currentPage = null,
+    Object? isLoading = null,
     Object? imageFile = freezed,
   }) {
     return _then(_value.copyWith(
@@ -55,6 +56,10 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
               as int,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       imageFile: freezed == imageFile
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
@@ -71,7 +76,7 @@ abstract class _$$CreatePostStateImplCopyWith<$Res>
       __$$CreatePostStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int currentPage, XFile? imageFile});
+  $Res call({int currentPage, bool isLoading, XFile? imageFile});
 }
 
 /// @nodoc
@@ -86,6 +91,7 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentPage = null,
+    Object? isLoading = null,
     Object? imageFile = freezed,
   }) {
     return _then(_$CreatePostStateImpl(
@@ -93,6 +99,10 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
               as int,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       imageFile: freezed == imageFile
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
@@ -104,18 +114,21 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreatePostStateImpl implements _CreatePostState {
-  const _$CreatePostStateImpl({this.currentPage = 0, this.imageFile});
+  const _$CreatePostStateImpl(
+      {this.currentPage = 0, this.isLoading = false, this.imageFile});
 
   @override
   @JsonKey()
   final int currentPage;
-// @Default([]) List<AssetEntity> selectedAssets,
+  @override
+  @JsonKey()
+  final bool isLoading;
   @override
   final XFile? imageFile;
 
   @override
   String toString() {
-    return 'CreatePostState(currentPage: $currentPage, imageFile: $imageFile)';
+    return 'CreatePostState(currentPage: $currentPage, isLoading: $isLoading, imageFile: $imageFile)';
   }
 
   @override
@@ -125,12 +138,15 @@ class _$CreatePostStateImpl implements _CreatePostState {
             other is _$CreatePostStateImpl &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.imageFile, imageFile) ||
                 other.imageFile == imageFile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentPage, imageFile);
+  int get hashCode =>
+      Object.hash(runtimeType, currentPage, isLoading, imageFile);
 
   @JsonKey(ignore: true)
   @override
@@ -142,11 +158,15 @@ class _$CreatePostStateImpl implements _CreatePostState {
 
 abstract class _CreatePostState implements CreatePostState {
   const factory _CreatePostState(
-      {final int currentPage, final XFile? imageFile}) = _$CreatePostStateImpl;
+      {final int currentPage,
+      final bool isLoading,
+      final XFile? imageFile}) = _$CreatePostStateImpl;
 
   @override
   int get currentPage;
-  @override // @Default([]) List<AssetEntity> selectedAssets,
+  @override
+  bool get isLoading;
+  @override
   XFile? get imageFile;
   @override
   @JsonKey(ignore: true)

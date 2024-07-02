@@ -7,6 +7,6 @@ import '../application/createPost_state.dart';
 final CreatePostNotifierProvider = StateNotifierProvider<CreatePostNotifier, CreatePostState>(
       (ref) =>CreatePostNotifier(
     ref.watch(dioProvider),
-    ref.watch(hiveProvider),
+    ref.watch(networkService),
   ),
 );

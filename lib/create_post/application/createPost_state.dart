@@ -7,7 +7,7 @@ part 'createPost_state.freezed.dart';
 abstract class CreatePostState with _$CreatePostState {
   const factory CreatePostState({
     @Default(0) int currentPage,
-    // @Default([]) List<AssetEntity> selectedAssets,
+    @Default(false) bool isLoading,
     XFile? imageFile,
   }) = _CreatePostState;
 }

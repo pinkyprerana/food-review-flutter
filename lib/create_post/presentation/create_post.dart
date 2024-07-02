@@ -513,6 +513,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               text: "Post",
                               onPressed: () {
                                 createPostNotifier.onContinuePressed(context);
+                                // createPostNotifier.addListener( () =>
+                                //   createPostNotifier.onContinuePressed(context));
                               },
                             ),
                             AppButton(
