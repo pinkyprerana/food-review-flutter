@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
@@ -5,9 +6,20 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
 class RestaurantWidget extends StatelessWidget {
-  const RestaurantWidget({super.key, required this.imgpath});
+  const RestaurantWidget({
+    super.key,
+    required this.imgpath,
+    required this.address,
+    required this.numberOfReviews,
+    required this.rating,
+    required this.name,
+  });
 
   final String imgpath;
+  final String address;
+  final String rating;
+  final String numberOfReviews;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +34,19 @@ class RestaurantWidget extends StatelessWidget {
           width: 45.w,
           height: 45.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: AssetImage(imgpath),
-              fit: BoxFit.cover,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(imgpath),
+                fit: BoxFit.cover,
+              )
+              // image: DecorationImage(
+              //   image: AssetImage(imgpath),
+              //   fit: BoxFit.cover,
+              // ),
+              ),
         ),
         title: Text(
-          'XYZ restaurant',
+          name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.textStylePoppinsMedium.copyWith(
@@ -46,7 +62,7 @@ class RestaurantWidget extends StatelessWidget {
             3.horizontalSpace,
             Expanded(
               child: Text(
-                'Dummy locationDummy location',
+                address,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -68,7 +84,7 @@ class RestaurantWidget extends StatelessWidget {
                 Image.asset(Assets.star),
                 2.horizontalSpace,
                 Text(
-                  '4.95',
+                  rating,
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                     fontSize: 10.sp,
                     color: AppColors.colorPrimary,
@@ -77,7 +93,7 @@ class RestaurantWidget extends StatelessWidget {
               ],
             ),
             Text(
-              '54 reviews',
+              '$numberOfReviews reviews',
               style: AppTextStyles.textStylePoppinsRegular.copyWith(
                 fontSize: 8.sp,
                 color: AppColors.colorPrimaryAlpha,

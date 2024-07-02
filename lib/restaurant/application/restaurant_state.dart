@@ -10,6 +10,7 @@ class RestaurantState with _$RestaurantState {
   const factory RestaurantState({
     @Default(false) bool isLoading,
     @Default([]) List<Restaurant>? restaurantList,
+    @Default([]) List<Restaurant>? homeRestaurantList,
     @Default(1) int currentPage,
     @Default(true) bool hasMore,
     @Default(0) int totalPages,

@@ -13,6 +13,7 @@ import 'package:for_the_table/home/presentation/widgets/home_post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/restaurant_widget.dart';
 import 'package:for_the_table/list/shared/provider.dart';
+import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 
 @RoutePage()
@@ -39,11 +40,24 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   ];
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getHomeRestaurants(context: context);
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateOfListScreen = ref.watch(listProvider);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
+    final stateNotifierRestaurant =
+        ref.watch(restaurantNotifierProvider.notifier);
+    final stateRestaurant = ref.watch(restaurantNotifierProvider);
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: false,
@@ -161,23 +175,56 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 ),
               ),
               5.verticalSpace,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: ListView.builder(
-                    padding: const EdgeInsets.all(0),
-                    itemCount: restaurantlist.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () => AutoRouter.of(context)
-                            .push(const RestaurantDetailRoute()),
-                        child: RestaurantWidget(
-                          imgpath: restaurantlist[index]['image'],
+              (stateRestaurant.isLoading)
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.colorPrimary,
+                      ),
+                    )
+                  : (stateRestaurant.homeRestaurantList != null &&
+                          (stateRestaurant.homeRestaurantList?.isNotEmpty ??
+                              false))
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                          child: ListView.builder(
+                              padding: const EdgeInsets.all(0),
+                              itemCount:
+                                  stateRestaurant.homeRestaurantList?.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () => AutoRouter.of(context)
+                                      .push(const RestaurantDetailRoute()),
+                                  child: RestaurantWidget(
+                                    // imgpath: restaurantlist[index]['image'],
+                                    imgpath:
+                                        'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${stateRestaurant.homeRestaurantList?[index].image?[0]}',
+                                    name: stateRestaurant
+                                            .homeRestaurantList?[index].name ??
+                                        'No Name',
+                                    address: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .address ??
+                                        'No address',
+                                    rating: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .rating ??
+                                        '0',
+                                    numberOfReviews: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .userRatingsTotal ??
+                                        '0',
+                                  ),
+                                );
+                              }),
+                        )
+                      : Center(
+                          child: Text(
+                            'No restaurants',
+                            style: AppTextStyles.textStylePoppins,
+                          ),
                         ),
-                      );
-                    }),
-              ),
               10.verticalSpace,
               Padding(
                 padding: const EdgeInsets.all(18.0),
