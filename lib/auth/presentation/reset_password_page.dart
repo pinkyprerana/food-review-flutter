@@ -57,6 +57,7 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
       body: GestureDetector(
         onTap: () => dismissKeyboard(context),
         child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Container(
