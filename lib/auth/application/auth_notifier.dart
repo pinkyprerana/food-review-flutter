@@ -89,12 +89,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (!Validator.validateEmail(signupEmailTextController.text)) {
       showToastMessage('Please enter valid email');
       return false;
-    } if (signupContactNumberTextController.text.isEmpty) {
+    }
+    if (signupContactNumberTextController.text.isEmpty) {
       showToastMessage('Please Enter Your Phone Number');
       return false;
-    } else if (signupContactNumberTextController.text.isNotEmpty
-        && signupContactNumberTextController.text.length < 10)
-    {
+    } else if (signupContactNumberTextController.text.isNotEmpty &&
+        signupContactNumberTextController.text.length < 10) {
       showToastMessage('Please Enter A Valid Phone Number');
       return false;
     } else if (signupContactNumberTextController.text.isNotEmpty &&
@@ -107,10 +107,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (signupConfirmPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter your confirm password');
       return false;
-    }  if(signupPasswordTextController.text.length < 8 || signupPasswordTextController.text.length > 15 ) {
+    }
+    if (signupPasswordTextController.text.length < 8 ||
+        signupPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
-    }else if(signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
+    } else if (signupPasswordTextController.text !=
+        signupConfirmPasswordTextController.text) {
       showToastMessage('Passwords must be same');
       return false;
     } else if (signupPasswordTextController.text !=
@@ -227,6 +230,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
         Map<String, dynamic> jsonData = response.data;
         if (jsonData['status'] == 200) {
           AppLog.log(jsonData.toString());
+          AppLog.log(jsonData['token']);
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.token, jsonData['token'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userFirstName,
+              jsonData['data']['first_name'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userLastName,
+              jsonData['data']['last_name'] ?? '');
+          _hiveDatabase.box.put(
+              AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
+          _hiveDatabase.box.put(
+              AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
+          _hiveDatabase.box.put(
+              AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.profileImage,
+              jsonData['data']['profile_image'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
           showToastMessage(jsonData['message']);
           signupFirstNameTextController.clear();
           signupLastNameTextController.clear();
@@ -249,8 +271,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (fpEmailTextController.text.isEmpty) {
       showToastMessage('Email Id is required');
       return;
-    }
-    else{
+    } else {
       state = state.copyWith(isLoading: false);
     }
     state = state.copyWith(isLoading: true);
@@ -351,29 +372,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-
   bool validatePassword() {
-    if(fpPasswordTextController.text.length < 8 || fpPasswordTextController.text.length > 15 ) {
+    if (fpPasswordTextController.text.length < 8 ||
+        fpPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
-    }else if(fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
+    } else if (fpPasswordTextController.text !=
+        fpConfirmPasswordTextController.text) {
       showToastMessage('Passwords must be same');
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
 
   Future<void> resetPassword(VoidCallback voidCallback) async {
-
-    if(validatePassword()) {
+    if (validatePassword()) {
       state = state.copyWith(isLoading: true);
 
       try {
-        var (response, dioException) = await _networkApiService
-            .postApiRequestWithToken(
-            url: '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
+        var (
+          response,
+          dioException
+        ) = await _networkApiService.postApiRequestWithToken(
+            url:
+                '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
             body: {
               "email": fpEmailTextController.text,
               "new_password": fpPasswordTextController.text,
@@ -403,7 +426,5 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showConnectionWasInterruptedToastMessage();
       }
     }
-
   }
-
 }

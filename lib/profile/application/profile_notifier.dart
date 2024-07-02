@@ -55,6 +55,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           userProfileResponseModel: userProdileResponseModel,
           profileImgPath:
               '${AppUrls.profilePicLocation}/${fetchedUser.profileImage}',
+          profileImage: '',
         );
         AppLog.log('state.fetchedUser =============== ${state.fetchedUser}');
       } else {
@@ -97,6 +98,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         "last_name": state.fetchedUser?.lastName,
       });
 
+      AppLog.log(
+          'TOKEN ---- ${_hiveDataBase.box.get(AppPreferenceKeys.token)}');
+
       var headers = {
         'Accept': '*/*',
         'Content-Type': 'application/json',
@@ -111,10 +115,12 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
+        AppLog.log('------SUCCESS----------');
         state = state.copyWith(
           isLoading: false,
           profileImgPath:
               '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}',
+          profileImage: fileName,
         );
       } else {
         showToastMessage('Please upload a media');

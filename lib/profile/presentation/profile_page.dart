@@ -36,6 +36,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
+
       await stateNotifier.getUserDetails(context: context);
     });
     super.initState();
@@ -49,6 +50,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final hive = ref.read(hiveProvider);
 
     AppLog.log('state.profileImagePath ============ ${state.profileImgPath}');
+
+    AppLog.log('state.profileImage ============ ${state.profileImage}');
+
+    // AppLog.log(
+    //     'state.fetchedUser?.profileImage ========= ${state.fetchedUser?.profileImage}');
+
+    AppLog.log('state.fetchedUser ========= ${state.fetchedUser}');
 
     return Scaffold(
       extendBody: true,
@@ -324,6 +332,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     Center(
                                       child: GestureDetector(
                                         onTap: () {
+                                          print('clicked');
                                           stateNotifier
                                               .uploadProfileImage(context);
                                         },
@@ -344,12 +353,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                     spreadRadius: 0)
                                               ],
                                               image: DecorationImage(
-                                                image: (state.fetchedUser
-                                                                ?.profileImage !=
-                                                            null &&
-                                                        state.fetchedUser
-                                                                ?.profileImage !=
-                                                            "")
+                                                image: (state.profileImage !=
+                                                        '')
                                                     ? CachedNetworkImageProvider(
                                                             state
                                                                 .profileImgPath)
