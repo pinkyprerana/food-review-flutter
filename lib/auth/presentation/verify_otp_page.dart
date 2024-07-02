@@ -181,6 +181,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                         ),
                         20.verticalSpace,
                         AppButton(
+                          loading: state.isLoading,
                           text: 'Submit',
                           onPressed: () {
                             dismissKeyboard(context);
@@ -190,9 +191,10 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                               stateNotifier.verifyOTP(() {
                                 FocusManager.instance.primaryFocus
                                     ?.unfocus();
-                                AutoRouter.of(context).push(const ResetPasswordRoute());
+                                AutoRouter.of(context).pushAndPopUntil(const ResetPasswordRoute(), predicate: (_) => false);
                               });
                             }
+                            stateNotifier.fpOtpTextController.clear();
                           },
                         ),
                         10.verticalSpace,
@@ -205,18 +207,9 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                                     onTap: () async {
                                       startTimer();
                                       dismissKeyboard(context);
-                                      if (!Validator.validateEmail(
-                                          stateNotifier.fpEmailTextController.text)) {
-                                        showToastMessage('Please enter valid email');
-                                      } else {
                                         stateNotifier.resendOTP(() {
-                                          FocusManager.instance.primaryFocus
-                                              ?.unfocus();
-                                          AutoRouter.of(context).pushAndPopUntil(
-                                              const VerifyOtpRoute(),
-                                              predicate: (_) => false);
+                                          FocusManager.instance.primaryFocus?.unfocus();
                                         });
-                                      }
                                     },
                                     child: Text(
                                       'Resend OTP',

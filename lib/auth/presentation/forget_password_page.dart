@@ -110,6 +110,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         ),
                         10.verticalSpace,
                         AppButton(
+                          loading: state.isLoading,
                           text: 'Submit',
                           onPressed: () async {
                             dismissKeyboard(context);
@@ -120,9 +121,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                               stateNotifier.sendOTP(() {
                                 FocusManager.instance.primaryFocus
                                     ?.unfocus();
-                                AutoRouter.of(context).pushAndPopUntil(
-                                    const VerifyOtpRoute(),
-                                    predicate: (_) => false);
+                                AutoRouter.of(context).push(
+                                    const VerifyOtpRoute());
                               });
                             }
                           },

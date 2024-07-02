@@ -136,6 +136,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                           10.verticalSpace,
                           AppButton(
+                            loading: state.isLoading,
                             text: 'Login',
                             onPressed: () async {
                               AppLog.log('message');

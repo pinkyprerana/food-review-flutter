@@ -89,11 +89,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (!Validator.validateEmail(signupEmailTextController.text)) {
       showToastMessage('Please enter valid email');
       return false;
-    } else if (signupContactNumberTextController.text.isEmpty) {
-      showToastMessage('Please enter mobile');
+    } if (signupContactNumberTextController.text.isEmpty) {
+      showToastMessage('Please Enter Your Phone Number');
       return false;
-    } else if (signupContactNumberTextController.text.length < 8) {
-      showToastMessage('Please enter a valid mobile number');
+    } else if (signupContactNumberTextController.text.isNotEmpty
+        && signupContactNumberTextController.text.length < 10)
+    {
+      showToastMessage('Please Enter A Valid Phone Number');
+      return false;
+    } else if (signupContactNumberTextController.text.isNotEmpty &&
+        !Validator.validatePhone(signupContactNumberTextController.text)) {
+      showToastMessage('Please enter a valid phone number');
       return false;
     } else if (signupPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter password');
@@ -101,8 +107,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (signupConfirmPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter your confirm password');
       return false;
-    } else if (signupPasswordTextController.text.length < 6) {
-      showToastMessage('Please enter at lease 6 digit password');
+    }  if(signupPasswordTextController.text.length < 8 || signupPasswordTextController.text.length > 15 ) {
+      showToastMessage('Password must be between 8 to 15 characters');
+      return false;
+    }else if(signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
+      showToastMessage('Passwords must be same');
       return false;
     } else if (signupPasswordTextController.text !=
         signupConfirmPasswordTextController.text) {
@@ -214,7 +223,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
-        showToastMessage('User already exists with the same phone number');
       } else {
         Map<String, dynamic> jsonData = response.data;
         if (jsonData['status'] == 200) {
@@ -241,6 +249,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (fpEmailTextController.text.isEmpty) {
       showToastMessage('Email Id is required');
       return;
+    }
+    else{
+      state = state.copyWith(isLoading: false);
     }
     state = state.copyWith(isLoading: true);
     try {
@@ -320,6 +331,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
+        fpOtpTextController.text = '';
       } else {
         Map<String, dynamic> jsonData = response.data;
 
@@ -339,41 +351,59 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> resetPassword(VoidCallback voidCallback) async {
-    state = state.copyWith(isLoading: true);
-    try {
-      var (
-        response,
-        dioException
-      ) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
-          body: {
-            "email": fpEmailTextController.text,
-            "new_password": fpPasswordTextController.text,
-            "confirm_password": fpConfirmPasswordTextController.text,
-          });
-      state = state.copyWith(isLoading: false);
 
-      if (response == null && dioException == null) {
-        showConnectionWasInterruptedToastMessage();
-      } else if (dioException != null) {
-        showDioError(dioException);
-      } else {
-        Map<String, dynamic> jsonData = response.data;
-
-        if (response.statusCode == 200) {
-          showToastMessage(jsonData['message']);
-          fpPasswordTextController.clear();
-          fpConfirmPasswordTextController.clear();
-          fpEmailTextController.clear();
-          voidCallback.call();
-        } else {
-          showToastMessage(jsonData['message']);
-        }
-      }
-    } catch (error) {
-      state = state.copyWith(isLoading: false);
-      showConnectionWasInterruptedToastMessage();
+  bool validatePassword() {
+    if(fpPasswordTextController.text.length < 8 || fpPasswordTextController.text.length > 15 ) {
+      showToastMessage('Password must be between 8 to 15 characters');
+      return false;
+    }else if(fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
+      showToastMessage('Passwords must be same');
+      return false;
+    }
+    else {
+      return true;
     }
   }
+
+  Future<void> resetPassword(VoidCallback voidCallback) async {
+
+    if(validatePassword()) {
+      state = state.copyWith(isLoading: true);
+
+      try {
+        var (response, dioException) = await _networkApiService
+            .postApiRequestWithToken(
+            url: '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
+            body: {
+              "email": fpEmailTextController.text,
+              "new_password": fpPasswordTextController.text,
+              "confirm_password": fpConfirmPasswordTextController.text,
+            });
+        state = state.copyWith(isLoading: false);
+
+        if (response == null && dioException == null) {
+          showConnectionWasInterruptedToastMessage();
+        } else if (dioException != null) {
+          showDioError(dioException);
+        } else {
+          Map<String, dynamic> jsonData = response.data;
+
+          if (response.statusCode == 200) {
+            showToastMessage(jsonData['message']);
+            fpPasswordTextController.clear();
+            fpConfirmPasswordTextController.clear();
+            fpEmailTextController.clear();
+            voidCallback.call();
+          } else {
+            showToastMessage(jsonData['message']);
+          }
+        }
+      } catch (error) {
+        state = state.copyWith(isLoading: false);
+        showConnectionWasInterruptedToastMessage();
+      }
+    }
+
+  }
+
 }

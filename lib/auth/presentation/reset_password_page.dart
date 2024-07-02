@@ -33,30 +33,31 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
         centerTitle: false,
         // leadingWidth: 60,
         automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.colorPrimary.withOpacity(0.20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
-              ],
-            ),
-          ),
-        ),
+        // leading: GestureDetector(
+        //   // onTap: () => Navigator.pop(context),
+        //   child: Container(
+        //     alignment: Alignment.center,
+        //     margin:
+        //         const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+        //     decoration: BoxDecoration(
+        //       borderRadius: BorderRadius.circular(10),
+        //       color: AppColors.colorPrimary.withOpacity(0.20),
+        //     ),
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         5.horizontalSpace, //this is for centering the icon
+        //         Icon(Icons.arrow_back_ios,
+        //             color: AppColors.colorPrimary, size: 15.h),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
       body: GestureDetector(
         onTap: () => dismissKeyboard(context),
         child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Container(
@@ -120,6 +121,7 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                         ),
                         10.verticalSpace,
                         AppButton(
+                          loading: state.isLoading,
                           text: 'Reset Password',
                           onPressed: () {
                             dismissKeyboard(context);
