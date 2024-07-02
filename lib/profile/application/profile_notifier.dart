@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
@@ -252,6 +254,53 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         showToastMessage('Something, went wrong, please try again');
       }
+    }
+  }
+
+  Future<void> logout({required BuildContext context}) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      AutoRouter.of(context).pushAndPopUntil(
+        const LandingIntroRoute(),
+        predicate: (_) => false,
+      );
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.get<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.logout}',
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        await _hiveDataBase.box.delete(AppPreferenceKeys.token);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userEmail);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userId);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userFirstName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userLastName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.fullName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userPhone);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.profileImage);
+
+        await _hiveDataBase.box.clear();
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isLoading: false);
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to logout');
+
+      state = state.copyWith(isLoading: false);
     }
   }
 }
