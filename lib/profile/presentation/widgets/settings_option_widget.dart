@@ -158,7 +158,9 @@ class SettingsOptionWidget extends StatelessWidget {
     switch (title) {
       case 'Deactivate My Account':
         {
-          commonModal(context,
+          commonModal(context, onTap: () {
+            Navigator.pop(context);
+          },
               child: Stack(
                 children: [
                   Column(
@@ -215,7 +217,9 @@ class SettingsOptionWidget extends StatelessWidget {
         break;
       case 'Delete My Account':
         {
-          commonModal(context,
+          commonModal(context, onTap: () {
+            Navigator.pop(context);
+          },
               child: Stack(
                 children: [
                   Column(

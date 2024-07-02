@@ -6,6 +6,7 @@ import 'package:for_the_table/auth/shared/providers.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
@@ -138,9 +139,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             loading: state.isLoading,
                             text: 'Login',
                             onPressed: () async {
+                              AppLog.log('message');
                               stateNotifier.signIn(() {
-                                FocusManager.instance.primaryFocus
-                                    ?.unfocus();
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 AutoRouter.of(context).pushAndPopUntil(
                                     const BaseRoute(),
                                     predicate: (_) => false);

@@ -160,9 +160,10 @@ Center loaderPrimaryColor() {
 }
 
 Center loader() {
-  return const Center(
-    child: CircularProgressIndicator(
+  return Center(
+    child: LoadingAnimationWidget.prograssiveDots(
       color: AppColors.colorWhite,
+      size: 40,
     ),
   );
 }

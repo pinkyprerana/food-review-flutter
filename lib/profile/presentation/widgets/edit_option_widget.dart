@@ -1,15 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
+import 'package:for_the_table/profile/shared/providers.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 
-class EditOptionWidget extends StatelessWidget {
+class EditOptionWidget extends ConsumerWidget {
   const EditOptionWidget(
       {super.key,
       required this.title,
@@ -20,20 +22,15 @@ class EditOptionWidget extends StatelessWidget {
   final String subtitle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stateNotifier = ref.watch(profileNotifierProvider.notifier);
+    final state = ref.watch(profileNotifierProvider);
     return GestureDetector(
-      // onTap: (title == 'Email' ||
-      //         title == 'Change Password' ||
-      //         title == 'Phone Number')
-      //     ? () {
-      //         getModal(title, context);
-      //       }
-      //     : null,
       onTap: () {
         if (title == 'Email' ||
             title == 'Change Password' ||
             title == 'Phone Number') {
-          getModal(title, context);
+          getModal(title, context, stateNotifier, state);
         } else if (title == 'Add Bio') {
           AutoRouter.of(context).push(const AddBioRoute());
         } else if (title == 'Home City') {
@@ -190,11 +187,14 @@ class EditOptionWidget extends StatelessWidget {
   }
 }
 
-void getModal(String title, BuildContext context) {
+void getModal(String title, BuildContext context, stateNotifier, state) {
   switch (title) {
     case 'Email':
       {
-        commonModal(context,
+        commonModal(context, onTap: () {
+          stateNotifier.emailAddress.text = '';
+          Navigator.pop(context);
+        },
             child: Stack(
               children: [
                 Column(
@@ -221,13 +221,18 @@ void getModal(String title, BuildContext context) {
                           fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
                     20.verticalSpace,
-                    const CustomInputField(
+                    CustomInputField(
+                      controller: stateNotifier.emailAddress,
                       label: 'Email Address',
                       hint: 'Enter email address',
                     ),
                     10.verticalSpace,
-                    const AppButton(
+                    AppButton(
+                      loading: state.isLoading,
                       text: 'Submit',
+                      onPressed: () {
+                        stateNotifier.changeEmailAddress(context);
+                      },
                     )
                   ],
                 ),
@@ -237,7 +242,9 @@ void getModal(String title, BuildContext context) {
       break;
     case 'Change Password':
       {
-        commonModal(context,
+        commonModal(context, onTap: () {
+          Navigator.pop(context);
+        },
             child: Stack(
               children: [
                 Column(
@@ -293,7 +300,10 @@ void getModal(String title, BuildContext context) {
       break;
     case 'Phone Number':
       {
-        commonModal(context,
+        commonModal(context, onTap: () {
+          stateNotifier.phoneNumber.text = '';
+          Navigator.pop(context);
+        },
             child: Stack(
               children: [
                 Column(
@@ -320,14 +330,19 @@ void getModal(String title, BuildContext context) {
                           fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
                     20.verticalSpace,
-                    const CustomInputField(
+                    CustomInputField(
+                      controller: stateNotifier.phoneNumber,
                       label: 'Phone Number',
                       hint: 'Phone Number',
                       isPassword: false,
                     ),
                     10.verticalSpace,
-                    const AppButton(
+                    AppButton(
+                      loading: state.isLoading,
                       text: 'Save',
+                      onPressed: () {
+                        stateNotifier.changePhoneNumber(context);
+                      },
                     )
                   ],
                 ),

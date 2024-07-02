@@ -20,7 +20,9 @@ class OtherOptionsWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (title == 'Logout') {
-          commonModal(context,
+          commonModal(context, onTap: () {
+            Navigator.pop(context);
+          },
               child: Stack(
                 children: [
                   Column(
