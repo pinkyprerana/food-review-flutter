@@ -15,4 +15,5 @@ class AppUrls {
   static const profileUpdate = '/user/profile-update';
   static const profilePicLocation =
       'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
+  static const restaurantList = '/restaurant/list';
 }
