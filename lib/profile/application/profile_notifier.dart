@@ -55,7 +55,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           userProfileResponseModel: userProdileResponseModel,
           profileImgPath:
               '${AppUrls.profilePicLocation}/${fetchedUser.profileImage}',
-          profileImage: '',
         );
         AppLog.log('state.fetchedUser =============== ${state.fetchedUser}');
       } else {
