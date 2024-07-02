@@ -108,8 +108,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (signupConfirmPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter your confirm password');
       return false;
-    } else if (signupPasswordTextController.text.length < 6) {
-      showToastMessage('Please enter at lease 6 digit password');
+    }  if(signupPasswordTextController.text.length < 8 || signupPasswordTextController.text.length > 15 ) {
+      showToastMessage('Password must be between 8 to 15 characters');
+      return false;
+    }else if(signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
+      showToastMessage('Passwords must be same');
       return false;
     } else if (signupPasswordTextController.text !=
         signupConfirmPasswordTextController.text) {
@@ -328,6 +331,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
+        fpOtpTextController.text = '';
       } else {
         Map<String, dynamic> jsonData = response.data;
 

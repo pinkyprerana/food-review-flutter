@@ -173,13 +173,6 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                             },
                             onChanged: (value) {
                               debugPrint('onChanged: $value');
-                              if(value.length == 4){
-                                stateNotifier.verifyOTP(() {
-                                  FocusManager.instance.primaryFocus
-                                      ?.unfocus();
-                                  AutoRouter.of(context).pushAndPopUntil(const ResetPasswordRoute(), predicate: (_) => false);
-                                });
-                              }
                             },
                             errorPinTheme: defaultPinTheme.copyBorderWith(
                               border: Border.all(color: Colors.redAccent),
