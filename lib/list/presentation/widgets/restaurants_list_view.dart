@@ -204,9 +204,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                               '')
                                           ? Text(
                                               //widget.restaurants[index]['reviews']!,
-                                              state.restaurantList?[index]
-                                                      .userRatingsTotal ??
-                                                  '0',
+                                              '${state.restaurantList?[index].userRatingsTotal ?? 0} reviews',
                                               style: AppTextStyles
                                                   .textStylePoppinsRegular
                                                   .copyWith(

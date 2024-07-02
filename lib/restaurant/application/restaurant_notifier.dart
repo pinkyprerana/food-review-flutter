@@ -21,6 +21,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   final HiveDatabase _hiveDataBase;
   final Dio _dio;
 
+  int totalNumberOfRestaurants = 0;
+
   RefreshController restaurantRefreshController = RefreshController();
 
   @override
@@ -77,6 +79,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         final List<Restaurant>? restaurantList =
             reastaurantListResponseModel.restaurantList;
+
+        totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
 
         state = state.copyWith(
           isLoading: false,
