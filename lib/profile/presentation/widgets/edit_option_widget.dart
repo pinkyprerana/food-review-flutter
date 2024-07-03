@@ -336,6 +336,7 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                       label: 'Phone Number',
                       hint: 'Phone Number',
                       isPassword: false,
+                      maxLength: 15,
                     ),
                     10.verticalSpace,
                     AppButton(

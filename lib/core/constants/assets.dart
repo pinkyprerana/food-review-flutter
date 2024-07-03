@@ -96,4 +96,5 @@ class Assets {
   static const String man = 'assets/images/man.png';
   static const String woman = 'assets/images/woman.png';
   static const String noProfileImage = 'assets/images/no-profile-image.png';
+  static const String noRestaurantImage = 'assets/images/no-image.jpg';
 }
