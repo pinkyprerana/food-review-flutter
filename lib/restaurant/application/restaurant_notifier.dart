@@ -164,7 +164,4 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
-  Future<void> updateSelectedRestaurant(selectedRestaurant) async {
-    selectedRestaurant = "restaurant_id";
-  }
 }

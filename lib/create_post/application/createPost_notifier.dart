@@ -64,20 +64,25 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   TextEditingController();
   final TextEditingController postDescriptionTextController =
   TextEditingController();
+  final TextEditingController restaurantAddressTextController =
+  TextEditingController();
 
 
-  Future<void> addPost(VoidCallback voidCallback) async {
+  Future<void> addPost(VoidCallback voidCallback, XFile? imageFile) async {
       state = state.copyWith(isLoading: true);
+
+      final imagePath = File(imageFile?.path ?? '');
+      print("_________________${imagePath}");
 
       try {
         var (response, dioException) = await _networkApiService
             .postApiRequestWithToken(
             url: '${AppUrls.BASE_URL}${'/post/add'}',
             body: {
-              "restaurant_id": restaurantIdTextController.text,//"667ab39095a8acd972612335",
+              "restaurant_id": restaurantIdTextController.text,
               "title": postTitleTextController.text,
               "description": postDescriptionTextController.text,
-              "image": File("")
+              "image": await MultipartFile.fromFile(imagePath.path),
             });
         state = state.copyWith(isLoading: false);
 

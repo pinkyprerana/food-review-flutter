@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/utils/toast.dart';
 
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
@@ -26,6 +27,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getRestaurants(context: context);
+    });
+
   }
 
   @override
@@ -34,17 +40,38 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
-    final restaurantListNotifier = ref.watch(restaurantNotifierProvider.notifier);
     final restaurantList =ref.watch(restaurantNotifierProvider).restaurantList;
+    String selectedRestaurantName = "";
+    String selectedRestaurantAddress = "";
 
     List<DropdownMenuItem<String>>? dropdownItems = restaurantList
         ?.map((restaurant) => restaurant.name != null ? DropdownMenuItem<String>(
-      value: restaurant.name!,
-      child: Text(restaurant.name!),) : null)
+      value: restaurant.id!,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(restaurant.name!, style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,),),
+            // selectedRestaurantName.isNotEmpty ?
+            // Visibility(
+            //   child:
+              Row(
+                children: [
+                  Icon(Icons.location_on_outlined, color:  AppColors.colorBlack, size: 10.h,),
+                  Text(restaurant.address!, style: AppTextStyles.textStylePoppinsRegular.copyWith(color: AppColors.colorPrimaryAlpha,),)
+                ],
+              ),
+            // )
+            //     : const SizedBox()
+          ],
+        ),
+      ),
+          )
+        : null)
         .toList()
         .where((item) => item != null).cast<DropdownMenuItem<String>>()
         .toList();
-
 
     return Scaffold(
       appBar: AppBar(
@@ -105,10 +132,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: widget.imageFile == null
+                  child: imageFile == null
                       ? const Text('No image selected.')
                       : Image.file(
-                          File(widget.imageFile!.path),
+                          File(imageFile.path),
                           fit: BoxFit.fill,
                           height: double.infinity,
                           width: double.infinity,
@@ -354,10 +381,17 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                     color: AppColors.colorGrey3,
                                   ),
                                   items: dropdownItems,
-                                  onChanged: (String? selectedRestaurant) {
-                                    if (selectedRestaurant != null) {
-                                      restaurantListNotifier.updateSelectedRestaurant(selectedRestaurant);
+                                  onChanged: (String? selectedValue) {
+                                    if (selectedValue != null) {
+                                      final selectedRestaurant = restaurantList?.firstWhere(
+                                              (restaurant) => restaurant.id == selectedValue);
+                                      if (selectedRestaurant != null) {
+                                        selectedRestaurantName = selectedRestaurant.name!;
+                                        selectedRestaurantAddress = selectedRestaurant.address!;
+                                        createPostNotifier.restaurantIdTextController.text = selectedValue;
+                                      }
                                     }
+                                    createPostNotifier.restaurantAddressTextController.text = selectedRestaurantAddress;
                                   },
                                 ),
                               ),
@@ -407,7 +441,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                     color: AppColors.colorGrey,
                                     borderRadius: BorderRadius.circular(10)),
                                 child: TextFormField(
-                                  // controller:,
+                                  controller: createPostNotifier.restaurantAddressTextController,
                                   // focusNode: ,
                                   // maxLength: ,
                                   decoration: InputDecoration(
@@ -567,7 +601,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               onPressed: () {
                                 createPostNotifier.addPost(() {
                                   createPostNotifier.onContinuePressed(context);
-                                });
+                                }, imageFile);
                               },
                             ),
                             AppButton(
@@ -590,8 +624,14 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         padding: const EdgeInsets.all(16.0),
                         child: AppButton(
                           text: "Continue",
-                          onPressed: () =>
-                              createPostNotifier.onContinuePressed(context),
+                          onPressed: () {
+                            if(createPostNotifier.postTitleTextController.text.isNotEmpty
+                            && createPostNotifier.postDescriptionTextController.text.isNotEmpty ){
+                              createPostNotifier.onContinuePressed(context);
+                            }else{
+                              showToastMessage("Post title and description are required");
+                            }
+                          }
                         ),
                       ),
               ],
