@@ -78,12 +78,12 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       try {
         var (response, dioException) = await _networkApiService
             .postApiRequestWithToken(
-            url: '${AppUrls.BASE_URL}${'/post/add'}',
+            url: '${AppUrls.BASE_URL}${AppUrls.addPost}',
             body: {
               "restaurant_id": restaurantIdTextController.text,
               "title": postTitleTextController.text,
               "description": postDescriptionTextController.text,
-              "image": '${AppUrls.postImageUrl}/$imageName',
+              "image": '${AppUrls.postImageLocation}/$imageName',
               "how_was_it": postHowWasItTextController.text,
               // "cuisine": ,
             });

@@ -280,7 +280,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${'/user/forgot-password'}',
+          url: '${AppUrls.BASE_URL}${AppUrls.sendOTP}',
           body: {
             "email": fpEmailTextController.text,
           });
@@ -314,7 +314,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${'/user/resend-forgot-password-otp'}',
+          url: '${AppUrls.BASE_URL}${AppUrls.resendOTP}',
           body: {
             "email": fpEmailTextController.text,
           });
@@ -344,7 +344,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${'/user/forget-password-otp-verification'}',
+          url: '${AppUrls.BASE_URL}${AppUrls.verifyOTP}',
           body: {
             "email": fpEmailTextController.text,
             "otp": fpOtpTextController.text,
@@ -399,7 +399,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           dioException
         ) = await _networkApiService.postApiRequestWithToken(
             url:
-                '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
+                '${AppUrls.BASE_URL}${AppUrls.resetPassword}',
             body: {
               "email": fpEmailTextController.text,
               "new_password": fpPasswordTextController.text,
