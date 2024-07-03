@@ -138,14 +138,21 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: GoogleMap(
-                                initialCameraPosition: _currentPosition,
-                                markers: Set<Marker>.of(_marker),
-                                onMapCreated: (GoogleMapController controller) {
-                                  _controller.complete(controller);
-                                },
-                                gestureRecognizers: Set()
-                                  ..add(Factory<PanGestureRecognizer>(
-                                      () => PanGestureRecognizer()))),
+                              initialCameraPosition: _currentPosition,
+                              markers: Set<Marker>.of(_marker),
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete(controller);
+                              },
+                              // gestureRecognizers: Set()
+                              //   ..add(Factory<PanGestureRecognizer>(
+                              //       () => PanGestureRecognizer())),
+                              gestureRecognizers:
+                                  <Factory<OneSequenceGestureRecognizer>>[
+                                new Factory<OneSequenceGestureRecognizer>(
+                                  () => new EagerGestureRecognizer(),
+                                ),
+                              ].toSet(),
+                            ),
                           ),
                         ),
                         Column(
