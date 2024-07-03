@@ -218,6 +218,14 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                     name: stateRestaurant
                                             .homeRestaurantList?[index].name ??
                                         '',
+                                    rating: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .rating ??
+                                        '',
+                                    description: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .description ??
+                                        '',
                                   )),
                                   child: RestaurantWidget(
                                     // imgpath: restaurantlist[index]['image'],
