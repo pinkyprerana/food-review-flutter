@@ -232,7 +232,7 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                       text: 'Submit',
                       onPressed: () async {
                         await stateNotifier.changeEmailAddress(context);
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
                     )
                   ],
@@ -343,6 +343,7 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                       text: 'Save',
                       onPressed: () {
                         stateNotifier.changePhoneNumber(context);
+                        // Navigator.pop(context);
                       },
                     )
                   ],

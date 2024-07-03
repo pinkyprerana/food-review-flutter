@@ -27,35 +27,9 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     super.initState();
   }
 
-  // final List editOptions = const [
-  //   {'icon': Assets.sms, 'title': 'Email', 'subtitle': 'example@gmail.com'},
-  //   {'icon': Assets.call, 'title': 'Phone Number', 'subtitle': '123 456 7890'},
-  //   {'icon': Assets.lock, 'title': 'Change Password', 'subtitle': ''},
-  //   {'icon': Assets.house, 'title': 'Home City', 'subtitle': ''},
-  //   {'icon': Assets.doc, 'title': 'Add Bio', 'subtitle': ''},
-  // ];
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileNotifierProvider);
-
-    if (state.fetchedUser != null) {
-      List editOptions = [
-        {
-          'icon': Assets.sms,
-          'title': 'Email',
-          'subtitle': state.fetchedUser?.email
-        },
-        {
-          'icon': Assets.call,
-          'title': 'Phone Number',
-          'subtitle': '123 456 7890'
-        },
-        {'icon': Assets.lock, 'title': 'Change Password', 'subtitle': ''},
-        {'icon': Assets.house, 'title': 'Home City', 'subtitle': ''},
-        {'icon': Assets.doc, 'title': 'Add Bio', 'subtitle': ''},
-      ];
-    }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -112,19 +86,19 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       subtitle: state.fetchedUser?.email ?? '',
                     ),
                     EditOptionWidget(
-                      title: 'Email',
-                      imgpath: Assets.sms,
-                      subtitle: state.fetchedUser?.email ?? '',
+                      title: 'Phone Number',
+                      imgpath: Assets.call,
+                      subtitle: state.fetchedUser?.phone ?? '',
                     ),
-                    EditOptionWidget(
-                      title: 'Email',
-                      imgpath: Assets.sms,
-                      subtitle: state.fetchedUser?.email ?? '',
+                    const EditOptionWidget(
+                      title: 'Change Password',
+                      imgpath: Assets.lock,
+                      subtitle: '',
                     ),
-                    EditOptionWidget(
-                      title: 'Email',
-                      imgpath: Assets.sms,
-                      subtitle: state.fetchedUser?.email ?? '',
+                    const EditOptionWidget(
+                      title: 'Add Bio',
+                      imgpath: Assets.doc,
+                      subtitle: '',
                     )
                     // ListView.builder(
                     //     padding: const EdgeInsets.all(0.0),

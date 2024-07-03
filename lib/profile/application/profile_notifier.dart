@@ -183,6 +183,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
           emailAddress.text = '';
 
+          await getUserDetails();
+
+          Navigator.pop(context);
+
           state = state.copyWith(isLoading: false);
         } else {
           showToastMessage('Something went wrong, try again');
@@ -246,6 +250,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           showToastMessage('Phone Number Changed');
 
           phoneNumber.text = '';
+
+          await getUserDetails();
+
+          Navigator.pop(context);
 
           state = state.copyWith(isLoading: false);
         } else {
