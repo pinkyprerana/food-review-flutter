@@ -158,6 +158,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               width: MediaQuery.of(context).size.width * 0.13,
                               onPressed: () {
                                 createPostNotifier.resetPage();
+                                createPostNotifier.clearAllPostDetails();
                                 Navigator.pop(context);
                               },
                               child: Image.asset(
@@ -491,7 +492,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 ].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(value,
+                    style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 10),
+                    ),
                   );
                 }).toList(),
                 onChanged: (_) {},

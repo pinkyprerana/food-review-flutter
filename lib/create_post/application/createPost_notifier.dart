@@ -119,6 +119,15 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     postHowWasItTextController.clear();
   }
 
+  clearAllPostDetails(){
+    postTitleTextController.clear();
+    postDescriptionTextController.clear();
+    restaurantNameTextController.clear();
+    restaurantIdTextController.clear();
+    restaurantAddressTextController.clear();
+    postHowWasItTextController.clear();
+  }
+
   void selectedReview(String selectedReview) async {
       postHowWasItTextController.text = selectedReview;
       state = state.copyWith(selectedReview: selectedReview);
