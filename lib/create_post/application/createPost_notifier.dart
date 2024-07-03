@@ -58,6 +58,8 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     state = state.copyWith(imageFile: imageFile);
   }
 
+  TextEditingController restaurantNameTextController =
+  TextEditingController();
   final TextEditingController restaurantIdTextController =
   TextEditingController();
   final TextEditingController postTitleTextController =
@@ -72,7 +74,8 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       state = state.copyWith(isLoading: true);
 
       final imagePath = File(imageFile?.path ?? '');
-      print("_________________${imagePath}");
+      String imageName = imagePath.path.split('/').last;
+      print("_________________${imageName}");
 
       try {
         var (response, dioException) = await _networkApiService
@@ -82,7 +85,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
               "restaurant_id": restaurantIdTextController.text,
               "title": postTitleTextController.text,
               "description": postDescriptionTextController.text,
-              "image": await MultipartFile.fromFile(imagePath.path),
+              "image": '${AppUrls.postImageUrl}/$imageName',
             });
         state = state.copyWith(isLoading: false);
 
@@ -109,5 +112,10 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       }
     }
 
+  clearRestaurantDetails(){
+    restaurantNameTextController.clear();
+    restaurantIdTextController.clear();
+    restaurantAddressTextController.clear();
+  }
 
 }

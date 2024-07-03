@@ -1,7 +1,7 @@
 class AppUrls {
   static const BASE_URL = 'https://forthetable.dedicateddevelopers.us/api';
-  // static const baseImageUrl =
-  //     'https://admin-matchfluence.dedicateddevelopers.us/uploads/user/';
+  static const postImageUrl =
+      'https://admin-matchfluence.dedicateddevelopers.us/uploads/post/';
   // static const baseChatMediaUrl =
   //     'https://admin-matchfluence.dedicateddevelopers.us/uploads/chat/';
   // static const baseGalleryMediaUrl =
