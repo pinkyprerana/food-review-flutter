@@ -105,13 +105,25 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0).r,
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.restaurantList?[index].image?[0]}',
-                                  width: 48.r,
-                                  height: 48.r,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: ((state.restaurantList?[index].image?[0]
+                                                .contains('jpg') ??
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
+                                                .contains('png') ??
+                                            false))
+                                    ? CachedNetworkImage(
+                                        imageUrl:
+                                            'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.restaurantList?[index].image?[0]}',
+                                        width: 48.r,
+                                        height: 48.r,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        Assets.noRestaurantImage,
+                                        width: 48.r,
+                                        height: 48.r,
+                                        fit: BoxFit.cover,
+                                      ),
                                 // child: Image.asset(
                                 //   widget.restaurants[0]['image']!,
                                 //   width: 48.r,
