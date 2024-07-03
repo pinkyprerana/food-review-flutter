@@ -26,10 +26,12 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   final picker = ImagePicker();
 
+  ProfileDetails? fetchedUser;
+
   final TextEditingController emailAddress = TextEditingController();
   final TextEditingController phoneNumber = TextEditingController();
 
-  Future<void> getUserDetails({required BuildContext context}) async {
+  Future<void> getUserDetails() async {
     try {
       state = state.copyWith(isLoading: true);
 
@@ -45,7 +47,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       if (response.statusCode == 200 && response.data != null) {
         AppLog.log('response ===== $response');
 
-        final fetchedUser = ProfileDetails.fromJson(response.data!['data']);
+        fetchedUser = ProfileDetails.fromJson(response.data!['data']);
         final userProdileResponseModel =
             UserProfileModel.fromJson(response.data);
 
@@ -54,7 +56,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           fetchedUser: fetchedUser,
           userProfileResponseModel: userProdileResponseModel,
           profileImgPath:
-              '${AppUrls.profilePicLocation}/${fetchedUser.profileImage}',
+              '${AppUrls.profilePicLocation}/${fetchedUser?.profileImage}',
         );
         AppLog.log('state.fetchedUser =============== ${state.fetchedUser}');
       } else {
@@ -121,6 +123,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
               '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}',
           profileImage: fileName,
         );
+        await getUserDetails();
       } else {
         showToastMessage('Please upload a media');
 

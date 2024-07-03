@@ -37,7 +37,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
 
-      await stateNotifier.getUserDetails(context: context);
+      await stateNotifier.getUserDetails();
     });
     super.initState();
   }
@@ -51,7 +51,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
     AppLog.log('state.profileImagePath ============ ${state.profileImgPath}');
 
-    AppLog.log('state.profileImage ============ ${state.profileImage}');
+    AppLog.log(
+        'state.fetchedUser?.profileImage ============ ${state.fetchedUser?.profileImage}');
 
     // AppLog.log(
     //     'state.fetchedUser?.profileImage ========= ${state.fetchedUser?.profileImage}');
@@ -353,7 +354,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                     spreadRadius: 0)
                                               ],
                                               image: DecorationImage(
-                                                image: (state.profileImage !=
+                                                image: (state.fetchedUser
+                                                            ?.profileImage !=
                                                         '')
                                                     ? CachedNetworkImageProvider(
                                                             state
