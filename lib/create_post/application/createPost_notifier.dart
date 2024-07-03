@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
@@ -72,9 +74,10 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
             .postApiRequestWithToken(
             url: '${AppUrls.BASE_URL}${'/post/add'}',
             body: {
-              "restaurant_id": restaurantIdTextController.text,
+              "restaurant_id": restaurantIdTextController.text,//"667ab39095a8acd972612335",
               "title": postTitleTextController.text,
               "description": postDescriptionTextController.text,
+              "image": File("")
             });
         state = state.copyWith(isLoading: false);
 

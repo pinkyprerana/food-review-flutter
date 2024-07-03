@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
+import '../../restaurant/shared/provider.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_input_field.dart';
 import '../shared/provider.dart';
@@ -33,6 +34,18 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
+    final restaurantListNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    final restaurantList =ref.watch(restaurantNotifierProvider).restaurantList;
+
+    List<DropdownMenuItem<String>>? dropdownItems = restaurantList
+        ?.map((restaurant) => restaurant.name != null ? DropdownMenuItem<String>(
+      value: restaurant.name!,
+      child: Text(restaurant.name!),) : null)
+        .toList()
+        .where((item) => item != null).cast<DropdownMenuItem<String>>()
+        .toList();
+
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -214,13 +227,15 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              const CustomInputField(
+                              CustomInputField(
+                                controller: createPostNotifier.postTitleTextController,
                                 label: 'Post Title',
                                 hint: 'Enter post title',
                               ),
                               20.verticalSpace,
                               TextField(
                                 maxLines: 5,
+                                controller: createPostNotifier.postDescriptionTextController,
                                 decoration: InputDecoration(
                                   labelText: 'Post Description',
                                   hintText: 'Enter post description',
@@ -281,7 +296,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  "Lorem ipsum is a dummy title",
+                                  createPostNotifier.postTitleTextController.text,
+                                  // "Lorem ipsum is a dummy title",
                                   style: AppTextStyles.textStylePoppinsMedium
                                       .copyWith(
                                           fontSize: 12.sp,
@@ -289,13 +305,17 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 ),
                               ),
                               10.verticalSpace,
-                              Text(
-                                "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
-                                style: AppTextStyles.textStylePoppinsLight
-                                    .copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.colorBlack2,
-                                        letterSpacing: 0),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  createPostNotifier.postDescriptionTextController.text,
+                                  // "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
+                                  style: AppTextStyles.textStylePoppinsLight
+                                      .copyWith(
+                                          fontSize: 10.sp,
+                                          color: AppColors.colorBlack2,
+                                          letterSpacing: 0),
+                                ),
                               ),
                               20.verticalSpace,
                               Align(
@@ -313,35 +333,68 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 height: 60.r,
                                 width: double.infinity,
                                 alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16)
-                                        .r,
+                                padding: const EdgeInsets.symmetric(horizontal: 16).r,
                                 decoration: BoxDecoration(
                                     color: AppColors.colorGrey,
                                     borderRadius: BorderRadius.circular(10)),
-                                child: TextFormField(
-                                  // controller:,
-                                  // focusNode: ,
-                                  // maxLength: ,
+                                child: DropdownButtonFormField<String>(
+                                  dropdownColor: AppColors.colorGrey,
                                   decoration: InputDecoration(
-                                    counterText: '',
-                                    hintText: 'Select Restaurant',
-                                    hintStyle: AppTextStyles
-                                        .textStylePoppinsRegular
-                                        .copyWith(
+                                    isDense: true, // Reduce vertical space
+                                    hintText: "Select Restaurant",
+                                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorPrimaryAlpha,
                                     ),
+                                    focusedBorder: InputBorder.none,
                                     border: InputBorder.none,
-                                    // focusedBorder: OutlineInputBorder(
-                                    //   borderRadius: BorderRadius.circular(10),
-                                    //   borderSide: const BorderSide(color: AppColors.colorPrimary),
-                                    // ),
+                                    floatingLabelBehavior: FloatingLabelBehavior.always,
                                   ),
-                                  keyboardType: TextInputType.text,
-                                  style: AppTextStyles.textStylePoppinsRegular
-                                      .copyWith(fontSize: 13.sp),
+                                  icon: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: AppColors.colorGrey3,
+                                  ),
+                                  items: dropdownItems,
+                                  onChanged: (String? selectedRestaurant) {
+                                    if (selectedRestaurant != null) {
+                                      restaurantListNotifier.updateSelectedRestaurant(selectedRestaurant);
+                                    }
+                                  },
                                 ),
                               ),
+
+                              // Container(
+                              //   height: 60.r,
+                              //   width: double.infinity,
+                              //   alignment: Alignment.center,
+                              //   padding:
+                              //       const EdgeInsets.symmetric(horizontal: 16)
+                              //           .r,
+                              //   decoration: BoxDecoration(
+                              //       color: AppColors.colorGrey,
+                              //       borderRadius: BorderRadius.circular(10)),
+                              //   child: TextFormField(
+                              //     controller: createPostNotifier.restaurantIdTextController,
+                              //     // focusNode: ,
+                              //     // maxLength: ,
+                              //     decoration: InputDecoration(
+                              //       counterText: '',
+                              //       hintText: 'Select Restaurant',
+                              //       hintStyle: AppTextStyles
+                              //           .textStylePoppinsRegular
+                              //           .copyWith(
+                              //         color: AppColors.colorPrimaryAlpha,
+                              //       ),
+                              //       border: InputBorder.none,
+                              //       // focusedBorder: OutlineInputBorder(
+                              //       //   borderRadius: BorderRadius.circular(10),
+                              //       //   borderSide: const BorderSide(color: AppColors.colorPrimary),
+                              //       // ),
+                              //     ),
+                              //     keyboardType: TextInputType.text,
+                              //     style: AppTextStyles.textStylePoppinsRegular
+                              //         .copyWith(fontSize: 13.sp),
+                              //   ),
+                              // ),
                               10.verticalSpace,
                               Container(
                                 height: 60.r,
@@ -512,9 +565,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               width: MediaQuery.of(context).size.width * 0.73,
                               text: "Post",
                               onPressed: () {
-                                createPostNotifier.onContinuePressed(context);
-                                // createPostNotifier.addListener( () =>
-                                //   createPostNotifier.onContinuePressed(context));
+                                createPostNotifier.addPost(() {
+                                  createPostNotifier.onContinuePressed(context);
+                                });
                               },
                             ),
                             AppButton(
