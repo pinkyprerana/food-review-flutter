@@ -1,24 +1,36 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/profile/presentation/widgets/edit_option_widget.dart';
+import 'package:for_the_table/profile/shared/providers.dart';
 
 @RoutePage()
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
-  final List editOptions = const [
-    {'icon': Assets.sms, 'title': 'Email', 'subtitle': 'example@gmail.com'},
-    {'icon': Assets.call, 'title': 'Phone Number', 'subtitle': '123 456 7890'},
-    {'icon': Assets.lock, 'title': 'Change Password', 'subtitle': ''},
-    {'icon': Assets.house, 'title': 'Home City', 'subtitle': ''},
-    {'icon': Assets.doc, 'title': 'Add Bio', 'subtitle': ''},
-  ];
+
+  @override
+  ConsumerState<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends ConsumerState<EditProfilePage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(profileNotifierProvider.notifier);
+
+      await stateNotifier.getUserDetails();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(profileNotifierProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -56,27 +68,54 @@ class EditProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5).r,
-          child: Column(
-            children: [
-              ListView.builder(
-                  padding: const EdgeInsets.all(0.0),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: editOptions.length,
-                  itemBuilder: (context, index) {
-                    return EditOptionWidget(
-                      imgpath: editOptions[index]['icon'],
-                      title: editOptions[index]['title'],
-                      subtitle: editOptions[index]['subtitle'],
-                    );
-                  })
-            ],
-          ),
-        ),
-      ),
+      body: (state.isLoading == true && state.fetchedUser == null)
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.colorPrimary,
+              ),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 5).r,
+                child: Column(
+                  children: [
+                    EditOptionWidget(
+                      title: 'Email',
+                      imgpath: Assets.sms,
+                      subtitle: state.fetchedUser?.email ?? '',
+                    ),
+                    EditOptionWidget(
+                      title: 'Phone Number',
+                      imgpath: Assets.call,
+                      subtitle: state.fetchedUser?.phone ?? '',
+                    ),
+                    const EditOptionWidget(
+                      title: 'Change Password',
+                      imgpath: Assets.lock,
+                      subtitle: '',
+                    ),
+                    const EditOptionWidget(
+                      title: 'Add Bio',
+                      imgpath: Assets.doc,
+                      subtitle: '',
+                    )
+                    // ListView.builder(
+                    //     padding: const EdgeInsets.all(0.0),
+                    //     shrinkWrap: true,
+                    //     physics: const NeverScrollableScrollPhysics(),
+                    //     itemCount: editOptions.length,
+                    //     itemBuilder: (context, index) {
+                    //       return EditOptionWidget(
+                    //         imgpath: editOptions[index]['icon'],
+                    //         title: editOptions[index]['title'],
+                    //         subtitle: editOptions[index]['subtitle'],
+                    //       );
+                    //     })
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RestaurantState {
   bool get isLoading => throw _privateConstructorUsedError;
   List<Restaurant>? get restaurantList => throw _privateConstructorUsedError;
+  List<Restaurant>? get homeRestaurantList =>
+      throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
@@ -37,6 +39,7 @@ abstract class $RestaurantStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       List<Restaurant>? restaurantList,
+      List<Restaurant>? homeRestaurantList,
       int currentPage,
       bool hasMore,
       int totalPages,
@@ -58,6 +61,7 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
   $Res call({
     Object? isLoading = null,
     Object? restaurantList = freezed,
+    Object? homeRestaurantList = freezed,
     Object? currentPage = null,
     Object? hasMore = null,
     Object? totalPages = null,
@@ -71,6 +75,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
       restaurantList: freezed == restaurantList
           ? _value.restaurantList
           : restaurantList // ignore: cast_nullable_to_non_nullable
+              as List<Restaurant>?,
+      homeRestaurantList: freezed == homeRestaurantList
+          ? _value.homeRestaurantList
+          : homeRestaurantList // ignore: cast_nullable_to_non_nullable
               as List<Restaurant>?,
       currentPage: null == currentPage
           ? _value.currentPage
@@ -103,6 +111,7 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       List<Restaurant>? restaurantList,
+      List<Restaurant>? homeRestaurantList,
       int currentPage,
       bool hasMore,
       int totalPages,
@@ -122,6 +131,7 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? restaurantList = freezed,
+    Object? homeRestaurantList = freezed,
     Object? currentPage = null,
     Object? hasMore = null,
     Object? totalPages = null,
@@ -135,6 +145,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
       restaurantList: freezed == restaurantList
           ? _value._restaurantList
           : restaurantList // ignore: cast_nullable_to_non_nullable
+              as List<Restaurant>?,
+      homeRestaurantList: freezed == homeRestaurantList
+          ? _value._homeRestaurantList
+          : homeRestaurantList // ignore: cast_nullable_to_non_nullable
               as List<Restaurant>?,
       currentPage: null == currentPage
           ? _value.currentPage
@@ -161,11 +175,13 @@ class _$RestaurantStateImpl extends _RestaurantState {
   const _$RestaurantStateImpl(
       {this.isLoading = false,
       final List<Restaurant>? restaurantList = const [],
+      final List<Restaurant>? homeRestaurantList = const [],
       this.currentPage = 1,
       this.hasMore = true,
       this.totalPages = 0,
       this.isMoreDataFetchable = true})
       : _restaurantList = restaurantList,
+        _homeRestaurantList = homeRestaurantList,
         super._();
 
   @override
@@ -178,6 +194,18 @@ class _$RestaurantStateImpl extends _RestaurantState {
     final value = _restaurantList;
     if (value == null) return null;
     if (_restaurantList is EqualUnmodifiableListView) return _restaurantList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<Restaurant>? _homeRestaurantList;
+  @override
+  @JsonKey()
+  List<Restaurant>? get homeRestaurantList {
+    final value = _homeRestaurantList;
+    if (value == null) return null;
+    if (_homeRestaurantList is EqualUnmodifiableListView)
+      return _homeRestaurantList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -197,7 +225,7 @@ class _$RestaurantStateImpl extends _RestaurantState {
 
   @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable)';
+    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable)';
   }
 
   @override
@@ -209,6 +237,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
                 .equals(other._restaurantList, _restaurantList) &&
+            const DeepCollectionEquality()
+                .equals(other._homeRestaurantList, _homeRestaurantList) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
@@ -223,6 +253,7 @@ class _$RestaurantStateImpl extends _RestaurantState {
       runtimeType,
       isLoading,
       const DeepCollectionEquality().hash(_restaurantList),
+      const DeepCollectionEquality().hash(_homeRestaurantList),
       currentPage,
       hasMore,
       totalPages,
@@ -240,6 +271,7 @@ abstract class _RestaurantState extends RestaurantState {
   const factory _RestaurantState(
       {final bool isLoading,
       final List<Restaurant>? restaurantList,
+      final List<Restaurant>? homeRestaurantList,
       final int currentPage,
       final bool hasMore,
       final int totalPages,
@@ -250,6 +282,8 @@ abstract class _RestaurantState extends RestaurantState {
   bool get isLoading;
   @override
   List<Restaurant>? get restaurantList;
+  @override
+  List<Restaurant>? get homeRestaurantList;
   @override
   int get currentPage;
   @override

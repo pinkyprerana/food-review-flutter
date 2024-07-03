@@ -230,8 +230,9 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     AppButton(
                       loading: state.isLoading,
                       text: 'Submit',
-                      onPressed: () {
-                        stateNotifier.changeEmailAddress(context);
+                      onPressed: () async {
+                        await stateNotifier.changeEmailAddress(context);
+                        // Navigator.pop(context);
                       },
                     )
                   ],
@@ -342,6 +343,7 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                       text: 'Save',
                       onPressed: () {
                         stateNotifier.changePhoneNumber(context);
+                        // Navigator.pop(context);
                       },
                     )
                   ],

@@ -103,4 +103,61 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       state = state.copyWith(isLoading: false);
     }
   }
+
+  Future<void> getHomeRestaurants({
+    required BuildContext context,
+    bool isLoadMore = false,
+  }) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final data = {
+        "perpage": 4,
+        "page": 1,
+        "search": "",
+      };
+
+      final headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.restaurantList}',
+        data: data,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final reastaurantListResponseModel =
+            RestaurantlistResponseModel.fromJson(response.data!);
+
+        final List<Restaurant>? restaurantList =
+            reastaurantListResponseModel.restaurantList;
+
+        totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
+
+        state = state.copyWith(
+          isLoading: false,
+          homeRestaurantList: restaurantList,
+          // restaurantList: [
+          //   ...state.restaurantList ?? [],
+          //   ...restaurantList ?? []
+          // ],
+        );
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isLoading: false);
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to get restaurants');
+
+      state = state.copyWith(isLoading: false);
+    }
+  }
 }

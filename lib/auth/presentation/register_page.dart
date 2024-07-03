@@ -202,8 +202,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             onPressed: () async {
                               dismissKeyboard(context);
                               stateNotifier.signUp(() {
-                                FocusManager.instance.primaryFocus
-                                    ?.unfocus();
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 AutoRouter.of(context).pushAndPopUntil(
                                     const SelectPreferenceRoute(),
                                     predicate: (_) => false);
