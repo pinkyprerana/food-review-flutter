@@ -19,6 +19,7 @@ mixin _$CreatePostState {
   int get currentPage => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   XFile? get imageFile => throw _privateConstructorUsedError;
+  String get selectedReview => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CreatePostStateCopyWith<CreatePostState> get copyWith =>
@@ -31,7 +32,11 @@ abstract class $CreatePostStateCopyWith<$Res> {
           CreatePostState value, $Res Function(CreatePostState) then) =
       _$CreatePostStateCopyWithImpl<$Res, CreatePostState>;
   @useResult
-  $Res call({int currentPage, bool isLoading, XFile? imageFile});
+  $Res call(
+      {int currentPage,
+      bool isLoading,
+      XFile? imageFile,
+      String selectedReview});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
     Object? currentPage = null,
     Object? isLoading = null,
     Object? imageFile = freezed,
+    Object? selectedReview = null,
   }) {
     return _then(_value.copyWith(
       currentPage: null == currentPage
@@ -64,6 +70,10 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
               as XFile?,
+      selectedReview: null == selectedReview
+          ? _value.selectedReview
+          : selectedReview // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -76,7 +86,11 @@ abstract class _$$CreatePostStateImplCopyWith<$Res>
       __$$CreatePostStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int currentPage, bool isLoading, XFile? imageFile});
+  $Res call(
+      {int currentPage,
+      bool isLoading,
+      XFile? imageFile,
+      String selectedReview});
 }
 
 /// @nodoc
@@ -93,6 +107,7 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
     Object? currentPage = null,
     Object? isLoading = null,
     Object? imageFile = freezed,
+    Object? selectedReview = null,
   }) {
     return _then(_$CreatePostStateImpl(
       currentPage: null == currentPage
@@ -107,6 +122,10 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
           ? _value.imageFile
           : imageFile // ignore: cast_nullable_to_non_nullable
               as XFile?,
+      selectedReview: null == selectedReview
+          ? _value.selectedReview
+          : selectedReview // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -115,7 +134,10 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
 
 class _$CreatePostStateImpl implements _CreatePostState {
   const _$CreatePostStateImpl(
-      {this.currentPage = 0, this.isLoading = false, this.imageFile});
+      {this.currentPage = 0,
+      this.isLoading = false,
+      this.imageFile,
+      this.selectedReview = ""});
 
   @override
   @JsonKey()
@@ -125,10 +147,13 @@ class _$CreatePostStateImpl implements _CreatePostState {
   final bool isLoading;
   @override
   final XFile? imageFile;
+  @override
+  @JsonKey()
+  final String selectedReview;
 
   @override
   String toString() {
-    return 'CreatePostState(currentPage: $currentPage, isLoading: $isLoading, imageFile: $imageFile)';
+    return 'CreatePostState(currentPage: $currentPage, isLoading: $isLoading, imageFile: $imageFile, selectedReview: $selectedReview)';
   }
 
   @override
@@ -141,12 +166,14 @@ class _$CreatePostStateImpl implements _CreatePostState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.imageFile, imageFile) ||
-                other.imageFile == imageFile));
+                other.imageFile == imageFile) &&
+            (identical(other.selectedReview, selectedReview) ||
+                other.selectedReview == selectedReview));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, currentPage, isLoading, imageFile);
+  int get hashCode => Object.hash(
+      runtimeType, currentPage, isLoading, imageFile, selectedReview);
 
   @JsonKey(ignore: true)
   @override
@@ -160,7 +187,8 @@ abstract class _CreatePostState implements CreatePostState {
   const factory _CreatePostState(
       {final int currentPage,
       final bool isLoading,
-      final XFile? imageFile}) = _$CreatePostStateImpl;
+      final XFile? imageFile,
+      final String selectedReview}) = _$CreatePostStateImpl;
 
   @override
   int get currentPage;
@@ -168,6 +196,8 @@ abstract class _CreatePostState implements CreatePostState {
   bool get isLoading;
   @override
   XFile? get imageFile;
+  @override
+  String get selectedReview;
   @override
   @JsonKey(ignore: true)
   _$$CreatePostStateImplCopyWith<_$CreatePostStateImpl> get copyWith =>

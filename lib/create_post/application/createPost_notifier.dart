@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
-import '../../base/application/base_notifier.dart';
 import '../../core/constants/app_urls.dart';
 import '../../core/routes/app_router.dart';
 import '../../core/utils/toast.dart';
@@ -68,6 +65,8 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   TextEditingController();
   final TextEditingController restaurantAddressTextController =
   TextEditingController();
+  final TextEditingController postHowWasItTextController =
+  TextEditingController();
 
 
   Future<void> addPost(VoidCallback voidCallback, XFile? imageFile) async {
@@ -75,7 +74,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
 
       final imagePath = File(imageFile?.path ?? '');
       String imageName = imagePath.path.split('/').last;
-      print("_________________${imageName}");
 
       try {
         var (response, dioException) = await _networkApiService
@@ -86,6 +84,8 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
               "title": postTitleTextController.text,
               "description": postDescriptionTextController.text,
               "image": '${AppUrls.postImageUrl}/$imageName',
+              "how_was_it": postHowWasItTextController.text,
+              // "cuisine": ,
             });
         state = state.copyWith(isLoading: false);
 
@@ -116,6 +116,12 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     restaurantNameTextController.clear();
     restaurantIdTextController.clear();
     restaurantAddressTextController.clear();
+    postHowWasItTextController.clear();
+  }
+
+  void selectedReview(String selectedReview) async {
+      postHowWasItTextController.text = selectedReview;
+      state = state.copyWith(selectedReview: selectedReview);
   }
 
 }

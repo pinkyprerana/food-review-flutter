@@ -515,51 +515,72 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () =>
+                    createPostNotifier.selectedReview("like"),
                   label: Text(
                     'Liked it',
                     style: AppTextStyles.textStylePoppins
                         .copyWith(
                         fontSize: 12.sp,
                         color:
-                        AppColors.colorPrimaryAlpha),
+                        createPostNotifier.postHowWasItTextController.text == "like"
+                            ? AppColors.colorGreen
+                            : AppColors.colorPrimaryAlpha
+                    ),
                   ),
                   icon: Image.asset(
                     Assets.likedIt,
                     height: 20,
                     width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "like"
+                          ? AppColors.colorGreen
+                          : AppColors.colorBlack
                   ),
                 ),
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () =>
+                    createPostNotifier.selectedReview("fine"),
                   label: Text(
                     'Fine',
                     style: AppTextStyles.textStylePoppins
                         .copyWith(
                         fontSize: 12.sp,
                         color:
-                        AppColors.colorPrimaryAlpha),
+                        createPostNotifier.postHowWasItTextController.text == "fine"
+                            ? AppColors.colorRatingStar
+                            : AppColors.colorPrimaryAlpha
+                    ),
                   ),
                   icon: Image.asset(
                     Assets.fine,
                     height: 20,
                     width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "fine"
+                          ? AppColors.colorRatingStar
+                          : AppColors.colorBlack
                   ),
                 ),
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () =>
+                    createPostNotifier.selectedReview("not_like"),
                   label: Text(
                     'Didn\'t Like',
                     style: AppTextStyles.textStylePoppins
                         .copyWith(
                         fontSize: 12.sp,
                         color:
-                        AppColors.colorPrimaryAlpha),
+                        createPostNotifier.postHowWasItTextController.text == "not_like"
+                            ? AppColors.colorRed
+                            : AppColors.colorPrimaryAlpha
+                    ),
                   ),
                   icon: Image.asset(
                     Assets.didnotLike,
                     height: 20,
                     width: 20,
+                    color: createPostNotifier.postHowWasItTextController.text == "not_like"
+                        ? AppColors.colorRed
+                        : AppColors.colorBlack
                   ),
                 ),
               ],

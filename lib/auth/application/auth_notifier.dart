@@ -44,6 +44,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final TextEditingController fpConfirmPasswordTextController =
       TextEditingController();
 
+  //preference
+  final List preferences = [];
+
   void clearLoginFields() {
     loginEmailTextController.clear();
     loginPasswordTextController.clear();
@@ -427,4 +430,42 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
     }
   }
+
+  Future<void> selectPreference(VoidCallback voidCallback) async {
+    if (validatePassword()) {
+      state = state.copyWith(isLoading: true);
+
+      try {
+        var (
+        response,
+        dioException
+        ) = await _networkApiService.postApiRequestWithToken(
+            url:
+            '${AppUrls.BASE_URL}${'user/add-preferences'}',
+            body: {
+              "preferences": preferences,
+            });
+        state = state.copyWith(isLoading: false);
+
+        if (response == null && dioException == null) {
+          showConnectionWasInterruptedToastMessage();
+        } else if (dioException != null) {
+          showDioError(dioException);
+        } else {
+          Map<String, dynamic> jsonData = response.data;
+
+          if (response.statusCode == 200) {
+            showToastMessage(jsonData['message']);
+            voidCallback.call();
+          } else {
+            showToastMessage(jsonData['message']);
+          }
+        }
+      } catch (error) {
+        state = state.copyWith(isLoading: false);
+        showConnectionWasInterruptedToastMessage();
+      }
+    }
+  }
+
 }
