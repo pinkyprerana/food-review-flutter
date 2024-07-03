@@ -90,8 +90,14 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          AutoRouter.of(context)
-                              .push(const RestaurantDetailRoute());
+                          AutoRouter.of(context).push(RestaurantDetailRoute(
+                            address:
+                                state.restaurantList?[index].name ?? 'No name',
+                            image: state.restaurantList?[index].image?[0] ?? '',
+                            lat: state.restaurantList?[index].lat ?? '',
+                            lng: state.restaurantList?[index].lng ?? '',
+                            name: state.restaurantList?[index].name ?? '',
+                          ));
                         },
                         child: Container(
                           padding:

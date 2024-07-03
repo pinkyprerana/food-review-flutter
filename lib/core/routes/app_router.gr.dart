@@ -180,9 +180,17 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     RestaurantDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<RestaurantDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const RestaurantDetailPage(),
+        child: RestaurantDetailPage(
+          key: args.key,
+          address: args.address,
+          image: args.image,
+          lat: args.lat,
+          lng: args.lng,
+          name: args.name,
+        ),
       );
     },
     SavedRoute.name: (routeData) {
@@ -665,16 +673,60 @@ class ResetPasswordRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [RestaurantDetailPage]
-class RestaurantDetailRoute extends PageRouteInfo<void> {
-  const RestaurantDetailRoute({List<PageRouteInfo>? children})
-      : super(
+class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
+  RestaurantDetailRoute({
+    Key? key,
+    required String address,
+    required String image,
+    required String lat,
+    required String lng,
+    required String name,
+    List<PageRouteInfo>? children,
+  }) : super(
           RestaurantDetailRoute.name,
+          args: RestaurantDetailRouteArgs(
+            key: key,
+            address: address,
+            image: image,
+            lat: lat,
+            lng: lng,
+            name: name,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'RestaurantDetailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<RestaurantDetailRouteArgs> page =
+      PageInfo<RestaurantDetailRouteArgs>(name);
+}
+
+class RestaurantDetailRouteArgs {
+  const RestaurantDetailRouteArgs({
+    this.key,
+    required this.address,
+    required this.image,
+    required this.lat,
+    required this.lng,
+    required this.name,
+  });
+
+  final Key? key;
+
+  final String address;
+
+  final String image;
+
+  final String lat;
+
+  final String lng;
+
+  final String name;
+
+  @override
+  String toString() {
+    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name}';
+  }
 }
 
 /// generated route for

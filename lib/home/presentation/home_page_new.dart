@@ -201,7 +201,24 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () => AutoRouter.of(context)
-                                      .push(const RestaurantDetailRoute()),
+                                      .push(RestaurantDetailRoute(
+                                    address: stateRestaurant
+                                            .homeRestaurantList?[index].name ??
+                                        'No name',
+                                    image: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .image?[0] ??
+                                        '',
+                                    lat: stateRestaurant
+                                            .homeRestaurantList?[index].lat ??
+                                        '',
+                                    lng: stateRestaurant
+                                            .homeRestaurantList?[index].lng ??
+                                        '',
+                                    name: stateRestaurant
+                                            .homeRestaurantList?[index].name ??
+                                        '',
+                                  )),
                                   child: RestaurantWidget(
                                     // imgpath: restaurantlist[index]['image'],
                                     imgpath:
