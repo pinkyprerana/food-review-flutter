@@ -27,10 +27,6 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
 }
 
 class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
-  void updateFollowState() {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
-    followNotifier.setFollowingState(!followNotifier.state.isFollowing);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +36,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
 
     void _handleFollowButtonPressed() {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
-      followNotifier.follow_unfollow((){
-        followNotifier.setFollowingState(!isFollowing);
-      }, userId!);
+      followNotifier.follow_unfollow((){}, userId!);
     }
     return Scaffold(
       extendBody: true,
