@@ -234,15 +234,27 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                     color:
                                                         AppColors.colorBorder,
                                                   )),
-                                              child: Text(
-                                                widget.rating,
-                                                style: AppTextStyles
-                                                    .textStylePoppinsSemiBold
-                                                    .copyWith(
-                                                  fontSize: 16.sp,
-                                                  color: AppColors.colorPrimary,
-                                                ),
-                                              ),
+                                              child: (widget.rating != '')
+                                                  ? Text(
+                                                      widget.rating,
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsSemiBold
+                                                          .copyWith(
+                                                        fontSize: 16.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      '0.0',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsSemiBold
+                                                          .copyWith(
+                                                        fontSize: 16.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    ),
                                             ),
                                             5.horizontalSpace,
                                             Flexible(
@@ -252,6 +264,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
+                                                    decoration: const BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: AppColors
+                                                                    .colorBlack))),
                                                     child: Text(
                                                       'Restaurant Score',
                                                       style: AppTextStyles
@@ -260,24 +277,35 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                         fontSize: 10.sp,
                                                         color: AppColors
                                                             .colorPrimary,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
                                                       ),
                                                     ),
                                                   ),
                                                   5.verticalSpace,
-                                                  Text(
-                                                    ' ${widget.numberOfReviews} reviews',
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
-                                                        .copyWith(
-                                                      fontSize: 10.sp,
-                                                      color: AppColors
-                                                          .colorPrimaryAlpha,
-                                                    ),
-                                                    overflow: TextOverflow.clip,
-                                                  )
+                                                  (widget.numberOfReviews != '')
+                                                      ? Text(
+                                                          '${widget.numberOfReviews} reviews',
+                                                          style: AppTextStyles
+                                                              .textStylePoppinsRegular
+                                                              .copyWith(
+                                                            fontSize: 10.sp,
+                                                            color: AppColors
+                                                                .colorPrimaryAlpha,
+                                                          ),
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                        )
+                                                      : Text(
+                                                          'reviews',
+                                                          style: AppTextStyles
+                                                              .textStylePoppinsRegular
+                                                              .copyWith(
+                                                            fontSize: 10.sp,
+                                                            color: AppColors
+                                                                .colorPrimaryAlpha,
+                                                          ),
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                        )
                                                 ],
                                               ),
                                             )
