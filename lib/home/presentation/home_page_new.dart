@@ -203,7 +203,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                   onTap: () => AutoRouter.of(context)
                                       .push(RestaurantDetailRoute(
                                     address: stateRestaurant
-                                            .homeRestaurantList?[index].name ??
+                                            .homeRestaurantList?[index]
+                                            .address ??
                                         'No name',
                                     image: stateRestaurant
                                             .homeRestaurantList?[index]
