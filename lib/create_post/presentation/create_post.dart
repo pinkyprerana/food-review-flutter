@@ -30,6 +30,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   String selectedRestaurantName = "";
   String selectedRestaurantAddress = "";
   String selectedRestaurantId= "";
+  final descriptionNode = FocusNode();
 
   @override
   void initState() {
@@ -242,10 +243,14 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               controller: createPostNotifier.postTitleTextController,
               label: 'Post Title',
               hint: 'Enter post title',
+              onFieldSubmitted: (val) {
+                FocusScope.of(context).requestFocus(descriptionNode);
+              },
             ),
             20.verticalSpace,
             TextField(
               maxLines: 5,
+              focusNode: descriptionNode,
               controller: createPostNotifier.postDescriptionTextController,
               decoration: InputDecoration(
                 labelText: 'Post Description',
@@ -453,6 +458,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   color: AppColors.colorGrey,
                   borderRadius: BorderRadius.circular(10)),
               child: TextFormField(
+                enabled: false,
                 controller: createPostNotifier.restaurantAddressTextController,
                 // focusNode: ,
                 // maxLength: ,
@@ -462,7 +468,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   hintStyle: AppTextStyles
                       .textStylePoppinsRegular
                       .copyWith(
-                    color: AppColors.colorPrimaryAlpha,
+                    color: createPostNotifier.restaurantAddressTextController.text.isEmpty
+                    ? AppColors.colorPrimaryAlpha
+                    : AppColors.colorBlack,
                   ),
                   border: InputBorder.none,
                   // focusedBorder: OutlineInputBorder(
