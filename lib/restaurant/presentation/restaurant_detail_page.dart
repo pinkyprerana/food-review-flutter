@@ -268,7 +268,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                   ),
                                                   5.verticalSpace,
                                                   Text(
-                                                    widget.numberOfReviews,
+                                                    ' ${widget.numberOfReviews} reviews',
                                                     style: AppTextStyles
                                                         .textStylePoppinsRegular
                                                         .copyWith(
