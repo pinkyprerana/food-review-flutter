@@ -202,6 +202,10 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 return GestureDetector(
                                   onTap: () => AutoRouter.of(context)
                                       .push(RestaurantDetailRoute(
+                                    numberOfReviews: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .userRatingsTotal ??
+                                        '',
                                     address: stateRestaurant
                                             .homeRestaurantList?[index]
                                             .address ??

@@ -91,6 +91,9 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
+                            numberOfReviews:
+                                state.restaurantList?[index].userRatingsTotal ??
+                                    '',
                             address: state.restaurantList?[index].address ??
                                 'No name',
                             image: state.restaurantList?[index].image?[0] ?? '',

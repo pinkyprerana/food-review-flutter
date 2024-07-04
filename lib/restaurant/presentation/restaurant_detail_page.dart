@@ -31,6 +31,7 @@ class RestaurantDetailPage extends StatefulWidget {
     required this.name,
     required this.description,
     required this.rating,
+    required this.numberOfReviews,
   });
   final String lat;
   final String lng;
@@ -39,6 +40,7 @@ class RestaurantDetailPage extends StatefulWidget {
   final String image;
   final String rating;
   final String description;
+  final String numberOfReviews;
 
   @override
   State<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
@@ -266,7 +268,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                   ),
                                                   5.verticalSpace,
                                                   Text(
-                                                    'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
+                                                    widget.numberOfReviews,
                                                     style: AppTextStyles
                                                         .textStylePoppinsRegular
                                                         .copyWith(
