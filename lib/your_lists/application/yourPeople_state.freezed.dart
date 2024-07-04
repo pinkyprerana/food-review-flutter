@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$YourPeopleState {
   int get selectedIndex => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $YourPeopleStateCopyWith<YourPeopleState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $YourPeopleStateCopyWith<$Res> {
           YourPeopleState value, $Res Function(YourPeopleState) then) =
       _$YourPeopleStateCopyWithImpl<$Res, YourPeopleState>;
   @useResult
-  $Res call({int selectedIndex});
+  $Res call({int selectedIndex, bool isLoading});
 }
 
 /// @nodoc
@@ -46,12 +47,17 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
   @override
   $Res call({
     Object? selectedIndex = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       selectedIndex: null == selectedIndex
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$YourPeopleStateImplCopyWith<$Res>
       __$$YourPeopleStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int selectedIndex});
+  $Res call({int selectedIndex, bool isLoading});
 }
 
 /// @nodoc
@@ -79,12 +85,17 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedIndex = null,
+    Object? isLoading = null,
   }) {
     return _then(_$YourPeopleStateImpl(
       selectedIndex: null == selectedIndex
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -92,15 +103,18 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$YourPeopleStateImpl implements _YourPeopleState {
-  const _$YourPeopleStateImpl({this.selectedIndex = 0});
+  const _$YourPeopleStateImpl({this.selectedIndex = 0, this.isLoading = false});
 
   @override
   @JsonKey()
   final int selectedIndex;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'YourPeopleState(selectedIndex: $selectedIndex)';
+    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading)';
   }
 
   @override
@@ -109,11 +123,13 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
         (other.runtimeType == runtimeType &&
             other is _$YourPeopleStateImpl &&
             (identical(other.selectedIndex, selectedIndex) ||
-                other.selectedIndex == selectedIndex));
+                other.selectedIndex == selectedIndex) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedIndex);
+  int get hashCode => Object.hash(runtimeType, selectedIndex, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -124,11 +140,13 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
 }
 
 abstract class _YourPeopleState implements YourPeopleState {
-  const factory _YourPeopleState({final int selectedIndex}) =
-      _$YourPeopleStateImpl;
+  const factory _YourPeopleState(
+      {final int selectedIndex, final bool isLoading}) = _$YourPeopleStateImpl;
 
   @override
   int get selectedIndex;
+  @override
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$YourPeopleStateImplCopyWith<_$YourPeopleStateImpl> get copyWith =>

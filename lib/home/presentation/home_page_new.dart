@@ -55,8 +55,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   @override
   Widget build(BuildContext context) {
     var hive = ref.watch(hiveProvider);
-    AppLog.log(
-        '--------------TOKEN------------${hive.box.get(AppPreferenceKeys.token)}');
+    // AppLog.log(
+    //     '--------------TOKEN------------${hive.box.get(AppPreferenceKeys.token)}');
     final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateOfListScreen = ref.watch(listProvider);
@@ -201,7 +201,32 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () => AutoRouter.of(context)
-                                      .push(const RestaurantDetailRoute()),
+                                      .push(RestaurantDetailRoute(
+                                    address: stateRestaurant
+                                            .homeRestaurantList?[index].name ??
+                                        'No name',
+                                    image: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .image?[0] ??
+                                        '',
+                                    lat: stateRestaurant
+                                            .homeRestaurantList?[index].lat ??
+                                        '',
+                                    lng: stateRestaurant
+                                            .homeRestaurantList?[index].lng ??
+                                        '',
+                                    name: stateRestaurant
+                                            .homeRestaurantList?[index].name ??
+                                        '',
+                                    rating: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .rating ??
+                                        '',
+                                    description: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .description ??
+                                        '',
+                                  )),
                                   child: RestaurantWidget(
                                     // imgpath: restaurantlist[index]['image'],
                                     imgpath:

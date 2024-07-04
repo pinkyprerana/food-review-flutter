@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/auth/application/auth_state.dart';
+import 'package:for_the_table/auth/shared/providers.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
@@ -15,6 +16,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
+
+  String? get getUserId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
+
+
 
   //login
   final TextEditingController loginEmailTextController =
@@ -45,7 +50,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       TextEditingController();
 
   //preference
-  final List preferences = [];
+  // final List preferences = [];
 
   void clearLoginFields() {
     loginEmailTextController.clear();
@@ -419,43 +424,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
             fpPasswordTextController.clear();
             fpConfirmPasswordTextController.clear();
             fpEmailTextController.clear();
-            voidCallback.call();
-          } else {
-            showToastMessage(jsonData['message']);
-          }
-        }
-      } catch (error) {
-        state = state.copyWith(isLoading: false);
-        showConnectionWasInterruptedToastMessage();
-      }
-    }
-  }
-
-  Future<void> selectPreference(VoidCallback voidCallback) async {
-    if (validatePassword()) {
-      state = state.copyWith(isLoading: true);
-
-      try {
-        var (
-        response,
-        dioException
-        ) = await _networkApiService.postApiRequestWithToken(
-            url:
-            '${AppUrls.BASE_URL}${'user/add-preferences'}',
-            body: {
-              "preferences": preferences,
-            });
-        state = state.copyWith(isLoading: false);
-
-        if (response == null && dioException == null) {
-          showConnectionWasInterruptedToastMessage();
-        } else if (dioException != null) {
-          showDioError(dioException);
-        } else {
-          Map<String, dynamic> jsonData = response.data;
-
-          if (response.statusCode == 200) {
-            showToastMessage(jsonData['message']);
             voidCallback.call();
           } else {
             showToastMessage(jsonData['message']);

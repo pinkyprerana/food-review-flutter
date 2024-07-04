@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$FollowState {
   bool get isFollowing => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FollowStateCopyWith<FollowState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $FollowStateCopyWith<$Res> {
           FollowState value, $Res Function(FollowState) then) =
       _$FollowStateCopyWithImpl<$Res, FollowState>;
   @useResult
-  $Res call({bool isFollowing});
+  $Res call({bool isFollowing, bool isLoading});
 }
 
 /// @nodoc
@@ -46,11 +47,16 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
   @override
   $Res call({
     Object? isFollowing = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       isFollowing: null == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -64,7 +70,7 @@ abstract class _$$FollowStateImplCopyWith<$Res>
       __$$FollowStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isFollowing});
+  $Res call({bool isFollowing, bool isLoading});
 }
 
 /// @nodoc
@@ -79,11 +85,16 @@ class __$$FollowStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isFollowing = null,
+    Object? isLoading = null,
   }) {
     return _then(_$FollowStateImpl(
       isFollowing: null == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -92,15 +103,18 @@ class __$$FollowStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FollowStateImpl implements _FollowState {
-  const _$FollowStateImpl({this.isFollowing = false});
+  const _$FollowStateImpl({this.isFollowing = false, this.isLoading = false});
 
   @override
   @JsonKey()
   final bool isFollowing;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'FollowState(isFollowing: $isFollowing)';
+    return 'FollowState(isFollowing: $isFollowing, isLoading: $isLoading)';
   }
 
   @override
@@ -109,11 +123,13 @@ class _$FollowStateImpl implements _FollowState {
         (other.runtimeType == runtimeType &&
             other is _$FollowStateImpl &&
             (identical(other.isFollowing, isFollowing) ||
-                other.isFollowing == isFollowing));
+                other.isFollowing == isFollowing) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isFollowing);
+  int get hashCode => Object.hash(runtimeType, isFollowing, isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -123,10 +139,13 @@ class _$FollowStateImpl implements _FollowState {
 }
 
 abstract class _FollowState implements FollowState {
-  const factory _FollowState({final bool isFollowing}) = _$FollowStateImpl;
+  const factory _FollowState({final bool isFollowing, final bool isLoading}) =
+      _$FollowStateImpl;
 
   @override
   bool get isFollowing;
+  @override
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>

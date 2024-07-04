@@ -16,6 +16,8 @@ class AppUrls {
   static const verifyOTP = '/user/forget-password-otp-verification';
   static const resetPassword = '/user/forget-password-change-password';
   static const addPost  = '/post/add';
+  static const follow_unfollow = '/user/follow';
+  static const getAllPreference = '/preference/list';
   static const profile = '/user/profile';
   static const profileUpdate = '/user/profile-update';
   static const logout = '/user/logout';

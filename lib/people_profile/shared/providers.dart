@@ -5,7 +5,7 @@ import '../application/follow_state.dart';
 
 final FollowNotifierProvider = StateNotifierProvider<FollowNotifier, FollowState>(
   (ref) => FollowNotifier(
-    ref.watch(dioProvider),
+    ref.watch(networkService),
     ref.watch(hiveProvider),
   ),
 );

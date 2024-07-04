@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/onboarding/shared/provider.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
+import '../../core/utils/common_util.dart';
 import '../../model/restaurant/restaurantlist_response_model.dart';
 import '../../restaurant/shared/provider.dart';
 import '../../widgets/app_button.dart';
@@ -35,6 +37,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       await stateNotifier.getRestaurants(context: context);
+      final preferenceNotifier = ref.watch(preferenceNotifierProvider.notifier);
+      await preferenceNotifier.getAllPreference();
+      final allPreferences = ref.watch(preferenceNotifierProvider).data;
+      print(allPreferences);
     });
 
   }
@@ -45,6 +51,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
+    final allPreferences = ref.watch(preferenceNotifierProvider).data;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -92,101 +100,117 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            10.verticalSpace,
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              height: MediaQuery.of(context).size.height * 0.37,
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: imageFile == null
-                      ? const Text('No image selected.')
-                      : Image.file(
-                          File(imageFile.path),
-                          fit: BoxFit.fill,
-                          height: double.infinity,
-                          width: double.infinity,
-                        ),
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            createPostNotifier.pageController.jumpToPage(0);
+            createPostNotifier.clearRestaurantDetails();
+            createPostNotifier.resetPage();
+          } else {
+            createPostNotifier.clearAllPostDetails();
+            Navigator.pop(context);
+            createPostNotifier.resetPage();
+          }
+        },
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            children: [
+              10.verticalSpace,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                height: MediaQuery.of(context).size.height * 0.37,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: imageFile == null
+                        ? const Text('No image selected.')
+                        : Image.file(
+                            File(imageFile.path),
+                            fit: BoxFit.fill,
+                            height: double.infinity,
+                            width: double.infinity,
+                          ),
+                  ),
                 ),
               ),
-            ),
-            Column(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+              Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.38,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: pageController,
+                      children: [
+                        _createPostTitleDescription(),
+                        _selectRestaurantPage(allPreferences!)
+                      ],
                     ),
                   ),
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    children: [
-                      _createPostTitleDescription(),
-                      _selectRestaurantPage()
-                    ],
-                  ),
-                ),
-                currentPage == 1
-                    ? Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppButton(
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              text: "Post",
-                              onPressed: () async {
-                                createPostNotifier.addPost(() {
-                                  createPostNotifier.onContinuePressed(context);
-                                }, imageFile);
-                                await createPostNotifier.clearRestaurantDetails();
-                              },
-                            ),
-                            AppButton(
-                              color: AppColors.colorPrimaryAlpha,
-                              width: MediaQuery.of(context).size.width * 0.13,
-                              onPressed: () {
-                                createPostNotifier.resetPage();
-                                createPostNotifier.clearAllPostDetails();
-                                Navigator.pop(context);
-                              },
-                              child: Image.asset(
-                                Assets.cancel,
-                                color: AppColors.colorBackground,
-                                scale: 2,
+                  currentPage == 1
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppButton(
+                                width: MediaQuery.of(context).size.width * 0.73,
+                                text: "Post",
+                                onPressed: () async {
+                                  dismissKeyboard(context);
+                                  createPostNotifier.addPost(() {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    createPostNotifier.onContinuePressed(context);
+                                  }, imageFile);
+                                  await createPostNotifier.clearRestaurantDetails();
+                                },
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: AppButton(
-                          text: "Continue",
-                          onPressed: () {
-                            if(createPostNotifier.postTitleTextController.text.isNotEmpty
-                            && createPostNotifier.postDescriptionTextController.text.isNotEmpty ){
-                              createPostNotifier.onContinuePressed(context);
-                            }else{
-                              showToastMessage("Post title and description are required");
+                              AppButton(
+                                color: AppColors.colorPrimaryAlpha,
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                onPressed: () {
+                                  createPostNotifier.resetPage();
+                                  createPostNotifier.clearAllPostDetails();
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset(
+                                  Assets.cancel,
+                                  color: AppColors.colorBackground,
+                                  scale: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: AppButton(
+                            text: "Continue",
+                            onPressed: () {
+                              if(createPostNotifier.postTitleTextController.text.isNotEmpty
+                              && createPostNotifier.postDescriptionTextController.text.isNotEmpty ){
+                                createPostNotifier.onContinuePressed(context);
+                              }else{
+                                showToastMessage("Post title and description are required");
+                              }
                             }
-                          }
+                          ),
                         ),
-                      ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -260,9 +284,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     );
   }
 
-  Widget _selectRestaurantPage(){
+  Widget _selectRestaurantPage(allPreferences){
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final restaurantList =ref.watch(restaurantNotifierProvider).restaurantList;
+    List<dynamic> cuisineList = allPreferences.map((preference) => preference.title).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -361,9 +386,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         children: [
                           Text(suggestion.name!, style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 10),),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Icon(Icons.location_on_outlined, color:  AppColors.colorBlack, size: 10.h,),
-                              Text(suggestion.address!, style: AppTextStyles.textStylePoppinsRegular.copyWith(color: AppColors.colorPrimaryAlpha,fontSize: 10),)
+                              Text(suggestion.address!.length > 40
+                                  ? '${suggestion.address!.substring(0, 40)}...'
+                                  : suggestion.address!, style: AppTextStyles.textStylePoppinsRegular.copyWith(color: AppColors.colorPrimaryAlpha,fontSize: 10),)
                             ],
                           ),
                         ],
@@ -485,19 +513,19 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   Icons.keyboard_arrow_down,
                   color: AppColors.colorGrey3,
                 ),
-                items: <String>[
-                  'Cuisine 1',
-                  'Cuisine 2',
-                  'Cuisine 3'
-                ].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value,
-                    style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 10),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (_) {},
+                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+                  value: cuisine,
+                  child: Text(
+                    cuisine,
+                    style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
+                  ),
+                )).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    final selectedCuisine = value;
+                    createPostNotifier.postCuisineTextController.text = selectedCuisine;
+                  }
+                },
               ),
             ),
             20.verticalSpace,

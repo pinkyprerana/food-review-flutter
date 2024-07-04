@@ -15,10 +15,29 @@ import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 @RoutePage()
 class RestaurantDetailPage extends StatefulWidget {
-  const RestaurantDetailPage({super.key});
+  const RestaurantDetailPage({
+    super.key,
+    required this.address,
+    required this.image,
+    required this.lat,
+    required this.lng,
+    required this.name,
+    required this.description,
+    required this.rating,
+  });
+  final String lat;
+  final String lng;
+  final String name;
+  final String address;
+  final String image;
+  final String rating;
+  final String description;
 
   @override
   State<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
@@ -27,10 +46,34 @@ class RestaurantDetailPage extends StatefulWidget {
 class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   Completer<GoogleMapController> _controller = Completer();
 
-  CameraPosition _currentPosition = CameraPosition(
-    target: LatLng(13.0827, 80.2707),
-    zoom: 12,
-  );
+  late CameraPosition _currentPosition;
+  List<Marker> _marker = [];
+  // List<Marker> _list = [
+  //   Marker(markerId: MarkerId('1'), position: )
+  // ];
+
+  @override
+  void initState() {
+    _currentPosition = CameraPosition(
+      target: LatLng(double.parse(widget.lat), double.parse(widget.lng)),
+      zoom: 12,
+    );
+    List<Marker> _list = [
+      Marker(
+          markerId: MarkerId('1'),
+          position: LatLng(double.parse(widget.lat), double.parse(widget.lng)),
+          infoWindow: InfoWindow(
+            title: widget.name,
+          ))
+    ];
+    _marker.addAll(_list);
+    super.initState();
+  }
+
+  // final CameraPosition _currentPosition =  CameraPosition(
+  //   target: LatLng(double.parse(widget.lat), 80.2707),
+  //   zoom: 12,
+  // );
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.sizeOf(context);
@@ -96,9 +139,19 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                             borderRadius: BorderRadius.circular(15),
                             child: GoogleMap(
                               initialCameraPosition: _currentPosition,
+                              markers: Set<Marker>.of(_marker),
                               onMapCreated: (GoogleMapController controller) {
-                                _controller.complete();
+                                _controller.complete(controller);
                               },
+                              // gestureRecognizers: Set()
+                              //   ..add(Factory<PanGestureRecognizer>(
+                              //       () => PanGestureRecognizer())),
+                              gestureRecognizers:
+                                  <Factory<OneSequenceGestureRecognizer>>[
+                                new Factory<OneSequenceGestureRecognizer>(
+                                  () => new EagerGestureRecognizer(),
+                                ),
+                              ].toSet(),
                             ),
                           ),
                         ),

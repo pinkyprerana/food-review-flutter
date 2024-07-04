@@ -65,6 +65,8 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   TextEditingController();
   final TextEditingController restaurantAddressTextController =
   TextEditingController();
+  final TextEditingController postCuisineTextController =
+  TextEditingController();
   final TextEditingController postHowWasItTextController =
   TextEditingController();
 
@@ -85,7 +87,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
               "description": postDescriptionTextController.text,
               "image": '${AppUrls.postImageLocation}/$imageName',
               "how_was_it": postHowWasItTextController.text,
-              // "cuisine": ,
+              "cuisine": postCuisineTextController.text,
             });
         state = state.copyWith(isLoading: false);
 

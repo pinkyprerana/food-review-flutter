@@ -6,7 +6,7 @@ import '../application/yourPeople_state.dart';
 
 final YourPeopleNotifierProvider = StateNotifierProvider<YourPeopleNotifier, YourPeopleState>(
       (ref) =>YourPeopleNotifier(
-    ref.watch(dioProvider),
+    ref.watch(networkService),
     ref.watch(hiveProvider),
   ),
 );
