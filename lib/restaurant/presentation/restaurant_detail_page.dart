@@ -187,7 +187,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                               horizontal: 20.0),
                                           child: (widget.description != '')
                                               ? Text(
-                                                  'Lorem ipsum dolor sit amet consectetur. Ipsum dolor purus ut aliquet sed volutpat sed',
+                                                  widget.description,
                                                   style: AppTextStyles
                                                       .textStylePoppinsRegular
                                                       .copyWith(
@@ -496,13 +496,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              widget.name,
-                                              style: AppTextStyles
-                                                  .textStylePoppinsMedium
-                                                  .copyWith(
-                                                fontSize: 13.sp,
-                                                color: AppColors.colorPrimary,
+                                            Expanded(
+                                              child: Text(
+                                                widget.name,
+                                                style: AppTextStyles
+                                                    .textStylePoppinsMedium
+                                                    .copyWith(
+                                                  fontSize: 13.sp,
+                                                  color: AppColors.colorPrimary,
+                                                ),
                                               ),
                                             ),
                                             IconButton(
