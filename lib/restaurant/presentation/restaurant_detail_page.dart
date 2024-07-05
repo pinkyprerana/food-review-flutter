@@ -142,6 +142,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: GoogleMap(
+                              myLocationButtonEnabled: false,
                               initialCameraPosition: _currentPosition,
                               markers: Set<Marker>.of(_marker),
                               onMapCreated: (GoogleMapController controller) {
