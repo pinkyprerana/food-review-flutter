@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -272,7 +273,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                     child: Text(
                                                       'Restaurant Score',
                                                       style: AppTextStyles
-                                                          .textStylePoppinsRegular
+                                                          .textStyleUbuntuRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
                                                         color: AppColors
@@ -317,9 +318,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                         thickness: 1,
                                         color: AppColors.colorBorder,
                                       ),
-                                      10.verticalSpace,
+                                      5.verticalSpace,
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 20.0),
                                         child: Row(
                                           mainAxisAlignment:
@@ -515,69 +516,140 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                     ),
                                   ),
                                 ),
+                                // Positioned(
+                                //   top: 10,
+                                //   left: 155,
+                                //   child: Container(
+                                //     width: mediaQuery.width * 0.5,
+                                //     child: Column(
+                                //       children: [
+                                //         Container(
+                                //           // height: 50.h,
+                                //           // color: AppColors.colorRed,
+                                //           child: Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.spaceBetween,
+                                //             children: [
+                                //               Expanded(
+                                //                 child: Text(
+                                //                   widget.name,
+                                //                   style: AppTextStyles
+                                //                       .textStylePoppinsMedium
+                                //                       .copyWith(
+                                //                     fontSize: 13.sp,
+                                //                     color:
+                                //                         AppColors.colorPrimary,
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //               IconButton(
+                                //                   onPressed: () {
+                                //                     AutoRouter.of(context).push(
+                                //                         const SavedRoute());
+                                //                   },
+                                //                   icon: Image.asset(
+                                //                     Assets.bookmark,
+                                //                     color:
+                                //                         AppColors.colorPrimary,
+                                //                   ))
+                                //             ],
+                                //           ),
+                                //         ),
+                                //         Container(
+                                //           color: Colors.amber,
+                                //           child: Row(
+                                //             mainAxisSize: MainAxisSize.min,
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.start,
+                                //             children: [
+                                //               Image.asset(
+                                //                 Assets.locationBig,
+                                //                 color: AppColors.colorPrimary,
+                                //               ),
+                                //               3.horizontalSpace,
+                                //               Expanded(
+                                //                 child: Text(
+                                //                   widget.address,
+                                //                   // maxLines: 1,
+                                //                   // overflow: TextOverflow.ellipsis,
+                                //                   style: AppTextStyles
+                                //                       .textStylePoppinsRegular
+                                //                       .copyWith(
+                                //                     fontSize: 10.sp,
+                                //                     color: AppColors
+                                //                         .colorPrimaryAlpha,
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // )
                                 Positioned(
                                   top: 10,
-                                  left: 155,
+                                  left: (Platform.isIOS) ? 157 : 150,
                                   child: Container(
-                                    width: mediaQuery.width * 0.5,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                widget.name,
-                                                style: AppTextStyles
-                                                    .textStylePoppinsMedium
-                                                    .copyWith(
-                                                  fontSize: 13.sp,
-                                                  color: AppColors.colorPrimary,
-                                                ),
+                                      width: mediaQuery.width * 0.5,
+                                      //height: mediaQuery.height * 0.3,
+                                      //color: Colors.red,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 140.w,
+                                            child: Text(
+                                              widget.name,
+                                              style: AppTextStyles
+                                                  .textStylePoppinsMedium
+                                                  .copyWith(
+                                                fontSize: 11.sp,
+                                                color: AppColors.colorPrimary,
                                               ),
                                             ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  AutoRouter.of(context)
-                                                      .push(const SavedRoute());
-                                                },
-                                                icon: Image.asset(
-                                                  Assets.bookmark,
-                                                  color: AppColors.colorPrimary,
-                                                ))
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              Assets.locationBig,
-                                              color: AppColors.colorPrimary,
-                                            ),
-                                            3.horizontalSpace,
-                                            Expanded(
-                                              child: Text(
-                                                widget.address,
-                                                // maxLines: 1,
-                                                // overflow: TextOverflow.ellipsis,
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
-                                                  fontSize: 10.sp,
-                                                  color: AppColors
-                                                      .colorPrimaryAlpha,
+                                          ),
+                                          5.verticalSpace,
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                Assets.locationBig,
+                                                color: AppColors.colorPrimary,
+                                              ),
+                                              3.horizontalSpace,
+                                              Container(
+                                                width: 130.w,
+                                                child: Text(
+                                                  widget.address,
+                                                  // maxLines: 1,
+                                                  // overflow: TextOverflow.ellipsis,
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 9.sp,
+                                                    color: AppColors
+                                                        .colorPrimaryAlpha,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
+                                            ],
+                                          )
+                                        ],
+                                      )),
+                                ),
+                                Positioned(
+                                    left: 310,
+                                    top: 10,
+                                    child: GestureDetector(
+                                      onTap: () => AutoRouter.of(context)
+                                          .push(const SavedRoute()),
+                                      child: Image.asset(
+                                        Assets.bookmark,
+                                        color: AppColors.colorPrimary,
+                                      ),
+                                    ))
                               ],
                             ),
                           ],

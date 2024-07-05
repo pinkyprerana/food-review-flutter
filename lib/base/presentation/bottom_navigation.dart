@@ -24,11 +24,7 @@ class BottomNavigation extends ConsumerWidget {
     final Size size = MediaQuery.of(context).size;
     // final pageController0 = PageController(initialPage: 0);
     List<Map> bottomItems = [
-      {
-        'icon': Assets.feedInactive,
-        'active': Assets.feedActive,
-        'name': 'Home'
-      },
+      {'icon': Assets.homeInactive, 'active': Assets.home, 'name': 'Home'},
       {
         'icon': Assets.listInactive,
         'active': Assets.listActive,
@@ -118,7 +114,8 @@ class BottomNavigation extends ConsumerWidget {
                           if (index == 1) {
                             // cartNotifier.listItems();
                             stateNotifier.tapBottomNavIndex(index);
-                          } if (index == 2) {
+                          }
+                          if (index == 2) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const PhotoClickPage(),

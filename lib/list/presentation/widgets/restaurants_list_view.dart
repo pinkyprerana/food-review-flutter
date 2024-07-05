@@ -219,7 +219,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                                   // widget.restaurants[index]
                                                   //     ['rating']!,
 
-                                                  '__',
+                                                  '0.0',
                                                   style: AppTextStyles
                                                       .textStylePoppinsRegular
                                                       .copyWith(
@@ -249,7 +249,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                               // widget.restaurants[index]
                                               //     ['reviews']!,
 
-                                              '0 Reviews',
+                                              '0 reviews',
                                               style: AppTextStyles
                                                   .textStylePoppinsRegular
                                                   .copyWith(
