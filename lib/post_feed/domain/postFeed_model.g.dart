@@ -12,7 +12,7 @@ _$PreferenceModelImpl _$$PreferenceModelImplFromJson(
       status: (json['status'] as num?)?.toInt(),
       type: json['type'] as String?,
       message: json['message'] as String?,
-      data: (json['data'] as List<dynamic>)
+      postList: (json['data'] as List<dynamic>)
           .map((e) => DataOfPostModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: (json['total'] as num?)?.toInt(),
@@ -27,7 +27,7 @@ Map<String, dynamic> _$$PreferenceModelImplToJson(
       'status': instance.status,
       'type': instance.type,
       'message': instance.message,
-      'data': instance.data,
+      'data': instance.postList,
       'total': instance.total,
       'page': instance.page,
       'pages': instance.pages,

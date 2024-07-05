@@ -9,7 +9,7 @@ class PostFeedState with _$PostFeedState {
     @Default(false) bool isExpanded,
     @Default(0) int selectedIndex,
     @Default([]) List postTitles,
-    @Default([]) List<DataOfPostModel>? postList,
+    @Default([]) List<DataOfPostModel> postList,
     @Default([]) List<UserInfo>? userInfoList,
     @Default([]) List<RestaurantInfo>? restaurantInfoList,
   }) = _PostFeedState;

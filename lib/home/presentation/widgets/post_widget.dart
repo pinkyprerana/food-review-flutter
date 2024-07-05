@@ -11,7 +11,8 @@ import 'package:for_the_table/post_feed/presentation/widgets/comments_icon.dart'
 import 'package:glassmorphism/glassmorphism.dart';
 
 class PostWidget extends StatelessWidget {
-  const PostWidget({super.key});
+  final List postList;
+  const PostWidget({super.key, required this.postList});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class PostWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                          peoplename: 'Ahmad Gouse',
+                          peoplename: 'Ahmad Gouse', //widget.postList.name,
                           peopleimage:
                               'assets/images/temp/follower-sample2.png',
                         ));

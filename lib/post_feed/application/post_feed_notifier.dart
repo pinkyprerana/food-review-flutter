@@ -35,45 +35,45 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   final TextEditingController searchTextController =
   TextEditingController();
-  List<String> postTitles = [];
-  Future<void> getPostFeed(VoidCallback voidCallback) async {
-      state = state.copyWith(isLoading: true);
+  int totalNumberOfPosts = 0;
 
-      try {
-        var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-            url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
-            body: {
-              "serach_keyword": searchTextController.text,
-              "perpage": "10",
-              "page": "1",
-            });
-        state = state.copyWith(isLoading: false);
+  Future<void> getPostFeed() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}');
+      state = state.copyWith(isLoading: false);
 
-        if (response == null && dioException == null) {
-          showConnectionWasInterruptedToastMessage();
-        } else if (dioException != null) {
-          showDioError(dioException);
-        } else {
-          PostModel postModel = PostModel.fromJson(response.data);
-          if (postModel.status == 200 && postModel.data != null) {
-            PostModel postModel = PostModel.fromJson(response.data);
-            if (postModel.status == 200) {
-              state = state.copyWith(
-                  isLoading: false,
-                  postList: postModel.data);
-
-            } else {
-              showToastMessage(postModel.message.toString());
-            }
-          }
-        }
-      }catch (error) {
-        state = state.copyWith(isLoading: false);
+      if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        PostModel postModel = PostModel.fromJson(response.data);
+        if (postModel.status == 200) {
+
+
+          final List<DataOfPostModel>? postList = postModel.postList;
+
+          totalNumberOfPosts = postModel.total ?? 0;
+
+
+          state = state.copyWith(
+              isLoading: false,
+              postList:
+                postModel.postList
+          );
+
+        } else {
+          showToastMessage(postModel.message.toString());
+        }
       }
-
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
   }
-
 
 
 }

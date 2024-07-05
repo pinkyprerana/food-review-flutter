@@ -27,7 +27,7 @@ mixin _$PostModel {
   @JsonKey(name: "message")
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
-  List<DataOfPostModel> get data => throw _privateConstructorUsedError;
+  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
   @JsonKey(name: "total")
   int? get total => throw _privateConstructorUsedError;
   @JsonKey(name: "page")
@@ -52,7 +52,7 @@ abstract class $PostModelCopyWith<$Res> {
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") List<DataOfPostModel> data,
+      @JsonKey(name: "data") List<DataOfPostModel> postList,
       @JsonKey(name: "total") int? total,
       @JsonKey(name: "page") int? page,
       @JsonKey(name: "pages") int? pages,
@@ -75,7 +75,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? data = null,
+    Object? postList = null,
     Object? total = freezed,
     Object? page = freezed,
     Object? pages = freezed,
@@ -94,9 +94,9 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
+      postList: null == postList
+          ? _value.postList
+          : postList // ignore: cast_nullable_to_non_nullable
               as List<DataOfPostModel>,
       total: freezed == total
           ? _value.total
@@ -130,7 +130,7 @@ abstract class _$$PreferenceModelImplCopyWith<$Res>
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") List<DataOfPostModel> data,
+      @JsonKey(name: "data") List<DataOfPostModel> postList,
       @JsonKey(name: "total") int? total,
       @JsonKey(name: "page") int? page,
       @JsonKey(name: "pages") int? pages,
@@ -151,7 +151,7 @@ class __$$PreferenceModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? data = null,
+    Object? postList = null,
     Object? total = freezed,
     Object? page = freezed,
     Object? pages = freezed,
@@ -170,9 +170,9 @@ class __$$PreferenceModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      data: null == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
+      postList: null == postList
+          ? _value._postList
+          : postList // ignore: cast_nullable_to_non_nullable
               as List<DataOfPostModel>,
       total: freezed == total
           ? _value.total
@@ -201,12 +201,12 @@ class _$PreferenceModelImpl implements _PreferenceModel {
       {@JsonKey(name: "status") this.status,
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
-      @JsonKey(name: "data") required final List<DataOfPostModel> data,
+      @JsonKey(name: "data") required final List<DataOfPostModel> postList,
       @JsonKey(name: "total") this.total,
       @JsonKey(name: "page") this.page,
       @JsonKey(name: "pages") this.pages,
       @JsonKey(name: "limit") this.limit})
-      : _data = data;
+      : _postList = postList;
 
   factory _$PreferenceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PreferenceModelImplFromJson(json);
@@ -220,13 +220,13 @@ class _$PreferenceModelImpl implements _PreferenceModel {
   @override
   @JsonKey(name: "message")
   final String? message;
-  final List<DataOfPostModel> _data;
+  final List<DataOfPostModel> _postList;
   @override
   @JsonKey(name: "data")
-  List<DataOfPostModel> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
+  List<DataOfPostModel> get postList {
+    if (_postList is EqualUnmodifiableListView) return _postList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
+    return EqualUnmodifiableListView(_postList);
   }
 
   @override
@@ -244,7 +244,7 @@ class _$PreferenceModelImpl implements _PreferenceModel {
 
   @override
   String toString() {
-    return 'PostModel(status: $status, type: $type, message: $message, data: $data, total: $total, page: $page, pages: $pages, limit: $limit)';
+    return 'PostModel(status: $status, type: $type, message: $message, postList: $postList, total: $total, page: $page, pages: $pages, limit: $limit)';
   }
 
   @override
@@ -255,7 +255,7 @@ class _$PreferenceModelImpl implements _PreferenceModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
+            const DeepCollectionEquality().equals(other._postList, _postList) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.pages, pages) || other.pages == pages) &&
@@ -264,8 +264,16 @@ class _$PreferenceModelImpl implements _PreferenceModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, type, message,
-      const DeepCollectionEquality().hash(_data), total, page, pages, limit);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      type,
+      message,
+      const DeepCollectionEquality().hash(_postList),
+      total,
+      page,
+      pages,
+      limit);
 
   @JsonKey(ignore: true)
   @override
@@ -287,7 +295,7 @@ abstract class _PreferenceModel implements PostModel {
       {@JsonKey(name: "status") final int? status,
       @JsonKey(name: "type") final String? type,
       @JsonKey(name: "message") final String? message,
-      @JsonKey(name: "data") required final List<DataOfPostModel> data,
+      @JsonKey(name: "data") required final List<DataOfPostModel> postList,
       @JsonKey(name: "total") final int? total,
       @JsonKey(name: "page") final int? page,
       @JsonKey(name: "pages") final int? pages,
@@ -307,7 +315,7 @@ abstract class _PreferenceModel implements PostModel {
   String? get message;
   @override
   @JsonKey(name: "data")
-  List<DataOfPostModel> get data;
+  List<DataOfPostModel> get postList;
   @override
   @JsonKey(name: "total")
   int? get total;

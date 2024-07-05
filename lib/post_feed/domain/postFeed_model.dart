@@ -8,7 +8,7 @@ abstract class PostModel with _$PostModel {
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
     @JsonKey(name: "message") String? message,
-    @JsonKey(name: "data") required List<DataOfPostModel> data,
+    @JsonKey(name: "data") required List<DataOfPostModel> postList,
     @JsonKey(name: "total") int? total,
     @JsonKey(name: "page") int? page,
     @JsonKey(name: "pages") int? pages,

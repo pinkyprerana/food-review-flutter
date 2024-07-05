@@ -20,7 +20,7 @@ mixin _$PostFeedState {
   bool get isExpanded => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
   List<dynamic> get postTitles => throw _privateConstructorUsedError;
-  List<DataOfPostModel>? get postList => throw _privateConstructorUsedError;
+  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
   List<UserInfo>? get userInfoList => throw _privateConstructorUsedError;
   List<RestaurantInfo>? get restaurantInfoList =>
       throw _privateConstructorUsedError;
@@ -41,7 +41,7 @@ abstract class $PostFeedStateCopyWith<$Res> {
       bool isExpanded,
       int selectedIndex,
       List<dynamic> postTitles,
-      List<DataOfPostModel>? postList,
+      List<DataOfPostModel> postList,
       List<UserInfo>? userInfoList,
       List<RestaurantInfo>? restaurantInfoList});
 }
@@ -63,7 +63,7 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? isExpanded = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
-    Object? postList = freezed,
+    Object? postList = null,
     Object? userInfoList = freezed,
     Object? restaurantInfoList = freezed,
   }) {
@@ -84,10 +84,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.postTitles
           : postTitles // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      postList: freezed == postList
+      postList: null == postList
           ? _value.postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>?,
+              as List<DataOfPostModel>,
       userInfoList: freezed == userInfoList
           ? _value.userInfoList
           : userInfoList // ignore: cast_nullable_to_non_nullable
@@ -113,7 +113,7 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       bool isExpanded,
       int selectedIndex,
       List<dynamic> postTitles,
-      List<DataOfPostModel>? postList,
+      List<DataOfPostModel> postList,
       List<UserInfo>? userInfoList,
       List<RestaurantInfo>? restaurantInfoList});
 }
@@ -133,7 +133,7 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? isExpanded = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
-    Object? postList = freezed,
+    Object? postList = null,
     Object? userInfoList = freezed,
     Object? restaurantInfoList = freezed,
   }) {
@@ -154,10 +154,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value._postTitles
           : postTitles // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      postList: freezed == postList
+      postList: null == postList
           ? _value._postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>?,
+              as List<DataOfPostModel>,
       userInfoList: freezed == userInfoList
           ? _value._userInfoList
           : userInfoList // ignore: cast_nullable_to_non_nullable
@@ -178,7 +178,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
       this.isExpanded = false,
       this.selectedIndex = 0,
       final List<dynamic> postTitles = const [],
-      final List<DataOfPostModel>? postList = const [],
+      final List<DataOfPostModel> postList = const [],
       final List<UserInfo>? userInfoList = const [],
       final List<RestaurantInfo>? restaurantInfoList = const []})
       : _postTitles = postTitles,
@@ -205,15 +205,13 @@ class _$PostFeedStateImpl extends _PostFeedState {
     return EqualUnmodifiableListView(_postTitles);
   }
 
-  final List<DataOfPostModel>? _postList;
+  final List<DataOfPostModel> _postList;
   @override
   @JsonKey()
-  List<DataOfPostModel>? get postList {
-    final value = _postList;
-    if (value == null) return null;
+  List<DataOfPostModel> get postList {
     if (_postList is EqualUnmodifiableListView) return _postList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_postList);
   }
 
   final List<UserInfo>? _userInfoList;
@@ -288,7 +286,7 @@ abstract class _PostFeedState extends PostFeedState {
       final bool isExpanded,
       final int selectedIndex,
       final List<dynamic> postTitles,
-      final List<DataOfPostModel>? postList,
+      final List<DataOfPostModel> postList,
       final List<UserInfo>? userInfoList,
       final List<RestaurantInfo>? restaurantInfoList}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
@@ -302,7 +300,7 @@ abstract class _PostFeedState extends PostFeedState {
   @override
   List<dynamic> get postTitles;
   @override
-  List<DataOfPostModel>? get postList;
+  List<DataOfPostModel> get postList;
   @override
   List<UserInfo>? get userInfoList;
   @override

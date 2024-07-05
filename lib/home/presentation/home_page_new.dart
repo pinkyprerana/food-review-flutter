@@ -37,21 +37,22 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     {'image': Assets.follow2, 'name': 'Skylar Bergson'},
   ];
 
-  List restaurantlist = [
-    {'image': Assets.rest1},
-    {'image': Assets.rest2},
-    {'image': Assets.rest3},
-    {'image': Assets.rest4},
-  ];
+  // List restaurantlist = [
+  //   {'image': Assets.rest1},
+  //   {'image': Assets.rest2},
+  //   {'image': Assets.rest3},
+  //   {'image': Assets.rest4},
+  // ];
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       await stateNotifier.getHomeRestaurants(context: context);
+      final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+      postFeedNotifier.getPostFeed();
     });
-
-    super.initState();
   }
 
   @override
@@ -69,7 +70,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
 
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    print("_____________________________${postFeedList}");
+    print("___________This is post feed data__________________${postFeedList}");
 
     return Scaffold(
         extendBody: true,
@@ -299,12 +300,12 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: ListView.builder(
-                    itemCount: 3,
+                    itemCount: postFeedList.length, //3
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     itemBuilder: (context, index) {
-                      return const PostWidget();
+                      return PostWidget(postList: postFeedList,);
                     }),
               ),
               90.verticalSpace,

@@ -678,7 +678,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
-                    return const PostWidget();
+                    // return const PostWidget();
                   }),
               10.verticalSpace,
             ],
