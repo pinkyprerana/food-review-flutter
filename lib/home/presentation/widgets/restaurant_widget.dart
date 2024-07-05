@@ -83,22 +83,38 @@ class RestaurantWidget extends StatelessWidget {
               children: [
                 Image.asset(Assets.star),
                 2.horizontalSpace,
-                Text(
-                  rating,
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    fontSize: 10.sp,
-                    color: AppColors.colorPrimary,
-                  ),
-                )
+                (rating != '')
+                    ? Text(
+                        rating,
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 10.sp,
+                          color: AppColors.colorPrimary,
+                        ),
+                      )
+                    : Text(
+                        '0.0',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          fontSize: 10.sp,
+                          color: AppColors.colorPrimary,
+                        ),
+                      )
               ],
             ),
-            Text(
-              '$numberOfReviews reviews',
-              style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                fontSize: 8.sp,
-                color: AppColors.colorPrimaryAlpha,
-              ),
-            )
+            (numberOfReviews != '')
+                ? Text(
+                    '$numberOfReviews reviews',
+                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 8.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                    ),
+                  )
+                : Text(
+                    '0 reviews',
+                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 8.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                    ),
+                  )
           ],
         ),
       ),
