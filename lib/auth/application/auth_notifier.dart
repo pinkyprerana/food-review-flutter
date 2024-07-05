@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/auth/application/auth_state.dart';
+import 'package:for_the_table/auth/shared/providers.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
@@ -15,6 +16,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
+
+  String? get getUserId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
+
+
 
   //login
   final TextEditingController loginEmailTextController =
@@ -43,6 +48,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       TextEditingController();
   final TextEditingController fpConfirmPasswordTextController =
       TextEditingController();
+
+  //preference
+  // final List preferences = [];
 
   void clearLoginFields() {
     loginEmailTextController.clear();
@@ -277,7 +285,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${'/user/forgot-password'}',
+          url: '${AppUrls.BASE_URL}${AppUrls.sendOTP}',
           body: {
             "email": fpEmailTextController.text,
           });
@@ -311,7 +319,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${'/user/resend-forgot-password-otp'}',
+          url: '${AppUrls.BASE_URL}${AppUrls.resendOTP}',
           body: {
             "email": fpEmailTextController.text,
           });
@@ -341,7 +349,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${'/user/forget-password-otp-verification'}',
+          url: '${AppUrls.BASE_URL}${AppUrls.verifyOTP}',
           body: {
             "email": fpEmailTextController.text,
             "otp": fpOtpTextController.text,
@@ -396,7 +404,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           dioException
         ) = await _networkApiService.postApiRequestWithToken(
             url:
-                '${AppUrls.BASE_URL}${'/user/forget-password-change-password'}',
+                '${AppUrls.BASE_URL}${AppUrls.resetPassword}',
             body: {
               "email": fpEmailTextController.text,
               "new_password": fpPasswordTextController.text,
@@ -427,4 +435,5 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
     }
   }
+
 }

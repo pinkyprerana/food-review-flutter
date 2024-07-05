@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../auth/shared/providers.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
@@ -26,17 +27,16 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
 }
 
 class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
-  void updateFollowState() {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
-    followNotifier.setFollowingState(!followNotifier.state.isFollowing);
-  }
 
   @override
   Widget build(BuildContext context) {
     final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
+    final authNotifier = ref.watch(authNotifierProvider.notifier);
+    final userId = authNotifier.getUserId;
+
     void _handleFollowButtonPressed() {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
-      followNotifier.setFollowingState(!isFollowing);
+      followNotifier.follow_unfollow((){}, userId!);
     }
     return Scaffold(
       extendBody: true,

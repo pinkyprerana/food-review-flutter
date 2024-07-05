@@ -1,7 +1,7 @@
 class AppUrls {
   static const BASE_URL = 'https://forthetable.dedicateddevelopers.us/api';
-  // static const baseImageUrl =
-  //     'https://admin-matchfluence.dedicateddevelopers.us/uploads/user/';
+  static const postImageLocation =
+      'https://admin-matchfluence.dedicateddevelopers.us/uploads/post/';
   // static const baseChatMediaUrl =
   //     'https://admin-matchfluence.dedicateddevelopers.us/uploads/chat/';
   // static const baseGalleryMediaUrl =
@@ -11,6 +11,15 @@ class AppUrls {
 
   static const signup = '/user/signup';
   static const signin = '/user/signin';
+  static const sendOTP = '/user/forgot-password';
+  static const resendOTP = '/user/resend-forgot-password-otp';
+  static const verifyOTP = '/user/forget-password-otp-verification';
+  static const resetPassword = '/user/forget-password-change-password';
+  static const addPost  = '/post/add';
+  static const follow_unfollow = '/user/follow';
+  static const getAllPreference = '/preference/list';
+  static const getAllPosts = '/post/folowing-user';
+  static const getAllFollowers = '/user/follower/list';
   static const profile = '/user/profile';
   static const profileUpdate = '/user/profile-update';
   static const logout = '/user/logout';

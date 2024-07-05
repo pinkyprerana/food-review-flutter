@@ -55,8 +55,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   @override
   Widget build(BuildContext context) {
     var hive = ref.watch(hiveProvider);
-    AppLog.log(
-        '--------------TOKEN------------${hive.box.get(AppPreferenceKeys.token)}');
+    // AppLog.log(
+    //     '--------------TOKEN------------${hive.box.get(AppPreferenceKeys.token)}');
     final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateOfListScreen = ref.watch(listProvider);

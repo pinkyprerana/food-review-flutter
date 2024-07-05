@@ -4,13 +4,18 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/onboarding/shared/provider.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
+import '../../core/utils/common_util.dart';
+import '../../model/restaurant/restaurantlist_response_model.dart';
+import '../../restaurant/shared/provider.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/custom_input_field.dart';
 import '../shared/provider.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 @RoutePage()
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -22,17 +27,35 @@ class CreatePostPage extends ConsumerStatefulWidget {
 }
 
 class _CreatePostPageState extends ConsumerState<CreatePostPage> {
+  String selectedRestaurantName = "";
+  String selectedRestaurantAddress = "";
+  String selectedRestaurantId= "";
+  final descriptionNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getRestaurants(context: context);
+      final preferenceNotifier = ref.watch(preferenceNotifierProvider.notifier);
+      await preferenceNotifier.getAllPreference();
+      final allPreferences = ref.watch(preferenceNotifierProvider).data;
+      print(allPreferences);
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.read(CreatePostNotifierProvider);
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
+    final allPreferences = ref.watch(preferenceNotifierProvider).data;
+
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -49,6 +72,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               }
             } else {
               createPostNotifier.pageController.jumpToPage(0);
+              createPostNotifier.clearRestaurantDetails();
             }
             createPostNotifier.resetPage();
           },
@@ -78,469 +102,532 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            createPostNotifier.pageController.jumpToPage(0);
+            createPostNotifier.clearRestaurantDetails();
+            createPostNotifier.resetPage();
+          } else {
+            createPostNotifier.clearAllPostDetails();
+            Navigator.pop(context);
+            createPostNotifier.resetPage();
+          }
+        },
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            children: [
+              10.verticalSpace,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                height: MediaQuery.of(context).size.height * 0.37,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: imageFile == null
+                        ? const Text('No image selected.')
+                        : Image.file(
+                            File(imageFile.path),
+                            fit: BoxFit.fill,
+                            height: double.infinity,
+                            width: double.infinity,
+                          ),
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.38,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: pageController,
+                      children: [
+                        _createPostTitleDescription(),
+                        _selectRestaurantPage(allPreferences!)
+                      ],
+                    ),
+                  ),
+                  currentPage == 1
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppButton(
+                                loading: state.isLoading,
+                                width: MediaQuery.of(context).size.width * 0.73,
+                                text: "Post",
+                                onPressed: () async {
+                                  dismissKeyboard(context);
+                                  createPostNotifier.addPost(() {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    createPostNotifier.onContinuePressed(context);
+                                    createPostNotifier.clearRestaurantDetails();
+                                  }, imageFile);
+                                },
+                              ),
+                              AppButton(
+                                color: AppColors.colorPrimaryAlpha,
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                onPressed: () {
+                                  createPostNotifier.resetPage();
+                                  createPostNotifier.clearAllPostDetails();
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset(
+                                  Assets.cancel,
+                                  color: AppColors.colorBackground,
+                                  scale: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: AppButton(
+                            loading: state.isLoading,
+                            text: "Continue",
+                            onPressed: () {
+                              if(createPostNotifier.postTitleTextController.text.isNotEmpty
+                              && createPostNotifier.postDescriptionTextController.text.isNotEmpty ){
+                                createPostNotifier.onContinuePressed(context);
+                              }else{
+                                showToastMessage("Post title and description are required");
+                              }
+                            }
+                          ),
+                        ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _createPostTitleDescription(){
+    final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             10.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Posts',
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(
+                    fontSize: 14.sp,
+                    color: AppColors.colorBlack),
+              ),
+            ),
+            const SizedBox(height: 20),
+            CustomInputField(
+              controller: createPostNotifier.postTitleTextController,
+              label: 'Post Title',
+              hint: 'Enter post title',
+              onFieldSubmitted: (val) {
+                FocusScope.of(context).requestFocus(descriptionNode);
+              },
+            ),
+            20.verticalSpace,
+            TextField(
+              maxLines: 5,
+              focusNode: descriptionNode,
+              controller: createPostNotifier.postDescriptionTextController,
+              decoration: InputDecoration(
+                labelText: 'Post Description',
+                hintText: 'Enter post description',
+                labelStyle: AppTextStyles
+                    .textStylePoppinsMedium
+                    .copyWith(
+                  color: AppColors.colorBlack,
+                  fontSize: 14.sp,
+                ),
+                hintStyle: AppTextStyles
+                    .textStylePoppinsRegular
+                    .copyWith(
+                  color: AppColors.colorPrimaryAlpha,
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        width: 1,
+                        color: AppColors.colorBlack),
+                    borderRadius:
+                    BorderRadius.circular(15.0)),
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        width: 0,
+                        color: AppColors.colorBlack),
+                    borderRadius:
+                    BorderRadius.circular(15.0)),
+                floatingLabelBehavior:
+                FloatingLabelBehavior.always,
+              ),
+            ),
+            20.verticalSpace
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _selectRestaurantPage(allPreferences){
+    final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
+    final restaurantList =ref.watch(restaurantNotifierProvider).restaurantList;
+    List<dynamic> cuisineList = allPreferences.map((preference) => preference.title).toList();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            10.verticalSpace,
+            Row(
+              children: [
+                Text(
+                  'Post details',
+                  style: AppTextStyles.textStylePoppinsMedium
+                      .copyWith(
+                      fontSize: 14.sp,
+                      color: AppColors.colorBlack),
+                ),
+              ],
+            ),
+            10.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                createPostNotifier.postTitleTextController.text,
+                // "Lorem ipsum is a dummy title",
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(
+                    fontSize: 12.sp,
+                    color: AppColors.colorBlack),
+              ),
+            ),
+            10.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                createPostNotifier.postDescriptionTextController.text,
+                // "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
+                style: AppTextStyles.textStylePoppinsLight
+                    .copyWith(
+                    fontSize: 10.sp,
+                    color: AppColors.colorBlack2,
+                    letterSpacing: 0),
+              ),
+            ),
+            20.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Restaurant Details",
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(
+                    fontSize: 12.sp,
+                    color: AppColors.colorBlack),
+              ),
+            ),
+            10.verticalSpace,
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              height: MediaQuery.of(context).size.height * 0.37,
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: widget.imageFile == null
-                      ? const Text('No image selected.')
-                      : Image.file(
-                          File(widget.imageFile!.path),
-                          fit: BoxFit.fill,
-                          height: double.infinity,
-                          width: double.infinity,
-                        ),
+              height: 60.r,
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
+              decoration: BoxDecoration(
+                  color: AppColors.colorGrey,
+                  borderRadius: BorderRadius.circular(10)),
+              child: CupertinoTypeAheadField<Restaurant>(
+                controller: createPostNotifier.restaurantNameTextController,
+                builder: (context, TextEditingController controller, FocusNode focusNode) {
+                  return TextField(
+                    controller: controller,
+                    focusNode: focusNode,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: "Select Restaurant",
+                      hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorPrimaryAlpha,
+                      ),
+                      focusedBorder: InputBorder.none,
+                      border: InputBorder.none,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                  );
+                },
+                suggestionsCallback: (pattern) {
+                  return restaurantList?.where((restaurant) =>
+                      restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
+                      .toList() ??
+                      [];
+                },
+                itemBuilder: (context, suggestion) {
+                  return ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(suggestion.name!, style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 10),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.location_on_outlined, color:  AppColors.colorBlack, size: 10.h,),
+                              Text(suggestion.address!.length > 40
+                                  ? '${suggestion.address!.substring(0, 40)}...'
+                                  : suggestion.address!, style: AppTextStyles.textStylePoppinsRegular.copyWith(color: AppColors.colorPrimaryAlpha,fontSize: 10),)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                onSelected: (Restaurant selection) {
+                  selectedRestaurantName = selection.name!;
+                  selectedRestaurantId = selection.id!;
+                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                },
+              ),
+            ),
+            // Container(
+            //   height: 60.r,
+            //   width: double.infinity,
+            //   alignment: Alignment.center,
+            //   padding:
+            //       const EdgeInsets.symmetric(horizontal: 16)
+            //           .r,
+            //   decoration: BoxDecoration(
+            //       color: AppColors.colorGrey,
+            //       borderRadius: BorderRadius.circular(10)),
+            //   child: TextFormField(
+            //     controller: createPostNotifier.restaurantIdTextController,
+            //     // focusNode: ,
+            //     // maxLength: ,
+            //     decoration: InputDecoration(
+            //       counterText: '',
+            //       hintText: 'Select Restaurant',
+            //       hintStyle: AppTextStyles
+            //           .textStylePoppinsRegular
+            //           .copyWith(
+            //         color: AppColors.colorPrimaryAlpha,
+            //       ),
+            //       border: InputBorder.none,
+            //       // focusedBorder: OutlineInputBorder(
+            //       //   borderRadius: BorderRadius.circular(10),
+            //       //   borderSide: const BorderSide(color: AppColors.colorPrimary),
+            //       // ),
+            //     ),
+            //     keyboardType: TextInputType.text,
+            //     style: AppTextStyles.textStylePoppinsRegular
+            //         .copyWith(fontSize: 13.sp),
+            //   ),
+            // ),
+            10.verticalSpace,
+            Container(
+              height: 60.r,
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding:
+              const EdgeInsets.symmetric(horizontal: 16)
+                  .r,
+              decoration: BoxDecoration(
+                  color: AppColors.colorGrey,
+                  borderRadius: BorderRadius.circular(10)),
+              child: TextFormField(
+                enabled: false,
+                controller: createPostNotifier.restaurantAddressTextController,
+                // focusNode: ,
+                // maxLength: ,
+                decoration: InputDecoration(
+                  counterText: '',
+                  hintText: 'Location',
+                  hintStyle: AppTextStyles
+                      .textStylePoppinsRegular
+                      .copyWith(
+                    color: createPostNotifier.restaurantAddressTextController.text.isEmpty
+                    ? AppColors.colorPrimaryAlpha
+                    : AppColors.colorBlack,
+                  ),
+                  border: InputBorder.none,
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   borderSide: const BorderSide(color: AppColors.colorPrimary),
+                  // ),
+                ),
+                keyboardType: TextInputType.text,
+                style: AppTextStyles.textStylePoppinsRegular
+                    .copyWith(fontSize: 13.sp),
+              ),
+            ),
+            15.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Cuisine Details",
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(
+                    fontSize: 12.sp,
+                    color: AppColors.colorBlack),
+              ),
+            ),
+            10.verticalSpace,
+            Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: AppColors.colorGrey,
+                  borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.all(16).r,
+              height: 56.r,
+              child: DropdownButtonFormField<String>(
+                dropdownColor: AppColors.colorGrey,
+                decoration: InputDecoration(
+                  isDense: true,
+                  hintText: "Select Cuisine",
+                  hintStyle: AppTextStyles
+                      .textStylePoppinsRegular
+                      .copyWith(
+                    color: AppColors.colorPrimaryAlpha,
+                  ),
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  floatingLabelBehavior:
+                  FloatingLabelBehavior.always,
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: AppColors.colorGrey3,
+                ),
+                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+                  value: cuisine,
+                  child: Text(
+                    cuisine,
+                    style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
+                  ),
+                )).toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    final selectedCuisine = value;
+                    createPostNotifier.postCuisineTextController.text = selectedCuisine;
+                  }
+                },
+              ),
+            ),
+            20.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  'How Was It?',
+                  style: AppTextStyles.textStylePoppinsRegular
+                      .copyWith(
+                      fontSize: 10.sp,
+                      color: AppColors.colorPrimaryAlpha),
                 ),
               ),
             ),
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                TextButton.icon(
+                  onPressed: () =>
+                    createPostNotifier.selectedReview("like"),
+                  label: Text(
+                    'Liked it',
+                    style: AppTextStyles.textStylePoppins
+                        .copyWith(
+                        fontSize: 12.sp,
+                        color:
+                        createPostNotifier.postHowWasItTextController.text == "like"
+                            ? AppColors.colorGreen
+                            : AppColors.colorPrimaryAlpha
                     ),
                   ),
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    children: [
-                      ///Select photo from gallery
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     Padding(
-                      //       padding: const EdgeInsets.all(10.0),
-                      //       child: Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text(
-                      //             'Select',
-                      //             style: AppTextStyles.textStylePoppinsMedium
-                      //                 .copyWith(fontSize: 14.sp, color: AppColors.colorBlack),
-                      //           ),
-                      //           ElevatedButton(
-                      //             style: ButtonStyle(elevation: WidgetStateProperty.all<double>(0),),
-                      //             onPressed: _pickAssets,
-                      //             child: Row(
-                      //               children: [
-                      //                 Text( 'Photos',
-                      //                   style: AppTextStyles.textStylePoppins
-                      //                       .copyWith(fontSize: 14.sp, color: AppColors.colorRed),
-                      //                 ),
-                      //                 const Icon(Icons.keyboard_arrow_down, color: AppColors.colorRed),
-                      //               ],
-                      //             ),
-                      //           )
-                      //         ],
-                      //       ),
-                      //     ),
-                      //
-                      //     //Todo: Show gallery images which is showing in _pickAssets
-                      //     Expanded(
-                      //       child: _selectedAssets != null && _selectedAssets!.isNotEmpty
-                      //           ? GridView.builder(
-                      //         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      //           crossAxisCount: 3,
-                      //           mainAxisSpacing: 4.0,
-                      //           crossAxisSpacing: 4.0,
-                      //         ),
-                      //         itemCount: _selectedAssets!.length,
-                      //         itemBuilder: (context, index) {
-                      //           final asset = _selectedAssets![index];
-                      //           return GestureDetector(
-                      //             onTap: () {
-                      //               toggleSelection(asset);
-                      //             },
-                      //             child: Stack(
-                      //               children: [
-                      //                 Image(
-                      //                   image: AssetEntityImageProvider(
-                      //                     asset,
-                      //                     isOriginal: false,
-                      //                     // thumbnailSize: const ThumbnailSize(200, 200),
-                      //                   ),
-                      //                   fit: BoxFit.cover,
-                      //                 ),
-                      //                 if (isSelected(asset))
-                      //                   const Positioned(
-                      //                     bottom: 8,
-                      //                     right: 8,
-                      //                     child: Icon(
-                      //                       Icons.check_circle,
-                      //                       color: Colors.green,
-                      //                     ),
-                      //                   ),
-                      //               ],
-                      //             ),
-                      //           );
-                      //         },
-                      //       )
-                      //           : const Center(child: Text('No images')),
-                      //     ),
-                      //   ],
-                      // ),
-
-                      /// Create post description
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: SingleChildScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              10.verticalSpace,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Posts',
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                          fontSize: 14.sp,
-                                          color: AppColors.colorBlack),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              const CustomInputField(
-                                label: 'Post Title',
-                                hint: 'Enter post title',
-                              ),
-                              20.verticalSpace,
-                              TextField(
-                                maxLines: 5,
-                                decoration: InputDecoration(
-                                  labelText: 'Post Description',
-                                  hintText: 'Enter post description',
-                                  labelStyle: AppTextStyles
-                                      .textStylePoppinsMedium
-                                      .copyWith(
-                                    color: AppColors.colorBlack,
-                                    fontSize: 14.sp,
-                                  ),
-                                  hintStyle: AppTextStyles
-                                      .textStylePoppinsRegular
-                                      .copyWith(
-                                    color: AppColors.colorPrimaryAlpha,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 1,
-                                          color: AppColors.colorBlack),
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  border: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                          width: 0,
-                                          color: AppColors.colorBlack),
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                ),
-                              ),
-                              20.verticalSpace
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      /// Select restaurant
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: SingleChildScrollView(
-                          physics: const ClampingScrollPhysics(),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              10.verticalSpace,
-                              Row(
-                                children: [
-                                  Text(
-                                    'Post details',
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(
-                                            fontSize: 14.sp,
-                                            color: AppColors.colorBlack),
-                                  ),
-                                ],
-                              ),
-                              10.verticalSpace,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Lorem ipsum is a dummy title",
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                          fontSize: 12.sp,
-                                          color: AppColors.colorBlack),
-                                ),
-                              ),
-                              10.verticalSpace,
-                              Text(
-                                "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
-                                style: AppTextStyles.textStylePoppinsLight
-                                    .copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.colorBlack2,
-                                        letterSpacing: 0),
-                              ),
-                              20.verticalSpace,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Restaurant Details",
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                          fontSize: 12.sp,
-                                          color: AppColors.colorBlack),
-                                ),
-                              ),
-                              10.verticalSpace,
-                              Container(
-                                height: 60.r,
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16)
-                                        .r,
-                                decoration: BoxDecoration(
-                                    color: AppColors.colorGrey,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: TextFormField(
-                                  // controller:,
-                                  // focusNode: ,
-                                  // maxLength: ,
-                                  decoration: InputDecoration(
-                                    counterText: '',
-                                    hintText: 'Select Restaurant',
-                                    hintStyle: AppTextStyles
-                                        .textStylePoppinsRegular
-                                        .copyWith(
-                                      color: AppColors.colorPrimaryAlpha,
-                                    ),
-                                    border: InputBorder.none,
-                                    // focusedBorder: OutlineInputBorder(
-                                    //   borderRadius: BorderRadius.circular(10),
-                                    //   borderSide: const BorderSide(color: AppColors.colorPrimary),
-                                    // ),
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  style: AppTextStyles.textStylePoppinsRegular
-                                      .copyWith(fontSize: 13.sp),
-                                ),
-                              ),
-                              10.verticalSpace,
-                              Container(
-                                height: 60.r,
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16)
-                                        .r,
-                                decoration: BoxDecoration(
-                                    color: AppColors.colorGrey,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: TextFormField(
-                                  // controller:,
-                                  // focusNode: ,
-                                  // maxLength: ,
-                                  decoration: InputDecoration(
-                                    counterText: '',
-                                    hintText: 'Location',
-                                    hintStyle: AppTextStyles
-                                        .textStylePoppinsRegular
-                                        .copyWith(
-                                      color: AppColors.colorPrimaryAlpha,
-                                    ),
-                                    border: InputBorder.none,
-                                    // focusedBorder: OutlineInputBorder(
-                                    //   borderRadius: BorderRadius.circular(10),
-                                    //   borderSide: const BorderSide(color: AppColors.colorPrimary),
-                                    // ),
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  style: AppTextStyles.textStylePoppinsRegular
-                                      .copyWith(fontSize: 13.sp),
-                                ),
-                              ),
-                              15.verticalSpace,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Cuisine Details",
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                          fontSize: 12.sp,
-                                          color: AppColors.colorBlack),
-                                ),
-                              ),
-                              10.verticalSpace,
-                              Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: AppColors.colorGrey,
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: const EdgeInsets.all(16).r,
-                                height: 56.r,
-                                child: DropdownButtonFormField<String>(
-                                  dropdownColor: AppColors.colorGrey,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    hintText: "Select Cuisine",
-                                    hintStyle: AppTextStyles
-                                        .textStylePoppinsRegular
-                                        .copyWith(
-                                      color: AppColors.colorPrimaryAlpha,
-                                    ),
-                                    focusedBorder: InputBorder.none,
-                                    border: InputBorder.none,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
-                                  ),
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: AppColors.colorGrey3,
-                                  ),
-                                  items: <String>[
-                                    'Cuisine 1',
-                                    'Cuisine 2',
-                                    'Cuisine 3'
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (_) {},
-                                ),
-                              ),
-                              20.verticalSpace,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'How Was It?',
-                                    style: AppTextStyles.textStylePoppinsRegular
-                                        .copyWith(
-                                            fontSize: 10.sp,
-                                            color: AppColors.colorPrimaryAlpha),
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  TextButton.icon(
-                                    onPressed: () {},
-                                    label: Text(
-                                      'Liked it',
-                                      style: AppTextStyles.textStylePoppins
-                                          .copyWith(
-                                              fontSize: 12.sp,
-                                              color:
-                                                  AppColors.colorPrimaryAlpha),
-                                    ),
-                                    icon: Image.asset(
-                                      Assets.likedIt,
-                                      height: 20,
-                                      width: 20,
-                                    ),
-                                  ),
-                                  TextButton.icon(
-                                    onPressed: () {},
-                                    label: Text(
-                                      'Fine',
-                                      style: AppTextStyles.textStylePoppins
-                                          .copyWith(
-                                              fontSize: 12.sp,
-                                              color:
-                                                  AppColors.colorPrimaryAlpha),
-                                    ),
-                                    icon: Image.asset(
-                                      Assets.fine,
-                                      height: 20,
-                                      width: 20,
-                                    ),
-                                  ),
-                                  TextButton.icon(
-                                    onPressed: () {},
-                                    label: Text(
-                                      'Didn\'t Like',
-                                      style: AppTextStyles.textStylePoppins
-                                          .copyWith(
-                                              fontSize: 12.sp,
-                                              color:
-                                                  AppColors.colorPrimaryAlpha),
-                                    ),
-                                    icon: Image.asset(
-                                      Assets.didnotLike,
-                                      height: 20,
-                                      width: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              20.verticalSpace
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  icon: Image.asset(
+                    Assets.likedIt,
+                    height: 20,
+                    width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "like"
+                          ? AppColors.colorGreen
+                          : AppColors.colorBlack
                   ),
                 ),
-                currentPage == 1
-                    ? Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppButton(
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              text: "Post",
-                              onPressed: () {
-                                createPostNotifier.onContinuePressed(context);
-                              },
-                            ),
-                            AppButton(
-                              color: AppColors.colorPrimaryAlpha,
-                              width: MediaQuery.of(context).size.width * 0.13,
-                              onPressed: () {
-                                createPostNotifier.resetPage();
-                                Navigator.pop(context);
-                              },
-                              child: Image.asset(
-                                Assets.cancel,
-                                color: AppColors.colorBackground,
-                                scale: 2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: AppButton(
-                          text: "Continue",
-                          onPressed: () =>
-                              createPostNotifier.onContinuePressed(context),
-                        ),
-                      ),
+                TextButton.icon(
+                  onPressed: () =>
+                    createPostNotifier.selectedReview("fine"),
+                  label: Text(
+                    'Fine',
+                    style: AppTextStyles.textStylePoppins
+                        .copyWith(
+                        fontSize: 12.sp,
+                        color:
+                        createPostNotifier.postHowWasItTextController.text == "fine"
+                            ? AppColors.colorRatingStar
+                            : AppColors.colorPrimaryAlpha
+                    ),
+                  ),
+                  icon: Image.asset(
+                    Assets.fine,
+                    height: 20,
+                    width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "fine"
+                          ? AppColors.colorRatingStar
+                          : AppColors.colorBlack
+                  ),
+                ),
+                TextButton.icon(
+                  onPressed: () =>
+                    createPostNotifier.selectedReview("not_like"),
+                  label: Text(
+                    'Didn\'t Like',
+                    style: AppTextStyles.textStylePoppins
+                        .copyWith(
+                        fontSize: 12.sp,
+                        color:
+                        createPostNotifier.postHowWasItTextController.text == "not_like"
+                            ? AppColors.colorRed
+                            : AppColors.colorPrimaryAlpha
+                    ),
+                  ),
+                  icon: Image.asset(
+                    Assets.didnotLike,
+                    height: 20,
+                    width: 20,
+                    color: createPostNotifier.postHowWasItTextController.text == "not_like"
+                        ? AppColors.colorRed
+                        : AppColors.colorBlack
+                  ),
+                ),
               ],
             ),
+            20.verticalSpace
           ],
         ),
       ),

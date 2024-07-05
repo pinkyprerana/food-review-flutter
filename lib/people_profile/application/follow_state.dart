@@ -5,5 +5,6 @@ part 'follow_state.freezed.dart';
 class FollowState with _$FollowState {
   const factory FollowState({
     @Default(false) bool isFollowing,
+    @Default(false) bool isLoading
   }) = _FollowState;
 }

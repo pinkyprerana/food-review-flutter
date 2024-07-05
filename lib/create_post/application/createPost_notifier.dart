@@ -1,20 +1,22 @@
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_the_table/core/infrastructure/hive_database.dart';
-import '../../base/application/base_notifier.dart';
+import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import '../../core/constants/app_urls.dart';
 import '../../core/routes/app_router.dart';
+import '../../core/utils/toast.dart';
 import 'createPost_state.dart';
 
 
 class CreatePostNotifier extends StateNotifier<CreatePostState> {
-  CreatePostNotifier(this._dio, this._hiveDatabase) : super(const CreatePostState());
+  CreatePostNotifier(this._dio, this._networkApiService) : super(const CreatePostState());
 
   final Dio _dio;
-  final HiveDatabase _hiveDatabase;
+  final NetworkApiService _networkApiService;
   final PageController _pageController = PageController();
   PageController get pageController => _pageController;
 
@@ -52,4 +54,85 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   void updateImageFile(XFile? imageFile) {
     state = state.copyWith(imageFile: imageFile);
   }
+
+  TextEditingController restaurantNameTextController =
+  TextEditingController();
+  final TextEditingController restaurantIdTextController =
+  TextEditingController();
+  final TextEditingController postTitleTextController =
+  TextEditingController();
+  final TextEditingController postDescriptionTextController =
+  TextEditingController();
+  final TextEditingController restaurantAddressTextController =
+  TextEditingController();
+  final TextEditingController postCuisineTextController =
+  TextEditingController();
+  final TextEditingController postHowWasItTextController =
+  TextEditingController();
+
+
+  Future<void> addPost(VoidCallback voidCallback, XFile? imageFile) async {
+      state = state.copyWith(isLoading: true);
+
+      final imagePath = File(imageFile?.path ?? '');
+      String imageName = imagePath.path.split('/').last;
+
+      try {
+        var (response, dioException) = await _networkApiService
+            .postApiRequestWithToken(
+            url: '${AppUrls.BASE_URL}${AppUrls.addPost}',
+            body: {
+              "restaurant_id": restaurantIdTextController.text,
+              "title": postTitleTextController.text,
+              "description": postDescriptionTextController.text,
+              "image": '${AppUrls.postImageLocation}/$imageName',
+              "how_was_it": postHowWasItTextController.text,
+              "cuisine": postCuisineTextController.text,
+            });
+        state = state.copyWith(isLoading: false);
+
+        if (response == null && dioException == null) {
+          showConnectionWasInterruptedToastMessage();
+        } else if (dioException != null) {
+          showDioError(dioException);
+        } else {
+          Map<String, dynamic> jsonData = response.data;
+
+          if (response.statusCode == 200) {
+            showToastMessage(jsonData['message']);
+            restaurantIdTextController.clear();
+            postTitleTextController.clear();
+            postDescriptionTextController.clear();
+            voidCallback.call();
+          } else {
+            showToastMessage(jsonData['message']);
+          }
+        }
+      } catch (error) {
+        state = state.copyWith(isLoading: false);
+        showConnectionWasInterruptedToastMessage();
+      }
+    }
+
+  clearRestaurantDetails(){
+    restaurantNameTextController.clear();
+    restaurantIdTextController.clear();
+    restaurantAddressTextController.clear();
+    postHowWasItTextController.clear();
+  }
+
+  clearAllPostDetails(){
+    postTitleTextController.clear();
+    postDescriptionTextController.clear();
+    restaurantNameTextController.clear();
+    restaurantIdTextController.clear();
+    restaurantAddressTextController.clear();
+    postHowWasItTextController.clear();
+  }
+
+  void selectedReview(String selectedReview) async {
+      postHowWasItTextController.text = selectedReview;
+      state = state.copyWith(selectedReview: selectedReview);
+  }
+
 }
