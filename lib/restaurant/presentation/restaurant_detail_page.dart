@@ -522,57 +522,66 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                     width: mediaQuery.width * 0.5,
                                     child: Column(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                widget.name,
-                                                style: AppTextStyles
-                                                    .textStylePoppinsMedium
-                                                    .copyWith(
-                                                  fontSize: 13.sp,
-                                                  color: AppColors.colorPrimary,
+                                        Container(
+                                          // height: 50.h,
+                                          // color: AppColors.colorRed,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  widget.name,
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsMedium
+                                                      .copyWith(
+                                                    fontSize: 13.sp,
+                                                    color:
+                                                        AppColors.colorPrimary,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  AutoRouter.of(context)
-                                                      .push(const SavedRoute());
-                                                },
-                                                icon: Image.asset(
-                                                  Assets.bookmark,
-                                                  color: AppColors.colorPrimary,
-                                                ))
-                                          ],
+                                              IconButton(
+                                                  onPressed: () {
+                                                    AutoRouter.of(context).push(
+                                                        const SavedRoute());
+                                                  },
+                                                  icon: Image.asset(
+                                                    Assets.bookmark,
+                                                    color:
+                                                        AppColors.colorPrimary,
+                                                  ))
+                                            ],
+                                          ),
                                         ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              Assets.locationBig,
-                                              color: AppColors.colorPrimary,
-                                            ),
-                                            3.horizontalSpace,
-                                            Expanded(
-                                              child: Text(
-                                                widget.address,
-                                                // maxLines: 1,
-                                                // overflow: TextOverflow.ellipsis,
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
-                                                  fontSize: 10.sp,
-                                                  color: AppColors
-                                                      .colorPrimaryAlpha,
+                                        Container(
+                                          color: Colors.amber,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Image.asset(
+                                                Assets.locationBig,
+                                                color: AppColors.colorPrimary,
+                                              ),
+                                              3.horizontalSpace,
+                                              Expanded(
+                                                child: Text(
+                                                  widget.address,
+                                                  // maxLines: 1,
+                                                  // overflow: TextOverflow.ellipsis,
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 10.sp,
+                                                    color: AppColors
+                                                        .colorPrimaryAlpha,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
