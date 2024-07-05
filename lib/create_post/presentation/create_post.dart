@@ -29,7 +29,7 @@ class CreatePostPage extends ConsumerStatefulWidget {
 class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   String selectedRestaurantName = "";
   String selectedRestaurantAddress = "";
-  String selectedRestaurantId= "";
+  String selectedRestaurantId = "";
   final descriptionNode = FocusNode();
 
   @override
@@ -43,7 +43,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       final allPreferences = ref.watch(preferenceNotifierProvider).data;
       print(allPreferences);
     });
-
   }
 
   @override
@@ -55,7 +54,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final imageFile = widget.imageFile;
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
 
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -64,10 +62,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         leading: GestureDetector(
           onTap: () {
             if (currentPage == 0) {
-              if(imageFile != null)
-               {
-                 Navigator.pop(context, null);
-               }else {
+              if (imageFile != null) {
+                Navigator.pop(context, null);
+              } else {
                 Navigator.pop(context);
               }
             } else {
@@ -173,8 +170,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 onPressed: () async {
                                   dismissKeyboard(context);
                                   createPostNotifier.addPost(() {
-                                    FocusManager.instance.primaryFocus?.unfocus();
-                                    createPostNotifier.onContinuePressed(context);
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    createPostNotifier
+                                        .onContinuePressed(context);
                                     createPostNotifier.clearRestaurantDetails();
                                   }, imageFile);
                                 },
@@ -199,17 +198,23 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       : Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: AppButton(
-                            loading: state.isLoading,
-                            text: "Continue",
-                            onPressed: () {
-                              if(createPostNotifier.postTitleTextController.text.isNotEmpty
-                              && createPostNotifier.postDescriptionTextController.text.isNotEmpty ){
-                                createPostNotifier.onContinuePressed(context);
-                              }else{
-                                showToastMessage("Post title and description are required");
-                              }
-                            }
-                          ),
+                              loading: state.isLoading,
+                              text: "Continue",
+                              onPressed: () {
+                                if (createPostNotifier
+                                        .postTitleTextController.text
+                                        .trim()
+                                        .isNotEmpty &&
+                                    createPostNotifier
+                                        .postDescriptionTextController.text
+                                        .trim()
+                                        .isNotEmpty) {
+                                  createPostNotifier.onContinuePressed(context);
+                                } else {
+                                  showToastMessage(
+                                      "Post title and description are required");
+                                }
+                              }),
                         ),
                 ],
               ),
@@ -220,8 +225,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     );
   }
 
-
-  Widget _createPostTitleDescription(){
+  Widget _createPostTitleDescription() {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -236,9 +240,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Text(
                 'Posts',
                 style: AppTextStyles.textStylePoppinsMedium
-                    .copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.colorBlack),
+                    .copyWith(fontSize: 14.sp, color: AppColors.colorBlack),
               ),
             ),
             const SizedBox(height: 20),
@@ -258,31 +260,22 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               decoration: InputDecoration(
                 labelText: 'Post Description',
                 hintText: 'Enter post description',
-                labelStyle: AppTextStyles
-                    .textStylePoppinsMedium
-                    .copyWith(
+                labelStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                   color: AppColors.colorBlack,
                   fontSize: 14.sp,
                 ),
-                hintStyle: AppTextStyles
-                    .textStylePoppinsRegular
-                    .copyWith(
+                hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
                   color: AppColors.colorPrimaryAlpha,
                 ),
                 focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        width: 1,
-                        color: AppColors.colorBlack),
-                    borderRadius:
-                    BorderRadius.circular(15.0)),
+                    borderSide:
+                        const BorderSide(width: 1, color: AppColors.colorBlack),
+                    borderRadius: BorderRadius.circular(15.0)),
                 border: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        width: 0,
-                        color: AppColors.colorBlack),
-                    borderRadius:
-                    BorderRadius.circular(15.0)),
-                floatingLabelBehavior:
-                FloatingLabelBehavior.always,
+                    borderSide:
+                        const BorderSide(width: 0, color: AppColors.colorBlack),
+                    borderRadius: BorderRadius.circular(15.0)),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
             ),
             20.verticalSpace
@@ -292,10 +285,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     );
   }
 
-  Widget _selectRestaurantPage(allPreferences){
+  Widget _selectRestaurantPage(allPreferences) {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
-    final restaurantList =ref.watch(restaurantNotifierProvider).restaurantList;
-    List<dynamic> cuisineList = allPreferences.map((preference) => preference.title).toList();
+    final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
+    List<dynamic> cuisineList =
+        allPreferences.map((preference) => preference.title).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -310,9 +304,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 Text(
                   'Post details',
                   style: AppTextStyles.textStylePoppinsMedium
-                      .copyWith(
-                      fontSize: 14.sp,
-                      color: AppColors.colorBlack),
+                      .copyWith(fontSize: 14.sp, color: AppColors.colorBlack),
                 ),
               ],
             ),
@@ -323,9 +315,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 createPostNotifier.postTitleTextController.text,
                 // "Lorem ipsum is a dummy title",
                 style: AppTextStyles.textStylePoppinsMedium
-                    .copyWith(
-                    fontSize: 12.sp,
-                    color: AppColors.colorBlack),
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
             ),
             10.verticalSpace,
@@ -334,8 +324,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Text(
                 createPostNotifier.postDescriptionTextController.text,
                 // "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
-                style: AppTextStyles.textStylePoppinsLight
-                    .copyWith(
+                style: AppTextStyles.textStylePoppinsLight.copyWith(
                     fontSize: 10.sp,
                     color: AppColors.colorBlack2,
                     letterSpacing: 0),
@@ -347,9 +336,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Text(
                 "Restaurant Details",
                 style: AppTextStyles.textStylePoppinsMedium
-                    .copyWith(
-                    fontSize: 12.sp,
-                    color: AppColors.colorBlack),
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
             ),
             10.verticalSpace,
@@ -363,7 +350,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   borderRadius: BorderRadius.circular(10)),
               child: CupertinoTypeAheadField<Restaurant>(
                 controller: createPostNotifier.restaurantNameTextController,
-                builder: (context, TextEditingController controller, FocusNode focusNode) {
+                builder: (context, TextEditingController controller,
+                    FocusNode focusNode) {
                   return TextField(
                     controller: controller,
                     focusNode: focusNode,
@@ -380,9 +368,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   );
                 },
                 suggestionsCallback: (pattern) {
-                  return restaurantList?.where((restaurant) =>
-                      restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
-                      .toList() ??
+                  return restaurantList
+                          ?.where((restaurant) => restaurant.name!
+                              .toLowerCase()
+                              .contains(pattern.toLowerCase()))
+                          .toList() ??
                       [];
                 },
                 itemBuilder: (context, suggestion) {
@@ -392,14 +382,28 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(suggestion.name!, style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 10),),
+                          Text(
+                            suggestion.name!,
+                            style: AppTextStyles.textStylePoppinsLight.copyWith(
+                                color: AppColors.colorBlack, fontSize: 10),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(Icons.location_on_outlined, color:  AppColors.colorBlack, size: 10.h,),
-                              Text(suggestion.address!.length > 40
-                                  ? '${suggestion.address!.substring(0, 40)}...'
-                                  : suggestion.address!, style: AppTextStyles.textStylePoppinsRegular.copyWith(color: AppColors.colorPrimaryAlpha,fontSize: 10),)
+                              Icon(
+                                Icons.location_on_outlined,
+                                color: AppColors.colorBlack,
+                                size: 10.h,
+                              ),
+                              Text(
+                                suggestion.address!.length > 40
+                                    ? '${suggestion.address!.substring(0, 40)}...'
+                                    : suggestion.address!,
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
+                                        color: AppColors.colorPrimaryAlpha,
+                                        fontSize: 10),
+                              )
                             ],
                           ),
                         ],
@@ -410,9 +414,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 onSelected: (Restaurant selection) {
                   selectedRestaurantName = selection.name!;
                   selectedRestaurantId = selection.id!;
-                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                  createPostNotifier.restaurantNameTextController.text =
+                      selectedRestaurantName;
+                  createPostNotifier.restaurantIdTextController.text =
+                      selectedRestaurantId;
+                  createPostNotifier.restaurantAddressTextController.text =
+                      selection.address!;
                 },
               ),
             ),
@@ -454,9 +461,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               height: 60.r,
               width: double.infinity,
               alignment: Alignment.center,
-              padding:
-              const EdgeInsets.symmetric(horizontal: 16)
-                  .r,
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
               decoration: BoxDecoration(
                   color: AppColors.colorGrey,
                   borderRadius: BorderRadius.circular(10)),
@@ -468,12 +473,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 decoration: InputDecoration(
                   counterText: '',
                   hintText: 'Location',
-                  hintStyle: AppTextStyles
-                      .textStylePoppinsRegular
-                      .copyWith(
-                    color: createPostNotifier.restaurantAddressTextController.text.isEmpty
-                    ? AppColors.colorPrimaryAlpha
-                    : AppColors.colorBlack,
+                  hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    color: createPostNotifier
+                            .restaurantAddressTextController.text.isEmpty
+                        ? AppColors.colorPrimaryAlpha
+                        : AppColors.colorBlack,
                   ),
                   border: InputBorder.none,
                   // focusedBorder: OutlineInputBorder(
@@ -492,9 +496,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Text(
                 "Cuisine Details",
                 style: AppTextStyles.textStylePoppinsMedium
-                    .copyWith(
-                    fontSize: 12.sp,
-                    color: AppColors.colorBlack),
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
             ),
             10.verticalSpace,
@@ -510,31 +512,32 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: "Select Cuisine",
-                  hintStyle: AppTextStyles
-                      .textStylePoppinsRegular
-                      .copyWith(
+                  hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
                     color: AppColors.colorPrimaryAlpha,
                   ),
                   focusedBorder: InputBorder.none,
                   border: InputBorder.none,
-                  floatingLabelBehavior:
-                  FloatingLabelBehavior.always,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
                 ),
                 icon: const Icon(
                   Icons.keyboard_arrow_down,
                   color: AppColors.colorGrey3,
                 ),
-                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
-                  value: cuisine,
-                  child: Text(
-                    cuisine,
-                    style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
-                  ),
-                )).toList(),
+                items: cuisineList
+                    .map((cuisine) => DropdownMenuItem<String>(
+                          value: cuisine,
+                          child: Text(
+                            cuisine,
+                            style: AppTextStyles.textStylePoppinsLight.copyWith(
+                                color: AppColors.colorBlack, fontSize: 14),
+                          ),
+                        ))
+                    .toList(),
                 onChanged: (value) {
                   if (value != null) {
                     final selectedCuisine = value;
-                    createPostNotifier.postCuisineTextController.text = selectedCuisine;
+                    createPostNotifier.postCuisineTextController.text =
+                        selectedCuisine;
                   }
                 },
               ),
@@ -546,10 +549,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
                   'How Was It?',
-                  style: AppTextStyles.textStylePoppinsRegular
-                      .copyWith(
-                      fontSize: 10.sp,
-                      color: AppColors.colorPrimaryAlpha),
+                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 10.sp, color: AppColors.colorPrimaryAlpha),
                 ),
               ),
             ),
@@ -557,73 +558,68 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TextButton.icon(
-                  onPressed: () =>
-                    createPostNotifier.selectedReview("like"),
+                  onPressed: () => createPostNotifier.selectedReview("like"),
                   label: Text(
                     'Liked it',
-                    style: AppTextStyles.textStylePoppins
-                        .copyWith(
+                    style: AppTextStyles.textStylePoppins.copyWith(
                         fontSize: 12.sp,
-                        color:
-                        createPostNotifier.postHowWasItTextController.text == "like"
+                        color: createPostNotifier
+                                    .postHowWasItTextController.text ==
+                                "like"
                             ? AppColors.colorGreen
-                            : AppColors.colorPrimaryAlpha
-                    ),
+                            : AppColors.colorPrimaryAlpha),
                   ),
-                  icon: Image.asset(
-                    Assets.likedIt,
-                    height: 20,
-                    width: 20,
-                      color: createPostNotifier.postHowWasItTextController.text == "like"
-                          ? AppColors.colorGreen
-                          : AppColors.colorBlack
-                  ),
+                  icon: Image.asset(Assets.likedIt,
+                      height: 20,
+                      width: 20,
+                      color:
+                          createPostNotifier.postHowWasItTextController.text ==
+                                  "like"
+                              ? AppColors.colorGreen
+                              : AppColors.colorBlack),
                 ),
                 TextButton.icon(
-                  onPressed: () =>
-                    createPostNotifier.selectedReview("fine"),
+                  onPressed: () => createPostNotifier.selectedReview("fine"),
                   label: Text(
                     'Fine',
-                    style: AppTextStyles.textStylePoppins
-                        .copyWith(
+                    style: AppTextStyles.textStylePoppins.copyWith(
                         fontSize: 12.sp,
-                        color:
-                        createPostNotifier.postHowWasItTextController.text == "fine"
+                        color: createPostNotifier
+                                    .postHowWasItTextController.text ==
+                                "fine"
                             ? AppColors.colorRatingStar
-                            : AppColors.colorPrimaryAlpha
-                    ),
+                            : AppColors.colorPrimaryAlpha),
                   ),
-                  icon: Image.asset(
-                    Assets.fine,
-                    height: 20,
-                    width: 20,
-                      color: createPostNotifier.postHowWasItTextController.text == "fine"
-                          ? AppColors.colorRatingStar
-                          : AppColors.colorBlack
-                  ),
+                  icon: Image.asset(Assets.fine,
+                      height: 20,
+                      width: 20,
+                      color:
+                          createPostNotifier.postHowWasItTextController.text ==
+                                  "fine"
+                              ? AppColors.colorRatingStar
+                              : AppColors.colorBlack),
                 ),
                 TextButton.icon(
                   onPressed: () =>
-                    createPostNotifier.selectedReview("not_like"),
+                      createPostNotifier.selectedReview("not_like"),
                   label: Text(
                     'Didn\'t Like',
-                    style: AppTextStyles.textStylePoppins
-                        .copyWith(
+                    style: AppTextStyles.textStylePoppins.copyWith(
                         fontSize: 12.sp,
-                        color:
-                        createPostNotifier.postHowWasItTextController.text == "not_like"
+                        color: createPostNotifier
+                                    .postHowWasItTextController.text ==
+                                "not_like"
                             ? AppColors.colorRed
-                            : AppColors.colorPrimaryAlpha
-                    ),
+                            : AppColors.colorPrimaryAlpha),
                   ),
-                  icon: Image.asset(
-                    Assets.didnotLike,
-                    height: 20,
-                    width: 20,
-                    color: createPostNotifier.postHowWasItTextController.text == "not_like"
-                        ? AppColors.colorRed
-                        : AppColors.colorBlack
-                  ),
+                  icon: Image.asset(Assets.didnotLike,
+                      height: 20,
+                      width: 20,
+                      color:
+                          createPostNotifier.postHowWasItTextController.text ==
+                                  "not_like"
+                              ? AppColors.colorRed
+                              : AppColors.colorBlack),
                 ),
               ],
             ),
