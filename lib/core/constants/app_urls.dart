@@ -18,7 +18,7 @@ class AppUrls {
   static const addPost  = '/post/add';
   static const follow_unfollow = '/user/follow';
   static const getAllPreference = '/preference/list';
-  static const getAllPosts = '/post/folowing-user';
+  static const getPostFeed = '/post/list';
   static const getAllFollowers = '/user/follower/list';
   static const profile = '/user/profile';
   static const profileUpdate = '/user/profile-update';

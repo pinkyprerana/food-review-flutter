@@ -72,6 +72,12 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final stateNotifierForBase = ref.watch(baseNotifierProvider.notifier);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final state = ref.watch(postFeedNotifierProvider);
+    final postFeedData = state.postList;
+    // final postFeedTitle = state.postTitles;
+    // List<dynamic> postList = postFeedData?.map((post) => post.title).toList();
+    print("_____________________________${postFeedData}");
+    // print("_____________________________${postList}");
+
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(

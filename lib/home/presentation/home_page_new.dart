@@ -19,6 +19,8 @@ import 'package:for_the_table/list/shared/provider.dart';
 import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 
+import '../../post_feed/shared/provider.dart';
+
 @RoutePage()
 class HomePageNew extends ConsumerStatefulWidget {
   const HomePageNew({super.key});
@@ -64,6 +66,11 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateNotifierRestaurant =
         ref.watch(restaurantNotifierProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
+
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedList = postFeedState.postList;
+    print("_____________________________${postFeedList}");
+
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: false,
