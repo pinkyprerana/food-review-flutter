@@ -317,9 +317,9 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                         thickness: 1,
                                         color: AppColors.colorBorder,
                                       ),
-                                      10.verticalSpace,
+                                      5.verticalSpace,
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 20.0),
                                         child: Row(
                                           mainAxisAlignment:
