@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -589,7 +590,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                 // )
                                 Positioned(
                                   top: 10,
-                                  left: 150,
+                                  left: (Platform.isIOS) ? 157 : 150,
                                   child: Container(
                                       width: mediaQuery.width * 0.5,
                                       //height: mediaQuery.height * 0.3,
