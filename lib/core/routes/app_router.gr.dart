@@ -192,6 +192,7 @@ abstract class _$AppRouter extends RootStackRouter {
           name: args.name,
           description: args.description,
           rating: args.rating,
+          numberOfReviews: args.numberOfReviews,
         ),
       );
     },
@@ -685,6 +686,7 @@ class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
     required String name,
     required String description,
     required String rating,
+    required String numberOfReviews,
     List<PageRouteInfo>? children,
   }) : super(
           RestaurantDetailRoute.name,
@@ -697,6 +699,7 @@ class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
             name: name,
             description: description,
             rating: rating,
+            numberOfReviews: numberOfReviews,
           ),
           initialChildren: children,
         );
@@ -717,6 +720,7 @@ class RestaurantDetailRouteArgs {
     required this.name,
     required this.description,
     required this.rating,
+    required this.numberOfReviews,
   });
 
   final Key? key;
@@ -735,9 +739,11 @@ class RestaurantDetailRouteArgs {
 
   final String rating;
 
+  final String numberOfReviews;
+
   @override
   String toString() {
-    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, rating: $rating}';
+    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, rating: $rating, numberOfReviews: $numberOfReviews}';
   }
 }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
@@ -30,6 +31,7 @@ class RestaurantDetailPage extends StatefulWidget {
     required this.name,
     required this.description,
     required this.rating,
+    required this.numberOfReviews,
   });
   final String lat;
   final String lng;
@@ -38,6 +40,7 @@ class RestaurantDetailPage extends StatefulWidget {
   final String image;
   final String rating;
   final String description;
+  final String numberOfReviews;
 
   @override
   State<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
@@ -182,18 +185,29 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                       ),
                                       5.verticalSpace,
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        child: Text(
-                                          'Lorem ipsum dolor sit amet consectetur. Ipsum dolor purus ut aliquet sed volutpat sed',
-                                          style: AppTextStyles
-                                              .textStylePoppinsRegular
-                                              .copyWith(
-                                            fontSize: 12.sp,
-                                            color: AppColors.colorPrimaryAlpha,
-                                          ),
-                                        ),
-                                      ),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          child: (widget.description != '')
+                                              ? Text(
+                                                  widget.description,
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 12.sp,
+                                                    color: AppColors
+                                                        .colorPrimaryAlpha,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  'There is No Description at the moment',
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 12.sp,
+                                                    color: AppColors
+                                                        .colorPrimaryAlpha,
+                                                  ),
+                                                )),
                                       5.verticalSpace,
                                       const Divider(
                                         thickness: 1,
@@ -220,15 +234,27 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                     color:
                                                         AppColors.colorBorder,
                                                   )),
-                                              child: Text(
-                                                '4.5',
-                                                style: AppTextStyles
-                                                    .textStylePoppinsSemiBold
-                                                    .copyWith(
-                                                  fontSize: 16.sp,
-                                                  color: AppColors.colorPrimary,
-                                                ),
-                                              ),
+                                              child: (widget.rating != '')
+                                                  ? Text(
+                                                      widget.rating,
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsSemiBold
+                                                          .copyWith(
+                                                        fontSize: 16.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      '0.0',
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsSemiBold
+                                                          .copyWith(
+                                                        fontSize: 16.sp,
+                                                        color: AppColors
+                                                            .colorPrimary,
+                                                      ),
+                                                    ),
                                             ),
                                             5.horizontalSpace,
                                             Flexible(
@@ -238,6 +264,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
+                                                    decoration: const BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: AppColors
+                                                                    .colorBlack))),
                                                     child: Text(
                                                       'Restaurant Score',
                                                       style: AppTextStyles
@@ -246,24 +277,35 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                         fontSize: 10.sp,
                                                         color: AppColors
                                                             .colorPrimary,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
                                                       ),
                                                     ),
                                                   ),
                                                   5.verticalSpace,
-                                                  Text(
-                                                    'Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.',
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
-                                                        .copyWith(
-                                                      fontSize: 10.sp,
-                                                      color: AppColors
-                                                          .colorPrimaryAlpha,
-                                                    ),
-                                                    overflow: TextOverflow.clip,
-                                                  )
+                                                  (widget.numberOfReviews != '')
+                                                      ? Text(
+                                                          '${widget.numberOfReviews} reviews',
+                                                          style: AppTextStyles
+                                                              .textStylePoppinsRegular
+                                                              .copyWith(
+                                                            fontSize: 10.sp,
+                                                            color: AppColors
+                                                                .colorPrimaryAlpha,
+                                                          ),
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                        )
+                                                      : Text(
+                                                          'reviews',
+                                                          style: AppTextStyles
+                                                              .textStylePoppinsRegular
+                                                              .copyWith(
+                                                            fontSize: 10.sp,
+                                                            color: AppColors
+                                                                .colorPrimaryAlpha,
+                                                          ),
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                        )
                                                 ],
                                               ),
                                             )
@@ -459,8 +501,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                 blurRadius: 10,
                                                 spreadRadius: 0)
                                           ],
-                                          image: const DecorationImage(
-                                            image: AssetImage(Assets.rest1),
+                                          image: DecorationImage(
+                                            image: (widget.image
+                                                        .contains('jpg') ||
+                                                    widget.image
+                                                        .contains('png'))
+                                                ? CachedNetworkImageProvider(
+                                                    'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${widget.image}')
+                                                : const AssetImage(
+                                                    Assets.noRestaurantImage),
                                             fit: BoxFit.cover,
                                           )),
                                     ),
@@ -477,13 +526,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              'XYZ restaurant',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsMedium
-                                                  .copyWith(
-                                                fontSize: 13.sp,
-                                                color: AppColors.colorPrimary,
+                                            Expanded(
+                                              child: Text(
+                                                widget.name,
+                                                style: AppTextStyles
+                                                    .textStylePoppinsMedium
+                                                    .copyWith(
+                                                  fontSize: 13.sp,
+                                                  color: AppColors.colorPrimary,
+                                                ),
                                               ),
                                             ),
                                             IconButton(
@@ -509,7 +560,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                             3.horizontalSpace,
                                             Expanded(
                                               child: Text(
-                                                'Dummy locationDummy location',
+                                                widget.address,
                                                 // maxLines: 1,
                                                 // overflow: TextOverflow.ellipsis,
                                                 style: AppTextStyles
