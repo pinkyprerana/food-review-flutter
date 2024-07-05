@@ -272,7 +272,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                                     child: Text(
                                                       'Restaurant Score',
                                                       style: AppTextStyles
-                                                          .textStylePoppinsRegular
+                                                          .textStyleUbuntuRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
                                                         color: AppColors
@@ -599,13 +599,13 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: 130.w,
+                                            width: 140.w,
                                             child: Text(
                                               widget.name,
                                               style: AppTextStyles
                                                   .textStylePoppinsMedium
                                                   .copyWith(
-                                                fontSize: 10.sp,
+                                                fontSize: 11.sp,
                                                 color: AppColors.colorPrimary,
                                               ),
                                             ),
@@ -641,9 +641,13 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                                 Positioned(
                                     left: 310,
                                     top: 10,
-                                    child: Image.asset(
-                                      Assets.bookmark,
-                                      color: AppColors.colorPrimary,
+                                    child: GestureDetector(
+                                      onTap: () => AutoRouter.of(context)
+                                          .push(const SavedRoute()),
+                                      child: Image.asset(
+                                        Assets.bookmark,
+                                        color: AppColors.colorPrimary,
+                                      ),
                                     ))
                               ],
                             ),
