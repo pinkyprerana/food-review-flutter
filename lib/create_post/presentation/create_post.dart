@@ -48,6 +48,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.read(CreatePostNotifierProvider);
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
@@ -166,6 +167,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               AppButton(
+                                loading: state.isLoading,
                                 width: MediaQuery.of(context).size.width * 0.73,
                                 text: "Post",
                                 onPressed: () async {
@@ -173,8 +175,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                   createPostNotifier.addPost(() {
                                     FocusManager.instance.primaryFocus?.unfocus();
                                     createPostNotifier.onContinuePressed(context);
+                                    createPostNotifier.clearRestaurantDetails();
                                   }, imageFile);
-                                  await createPostNotifier.clearRestaurantDetails();
                                 },
                               ),
                               AppButton(
@@ -197,6 +199,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       : Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: AppButton(
+                            loading: state.isLoading,
                             text: "Continue",
                             onPressed: () {
                               if(createPostNotifier.postTitleTextController.text.isNotEmpty
