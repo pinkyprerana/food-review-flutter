@@ -7,15 +7,17 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/post_feed/presentation/widgets/comments_icon.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
 class PostWidget extends StatelessWidget {
-  final List postList;
+  final List<DataOfPostModel> postList;
   const PostWidget({super.key, required this.postList});
 
   @override
   Widget build(BuildContext context) {
+    print("_________postList____________-${postList}");
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
       width: double.infinity,

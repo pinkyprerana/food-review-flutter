@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -413,7 +414,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
                   createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
                   createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                },
+                  dismissKeyboard(context);
+                  },
               ),
             ),
             // Container(
@@ -482,8 +484,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   // ),
                 ),
                 keyboardType: TextInputType.text,
-                style: AppTextStyles.textStylePoppinsRegular
-                    .copyWith(fontSize: 13.sp),
+                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    fontSize: 12.sp,
+                  color: AppColors.colorBlack
+                ),
               ),
             ),
             15.verticalSpace,
@@ -498,6 +502,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               ),
             ),
             10.verticalSpace,
+
             Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -539,6 +544,33 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 },
               ),
             ),
+
+            // Container(
+            //   alignment: Alignment.center,
+            //   decoration: BoxDecoration(
+            //       color: AppColors.colorGrey,
+            //       borderRadius: BorderRadius.circular(10)),
+            //   padding: const EdgeInsets.all(16).r,
+            //   height: 56.r,
+            //   child: DropdownButtonHideUnderline(
+            //     child: DropdownButton2<String>(
+            //     items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+            //           value: cuisine,
+            //           child: Text(
+            //             cuisine,
+            //             style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
+            //           ),
+            //         )).toList(),
+            //       onChanged: (value) {
+            //             if (value != null) {
+            //               final selectedCuisine = value;
+            //               createPostNotifier.postCuisineTextController.text = selectedCuisine;
+            //             }
+            //           },
+            //     ),
+            //   ),
+            // ),
+
             20.verticalSpace,
             Align(
               alignment: Alignment.topLeft,
