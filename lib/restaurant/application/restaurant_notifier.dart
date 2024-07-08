@@ -47,6 +47,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     required BuildContext context,
     bool isLoadMore = false,
   }) async {
+    AppLog.log('state.currentPage ======== ${state.currentPage}');
     try {
       state = state.copyWith(isLoading: !isLoadMore);
 
@@ -133,7 +134,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       if (response.statusCode == 200 && response.data != null) {
         final reastaurantListResponseModel =
-        RestaurantlistResponseModel.fromJson(response.data!);
+            RestaurantlistResponseModel.fromJson(response.data!);
 
         final List<Restaurant>? restaurantList =
             reastaurantListResponseModel.restaurantList;
@@ -155,13 +156,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         state = state.copyWith(isLoading: false);
       }
     } on DioException catch (e) {
-      final error = DioExceptions
-          .fromDioError(e)
-          .message;
+      final error = DioExceptions.fromDioError(e).message;
       showToastMessage(error, errorMessage: 'Failed to get restaurants');
 
       state = state.copyWith(isLoading: false);
     }
   }
-
 }
