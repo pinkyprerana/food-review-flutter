@@ -38,42 +38,38 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final state = ref.read(restaurantNotifierProvider);
-      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants(context: context);
-      if (state.restaurantList != null) {
-        var index = 0;
+    final state = ref.read(restaurantNotifierProvider);
+    AppLog.log(
+        'state.restaurantList.length ------------>>> ${state.restaurantList?.length}');
 
-        labelMarkers = state.restaurantList!.map<LabelMarker>((item) {
-          return LabelMarker(
-            label: '⭐ ${item.rating}',
-            markerId: MarkerId('${index + 1}'),
-            position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
-            infoWindow: InfoWindow(
-              title: item.name,
-            ),
-          );
-        }).toList();
+    var index = 0;
 
-        AppLog.log('labelMarkers ------>> ${labelMarkers.length}');
+    labelMarkers = state.restaurantList!.map<LabelMarker>((item) {
+      return LabelMarker(
+        label: '⭐ ${item.rating}',
+        markerId: MarkerId('${index + 1}'),
+        position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
+        infoWindow: InfoWindow(
+          title: item.name,
+        ),
+      );
+    }).toList();
 
-        for (int i = 0; i < labelMarkers.length; i++) {
-          markers.addLabelMarker(labelMarkers[i]).then((value) {
-            setState(() {});
-          });
-        }
-      }
-    });
+    AppLog.log('labelMarkers.length ------>> ${labelMarkers.length}');
+
+    for (int i = 0; i < labelMarkers.length; i++) {
+      markers.addLabelMarker(labelMarkers[i]).then((value) {
+        setState(() {});
+      });
+    }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.read(restaurantNotifierProvider);
-    final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-    AppLog.log('Markers ---------------- $markers');
-    AppLog.log('Markers.length --------- >> ${markers.length}');
+
     return SingleChildScrollView(
       child: Column(
         children: [
