@@ -42,7 +42,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       final preferenceNotifier = ref.watch(preferenceNotifierProvider.notifier);
       await preferenceNotifier.getAllPreference();
       final allPreferences = ref.watch(preferenceNotifierProvider).data;
-      print(allPreferences);
     });
   }
 
@@ -170,13 +169,17 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 text: "Post",
                                 onPressed: () async {
                                   dismissKeyboard(context);
-                                  createPostNotifier.addPost(() {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    createPostNotifier
-                                        .onContinuePressed(context);
-                                    createPostNotifier.clearRestaurantDetails();
-                                  }, imageFile);
+                                  if (imageFile != null) {
+                                    createPostNotifier.addPost(() {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      createPostNotifier
+                                          .onContinuePressed(context);
+                                      createPostNotifier.clearRestaurantDetails();
+                                    }, imageFile);
+                                  }else{
+                                    showToastMessage("Click or select image");
+                                  }
                                 },
                               ),
                               AppButton(
@@ -289,8 +292,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   Widget _selectRestaurantPage(allPreferences) {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
-    List<dynamic> cuisineList =
-        allPreferences.map((preference) => preference.title).toList();
+    List<dynamic> cuisineList = allPreferences;
+
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -531,21 +534,37 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   Icons.keyboard_arrow_down,
                   color: AppColors.colorGrey3,
                 ),
-                items: cuisineList
-                    .map((cuisine) => DropdownMenuItem<String>(
-                          value: cuisine,
-                          child: Text(
-                            cuisine,
-                            style: AppTextStyles.textStylePoppinsLight.copyWith(
-                                color: AppColors.colorBlack, fontSize: 14),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (value) {
+              //   items: cuisineName
+              //       .map((cuisine) => DropdownMenuItem<String>(
+              //             value: cuisine,
+              //             child: Text(
+              //               cuisine,
+              //               style: AppTextStyles.textStylePoppinsLight.copyWith(
+              //                   color: AppColors.colorBlack, fontSize: 14),
+              //             ),
+              //           ))
+              //       .toList(),
+              //   onChanged: (value) {
+              //     if (value != null) {
+              //       final selectedCuisine = value;
+              //       createPostNotifier.postCuisineIdTextController.text =
+              //           selectedCuisine;
+              //     }
+              //   },
+              // ),
+
+                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+                  value: cuisine.id,
+                  child: Text(
+                    cuisine.title,
+                    style: AppTextStyles.textStylePoppinsLight.copyWith(
+                        color: AppColors.colorBlack, fontSize: 14),
+                  ),
+                )).toList(),
+                onChanged: (String? value) {
                   if (value != null) {
-                    final selectedCuisine = value;
-                    createPostNotifier.postCuisineTextController.text =
-                        selectedCuisine;
+                    final selectedCuisine = cuisineList.firstWhere((c) => c.id == value);
+                    createPostNotifier.postCuisineIdTextController.text = selectedCuisine.id;
                   }
                 },
               ),

@@ -35,11 +35,24 @@ abstract class DataOfPostModel with _$DataOfPostModel  {
     @JsonKey(name: "like_count") required int likeCount,
     @JsonKey(name: "isMyLike") required bool isMyLike,
     @JsonKey(name: "comment_count") required int commentCount,
+    @JsonKey(name: "geo_loc") required GeoLoc geoLoc,
     @JsonKey(name: "userInfo") required UserInfo userInfo,
+    @JsonKey(name: "preferenceInfo") required PreferenceInfo? preferenceInfo,
     @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
   }) = _DataOfPostModel;
 
   factory DataOfPostModel.fromJson(Map<String, dynamic> json) => _$DataOfPostModelFromJson(json);
+}
+
+@freezed
+abstract class GeoLoc with _$GeoLoc {
+  const factory GeoLoc({
+    @JsonKey(name: "type") required String type,
+    @JsonKey(name: "coordinates") required List<double> coordinates,
+  }) = _GeoLoc;
+
+  factory GeoLoc.fromJson(Map<String, dynamic> json) =>
+      _$GeoLocFromJson(json);
 }
 
 @freezed
@@ -53,6 +66,17 @@ abstract class UserInfo with _$UserInfo {
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>
       _$UserInfoFromJson(json);
+}
+
+@freezed
+abstract class PreferenceInfo with _$PreferenceInfo {
+  const factory PreferenceInfo({
+    @JsonKey(name: "_id") required String id,
+    @JsonKey(name: "title") required String title,
+  }) = _PreferenceInfo;
+
+  factory PreferenceInfo.fromJson(Map<String, dynamic> json) =>
+      _$PreferenceInfoFromJson(json);
 }
 
 @freezed

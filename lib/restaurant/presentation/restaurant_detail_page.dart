@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
@@ -21,8 +22,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../post_feed/shared/provider.dart';
+
 @RoutePage()
-class RestaurantDetailPage extends StatefulWidget {
+class RestaurantDetailPage extends ConsumerStatefulWidget {
   const RestaurantDetailPage({
     super.key,
     required this.address,
@@ -44,10 +47,10 @@ class RestaurantDetailPage extends StatefulWidget {
   final String numberOfReviews;
 
   @override
-  State<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
+  ConsumerState<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
 }
 
-class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
+class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
   Completer<GoogleMapController> _controller = Completer();
 
   late CameraPosition _currentPosition;
@@ -81,6 +84,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.sizeOf(context);
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedList = postFeedState.postList;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -679,7 +684,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
-                    return const PostWidget(postList: [],);
+                    final postList = postFeedList[index];
+                    return PostWidget(postList: postList,);
                   }),
               10.verticalSpace,
             ],

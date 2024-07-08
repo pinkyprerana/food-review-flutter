@@ -5,13 +5,25 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/post_feed/presentation/widgets/comments_icon.dart';
+import '../../../core/constants/app_urls.dart';
+import '../../domain/postFeed_model.dart';
 
 class ExpandedPostDetails extends StatelessWidget {
-  const ExpandedPostDetails({super.key});
+  final DataOfPostModel postList;
+  const ExpandedPostDetails({super.key, required this.postList});
 
   @override
   Widget build(BuildContext context) {
+    final String name = postList.userInfo.fullName;
+    final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
+    final String postImage = postList.file;
+    final String title = postList.title;
+    final String description = postList.description;
+    final String restaurantName = postList.restaurantInfo.name;
+    final String address = postList.restaurantInfo.address;
+    final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount= postList.commentCount;
+
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 10).r,
@@ -26,8 +38,8 @@ class ExpandedPostDetails extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       AutoRouter.of(context).push(PeopleProfileRoute(
-                        peoplename: 'Ahmad Gouse',
-                        peopleimage: 'assets/images/temp/follower-sample2.png',
+                        peoplename: name, //'Ahmad Gouse',
+                        peopleimage: profileImage//'assets/images/temp/follower-sample2.png',
                       ));
                     },
                     child: Row(
@@ -39,15 +51,15 @@ class ExpandedPostDetails extends StatelessWidget {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: AssetImage(
-                                  Assets.follow1,
+                                image: NetworkImage(
+                                  profileImage,
                                 ),
                                 fit: BoxFit.cover,
                               )),
                         ),
                         8.horizontalSpace,
                         Text(
-                          'Ahmad Gouse',
+                          name , //'Ahmad Gouse',
                           style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 16.sp, color: AppColors.colorWhite),
                         ),
@@ -86,7 +98,7 @@ class ExpandedPostDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Starbucks LA, California',
+                            restaurantName, //'Starbucks LA, California',
                             style:
                                 AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
@@ -94,7 +106,8 @@ class ExpandedPostDetails extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Double road, Lorem City, LA',
+                            address.length > 40 ? '${address.substring(0, 40)}...' : address,
+                            // 'Double road, Lorem City, LA',
                             style:
                                 AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
@@ -111,7 +124,18 @@ class ExpandedPostDetails extends StatelessWidget {
                 children: [
                   Image.asset(Assets.like),
                   15.verticalSpace,
-                  const CommentsIcon(),
+                  Column(
+                    children: [
+                      Image.asset(Assets.comments),
+                      Text(
+                        commentCount.toString(),//'00',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorWhite,
+                          fontSize: 10.sp,
+                        ),
+                      )
+                    ],
+                  ),
                   10.verticalSpace,
                   Image.asset(Assets.bookmark),
                 ],
@@ -158,7 +182,7 @@ class ExpandedPostDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'A memorable evening to be remembered.',
+                description,//'A memorable evening to be remembered.',
                 style: AppTextStyles.textStylePoppinsMedium.copyWith(
                   fontSize: 13.sp,
                   color: AppColors.colorWhite,

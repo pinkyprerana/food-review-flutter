@@ -37,11 +37,18 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   TextEditingController();
   int totalNumberOfPosts = 0;
 
+
   Future<void> getPostFeed() async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}');
+          url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        body:
+          {
+            "lat": "29.95106579999999",
+            "lng":  "-90.0715323"
+          }
+      );
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -51,13 +58,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-
-
-          final List<DataOfPostModel>? postList = postModel.postList;
-
-          totalNumberOfPosts = postModel.total ?? 0;
-
-
           state = state.copyWith(
               isLoading: false,
               postList:

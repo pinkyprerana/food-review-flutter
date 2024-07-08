@@ -1,27 +1,37 @@
-import 'dart:ui';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
-import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/post_feed/presentation/widgets/expanded_post_details.dart';
 import 'package:for_the_table/post_feed/presentation/widgets/not_epanded_post_details.dart';
 import 'package:for_the_table/post_feed/shared/provider.dart';
 
+import '../../../core/constants/app_urls.dart';
+
 class PostFeedItem extends ConsumerWidget {
-  const PostFeedItem({super.key});
+  final DataOfPostModel postList;
+  const PostFeedItem({super.key, required this.postList});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postFeedNotifierProvider);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final String postImage = "${AppUrls.postImageLocation}${postList.file}";
+
     return Container(
       height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-          image: AssetImage(Assets.photo),
+          image: NetworkImage(
+            CachedNetworkImage(
+              imageUrl: postImage,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ).imageUrl,
+          ),
           fit: BoxFit.cover,
         ),
       ),
@@ -43,8 +53,8 @@ class PostFeedItem extends ConsumerWidget {
             ),
             8.verticalSpace,
             (state.isExpanded)
-                ? const ExpandedPostDetails()
-                : const NotEpandedPostDetails(),
+                ? ExpandedPostDetails(postList: postList,)
+                : NotEpandedPostDetails(postList: postList,),
             (state.isExpanded)
                 ? Column(
                     children: [
@@ -66,10 +76,6 @@ class PostFeedItem extends ConsumerWidget {
           ],
         ),
       ),
-      // child: Text(
-      //   _swipeItems[index].content.text,
-      //   style: const TextStyle(fontSize: 100),
-      // ),
     );
   }
 }

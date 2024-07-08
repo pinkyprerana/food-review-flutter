@@ -50,7 +50,12 @@ _$DataOfPostModelImpl _$$DataOfPostModelImplFromJson(
       likeCount: (json['like_count'] as num).toInt(),
       isMyLike: json['isMyLike'] as bool,
       commentCount: (json['comment_count'] as num).toInt(),
+      geoLoc: GeoLoc.fromJson(json['geo_loc'] as Map<String, dynamic>),
       userInfo: UserInfo.fromJson(json['userInfo'] as Map<String, dynamic>),
+      preferenceInfo: json['preferenceInfo'] == null
+          ? null
+          : PreferenceInfo.fromJson(
+              json['preferenceInfo'] as Map<String, dynamic>),
       restaurantInfo: RestaurantInfo.fromJson(
           json['restaurantInfo'] as Map<String, dynamic>),
     );
@@ -71,8 +76,23 @@ Map<String, dynamic> _$$DataOfPostModelImplToJson(
       'like_count': instance.likeCount,
       'isMyLike': instance.isMyLike,
       'comment_count': instance.commentCount,
+      'geo_loc': instance.geoLoc,
       'userInfo': instance.userInfo,
+      'preferenceInfo': instance.preferenceInfo,
       'restaurantInfo': instance.restaurantInfo,
+    };
+
+_$GeoLocImpl _$$GeoLocImplFromJson(Map<String, dynamic> json) => _$GeoLocImpl(
+      type: json['type'] as String,
+      coordinates: (json['coordinates'] as List<dynamic>)
+          .map((e) => (e as num).toDouble())
+          .toList(),
+    );
+
+Map<String, dynamic> _$$GeoLocImplToJson(_$GeoLocImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'coordinates': instance.coordinates,
     };
 
 _$UserInfoImpl _$$UserInfoImplFromJson(Map<String, dynamic> json) =>
@@ -89,6 +109,19 @@ Map<String, dynamic> _$$UserInfoImplToJson(_$UserInfoImpl instance) =>
       'fullName': instance.fullName,
       'email': instance.email,
       'profile_image': instance.profileImage,
+    };
+
+_$PreferenceInfoImpl _$$PreferenceInfoImplFromJson(Map<String, dynamic> json) =>
+    _$PreferenceInfoImpl(
+      id: json['_id'] as String,
+      title: json['title'] as String,
+    );
+
+Map<String, dynamic> _$$PreferenceInfoImplToJson(
+        _$PreferenceInfoImpl instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'title': instance.title,
     };
 
 _$RestaurantInfoImpl _$$RestaurantInfoImplFromJson(Map<String, dynamic> json) =>

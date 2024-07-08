@@ -366,8 +366,12 @@ mixin _$DataOfPostModel {
   bool get isMyLike => throw _privateConstructorUsedError;
   @JsonKey(name: "comment_count")
   int get commentCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "geo_loc")
+  GeoLoc get geoLoc => throw _privateConstructorUsedError;
   @JsonKey(name: "userInfo")
   UserInfo get userInfo => throw _privateConstructorUsedError;
+  @JsonKey(name: "preferenceInfo")
+  PreferenceInfo? get preferenceInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "restaurantInfo")
   RestaurantInfo get restaurantInfo => throw _privateConstructorUsedError;
 
@@ -397,10 +401,14 @@ abstract class $DataOfPostModelCopyWith<$Res> {
       @JsonKey(name: "like_count") int likeCount,
       @JsonKey(name: "isMyLike") bool isMyLike,
       @JsonKey(name: "comment_count") int commentCount,
+      @JsonKey(name: "geo_loc") GeoLoc geoLoc,
       @JsonKey(name: "userInfo") UserInfo userInfo,
+      @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
       @JsonKey(name: "restaurantInfo") RestaurantInfo restaurantInfo});
 
+  $GeoLocCopyWith<$Res> get geoLoc;
   $UserInfoCopyWith<$Res> get userInfo;
+  $PreferenceInfoCopyWith<$Res>? get preferenceInfo;
   $RestaurantInfoCopyWith<$Res> get restaurantInfo;
 }
 
@@ -430,7 +438,9 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
     Object? likeCount = null,
     Object? isMyLike = null,
     Object? commentCount = null,
+    Object? geoLoc = null,
     Object? userInfo = null,
+    Object? preferenceInfo = freezed,
     Object? restaurantInfo = null,
   }) {
     return _then(_value.copyWith(
@@ -486,10 +496,18 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      geoLoc: null == geoLoc
+          ? _value.geoLoc
+          : geoLoc // ignore: cast_nullable_to_non_nullable
+              as GeoLoc,
       userInfo: null == userInfo
           ? _value.userInfo
           : userInfo // ignore: cast_nullable_to_non_nullable
               as UserInfo,
+      preferenceInfo: freezed == preferenceInfo
+          ? _value.preferenceInfo
+          : preferenceInfo // ignore: cast_nullable_to_non_nullable
+              as PreferenceInfo?,
       restaurantInfo: null == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
@@ -499,9 +517,29 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
 
   @override
   @pragma('vm:prefer-inline')
+  $GeoLocCopyWith<$Res> get geoLoc {
+    return $GeoLocCopyWith<$Res>(_value.geoLoc, (value) {
+      return _then(_value.copyWith(geoLoc: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $UserInfoCopyWith<$Res> get userInfo {
     return $UserInfoCopyWith<$Res>(_value.userInfo, (value) {
       return _then(_value.copyWith(userInfo: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PreferenceInfoCopyWith<$Res>? get preferenceInfo {
+    if (_value.preferenceInfo == null) {
+      return null;
+    }
+
+    return $PreferenceInfoCopyWith<$Res>(_value.preferenceInfo!, (value) {
+      return _then(_value.copyWith(preferenceInfo: value) as $Val);
     });
   }
 
@@ -536,11 +574,17 @@ abstract class _$$DataOfPostModelImplCopyWith<$Res>
       @JsonKey(name: "like_count") int likeCount,
       @JsonKey(name: "isMyLike") bool isMyLike,
       @JsonKey(name: "comment_count") int commentCount,
+      @JsonKey(name: "geo_loc") GeoLoc geoLoc,
       @JsonKey(name: "userInfo") UserInfo userInfo,
+      @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
       @JsonKey(name: "restaurantInfo") RestaurantInfo restaurantInfo});
 
   @override
+  $GeoLocCopyWith<$Res> get geoLoc;
+  @override
   $UserInfoCopyWith<$Res> get userInfo;
+  @override
+  $PreferenceInfoCopyWith<$Res>? get preferenceInfo;
   @override
   $RestaurantInfoCopyWith<$Res> get restaurantInfo;
 }
@@ -569,7 +613,9 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
     Object? likeCount = null,
     Object? isMyLike = null,
     Object? commentCount = null,
+    Object? geoLoc = null,
     Object? userInfo = null,
+    Object? preferenceInfo = freezed,
     Object? restaurantInfo = null,
   }) {
     return _then(_$DataOfPostModelImpl(
@@ -625,10 +671,18 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      geoLoc: null == geoLoc
+          ? _value.geoLoc
+          : geoLoc // ignore: cast_nullable_to_non_nullable
+              as GeoLoc,
       userInfo: null == userInfo
           ? _value.userInfo
           : userInfo // ignore: cast_nullable_to_non_nullable
               as UserInfo,
+      preferenceInfo: freezed == preferenceInfo
+          ? _value.preferenceInfo
+          : preferenceInfo // ignore: cast_nullable_to_non_nullable
+              as PreferenceInfo?,
       restaurantInfo: null == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
@@ -654,7 +708,9 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
       @JsonKey(name: "like_count") required this.likeCount,
       @JsonKey(name: "isMyLike") required this.isMyLike,
       @JsonKey(name: "comment_count") required this.commentCount,
+      @JsonKey(name: "geo_loc") required this.geoLoc,
       @JsonKey(name: "userInfo") required this.userInfo,
+      @JsonKey(name: "preferenceInfo") required this.preferenceInfo,
       @JsonKey(name: "restaurantInfo") required this.restaurantInfo});
 
   factory _$DataOfPostModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -700,15 +756,21 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
   @JsonKey(name: "comment_count")
   final int commentCount;
   @override
+  @JsonKey(name: "geo_loc")
+  final GeoLoc geoLoc;
+  @override
   @JsonKey(name: "userInfo")
   final UserInfo userInfo;
+  @override
+  @JsonKey(name: "preferenceInfo")
+  final PreferenceInfo? preferenceInfo;
   @override
   @JsonKey(name: "restaurantInfo")
   final RestaurantInfo restaurantInfo;
 
   @override
   String toString() {
-    return 'DataOfPostModel(id: $id, title: $title, description: $description, file: $file, mimetype: $mimetype, howWasIt: $howWasIt, status: $status, createdAt: $createdAt, isOwn: $isOwn, isSave: $isSave, likeCount: $likeCount, isMyLike: $isMyLike, commentCount: $commentCount, userInfo: $userInfo, restaurantInfo: $restaurantInfo)';
+    return 'DataOfPostModel(id: $id, title: $title, description: $description, file: $file, mimetype: $mimetype, howWasIt: $howWasIt, status: $status, createdAt: $createdAt, isOwn: $isOwn, isSave: $isSave, likeCount: $likeCount, isMyLike: $isMyLike, commentCount: $commentCount, geoLoc: $geoLoc, userInfo: $userInfo, preferenceInfo: $preferenceInfo, restaurantInfo: $restaurantInfo)';
   }
 
   @override
@@ -736,8 +798,11 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
                 other.isMyLike == isMyLike) &&
             (identical(other.commentCount, commentCount) ||
                 other.commentCount == commentCount) &&
+            (identical(other.geoLoc, geoLoc) || other.geoLoc == geoLoc) &&
             (identical(other.userInfo, userInfo) ||
                 other.userInfo == userInfo) &&
+            (identical(other.preferenceInfo, preferenceInfo) ||
+                other.preferenceInfo == preferenceInfo) &&
             (identical(other.restaurantInfo, restaurantInfo) ||
                 other.restaurantInfo == restaurantInfo));
   }
@@ -759,7 +824,9 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
       likeCount,
       isMyLike,
       commentCount,
+      geoLoc,
       userInfo,
+      preferenceInfo,
       restaurantInfo);
 
   @JsonKey(ignore: true)
@@ -792,7 +859,10 @@ abstract class _DataOfPostModel implements DataOfPostModel {
       @JsonKey(name: "like_count") required final int likeCount,
       @JsonKey(name: "isMyLike") required final bool isMyLike,
       @JsonKey(name: "comment_count") required final int commentCount,
+      @JsonKey(name: "geo_loc") required final GeoLoc geoLoc,
       @JsonKey(name: "userInfo") required final UserInfo userInfo,
+      @JsonKey(name: "preferenceInfo")
+      required final PreferenceInfo? preferenceInfo,
       @JsonKey(name: "restaurantInfo")
       required final RestaurantInfo restaurantInfo}) = _$DataOfPostModelImpl;
 
@@ -839,14 +909,191 @@ abstract class _DataOfPostModel implements DataOfPostModel {
   @JsonKey(name: "comment_count")
   int get commentCount;
   @override
+  @JsonKey(name: "geo_loc")
+  GeoLoc get geoLoc;
+  @override
   @JsonKey(name: "userInfo")
   UserInfo get userInfo;
+  @override
+  @JsonKey(name: "preferenceInfo")
+  PreferenceInfo? get preferenceInfo;
   @override
   @JsonKey(name: "restaurantInfo")
   RestaurantInfo get restaurantInfo;
   @override
   @JsonKey(ignore: true)
   _$$DataOfPostModelImplCopyWith<_$DataOfPostModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GeoLoc _$GeoLocFromJson(Map<String, dynamic> json) {
+  return _GeoLoc.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GeoLoc {
+  @JsonKey(name: "type")
+  String get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "coordinates")
+  List<double> get coordinates => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GeoLocCopyWith<GeoLoc> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GeoLocCopyWith<$Res> {
+  factory $GeoLocCopyWith(GeoLoc value, $Res Function(GeoLoc) then) =
+      _$GeoLocCopyWithImpl<$Res, GeoLoc>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "type") String type,
+      @JsonKey(name: "coordinates") List<double> coordinates});
+}
+
+/// @nodoc
+class _$GeoLocCopyWithImpl<$Res, $Val extends GeoLoc>
+    implements $GeoLocCopyWith<$Res> {
+  _$GeoLocCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GeoLocImplCopyWith<$Res> implements $GeoLocCopyWith<$Res> {
+  factory _$$GeoLocImplCopyWith(
+          _$GeoLocImpl value, $Res Function(_$GeoLocImpl) then) =
+      __$$GeoLocImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "type") String type,
+      @JsonKey(name: "coordinates") List<double> coordinates});
+}
+
+/// @nodoc
+class __$$GeoLocImplCopyWithImpl<$Res>
+    extends _$GeoLocCopyWithImpl<$Res, _$GeoLocImpl>
+    implements _$$GeoLocImplCopyWith<$Res> {
+  __$$GeoLocImplCopyWithImpl(
+      _$GeoLocImpl _value, $Res Function(_$GeoLocImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = null,
+    Object? coordinates = null,
+  }) {
+    return _then(_$GeoLocImpl(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      coordinates: null == coordinates
+          ? _value._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GeoLocImpl implements _GeoLoc {
+  const _$GeoLocImpl(
+      {@JsonKey(name: "type") required this.type,
+      @JsonKey(name: "coordinates") required final List<double> coordinates})
+      : _coordinates = coordinates;
+
+  factory _$GeoLocImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GeoLocImplFromJson(json);
+
+  @override
+  @JsonKey(name: "type")
+  final String type;
+  final List<double> _coordinates;
+  @override
+  @JsonKey(name: "coordinates")
+  List<double> get coordinates {
+    if (_coordinates is EqualUnmodifiableListView) return _coordinates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_coordinates);
+  }
+
+  @override
+  String toString() {
+    return 'GeoLoc(type: $type, coordinates: $coordinates)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GeoLocImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._coordinates, _coordinates));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, type, const DeepCollectionEquality().hash(_coordinates));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GeoLocImplCopyWith<_$GeoLocImpl> get copyWith =>
+      __$$GeoLocImplCopyWithImpl<_$GeoLocImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GeoLocImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GeoLoc implements GeoLoc {
+  const factory _GeoLoc(
+      {@JsonKey(name: "type") required final String type,
+      @JsonKey(name: "coordinates")
+      required final List<double> coordinates}) = _$GeoLocImpl;
+
+  factory _GeoLoc.fromJson(Map<String, dynamic> json) = _$GeoLocImpl.fromJson;
+
+  @override
+  @JsonKey(name: "type")
+  String get type;
+  @override
+  @JsonKey(name: "coordinates")
+  List<double> get coordinates;
+  @override
+  @JsonKey(ignore: true)
+  _$$GeoLocImplCopyWith<_$GeoLocImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1062,6 +1309,172 @@ abstract class _UserInfo implements UserInfo {
   @override
   @JsonKey(ignore: true)
   _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PreferenceInfo _$PreferenceInfoFromJson(Map<String, dynamic> json) {
+  return _PreferenceInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PreferenceInfo {
+  @JsonKey(name: "_id")
+  String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "title")
+  String get title => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PreferenceInfoCopyWith<PreferenceInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PreferenceInfoCopyWith<$Res> {
+  factory $PreferenceInfoCopyWith(
+          PreferenceInfo value, $Res Function(PreferenceInfo) then) =
+      _$PreferenceInfoCopyWithImpl<$Res, PreferenceInfo>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String id, @JsonKey(name: "title") String title});
+}
+
+/// @nodoc
+class _$PreferenceInfoCopyWithImpl<$Res, $Val extends PreferenceInfo>
+    implements $PreferenceInfoCopyWith<$Res> {
+  _$PreferenceInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PreferenceInfoImplCopyWith<$Res>
+    implements $PreferenceInfoCopyWith<$Res> {
+  factory _$$PreferenceInfoImplCopyWith(_$PreferenceInfoImpl value,
+          $Res Function(_$PreferenceInfoImpl) then) =
+      __$$PreferenceInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String id, @JsonKey(name: "title") String title});
+}
+
+/// @nodoc
+class __$$PreferenceInfoImplCopyWithImpl<$Res>
+    extends _$PreferenceInfoCopyWithImpl<$Res, _$PreferenceInfoImpl>
+    implements _$$PreferenceInfoImplCopyWith<$Res> {
+  __$$PreferenceInfoImplCopyWithImpl(
+      _$PreferenceInfoImpl _value, $Res Function(_$PreferenceInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+  }) {
+    return _then(_$PreferenceInfoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PreferenceInfoImpl implements _PreferenceInfo {
+  const _$PreferenceInfoImpl(
+      {@JsonKey(name: "_id") required this.id,
+      @JsonKey(name: "title") required this.title});
+
+  factory _$PreferenceInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PreferenceInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: "_id")
+  final String id;
+  @override
+  @JsonKey(name: "title")
+  final String title;
+
+  @override
+  String toString() {
+    return 'PreferenceInfo(id: $id, title: $title)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PreferenceInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PreferenceInfoImplCopyWith<_$PreferenceInfoImpl> get copyWith =>
+      __$$PreferenceInfoImplCopyWithImpl<_$PreferenceInfoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PreferenceInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PreferenceInfo implements PreferenceInfo {
+  const factory _PreferenceInfo(
+          {@JsonKey(name: "_id") required final String id,
+          @JsonKey(name: "title") required final String title}) =
+      _$PreferenceInfoImpl;
+
+  factory _PreferenceInfo.fromJson(Map<String, dynamic> json) =
+      _$PreferenceInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: "_id")
+  String get id;
+  @override
+  @JsonKey(name: "title")
+  String get title;
+  @override
+  @JsonKey(ignore: true)
+  _$$PreferenceInfoImplCopyWith<_$PreferenceInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

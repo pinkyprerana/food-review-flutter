@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,28 +6,29 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/post_feed/presentation/widgets/comments_icon.dart';
+import '../../../core/constants/app_urls.dart';
+import '../../domain/postFeed_model.dart';
 
 class NotEpandedPostDetails extends StatelessWidget {
-  const NotEpandedPostDetails({super.key});
+  final DataOfPostModel postList;
+  const NotEpandedPostDetails({super.key, required this.postList});
 
   @override
   Widget build(BuildContext context) {
+    final String name = postList.userInfo.fullName;
+    final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
+    final String postImage = postList.file;
+    final String title = postList.title;
+    final String description = postList.description;
+    final String restaurantName = postList.restaurantInfo.name;
+    final String address = postList.restaurantInfo.address;
+    final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount= postList.commentCount;
+
     return Container(
       padding:
           const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
       width: double.infinity,
-      //height: 170.h,
-      // decoration: BoxDecoration(
-      //     // borderRadius: BorderRadius.circular(10),
-      //     // gradient: LinearGradient(
-      //     //   end: Alignment.bottomCenter,
-      //     //   colors: [
-      //     //     const Color(0xff0A0A0A).withOpacity(0.1),
-      //     //     const Color(0xff000000).withOpacity(0)
-      //     //   ],
-      //     // ),
-      //     ),
       child: Column(
         children: [
           Row(
@@ -37,8 +37,8 @@ class NotEpandedPostDetails extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                    peoplename: 'Ahmad Gouse',
-                    peopleimage: 'assets/images/temp/follower-sample2.png',
+                    peoplename: name, //'Ahmad Gouse',
+                    peopleimage: profileImage //'assets/images/temp/follower-sample2.png',
                   ));
                 },
                 child: Row(
@@ -49,27 +49,21 @@ class NotEpandedPostDetails extends StatelessWidget {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: AssetImage(
-                              Assets.follow1,
+                            image: NetworkImage(
+                              profileImage,
                             ),
                             fit: BoxFit.cover,
                           )),
                     ),
                     8.horizontalSpace,
                     Text(
-                      'Ahmad Gouse',
+                      name, //'Ahmad Gouse',
                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
                   ],
                 ),
               ),
-              // 8.horizontalSpace,
-              // Text(
-              //   'Ahmad Gouse',
-              //   style: AppTextStyles.textStylePoppinsMedium
-              //       .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
-              // ),
               8.horizontalSpace,
               Container(
                 padding: const EdgeInsets.all(10),
@@ -108,7 +102,7 @@ class NotEpandedPostDetails extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'Chinese Cuisine',
+                            cuisine,//'Chinese Cuisine',
                             style:
                                 AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: Color(0xff6BCE7B).withOpacity(0.85),
@@ -117,17 +111,7 @@ class NotEpandedPostDetails extends StatelessWidget {
                           ),
                         ),
                       ),
-                      8.horizontalSpace,
-                      // Image.asset(Assets.dislike_emoji),
-                      5.horizontalSpace,
-                      // Text(
-                      //   'Didn\'t Like',
-                      //   style:
-                      //       AppTextStyles.textStylePoppinsRegular.copyWith(
-                      //     fontSize: 10.sp,
-                      //     color: AppColors.colorWhite,
-                      //   ),
-                      // )
+                      13.horizontalSpace,
                     ],
                   ),
                   8.verticalSpace,
@@ -142,7 +126,7 @@ class NotEpandedPostDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Starbucks LA, California',
+                            restaurantName, //'Starbucks LA, California',
                             style:
                                 AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
@@ -150,7 +134,8 @@ class NotEpandedPostDetails extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Double road, Lorem City, LA',
+                            address.length > 40 ? '${address.substring(0, 40)}...' : address,
+                            // 'Double road, Lorem City, LA',
                             style:
                                 AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
@@ -167,7 +152,18 @@ class NotEpandedPostDetails extends StatelessWidget {
                 children: [
                   Image.asset(Assets.like),
                   15.verticalSpace,
-                  const CommentsIcon(),
+                  Column(
+                    children: [
+                      Image.asset(Assets.comments),
+                      Text(
+                        commentCount.toString(),//'00',
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorWhite,
+                          fontSize: 10.sp,
+                        ),
+                      )
+                    ],
+                  ),
                   10.verticalSpace,
                   Image.asset(Assets.bookmark),
                 ],
@@ -176,13 +172,16 @@ class NotEpandedPostDetails extends StatelessWidget {
           ),
 
           15.verticalSpace,
-          Text(
-            'A memorable evening to be remembered.',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorWhite,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              description,//'A memorable evening to be remembered.',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorWhite,
+              ),
             ),
           )
         ],

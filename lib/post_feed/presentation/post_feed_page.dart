@@ -71,12 +71,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   Widget build(BuildContext context) {
     final stateNotifierForBase = ref.watch(baseNotifierProvider.notifier);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final state = ref.watch(postFeedNotifierProvider);
-    // final postFeedData = state.postList;
-    // final postFeedTitle = state.postTitles;
-    // List<dynamic> postList = postFeedData?.map((post) => post.title).toList();
-    // print("_____________________________${postFeedData}");
-    // print("_____________________________${postList}");
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedList = postFeedState.postList;
+
 
     return Scaffold(
       key: _scaffoldKey,
@@ -87,7 +84,8 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             child: SwipeCards(
               matchEngine: _matchEngine!,
               itemBuilder: (BuildContext context, int index) {
-                return PostFeedItem();
+                final postList = postFeedList[index];
+                return PostFeedItem(postList: postList);
               },
               onStackFinished: () {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -150,7 +148,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                   const EdgeInsets.symmetric(horizontal: 15).r,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: (state.selectedIndex == index)
+                                color: (postFeedState.selectedIndex == index)
                                     ? AppColors.colorWhite.withOpacity(0.5)
                                     : AppColors.colorWhite.withOpacity(0.10),
                               ),
