@@ -140,12 +140,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             text: 'Login',
                             onPressed: () async {
                               AppLog.log('message');
-                              stateNotifier.signIn(() {
+
+                              await stateNotifier.signIn(() {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 AutoRouter.of(context).pushAndPopUntil(
                                     const BaseRoute(),
                                     predicate: (_) => false);
                               });
+
+                              dismissKeyboard(context);
                             },
                           ),
                         ],
