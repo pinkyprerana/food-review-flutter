@@ -16,6 +16,7 @@ import 'package:for_the_table/core/utils/map_utls.dart';
 import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:label_marker/label_marker.dart';
+import 'package:uuid/uuid.dart';
 
 class RestaurantMapView extends ConsumerStatefulWidget {
   const RestaurantMapView({
@@ -45,9 +46,12 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
     var index = 0;
 
     for (final item in state.restaurantList!) {
+      var uuid = Uuid();
+      var uniqueString = uuid.v4();
       final marker = LabelMarker(
         label: '⭐ ${item.rating}',
-        markerId: MarkerId(item.name.toString()),
+        // markerId: MarkerId(item.name.toString()),
+        markerId: MarkerId(uniqueString),
         position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
         infoWindow: InfoWindow(
           title: item.name,
