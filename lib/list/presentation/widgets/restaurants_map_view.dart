@@ -49,7 +49,8 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
       var uuid = Uuid();
       var uniqueString = uuid.v4();
       final marker = LabelMarker(
-        label: '⭐ ${item.rating}',
+        label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
+        backgroundColor: AppColors.colorBlack,
         // markerId: MarkerId(item.name.toString()),
         markerId: MarkerId(uniqueString),
         position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
