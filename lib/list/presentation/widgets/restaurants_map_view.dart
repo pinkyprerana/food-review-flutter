@@ -44,31 +44,31 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
 
     var index = 0;
 
-    labelMarkers = state.restaurantList!.map<LabelMarker>((item) {
-      return LabelMarker(
+    for (final item in state.restaurantList!) {
+      final marker = LabelMarker(
         label: '⭐ ${item.rating}',
-        markerId: MarkerId('${index + 1}'),
+        markerId: MarkerId(item.name.toString()),
         position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
         infoWindow: InfoWindow(
           title: item.name,
         ),
       );
-    }).toList();
-
-    AppLog.log('labelMarkers.length ------>> ${labelMarkers.length}');
-
-    for (int i = 0; i < labelMarkers.length; i++) {
-      markers.addLabelMarker(labelMarkers[i]).then((value) {
+      markers.addLabelMarker(marker).then((_) {
         setState(() {});
       });
+      AppLog.log('markers.length -------------->> ${markers.length}');
     }
+
+    AppLog.log('markers -------------->> ${markers}');
+
+    // AppLog.log('markers.length -------------->> ${markers.length}');
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.read(restaurantNotifierProvider);
+    final state = ref.watch(restaurantNotifierProvider);
 
     return SingleChildScrollView(
       child: Column(
@@ -80,120 +80,111 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
               borderRadius: BorderRadius.circular(10).r,
             ),
             height: 0.52.sh,
-            child: (state.isLoading)
-                ? const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.colorPrimary,
-                    ),
-                  )
-                : (markers.isNotEmpty)
-                    ? Stack(
-                        children: [
-                          GoogleMap(
-                            gestureRecognizers:
-                                <Factory<OneSequenceGestureRecognizer>>[
-                              new Factory<OneSequenceGestureRecognizer>(
-                                () => new EagerGestureRecognizer(),
-                              ),
-                            ].toSet(),
-                            myLocationButtonEnabled: false,
-                            initialCameraPosition: CameraPosition(
-                              target: LatLng(
-                                double.parse(
-                                    (state.restaurantList![0].lat ?? '1')),
-                                double.parse(
-                                    ((state.restaurantList![0].lng ?? '1'))),
-                              ),
-                              zoom: 12,
-                            ),
-                            onMapCreated: (GoogleMapController controller) {
-                              setState(() {
-                                controller = controller;
-                              });
-                              _controller.complete(controller);
-                              _googleMapController = controller;
-                              _googleMapController.getVisibleRegion();
-
-                              Set<Marker> _markers = Set();
-
-                              // _markers = Set.from(
-                              //   markers,
-                              // );
-                              _markers = markers;
-                              Future.delayed(
-                                  const Duration(milliseconds: 200),
-                                  () => controller.animateCamera(
-                                      CameraUpdate.newLatLngBounds(
-                                          MapUtils.boundsFromLatLngList(_markers
-                                              .map((loc) => loc.position)
-                                              .toList()),
-                                          1)));
-                            },
-                            markers: markers,
-                            zoomControlsEnabled: true,
+            child: (markers.isNotEmpty)
+                ? Stack(
+                    children: [
+                      GoogleMap(
+                        gestureRecognizers:
+                            <Factory<OneSequenceGestureRecognizer>>[
+                          new Factory<OneSequenceGestureRecognizer>(
+                            () => new EagerGestureRecognizer(),
                           ),
-                          Positioned(
-                            bottom: 20.0, // Adjust position as needed
-                            right: 10.0, // Adjust position as needed
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // mapController
-                                    //     .animateCamera(CameraUpdate.zoomIn());
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 44.r,
-                                    width: 44.r,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.colorWhite,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Text(
-                                      '+',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
-                                        color: AppColors.colorPrimary,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                8.verticalSpace,
-                                GestureDetector(
-                                  onTap: () {
-                                    // mapController
-                                    //     .animateCamera(CameraUpdate.zoomOut());
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 44.r,
-                                    width: 44.r,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.colorWhite,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Text(
-                                      '-',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
-                                        color: AppColors.colorPrimary,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        ].toSet(),
+                        myLocationButtonEnabled: false,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            double.parse((state.restaurantList![0].lat ?? '1')),
+                            double.parse(
+                                ((state.restaurantList![0].lng ?? '1'))),
                           ),
-                        ],
-                      )
-                    : const Center(
-                        child: Text('Something went wrong, please try again'),
+                          zoom: 12,
+                        ),
+                        onMapCreated: (GoogleMapController controller) {
+                          // setState(() {
+                          //   controller = controller;
+                          // });
+                          _controller.complete(controller);
+                          _googleMapController = controller;
+                          _googleMapController.getVisibleRegion();
+
+                          Set<Marker> _markers = Set();
+
+                          // _markers = Set.from(
+                          //   markers,
+                          // );
+                          _markers = markers;
+                          Future.delayed(
+                              const Duration(milliseconds: 200),
+                              () => controller.animateCamera(
+                                  CameraUpdate.newLatLngBounds(
+                                      MapUtils.boundsFromLatLngList(_markers
+                                          .map((loc) => loc.position)
+                                          .toList()),
+                                      1)));
+                        },
+                        markers: markers,
+                        zoomControlsEnabled: true,
                       ),
+                      Positioned(
+                        bottom: 20.0, // Adjust position as needed
+                        right: 10.0, // Adjust position as needed
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // mapController
+                                //     .animateCamera(CameraUpdate.zoomIn());
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 44.r,
+                                width: 44.r,
+                                decoration: BoxDecoration(
+                                  color: AppColors.colorWhite,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  '+',
+                                  style: AppTextStyles.textStylePoppinsMedium
+                                      .copyWith(
+                                    color: AppColors.colorPrimary,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            8.verticalSpace,
+                            GestureDetector(
+                              onTap: () {
+                                // mapController
+                                //     .animateCamera(CameraUpdate.zoomOut());
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 44.r,
+                                width: 44.r,
+                                decoration: BoxDecoration(
+                                  color: AppColors.colorWhite,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  '-',
+                                  style: AppTextStyles.textStylePoppinsMedium
+                                      .copyWith(
+                                    color: AppColors.colorPrimary,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : const Center(
+                    child: Text('Something went wrong, please try again'),
+                  ),
           ),
           100.verticalSpace,
         ],
