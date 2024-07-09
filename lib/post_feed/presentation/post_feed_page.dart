@@ -34,6 +34,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     "Post 7",
     "Post 8"
   ];
+  SlideRegion? _currentRegion;
 
   @override
   void initState() {
@@ -95,8 +96,13 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
               },
               itemChanged: (SwipeItem item, int index) {
                 final postList = postFeedList[index];
-                stateNotifier.likeUnlikePost(() {}, postList.id);
-                print("-------->>>>>>> Liked post--->>>>  ${postList.id}");
+                if (_currentRegion == SlideRegion.inLikeRegion) {
+                  stateNotifier.likeUnlikePost(() {}, postList.id);
+                  print("Liked post: ${postList.id}");
+                } else if (_currentRegion == SlideRegion.inNopeRegion) {
+                  // stateNotifier.dislikePost(() {}, postList.id);
+                  print("Disliked post: ${postList.id}");
+                }
                 print("item: ${item.content.text}, index: $index");
               },
               upSwipeAllowed: true,

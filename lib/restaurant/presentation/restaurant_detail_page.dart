@@ -684,8 +684,16 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (context, index) {
+                    if (index < 0 || index >= postFeedList.length) {
+                      return const SizedBox.shrink();
+                    }
                     final postList = postFeedList[index];
-                    return PostWidget(postList: postList,);
+                    //Todo: send restaurant id in body and call postlist api to find postList of each restaurant
+                    return postFeedList.isEmpty
+                        ? PostWidget(postList: postList,)
+                        : const Center(
+                          child: Text("No post"),
+                          );
                   }),
               10.verticalSpace,
             ],
