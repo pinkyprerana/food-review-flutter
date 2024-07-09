@@ -18,6 +18,10 @@ import 'package:for_the_table/home/presentation/widgets/restaurant_widget.dart';
 import 'package:for_the_table/list/shared/provider.dart';
 import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
+import 'package:glassmorphism/glassmorphism.dart';
+
+import '../../post_feed/presentation/widgets/comments_icon.dart';
+import '../../post_feed/shared/provider.dart';
 
 @RoutePage()
 class HomePageNew extends ConsumerStatefulWidget {
@@ -35,21 +39,22 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     {'image': Assets.follow2, 'name': 'Skylar Bergson'},
   ];
 
-  List restaurantlist = [
-    {'image': Assets.rest1},
-    {'image': Assets.rest2},
-    {'image': Assets.rest3},
-    {'image': Assets.rest4},
-  ];
+  // List restaurantlist = [
+  //   {'image': Assets.rest1},
+  //   {'image': Assets.rest2},
+  //   {'image': Assets.rest3},
+  //   {'image': Assets.rest4},
+  // ];
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       await stateNotifier.getHomeRestaurants(context: context);
+      final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+      postFeedNotifier.getPostFeed();
     });
-
-    super.initState();
   }
 
   @override
@@ -64,6 +69,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateNotifierRestaurant =
         ref.watch(restaurantNotifierProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedList = postFeedState.postList;
+
     return Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: false,
@@ -289,16 +297,32 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               ),
               5.verticalSpace,
               //list of posts
-              Padding(
+              (postFeedState.isLoading)
+                  ? const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.colorPrimary,
+                ),
+              )
+                  : (postFeedState.postList != null &&
+                  (postFeedState.postList.isNotEmpty ??
+                      false))
+                  ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: ListView.builder(
-                    itemCount: 3,
+                    itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     itemBuilder: (context, index) {
-                      return const PostWidget();
+                      final postList = postFeedList[index];
+                      return PostWidget(postList: postList,);
                     }),
+              )
+                  : Center(
+                child: Text(
+                  'No post found',
+                  style: AppTextStyles.textStylePoppins,
+                ),
               ),
               90.verticalSpace,
             ],

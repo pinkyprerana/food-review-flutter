@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +42,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       final preferenceNotifier = ref.watch(preferenceNotifierProvider.notifier);
       await preferenceNotifier.getAllPreference();
       final allPreferences = ref.watch(preferenceNotifierProvider).data;
-      print(allPreferences);
     });
   }
 
@@ -169,13 +169,17 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                 text: "Post",
                                 onPressed: () async {
                                   dismissKeyboard(context);
-                                  createPostNotifier.addPost(() {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    createPostNotifier
-                                        .onContinuePressed(context);
-                                    createPostNotifier.clearRestaurantDetails();
-                                  }, imageFile);
+                                  if (imageFile != null) {
+                                    createPostNotifier.addPost(() {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      createPostNotifier
+                                          .onContinuePressed(context);
+                                      createPostNotifier.clearRestaurantDetails();
+                                    }, imageFile);
+                                  }else{
+                                    showToastMessage("Click or select image");
+                                  }
                                 },
                               ),
                               AppButton(
@@ -288,8 +292,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   Widget _selectRestaurantPage(allPreferences) {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
-    List<dynamic> cuisineList =
-        allPreferences.map((preference) => preference.title).toList();
+    List<dynamic> cuisineList = allPreferences;
+
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -414,6 +418,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 onSelected: (Restaurant selection) {
                   selectedRestaurantName = selection.name!;
                   selectedRestaurantId = selection.id!;
+                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                  dismissKeyboard(context);
                   createPostNotifier.restaurantNameTextController.text =
                       selectedRestaurantName;
                   createPostNotifier.restaurantIdTextController.text =
@@ -486,8 +494,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   // ),
                 ),
                 keyboardType: TextInputType.text,
-                style: AppTextStyles.textStylePoppinsRegular
-                    .copyWith(fontSize: 13.sp),
+                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    fontSize: 12.sp,
+                  color: AppColors.colorBlack
+                ),
               ),
             ),
             15.verticalSpace,
@@ -500,6 +510,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               ),
             ),
             10.verticalSpace,
+
             Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -523,25 +534,68 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   Icons.keyboard_arrow_down,
                   color: AppColors.colorGrey3,
                 ),
-                items: cuisineList
-                    .map((cuisine) => DropdownMenuItem<String>(
-                          value: cuisine,
-                          child: Text(
-                            cuisine,
-                            style: AppTextStyles.textStylePoppinsLight.copyWith(
-                                color: AppColors.colorBlack, fontSize: 14),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (value) {
+              //   items: cuisineName
+              //       .map((cuisine) => DropdownMenuItem<String>(
+              //             value: cuisine,
+              //             child: Text(
+              //               cuisine,
+              //               style: AppTextStyles.textStylePoppinsLight.copyWith(
+              //                   color: AppColors.colorBlack, fontSize: 14),
+              //             ),
+              //           ))
+              //       .toList(),
+              //   onChanged: (value) {
+              //     if (value != null) {
+              //       final selectedCuisine = value;
+              //       createPostNotifier.postCuisineIdTextController.text =
+              //           selectedCuisine;
+              //     }
+              //   },
+              // ),
+
+                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+                  value: cuisine.id,
+                  child: Text(
+                    cuisine.title,
+                    style: AppTextStyles.textStylePoppinsLight.copyWith(
+                        color: AppColors.colorBlack, fontSize: 14),
+                  ),
+                )).toList(),
+                onChanged: (String? value) {
                   if (value != null) {
-                    final selectedCuisine = value;
-                    createPostNotifier.postCuisineTextController.text =
-                        selectedCuisine;
+                    final selectedCuisine = cuisineList.firstWhere((c) => c.id == value);
+                    createPostNotifier.postCuisineIdTextController.text = selectedCuisine.id;
                   }
                 },
               ),
             ),
+
+            // Container(
+            //   alignment: Alignment.center,
+            //   decoration: BoxDecoration(
+            //       color: AppColors.colorGrey,
+            //       borderRadius: BorderRadius.circular(10)),
+            //   padding: const EdgeInsets.all(16).r,
+            //   height: 56.r,
+            //   child: DropdownButtonHideUnderline(
+            //     child: DropdownButton2<String>(
+            //     items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+            //           value: cuisine,
+            //           child: Text(
+            //             cuisine,
+            //             style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
+            //           ),
+            //         )).toList(),
+            //       onChanged: (value) {
+            //             if (value != null) {
+            //               final selectedCuisine = value;
+            //               createPostNotifier.postCuisineTextController.text = selectedCuisine;
+            //             }
+            //           },
+            //     ),
+            //   ),
+            // ),
+
             20.verticalSpace,
             Align(
               alignment: Alignment.topLeft,
