@@ -6,6 +6,7 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import '../../core/constants/app_urls.dart';
 import '../../core/utils/app_log.dart';
 import '../../core/utils/toast.dart';
+import '../../post_feed/domain/postFeed_model.dart';
 import 'follow_state.dart';
 
 class FollowNotifier extends StateNotifier<FollowState> {
@@ -60,7 +61,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
   //   try {
   //     var (response, dioException) =
   //     await _networkApiService.getApiRequest(
-  //         url: "${AppUrls.BASE_URL}${AppUrls.getAllPosts}");
+  //         url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}");
   //
   //     if (response == null && dioException == null) {
   //       showConnectionWasInterruptedToastMessage();

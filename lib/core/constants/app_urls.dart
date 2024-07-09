@@ -15,6 +15,7 @@ class AppUrls {
   static const getAllPreference = '/preference/list';
   static const getPostFeed = '/post/list';
   static const getAllFollowers = '/user/follower/list';
+  static const getAllFollowing = '/user/follow/list';
   static const profile = '/user/profile';
   static const profileUpdate = '/user/profile-update';
   static const logout = '/user/logout';

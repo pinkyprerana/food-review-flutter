@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
@@ -31,12 +32,25 @@ class FollowOptionWidget extends StatelessWidget {
             width: 49.w,
             height: 49.h,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage(imgpath),
-                fit: BoxFit.cover,
-              ),
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                    CachedNetworkImage(
+                      imageUrl: imgpath,
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ).imageUrl,
+                  ),
+                  fit: BoxFit.cover,
+                )
             ),
+            // decoration: BoxDecoration(
+            //   shape: BoxShape.circle,
+            //   image: DecorationImage(
+            //     image: AssetImage(imgpath),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
           ),
           10.verticalSpace,
           Text(

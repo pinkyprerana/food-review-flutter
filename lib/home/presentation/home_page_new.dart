@@ -20,8 +20,11 @@ import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
+import '../../core/constants/app_urls.dart';
+import '../../people_profile/shared/providers.dart';
 import '../../post_feed/presentation/widgets/comments_icon.dart';
 import '../../post_feed/shared/provider.dart';
+import '../../your_lists/shared/provider.dart';
 
 @RoutePage()
 class HomePageNew extends ConsumerStatefulWidget {
@@ -32,12 +35,12 @@ class HomePageNew extends ConsumerStatefulWidget {
 }
 
 class _HomePageNewState extends ConsumerState<HomePageNew> {
-  List followOptions = [
-    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-  ];
+  // List followOptions = [
+  //   {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
+  //   {'image': Assets.follow2, 'name': 'Skylar Bergson'},
+  //   {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
+  //   {'image': Assets.follow2, 'name': 'Skylar Bergson'},
+  // ];
 
   // List restaurantlist = [
   //   {'image': Assets.rest1},
@@ -54,14 +57,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       await stateNotifier.getHomeRestaurants(context: context);
       final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
       postFeedNotifier.getPostFeed();
+      final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
+      await followNotifier.getAllFollowerList();
+      await followNotifier.getAllFollowingList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var hive = ref.watch(hiveProvider);
-    // AppLog.log(
-    //     '--------------TOKEN------------${hive.box.get(AppPreferenceKeys.token)}');
+    final followState = ref.watch(YourPeopleNotifierProvider);
+    final followerList = followState.followerList;
     final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateOfListScreen = ref.watch(listProvider);
@@ -143,20 +149,26 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 child: ListView.builder(
                     physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    itemCount: followOptions.length,
+                    itemCount: followerList.length , //followOptions.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      if (index < 0 || index >= followerList.length) {
+                        return const SizedBox.shrink();
+                      }
+                      final followers= followerList[index];
+                      final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
+
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: 'Ahmad Gouse',
-                            peopleimage:
-                                'assets/images/temp/follower-sample2.png',
+                            peoplename: followers.fullName.toString(), //'Ahmad Gouse',
+                            peopleimage: profileImage.toString()
+                                // 'assets/images/temp/follower-sample2.png',
                           ));
                         },
                         child: FollowOptionWidget(
-                          imgpath: followOptions[index]['image'],
-                          name: followOptions[index]['name'],
+                          imgpath: profileImage, //followOptions[index]['image'],
+                          name: followers.fullName.toString(), //followOptions[index]['name'],
                         ),
                       );
                     }),
