@@ -6,5 +6,6 @@ part 'location_state.freezed.dart';
 abstract class LocationState with _$LocationState {
   const factory LocationState({
     @Default(false) bool isLoading,
+    @Default(false) bool isLocationFetched,
   }) = _LocationState;
 }

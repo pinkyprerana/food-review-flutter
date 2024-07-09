@@ -204,8 +204,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               stateNotifier.signUp(() {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 AutoRouter.of(context).pushAndPopUntil(
-                                    const SelectPreferenceRoute(),
+                                    const LocationRoute(),
                                     predicate: (_) => false);
+                                // AutoRouter.of(context).pushAndPopUntil(
+                                //     const SelectPreferenceRoute(),
+                                //     predicate: (_) => false);
                               });
                             },
                           ),
