@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/styles/app_colors.dart';
@@ -74,9 +75,15 @@ class CustomCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.colorGrey,
               image: DecorationImage(
-                  image: AssetImage(imagePath),
-                  fit:BoxFit.fill
-              ),
+                image: NetworkImage(
+                  CachedNetworkImage(
+                    imageUrl: imagePath,
+                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ).imageUrl,
+                ),
+                fit: BoxFit.cover,
+              )
             ),
           ),
           Positioned.fill(

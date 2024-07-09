@@ -3,10 +3,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
+import '../../people_profile/shared/providers.dart';
 import '../../widgets/app_button.dart';
 import '../shared/provider.dart';
 import 'widgets/custom_widgets.dart';
@@ -22,9 +24,27 @@ class YourPeopleListPage extends ConsumerStatefulWidget{
 class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
+      await followNotifier.getAllFollowerList();
+      await followNotifier.getAllFollowingList();
+    });
+  }
+  void _handleFollowUnfollowButtonPressed(userId) {
+    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    followNotifier.follow_unfollow(() {}, userId);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _selectedIndex = ref.watch(YourPeopleNotifierProvider).selectedIndex;
     final stateNotifier = ref.read(YourPeopleNotifierProvider.notifier);
+    final followState = ref.watch(YourPeopleNotifierProvider);
+    final followList = followState.followingList;
+    final followerList = followState.followerList;
+    final requestList = followState.followerList; //requestList
 
     return Scaffold(
       extendBody: true,
@@ -89,8 +109,8 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
             16.verticalSpace,
             Expanded(
               child: _selectedIndex == 0
-                  ? _FollowersList()
-                  : (_selectedIndex == 1 ? _FollowingList() : _RequestsList()),
+                  ? _FollowersList(followerList)
+                  : (_selectedIndex == 1 ? _FollowingList(followList) : _RequestsList(requestList)),
             ),
           ],
         ),
@@ -99,7 +119,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
   }
 
 
-Widget _FollowersList(){
+Widget _FollowersList( followerList){
     return Container(
       height: 500,
       child: Column(
@@ -115,7 +135,7 @@ Widget _FollowersList(){
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: followers.length,
+              itemCount: followerList.length, //followers.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 3 / 4,
@@ -123,15 +143,23 @@ Widget _FollowersList(){
                 mainAxisSpacing: 16,
               ),
               itemBuilder: (context, index) {
+                if (index < 0 || index >= followerList.length) {
+                  return const SizedBox.shrink();
+                }
+                final followers= followerList[index];
+                final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
+
                 return CustomCard(
-                    name: followers[index]['name'].toString(),
-                    date: followers[index]['date'].toString(),
-                    imagePath: followers[index]['image'].toString(),
+                    name: followers.fullName, //followers[index]['name'].toString(),
+                    date: "Joined May 5, 2018",//followers[index]['date'].toString(),
+                    imagePath: profileImage, //followers[index]['image'].toString(),
                   button: AppButton(
                     height: 30,
                     width: 80,
-                    text: "Follow",
-                    onPressed: (){},
+                    text: followers.isFollow ? 'Unfollow' : 'Follow',
+                    onPressed: (){
+                      _handleFollowUnfollowButtonPressed(followers.id);
+                    },
                     color: AppColors.colorCommentBoxBorder,
                   ),
                 );
@@ -143,7 +171,7 @@ Widget _FollowersList(){
     );
   }
 
-Widget _FollowingList(){
+Widget _FollowingList(followList){
   return Container(
     height: 500,
     child: Column(
@@ -159,7 +187,7 @@ Widget _FollowingList(){
         ),
         Expanded(
           child: GridView.builder(
-            itemCount: followers.length,
+            itemCount: followList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 3 / 4,
@@ -167,14 +195,21 @@ Widget _FollowingList(){
               mainAxisSpacing: 16,
             ),
             itemBuilder: (context, index) {
+              if (index < 0 || index >= followList.length) {
+                return const SizedBox.shrink();
+              }
+              final following= followList[index];
+              final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
+
               return CustomCard(
-                name: following[index]['name'].toString(),
-                date: following[index]['date'].toString(),
-                imagePath: following[index]['image'].toString(),
+                name: following.fullName, //following[index]['name'].toString(),
+                date: "Joined May 5, 2018", //following[index]['date'].toString(),
+                imagePath: profileImage, //following[index]['image'].toString(),
                 button: AppButton(
                   height: 30,
                   width: 100,
-                  text: "Unfollow",
+                  text: 'Unfollow',
+                    // text:  following.isFollow ? 'Unfollow' : 'Follow',
                   onPressed: (){},
                   color: AppColors.colorCommentBoxBorder,
                 ),
@@ -187,7 +222,7 @@ Widget _FollowingList(){
   );
 }
 
-Widget _RequestsList(){
+Widget _RequestsList(requestList){
   return Container(
     height: 500,
     child: Column(
@@ -203,7 +238,7 @@ Widget _RequestsList(){
         ),
         Expanded(
           child: GridView.builder(
-            itemCount: followers.length,
+            itemCount: requestList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 3 / 4,
@@ -211,10 +246,16 @@ Widget _RequestsList(){
               mainAxisSpacing: 16,
             ),
             itemBuilder: (context, index) {
+              if (index < 0 || index >= requestList.length) {
+                return const SizedBox.shrink();
+              }
+              final requests= requestList[index];
+              final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
+
               return CustomCard(
-                name: requests[index]['name'].toString(),
-                date: requests[index]['date'].toString(),
-                imagePath: requests[index]['image'].toString(),
+                name: requests.fullName, //requests[index]['name'].toString(),
+                date: "Joined May 5, 2018", //requests[index]['date'].toString(),
+                imagePath: profileImage, //requests[index]['image'].toString(),
                 button: AppButton(
                   height: 30,
                   width: 150,
@@ -233,32 +274,32 @@ Widget _RequestsList(){
 }
 
 
-final List<Map<String, String>> followers = [
-  {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-  {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-  {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-];
+// final List<Map<String, String>> followers = [
+//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+// ];
+//
+// final List<Map<String, String>> following = [
+//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
+//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
+//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+// ];
 
-final List<Map<String, String>> following = [
-  {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-  {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-  {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-  {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-];
-
-final List<Map<String, String>> requests = [
-  {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-  {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-  {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-  {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-  {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-];
+// final List<Map<String, String>> requests = [
+//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
+//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
+//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
+//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
+// ];
 
 
 
