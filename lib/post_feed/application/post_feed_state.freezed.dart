@@ -16,16 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PostFeedState {
-  bool get isLoading => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
-  List<dynamic> get postTitles => throw _privateConstructorUsedError;
-  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
-  List<UserInfo>? get userInfoList => throw _privateConstructorUsedError;
-  List<PreferenceInfo>? get preferenceInfoList =>
-      throw _privateConstructorUsedError;
-  List<RestaurantInfo>? get restaurantInfoList =>
-      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostFeedStateCopyWith<PostFeedState> get copyWith =>
@@ -38,15 +30,7 @@ abstract class $PostFeedStateCopyWith<$Res> {
           PostFeedState value, $Res Function(PostFeedState) then) =
       _$PostFeedStateCopyWithImpl<$Res, PostFeedState>;
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool isExpanded,
-      int selectedIndex,
-      List<dynamic> postTitles,
-      List<DataOfPostModel> postList,
-      List<UserInfo>? userInfoList,
-      List<PreferenceInfo>? preferenceInfoList,
-      List<RestaurantInfo>? restaurantInfoList});
+  $Res call({bool isExpanded, int selectedIndex});
 }
 
 /// @nodoc
@@ -62,20 +46,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
     Object? isExpanded = null,
     Object? selectedIndex = null,
-    Object? postTitles = null,
-    Object? postList = null,
-    Object? userInfoList = freezed,
-    Object? preferenceInfoList = freezed,
-    Object? restaurantInfoList = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
       isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
@@ -84,26 +58,6 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      postTitles: null == postTitles
-          ? _value.postTitles
-          : postTitles // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      postList: null == postList
-          ? _value.postList
-          : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
-      userInfoList: freezed == userInfoList
-          ? _value.userInfoList
-          : userInfoList // ignore: cast_nullable_to_non_nullable
-              as List<UserInfo>?,
-      preferenceInfoList: freezed == preferenceInfoList
-          ? _value.preferenceInfoList
-          : preferenceInfoList // ignore: cast_nullable_to_non_nullable
-              as List<PreferenceInfo>?,
-      restaurantInfoList: freezed == restaurantInfoList
-          ? _value.restaurantInfoList
-          : restaurantInfoList // ignore: cast_nullable_to_non_nullable
-              as List<RestaurantInfo>?,
     ) as $Val);
   }
 }
@@ -116,15 +70,7 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       __$$PostFeedStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {bool isLoading,
-      bool isExpanded,
-      int selectedIndex,
-      List<dynamic> postTitles,
-      List<DataOfPostModel> postList,
-      List<UserInfo>? userInfoList,
-      List<PreferenceInfo>? preferenceInfoList,
-      List<RestaurantInfo>? restaurantInfoList});
+  $Res call({bool isExpanded, int selectedIndex});
 }
 
 /// @nodoc
@@ -138,20 +84,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
     Object? isExpanded = null,
     Object? selectedIndex = null,
-    Object? postTitles = null,
-    Object? postList = null,
-    Object? userInfoList = freezed,
-    Object? preferenceInfoList = freezed,
-    Object? restaurantInfoList = freezed,
   }) {
     return _then(_$PostFeedStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
       isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
@@ -160,26 +96,6 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
-      postTitles: null == postTitles
-          ? _value._postTitles
-          : postTitles // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      postList: null == postList
-          ? _value._postList
-          : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
-      userInfoList: freezed == userInfoList
-          ? _value._userInfoList
-          : userInfoList // ignore: cast_nullable_to_non_nullable
-              as List<UserInfo>?,
-      preferenceInfoList: freezed == preferenceInfoList
-          ? _value._preferenceInfoList
-          : preferenceInfoList // ignore: cast_nullable_to_non_nullable
-              as List<PreferenceInfo>?,
-      restaurantInfoList: freezed == restaurantInfoList
-          ? _value._restaurantInfoList
-          : restaurantInfoList // ignore: cast_nullable_to_non_nullable
-              as List<RestaurantInfo>?,
     ));
   }
 }
@@ -187,87 +103,19 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PostFeedStateImpl extends _PostFeedState {
-  const _$PostFeedStateImpl(
-      {this.isLoading = false,
-      this.isExpanded = false,
-      this.selectedIndex = 0,
-      final List<dynamic> postTitles = const [],
-      final List<DataOfPostModel> postList = const [],
-      final List<UserInfo>? userInfoList = const [],
-      final List<PreferenceInfo>? preferenceInfoList = const [],
-      final List<RestaurantInfo>? restaurantInfoList = const []})
-      : _postTitles = postTitles,
-        _postList = postList,
-        _userInfoList = userInfoList,
-        _preferenceInfoList = preferenceInfoList,
-        _restaurantInfoList = restaurantInfoList,
-        super._();
+  const _$PostFeedStateImpl({this.isExpanded = false, this.selectedIndex = 0})
+      : super._();
 
-  @override
-  @JsonKey()
-  final bool isLoading;
   @override
   @JsonKey()
   final bool isExpanded;
   @override
   @JsonKey()
   final int selectedIndex;
-  final List<dynamic> _postTitles;
-  @override
-  @JsonKey()
-  List<dynamic> get postTitles {
-    if (_postTitles is EqualUnmodifiableListView) return _postTitles;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_postTitles);
-  }
-
-  final List<DataOfPostModel> _postList;
-  @override
-  @JsonKey()
-  List<DataOfPostModel> get postList {
-    if (_postList is EqualUnmodifiableListView) return _postList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_postList);
-  }
-
-  final List<UserInfo>? _userInfoList;
-  @override
-  @JsonKey()
-  List<UserInfo>? get userInfoList {
-    final value = _userInfoList;
-    if (value == null) return null;
-    if (_userInfoList is EqualUnmodifiableListView) return _userInfoList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<PreferenceInfo>? _preferenceInfoList;
-  @override
-  @JsonKey()
-  List<PreferenceInfo>? get preferenceInfoList {
-    final value = _preferenceInfoList;
-    if (value == null) return null;
-    if (_preferenceInfoList is EqualUnmodifiableListView)
-      return _preferenceInfoList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<RestaurantInfo>? _restaurantInfoList;
-  @override
-  @JsonKey()
-  List<RestaurantInfo>? get restaurantInfoList {
-    final value = _restaurantInfoList;
-    if (value == null) return null;
-    if (_restaurantInfoList is EqualUnmodifiableListView)
-      return _restaurantInfoList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isExpanded: $isExpanded, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'PostFeedState(isExpanded: $isExpanded, selectedIndex: $selectedIndex)';
   }
 
   @override
@@ -275,34 +123,14 @@ class _$PostFeedStateImpl extends _PostFeedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PostFeedStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
             (identical(other.selectedIndex, selectedIndex) ||
-                other.selectedIndex == selectedIndex) &&
-            const DeepCollectionEquality()
-                .equals(other._postTitles, _postTitles) &&
-            const DeepCollectionEquality().equals(other._postList, _postList) &&
-            const DeepCollectionEquality()
-                .equals(other._userInfoList, _userInfoList) &&
-            const DeepCollectionEquality()
-                .equals(other._preferenceInfoList, _preferenceInfoList) &&
-            const DeepCollectionEquality()
-                .equals(other._restaurantInfoList, _restaurantInfoList));
+                other.selectedIndex == selectedIndex));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isExpanded,
-      selectedIndex,
-      const DeepCollectionEquality().hash(_postTitles),
-      const DeepCollectionEquality().hash(_postList),
-      const DeepCollectionEquality().hash(_userInfoList),
-      const DeepCollectionEquality().hash(_preferenceInfoList),
-      const DeepCollectionEquality().hash(_restaurantInfoList));
+  int get hashCode => Object.hash(runtimeType, isExpanded, selectedIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -313,32 +141,13 @@ class _$PostFeedStateImpl extends _PostFeedState {
 
 abstract class _PostFeedState extends PostFeedState {
   const factory _PostFeedState(
-      {final bool isLoading,
-      final bool isExpanded,
-      final int selectedIndex,
-      final List<dynamic> postTitles,
-      final List<DataOfPostModel> postList,
-      final List<UserInfo>? userInfoList,
-      final List<PreferenceInfo>? preferenceInfoList,
-      final List<RestaurantInfo>? restaurantInfoList}) = _$PostFeedStateImpl;
+      {final bool isExpanded, final int selectedIndex}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
 
-  @override
-  bool get isLoading;
   @override
   bool get isExpanded;
   @override
   int get selectedIndex;
-  @override
-  List<dynamic> get postTitles;
-  @override
-  List<DataOfPostModel> get postList;
-  @override
-  List<UserInfo>? get userInfoList;
-  @override
-  List<PreferenceInfo>? get preferenceInfoList;
-  @override
-  List<RestaurantInfo>? get restaurantInfoList;
   @override
   @JsonKey(ignore: true)
   _$$PostFeedStateImplCopyWith<_$PostFeedStateImpl> get copyWith =>

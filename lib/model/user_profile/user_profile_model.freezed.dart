@@ -661,7 +661,7 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
       @JsonKey(name: "email") this.email,
       @JsonKey(name: "bio") this.bio,
       @JsonKey(name: "city") this.city,
-      @JsonKey(name: "profile_image") this.profileImage = '',
+      @JsonKey(name: "profile_image") this.profileImage = '1',
       @JsonKey(name: "otp") this.otp,
       @JsonKey(name: "isOtpVerified") this.isOtpVerified = false,
       @JsonKey(name: "isVerified") this.isVerified,

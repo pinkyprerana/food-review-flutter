@@ -126,6 +126,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ListPage(),
       );
     },
+    LocationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LocationPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -529,6 +535,20 @@ class ListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LocationPage]
+class LocationRoute extends PageRouteInfo<void> {
+  const LocationRoute({List<PageRouteInfo>? children})
+      : super(
+          LocationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LocationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

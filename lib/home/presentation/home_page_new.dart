@@ -167,7 +167,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                           ));
                         },
                         child: FollowOptionWidget(
-                          imgpath: profileImage.toString(), //followOptions[index]['image'],
+                          imgpath: profileImage, //followOptions[index]['image'],
                           name: followers.fullName.toString(), //followOptions[index]['name'],
                         ),
                       );

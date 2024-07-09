@@ -12,6 +12,12 @@
     <string>The reason for this is to allow access to record video</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>The reason for this is to access location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>The reason for this is to access location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+    <string>The reason for this is to access location</string>
+	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
+    <string>The reason for this is to access location</string>
 	<key>CFBundleDisplayName</key>
 	<string>For The Table</string>
 	<key>CFBundleExecutable</key>

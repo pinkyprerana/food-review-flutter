@@ -43,4 +43,8 @@ class AppPreferenceKeys {
   static const String preference = 'preference';
   static const String socialAccount = 'socialAccount';
   static const String getStartedDone = 'getStartedDone';
+  static const String latitude = 'latitude';
+  static const String longitude = 'longitude';
+  static const String location = 'location';
+  static const String isLocationFetched = 'isLocationFetched';
 }

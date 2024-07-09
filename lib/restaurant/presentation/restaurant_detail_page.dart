@@ -12,7 +12,9 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
+import 'package:for_the_table/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
+import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
@@ -679,7 +681,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
               10.verticalSpace,
               //list of posts
               ListView.builder(
-                  itemCount: 3,
+                  itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
@@ -687,10 +689,14 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                     if (index < 0 || index >= postFeedList.length) {
                       return const SizedBox.shrink();
                     }
+
                     final postList = postFeedList[index];
-                    //Todo: send restaurant id in body and call postlist api to find postList of each restaurant
+                    final restaurantState = ref.watch(restaurantNotifierProvider);
+                    final restaurantStateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+                    restaurantStateNotifier.getPostListRelatedToRestaurant((){},postList.id);
+                    final postListOfRestaurant= restaurantState.postList;
                     return postFeedList.isEmpty
-                        ? PostWidget(postList: postList,)
+                        ? PostWidget(postList: postListOfRestaurant  as DataOfPostModel,)
                         : const Center(
                           child: Text("No post"),
                           );
