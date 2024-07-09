@@ -94,6 +94,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                 ));
               },
               itemChanged: (SwipeItem item, int index) {
+                final postList = postFeedList[index];
+                stateNotifier.likeUnlikePost(() {}, postList.id);
+                print("-------->>>>>>> Liked post--->>>>  ${postList.id}");
                 print("item: ${item.content.text}, index: $index");
               },
               upSwipeAllowed: true,

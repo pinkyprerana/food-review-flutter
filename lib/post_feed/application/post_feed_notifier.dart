@@ -75,5 +75,39 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
+  Future<void> likeUnlikePost(VoidCallback voidCallback, String postID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${'/post-like/add'}',
+          body:
+          {
+            "post_id": postID
+          }
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          // state = state.copyWith(isLiked: !state.isLiked);
+          voidCallback.call();
+
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
 
 }
