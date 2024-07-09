@@ -5,4 +5,4 @@ import 'package:for_the_table/restaurant/application/restaurant_state.dart';
 
 final restaurantNotifierProvider = StateNotifierProvider
     .autoDispose<RestaurantNotifier, RestaurantState>((ref) =>
-        RestaurantNotifier(ref.watch(dioProvider), ref.watch(hiveProvider)));
+        RestaurantNotifier(ref.watch(dioProvider), ref.watch(hiveProvider), ref.watch(networkService)));
