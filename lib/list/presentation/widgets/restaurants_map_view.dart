@@ -50,7 +50,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
       var uniqueString = uuid.v4();
       final marker = LabelMarker(
         label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
-        backgroundColor: AppColors.colorBlack,
+        backgroundColor: AppColors.colorPrimary,
         // markerId: MarkerId(item.name.toString()),
         markerId: MarkerId(uniqueString),
         position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
@@ -130,61 +130,61 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                         markers: markers,
                         zoomControlsEnabled: true,
                       ),
-                      Positioned(
-                        bottom: 20.0, // Adjust position as needed
-                        right: 10.0, // Adjust position as needed
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // mapController
-                                //     .animateCamera(CameraUpdate.zoomIn());
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 44.r,
-                                width: 44.r,
-                                decoration: BoxDecoration(
-                                  color: AppColors.colorWhite,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Text(
-                                  '+',
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                    color: AppColors.colorPrimary,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            8.verticalSpace,
-                            GestureDetector(
-                              onTap: () {
-                                // mapController
-                                //     .animateCamera(CameraUpdate.zoomOut());
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 44.r,
-                                width: 44.r,
-                                decoration: BoxDecoration(
-                                  color: AppColors.colorWhite,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Text(
-                                  '-',
-                                  style: AppTextStyles.textStylePoppinsMedium
-                                      .copyWith(
-                                    color: AppColors.colorPrimary,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Positioned(
+                      //   bottom: 20.0, // Adjust position as needed
+                      //   right: 10.0, // Adjust position as needed
+                      //   child: Column(
+                      //     children: [
+                      //       GestureDetector(
+                      //         onTap: () {
+                      //           // mapController
+                      //           //     .animateCamera(CameraUpdate.zoomIn());
+                      //         },
+                      //         child: Container(
+                      //           alignment: Alignment.center,
+                      //           height: 44.r,
+                      //           width: 44.r,
+                      //           decoration: BoxDecoration(
+                      //             color: AppColors.colorWhite,
+                      //             borderRadius: BorderRadius.circular(5),
+                      //           ),
+                      //           child: Text(
+                      //             '+',
+                      //             style: AppTextStyles.textStylePoppinsMedium
+                      //                 .copyWith(
+                      //               color: AppColors.colorPrimary,
+                      //               fontSize: 14.sp,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       8.verticalSpace,
+                      //       GestureDetector(
+                      //         onTap: () {
+                      //           // mapController
+                      //           //     .animateCamera(CameraUpdate.zoomOut());
+                      //         },
+                      //         child: Container(
+                      //           alignment: Alignment.center,
+                      //           height: 44.r,
+                      //           width: 44.r,
+                      //           decoration: BoxDecoration(
+                      //             color: AppColors.colorWhite,
+                      //             borderRadius: BorderRadius.circular(5),
+                      //           ),
+                      //           child: Text(
+                      //             '-',
+                      //             style: AppTextStyles.textStylePoppinsMedium
+                      //                 .copyWith(
+                      //               color: AppColors.colorPrimary,
+                      //               fontSize: 14.sp,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   )
                 : const Center(
