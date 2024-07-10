@@ -346,7 +346,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: (widget.peopleimage !=
-                                              'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/')
+                                                  'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/' &&
+                                              widget.peopleimage != '')
                                           ? CachedNetworkImageProvider(
                                               widget.peopleimage)
                                           : const AssetImage(
