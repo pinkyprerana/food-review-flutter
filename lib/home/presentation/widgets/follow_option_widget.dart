@@ -7,7 +7,6 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import '../../../people_profile/shared/providers.dart';
 
-
 class FollowOptionWidget extends ConsumerStatefulWidget {
   const FollowOptionWidget({
     super.key,
@@ -26,16 +25,16 @@ class FollowOptionWidget extends ConsumerStatefulWidget {
 }
 
 class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
-
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
     followNotifier.follow_unfollow(() {}, userId);
   }
 
-
   @override
   Widget build(BuildContext context) {
     final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
+
+    print("followersId_______${widget.followersId}");
     return Container(
       margin: const EdgeInsets.only(left: 15).r,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30).r,
@@ -49,13 +48,18 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
           Container(
             width: 49.w,
             height: 49.h,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: CachedNetworkImage(
               imageUrl: widget.imgpath,
               placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
+              errorWidget: (context, url, error) => ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.asset(
+                  Assets.avatar,
+                  scale: 1,
+                  fit: BoxFit.cover,
+                ),
+              ),
               imageBuilder: (context, imageProvider) => Container(
                 width: 49.w,
                 height: 49.h,
@@ -87,18 +91,19 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
           ),
           15.verticalSpace,
           GestureDetector(
-            onTap: (){
-              _handleFollowUnfollowButtonPressed(widget.followersId);
+            onTap: () {
+              // _handleFollowUnfollowButtonPressed(widget.followersId);
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: AppColors.colorNavy,
               ),
               child: Center(
                 child: Text(
-                  isFollowing ? 'UNFOLLOW':'FOLLOW',
+                  isFollowing ? 'UNFOLLOW' : 'FOLLOW',
                   style: AppTextStyles.textStylePoppinsBold.copyWith(
                     fontSize: 10.sp,
                     color: AppColors.colorWhite,

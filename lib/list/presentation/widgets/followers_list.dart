@@ -12,8 +12,7 @@ import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../your_lists/shared/provider.dart';
 
-
-class FollowersList extends ConsumerStatefulWidget{
+class FollowersList extends ConsumerStatefulWidget {
   const FollowersList({super.key});
 
   @override
@@ -21,7 +20,6 @@ class FollowersList extends ConsumerStatefulWidget{
 }
 
 class _FollowersListState extends ConsumerState<FollowersList> {
-
 // class FollowersList extends ConsumerStatelessWidget {
 //   FollowersList({
 //     super.key,
@@ -85,17 +83,18 @@ class _FollowersListState extends ConsumerState<FollowersList> {
               if (index < 0 || index >= followerList.length) {
                 return const SizedBox.shrink();
               }
-              final followers= followerList[index];
-              final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
+              final followers = followerList[index];
+              final profileImage =
+                  '${AppUrls.profilePicLocation}/${followers.profileImage}';
 
               return GestureDetector(
-                onTap: ()=> AutoRouter.of(context).push( PeopleProfileRoute(
-                    peoplename: followers.fullName.toString(), //followers[index]['name'].toString(),
-                    peopleimage: profileImage, //followers[index]['image'].toString()
+                onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
+                    peoplename: followers.fullName
+                        .toString(), //followers[index]['name'].toString(),
+                    peopleimage:
+                        profileImage, //followers[index]['image'].toString()
                     peopleId: followers.id,
-                    isFollow: followers.isFollow
-                  )
-                ),
+                    isFollow: followers.isFollow)),
                 child: Container(
                   padding: const EdgeInsets.all(8.0).r,
                   decoration: BoxDecoration(
@@ -108,21 +107,26 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                       Container(
                         width: 24.w,
                         height: 24.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: profileImage ?? "",
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 49.w,
-                            height: 49.h,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: CachedNetworkImage(
+                            imageUrl: profileImage ?? "",
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Image.asset(
+                              Assets.avatar,
+                              scale: 1,
+                              fit: BoxFit.cover,
+                            ),
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 49.w,
+                              height: 49.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
@@ -161,7 +165,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                         color: AppColors.colorNavy,
                         child: Text(
                           // 'Follow',
-                          followers.isFollow ? 'Unfollow':'Follow',
+                          followers.isFollow ? 'Unfollow' : 'Follow',
                           style: AppTextStyles.textStylePoppinsBold.copyWith(
                             color: AppColors.colorGrey2,
                             fontSize: 10.sp,
