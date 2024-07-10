@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:path/path.dart' as path;
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../core/constants/app_urls.dart';
 import '../../core/routes/app_router.dart';
 import '../../core/utils/app_log.dart';
@@ -142,6 +140,33 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   void selectedReview(String selectedReview) async {
       postHowWasItTextController.text = selectedReview;
       state = state.copyWith(selectedReview: selectedReview);
+  }
+
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Camera Permission Required'),
+        content: const Text(
+            'This app needs Camera permission to work properly. Please grant the permission in settings.'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 
 }

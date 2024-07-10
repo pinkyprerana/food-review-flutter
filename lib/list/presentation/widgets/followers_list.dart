@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 
 import '../../../core/constants/app_urls.dart';
+import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../your_lists/shared/provider.dart';
 
@@ -90,6 +92,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 onTap: ()=> AutoRouter.of(context).push( PeopleProfileRoute(
                     peoplename: followers.fullName.toString(), //followers[index]['name'].toString(),
                     peopleimage: profileImage, //followers[index]['image'].toString()
+                    peopleId: followers.id,
+                    isFollow: followers.isFollow
                   )
                 ),
                 child: Container(
@@ -101,13 +105,36 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 24.r,
-                        child: Image.network(
-                            profileImage ?? "",
-                          //followers[index]['image']!,
+                      Container(
+                        width: 24.w,
+                        height: 24.h,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: profileImage ?? "",
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 49.w,
+                            height: 49.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
+                      // CircleAvatar(
+                      //   radius: 24.r,
+                      //   child: Image.network(
+                      //       profileImage ?? "",
+                      //     //followers[index]['image']!,
+                      //   ),
+                      // ),
                       SizedBox(height: 10.h),
                       Text(
                         followers.fullName.toString(),
@@ -133,8 +160,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                         radius: 8,
                         color: AppColors.colorNavy,
                         child: Text(
-                          'Follow',
-                          // followers.isFollow ? 'Unfollow':'Follow',
+                          // 'Follow',
+                          followers.isFollow ? 'Unfollow':'Follow',
                           style: AppTextStyles.textStylePoppinsBold.copyWith(
                             color: AppColors.colorGrey2,
                             fontSize: 10.sp,

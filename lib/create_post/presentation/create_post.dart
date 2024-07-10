@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/onboarding/shared/provider.dart';
+import 'package:for_the_table/post_feed/shared/provider.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
 import '../../core/styles/app_text_styles.dart';
@@ -53,6 +54,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -175,6 +177,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                           ?.unfocus();
                                       createPostNotifier
                                           .onContinuePressed(context);
+                                      postFeedNotifier.getPostFeed();
                                       createPostNotifier.clearRestaurantDetails();
                                     }, imageFile);
                                   }else{

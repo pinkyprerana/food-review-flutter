@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/profile/presentation/your_people_page.dart';
 import '../../auth/shared/providers.dart';
 import '../../core/constants/assets.dart';
 import '../../core/styles/app_colors.dart';
@@ -15,11 +17,15 @@ import '../shared/providers.dart';
 class PeopleProfilePage extends ConsumerStatefulWidget {
   final String peoplename;
   final String peopleimage;
+  final String peopleId;
+  final bool isFollow;
 
   const PeopleProfilePage({
     super.key,
     required this.peoplename,
     required this.peopleimage,
+    required this.peopleId,
+    required this.isFollow
   });
 
   @override
@@ -31,9 +37,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   Widget build(BuildContext context) {
     final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
     final authNotifier = ref.watch(authNotifierProvider.notifier);
-    final userId = authNotifier.getUserId;
+    // final userId = authNotifier.getUserId;
 
-    void _handleFollowButtonPressed() {
+    void _handleFollowButtonPressed(userId) {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
       followNotifier.follow_unfollow(() {}, userId!);
     }
@@ -134,7 +140,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   GestureDetector(
-                                    onTap: _handleFollowButtonPressed,
+                                    onTap: (){
+                                      _handleFollowButtonPressed(widget.peopleId);
+                                    },
                                     child: Container(
                                       width: 158.w,
                                       height: 50.h,
@@ -345,9 +353,21 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                           blurRadius: 10,
                                           spreadRadius: 0)
                                     ],
-                                    image: DecorationImage(
-                                      image: AssetImage(widget.peopleimage),
-                                      fit: BoxFit.cover,
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.peopleimage,
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      width: 49.w,
+                                      height: 49.h,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

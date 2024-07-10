@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../core/constants/assets.dart';
 import '../../core/routes/app_router.dart';
 
@@ -41,6 +42,93 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     }
     setState(() {});
   }
+
+  // Future<void> _initializeCamera() async {
+  //   var status = await Permission.camera.status;
+  //
+  //   if (status.isDenied || status.isPermanentlyDenied) {
+  //     // Show a dialog to guide the user to the app settings
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) => AlertDialog(
+  //         title: Text('Camera Permission'),
+  //         content: Text('Camera access is required to use this feature. Please enable it in the app settings.'),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () async {
+  //               Navigator.of(context).pop();
+  //               await openAppSettings();
+  //             },
+  //             child: Text('Open Settings'),
+  //           ),
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: Text('Cancel'),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   } else if (status.isGranted) {
+  //     // Initialize the camera
+  //     cameras = await availableCameras();
+  //     _controller = CameraController(
+  //       cameras![selectedCameraIndex],
+  //       ResolutionPreset.high,
+  //     );
+  //     await _controller!.initialize();
+  //
+  //     if (!mounted) {
+  //       return;
+  //     }
+  //
+  //     setState(() {});
+  //   } else {
+  //     // Request permission if it is not granted yet
+  //     PermissionStatus newStatus = await Permission.camera.request();
+  //     if (newStatus.isGranted) {
+  //       // Initialize the camera
+  //       cameras = await availableCameras();
+  //       _controller = CameraController(
+  //         cameras![selectedCameraIndex],
+  //         ResolutionPreset.high,
+  //       );
+  //       await _controller!.initialize();
+  //
+  //       if (!mounted) {
+  //         return;
+  //       }
+  //
+  //       setState(() {});
+  //     } else {
+  //       // Handle the case when the user denies the permission again
+  //       showDialog(
+  //         context: context,
+  //         builder: (context) => AlertDialog(
+  //           title: Text('Camera Permission'),
+  //           content: Text('Camera access is required to use this feature. Please enable it in the app settings.'),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () async {
+  //                 Navigator.of(context).pop();
+  //                 await openAppSettings();
+  //               },
+  //               child: Text('Open Settings'),
+  //             ),
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //               child: Text('Cancel'),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
+
 
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
@@ -156,6 +244,10 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                       side: const BorderSide(width: 4, color: Colors.white),
                       borderRadius: BorderRadius.circular(100)),
                   onPressed: () async {
+                    // (Platform.isIOS)
+                    //     ?
+                    // createPostState.checkPermissionForIOS(context)
+                    //     : createPostState.checkPermission(context);
                     final image = await _controller!.takePicture();
                     setState(() {
                       imageFile = image;

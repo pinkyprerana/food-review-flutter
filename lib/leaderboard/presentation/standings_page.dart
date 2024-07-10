@@ -169,6 +169,8 @@ class _StandingsPageState extends State<StandingsPage> {
                                       .push(PeopleProfileRoute(
                                     peoplename: users[index]['name'],
                                     peopleimage: users[index]['image']!,
+                                    peopleId: "",
+                                      isFollow: true
                                   ));
                                 },
                                 child: ClipRRect(

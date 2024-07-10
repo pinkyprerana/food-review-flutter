@@ -43,7 +43,7 @@ dependencies:
   geolocator: ^12.0.0
   dropdown_button2: ^2.3.9
   geocoding: ^3.0.0
-  permission_handler: ^10.2.0
+  permission_handler: ^11.3.1
   
   
 

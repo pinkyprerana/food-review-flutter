@@ -35,12 +35,12 @@ class HomePageNew extends ConsumerStatefulWidget {
 }
 
 class _HomePageNewState extends ConsumerState<HomePageNew> {
-  // List followOptions = [
-  //   {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-  //   {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-  //   {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-  //   {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-  // ];
+  List followOptions = [
+    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
+    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
+    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
+    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
+  ];
 
   // List restaurantlist = [
   //   {'image': Assets.rest1},
@@ -56,7 +56,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       await stateNotifier.getHomeRestaurants(context: context);
       final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-      postFeedNotifier.getPostFeed();
+      await postFeedNotifier.getPostFeed();
       final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
       await followNotifier.getAllFollowingList();
@@ -64,8 +64,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    postFeedNotifier.clearPostFeed();
+  }
+var selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     var hive = ref.watch(hiveProvider);
+    final token = hive.box.get(AppPreferenceKeys.token);
     final followState = ref.watch(YourPeopleNotifierProvider);
     final followerList = followState.followerList;
     final state = ref.watch(baseNotifierProvider);
@@ -77,6 +86,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
+    print("token____________${token}");
+    print("postFeedList____________${postFeedList}");
 
     return Scaffold(
         extendBody: true,
@@ -156,19 +167,24 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         return const SizedBox.shrink();
                       }
                       final followers= followerList[index];
-                      final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
-
+                      final imgpath = followers.profileImage != ""? followers.profileImage: "";
+                      final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
+                      print(profileImage);
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
                             peoplename: followers.fullName.toString(), //'Ahmad Gouse',
-                            peopleimage: profileImage.toString()
+                            peopleimage: profileImage.toString(),
+                            peopleId: followers.id,
+                            isFollow: followers.isFollow
                                 // 'assets/images/temp/follower-sample2.png',
                           ));
                         },
                         child: FollowOptionWidget(
+                          followersId: followers.id,
                           imgpath: profileImage, //followOptions[index]['image'],
                           name: followers.fullName.toString(), //followOptions[index]['name'],
+                          isFollow: followers.isFollow
                         ),
                       );
                     }),

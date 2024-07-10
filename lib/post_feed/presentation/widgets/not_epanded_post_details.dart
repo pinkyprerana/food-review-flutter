@@ -15,6 +15,7 @@ class NotEpandedPostDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String peopleId = postList.userInfo.id;
     final String name = postList.userInfo.fullName;
     final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
     final String postImage = postList.file;
@@ -38,7 +39,9 @@ class NotEpandedPostDetails extends StatelessWidget {
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
                     peoplename: name, //'Ahmad Gouse',
-                    peopleimage: profileImage //'assets/images/temp/follower-sample2.png',
+                    peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                    peopleId: peopleId,
+                      isFollow: true
                   ));
                 },
                 child: Row(

@@ -37,16 +37,23 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   TextEditingController();
   int totalNumberOfPosts = 0;
 
+  String? get userId=> _hiveDatabase.box.get(AppPreferenceKeys.userId);
+  String? get getLatitude=> _hiveDatabase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude=> _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+
 
   Future<void> getPostFeed() async {
+    AppLog.log("Latitude: ${getLatitude}");
+    AppLog.log("Longitude: ${getLongitude}");
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
           url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
         body:
           {
-            "lat": "29.95106579999999",
-            "lng":  "-90.0715323"
+            "lat": getLatitude,
+            "lng": getLongitude,
+            "user_id": userId,
           }
       );
       state = state.copyWith(isLoading: false);
@@ -108,6 +115,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       state = state.copyWith(isLoading: false);
       showConnectionWasInterruptedToastMessage();
     }
+  }
+
+  void clearPostFeed() {
+    state = state.copyWith(postList: []);
   }
 
 }

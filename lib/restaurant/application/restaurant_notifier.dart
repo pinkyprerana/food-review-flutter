@@ -168,6 +168,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
+  String? get userId=> _hiveDataBase.box.get(AppPreferenceKeys.userId);
+  String? get getLatitude=> _hiveDataBase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude=> _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+
   Future<void> getPostListRelatedToRestaurant(VoidCallback voidCallback, String restaurantId ) async {
     state = state.copyWith(isLoading: true);
     try {
@@ -175,9 +179,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
           url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
           body:
           {
-            "lat": "29.95106579999999",
-            "lng":  "-90.0715323",
-            'restaurant_id': restaurantId//"668d35376a30ef22a21e2f06"
+            "lat": getLatitude,
+            "lng": getLongitude,
+            'restaurant_id': restaurantId,//"668d35376a30ef22a21e2f06"
+            'user_id': userId
           }
       );
       state = state.copyWith(isLoading: false);

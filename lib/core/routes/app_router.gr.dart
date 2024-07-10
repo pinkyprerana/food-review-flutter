@@ -152,6 +152,8 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           peoplename: args.peoplename,
           peopleimage: args.peopleimage,
+          peopleId: args.peopleId,
+          isFollow: args.isFollow,
         ),
       );
     },
@@ -588,6 +590,8 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
     Key? key,
     required String peoplename,
     required String peopleimage,
+    required String peopleId,
+    required bool isFollow,
     List<PageRouteInfo>? children,
   }) : super(
           PeopleProfileRoute.name,
@@ -595,6 +599,8 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
             key: key,
             peoplename: peoplename,
             peopleimage: peopleimage,
+            peopleId: peopleId,
+            isFollow: isFollow,
           ),
           initialChildren: children,
         );
@@ -610,6 +616,8 @@ class PeopleProfileRouteArgs {
     this.key,
     required this.peoplename,
     required this.peopleimage,
+    required this.peopleId,
+    required this.isFollow,
   });
 
   final Key? key;
@@ -618,9 +626,13 @@ class PeopleProfileRouteArgs {
 
   final String peopleimage;
 
+  final String peopleId;
+
+  final bool isFollow;
+
   @override
   String toString() {
-    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage}';
+    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage, peopleId: $peopleId, isFollow: $isFollow}';
   }
 }
 

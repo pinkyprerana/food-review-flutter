@@ -59,6 +59,8 @@ class DislikedPostWidget extends StatelessWidget {
                           peoplename: 'Ahmad Gouse',
                           peopleimage:
                               'assets/images/temp/follower-sample2.png',
+                           peopleId:'',
+                           isFollow: true
                         ));
                       },
                       child: Row(
