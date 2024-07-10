@@ -48,7 +48,7 @@ _$ProfileDetailsImpl _$$ProfileDetailsImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       bio: json['bio'] as String?,
       city: json['city'] as String?,
-      profileImage: json['profile_image'] as String? ?? '1',
+      profileImage: json['profile_image'] as String? ?? '',
       otp: json['otp'] as String?,
       isOtpVerified: json['isOtpVerified'] as bool? ?? false,
       isVerified: json['isVerified'] as bool?,

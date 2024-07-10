@@ -19,6 +19,7 @@ mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
   String get profileImgPath => throw _privateConstructorUsedError;
   ProfileDetails? get fetchedUser => throw _privateConstructorUsedError;
+  String get profileImage => throw _privateConstructorUsedError;
   UserProfileModel? get userProfileResponseModel =>
       throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $ProfileStateCopyWith<$Res> {
       {bool isLoading,
       String profileImgPath,
       ProfileDetails? fetchedUser,
+      String profileImage,
       UserProfileModel? userProfileResponseModel});
 
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
@@ -59,6 +61,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? isLoading = null,
     Object? profileImgPath = null,
     Object? fetchedUser = freezed,
+    Object? profileImage = null,
     Object? userProfileResponseModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -74,6 +77,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.fetchedUser
           : fetchedUser // ignore: cast_nullable_to_non_nullable
               as ProfileDetails?,
+      profileImage: null == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String,
       userProfileResponseModel: freezed == userProfileResponseModel
           ? _value.userProfileResponseModel
           : userProfileResponseModel // ignore: cast_nullable_to_non_nullable
@@ -119,6 +126,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       {bool isLoading,
       String profileImgPath,
       ProfileDetails? fetchedUser,
+      String profileImage,
       UserProfileModel? userProfileResponseModel});
 
   @override
@@ -141,6 +149,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? profileImgPath = null,
     Object? fetchedUser = freezed,
+    Object? profileImage = null,
     Object? userProfileResponseModel = freezed,
   }) {
     return _then(_$ProfileStateImpl(
@@ -156,6 +165,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.fetchedUser
           : fetchedUser // ignore: cast_nullable_to_non_nullable
               as ProfileDetails?,
+      profileImage: null == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String,
       userProfileResponseModel: freezed == userProfileResponseModel
           ? _value.userProfileResponseModel
           : userProfileResponseModel // ignore: cast_nullable_to_non_nullable
@@ -171,6 +184,7 @@ class _$ProfileStateImpl extends _ProfileState {
       {this.isLoading = false,
       this.profileImgPath = '',
       this.fetchedUser,
+      this.profileImage = '',
       this.userProfileResponseModel})
       : super._();
 
@@ -183,11 +197,14 @@ class _$ProfileStateImpl extends _ProfileState {
   @override
   final ProfileDetails? fetchedUser;
   @override
+  @JsonKey()
+  final String profileImage;
+  @override
   final UserProfileModel? userProfileResponseModel;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, userProfileResponseModel: $userProfileResponseModel)';
+    return 'ProfileState(isLoading: $isLoading, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel)';
   }
 
   @override
@@ -201,6 +218,8 @@ class _$ProfileStateImpl extends _ProfileState {
                 other.profileImgPath == profileImgPath) &&
             (identical(other.fetchedUser, fetchedUser) ||
                 other.fetchedUser == fetchedUser) &&
+            (identical(other.profileImage, profileImage) ||
+                other.profileImage == profileImage) &&
             (identical(
                     other.userProfileResponseModel, userProfileResponseModel) ||
                 other.userProfileResponseModel == userProfileResponseModel));
@@ -208,7 +227,7 @@ class _$ProfileStateImpl extends _ProfileState {
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, profileImgPath,
-      fetchedUser, userProfileResponseModel);
+      fetchedUser, profileImage, userProfileResponseModel);
 
   @JsonKey(ignore: true)
   @override
@@ -222,6 +241,7 @@ abstract class _ProfileState extends ProfileState {
       {final bool isLoading,
       final String profileImgPath,
       final ProfileDetails? fetchedUser,
+      final String profileImage,
       final UserProfileModel? userProfileResponseModel}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
@@ -231,6 +251,8 @@ abstract class _ProfileState extends ProfileState {
   String get profileImgPath;
   @override
   ProfileDetails? get fetchedUser;
+  @override
+  String get profileImage;
   @override
   UserProfileModel? get userProfileResponseModel;
   @override
