@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
@@ -11,6 +12,7 @@ import 'package:for_the_table/location/application/location_state.dart';
 import 'package:for_the_table/onboarding/application/preference_state.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../core/constants/app_urls.dart';
 import '../../core/infrastructure/network_api_services.dart';
 import '../../core/utils/app_log.dart';
@@ -25,6 +27,56 @@ class LocationNotifier extends StateNotifier<LocationState> {
   final Dio _dio;
   final HiveDatabase _hiveDataBase;
   String address = '';
+
+  checkPermissionForIOS(BuildContext context) async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    AppLog.log('serviceEnabled -------->> $serviceEnabled');
+
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    AppLog.log('permission --------->> $permission');
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      _showPermissionDialog(context);
+    } else {
+      getLocation(context);
+    }
+  }
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Location Permission Required'),
+        content: const Text(
+            'This app needs location permission to work properly. Please grant the permission in settings.'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
 
   checkPermission(BuildContext context) async {
     bool serviceEnabled;
