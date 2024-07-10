@@ -36,6 +36,8 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
   @override
   Widget build(BuildContext context) {
     final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
+
+    print("followersId_______${widget.followersId}");
     return Container(
       margin: const EdgeInsets.only(left: 15).r,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30).r,
@@ -49,21 +51,21 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
           Container(
             width: 49.w,
             height: 49.h,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: CachedNetworkImage(
-              imageUrl: widget.imgpath,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
-              imageBuilder: (context, imageProvider) => Container(
-                width: 49.w,
-                height: 49.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: CachedNetworkImage(
+                imageUrl: widget.imgpath,
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 49.w,
+                  height: 49.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -88,7 +90,7 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
           15.verticalSpace,
           GestureDetector(
             onTap: (){
-              _handleFollowUnfollowButtonPressed(widget.followersId);
+              // _handleFollowUnfollowButtonPressed(widget.followersId);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,

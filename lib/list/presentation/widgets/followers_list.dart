@@ -108,21 +108,21 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                       Container(
                         width: 24.w,
                         height: 24.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: profileImage ?? "",
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 49.w,
-                            height: 49.h,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: CachedNetworkImage(
+                            imageUrl: profileImage ?? "",
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 49.w,
+                              height: 49.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
