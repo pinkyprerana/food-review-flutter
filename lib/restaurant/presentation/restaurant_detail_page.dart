@@ -77,6 +77,10 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     ];
     _marker.addAll(_list);
     super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    // final restaurantStateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    // restaurantStateNotifier.getPostListRelatedToRestaurant((){},postList.id);
+    // });
   }
 
   // final CameraPosition _currentPosition =  CameraPosition(
@@ -697,9 +701,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                     final postListOfRestaurant= restaurantState.postList;
                     return postFeedList.isEmpty
                         ? PostWidget(postList: postListOfRestaurant  as DataOfPostModel,)
-                        : const Center(
-                          child: Text("No post"),
-                          );
+                        : const Text("No post yet");
                   }),
               10.verticalSpace,
             ],

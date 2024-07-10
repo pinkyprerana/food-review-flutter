@@ -92,6 +92,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 onTap: ()=> AutoRouter.of(context).push( PeopleProfileRoute(
                     peoplename: followers.fullName.toString(), //followers[index]['name'].toString(),
                     peopleimage: profileImage, //followers[index]['image'].toString()
+                    peopleId: followers.id,
+                    isFollow: followers.isFollow
                   )
                 ),
                 child: Container(
@@ -158,8 +160,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                         radius: 8,
                         color: AppColors.colorNavy,
                         child: Text(
-                          'Follow',
-                          // followers.isFollow ? 'Unfollow':'Follow',
+                          // 'Follow',
+                          followers.isFollow ? 'Unfollow':'Follow',
                           style: AppTextStyles.textStylePoppinsBold.copyWith(
                             color: AppColors.colorGrey2,
                             fontSize: 10.sp,

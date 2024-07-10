@@ -17,6 +17,7 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String peopleId = postList.userInfo.id;
     final String name = postList.userInfo.fullName;
     final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${postList.file}";
@@ -80,7 +81,9 @@ class PostWidget extends StatelessWidget {
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
                           peoplename: name, //'Ahmad Gouse', //widget.postList.name,
-                          peopleimage: profileImage
+                          peopleimage: profileImage,
+                           peopleId: peopleId,
+                            isFollow: true
                               // 'assets/images/temp/follower-sample2.png',
                         ));
                       },

@@ -66,6 +66,11 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    await postFeedNotifier.getPostFeed();
+    });
   }
 
   @override

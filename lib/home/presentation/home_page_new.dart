@@ -56,7 +56,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       await stateNotifier.getHomeRestaurants(context: context);
       final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-      postFeedNotifier.getPostFeed();
+      await postFeedNotifier.getPostFeed();
       final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
       await followNotifier.getAllFollowingList();
@@ -64,8 +64,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    postFeedNotifier.clearPostFeed();
+  }
+var selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     var hive = ref.watch(hiveProvider);
+    final token = hive.box.get(AppPreferenceKeys.token);
     final followState = ref.watch(YourPeopleNotifierProvider);
     final followerList = followState.followerList;
     final state = ref.watch(baseNotifierProvider);
@@ -77,6 +86,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
+    print("token____________${token}");
+    print("postFeedList____________${postFeedList}");
 
     return Scaffold(
         extendBody: true,
@@ -163,13 +174,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
                             peoplename: followers.fullName.toString(), //'Ahmad Gouse',
-                            peopleimage: profileImage.toString()
+                            peopleimage: profileImage.toString(),
+                            peopleId: followers.id,
+                            isFollow: followers.isFollow
                                 // 'assets/images/temp/follower-sample2.png',
                           ));
                         },
                         child: FollowOptionWidget(
+                          followersId: followers.id,
                           imgpath: profileImage, //followOptions[index]['image'],
                           name: followers.fullName.toString(), //followOptions[index]['name'],
+                          isFollow: followers.isFollow
                         ),
                       );
                     }),

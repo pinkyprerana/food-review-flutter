@@ -244,6 +244,10 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                       side: const BorderSide(width: 4, color: Colors.white),
                       borderRadius: BorderRadius.circular(100)),
                   onPressed: () async {
+                    // (Platform.isIOS)
+                    //     ?
+                    // createPostState.checkPermissionForIOS(context)
+                    //     : createPostState.checkPermission(context);
                     final image = await _controller!.takePicture();
                     setState(() {
                       imageFile = image;
