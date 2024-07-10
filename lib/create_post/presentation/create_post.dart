@@ -178,9 +178,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                       createPostNotifier
                                           .onContinuePressed(context);
                                       postFeedNotifier.getPostFeed();
-                                      createPostNotifier.clearRestaurantDetails();
+                                      createPostNotifier
+                                          .clearRestaurantDetails();
                                     }, imageFile);
-                                  }else{
+                                  } else {
                                     showToastMessage("Click or select image");
                                   }
                                 },
@@ -208,6 +209,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                               loading: state.isLoading,
                               text: "Continue",
                               onPressed: () {
+                                dismissKeyboard(context);
                                 if (createPostNotifier
                                         .postTitleTextController.text
                                         .trim()
@@ -296,7 +298,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
     List<dynamic> cuisineList = allPreferences;
-
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -421,9 +422,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 onSelected: (Restaurant selection) {
                   selectedRestaurantName = selection.name!;
                   selectedRestaurantId = selection.id!;
-                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                  createPostNotifier.restaurantNameTextController.text =
+                      selectedRestaurantName;
+                  createPostNotifier.restaurantIdTextController.text =
+                      selectedRestaurantId;
+                  createPostNotifier.restaurantAddressTextController.text =
+                      selection.address!;
                   dismissKeyboard(context);
                   createPostNotifier.restaurantNameTextController.text =
                       selectedRestaurantName;
@@ -497,10 +501,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   // ),
                 ),
                 keyboardType: TextInputType.text,
-                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    fontSize: 12.sp,
-                  color: AppColors.colorBlack
-                ),
+                style: AppTextStyles.textStylePoppinsRegular
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
             ),
             15.verticalSpace,
@@ -537,37 +539,41 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   Icons.keyboard_arrow_down,
                   color: AppColors.colorGrey3,
                 ),
-              //   items: cuisineName
-              //       .map((cuisine) => DropdownMenuItem<String>(
-              //             value: cuisine,
-              //             child: Text(
-              //               cuisine,
-              //               style: AppTextStyles.textStylePoppinsLight.copyWith(
-              //                   color: AppColors.colorBlack, fontSize: 14),
-              //             ),
-              //           ))
-              //       .toList(),
-              //   onChanged: (value) {
-              //     if (value != null) {
-              //       final selectedCuisine = value;
-              //       createPostNotifier.postCuisineIdTextController.text =
-              //           selectedCuisine;
-              //     }
-              //   },
-              // ),
+                //   items: cuisineName
+                //       .map((cuisine) => DropdownMenuItem<String>(
+                //             value: cuisine,
+                //             child: Text(
+                //               cuisine,
+                //               style: AppTextStyles.textStylePoppinsLight.copyWith(
+                //                   color: AppColors.colorBlack, fontSize: 14),
+                //             ),
+                //           ))
+                //       .toList(),
+                //   onChanged: (value) {
+                //     if (value != null) {
+                //       final selectedCuisine = value;
+                //       createPostNotifier.postCuisineIdTextController.text =
+                //           selectedCuisine;
+                //     }
+                //   },
+                // ),
 
-                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
-                  value: cuisine.id,
-                  child: Text(
-                    cuisine.title,
-                    style: AppTextStyles.textStylePoppinsLight.copyWith(
-                        color: AppColors.colorBlack, fontSize: 14),
-                  ),
-                )).toList(),
+                items: cuisineList
+                    .map((cuisine) => DropdownMenuItem<String>(
+                          value: cuisine.id,
+                          child: Text(
+                            cuisine.title,
+                            style: AppTextStyles.textStylePoppinsLight.copyWith(
+                                color: AppColors.colorBlack, fontSize: 14),
+                          ),
+                        ))
+                    .toList(),
                 onChanged: (String? value) {
                   if (value != null) {
-                    final selectedCuisine = cuisineList.firstWhere((c) => c.id == value);
-                    createPostNotifier.postCuisineIdTextController.text = selectedCuisine.id;
+                    final selectedCuisine =
+                        cuisineList.firstWhere((c) => c.id == value);
+                    createPostNotifier.postCuisineIdTextController.text =
+                        selectedCuisine.id;
                   }
                 },
               ),
