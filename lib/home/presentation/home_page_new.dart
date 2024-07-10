@@ -35,12 +35,12 @@ class HomePageNew extends ConsumerStatefulWidget {
 }
 
 class _HomePageNewState extends ConsumerState<HomePageNew> {
-  // List followOptions = [
-  //   {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-  //   {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-  //   {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-  //   {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-  // ];
+  List followOptions = [
+    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
+    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
+    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
+    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
+  ];
 
   // List restaurantlist = [
   //   {'image': Assets.rest1},
@@ -156,8 +156,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         return const SizedBox.shrink();
                       }
                       final followers= followerList[index];
-                      final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
-
+                      final imgpath = followers.profileImage != ""? followers.profileImage: "";
+                      final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
+                      print(profileImage);
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(

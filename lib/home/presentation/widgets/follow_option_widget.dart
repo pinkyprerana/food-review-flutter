@@ -31,26 +31,25 @@ class FollowOptionWidget extends StatelessWidget {
           Container(
             width: 49.w,
             height: 49.h,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    CachedNetworkImage(
-                      imageUrl: imgpath,
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                    ).imageUrl,
-                  ),
-                  fit: BoxFit.cover,
-                )
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
             ),
-            // decoration: BoxDecoration(
-            //   shape: BoxShape.circle,
-            //   image: DecorationImage(
-            //     image: AssetImage(imgpath),
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
+            child: CachedNetworkImage(
+              imageUrl: imgpath,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Image.asset(Assets.avatar, scale: 1,),
+              imageBuilder: (context, imageProvider) => Container(
+                width: 49.w,
+                height: 49.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
           ),
           10.verticalSpace,
           Text(
