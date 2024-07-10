@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
@@ -55,7 +56,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
   void _showPermissionDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (context) => CupertinoAlertDialog(
         title: const Text('Location Permission Required'),
         content: const Text(
             'This app needs location permission to work properly. Please grant the permission in settings.'),
@@ -102,7 +103,10 @@ class LocationNotifier extends StateNotifier<LocationState> {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      showToastMessage('Denied Forever');
+      // Platform.isIOS ? openAppSettings() : showToastMessage('Denied Forever');
+      Platform.isIOS
+          ? _showPermissionDialog(context)
+          : showToastMessage('Denied Forever');
       return;
     }
 

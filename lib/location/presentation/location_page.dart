@@ -27,13 +27,10 @@ class LocationPage extends ConsumerWidget {
                 : Text(stateNotifier.address),
             5.verticalSpace,
             AppButton(
+                loading: state.isLoading,
                 text: 'Current Location',
                 onPressed: () async {
-                  (Platform.isIOS)
-                      ?
-                      // stateNotifier.checkPermission(context):
-                      stateNotifier.checkPermissionForIOS(context)
-                      : stateNotifier.checkPermission(context);
+                  stateNotifier.checkPermission(context);
                 })
           ],
         ),
