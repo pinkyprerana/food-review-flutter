@@ -11,6 +11,7 @@ import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
+import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/home_post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
@@ -69,7 +70,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     postFeedNotifier.clearPostFeed();
   }
-var selectedIndex = 0;
+
+  var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -160,32 +162,37 @@ var selectedIndex = 0;
                 child: ListView.builder(
                     physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    itemCount: followerList.length , //followOptions.length,
+                    itemCount: followerList.length, //followOptions.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       if (index < 0 || index >= followerList.length) {
                         return const SizedBox.shrink();
                       }
-                      final followers= followerList[index];
-                      final imgpath = followers.profileImage != ""? followers.profileImage: "";
-                      final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
+                      final followers = followerList[index];
+                      final imgpath = followers.profileImage != ""
+                          ? followers.profileImage
+                          : "";
+                      final profileImage =
+                          '${AppUrls.profilePicLocation}/$imgpath';
                       print(profileImage);
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: followers.fullName.toString(), //'Ahmad Gouse',
-                            peopleimage: profileImage.toString(),
-                            peopleId: followers.id,
-                            isFollow: followers.isFollow
-                                // 'assets/images/temp/follower-sample2.png',
-                          ));
+                              peoplename: followers.fullName
+                                  .toString(), //'Ahmad Gouse',
+                              peopleimage: profileImage.toString(),
+                              peopleId: followers.id,
+                              isFollow: followers.isFollow
+                              // 'assets/images/temp/follower-sample2.png',
+                              ));
                         },
                         child: FollowOptionWidget(
-                          followersId: followers.id,
-                          imgpath: profileImage, //followOptions[index]['image'],
-                          name: followers.fullName.toString(), //followOptions[index]['name'],
-                          isFollow: followers.isFollow
-                        ),
+                            followersId: followers.id,
+                            imgpath:
+                                profileImage, //followOptions[index]['image'],
+                            name: followers.fullName
+                                .toString(), //followOptions[index]['name'],
+                            isFollow: followers.isFollow),
                       );
                     }),
               ),
@@ -310,8 +317,15 @@ var selectedIndex = 0;
                     ),
                     GestureDetector(
                       onTap: () {
-                        stateNotifier.setBottomNavIndexToDefault();
+                        if (postFeedState.postList.isNotEmpty) {
+                          stateNotifier.setBottomNavIndexToDefault();
+                        } else {
+                          showToastMessage("No post found");
+                        }
                       },
+                      // onTap: () {
+                      //   stateNotifier.setBottomNavIndexToDefault();
+                      // },
                       child: Text(
                         'View All',
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -327,31 +341,34 @@ var selectedIndex = 0;
               //list of posts
               (postFeedState.isLoading)
                   ? const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.colorPrimary,
-                ),
-              )
+                      child: CircularProgressIndicator(
+                        color: AppColors.colorPrimary,
+                      ),
+                    )
                   : (postFeedState.postList != null &&
-                  (postFeedState.postList.isNotEmpty ??
-                      false))
-                  ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: ListView.builder(
-                    itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(0),
-                    itemBuilder: (context, index) {
-                      final postList = postFeedList[index];
-                      return PostWidget(postList: postList,);
-                    }),
-              )
-                  : Center(
-                child: Text(
-                  'No post found',
-                  style: AppTextStyles.textStylePoppins,
-                ),
-              ),
+                          (postFeedState.postList.isNotEmpty ?? false))
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                          child: ListView.builder(
+                              itemCount: postFeedList.length > 3
+                                  ? 3
+                                  : postFeedList.length, //3
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(0),
+                              itemBuilder: (context, index) {
+                                final postList = postFeedList[index];
+                                return PostWidget(
+                                  postList: postList,
+                                );
+                              }),
+                        )
+                      : Center(
+                          child: Text(
+                            'No post found',
+                            style: AppTextStyles.textStylePoppins,
+                          ),
+                        ),
               90.verticalSpace,
             ],
           ),

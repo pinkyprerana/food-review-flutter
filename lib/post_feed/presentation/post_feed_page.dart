@@ -90,6 +90,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             child: SwipeCards(
               matchEngine: _matchEngine!,
               itemBuilder: (BuildContext context, int index) {
+                if (index < 0 || index >= postFeedList.length) {
+                  return const SizedBox.shrink();
+                }
                 final postList = postFeedList[index];
                 return PostFeedItem(postList: postList);
               },
