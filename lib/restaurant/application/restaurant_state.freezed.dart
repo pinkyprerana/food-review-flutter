@@ -24,6 +24,7 @@ mixin _$RestaurantState {
   bool get hasMore => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
   dynamic get isMoreDataFetchable => throw _privateConstructorUsedError;
+  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RestaurantStateCopyWith<RestaurantState> get copyWith =>
@@ -43,7 +44,8 @@ abstract class $RestaurantStateCopyWith<$Res> {
       int currentPage,
       bool hasMore,
       int totalPages,
-      dynamic isMoreDataFetchable});
+      dynamic isMoreDataFetchable,
+      List<DataOfPostModel> postList});
 }
 
 /// @nodoc
@@ -66,6 +68,7 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
     Object? hasMore = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
+    Object? postList = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -96,6 +99,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.isMoreDataFetchable
           : isMoreDataFetchable // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      postList: null == postList
+          ? _value.postList
+          : postList // ignore: cast_nullable_to_non_nullable
+              as List<DataOfPostModel>,
     ) as $Val);
   }
 }
@@ -115,7 +122,8 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
       int currentPage,
       bool hasMore,
       int totalPages,
-      dynamic isMoreDataFetchable});
+      dynamic isMoreDataFetchable,
+      List<DataOfPostModel> postList});
 }
 
 /// @nodoc
@@ -136,6 +144,7 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
     Object? hasMore = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
+    Object? postList = null,
   }) {
     return _then(_$RestaurantStateImpl(
       isLoading: null == isLoading
@@ -165,6 +174,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
       isMoreDataFetchable: freezed == isMoreDataFetchable
           ? _value.isMoreDataFetchable!
           : isMoreDataFetchable,
+      postList: null == postList
+          ? _value._postList
+          : postList // ignore: cast_nullable_to_non_nullable
+              as List<DataOfPostModel>,
     ));
   }
 }
@@ -179,9 +192,11 @@ class _$RestaurantStateImpl extends _RestaurantState {
       this.currentPage = 1,
       this.hasMore = true,
       this.totalPages = 0,
-      this.isMoreDataFetchable = true})
+      this.isMoreDataFetchable = true,
+      final List<DataOfPostModel> postList = const []})
       : _restaurantList = restaurantList,
         _homeRestaurantList = homeRestaurantList,
+        _postList = postList,
         super._();
 
   @override
@@ -222,10 +237,18 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final dynamic isMoreDataFetchable;
+  final List<DataOfPostModel> _postList;
+  @override
+  @JsonKey()
+  List<DataOfPostModel> get postList {
+    if (_postList is EqualUnmodifiableListView) return _postList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_postList);
+  }
 
   @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable)';
+    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList)';
   }
 
   @override
@@ -245,7 +268,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
             (identical(other.totalPages, totalPages) ||
                 other.totalPages == totalPages) &&
             const DeepCollectionEquality()
-                .equals(other.isMoreDataFetchable, isMoreDataFetchable));
+                .equals(other.isMoreDataFetchable, isMoreDataFetchable) &&
+            const DeepCollectionEquality().equals(other._postList, _postList));
   }
 
   @override
@@ -257,7 +281,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
       currentPage,
       hasMore,
       totalPages,
-      const DeepCollectionEquality().hash(isMoreDataFetchable));
+      const DeepCollectionEquality().hash(isMoreDataFetchable),
+      const DeepCollectionEquality().hash(_postList));
 
   @JsonKey(ignore: true)
   @override
@@ -275,7 +300,8 @@ abstract class _RestaurantState extends RestaurantState {
       final int currentPage,
       final bool hasMore,
       final int totalPages,
-      final dynamic isMoreDataFetchable}) = _$RestaurantStateImpl;
+      final dynamic isMoreDataFetchable,
+      final List<DataOfPostModel> postList}) = _$RestaurantStateImpl;
   const _RestaurantState._() : super._();
 
   @override
@@ -292,6 +318,8 @@ abstract class _RestaurantState extends RestaurantState {
   int get totalPages;
   @override
   dynamic get isMoreDataFetchable;
+  @override
+  List<DataOfPostModel> get postList;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantStateImplCopyWith<_$RestaurantStateImpl> get copyWith =>

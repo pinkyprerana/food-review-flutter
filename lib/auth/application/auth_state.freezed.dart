@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AuthState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoginLoading => throw _privateConstructorUsedError;
+  String get userID => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({bool isLoading, bool isLoginLoading});
+  $Res call({bool isLoading, bool isLoginLoading, String userID});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   $Res call({
     Object? isLoading = null,
     Object? isLoginLoading = null,
+    Object? userID = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -57,6 +59,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.isLoginLoading
           : isLoginLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      userID: null == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -69,7 +75,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, bool isLoginLoading});
+  $Res call({bool isLoading, bool isLoginLoading, String userID});
 }
 
 /// @nodoc
@@ -85,6 +91,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isLoginLoading = null,
+    Object? userID = null,
   }) {
     return _then(_$AuthStateImpl(
       isLoading: null == isLoading
@@ -95,6 +102,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.isLoginLoading
           : isLoginLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      userID: null == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -102,7 +113,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthStateImpl extends _AuthState {
-  const _$AuthStateImpl({this.isLoading = false, this.isLoginLoading = false})
+  const _$AuthStateImpl(
+      {this.isLoading = false, this.isLoginLoading = false, this.userID = ""})
       : super._();
 
   @override
@@ -111,10 +123,13 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final bool isLoginLoading;
+  @override
+  @JsonKey()
+  final String userID;
 
   @override
   String toString() {
-    return 'AuthState(isLoading: $isLoading, isLoginLoading: $isLoginLoading)';
+    return 'AuthState(isLoading: $isLoading, isLoginLoading: $isLoginLoading, userID: $userID)';
   }
 
   @override
@@ -125,11 +140,13 @@ class _$AuthStateImpl extends _AuthState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.isLoginLoading, isLoginLoading) ||
-                other.isLoginLoading == isLoginLoading));
+                other.isLoginLoading == isLoginLoading) &&
+            (identical(other.userID, userID) || other.userID == userID));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isLoginLoading);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, isLoginLoading, userID);
 
   @JsonKey(ignore: true)
   @override
@@ -139,14 +156,18 @@ class _$AuthStateImpl extends _AuthState {
 }
 
 abstract class _AuthState extends AuthState {
-  const factory _AuthState({final bool isLoading, final bool isLoginLoading}) =
-      _$AuthStateImpl;
+  const factory _AuthState(
+      {final bool isLoading,
+      final bool isLoginLoading,
+      final String userID}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
   bool get isLoading;
   @override
   bool get isLoginLoading;
+  @override
+  String get userID;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>

@@ -38,6 +38,10 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedList = postFeedState.postList;
+    });
     for (int i = 0; i < _names.length; i++) {
       _swipeItems.add(SwipeItem(
           content: Content(text: _names[i]),
@@ -103,14 +107,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                 ));
               },
               itemChanged: (SwipeItem item, int index) {
-                final postList = postFeedList[index];
-                if (_currentRegion == SlideRegion.inLikeRegion) {
-                  stateNotifier.likeUnlikePost(() {}, postList.id);
-                  print("Liked post: ${postList.id}");
-                } else if (_currentRegion == SlideRegion.inNopeRegion) {
-                  // stateNotifier.dislikePost(() {}, postList.id);
-                  print("Disliked post: ${postList.id}");
-                }
+                // final postList = postFeedList[index];
+                // if (_currentRegion == SlideRegion.inLikeRegion) {
+                //   stateNotifier.likeUnlikePost(() {}, postList.id);
+                //   print("Liked post: ${postList.id}");
+                // } else if (_currentRegion == SlideRegion.inNopeRegion) {
+                //   // stateNotifier.dislikePost(() {}, postList.id);
+                //   print("Disliked post: ${postList.id}");
+                // }
                 print("item: ${item.content.text}, index: $index");
               },
               upSwipeAllowed: true,

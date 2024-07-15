@@ -18,7 +18,7 @@ class PhotoClickPage extends ConsumerStatefulWidget {
   ConsumerState<PhotoClickPage> createState() => _PhotoClickPageState();
 }
 
-class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
+class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBindingObserver {
   CameraController? _controller;
   List<CameraDescription>? cameras;
   XFile? imageFile;
@@ -28,8 +28,59 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addObserver(this);
-    _initializeCamera();
+    WidgetsBinding.instance.addObserver(this);
+    _checkPermissions();
+  }
+
+  Future<void> _checkPermissions() async {
+    final cameraStatus = await Permission.camera.status;
+    final microphoneStatus = await Permission.microphone.status;
+
+    if (cameraStatus.isDenied || microphoneStatus.isDenied) {
+      await _requestPermissions();
+    } else if (cameraStatus.isPermanentlyDenied || microphoneStatus.isPermanentlyDenied) {
+      await openAppSettings();
+      setState(() {});
+    } else {
+      await _initializeCamera();
+    }
+  }
+
+  Future<void> _requestPermissions() async {
+    final cameraStatus = await Permission.camera.request();
+    final microphoneStatus = await Permission.microphone.request();
+
+    if (cameraStatus.isGranted && microphoneStatus.isGranted) {
+      await _initializeCamera();
+    } else {
+      _showPermissionDialog();
+    }
+  }
+
+  void _showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Camera and Microphone Permissions'),
+        content: const Text(
+          'Camera, files and microphone access are required to use this feature. Please enable them in the app settings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await openAppSettings();
+              setState(() {});
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _initializeCamera() async {
@@ -42,92 +93,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     }
     setState(() {});
   }
-
-  // Future<void> _initializeCamera() async {
-  //   var status = await Permission.camera.status;
-  //
-  //   if (status.isDenied || status.isPermanentlyDenied) {
-  //     // Show a dialog to guide the user to the app settings
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) => AlertDialog(
-  //         title: Text('Camera Permission'),
-  //         content: Text('Camera access is required to use this feature. Please enable it in the app settings.'),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () async {
-  //               Navigator.of(context).pop();
-  //               await openAppSettings();
-  //             },
-  //             child: Text('Open Settings'),
-  //           ),
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: Text('Cancel'),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   } else if (status.isGranted) {
-  //     // Initialize the camera
-  //     cameras = await availableCameras();
-  //     _controller = CameraController(
-  //       cameras![selectedCameraIndex],
-  //       ResolutionPreset.high,
-  //     );
-  //     await _controller!.initialize();
-  //
-  //     if (!mounted) {
-  //       return;
-  //     }
-  //
-  //     setState(() {});
-  //   } else {
-  //     // Request permission if it is not granted yet
-  //     PermissionStatus newStatus = await Permission.camera.request();
-  //     if (newStatus.isGranted) {
-  //       // Initialize the camera
-  //       cameras = await availableCameras();
-  //       _controller = CameraController(
-  //         cameras![selectedCameraIndex],
-  //         ResolutionPreset.high,
-  //       );
-  //       await _controller!.initialize();
-  //
-  //       if (!mounted) {
-  //         return;
-  //       }
-  //
-  //       setState(() {});
-  //     } else {
-  //       // Handle the case when the user denies the permission again
-  //       showDialog(
-  //         context: context,
-  //         builder: (context) => AlertDialog(
-  //           title: Text('Camera Permission'),
-  //           content: Text('Camera access is required to use this feature. Please enable it in the app settings.'),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () async {
-  //                 Navigator.of(context).pop();
-  //                 await openAppSettings();
-  //               },
-  //               child: Text('Open Settings'),
-  //             ),
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: Text('Cancel'),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
 
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
@@ -149,7 +114,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
   @override
   void dispose() {
-    // WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     _controller?.dispose();
     super.dispose();
   }
