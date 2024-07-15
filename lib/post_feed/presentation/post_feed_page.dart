@@ -24,44 +24,36 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  final List<String> _names = [
-    "Post 1",
-    "Post 2",
-    "Post 3",
-    "Post 4",
-    "Post 5",
-    "Post 6",
-    "Post 7",
-    "Post 8"
-  ];
   SlideRegion? _currentRegion;
+  bool _isStackFinished = false;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    });
-    for (int i = 0; i < _names.length; i++) {
+    // });
+
+    for (int i = 0; i < postFeedList.length; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: _names[i]),
+          content: Content(text: postFeedList[i].toString()),
           likeAction: () {
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //   content: Text("Liked ${_names[i]}"),
-            //   duration: const Duration(milliseconds: 500),
-            // ));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Liked ${postFeedList[i].title}"),
+              duration: const Duration(milliseconds: 500),
+            ));
           },
           nopeAction: () {
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //   content: Text("Nope ${_names[i]}"),
-            //   duration: const Duration(milliseconds: 500),
-            // ));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Nope ${postFeedList[i].title}"),
+              duration: const Duration(milliseconds: 500),
+            ));
           },
           superlikeAction: () {
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //   content: Text("Superliked ${_names[i]}"),
-            //   duration: const Duration(milliseconds: 500),
-            // ));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Superliked ${postFeedList[i].title}"),
+              duration: const Duration(milliseconds: 500),
+            ));
           },
           onSlideUpdate: (SlideRegion? region) async {
             print("Region $region");
@@ -91,7 +83,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight,
-            child: SwipeCards(
+            child: _isStackFinished
+                ? const Center(child: Text("Post Finished"),)
+            : SwipeCards(
               matchEngine: _matchEngine!,
               itemBuilder: (BuildContext context, int index) {
                 if (index < 0 || index >= postFeedList.length) {
@@ -102,19 +96,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
               },
               onStackFinished: () {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Stack Finished"),
+                  content: Text("Post Finished"),
                   duration: Duration(milliseconds: 500),
                 ));
+                setState(() {
+                  _isStackFinished = true;
+                });
               },
               itemChanged: (SwipeItem item, int index) {
-                // final postList = postFeedList[index];
-                // if (_currentRegion == SlideRegion.inLikeRegion) {
-                //   stateNotifier.likeUnlikePost(() {}, postList.id);
-                //   print("Liked post: ${postList.id}");
-                // } else if (_currentRegion == SlideRegion.inNopeRegion) {
-                //   // stateNotifier.dislikePost(() {}, postList.id);
-                //   print("Disliked post: ${postList.id}");
-                // }
                 print("item: ${item.content.text}, index: $index");
               },
               upSwipeAllowed: true,
