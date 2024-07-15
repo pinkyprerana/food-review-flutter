@@ -45,7 +45,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
           },
           nopeAction: () {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Nope ${postFeedList[i].title}"),
+              content: Text("Not liked ${postFeedList[i].title}"),
               duration: const Duration(milliseconds: 500),
             ));
           },
