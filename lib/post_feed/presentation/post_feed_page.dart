@@ -29,45 +29,51 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
 
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    final postFeedState = ref.watch(postFeedNotifierProvider);
-    final postFeedList = postFeedState.postList;
-    // });
-
-    for (int i = 0; i < postFeedList.length; i++) {
-      _swipeItems.add(SwipeItem(
-          content: Content(text: postFeedList[i].toString()),
-          likeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Liked ${postFeedList[i].title}"),
-              duration: const Duration(milliseconds: 500),
-            ));
-          },
-          nopeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Not liked ${postFeedList[i].title}"),
-              duration: const Duration(milliseconds: 500),
-            ));
-          },
-          superlikeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Superliked ${postFeedList[i].title}"),
-              duration: const Duration(milliseconds: 500),
-            ));
-          },
-          onSlideUpdate: (SlideRegion? region) async {
-            print("Region $region");
-          }));
-    }
-
-    _matchEngine = MatchEngine(swipeItems: _swipeItems);
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    await postFeedNotifier.getPostFeed();
+      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      await postFeedNotifier.getPostFeed();
     });
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedList = postFeedState.postList;
+
+    if (_swipeItems.isEmpty && postFeedList.isNotEmpty) {
+      for (int i = 0; i < postFeedList.length; i++) {
+        _swipeItems.add(SwipeItem(
+            content: Content(text: postFeedList[i].toString()),
+            likeAction: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Liked ${postFeedList[i].title}"),
+                duration: const Duration(milliseconds: 500),
+              ));
+            },
+            nopeAction: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Not liked ${postFeedList[i].title}"),
+                duration: const Duration(milliseconds: 500),
+              ));
+            },
+            superlikeAction: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("Superliked ${postFeedList[i].title}"),
+                duration: const Duration(milliseconds: 500),
+              ));
+            },
+            onSlideUpdate: (SlideRegion? region) async {
+              print("Region $region");
+            }
+        ));
+      }
+
+      _matchEngine = MatchEngine(swipeItems: _swipeItems);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
