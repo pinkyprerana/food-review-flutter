@@ -12,9 +12,9 @@ import '../../core/utils/app_log.dart';
 import '../../core/utils/toast.dart';
 import 'createPost_state.dart';
 
-
 class CreatePostNotifier extends StateNotifier<CreatePostState> {
-  CreatePostNotifier(this._dio, this._networkApiService) : super(const CreatePostState());
+  CreatePostNotifier(this._dio, this._networkApiService)
+      : super(const CreatePostState());
 
   final Dio _dio;
   final NetworkApiService _networkApiService;
@@ -36,19 +36,19 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   void onContinuePressed(BuildContext context) {
     if (state.currentPage == 0) {
       state = state.copyWith(currentPage: state.currentPage + 1);
-        _pageController.animateToPage(
-          state.currentPage,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-    }
-    else{
+      _pageController.animateToPage(
+        state.currentPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
       resetPage();
-      AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
+      AutoRouter.of(context)
+          .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
     }
   }
 
-  void resetPage(){
+  void resetPage() {
     state = state.copyWith(currentPage: 0);
   }
 
@@ -56,20 +56,18 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     state = state.copyWith(imageFile: imageFile);
   }
 
-  TextEditingController restaurantNameTextController =
-  TextEditingController();
+  TextEditingController restaurantNameTextController = TextEditingController();
   final TextEditingController restaurantIdTextController =
-  TextEditingController();
-  final TextEditingController postTitleTextController =
-  TextEditingController();
+      TextEditingController();
+  final TextEditingController postTitleTextController = TextEditingController();
   final TextEditingController postDescriptionTextController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController restaurantAddressTextController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController postCuisineIdTextController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController postHowWasItTextController =
-  TextEditingController();
+      TextEditingController();
 
   Future<void> addPost(VoidCallback voidCallback, XFile? imageFile) async {
     state = state.copyWith(isLoading: true);
@@ -86,8 +84,8 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
         "preference_id": postCuisineIdTextController.text,
       });
 
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
+      var (response, dioException) =
+          await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}${AppUrls.addPost}',
         body: formData,
       );
@@ -118,8 +116,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     }
   }
 
-
-  clearRestaurantDetails(){
+  clearRestaurantDetails() {
     restaurantNameTextController.clear();
     restaurantIdTextController.clear();
     restaurantAddressTextController.clear();
@@ -127,7 +124,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     postCuisineIdTextController.clear();
   }
 
-  clearAllPostDetails(){
+  clearAllPostDetails() {
     postTitleTextController.clear();
     postDescriptionTextController.clear();
     restaurantNameTextController.clear();
@@ -138,10 +135,9 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   }
 
   void selectedReview(String selectedReview) async {
-      postHowWasItTextController.text = selectedReview;
-      state = state.copyWith(selectedReview: selectedReview);
+    postHowWasItTextController.text = selectedReview;
+    state = state.copyWith(selectedReview: selectedReview);
   }
-
 
   void _showPermissionDialog(BuildContext context) {
     showDialog(
@@ -168,5 +164,4 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       ),
     );
   }
-
 }

@@ -18,6 +18,22 @@
     <string>The reason for this is to access location</string>
 	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
     <string>The reason for this is to access location</string>
+	<key>NSCalendarsUsageDescription</key>
+    <string>The reason for this is to access calender</string>
+	<key>NSContactsUsageDescription</key>
+    <string>The reason for this is to access contacts</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+    <string>The reason for this is to access contacts</string>
+	<key>NSAppleMusicUsageDescription</key>
+    <string>The reason for this is to access music</string>
+	<key>NSMotionUsageDescription</key>
+    <string>The reason for this is to access motion usage</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+    <string>The reason for this is to access speech recognition usage</string>
+	<key>NSSiriUsageDescription</key>
+    <string>The reason for this is to access siri</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+    <string>The reason for this is to access bluetooth</string>
 	<key>CFBundleDisplayName</key>
 	<string>For The Table</string>
 	<key>CFBundleExecutable</key>

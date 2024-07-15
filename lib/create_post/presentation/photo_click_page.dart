@@ -129,7 +129,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   //   }
   // }
 
-
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -139,9 +138,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     });
 
     if (pickedFile != null) {
-     AutoRouter.of(context).push(
-         CreatePostRoute(imageFile: pickedFile)
-     );
+      AutoRouter.of(context).push(CreatePostRoute(imageFile: pickedFile));
     }
   }
 
@@ -207,17 +204,18 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                 borderRadius: BorderRadius.circular(8.0),
                 child: imageFile == null
                     ? InkWell(
-                    onTap: () async {
-                      await _pickImageFromGallery();
-                    },
-                    child: Container(width: 40, height: 40, color: Colors.grey))
+                        onTap: () async {
+                          await _pickImageFromGallery();
+                        },
+                        child: Container(
+                            width: 40, height: 40, color: Colors.grey))
                     : InkWell(
-                      onTap: () async {
-                        await _pickImageFromGallery();
-                      },
-                      child: Image.file(File(imageFile!.path),
-                          width: 40, height: 40, fit: BoxFit.cover),
-                    )),
+                        onTap: () async {
+                          await _pickImageFromGallery();
+                        },
+                        child: Image.file(File(imageFile!.path),
+                            width: 40, height: 40, fit: BoxFit.cover),
+                      )),
           ),
           Positioned(
             bottom: 40,

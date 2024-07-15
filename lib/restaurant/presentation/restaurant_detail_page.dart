@@ -10,6 +10,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/post_feed/domain/postFeed_model.dart';
@@ -49,7 +50,8 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
   final String numberOfReviews;
 
   @override
-  ConsumerState<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
+  ConsumerState<RestaurantDetailPage> createState() =>
+      _RestaurantDetailPageState();
 }
 
 class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
@@ -92,6 +94,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     final mediaQuery = MediaQuery.sizeOf(context);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
+    AppLog.log(widget.image);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -518,7 +521,33 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                             image: (widget.image
                                                         .contains('jpg') ||
                                                     widget.image
-                                                        .contains('png'))
+                                                        .contains('png') ||
+                                                    widget.image
+                                                        .contains('jpeg') ||
+                                                    widget.image
+                                                        .contains('gif') ||
+                                                    widget.image
+                                                        .contains('bmp') ||
+                                                    widget.image
+                                                        .contains('tiff') ||
+                                                    widget.image
+                                                        .contains('tif') ||
+                                                    widget.image
+                                                        .contains('webp') ||
+                                                    widget.image
+                                                        .contains('heic') ||
+                                                    widget.image
+                                                        .contains('heif') ||
+                                                    widget.image
+                                                        .contains('svg') ||
+                                                    widget.image
+                                                        .contains('raw') ||
+                                                    widget.image
+                                                        .contains('cr2') ||
+                                                    widget.image
+                                                        .contains('nef') ||
+                                                    widget.image
+                                                        .contains('arw'))
                                                 ? CachedNetworkImageProvider(
                                                     'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${widget.image}')
                                                 : const AssetImage(
@@ -685,7 +714,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
               10.verticalSpace,
               //list of posts
               ListView.builder(
-                  itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
+                  itemCount:
+                      postFeedList.length > 3 ? 3 : postFeedList.length, //3
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(0),
@@ -695,12 +725,17 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                     }
 
                     final postList = postFeedList[index];
-                    final restaurantState = ref.watch(restaurantNotifierProvider);
-                    final restaurantStateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-                    restaurantStateNotifier.getPostListRelatedToRestaurant((){},postList.id);
-                    final postListOfRestaurant= restaurantState.postList;
+                    final restaurantState =
+                        ref.watch(restaurantNotifierProvider);
+                    final restaurantStateNotifier =
+                        ref.watch(restaurantNotifierProvider.notifier);
+                    restaurantStateNotifier.getPostListRelatedToRestaurant(
+                        () {}, postList.id);
+                    final postListOfRestaurant = restaurantState.postList;
                     return postFeedList.isEmpty
-                        ? PostWidget(postList: postListOfRestaurant  as DataOfPostModel,)
+                        ? PostWidget(
+                            postList: postListOfRestaurant as DataOfPostModel,
+                          )
                         : const Text("No post yet");
                   }),
               10.verticalSpace,

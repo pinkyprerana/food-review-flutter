@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/auth/shared/providers.dart';
+import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
+import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
@@ -141,11 +143,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             onPressed: () async {
                               AppLog.log('message');
 
-                              await stateNotifier.signIn(() {
+                              await stateNotifier.signIn(() async {
+                                final hive = ref.read(hiveProvider);
+                                final isLocationFetched = await hive.box
+                                    .get(AppPreferenceKeys.isLocationFetched);
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                AutoRouter.of(context).pushAndPopUntil(
-                                    const BaseRoute(),
-                                    predicate: (_) => false);
+                                (isLocationFetched != null)
+                                    ? AutoRouter.of(context).pushAndPopUntil(
+                                        const BaseRoute(),
+                                        predicate: (_) => false)
+                                    : AutoRouter.of(context).pushAndPopUntil(
+                                        const LocationRoute(),
+                                        predicate: (_) => false);
                               });
 
                               dismissKeyboard(context);

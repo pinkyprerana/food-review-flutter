@@ -163,6 +163,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PhotoClickPage(),
       );
     },
+    PhotoClickRouteNew.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PhotoClickPageNew(),
+      );
+    },
     PrivacyPolicyRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -646,6 +652,20 @@ class PhotoClickRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PhotoClickRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PhotoClickPageNew]
+class PhotoClickRouteNew extends PageRouteInfo<void> {
+  const PhotoClickRouteNew({List<PageRouteInfo>? children})
+      : super(
+          PhotoClickRouteNew.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PhotoClickRouteNew';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

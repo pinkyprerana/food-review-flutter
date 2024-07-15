@@ -122,6 +122,30 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                             false) ||
                                         (state.restaurantList?[index].image?[0]
                                                 .contains('png') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('jpeg') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('gif') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('bmp') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('tiff') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('tif') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('webp') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('heic') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('heif') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('svg') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('raw') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('cr2') ??
+                                            false) || (state.restaurantList?[index].image?[0]
+                                                .contains('nef') ??
                                             false))
                                     ? CachedNetworkImage(
                                         imageUrl:

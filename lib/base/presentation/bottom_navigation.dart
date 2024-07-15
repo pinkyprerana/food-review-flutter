@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/base/presentation/bottom_item.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:for_the_table/create_post/presentation/photo_click_page_new.dart';
 
 // import '../../../core/utils/app_constants.dart';
 import '../../create_post/presentation/photo_click_page.dart';
@@ -122,6 +123,12 @@ class BottomNavigation extends ConsumerWidget {
                                 fullscreenDialog: true,
                               ),
                             );
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const PhotoClickPageNew(),
+                            //     fullscreenDialog: true,
+                            //   ),
+                            // );
                           } else {
                             stateNotifier.tapBottomNavIndex(index);
                           }
