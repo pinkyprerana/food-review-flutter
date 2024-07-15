@@ -67,8 +67,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   @override
   void dispose() {
     super.dispose();
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    postFeedNotifier.clearPostFeed();
   }
 
   var selectedIndex = 0;
