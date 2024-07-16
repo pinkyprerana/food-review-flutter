@@ -1,16 +1,58 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/base/presentation/bottom_item.dart';
 import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../create_post/presentation/photo_click_page.dart';
 import '../shared/providers.dart';
 
-class BottomNavigation extends ConsumerWidget {
+class BottomNavigation extends ConsumerStatefulWidget {
   const BottomNavigation({super.key});
+  @override
+  ConsumerState<BottomNavigation> createState() => _BottomNavigationState();
+}
+
+class _BottomNavigationState extends ConsumerState<BottomNavigation> {
+  Future<void> _checkPermissions({required VoidCallback onSuccess}) async {
+    final cameraStatus = await Permission.camera.status;
+
+    if (cameraStatus.isGranted) {
+      onSuccess();
+    } else {
+      _showPermissionDialog();
+    }
+  }
+
+  void _showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Camera Permission'),
+        content: const Text(
+          'Camera and files access are required to use this feature. Please enable them in the app settings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // final controller =
     //     NotchBottomBarController(); // Define NotchBottomBarController
     // final pageController = PageController(); // Define PageController
@@ -22,22 +64,10 @@ class BottomNavigation extends ConsumerWidget {
     // final pageController0 = PageController(initialPage: 0);
     List<Map> bottomItems = [
       {'icon': Assets.homeInactive, 'active': Assets.home, 'name': 'Home'},
-      {
-        'icon': Assets.listInactive,
-        'active': Assets.listActive,
-        'name': 'List'
-      },
+      {'icon': Assets.listInactive, 'active': Assets.listActive, 'name': 'List'},
       {'icon': Assets.post, 'active': Assets.post, 'name': 'Post'},
-      {
-        'icon': Assets.leaderboardInactive,
-        'active': Assets.leaderboardActive,
-        'name': 'Standings'
-      },
-      {
-        'icon': Assets.profileInactive,
-        'active': Assets.profileActive,
-        'name': 'Profile'
-      },
+      {'icon': Assets.leaderboardInactive, 'active': Assets.leaderboardActive, 'name': 'Standings'},
+      {'icon': Assets.profileInactive, 'active': Assets.profileActive, 'name': 'Profile'},
     ];
 
     // int currentIndex = 0;
@@ -113,12 +143,18 @@ class BottomNavigation extends ConsumerWidget {
                             stateNotifier.tapBottomNavIndex(index);
                           }
                           if (index == 2) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const PhotoClickPage(),
-                                fullscreenDialog: true,
-                              ),
-                            );
+                            // AutoRouter.of(context).push(const PhotoClickRoute());
+                            _checkPermissions(onSuccess: () {
+                              if (!mounted) return;
+
+                              AutoRouter.of(context).push(const PhotoClickRoute());
+                            });
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const PhotoClickPage(),
+                            //     fullscreenDialog: true,
+                            //   ),
+                            // );
                             // Navigator.of(context).push(
                             //   MaterialPageRoute(
                             //     builder: (context) => const PhotoClickPageNew(),

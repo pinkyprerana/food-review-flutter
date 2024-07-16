@@ -7,6 +7,7 @@ import 'package:for_the_table/auth/presentation/register_page.dart';
 import 'package:for_the_table/auth/presentation/reset_password_page.dart';
 import 'package:for_the_table/auth/presentation/verify_otp_page.dart';
 import 'package:for_the_table/base/presentation/base_screen.dart';
+import 'package:for_the_table/create_post/presentation/photo_click_page_new.dart';
 import 'package:for_the_table/home/presentation/home_page.dart';
 import 'package:for_the_table/home/presentation/home_page_new.dart';
 import 'package:for_the_table/landing/presentation/landing_get_started_page.dart';
@@ -160,8 +161,7 @@ class AppRouter extends _$AppRouter {
           page: SavedRoute.page,
           path: '/savedRoute',
         ),
-        AutoRoute(
-            page: YourPeopleListRoute.page, path: '/followingFollowerRequests'),
+        AutoRoute(page: YourPeopleListRoute.page, path: '/followingFollowerRequests'),
         AutoRoute(
           page: PrivacyPolicyRoute.page,
           path: '/privacyPolicyRoute',
@@ -181,6 +181,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: LocationRoute.page,
           path: '/locationRoute',
+        ),
+        AutoRoute(
+          page: PhotoClickRoute.page,
+          path: '/photoClickRoute',
         ),
       ];
 }
