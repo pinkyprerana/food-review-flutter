@@ -34,7 +34,6 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
   Widget build(BuildContext context) {
     final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
 
-    print("followersId_______${widget.followersId}");
     return Container(
       margin: const EdgeInsets.only(left: 15).r,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30).r,

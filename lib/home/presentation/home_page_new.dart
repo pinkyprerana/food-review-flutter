@@ -41,7 +41,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       await postFeedNotifier.getPostFeed();
       final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
-      await followNotifier.getAllFollowingList();
     });
   }
 
@@ -151,7 +150,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                           : "";
                       final profileImage =
                           '${AppUrls.profilePicLocation}/$imgpath';
-                      print(profileImage);
+
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
