@@ -100,4 +100,5 @@ class Assets {
   static const String woman = 'assets/images/woman.png';
   static const String noProfileImage = 'assets/images/no-profile-image.png';
   static const String noRestaurantImage = 'assets/images/no-image.jpg';
+  static const String locationPin = 'assets/images/location.png';
 }

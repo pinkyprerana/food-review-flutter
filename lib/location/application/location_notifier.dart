@@ -100,6 +100,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
       if (permission == LocationPermission.denied) {
         showToastMessage(
             'Request Denied, please go to app settings to grant location permission');
+        _showPermissionDialog(context);
         return;
       }
     }

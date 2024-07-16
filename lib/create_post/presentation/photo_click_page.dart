@@ -19,7 +19,8 @@ class PhotoClickPage extends ConsumerStatefulWidget {
   ConsumerState<PhotoClickPage> createState() => _PhotoClickPageState();
 }
 
-class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBindingObserver {
+class _PhotoClickPageState extends ConsumerState<PhotoClickPage>
+    with WidgetsBindingObserver {
   CameraController? _controller;
   List<CameraDescription>? cameras;
   XFile? imageFile;
@@ -37,9 +38,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
     final cameraStatus = await Permission.camera.status;
     final microphoneStatus = await Permission.microphone.status;
 
-    if (cameraStatus.isDenied || microphoneStatus.isDenied) {
+    if (cameraStatus.isDenied) {
       await _requestPermissions();
-    } else if (cameraStatus.isPermanentlyDenied || microphoneStatus.isPermanentlyDenied) {
+    } else if (microphoneStatus.isDenied) {
+      await _requestPermissions();
+    } else if (cameraStatus.isPermanentlyDenied ||
+        microphoneStatus.isPermanentlyDenied) {
       _showPermissionDialog();
     } else {
       await _initializeCamera();
@@ -52,11 +56,13 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
 
     if (cameraStatus.isGranted && microphoneStatus.isGranted) {
       await _initializeCamera();
-    } else if (cameraStatus.isPermanentlyDenied || microphoneStatus.isPermanentlyDenied || cameraStatus.isDenied || microphoneStatus.isDenied) {
+    } else if (cameraStatus.isPermanentlyDenied ||
+        microphoneStatus.isPermanentlyDenied ||
+        cameraStatus.isDenied ||
+        microphoneStatus.isDenied) {
       _showPermissionDialog();
     }
   }
-
 
   void _showPermissionDialog() {
     showDialog(
@@ -211,19 +217,19 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
                       borderRadius: BorderRadius.circular(100)),
                   onPressed: (state.isPressed)
                       ? null
-                    :() async {
-                    // (Platform.isIOS)
-                    //     ?
-                    // createPostState.checkPermissionForIOS(context)
-                    //     : createPostState.checkPermission(context);
-                    final image = await _controller!.takePicture();
-                    setState(() {
-                      imageFile = image;
-                    });
-                    stateNotifier.toggleIsPressedToTrue();
-                    AutoRouter.of(context)
-                        .push(CreatePostRoute(imageFile: imageFile));
-                  },
+                      : () async {
+                          // (Platform.isIOS)
+                          //     ?
+                          // createPostState.checkPermissionForIOS(context)
+                          //     : createPostState.checkPermission(context);
+                          final image = await _controller!.takePicture();
+                          setState(() {
+                            imageFile = image;
+                          });
+                          stateNotifier.toggleIsPressedToTrue();
+                          AutoRouter.of(context)
+                              .push(CreatePostRoute(imageFile: imageFile));
+                        },
                 ),
               ),
             ),
