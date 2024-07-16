@@ -13,10 +13,7 @@ import 'package:for_the_table/widgets/custom_input_field.dart';
 
 class EditOptionWidget extends ConsumerWidget {
   const EditOptionWidget(
-      {super.key,
-      required this.title,
-      required this.imgpath,
-      this.subtitle = ''});
+      {super.key, required this.title, required this.imgpath, this.subtitle = ''});
   final String title;
   final String imgpath;
   final String subtitle;
@@ -27,9 +24,7 @@ class EditOptionWidget extends ConsumerWidget {
     final state = ref.watch(profileNotifierProvider);
     return GestureDetector(
       onTap: () {
-        if (title == 'Email' ||
-            title == 'Change Password' ||
-            title == 'Phone Number') {
+        if (title == 'Email' || title == 'Change Password' || title == 'Phone Number') {
           getModal(title, context, stateNotifier, state);
         } else if (title == 'Add Bio') {
           AutoRouter.of(context).push(const AddBioRoute());
@@ -74,8 +69,7 @@ class EditOptionWidget extends ConsumerWidget {
                                 children: [
                                   Text(
                                     title,
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(
+                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                       fontSize: 13.sp,
                                       color: AppColors.colorPrimary,
                                     ),
@@ -83,8 +77,7 @@ class EditOptionWidget extends ConsumerWidget {
                                   2.verticalSpace,
                                   Text(
                                     subtitle,
-                                    style: AppTextStyles.textStylePoppinsRegular
-                                        .copyWith(
+                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       fontSize: 10.sp,
                                       color: AppColors.colorPrimaryAlpha,
                                     ),
@@ -96,8 +89,7 @@ class EditOptionWidget extends ConsumerWidget {
                                 children: [
                                   Text(
                                     title,
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(
+                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                       fontSize: 13.sp,
                                       color: AppColors.colorPrimary,
                                     ),
@@ -202,8 +194,8 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     RichText(
                         text: TextSpan(
                       text: 'Change',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
                       children: [
                         TextSpan(
                           text: ' Email Address',
@@ -217,8 +209,8 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     3.verticalSpace,
                     Text(
                       'Change your email address below.',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                      style: AppTextStyles.textStylePoppinsRegular
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
                     20.verticalSpace,
                     CustomInputField(
@@ -253,8 +245,8 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     RichText(
                         text: TextSpan(
                       text: 'Change',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
                       children: [
                         TextSpan(
                           text: ' Password',
@@ -268,30 +260,36 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     3.verticalSpace,
                     Text(
                       'Change your password below.',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                      style: AppTextStyles.textStylePoppinsRegular
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
                     25.verticalSpace,
-                    const CustomInputField(
+                    CustomInputField(
                       label: 'Old Password',
                       hint: 'Enter old password',
                       isPassword: true,
+                      controller: stateNotifier.oldPasswordController,
                     ),
                     10.verticalSpace,
-                    const CustomInputField(
+                    CustomInputField(
                       label: 'New Password',
                       hint: 'Enter new password',
                       isPassword: true,
+                      controller: stateNotifier.newPasswordController,
                     ),
                     10.verticalSpace,
-                    const CustomInputField(
+                    CustomInputField(
                       label: 'Confirm New Password',
                       hint: 'Confirm new password',
                       isPassword: true,
+                      controller: stateNotifier.confirmPasswordController,
                     ),
                     10.verticalSpace,
-                    const AppButton(
+                    AppButton(
                       text: 'Reset Password',
+                      onPressed: () async {
+                        await stateNotifier.updatePassword(context);
+                      },
                     )
                   ],
                 ),
@@ -312,8 +310,8 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     RichText(
                         text: TextSpan(
                       text: 'Change',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
                       children: [
                         TextSpan(
                           text: ' Phone Number',
@@ -327,8 +325,8 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                     3.verticalSpace,
                     Text(
                       'Change your phone number below.',
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                      style: AppTextStyles.textStylePoppinsRegular
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                     ),
                     20.verticalSpace,
                     CustomInputField(
