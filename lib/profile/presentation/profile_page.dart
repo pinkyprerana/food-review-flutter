@@ -5,10 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/profile/presentation/widgets/other_options_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/profile/presentation/widgets/small_profile_container.dart';
@@ -36,7 +34,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
-
       await stateNotifier.getUserDetails();
     });
     super.initState();
@@ -47,21 +44,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final state = ref.watch(profileNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
 
-    final hive = ref.read(hiveProvider);
-
-    AppLog.log('state.profileImagePath ============ ${state.profileImgPath}');
-
-    AppLog.log(
-        'state.fetchedUser?.profileImage ============ ${state.fetchedUser?.profileImage}');
-
-    // AppLog.log(
-    //     'state.fetchedUser?.profileImage ========= ${state.fetchedUser?.profileImage}');
-
-    AppLog.log('state.fetchedUser ========= ${state.fetchedUser}');
-
     return Scaffold(
       extendBody: true,
-      extendBodyBehindAppBar: false,
       appBar: AppBar(
         elevation: 0,
         centerTitle: false,
@@ -85,10 +69,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
-                  child: Image.asset(
-                Assets.bell,
-                color: AppColors.colorPrimary,
-              )),
+                child: Image.asset(
+                  Assets.bell,
+                  color: AppColors.colorPrimary,
+                ),
+              ),
             ),
           ),
         ],
@@ -101,35 +86,27 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             )
           : SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
-              child: Container(
-                //color: AppColors.colorWhite,
-                margin: const EdgeInsets.only(top: 2).r,
-                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 2).r,
                 child: Column(
-                  // mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       width: double.infinity,
-                      //height: 380.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: AppColors.colorCream,
-                        border:
-                            Border.all(width: 1, color: AppColors.colorBorder),
+                        border: Border.all(width: 1, color: AppColors.colorBorder),
                       ),
                       child: Column(
                         children: [
-                          // const Spacer(),
                           90.verticalSpace,
                           Stack(
                             clipBehavior: Clip.none,
                             children: [
                               Container(
                                 width: double.infinity,
-                                padding: const EdgeInsets.only(
-                                        left: 20, right: 20, bottom: 25)
-                                    .r,
+                                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 25).r,
                                 // height: 286,
                                 decoration: BoxDecoration(
                                   color: AppColors.colorWhite,
@@ -140,9 +117,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     70.verticalSpace,
                                     Text(
                                       state.fetchedUser?.fullName ?? '',
-                                      style: AppTextStyles
-                                          .textStylePoppinsSemiBold
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                                         fontSize: 16.sp,
                                         color: AppColors.colorText2,
                                       ),
@@ -150,29 +125,25 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     5.verticalSpace,
                                     Text(
                                       'Joined May 23, 2024',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorText3,
                                       ),
                                     ),
                                     10.verticalSpace,
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         AppButton(
                                           width: 168.w,
                                           text: 'Edit Profile',
                                           onPressed: () =>
-                                              AutoRouter.of(context).push(
-                                                  const EditProfileRoute()),
+                                              AutoRouter.of(context).push(const EditProfileRoute()),
                                         ),
                                         // 8.horizontalSpace,
                                         GestureDetector(
-                                          onTap: () => AutoRouter.of(context)
-                                              .push(const SettingsRoute()),
+                                          onTap: () =>
+                                              AutoRouter.of(context).push(const SettingsRoute()),
                                           child: SmallProfileContainer2(
                                               widget: Center(
                                             child: Image.asset(Assets.settings),
@@ -187,43 +158,34 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     ),
                                     10.verticalSpace,
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () => AutoRouter.of(context)
-                                              .push(
-                                                  const YourPeopleListRoute()),
+                                              .push(const YourPeopleListRoute()),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state
-                                                              .userProfileResponseModel
-                                                              ?.stats
+                                                      state.userProfileResponseModel?.stats
                                                               ?.followerCount
                                                               .toString() ??
                                                           '',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsBold
+                                                      style: AppTextStyles.textStylePoppinsBold
                                                           .copyWith(
                                                         fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .colorPrimary,
+                                                        color: AppColors.colorPrimary,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Followers',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
+                                                      style: AppTextStyles.textStylePoppinsRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .colorText3,
+                                                        color: AppColors.colorText3,
                                                       ),
                                                     ),
                                                   ],
@@ -235,38 +197,30 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () => AutoRouter.of(context)
-                                              .push(
-                                                  const YourPeopleListRoute()),
+                                              .push(const YourPeopleListRoute()),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state
-                                                              .userProfileResponseModel
-                                                              ?.stats
+                                                      state.userProfileResponseModel?.stats
                                                               ?.followingCount
                                                               .toString() ??
                                                           '',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsBold
+                                                      style: AppTextStyles.textStylePoppinsBold
                                                           .copyWith(
                                                         fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .colorPrimary,
+                                                        color: AppColors.colorPrimary,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Following',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
+                                                      style: AppTextStyles.textStylePoppinsRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .colorText3,
+                                                        color: AppColors.colorText3,
                                                       ),
                                                     ),
                                                   ],
@@ -277,38 +231,31 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () => AutoRouter.of(context)
-                                              .push(const SavedRoute()),
+                                          onTap: () =>
+                                              AutoRouter.of(context).push(const SavedRoute()),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state
-                                                              .userProfileResponseModel
-                                                              ?.savePostStats
+                                                      state.userProfileResponseModel?.savePostStats
                                                               ?.savePostCount
                                                               .toString() ??
                                                           '',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsBold
+                                                      style: AppTextStyles.textStylePoppinsBold
                                                           .copyWith(
                                                         fontSize: 14.sp,
-                                                        color: AppColors
-                                                            .colorPrimary,
+                                                        color: AppColors.colorPrimary,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Saved',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
+                                                      style: AppTextStyles.textStylePoppinsRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
-                                                        color: AppColors
-                                                            .colorText3,
+                                                        color: AppColors.colorText3,
                                                       ),
                                                     ),
                                                   ],
@@ -334,37 +281,31 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       child: GestureDetector(
                                         onTap: () {
                                           print('clicked');
-                                          stateNotifier
-                                              .uploadProfileImage(context);
+                                          stateNotifier.uploadProfileImage(context);
                                         },
                                         child: Container(
                                           width: 110.w,
                                           height: 110.h,
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: AppColors.colorWhite,
-                                                  width: 4),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: AppColors.colorShadow
-                                                        .withOpacity(0.1),
-                                                    offset: const Offset(0, 2),
-                                                    blurRadius: 10,
-                                                    spreadRadius: 0)
-                                              ],
-                                              image: DecorationImage(
-                                                image: (state.fetchedUser
-                                                            ?.profileImage !=
-                                                        '')
-                                                    ? CachedNetworkImageProvider(
-                                                            state
-                                                                .profileImgPath)
-                                                        as ImageProvider
-                                                    : const AssetImage(
-                                                        Assets.noProfileImage),
-                                                fit: BoxFit.cover,
-                                              )),
+                                            shape: BoxShape.circle,
+                                            border:
+                                                Border.all(color: AppColors.colorWhite, width: 4),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: AppColors.colorShadow.withOpacity(0.1),
+                                                  offset: const Offset(0, 2),
+                                                  blurRadius: 10,
+                                                  spreadRadius: 0)
+                                            ],
+                                            image: DecorationImage(
+                                              image: (state.fetchedUser?.profileImage.isNotEmpty ??
+                                                      false)
+                                                  ? CachedNetworkImageProvider(state.profileImgPath)
+                                                      as ImageProvider
+                                                  : const AssetImage(Assets.noProfileImage),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -377,19 +318,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                           width: 35,
                                           height: 35,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(17),
+                                            borderRadius: BorderRadius.circular(17),
                                             color: AppColors.colorWhite,
                                           ),
                                           child: Center(
                                             child: Text(
                                               '01',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsMedium
-                                                  .copyWith(
-                                                      fontSize: 13.sp,
-                                                      color:
-                                                          AppColors.colorText),
+                                              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                                  fontSize: 13.sp, color: AppColors.colorText),
                                             ),
                                           ),
                                         ),
