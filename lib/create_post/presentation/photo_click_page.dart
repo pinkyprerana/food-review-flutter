@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../core/constants/assets.dart';
 import '../../core/routes/app_router.dart';
+import '../shared/provider.dart';
 
 @RoutePage()
 class PhotoClickPage extends ConsumerStatefulWidget {
@@ -40,8 +41,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
       await _requestPermissions();
     } else if (cameraStatus.isPermanentlyDenied || microphoneStatus.isPermanentlyDenied) {
       _showPermissionDialog();
-      // await openAppSettings();
-      // setState(() {});
     } else {
       await _initializeCamera();
     }
@@ -57,16 +56,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
       _showPermissionDialog();
     }
   }
-  // Future<void> _requestPermissions() async {
-  //   final cameraStatus = await Permission.camera.request();
-  //   final microphoneStatus = await Permission.microphone.request();
-  //
-  //   if (cameraStatus.isGranted && microphoneStatus.isGranted) {
-  //     await _initializeCamera();
-  //   } else {
-  //     _showPermissionDialog();
-  //   }
-  // }
+
 
   void _showPermissionDialog() {
     showDialog(
@@ -140,6 +130,8 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(CreatePostNotifierProvider);
+    final stateNotifier = ref.watch(CreatePostNotifierProvider.notifier);
     if (_controller == null || !_controller!.value.isInitialized) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -217,7 +209,9 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
                   shape: RoundedRectangleBorder(
                       side: const BorderSide(width: 4, color: Colors.white),
                       borderRadius: BorderRadius.circular(100)),
-                  onPressed: () async {
+                  onPressed: (state.isPressed)
+                      ? null
+                    :() async {
                     // (Platform.isIOS)
                     //     ?
                     // createPostState.checkPermissionForIOS(context)
@@ -226,6 +220,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
                     setState(() {
                       imageFile = image;
                     });
+                    stateNotifier.toggleIsPressedToTrue();
                     AutoRouter.of(context)
                         .push(CreatePostRoute(imageFile: imageFile));
                   },

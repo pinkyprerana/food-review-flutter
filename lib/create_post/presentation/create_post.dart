@@ -43,6 +43,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       final preferenceNotifier = ref.watch(preferenceNotifierProvider.notifier);
       await preferenceNotifier.getAllPreference();
       final allPreferences = ref.watch(preferenceNotifierProvider).data;
+      final stateNotifierForCreatePost = ref.watch(CreatePostNotifierProvider.notifier);
+      stateNotifierForCreatePost.toggleIsPressedToFalse();
     });
   }
 

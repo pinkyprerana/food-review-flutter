@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CreatePostState {
   int get currentPage => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isPressed => throw _privateConstructorUsedError;
   XFile? get imageFile => throw _privateConstructorUsedError;
   String get selectedReview => throw _privateConstructorUsedError;
 
@@ -35,6 +36,7 @@ abstract class $CreatePostStateCopyWith<$Res> {
   $Res call(
       {int currentPage,
       bool isLoading,
+      bool isPressed,
       XFile? imageFile,
       String selectedReview});
 }
@@ -54,6 +56,7 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
   $Res call({
     Object? currentPage = null,
     Object? isLoading = null,
+    Object? isPressed = null,
     Object? imageFile = freezed,
     Object? selectedReview = null,
   }) {
@@ -65,6 +68,10 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPressed: null == isPressed
+          ? _value.isPressed
+          : isPressed // ignore: cast_nullable_to_non_nullable
               as bool,
       imageFile: freezed == imageFile
           ? _value.imageFile
@@ -89,6 +96,7 @@ abstract class _$$CreatePostStateImplCopyWith<$Res>
   $Res call(
       {int currentPage,
       bool isLoading,
+      bool isPressed,
       XFile? imageFile,
       String selectedReview});
 }
@@ -106,6 +114,7 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
   $Res call({
     Object? currentPage = null,
     Object? isLoading = null,
+    Object? isPressed = null,
     Object? imageFile = freezed,
     Object? selectedReview = null,
   }) {
@@ -117,6 +126,10 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPressed: null == isPressed
+          ? _value.isPressed
+          : isPressed // ignore: cast_nullable_to_non_nullable
               as bool,
       imageFile: freezed == imageFile
           ? _value.imageFile
@@ -136,6 +149,7 @@ class _$CreatePostStateImpl implements _CreatePostState {
   const _$CreatePostStateImpl(
       {this.currentPage = 0,
       this.isLoading = false,
+      this.isPressed = false,
       this.imageFile,
       this.selectedReview = ""});
 
@@ -146,6 +160,9 @@ class _$CreatePostStateImpl implements _CreatePostState {
   @JsonKey()
   final bool isLoading;
   @override
+  @JsonKey()
+  final bool isPressed;
+  @override
   final XFile? imageFile;
   @override
   @JsonKey()
@@ -153,7 +170,7 @@ class _$CreatePostStateImpl implements _CreatePostState {
 
   @override
   String toString() {
-    return 'CreatePostState(currentPage: $currentPage, isLoading: $isLoading, imageFile: $imageFile, selectedReview: $selectedReview)';
+    return 'CreatePostState(currentPage: $currentPage, isLoading: $isLoading, isPressed: $isPressed, imageFile: $imageFile, selectedReview: $selectedReview)';
   }
 
   @override
@@ -165,6 +182,8 @@ class _$CreatePostStateImpl implements _CreatePostState {
                 other.currentPage == currentPage) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isPressed, isPressed) ||
+                other.isPressed == isPressed) &&
             (identical(other.imageFile, imageFile) ||
                 other.imageFile == imageFile) &&
             (identical(other.selectedReview, selectedReview) ||
@@ -172,8 +191,8 @@ class _$CreatePostStateImpl implements _CreatePostState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, currentPage, isLoading, imageFile, selectedReview);
+  int get hashCode => Object.hash(runtimeType, currentPage, isLoading,
+      isPressed, imageFile, selectedReview);
 
   @JsonKey(ignore: true)
   @override
@@ -187,6 +206,7 @@ abstract class _CreatePostState implements CreatePostState {
   const factory _CreatePostState(
       {final int currentPage,
       final bool isLoading,
+      final bool isPressed,
       final XFile? imageFile,
       final String selectedReview}) = _$CreatePostStateImpl;
 
@@ -194,6 +214,8 @@ abstract class _CreatePostState implements CreatePostState {
   int get currentPage;
   @override
   bool get isLoading;
+  @override
+  bool get isPressed;
   @override
   XFile? get imageFile;
   @override

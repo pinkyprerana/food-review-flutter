@@ -164,4 +164,13 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       ),
     );
   }
+
+  void toggleIsPressedToTrue() {
+    state = state.copyWith(isPressed: true);
+  }
+
+  void toggleIsPressedToFalse() {
+    state = state.copyWith(isPressed: false);
+  }
+
 }

@@ -7,6 +7,7 @@ abstract class CreatePostState with _$CreatePostState {
   const factory CreatePostState({
     @Default(0) int currentPage,
     @Default(false) bool isLoading,
+    @Default(false) bool isPressed,
     XFile? imageFile,
     @Default("") String selectedReview,
   }) = _CreatePostState;
