@@ -39,8 +39,9 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
     if (cameraStatus.isDenied || microphoneStatus.isDenied) {
       await _requestPermissions();
     } else if (cameraStatus.isPermanentlyDenied || microphoneStatus.isPermanentlyDenied) {
-      await openAppSettings();
-      setState(() {});
+      _showPermissionDialog();
+      // await openAppSettings();
+      // setState(() {});
     } else {
       await _initializeCamera();
     }
@@ -52,10 +53,20 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage>  with WidgetsBi
 
     if (cameraStatus.isGranted && microphoneStatus.isGranted) {
       await _initializeCamera();
-    } else {
+    } else if (cameraStatus.isPermanentlyDenied || microphoneStatus.isPermanentlyDenied || cameraStatus.isDenied || microphoneStatus.isDenied) {
       _showPermissionDialog();
     }
   }
+  // Future<void> _requestPermissions() async {
+  //   final cameraStatus = await Permission.camera.request();
+  //   final microphoneStatus = await Permission.microphone.request();
+  //
+  //   if (cameraStatus.isGranted && microphoneStatus.isGranted) {
+  //     await _initializeCamera();
+  //   } else {
+  //     _showPermissionDialog();
+  //   }
+  // }
 
   void _showPermissionDialog() {
     showDialog(
