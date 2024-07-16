@@ -30,6 +30,7 @@ class _HelpPageState extends ConsumerState<HelpPage> {
   @override
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
+    final state = ref.watch(profileNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -101,16 +102,19 @@ class _HelpPageState extends ConsumerState<HelpPage> {
               10.verticalSpace,
               SizedBox(
                 height: 130.h,
-                child: const ExpandedCommonTextField(
+                child: ExpandedCommonTextField(
                   label: 'Message',
                   maxLines: null,
                   expands: true,
                   hint: 'Enter message here',
+                  controller: stateNotifier.contactMessageController,
                 ),
               ),
               20.verticalSpace,
               AppButton(
                 text: 'Send',
+                loading: state.isLoading,
+                disable: state.isLoading,
                 onPressed: () => stateNotifier.requestHelp(context),
               )
             ],

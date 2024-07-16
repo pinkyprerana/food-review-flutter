@@ -442,19 +442,19 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         );
 
         if (response.statusCode == 200 && response.data != null) {
-          showToastMessage('Bio updated successfully!');
-
-          await getUserDetails();
-
+          showToastMessage('Thank you for reaching out. Our team will get to you soon.');
+          contactMessageController.text = '';
           Navigator.pop(context);
 
           state = state.copyWith(isLoading: false);
         } else {
           showToastMessage('Something went wrong, try again');
+          contactMessageController.text = '';
           state = state.copyWith(isLoading: false);
         }
       } catch (error) {
         state = state.copyWith(isLoading: false);
+        contactMessageController.text = '';
         showToastMessage('Something, went wrong, please try again');
       }
     }
