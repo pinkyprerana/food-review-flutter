@@ -99,14 +99,15 @@ class LocationNotifier extends StateNotifier<LocationState> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         showToastMessage('Request Denied');
+        _showPermissionDialog(context);
         return;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      // Platform.isIOS ? openAppSettings() : showToastMessage('Denied Forever');
-      Platform.isIOS
-          ? _showPermissionDialog(context)
-          : showToastMessage('Denied Forever');
+      // Platform.isIOS
+      //     ? _showPermissionDialog(context)
+      //     : showToastMessage('Denied Forever');
+      _showPermissionDialog(context);
       return;
     }
 
