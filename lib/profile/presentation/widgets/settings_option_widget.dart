@@ -45,69 +45,62 @@ class SettingsOptionWidget extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(width: 1, color: AppColors.colorGrey)),
-          child: Container(
-            // color: Colors.red,
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 10).r,
-                  padding: const EdgeInsets.all(10).r,
-                  decoration: BoxDecoration(
-                    color: AppColors.colorGrey,
-                    border: Border.all(color: AppColors.colorGrey, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Image(
-                    image: AssetImage(imgpath),
-                    color: AppColors.colorPrimary,
-                  ),
+          child: Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10).r,
+                padding: const EdgeInsets.all(10).r,
+                decoration: BoxDecoration(
+                  color: AppColors.colorGrey,
+                  border: Border.all(color: AppColors.colorGrey, width: 1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                10.horizontalSpace,
-                Expanded(
-                  child: Container(
-                    // color: Colors.amber,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Image(
+                  image: AssetImage(imgpath),
+                  color: AppColors.colorPrimary,
+                ),
+              ),
+              10.horizontalSpace,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              title,
-                              style:
-                                  AppTextStyles.textStylePoppinsMedium.copyWith(
-                                fontSize: 13.sp,
-                                color: AppColors.colorPrimary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 56.w,
-                          height: 52.h,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                color: AppColors.colorGrey,
-                                width: 1,
-                              ),
-                            ),
+                        Text(
+                          title,
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 13.sp,
+                            color: AppColors.colorPrimary,
                           ),
-                          child: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.colorArrowIcon,
-                            size: 15.6,
-                            weight: 500,
-                          ),
-                          // color: Colors.blue,
                         ),
                       ],
                     ),
-                  ),
-                )
-              ],
-            ),
+                    Container(
+                      alignment: Alignment.center,
+                      width: 56.w,
+                      height: 52.h,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            color: AppColors.colorGrey,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.colorArrowIcon,
+                        size: 15.6,
+                        weight: 500,
+                      ),
+                      // color: Colors.blue,
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
         // child: ListTile(
@@ -168,13 +161,12 @@ class SettingsOptionWidget extends StatelessWidget {
                       RichText(
                           text: TextSpan(
                         text: 'Deactivate',
-                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 16.sp, color: AppColors.colorPrimary),
+                        style: AppTextStyles.textStylePoppinsMedium
+                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
                         children: [
                           TextSpan(
                             text: '',
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 16.sp,
                               color: AppColors.colorPrimaryAlpha,
                             ),
@@ -186,9 +178,8 @@ class SettingsOptionWidget extends StatelessWidget {
                         child: Text(
                           'Are you Sure Want to logout from Your Account.',
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              fontSize: 13.sp,
-                              color: AppColors.colorPrimaryAlpha),
+                          style: AppTextStyles.textStylePoppinsRegular
+                              .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                         ),
                       ),
                       20.verticalSpace,
@@ -199,13 +190,13 @@ class SettingsOptionWidget extends StatelessWidget {
                             width: 166.w,
                             text: 'Cancel',
                             textColor: AppColors.colorPrimary,
+                            onPressed: () => Navigator.pop(context),
                           ),
                           5.horizontalSpace,
                           AppButton(
                             width: 166.w,
                             text: 'Deactivate',
-                            onPressed: () => AutoRouter.of(context)
-                                .push(const LandingIntroRoute()),
+                            onPressed: () => AutoRouter.of(context).push(const LandingIntroRoute()),
                           ),
                         ],
                       )
@@ -227,13 +218,12 @@ class SettingsOptionWidget extends StatelessWidget {
                       RichText(
                           text: TextSpan(
                         text: 'Delete',
-                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 16.sp, color: AppColors.colorPrimary),
+                        style: AppTextStyles.textStylePoppinsMedium
+                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
                         children: [
                           TextSpan(
                             text: '',
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 16.sp,
                               color: AppColors.colorPrimaryAlpha,
                             ),
@@ -245,9 +235,8 @@ class SettingsOptionWidget extends StatelessWidget {
                         child: Text(
                           'Are you Sure Want to delete Your Account',
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              fontSize: 13.sp,
-                              color: AppColors.colorPrimaryAlpha),
+                          style: AppTextStyles.textStylePoppinsRegular
+                              .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                         ),
                       ),
                       20.verticalSpace,
@@ -258,13 +247,13 @@ class SettingsOptionWidget extends StatelessWidget {
                             width: 166.w,
                             text: 'Cancel',
                             textColor: AppColors.colorPrimary,
+                            onPressed: () => Navigator.pop(context),
                           ),
                           5.horizontalSpace,
                           AppButton(
                             width: 166.w,
                             text: 'Delete',
-                            onPressed: () => AutoRouter.of(context)
-                                .push(const LandingIntroRoute()),
+                            onPressed: () => AutoRouter.of(context).push(const LandingIntroRoute()),
                           ),
                         ],
                       )
