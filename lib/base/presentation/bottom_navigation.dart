@@ -1,12 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/base/presentation/bottom_item.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
-import 'package:for_the_table/create_post/presentation/photo_click_page_new.dart';
-
-// import '../../../core/utils/app_constants.dart';
 import '../../create_post/presentation/photo_click_page.dart';
 import '../shared/providers.dart';
 

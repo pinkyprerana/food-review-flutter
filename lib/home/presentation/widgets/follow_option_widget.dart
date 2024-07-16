@@ -103,7 +103,8 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
               ),
               child: Center(
                 child: Text(
-                  isFollowing ? 'UNFOLLOW' : 'FOLLOW',
+                  // isFollowing ? 'UNFOLLOW' :
+                  'FOLLOW',
                   style: AppTextStyles.textStylePoppinsBold.copyWith(
                     fontSize: 10.sp,
                     color: AppColors.colorWhite,

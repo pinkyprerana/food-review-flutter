@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/base/shared/providers.dart';
@@ -10,20 +9,14 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/home/presentation/widgets/follow_option_widget.dart';
-import 'package:for_the_table/home/presentation/widgets/home_post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/home/presentation/widgets/restaurant_widget.dart';
 import 'package:for_the_table/list/shared/provider.dart';
 import 'package:for_the_table/restaurant/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
-import 'package:glassmorphism/glassmorphism.dart';
-
 import '../../core/constants/app_urls.dart';
-import '../../people_profile/shared/providers.dart';
-import '../../post_feed/presentation/widgets/comments_icon.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../your_lists/shared/provider.dart';
 
@@ -36,19 +29,7 @@ class HomePageNew extends ConsumerStatefulWidget {
 }
 
 class _HomePageNewState extends ConsumerState<HomePageNew> {
-  List followOptions = [
-    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-    {'image': Assets.follow1, 'name': 'Haylie Lipshutz'},
-    {'image': Assets.follow2, 'name': 'Skylar Bergson'},
-  ];
 
-  // List restaurantlist = [
-  //   {'image': Assets.rest1},
-  //   {'image': Assets.rest2},
-  //   {'image': Assets.rest3},
-  //   {'image': Assets.rest4},
-  // ];
 
   @override
   void initState() {
@@ -86,8 +67,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    print("token____________${token}");
-    print("postFeedList____________${postFeedList}");
 
     return Scaffold(
         extendBody: true,
