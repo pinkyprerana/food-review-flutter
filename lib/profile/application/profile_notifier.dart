@@ -33,6 +33,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
 
   Future<void> getUserDetails() async {
     try {
@@ -343,6 +344,45 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         showToastMessage('Something, went wrong, please try again');
       }
+    }
+  }
+
+  Future<void> updateBio(BuildContext context) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final FormData formData = FormData.fromMap({
+        "bio": bioController.text,
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage('Bio updated successfully!');
+
+        await getUserDetails();
+
+        Navigator.pop(context);
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        showToastMessage('Something went wrong, try again');
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage('Something, went wrong, please try again');
     }
   }
 
