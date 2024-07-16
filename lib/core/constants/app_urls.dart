@@ -23,4 +23,5 @@ class AppUrls {
 
   // Profile
   static const updatePassword = '/user/change-password';
+  static const contact = '/contactUs/submit';
 }

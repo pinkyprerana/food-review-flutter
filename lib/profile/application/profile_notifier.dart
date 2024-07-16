@@ -34,6 +34,16 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
+  final TextEditingController contactNameController = TextEditingController();
+  final TextEditingController contactEmailController = TextEditingController();
+  final TextEditingController contactPhoneController = TextEditingController();
+  final TextEditingController contactMessageController = TextEditingController();
+
+  void populateContactDetails() {
+    contactNameController.text = state.fetchedUser?.fullName ?? '';
+    contactEmailController.text = state.fetchedUser?.email ?? '';
+    contactPhoneController.text = state.fetchedUser?.phone ?? '';
+  }
 
   Future<void> getUserDetails() async {
     try {
@@ -383,6 +393,70 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       showToastMessage('Something, went wrong, please try again');
+    }
+  }
+
+  bool validateContactFields() {
+    if (contactNameController.text.isEmpty ||
+        contactEmailController.text.isEmpty ||
+        contactPhoneController.text.isEmpty ||
+        contactMessageController.text.isEmpty) {
+      showToastMessage('No field can be empty');
+      return false;
+    } else if (contactNameController.text.trim().length < 3) {
+      showToastMessage('Name must have at least 3 letters.');
+      return false;
+    } else if (!Validator.validateEmail(contactEmailController.text)) {
+      showToastMessage('Please enter a valid email id');
+      return false;
+    } else if (contactPhoneController.text.length < 10) {
+      showToastMessage('Please enter a valid phone number');
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> requestHelp(BuildContext context) async {
+    if (validateContactFields()) {
+      try {
+        state = state.copyWith(isLoading: true);
+
+        final FormData formData = FormData.fromMap({
+          "fullName": contactNameController.text,
+          "email": contactEmailController.text,
+          "subject": contactPhoneController.text,
+          "message": contactMessageController.text,
+        });
+
+        var headers = {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+        };
+
+        _dio.options.headers.addAll(headers);
+
+        final response = await _dio.post<Map<String, dynamic>>(
+          '${AppUrls.BASE_URL}${AppUrls.contact}',
+          data: formData,
+        );
+
+        if (response.statusCode == 200 && response.data != null) {
+          showToastMessage('Bio updated successfully!');
+
+          await getUserDetails();
+
+          Navigator.pop(context);
+
+          state = state.copyWith(isLoading: false);
+        } else {
+          showToastMessage('Something went wrong, try again');
+          state = state.copyWith(isLoading: false);
+        }
+      } catch (error) {
+        state = state.copyWith(isLoading: false);
+        showToastMessage('Something, went wrong, please try again');
+      }
     }
   }
 
