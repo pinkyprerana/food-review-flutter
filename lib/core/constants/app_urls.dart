@@ -24,4 +24,5 @@ class AppUrls {
   // Profile
   static const updatePassword = '/user/change-password';
   static const contact = '/contactUs/submit';
+  static const userActivities = '/user/activity/list';
 }

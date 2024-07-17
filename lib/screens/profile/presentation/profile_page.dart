@@ -35,6 +35,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
       await stateNotifier.getUserDetails();
+      await stateNotifier.fetchUserActivities();
     });
     super.initState();
   }
@@ -280,7 +281,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     Center(
                                       child: GestureDetector(
                                         onTap: () {
-                                          print('clicked');
                                           stateNotifier.uploadProfileImage(context);
                                         },
                                         child: Container(
@@ -350,11 +350,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             color: AppColors.colorPrimary,
                           ),
                         ),
-                        Text(
-                          'View All',
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                            fontSize: 10.sp,
-                            color: AppColors.colorPrimaryAlpha,
+                        GestureDetector(
+                          onTap: () => AutoRouter.of(context).push(const RecentActivityRoute()),
+                          child: Text(
+                            'View All',
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                              fontSize: 10.sp,
+                              color: AppColors.colorPrimaryAlpha,
+                            ),
                           ),
                         ),
                       ],
@@ -365,10 +368,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return const RecentActivityWidget(
-                            imgpath: Assets.sample,
-                            subtitle: 'Today, 01:35PM',
-                            title: 'You comment John’s post');
+                        final activitiesList = state.userActivitiesList;
+                        return RecentActivityWidget(
+                          imgpath: activitiesList?[index].imagePath ?? '',
+                          subtitle: activitiesList?[index].createdAt ?? DateTime.now(),
+                          title: activitiesList?[index].title ?? '',
+                        );
                       },
                       itemCount: 3,
                     ),

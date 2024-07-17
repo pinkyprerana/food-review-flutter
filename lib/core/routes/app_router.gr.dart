@@ -175,6 +175,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfilePage(),
       );
     },
+    RecentActivityRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RecentActivityPage(),
+      );
+    },
     RegisterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -674,6 +680,20 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RecentActivityPage]
+class RecentActivityRoute extends PageRouteInfo<void> {
+  const RecentActivityRoute({List<PageRouteInfo>? children})
+      : super(
+          RecentActivityRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RecentActivityRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

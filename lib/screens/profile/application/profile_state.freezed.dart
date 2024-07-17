@@ -23,6 +23,10 @@ mixin _$ProfileState {
   String get profileImage => throw _privateConstructorUsedError;
   UserProfileModel? get userProfileResponseModel =>
       throw _privateConstructorUsedError;
+  List<Activity>? get userActivitiesList => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
+  dynamic get isMoreDataFetchable => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -41,7 +45,11 @@ abstract class $ProfileStateCopyWith<$Res> {
       String profileImgPath,
       ProfileDetails? fetchedUser,
       String profileImage,
-      UserProfileModel? userProfileResponseModel});
+      UserProfileModel? userProfileResponseModel,
+      List<Activity>? userActivitiesList,
+      int currentPage,
+      int totalPages,
+      dynamic isMoreDataFetchable});
 
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
   $UserProfileModelCopyWith<$Res>? get userProfileResponseModel;
@@ -66,6 +74,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? fetchedUser = freezed,
     Object? profileImage = null,
     Object? userProfileResponseModel = freezed,
+    Object? userActivitiesList = freezed,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? isMoreDataFetchable = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -92,6 +104,22 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.userProfileResponseModel
           : userProfileResponseModel // ignore: cast_nullable_to_non_nullable
               as UserProfileModel?,
+      userActivitiesList: freezed == userActivitiesList
+          ? _value.userActivitiesList
+          : userActivitiesList // ignore: cast_nullable_to_non_nullable
+              as List<Activity>?,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      isMoreDataFetchable: freezed == isMoreDataFetchable
+          ? _value.isMoreDataFetchable
+          : isMoreDataFetchable // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 
@@ -135,7 +163,11 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       String profileImgPath,
       ProfileDetails? fetchedUser,
       String profileImage,
-      UserProfileModel? userProfileResponseModel});
+      UserProfileModel? userProfileResponseModel,
+      List<Activity>? userActivitiesList,
+      int currentPage,
+      int totalPages,
+      dynamic isMoreDataFetchable});
 
   @override
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
@@ -160,6 +192,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? fetchedUser = freezed,
     Object? profileImage = null,
     Object? userProfileResponseModel = freezed,
+    Object? userActivitiesList = freezed,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? isMoreDataFetchable = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -186,6 +222,21 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.userProfileResponseModel
           : userProfileResponseModel // ignore: cast_nullable_to_non_nullable
               as UserProfileModel?,
+      userActivitiesList: freezed == userActivitiesList
+          ? _value._userActivitiesList
+          : userActivitiesList // ignore: cast_nullable_to_non_nullable
+              as List<Activity>?,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      isMoreDataFetchable: freezed == isMoreDataFetchable
+          ? _value.isMoreDataFetchable!
+          : isMoreDataFetchable,
     ));
   }
 }
@@ -199,8 +250,13 @@ class _$ProfileStateImpl extends _ProfileState {
       this.profileImgPath = '',
       this.fetchedUser,
       this.profileImage = '',
-      this.userProfileResponseModel})
-      : super._();
+      this.userProfileResponseModel,
+      final List<Activity>? userActivitiesList,
+      this.currentPage = 1,
+      this.totalPages = 1,
+      this.isMoreDataFetchable = true})
+      : _userActivitiesList = userActivitiesList,
+        super._();
 
   @override
   @JsonKey()
@@ -218,10 +274,30 @@ class _$ProfileStateImpl extends _ProfileState {
   final String profileImage;
   @override
   final UserProfileModel? userProfileResponseModel;
+  final List<Activity>? _userActivitiesList;
+  @override
+  List<Activity>? get userActivitiesList {
+    final value = _userActivitiesList;
+    if (value == null) return null;
+    if (_userActivitiesList is EqualUnmodifiableListView)
+      return _userActivitiesList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final int totalPages;
+  @override
+  @JsonKey()
+  final dynamic isMoreDataFetchable;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel)';
+    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable)';
   }
 
   @override
@@ -241,12 +317,30 @@ class _$ProfileStateImpl extends _ProfileState {
                 other.profileImage == profileImage) &&
             (identical(
                     other.userProfileResponseModel, userProfileResponseModel) ||
-                other.userProfileResponseModel == userProfileResponseModel));
+                other.userProfileResponseModel == userProfileResponseModel) &&
+            const DeepCollectionEquality()
+                .equals(other._userActivitiesList, _userActivitiesList) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            const DeepCollectionEquality()
+                .equals(other.isMoreDataFetchable, isMoreDataFetchable));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isBeingSubmitted,
-      profileImgPath, fetchedUser, profileImage, userProfileResponseModel);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      isBeingSubmitted,
+      profileImgPath,
+      fetchedUser,
+      profileImage,
+      userProfileResponseModel,
+      const DeepCollectionEquality().hash(_userActivitiesList),
+      currentPage,
+      totalPages,
+      const DeepCollectionEquality().hash(isMoreDataFetchable));
 
   @JsonKey(ignore: true)
   @override
@@ -262,7 +356,11 @@ abstract class _ProfileState extends ProfileState {
       final String profileImgPath,
       final ProfileDetails? fetchedUser,
       final String profileImage,
-      final UserProfileModel? userProfileResponseModel}) = _$ProfileStateImpl;
+      final UserProfileModel? userProfileResponseModel,
+      final List<Activity>? userActivitiesList,
+      final int currentPage,
+      final int totalPages,
+      final dynamic isMoreDataFetchable}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
   @override
@@ -277,6 +375,14 @@ abstract class _ProfileState extends ProfileState {
   String get profileImage;
   @override
   UserProfileModel? get userProfileResponseModel;
+  @override
+  List<Activity>? get userActivitiesList;
+  @override
+  int get currentPage;
+  @override
+  int get totalPages;
+  @override
+  dynamic get isMoreDataFetchable;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

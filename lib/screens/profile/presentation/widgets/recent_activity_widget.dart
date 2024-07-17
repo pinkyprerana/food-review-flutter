@@ -1,17 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:intl/intl.dart';
 
 class RecentActivityWidget extends StatelessWidget {
-  const RecentActivityWidget(
-      {super.key,
-      required this.imgpath,
-      required this.subtitle,
-      required this.title});
   final String imgpath;
   final String title;
-  final String subtitle;
+  final DateTime subtitle;
+
+  const RecentActivityWidget({
+    super.key,
+    required this.imgpath,
+    required this.subtitle,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +32,20 @@ class RecentActivityWidget extends StatelessWidget {
           width: 39.w,
           height: 39.h,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: AssetImage(imgpath),
-                fit: BoxFit.cover,
-              )),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: imgpath.isEmpty
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(
+                    Assets.noProfileImage,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : CachedNetworkImage(
+                  imageUrl: '${AppUrls.profilePicLocation}/$imgpath',
+                  fit: BoxFit.cover,
+                ),
         ),
         title: Text(
           title,
@@ -40,7 +55,7 @@ class RecentActivityWidget extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          subtitle,
+          DateFormat('dd/MM/yyyy').format(subtitle),
           style: AppTextStyles.textStylePoppinsRegular.copyWith(
             fontSize: 10.sp,
             color: AppColors.colorPrimaryAlpha,

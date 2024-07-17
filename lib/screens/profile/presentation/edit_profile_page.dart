@@ -40,15 +40,14 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10).r,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                10.horizontalSpace,
                 Icon(
                   Icons.arrow_back_ios,
                   color: AppColors.colorPrimary,

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 
 import '../../screens/auth/presentation/forget_password_page.dart';
 import '../../screens/auth/presentation/login_page.dart';
@@ -184,6 +185,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: PhotoClickRoute.page,
           path: '/photoClickRoute',
+        ),
+        AutoRoute(
+          page: RecentActivityRoute.page,
+          path: '/recentActivityRoute',
         ),
       ];
 }

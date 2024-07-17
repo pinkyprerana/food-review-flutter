@@ -11,7 +11,9 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/model/user_profile/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
+import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(
@@ -36,11 +38,23 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController contactEmailController = TextEditingController();
   final TextEditingController contactPhoneController = TextEditingController();
   final TextEditingController contactMessageController = TextEditingController();
+  final RefreshController refreshController = RefreshController();
 
   void populateContactDetails() {
     contactNameController.text = state.fetchedUser?.fullName ?? '';
     contactEmailController.text = state.fetchedUser?.email ?? '';
     contactPhoneController.text = state.fetchedUser?.phone ?? '';
+  }
+
+  void loadMoreActivities() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new activities are available');
+      refreshController.loadComplete();
+      return;
+    }
+
+    await fetchUserActivities(perpage: 10, isLoadMore: true);
+    refreshController.loadComplete();
   }
 
   Future<void> getUserDetails() async {
@@ -429,6 +443,76 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         contactMessageController.text = '';
         showToastMessage(error.toString());
       }
+    }
+  }
+
+  Future<void> fetchUserActivities({int? perpage, bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.currentPage * 10 == state.userActivitiesList?.length)) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "perpage": perpage ?? 3,
+        "page": state.currentPage,
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.userActivities}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final userActivitiesModel = UserActivities.fromJson(response.data ?? {});
+        final userActivities = userActivitiesModel.activitiesList;
+
+        if (isLoadMore) {
+          final activityIds = state.userActivitiesList?.map((activity) => activity.id).toSet();
+
+          final uniqueActivities = userActivities
+              ?.where((activity) => !(activityIds?.contains(activity.id) ?? false))
+              .toList();
+
+          if ((uniqueActivities?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new activities are available.');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            userActivitiesList: [
+              ...state.userActivitiesList ?? [],
+              ...uniqueActivities ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          userActivitiesList: userActivities,
+          totalPages: userActivitiesModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.statusMessage.toString());
+        contactMessageController.text = '';
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      contactMessageController.text = '';
+      showToastMessage(error.toString());
     }
   }
 
