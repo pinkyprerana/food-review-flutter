@@ -18,6 +18,14 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FollowState {
   bool get isFollowing => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  List<DataOfPostListOfOtherModel> get postListOfOtherUser =>
+      throw _privateConstructorUsedError;
+  List<GeoLoc>? get coordinateList => throw _privateConstructorUsedError;
+  List<UserInfo>? get userInfoList => throw _privateConstructorUsedError;
+  List<PreferenceInfo>? get preferenceInfoList =>
+      throw _privateConstructorUsedError;
+  List<RestaurantInfo>? get restaurantInfoList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FollowStateCopyWith<FollowState> get copyWith =>
@@ -30,7 +38,14 @@ abstract class $FollowStateCopyWith<$Res> {
           FollowState value, $Res Function(FollowState) then) =
       _$FollowStateCopyWithImpl<$Res, FollowState>;
   @useResult
-  $Res call({bool isFollowing, bool isLoading});
+  $Res call(
+      {bool isFollowing,
+      bool isLoading,
+      List<DataOfPostListOfOtherModel> postListOfOtherUser,
+      List<GeoLoc>? coordinateList,
+      List<UserInfo>? userInfoList,
+      List<PreferenceInfo>? preferenceInfoList,
+      List<RestaurantInfo>? restaurantInfoList});
 }
 
 /// @nodoc
@@ -48,6 +63,11 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
   $Res call({
     Object? isFollowing = null,
     Object? isLoading = null,
+    Object? postListOfOtherUser = null,
+    Object? coordinateList = freezed,
+    Object? userInfoList = freezed,
+    Object? preferenceInfoList = freezed,
+    Object? restaurantInfoList = freezed,
   }) {
     return _then(_value.copyWith(
       isFollowing: null == isFollowing
@@ -58,6 +78,26 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      postListOfOtherUser: null == postListOfOtherUser
+          ? _value.postListOfOtherUser
+          : postListOfOtherUser // ignore: cast_nullable_to_non_nullable
+              as List<DataOfPostListOfOtherModel>,
+      coordinateList: freezed == coordinateList
+          ? _value.coordinateList
+          : coordinateList // ignore: cast_nullable_to_non_nullable
+              as List<GeoLoc>?,
+      userInfoList: freezed == userInfoList
+          ? _value.userInfoList
+          : userInfoList // ignore: cast_nullable_to_non_nullable
+              as List<UserInfo>?,
+      preferenceInfoList: freezed == preferenceInfoList
+          ? _value.preferenceInfoList
+          : preferenceInfoList // ignore: cast_nullable_to_non_nullable
+              as List<PreferenceInfo>?,
+      restaurantInfoList: freezed == restaurantInfoList
+          ? _value.restaurantInfoList
+          : restaurantInfoList // ignore: cast_nullable_to_non_nullable
+              as List<RestaurantInfo>?,
     ) as $Val);
   }
 }
@@ -70,7 +110,14 @@ abstract class _$$FollowStateImplCopyWith<$Res>
       __$$FollowStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isFollowing, bool isLoading});
+  $Res call(
+      {bool isFollowing,
+      bool isLoading,
+      List<DataOfPostListOfOtherModel> postListOfOtherUser,
+      List<GeoLoc>? coordinateList,
+      List<UserInfo>? userInfoList,
+      List<PreferenceInfo>? preferenceInfoList,
+      List<RestaurantInfo>? restaurantInfoList});
 }
 
 /// @nodoc
@@ -86,6 +133,11 @@ class __$$FollowStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isFollowing = null,
     Object? isLoading = null,
+    Object? postListOfOtherUser = null,
+    Object? coordinateList = freezed,
+    Object? userInfoList = freezed,
+    Object? preferenceInfoList = freezed,
+    Object? restaurantInfoList = freezed,
   }) {
     return _then(_$FollowStateImpl(
       isFollowing: null == isFollowing
@@ -96,6 +148,26 @@ class __$$FollowStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      postListOfOtherUser: null == postListOfOtherUser
+          ? _value._postListOfOtherUser
+          : postListOfOtherUser // ignore: cast_nullable_to_non_nullable
+              as List<DataOfPostListOfOtherModel>,
+      coordinateList: freezed == coordinateList
+          ? _value._coordinateList
+          : coordinateList // ignore: cast_nullable_to_non_nullable
+              as List<GeoLoc>?,
+      userInfoList: freezed == userInfoList
+          ? _value._userInfoList
+          : userInfoList // ignore: cast_nullable_to_non_nullable
+              as List<UserInfo>?,
+      preferenceInfoList: freezed == preferenceInfoList
+          ? _value._preferenceInfoList
+          : preferenceInfoList // ignore: cast_nullable_to_non_nullable
+              as List<PreferenceInfo>?,
+      restaurantInfoList: freezed == restaurantInfoList
+          ? _value._restaurantInfoList
+          : restaurantInfoList // ignore: cast_nullable_to_non_nullable
+              as List<RestaurantInfo>?,
     ));
   }
 }
@@ -103,7 +175,19 @@ class __$$FollowStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FollowStateImpl implements _FollowState {
-  const _$FollowStateImpl({this.isFollowing = false, this.isLoading = false});
+  const _$FollowStateImpl(
+      {this.isFollowing = false,
+      this.isLoading = false,
+      final List<DataOfPostListOfOtherModel> postListOfOtherUser = const [],
+      final List<GeoLoc>? coordinateList = const [],
+      final List<UserInfo>? userInfoList = const [],
+      final List<PreferenceInfo>? preferenceInfoList = const [],
+      final List<RestaurantInfo>? restaurantInfoList = const []})
+      : _postListOfOtherUser = postListOfOtherUser,
+        _coordinateList = coordinateList,
+        _userInfoList = userInfoList,
+        _preferenceInfoList = preferenceInfoList,
+        _restaurantInfoList = restaurantInfoList;
 
   @override
   @JsonKey()
@@ -111,10 +195,65 @@ class _$FollowStateImpl implements _FollowState {
   @override
   @JsonKey()
   final bool isLoading;
+  final List<DataOfPostListOfOtherModel> _postListOfOtherUser;
+  @override
+  @JsonKey()
+  List<DataOfPostListOfOtherModel> get postListOfOtherUser {
+    if (_postListOfOtherUser is EqualUnmodifiableListView)
+      return _postListOfOtherUser;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_postListOfOtherUser);
+  }
+
+  final List<GeoLoc>? _coordinateList;
+  @override
+  @JsonKey()
+  List<GeoLoc>? get coordinateList {
+    final value = _coordinateList;
+    if (value == null) return null;
+    if (_coordinateList is EqualUnmodifiableListView) return _coordinateList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<UserInfo>? _userInfoList;
+  @override
+  @JsonKey()
+  List<UserInfo>? get userInfoList {
+    final value = _userInfoList;
+    if (value == null) return null;
+    if (_userInfoList is EqualUnmodifiableListView) return _userInfoList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<PreferenceInfo>? _preferenceInfoList;
+  @override
+  @JsonKey()
+  List<PreferenceInfo>? get preferenceInfoList {
+    final value = _preferenceInfoList;
+    if (value == null) return null;
+    if (_preferenceInfoList is EqualUnmodifiableListView)
+      return _preferenceInfoList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<RestaurantInfo>? _restaurantInfoList;
+  @override
+  @JsonKey()
+  List<RestaurantInfo>? get restaurantInfoList {
+    final value = _restaurantInfoList;
+    if (value == null) return null;
+    if (_restaurantInfoList is EqualUnmodifiableListView)
+      return _restaurantInfoList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'FollowState(isFollowing: $isFollowing, isLoading: $isLoading)';
+    return 'FollowState(isFollowing: $isFollowing, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -125,11 +264,29 @@ class _$FollowStateImpl implements _FollowState {
             (identical(other.isFollowing, isFollowing) ||
                 other.isFollowing == isFollowing) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            const DeepCollectionEquality()
+                .equals(other._postListOfOtherUser, _postListOfOtherUser) &&
+            const DeepCollectionEquality()
+                .equals(other._coordinateList, _coordinateList) &&
+            const DeepCollectionEquality()
+                .equals(other._userInfoList, _userInfoList) &&
+            const DeepCollectionEquality()
+                .equals(other._preferenceInfoList, _preferenceInfoList) &&
+            const DeepCollectionEquality()
+                .equals(other._restaurantInfoList, _restaurantInfoList));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isFollowing, isLoading);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isFollowing,
+      isLoading,
+      const DeepCollectionEquality().hash(_postListOfOtherUser),
+      const DeepCollectionEquality().hash(_coordinateList),
+      const DeepCollectionEquality().hash(_userInfoList),
+      const DeepCollectionEquality().hash(_preferenceInfoList),
+      const DeepCollectionEquality().hash(_restaurantInfoList));
 
   @JsonKey(ignore: true)
   @override
@@ -139,13 +296,29 @@ class _$FollowStateImpl implements _FollowState {
 }
 
 abstract class _FollowState implements FollowState {
-  const factory _FollowState({final bool isFollowing, final bool isLoading}) =
-      _$FollowStateImpl;
+  const factory _FollowState(
+      {final bool isFollowing,
+      final bool isLoading,
+      final List<DataOfPostListOfOtherModel> postListOfOtherUser,
+      final List<GeoLoc>? coordinateList,
+      final List<UserInfo>? userInfoList,
+      final List<PreferenceInfo>? preferenceInfoList,
+      final List<RestaurantInfo>? restaurantInfoList}) = _$FollowStateImpl;
 
   @override
   bool get isFollowing;
   @override
   bool get isLoading;
+  @override
+  List<DataOfPostListOfOtherModel> get postListOfOtherUser;
+  @override
+  List<GeoLoc>? get coordinateList;
+  @override
+  List<UserInfo>? get userInfoList;
+  @override
+  List<PreferenceInfo>? get preferenceInfoList;
+  @override
+  List<RestaurantInfo>? get restaurantInfoList;
   @override
   @JsonKey(ignore: true)
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>

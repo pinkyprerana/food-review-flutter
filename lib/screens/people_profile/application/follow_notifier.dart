@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import '../../../core/constants/app_urls.dart';
+import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
+import '../domain/postListOfOther_model.dart';
 import 'follow_state.dart';
 
 class FollowNotifier extends StateNotifier<FollowState> {
@@ -13,10 +15,8 @@ class FollowNotifier extends StateNotifier<FollowState> {
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
-
-  //  setFollowingState(bool following) {
-  //    state = state.copyWith(isFollowing: !state.isFollowing);
-  // }
+  String? get getLatitude=> _hiveDatabase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude=> _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> follow_unfollow(VoidCallback voidCallback, String userID) async {
     state = state.copyWith(isLoading: true);
@@ -53,33 +53,40 @@ class FollowNotifier extends StateNotifier<FollowState> {
     }
   }
 
-  // Future<void> getAllPosts() async {
-  //   state = state.copyWith(isLoading: true);
-  //
-  //   try {
-  //     var (response, dioException) =
-  //     await _networkApiService.getApiRequest(
-  //         url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}");
-  //
-  //     if (response == null && dioException == null) {
-  //       showConnectionWasInterruptedToastMessage();
-  //     } else if (dioException != null) {
-  //       showDioError(dioException);
-  //     } else {
-  //       PostModel postModel =
-  //       PostModel.fromJson(response.data);
-  //       if (postModel.status == 200) {
-  //         state = state.copyWith(isLoading: false,
-  //             postList: postModel.postList);
-  //       } else {
-  //         showToastMessage(postModel.message.toString());
-  //       }
-  //     }
-  //   } catch (error) {
-  //     AppLog.log(error.toString());
-  //     state = state.copyWith(isLoading: false);
-  //     showConnectionWasInterruptedToastMessage();
-  //   }
-  // }
+  Future<void> getAllPostsOfOtherUserProfile(VoidCallback voidCallback, String userID) async {
+    state = state.copyWith(isLoading: true);
+
+    try {
+      var (response, dioException) =
+      await _networkApiService.postApiRequestWithToken(
+          url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}",
+          body: {
+                "lat": getLatitude,
+                "lng": getLongitude,
+                "user_id": userID,
+          });
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        PostListOfOtherModel postListOfOtherModel = PostListOfOtherModel.fromJson(response.data);
+        if (postListOfOtherModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              postListOfOtherUser: postListOfOtherModel.postListOfOtherUser
+          );
+
+        } else {
+          showToastMessage(postListOfOtherModel.message.toString());
+        }
+      }
+    } catch (error) {
+      AppLog.log(error.toString());
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
 
 }

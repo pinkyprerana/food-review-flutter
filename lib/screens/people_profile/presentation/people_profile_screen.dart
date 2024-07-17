@@ -4,11 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
+import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
-import '../../auth/shared/providers.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../shared/providers.dart';
 
@@ -32,11 +31,19 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
 
 class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final notifier = ref.watch(FollowNotifierProvider.notifier);
+      await notifier.getAllPostsOfOtherUserProfile((){}, widget.peopleId);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    AppLog.log(' widget.peopleimage: ----------->> ${widget.peopleimage}');
     final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
-    final authNotifier = ref.watch(authNotifierProvider.notifier);
-    // final userId = authNotifier.getUserId;
+    final state = ref.watch(FollowNotifierProvider);
+    final postListOfOtherUser = state.postListOfOtherUser;
 
     void _handleFollowButtonPressed(userId) {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
@@ -436,40 +443,49 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
-                child: isFollowing
+                child: postListOfOtherUser.isEmpty
+                    ? Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        'No post available',
+                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 12.sp,
+                          color: AppColors.colorPrimaryAlpha,
+                      ),)
+                    )
+                    : isFollowing
                     ? GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 3 / 3,
-                        ),
-                        itemCount: imageUrls.length,
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              margin: const EdgeInsets.all(2),
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  Image.asset(
-                                    imageUrls[index],
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child: isFollowing
-                                        ? Image.asset(Assets.save)
-                                        : const SizedBox(),
-                                  )
-                                ],
-                              ),
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 3 / 3,
+                      ),
+                      itemCount: postListOfOtherUser.length,
+                      itemBuilder: (context, index) {
+                        final postList = postListOfOtherUser[index];
+
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            margin: const EdgeInsets.all(2),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                Image.network(
+                                  '${AppUrls.postImageLocation}${postList.file}',
+                                  fit: BoxFit.cover,
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: Image.asset(Assets.save),
+                                )
+                              ],
                             ),
-                          );
-                        },
-                      )
+                          ),
+                        );
+                      },
+                    )
                     : Image.asset(Assets.blurred),
               ),
               20.verticalSpace,
@@ -480,18 +496,18 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     );
   }
 
-  final List<String> imageUrls = [
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-  ];
+  // final List<String> imageUrls = [
+  //   Assets.coverPhoto,
+  //   Assets.photo,
+  //   Assets.coverPhoto,
+  //   Assets.photo,
+  //   Assets.coverPhoto,
+  //   Assets.photo,
+  //   Assets.coverPhoto,
+  //   Assets.photo,
+  //   Assets.coverPhoto,
+  //   Assets.photo,
+  //   Assets.coverPhoto,
+  //   Assets.photo,
+  // ];
 }
