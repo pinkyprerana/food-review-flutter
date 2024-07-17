@@ -8,6 +8,7 @@ import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -202,11 +203,26 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
+  Future<void> loadMorePosts(BuildContext context, String? restaurantId) async {
+    AppLog.log(
+        'state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
+    if (state.currentPageForPosts >= state.totalPagesPosts) {
+      showToastMessage('No more posts');
+      restaurantRefreshController.loadComplete();
+      return;
+    }
+
+    await getPosts(
+        context: context, restaurantId: restaurantId, isLoadMore: true);
+    restaurantRefreshController.loadComplete();
+  }
+
   Future<void> getPosts(
       {required BuildContext context,
       bool isLoadMore = false,
       required String? restaurantId}) async {
-    AppLog.log('state.currentPage ======== ${state.currentPage}');
+    AppLog.log(
+        'state.currentPageForPosts ======== ${state.currentPageForPosts}');
     try {
       state = state.copyWith(isLoadingForPosts: !isLoadMore);
 
@@ -239,7 +255,20 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       if (response.statusCode == 200 && response.data != null) {
         AppLog.log('response ---->> $response');
-        state = state.copyWith(isLoadingForPosts: false);
+        final postlistPerRestaurantResponseModel =
+            PostlistPerRestaurantResponseModel.fromJson(response.data!);
+
+        final List<Post>? postList =
+            postlistPerRestaurantResponseModel.postList;
+
+        state = state.copyWith(
+          isLoadingForPosts: false,
+          postPerRestaurantList: [
+            ...state.postPerRestaurantList ?? [],
+            ...postList ?? []
+          ],
+          totalPagesPosts: postlistPerRestaurantResponseModel.pages ?? 0,
+        );
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');

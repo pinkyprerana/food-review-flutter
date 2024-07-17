@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../home/presentation/widgets/post_widget.dart';
 import '../../post_feed/domain/postFeed_model.dart';
 import '../../post_feed/shared/provider.dart';
@@ -85,16 +87,12 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     });
   }
 
-  // final CameraPosition _currentPosition =  CameraPosition(
-  //   target: LatLng(double.parse(widget.lat), 80.2707),
-  //   zoom: 12,
-  // );
   @override
   Widget build(BuildContext context) {
     AppLog.log('restaurantID ----->> ${widget.restaurantId}');
     final mediaQuery = MediaQuery.sizeOf(context);
-    final postFeedState = ref.watch(postFeedNotifierProvider);
-    final postFeedList = postFeedState.postList;
+    final state = ref.watch(restaurantNotifierProvider);
+    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     AppLog.log(widget.image);
     return Scaffold(
       appBar: AppBar(
@@ -714,6 +712,74 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
               ),
               10.verticalSpace,
               //list of posts
+              (state.isLoadingForPosts)
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.colorPrimary,
+                      ),
+                    )
+                  : (state.postPerRestaurantList != null &&
+                          (state.postPerRestaurantList?.isNotEmpty ?? false))
+                      ? SmartRefresher(
+                          controller: stateNotifier.restaurantRefreshController,
+                          enablePullUp: true,
+                          enablePullDown: false,
+                          onRefresh: () {},
+                          onLoading: () {
+                            stateNotifier.loadMorePosts(
+                                context, widget.restaurantId);
+                          },
+                          footer: CustomFooter(
+                            builder: (BuildContext context, mode) {
+                              if (!state.isMoreDataFetchable) {
+                                mode = LoadStatus.noMore;
+                              }
+                              Widget body;
+                              if (mode == LoadStatus.idle) {
+                                body = const SizedBox.shrink();
+                              } else if (mode == LoadStatus.loading) {
+                                body = const CupertinoActivityIndicator();
+                              } else if (mode == LoadStatus.failed) {
+                                body = Text(
+                                  "Load Failed!Click retry!",
+                                  style: AppTextStyles.textStylePoppinsLight,
+                                );
+                              } else if (mode == LoadStatus.canLoading) {
+                                body = Text(
+                                  "release to load more",
+                                  style: AppTextStyles.textStylePoppinsLight,
+                                );
+                              } else {
+                                body = Text(
+                                  "No more Data",
+                                  style: AppTextStyles.textStylePoppinsLight,
+                                );
+                              }
+                              return SizedBox(
+                                height: 55.0,
+                                child: Center(child: body),
+                              );
+                            },
+                          ),
+                          child: ListView.separated(
+                            itemCount: state.postPerRestaurantList?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              return Text('data');
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    5.verticalSpace,
+                          ),
+                        )
+                      : Center(
+                          child: Text(
+                            'No Posts Found',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.textStylePoppins.copyWith(
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                        ),
 
               10.verticalSpace,
             ],
