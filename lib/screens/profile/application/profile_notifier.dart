@@ -7,7 +7,6 @@ import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/model/user_profile/user_profile_model.dart';
@@ -58,8 +57,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       final response = await _dio.get('${AppUrls.BASE_URL}${AppUrls.profile}');
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response ===== $response');
-
         fetchedUser = ProfileDetails.fromJson(response.data!['data']);
         final userProdileResponseModel = UserProfileModel.fromJson(response.data);
 
@@ -69,7 +66,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           userProfileResponseModel: userProdileResponseModel,
           profileImgPath: '${AppUrls.profilePicLocation}/${fetchedUser?.profileImage}',
         );
-        AppLog.log('state.fetchedUser =============== ${state.fetchedUser}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -96,8 +92,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       String fileName = filePicked.path.split('/').last;
 
-      AppLog.log('fileName --------->> $fileName');
-
       final FormData formData = FormData.fromMap({
         if (pickedFile != null)
           "profile_image": await MultipartFile.fromFile(
@@ -108,8 +102,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         "first_name": state.fetchedUser?.firstName,
         "last_name": state.fetchedUser?.lastName,
       });
-
-      AppLog.log('TOKEN ---- ${_hiveDataBase.box.get(AppPreferenceKeys.token)}');
 
       var headers = {
         'Accept': '*/*',
@@ -125,7 +117,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('------SUCCESS----------');
         state = state.copyWith(
           isLoading: false,
           profileImgPath:
@@ -147,10 +138,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   bool validateEmailField() {
     if (emailAddress.text.isEmpty) {
-      showToastMessage('Please enter your Email Address');
+      showToastMessage('Please enter your email address');
       return false;
     } else if (emailAddress.text.isNotEmpty && !Validator.validateEmail(emailAddress.text)) {
-      showToastMessage('Please enter Valid Email');
+      showToastMessage('Please enter a valid email');
       return false;
     } else {
       return true;
@@ -200,8 +191,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           data: formData,
         );
 
-        AppLog.log(response.toString());
-
         if (response.statusCode == 200 && response.data != null) {
           showToastMessage('Password updated successfully!');
 
@@ -209,6 +198,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           newPasswordController.text = '';
           confirmPasswordController.text = '';
 
+          if (!context.mounted) return;
           Navigator.pop(context);
 
           state = state.copyWith(isLoading: false);
@@ -236,18 +226,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   Future<void> changeEmailAddress(BuildContext context) async {
     if (validateEmailField()) {
       try {
-        state = state.copyWith(isLoading: true);
+        state = state.copyWith(isBeingSubmitted: true);
 
-        final FormData formData = FormData.fromMap({
-          // if (pickedFile != null)
-          //   "profile_image": await MultipartFile.fromFile(
-          //     filePicked.path,
-          //   ),
-          "email": emailAddress.text,
-          "phone": state.fetchedUser?.phone,
-          "first_name": state.fetchedUser?.firstName,
-          "last_name": state.fetchedUser?.lastName,
-        });
+        final FormData formData = FormData.fromMap({"email": emailAddress.text});
 
         var headers = {
           'Accept': '*/*',
@@ -269,34 +250,31 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
           await getUserDetails();
 
+          if (!context.mounted) return;
           Navigator.pop(context);
 
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         } else {
-          showToastMessage('Something went wrong, try again');
-
+          showToastMessage(response.statusMessage.toString());
           emailAddress.text = '';
-
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         }
       } catch (error) {
-        state = state.copyWith(isLoading: false);
-
+        state = state.copyWith(isBeingSubmitted: false);
         emailAddress.text = '';
-
-        showToastMessage('Something, went wrong, please try again');
+        showToastMessage(error.toString());
       }
     }
   }
 
   bool validatePhoneNumber() {
     if (phoneNumber.text.isEmpty) {
-      showToastMessage('Please Enter Your Phone Number');
+      showToastMessage('Please enter your phone number');
       return false;
-    } else if (phoneNumber.text.isNotEmpty && phoneNumber.text.length < 10) {
-      showToastMessage('Please Enter A Valid Phone Number');
+    } else if (phoneNumber.text.length < 10) {
+      showToastMessage('Please enter a valid phone number');
       return false;
-    } else if (phoneNumber.text.isNotEmpty && !Validator.validatePhone(phoneNumber.text)) {
+    } else if (!Validator.validatePhone(phoneNumber.text)) {
       showToastMessage('Please enter a valid phone number');
       return false;
     } else {
@@ -307,14 +285,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   Future<void> changePhoneNumber(BuildContext context) async {
     if (validatePhoneNumber()) {
       try {
-        state = state.copyWith(isLoading: true);
+        state = state.copyWith(isBeingSubmitted: true);
 
-        final FormData formData = FormData.fromMap({
-          "email": state.fetchedUser?.email,
-          "phone": phoneNumber.text,
-          "first_name": state.fetchedUser?.firstName,
-          "last_name": state.fetchedUser?.lastName,
-        });
+        final FormData formData = FormData.fromMap({"phone": phoneNumber.text});
 
         var headers = {
           'Accept': '*/*',
@@ -336,22 +309,19 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
           await getUserDetails();
 
+          if (!context.mounted) return;
           Navigator.pop(context);
 
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         } else {
-          showToastMessage('Something went wrong, try again');
-
+          showToastMessage(response.statusMessage.toString());
           phoneNumber.text = '';
-
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         }
       } catch (error) {
-        state = state.copyWith(isLoading: false);
-
+        state = state.copyWith(isBeingSubmitted: false);
         phoneNumber.text = '';
-
-        showToastMessage('Something, went wrong, please try again');
+        showToastMessage(error.toString());
       }
     }
   }
@@ -382,16 +352,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         await getUserDetails();
 
+        if (!context.mounted) return;
         Navigator.pop(context);
 
         state = state.copyWith(isLoading: false);
       } else {
-        showToastMessage('Something went wrong, try again');
+        showToastMessage(response.statusCode.toString());
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage('Something, went wrong, please try again');
+      showToastMessage(error.toString());
     }
   }
 
@@ -443,18 +414,20 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         if (response.statusCode == 200 && response.data != null) {
           showToastMessage('Thank you for reaching out. Our team will get to you soon.');
           contactMessageController.text = '';
+
+          if (!context.mounted) return;
           Navigator.pop(context);
 
           state = state.copyWith(isLoading: false);
         } else {
-          showToastMessage('Something went wrong, try again');
+          showToastMessage(response.statusMessage.toString());
           contactMessageController.text = '';
           state = state.copyWith(isLoading: false);
         }
       } catch (error) {
         state = state.copyWith(isLoading: false);
         contactMessageController.text = '';
-        showToastMessage('Something, went wrong, please try again');
+        showToastMessage(error.toString());
       }
     }
   }

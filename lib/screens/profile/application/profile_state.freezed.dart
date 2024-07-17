@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isBeingSubmitted => throw _privateConstructorUsedError;
   String get profileImgPath => throw _privateConstructorUsedError;
   ProfileDetails? get fetchedUser => throw _privateConstructorUsedError;
   String get profileImage => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $ProfileStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isBeingSubmitted,
       String profileImgPath,
       ProfileDetails? fetchedUser,
       String profileImage,
@@ -59,6 +61,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isBeingSubmitted = null,
     Object? profileImgPath = null,
     Object? fetchedUser = freezed,
     Object? profileImage = null,
@@ -68,6 +71,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBeingSubmitted: null == isBeingSubmitted
+          ? _value.isBeingSubmitted
+          : isBeingSubmitted // ignore: cast_nullable_to_non_nullable
               as bool,
       profileImgPath: null == profileImgPath
           ? _value.profileImgPath
@@ -124,6 +131,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isBeingSubmitted,
       String profileImgPath,
       ProfileDetails? fetchedUser,
       String profileImage,
@@ -147,6 +155,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isBeingSubmitted = null,
     Object? profileImgPath = null,
     Object? fetchedUser = freezed,
     Object? profileImage = null,
@@ -156,6 +165,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBeingSubmitted: null == isBeingSubmitted
+          ? _value.isBeingSubmitted
+          : isBeingSubmitted // ignore: cast_nullable_to_non_nullable
               as bool,
       profileImgPath: null == profileImgPath
           ? _value.profileImgPath
@@ -182,6 +195,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 class _$ProfileStateImpl extends _ProfileState {
   const _$ProfileStateImpl(
       {this.isLoading = false,
+      this.isBeingSubmitted = false,
       this.profileImgPath = '',
       this.fetchedUser,
       this.profileImage = '',
@@ -191,6 +205,9 @@ class _$ProfileStateImpl extends _ProfileState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isBeingSubmitted;
   @override
   @JsonKey()
   final String profileImgPath;
@@ -204,7 +221,7 @@ class _$ProfileStateImpl extends _ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel)';
+    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel)';
   }
 
   @override
@@ -214,6 +231,8 @@ class _$ProfileStateImpl extends _ProfileState {
             other is _$ProfileStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isBeingSubmitted, isBeingSubmitted) ||
+                other.isBeingSubmitted == isBeingSubmitted) &&
             (identical(other.profileImgPath, profileImgPath) ||
                 other.profileImgPath == profileImgPath) &&
             (identical(other.fetchedUser, fetchedUser) ||
@@ -226,8 +245,8 @@ class _$ProfileStateImpl extends _ProfileState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, profileImgPath,
-      fetchedUser, profileImage, userProfileResponseModel);
+  int get hashCode => Object.hash(runtimeType, isLoading, isBeingSubmitted,
+      profileImgPath, fetchedUser, profileImage, userProfileResponseModel);
 
   @JsonKey(ignore: true)
   @override
@@ -239,6 +258,7 @@ class _$ProfileStateImpl extends _ProfileState {
 abstract class _ProfileState extends ProfileState {
   const factory _ProfileState(
       {final bool isLoading,
+      final bool isBeingSubmitted,
       final String profileImgPath,
       final ProfileDetails? fetchedUser,
       final String profileImage,
@@ -247,6 +267,8 @@ abstract class _ProfileState extends ProfileState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isBeingSubmitted;
   @override
   String get profileImgPath;
   @override
