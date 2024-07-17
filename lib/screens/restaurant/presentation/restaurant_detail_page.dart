@@ -35,6 +35,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
     required this.description,
     required this.rating,
     required this.numberOfReviews,
+    required this.restaurantId,
   });
   final String lat;
   final String lng;
@@ -44,6 +45,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
   final String rating;
   final String description;
   final String numberOfReviews;
+  final String restaurantId;
 
   @override
   ConsumerState<RestaurantDetailPage> createState() =>
@@ -75,10 +77,12 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     ];
     _marker.addAll(_list);
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    // final restaurantStateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    // restaurantStateNotifier.getPostListRelatedToRestaurant((){},postList.id);
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final restaurantStateNotifier =
+          ref.watch(restaurantNotifierProvider.notifier);
+      await restaurantStateNotifier.getPosts(
+          context: context, restaurantId: widget.restaurantId);
+    });
   }
 
   // final CameraPosition _currentPosition =  CameraPosition(
@@ -87,6 +91,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
   // );
   @override
   Widget build(BuildContext context) {
+    AppLog.log('restaurantID ----->> ${widget.restaurantId}');
     final mediaQuery = MediaQuery.sizeOf(context);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
@@ -709,31 +714,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
               ),
               10.verticalSpace,
               //list of posts
-              ListView.builder(
-                  itemCount:
-                      postFeedList.length > 3 ? 3 : postFeedList.length, //3
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(0),
-                  itemBuilder: (context, index) {
-                    if (index < 0 || index >= postFeedList.length) {
-                      return const SizedBox.shrink();
-                    }
 
-                    final postList = postFeedList[index];
-                    final restaurantState =
-                        ref.watch(restaurantNotifierProvider);
-                    final restaurantStateNotifier =
-                        ref.watch(restaurantNotifierProvider.notifier);
-                    restaurantStateNotifier.getPostListRelatedToRestaurant(
-                        () {}, postList.id);
-                    final postListOfRestaurant = restaurantState.postList;
-                    return postFeedList.isEmpty
-                        ? PostWidget(
-                            postList: postListOfRestaurant as DataOfPostModel,
-                          )
-                        : const Text("No post yet");
-                  }),
               10.verticalSpace,
             ],
           ),

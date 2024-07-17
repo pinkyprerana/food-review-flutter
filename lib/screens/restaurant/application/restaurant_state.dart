@@ -20,6 +20,8 @@ class RestaurantState with _$RestaurantState {
     @Default(true) isMoreDataFetchable,
     @Default([]) List<DataOfPostModel> postList,
     @Default([]) List<Post>? postPerRestaurantList,
+    @Default(1) int currentPageForPosts,
+    @Default(false) bool isLoadingForPosts,
   }) = _RestaurantState;
   const RestaurantState._();
 }

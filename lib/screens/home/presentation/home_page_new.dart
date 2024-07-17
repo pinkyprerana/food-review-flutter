@@ -29,8 +29,6 @@ class HomePageNew extends ConsumerStatefulWidget {
 }
 
 class _HomePageNewState extends ConsumerState<HomePageNew> {
-
-
   @override
   void initState() {
     super.initState();
@@ -221,6 +219,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 return GestureDetector(
                                   onTap: () => AutoRouter.of(context)
                                       .push(RestaurantDetailRoute(
+                                    restaurantId: stateRestaurant
+                                            .homeRestaurantList?[index].id ??
+                                        '',
                                     numberOfReviews: stateRestaurant
                                             .homeRestaurantList?[index]
                                             .userRatingsTotal ??

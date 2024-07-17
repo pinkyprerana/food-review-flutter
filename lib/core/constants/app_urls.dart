@@ -1,6 +1,7 @@
 class AppUrls {
   static const BASE_URL = 'https://forthetable.dedicateddevelopers.us/api';
-  static const postImageLocation = 'https://forthetable.dedicateddevelopers.us/uploads/post/';
+  static const postImageLocation =
+      'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   static const signup = '/user/signup';
   static const signin = '/user/signin';
@@ -24,4 +25,5 @@ class AppUrls {
   // Profile
   static const updatePassword = '/user/change-password';
   static const contact = '/contactUs/submit';
+  static const postListPerRestaurant = '/post/list';
 }
