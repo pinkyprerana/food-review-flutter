@@ -443,17 +443,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
-                child: postListOfOtherUser.isEmpty
-                    ? Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        'No post available',
-                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 12.sp,
-                          color: AppColors.colorPrimaryAlpha,
-                      ),)
-                    )
-                    : isFollowing
+                child: isFollowing
+                    ? postListOfOtherUser.isNotEmpty
                     ? GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -478,13 +469,29 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 Positioned(
                                   top: 8,
                                   right: 8,
-                                  child: Image.asset(Assets.save),
+                                  child: isFollowing
+                                      ? Image.asset(Assets.save)
+                                      : const SizedBox(),
                                 )
                               ],
                             ),
                           ),
                         );
                       },
+                    )
+                    : Align(
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Icon(Icons.no_photography_outlined, size:  50.h, color: AppColors.colorPrimaryAlpha,),
+                            Text(
+                              'No post available',
+                              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                fontSize: 12.sp,
+                                color: AppColors.colorPrimaryAlpha,
+                              ),),
+                          ],
+                        )
                     )
                     : Image.asset(Assets.blurred),
               ),
