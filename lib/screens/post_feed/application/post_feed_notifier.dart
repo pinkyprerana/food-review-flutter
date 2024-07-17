@@ -117,8 +117,76 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  void clearPostFeed() {
-    state = state.copyWith(postList: []);
+  Future<void> swipeRightToLikePost(VoidCallback voidCallback, String postID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${'/post-like/swapped'}',
+          body:
+          {
+            "post_id": postID,
+            "type": "like"
+          }
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          // state = state.copyWith(isLiked: !state.isLiked);
+          voidCallback.call();
+
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> swipeLeftToDislikePost(VoidCallback voidCallback, String postID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${'/post-like/swapped'}',
+          body:
+          {
+            "post_id": postID,
+            "type": "dislike"
+          }
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          // state = state.copyWith(isLiked: !state.isLiked);
+          voidCallback.call();
+
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
   }
 
 }

@@ -21,15 +21,12 @@ class FollowNotifier extends StateNotifier<FollowState> {
   Future<void> follow_unfollow(VoidCallback voidCallback, String userID) async {
     state = state.copyWith(isLoading: true);
     try {
-      var (
-      response,
-      dioException
-      ) = await _networkApiService.postApiRequestWithToken(
-          url:
-          '${AppUrls.BASE_URL}${AppUrls.follow_unfollow}',
-          body: {
-            "follow_user_id": userID,
-          });
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}${AppUrls.follow_unfollow}',
+        body: {
+          "follow_user_id": userID,
+        },
+      );
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -41,7 +38,10 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          state = state.copyWith(isFollowing: !state.isFollowing);
+          final isFollowing = state.userFollowStatus[userID] ?? false;
+          state = state.copyWith(
+            userFollowStatus: {...state.userFollowStatus, userID: !isFollowing},
+          );
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);

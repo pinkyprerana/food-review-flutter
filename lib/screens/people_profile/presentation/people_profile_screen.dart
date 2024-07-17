@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/widgets/custom_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
@@ -41,13 +42,14 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
+    final isFollowing = ref.watch(FollowNotifierProvider.select(
+            (state) => state.userFollowStatus[widget.peopleId] ?? widget.isFollow));
     final state = ref.watch(FollowNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
-
+    print("postListOfOtherUser:--->>> $postListOfOtherUser");
     void _handleFollowButtonPressed(userId) {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
-      followNotifier.follow_unfollow(() {}, userId!);
+      followNotifier.follow_unfollow(() {}, userId);
     }
 
     return Scaffold(
@@ -147,8 +149,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      _handleFollowButtonPressed(
-                                          widget.peopleId);
+                                      _handleFollowButtonPressed(widget.peopleId);
                                     },
                                     child: Container(
                                       width: 158.w,
@@ -371,32 +372,6 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                           spreadRadius: 0)
                                     ],
                                   ),
-                                  // child: ClipRRect(
-                                  //   borderRadius: BorderRadius.circular(50),
-                                  //   child: CachedNetworkImage(
-                                  //     imageUrl: widget.peopleimage,
-                                  //     placeholder: (context, url) =>
-                                  //         const CircularProgressIndicator(),
-                                  //     errorWidget: (context, url, error) =>
-                                  //         Image.asset(
-                                  //       Assets.avatar,
-                                  //       scale: 1,
-                                  //       fit: BoxFit.cover,
-                                  //     ),
-                                  //     imageBuilder: (context, imageProvider) =>
-                                  //         Container(
-                                  //       width: 49.w,
-                                  //       height: 49.h,
-                                  //       decoration: BoxDecoration(
-                                  //         shape: BoxShape.circle,
-                                  //         image: DecorationImage(
-                                  //           image: imageProvider,
-                                  //           fit: BoxFit.cover,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ),
                               ),
                               Positioned(
@@ -454,7 +429,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                       itemCount: postListOfOtherUser.length,
                       itemBuilder: (context, index) {
                         final postList = postListOfOtherUser[index];
-
+                        print("postList:--->>> $postList");
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
@@ -469,9 +444,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 Positioned(
                                   top: 8,
                                   right: 8,
-                                  child: isFollowing
-                                      ? Image.asset(Assets.save)
-                                      : const SizedBox(),
+                                  child: Image.asset(Assets.save),
                                 )
                               ],
                             ),
@@ -480,19 +453,24 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                       },
                     )
                     : Align(
-                        alignment: Alignment.topCenter,
-                        child: Column(
-                          children: [
-                            Icon(Icons.no_photography_outlined, size:  50.h, color: AppColors.colorPrimaryAlpha,),
-                            Text(
-                              'No post available',
-                              style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                fontSize: 12.sp,
-                                color: AppColors.colorPrimaryAlpha,
-                              ),),
-                          ],
-                        )
-                    )
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GradientIcon(
+                            icon: Icons.no_photography_outlined,
+                            size: 50.h,
+                        ),
+                        Text(
+                          'No post available',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 12.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                     : Image.asset(Assets.blurred),
               ),
               20.verticalSpace,
@@ -503,18 +481,4 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     );
   }
 
-  // final List<String> imageUrls = [
-  //   Assets.coverPhoto,
-  //   Assets.photo,
-  //   Assets.coverPhoto,
-  //   Assets.photo,
-  //   Assets.coverPhoto,
-  //   Assets.photo,
-  //   Assets.coverPhoto,
-  //   Assets.photo,
-  //   Assets.coverPhoto,
-  //   Assets.photo,
-  //   Assets.coverPhoto,
-  //   Assets.photo,
-  // ];
 }

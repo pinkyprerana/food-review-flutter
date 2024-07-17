@@ -26,13 +26,16 @@ class FollowOptionWidget extends ConsumerStatefulWidget {
 
 class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
   void _handleFollowUnfollowButtonPressed(userId) {
+    print("userId--->>>${userId}");
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
     followNotifier.follow_unfollow(() {}, userId);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isFollowing = ref.watch(FollowNotifierProvider).isFollowing;
+    final isFollowing = ref.watch(FollowNotifierProvider.select(
+            (state) => state.userFollowStatus[widget.followersId] ?? widget.isFollow));
+
 
     return Container(
       margin: const EdgeInsets.only(left: 15).r,
@@ -91,22 +94,23 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
           15.verticalSpace,
           GestureDetector(
             onTap: () {
-              // _handleFollowUnfollowButtonPressed(widget.followersId);
+              _handleFollowUnfollowButtonPressed(widget.followersId);
             },
             child: Container(
               padding:
                   const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: AppColors.colorNavy,
+                color: isFollowing ? AppColors.colorWhite : AppColors.colorNavy,
+                border: Border.all(color: AppColors.colorSmallProfileContainerBorder, width: 1,),
               ),
               child: Center(
                 child: Text(
-                  // isFollowing ? 'UNFOLLOW' :
+                  isFollowing ? 'UNFOLLOW' :
                   'FOLLOW',
                   style: AppTextStyles.textStylePoppinsBold.copyWith(
                     fontSize: 10.sp,
-                    color: AppColors.colorWhite,
+                    color: isFollowing ? AppColors.colorBlack : AppColors.colorWhite,
                   ),
                 ),
               ),
