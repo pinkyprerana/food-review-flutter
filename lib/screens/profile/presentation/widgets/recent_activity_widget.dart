@@ -19,6 +19,17 @@ class RecentActivityWidget extends StatelessWidget {
     required this.title,
   });
 
+  String get activityDateTime {
+    DateTime now = DateTime.now();
+    DateTime activityTime = DateTime.parse(subtitle.toString());
+
+    bool isToday = now.year == activityTime.year &&
+        now.month == activityTime.month &&
+        now.day == activityTime.day;
+
+    return isToday ? 'Today' : '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,7 +66,7 @@ class RecentActivityWidget extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          DateFormat('dd/MM/yyyy').format(subtitle),
+          '${activityDateTime.isEmpty ? '' : activityDateTime} ${DateFormat('HH:mm a').format(subtitle)}',
           style: AppTextStyles.textStylePoppinsRegular.copyWith(
             fontSize: 10.sp,
             color: AppColors.colorPrimaryAlpha,
