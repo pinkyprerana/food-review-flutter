@@ -1,0 +1,307 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
+import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../shared/providers.dart';
+import 'bottom_item.dart';
+
+class BottomNavigation extends ConsumerStatefulWidget {
+  const BottomNavigation({super.key});
+  @override
+  ConsumerState<BottomNavigation> createState() => _BottomNavigationState();
+}
+
+class _BottomNavigationState extends ConsumerState<BottomNavigation> {
+  Future<void> _checkPermissions({required VoidCallback onSuccess}) async {
+    final cameraStatus = await Permission.camera.status;
+
+    if (cameraStatus.isGranted) {
+      onSuccess();
+    } else {
+      _showPermissionDialog();
+    }
+  }
+
+  void _showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Camera Permission'),
+        content: const Text(
+          'Camera and files access are required to use this feature. Please enable them in the app settings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final controller =
+    //     NotchBottomBarController(); // Define NotchBottomBarController
+    // final pageController = PageController(); // Define PageController
+
+    final state = ref.watch(baseNotifierProvider);
+    final stateNotifier = ref.watch(baseNotifierProvider.notifier);
+
+    final Size size = MediaQuery.of(context).size;
+    // final pageController0 = PageController(initialPage: 0);
+    List<Map> bottomItems = [
+      {'icon': Assets.homeInactive, 'active': Assets.home, 'name': 'Home'},
+      {'icon': Assets.listInactive, 'active': Assets.listActive, 'name': 'List'},
+      {'icon': Assets.post, 'active': Assets.post, 'name': 'Post'},
+      {'icon': Assets.leaderboardInactive, 'active': Assets.leaderboardActive, 'name': 'Standings'},
+      {'icon': Assets.profileInactive, 'active': Assets.profileActive, 'name': 'Profile'},
+    ];
+
+    // int currentIndex = 0;
+    // onTabTapped(int index) {
+    //   // setState(() {
+    //   currentIndex = index;
+    //   switch (currentIndex) {
+    //     case 0:
+    //       AppConstants.HOME.toUpperCase();
+    //       break;
+    //     case 1:
+    //       AppConstants.TASKS.toUpperCase();
+    //       break;
+    //     case 2:
+    //       AppConstants.MYTASKS.toUpperCase();
+    //       break;
+    //     case 3:
+    //       AppConstants.WALLET.toUpperCase();
+    //       break;
+    //     case 4:
+    //       AppConstants.PROFILE.toUpperCase();
+    //       break;
+    //     default:
+    //       AppConstants.HOME.toUpperCase();
+    //   }
+    //   // });
+    // }
+
+    return SizedBox(
+      width: size.width,
+      height: 80,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.colorWhite,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              boxShadow: [
+                BoxShadow(
+                    color: AppColors.colorBlack.withOpacity(0.15),
+                    blurRadius: 54,
+                    spreadRadius: 0,
+                    offset: const Offset(0, -1)),
+              ],
+            ),
+          ),
+          // GestureDetector(
+          //   onTap: () => stateNotifier.tapBottomNavIndex(2),
+          //   child: Center(
+          //     heightFactor: 0.5,
+          //     child: Container(
+          //       width: 70,
+          //       height: 70,
+          //       color: AppColors.colorTransparent,
+          //       child: Image.asset(state.bottomNavIndex == 2
+          //           ? Assets.bHome
+          //           : Assets.bHomeInActive),
+          //     ),
+          //   ),
+          // ),
+          Center(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                    5,
+                    (index) => GestureDetector(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          if (index == 1) {
+                            // cartNotifier.listItems();
+                            stateNotifier.tapBottomNavIndex(index);
+                          }
+                          if (index == 2) {
+                            // AutoRouter.of(context).push(const PhotoClickRoute());
+                            _checkPermissions(onSuccess: () {
+                              if (!mounted) return;
+
+                              AutoRouter.of(context).push(const PhotoClickRoute());
+                            });
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const PhotoClickPage(),
+                            //     fullscreenDialog: true,
+                            //   ),
+                            // );
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const PhotoClickPageNew(),
+                            //     fullscreenDialog: true,
+                            //   ),
+                            // );
+                          } else {
+                            stateNotifier.tapBottomNavIndex(index);
+                          }
+                        },
+                        child: BottomItem(
+                          icon: state.bottomNavIndex == index
+                              ? bottomItems[index]['active']
+                              : bottomItems[index]['icon'],
+                          text: '',
+                          active: state.bottomNavIndex == index,
+                        )))),
+          ),
+        ],
+      ),
+    );
+
+    // SizedBox(
+    //   height: 90.h,
+    //   width: size.width,
+    //   child: AnimatedNotchBottomBar(
+    //     notchBottomBarController: controller,
+    //     color: AppColors.colorWhite,
+    //     itemLabelStyle: TextStyle(
+    //         color: AppColors.colorPrimary,
+    //         fontSize: isDesktop(context)
+    //             ? AppConfigs.TIMELINE_TEXT
+    //             : AppConfigs.TIMELINE_TEXT,
+    //         fontFamily: AppConfigs.font,
+    //         overflow: TextOverflow.ellipsis),
+    //     showLabel: true,
+    //     shadowElevation: 0,
+    //     kBottomRadius: 0, //28.0,
+    //     notchColor: AppColors.colorWhite,
+    //     removeMargins: true,
+    //     bottomBarWidth: size.width,
+    //     showBlurBottomBar: false,
+    //     durationInMilliSeconds: 300,
+    //     bottomBarItems: [
+    //       ///1
+    //       BottomBarItem(
+    //         inActiveItem: Icon(
+    //           Icons.list_alt,
+    //           color: AppColors.colorBlack,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         activeItem: Icon(
+    //           Icons.list_alt,
+    //           color: AppColors.colorPrimary,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         itemLabel: AppConstants.HOME,
+    //       ),
+
+    //       ///2
+    //       BottomBarItem(
+    //         inActiveItem: Icon(
+    //           Icons.wallet,
+    //           color: AppColors.colorBlack,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         activeItem: Icon(
+    //           Icons.wallet,
+    //           color: AppColors.colorPrimary,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         itemLabel: AppConstants.TASKS.toUpperCase(),
+    //       ),
+
+    //       ///3
+    //       BottomBarItem(
+    //         inActiveItem: Icon(
+    //           Icons.home,
+    //           color: AppColors.colorBlack,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         activeItem: Icon(
+    //           Icons.home,
+    //           color: AppColors.colorPrimary,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         itemLabel: AppConstants.MYTASKS.toUpperCase(),
+    //       ),
+
+    //       ///4
+    //       BottomBarItem(
+    //         inActiveItem: Icon(
+    //           Icons.task_alt_sharp,
+    //           color: AppColors.colorBlack,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         activeItem: Icon(
+    //           Icons.task_alt_sharp,
+    //           color: AppColors.colorPrimary,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         itemLabel: AppConstants.WALLET.toUpperCase(),
+    //       ),
+
+    //       ///5
+    //       BottomBarItem(
+    //         inActiveItem: Icon(
+    //           Icons.person,
+    //           color: AppColors.colorBlack,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         activeItem: Icon(
+    //           Icons.person,
+    //           color: AppColors.colorPrimary,
+    //           size: isDesktop(context)
+    //               ? AppConfigs.ICON_SIZE
+    //               : AppConfigs.ICON_SMALL_SIZE,
+    //         ),
+    //         itemLabel: AppConstants.PROFILE.toUpperCase(),
+    //       ),
+    //     ],
+    //     onTap: (index) {
+    //       /// perform action on tab change and to update pages you can update pages without pages
+    //       print('current selected index $index');
+    //       // pageController0.jumpToPage(index);
+    //       onTabTapped(index);
+    //     },
+
+    //     kIconSize: 24.0,
+    //   ),
+    // );
+  }
+}
