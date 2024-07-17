@@ -6,6 +6,7 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
+import '../../../widgets/custom_icon.dart';
 import '../../base/shared/providers.dart';
 import '../shared/provider.dart';
 
@@ -86,15 +87,21 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.find_in_page_sharp,
-                    size: 50.h,
-                    color: AppColors.colorPrimaryAlpha,
+                  GradientIcon(
+                    icon: Icons.check_circle_outline_rounded,
+                    size:100.h,
                   ),
                   Text(
-                    'You viewed all posts',
+                    "You're all caught up",
                     style: AppTextStyles.textStylePoppinsMedium.copyWith(
                       fontSize: 12.sp,
+                      color: AppColors.colorBlack,
+                    ),
+                  ),
+                  Text(
+                    "You've seen all new posts !",
+                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                      fontSize: 11.sp,
                       color: AppColors.colorPrimaryAlpha,
                     ),
                   ),

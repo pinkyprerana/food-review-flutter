@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/widgets/custom_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
@@ -456,10 +457,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                       child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.no_photography_outlined,
-                          size: 50.h,
-                          color: AppColors.colorPrimaryAlpha,
+                        GradientIcon(
+                            icon: Icons.no_photography_outlined,
+                            size: 50.h,
                         ),
                         Text(
                           'No post available',
