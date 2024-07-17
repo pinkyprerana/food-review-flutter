@@ -117,7 +117,9 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
   void _switchCamera() {
     selectedCameraIndex = selectedCameraIndex == 0 ? 1 : 0;
-    _initializeCamera();
+    _initializeCamera().then((_) {
+      setState(() {});
+    });
   }
 
   @override
