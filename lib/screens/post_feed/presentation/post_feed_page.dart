@@ -6,7 +6,6 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-
 import '../../base/shared/providers.dart';
 import '../shared/provider.dart';
 
@@ -42,26 +41,21 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
 
     if (_swipeItems.isEmpty && postFeedList.isNotEmpty) {
       for (int i = 0; i < postFeedList.length; i++) {
+        final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
         _swipeItems.add(SwipeItem(
             content: Content(text: postFeedList[i].toString()),
-            likeAction: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Liked ${postFeedList[i].title}"),
-                duration: const Duration(milliseconds: 500),
-              ));
+            likeAction: () async {
+              await postFeedNotifier.swipeRightToLikePost((){}, postFeedList[i].id);
             },
-            nopeAction: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Not liked ${postFeedList[i].title}"),
-                duration: const Duration(milliseconds: 500),
-              ));
+            nopeAction: () async {
+              await postFeedNotifier.swipeLeftToDislikePost((){}, postFeedList[i].id);
             },
-            superlikeAction: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Superliked ${postFeedList[i].title}"),
-                duration: const Duration(milliseconds: 500),
-              ));
-            },
+            // superlikeAction: () {
+            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //     content: Text("Superliked ${postFeedList[i].title}"),
+            //     duration: const Duration(milliseconds: 500),
+            //   ));
+            // },
             onSlideUpdate: (SlideRegion? region) async {
               print("Region $region");
             }
@@ -88,7 +82,25 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
           SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight,
             child: _isStackFinished
-                ? const Center(child: Text("Post Finished"),)
+                ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.find_in_page_sharp,
+                    size: 50.h,
+                    color: AppColors.colorPrimaryAlpha,
+                  ),
+                  Text(
+                    'You viewed all posts',
+                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                      fontSize: 12.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                    ),
+                  ),
+                ],
+              ),
+            )
             : SwipeCards(
               matchEngine: _matchEngine!,
               itemBuilder: (BuildContext context, int index) {
@@ -99,10 +111,10 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                 return PostFeedItem(postList: postList);
               },
               onStackFinished: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Post Finished"),
-                  duration: Duration(milliseconds: 500),
-                ));
+                // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                //   content: Text("Post Finished"),
+                //   duration: Duration(milliseconds: 500),
+                // ));
                 setState(() {
                   _isStackFinished = true;
                 });
@@ -110,7 +122,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
               itemChanged: (SwipeItem item, int index) {
                 print("item: ${item.content.text}, index: $index");
               },
-              upSwipeAllowed: true,
+              upSwipeAllowed: false,
               fillSpace: true,
             ),
           ),
