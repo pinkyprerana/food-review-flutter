@@ -21,6 +21,7 @@ class ExpandedPostDetails extends StatelessWidget {
     final String title = postList.title;
     final String description = postList.description;
     final String restaurantName = postList.restaurantInfo.name;
+    final String restaurantRating = postList.restaurantInfo.rating;
     final String address = postList.restaurantInfo.address;
     final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
     final int commentCount= postList.commentCount;
@@ -159,7 +160,7 @@ class ExpandedPostDetails extends StatelessWidget {
               Image.asset(Assets.star),
               5.horizontalSpace,
               Text(
-                '4.8',
+                restaurantRating,
                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                   fontSize: 10.sp,
                   color: AppColors.colorWhite,
@@ -181,24 +182,25 @@ class ExpandedPostDetails extends StatelessWidget {
             ],
           ),
           20.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                description,//'A memorable evening to be remembered.',
-                style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                  fontSize: 13.sp,
-                  color: AppColors.colorWhite,
-                ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              title,
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorWhite,
               ),
-            ],
+            ),
           ),
           15.verticalSpace,
-          Text(
-            'Lorem ipsum dolor sit amet consectetur. Dui eget feugiat lacus turpis proin tellus mauris consectetur. Adipiscing enim scelerisque ultrices tincidunt. Orci duis euismod ullamcorper adipiscing. Mattis vitae ut in turpis hendrerit tincidunt posuere. Et lorem quis vel scelerisque nec. Et nunc facilisis faucibus mattis a sit mi donec commodo. ',
-            style: AppTextStyles.textStylePoppinsRegular.copyWith(
-              fontSize: 10.sp,
-              color: AppColors.colorWhite,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              description,
+              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                fontSize: 10.sp,
+                color: AppColors.colorWhite,
+              ),
             ),
           )
         ],

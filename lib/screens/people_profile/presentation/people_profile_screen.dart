@@ -358,6 +358,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                               widget.peopleimage)
                                           : const AssetImage(
                                               Assets.noProfileImage),
+                                      fit: BoxFit.cover,
                                     ),
                                     color: Colors.red,
                                     shape: BoxShape.circle,
