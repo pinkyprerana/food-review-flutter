@@ -156,7 +156,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
         final followRequests = followRequestModel.requestsList;
 
         if (isLoadMore) {
-          final currentRequestsIds = state.followerList.map((req) => req.id).toSet();
+          final currentRequestsIds = state.followRequestsList.map((req) => req.id).toSet();
 
           final uniqueNewRequests =
               followRequests?.where((req) => !currentRequestsIds.contains(req.id)).toList();
