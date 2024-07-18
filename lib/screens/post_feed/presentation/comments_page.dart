@@ -116,7 +116,9 @@ class CommentsPage extends StatelessWidget {
                       20.verticalSpace,
                       Image.asset(Assets.like),
                       15.verticalSpace,
-                      const CommentsIcon(),
+                      const CommentsIcon(
+                        commentCount: 0,
+                      ),
                       10.verticalSpace,
                       Image.asset(Assets.bookmark),
                     ],

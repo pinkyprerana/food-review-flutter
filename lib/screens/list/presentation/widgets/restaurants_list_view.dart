@@ -92,6 +92,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
+                            restaurantId: state.restaurantList?[index].id ?? '',
                             numberOfReviews:
                                 state.restaurantList?[index].userRatingsTotal ??
                                     '',
@@ -118,36 +119,34 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0).r,
-                                child: ((state.restaurantList?[index].image?[0]
-                                                .contains('jpg') ??
-                                            false) ||
+                                child: ((state.restaurantList?[index].image?[0].contains('jpg') ?? false) ||
                                         (state.restaurantList?[index].image?[0]
                                                 .contains('png') ??
-                                            false) || (state.restaurantList?[index].image?[0]
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
                                                 .contains('jpeg') ??
-                                            false) || (state.restaurantList?[index].image?[0]
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
                                                 .contains('gif') ??
-                                            false) || (state.restaurantList?[index].image?[0]
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
                                                 .contains('bmp') ??
-                                            false) || (state.restaurantList?[index].image?[0]
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
                                                 .contains('tiff') ??
-                                            false) || (state.restaurantList?[index].image?[0]
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
                                                 .contains('tif') ??
-                                            false) || (state.restaurantList?[index].image?[0]
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0]
                                                 .contains('webp') ??
-                                            false) || (state.restaurantList?[index].image?[0]
-                                                .contains('heic') ??
-                                            false) || (state.restaurantList?[index].image?[0]
-                                                .contains('heif') ??
-                                            false) || (state.restaurantList?[index].image?[0]
-                                                .contains('svg') ??
-                                            false) || (state.restaurantList?[index].image?[0]
-                                                .contains('raw') ??
-                                            false) || (state.restaurantList?[index].image?[0]
-                                                .contains('cr2') ??
-                                            false) || (state.restaurantList?[index].image?[0]
-                                                .contains('nef') ??
-                                            false))
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0].contains('heic') ?? false) ||
+                                        (state.restaurantList?[index].image?[0].contains('heif') ?? false) ||
+                                        (state.restaurantList?[index].image?[0].contains('svg') ?? false) ||
+                                        (state.restaurantList?[index].image?[0].contains('raw') ?? false) ||
+                                        (state.restaurantList?[index].image?[0].contains('cr2') ?? false) ||
+                                        (state.restaurantList?[index].image?[0].contains('nef') ?? false))
                                     ? CachedNetworkImage(
                                         imageUrl:
                                             'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.restaurantList?[index].image?[0]}',

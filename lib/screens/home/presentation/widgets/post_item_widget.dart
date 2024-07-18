@@ -1,17 +1,41 @@
 import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+
+import 'package:for_the_table/screens/post_feed/presentation/widgets/comments_icon.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
-import '../../../post_feed/presentation/widgets/comments_icon.dart';
-
-class DislikedPostWidget extends StatelessWidget {
-  const DislikedPostWidget({super.key});
+class PostItemWidget2 extends StatelessWidget {
+  const PostItemWidget2({
+    super.key,
+    required this.userName,
+    required this.userImage,
+    required this.cuisine,
+    required this.description,
+    required this.image,
+    required this.restaurantName,
+    required this.title,
+    required this.restaurantAddress,
+    required this.commentCount,
+    required this.isFollowing,
+  });
+  final String image;
+  final String title;
+  final String description;
+  final String cuisine;
+  final String restaurantName;
+  final String userName;
+  final String userImage;
+  final String restaurantAddress;
+  final int commentCount;
+  final bool isFollowing;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +46,15 @@ class DislikedPostWidget extends StatelessWidget {
       // height: 295.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        image: const DecorationImage(
-            image: AssetImage(Assets.post2), fit: BoxFit.cover),
+        image: DecorationImage(
+          // image: AssetImage(Assets.post2),
+          image: (image.contains('jpg') ||
+                  image.contains('png') ||
+                  image.contains('jpeg'))
+              ? CachedNetworkImageProvider(image)
+              : const AssetImage(Assets.noRestaurantImage),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0).r,
@@ -68,18 +99,24 @@ class DislikedPostWidget extends StatelessWidget {
                           Container(
                             width: 20.w,
                             height: 20.h,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    Assets.follow1,
-                                  ),
+                                  // image: AssetImage(
+                                  //   Assets.follow2,
+                                  // ),
+                                  image: (userImage.contains('jpg') ||
+                                          userImage.contains('png') ||
+                                          userImage.contains('jpeg') ||
+                                          userImage.contains('gif'))
+                                      ? CachedNetworkImageProvider(userImage)
+                                      : const AssetImage(Assets.noProfileImage),
                                   fit: BoxFit.cover,
                                 )),
                           ),
                           8.horizontalSpace,
                           Text(
-                            'Ahmad Gouse',
+                            userName,
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(
                                     fontSize: 16.sp,
@@ -94,14 +131,25 @@ class DislikedPostWidget extends StatelessWidget {
                               color: AppColors.colorWhite.withOpacity(0.20),
                             ),
                             child: Center(
-                              child: Text(
-                                'Following',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
-                                  color: AppColors.colorWhite,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
+                              child: (isFollowing)
+                                  ? Text(
+                                      'Following',
+                                      style: AppTextStyles
+                                          .textStylePoppinsRegular
+                                          .copyWith(
+                                        color: AppColors.colorWhite,
+                                        fontSize: 10.sp,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Follow',
+                                      style: AppTextStyles
+                                          .textStylePoppinsRegular
+                                          .copyWith(
+                                        color: AppColors.colorWhite,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
                             ),
                           ),
                         ],
@@ -124,15 +172,25 @@ class DislikedPostWidget extends StatelessWidget {
                                     color: AppColors.colorGreen,
                                   ),
                                   child: Center(
-                                    child: Text(
-                                      'Chinese Cuisine',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
-                                        color: AppColors.colorWhite,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
+                                    child: (cuisine != '')
+                                        ? Text(
+                                            cuisine,
+                                            style: AppTextStyles
+                                                .textStylePoppinsRegular
+                                                .copyWith(
+                                              color: AppColors.colorWhite,
+                                              fontSize: 10.sp,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Not Mentioned',
+                                            style: AppTextStyles
+                                                .textStylePoppinsRegular
+                                                .copyWith(
+                                              color: AppColors.colorWhite,
+                                              fontSize: 10.sp,
+                                            ),
+                                          ),
                                   ),
                                 ),
                                 8.horizontalSpace,
@@ -159,17 +217,23 @@ class DislikedPostWidget extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    (restaurantName != '')
+                                        ? Text(
+                                            restaurantName,
+                                            style: AppTextStyles
+                                                .textStylePoppinsMedium
+                                                .copyWith(
+                                              fontSize: 13.sp,
+                                              color: AppColors.colorWhite,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                     Text(
-                                      'Starbucks LA, California',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
-                                        fontSize: 13.sp,
-                                        color: AppColors.colorWhite,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Double road, Lorem City, LA',
+                                      restaurantAddress.length > 40
+                                          ? '${restaurantAddress.substring(0, 35)}...'
+                                          : restaurantAddress,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: AppTextStyles
                                           .textStylePoppinsRegular
                                           .copyWith(
@@ -187,8 +251,8 @@ class DislikedPostWidget extends StatelessWidget {
                           children: [
                             Image.asset(Assets.like),
                             15.verticalSpace,
-                            const CommentsIcon(
-                              commentCount: 0,
+                            CommentsIcon(
+                              commentCount: commentCount,
                             ),
                             10.verticalSpace,
                             Image.asset(Assets.bookmark),
@@ -197,14 +261,21 @@ class DislikedPostWidget extends StatelessWidget {
                       ],
                     ),
                     10.verticalSpace,
-                    Text(
-                      'A memorable evening to be remembered.',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                        fontSize: 12.sp,
-                        color: AppColors.colorWhite,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          description.length > 40
+                              ? '${description.substring(0, 40)}...'
+                              : description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 12.sp,
+                            color: AppColors.colorWhite,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
