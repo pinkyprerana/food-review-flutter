@@ -209,6 +209,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         loading: state.isLoading,
                         text: "Continue",
                         onPressed: () {
+                          dismissKeyboard(context);
                           if (createPostNotifier
                               .postTitleTextController.text
                               .trim()
