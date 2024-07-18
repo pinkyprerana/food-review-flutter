@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
@@ -696,7 +697,29 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.postPerRestaurantList?.length ?? 0,
                             itemBuilder: (context, index) {
-                              return PostItemWidget2();
+                              return PostItemWidget2(
+                                userName: state.postPerRestaurantList?[index]
+                                        .userInfo?.fullName ??
+                                    '',
+                                userImage:
+                                    '${AppUrls.profilePicLocation}/${state.postPerRestaurantList?[index].userInfo?.profileImage}',
+                                restaurantName: state
+                                        .postPerRestaurantList?[index]
+                                        .restaurantInfo
+                                        ?.name ??
+                                    '',
+                                cuisine: state.postPerRestaurantList?[index]
+                                        .preferenceInfo?.title ??
+                                    '',
+                                description: state.postPerRestaurantList?[index]
+                                        .description ??
+                                    '',
+                                title:
+                                    state.postPerRestaurantList?[index].title ??
+                                        '',
+                                image:
+                                    'https://forthetable.dedicateddevelopers.us/uploads/post/${state.postPerRestaurantList?[index].file}',
+                              );
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) =>

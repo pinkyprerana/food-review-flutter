@@ -46,6 +46,7 @@ class Post with _$Post {
     @JsonKey(name: "comment_count") int? commentCount,
     @JsonKey(name: "userInfo") UserInfo? userInfo,
     @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
+    @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo,
   }) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
@@ -83,4 +84,22 @@ class PreferenceInfo with _$PreferenceInfo {
 
   factory PreferenceInfo.fromJson(Map<String, dynamic> json) =>
       _$PreferenceInfoFromJson(json);
+}
+
+@freezed
+class RestaurantInfo with _$RestaurantInfo {
+  const factory RestaurantInfo({
+    @JsonKey(name: "_id") String? id,
+    @JsonKey(name: "name") String? name,
+    @JsonKey(name: "address") String? address,
+    @JsonKey(name: "state") String? state,
+    @JsonKey(name: "city") String? city,
+    @JsonKey(name: "country") String? country,
+    @JsonKey(name: "zipcode") String? zipcode,
+    @JsonKey(name: "user_ratings_total") String? userRatingsTotal,
+    @JsonKey(name: "rating") String? rating,
+  }) = _RestaurantInfo;
+
+  factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantInfoFromJson(json);
 }

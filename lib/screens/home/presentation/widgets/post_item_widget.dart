@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
@@ -12,7 +13,23 @@ import 'package:for_the_table/screens/post_feed/presentation/widgets/comments_ic
 import 'package:glassmorphism/glassmorphism.dart';
 
 class PostItemWidget2 extends StatelessWidget {
-  const PostItemWidget2({super.key});
+  const PostItemWidget2({
+    super.key,
+    required this.userName,
+    required this.userImage,
+    required this.cuisine,
+    required this.description,
+    required this.image,
+    required this.restaurantName,
+    required this.title,
+  });
+  final String image;
+  final String title;
+  final String description;
+  final String cuisine;
+  final String restaurantName;
+  final String userName;
+  final String userImage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +40,11 @@ class PostItemWidget2 extends StatelessWidget {
       // height: 295.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        image: const DecorationImage(
-            image: AssetImage(Assets.post2), fit: BoxFit.cover),
+        image: DecorationImage(
+          // image: AssetImage(Assets.post2),
+          image: CachedNetworkImageProvider(image),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0).r,
