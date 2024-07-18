@@ -1,30 +1,42 @@
 import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../domain/postFeed_model.dart';
 
-class NotEpandedPostDetails extends StatelessWidget {
+class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
-  const NotEpandedPostDetails({super.key, required this.postList});
+  const NotExpandedPostDetails({super.key, required this.postList});
+
+  @override
+  ConsumerState<NotExpandedPostDetails> createState() => _NotExpandedPostDetailsState();
+}
+
+class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final String peopleId = postList.userInfo.id;
-    final String name = postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
-    final String postImage = postList.file;
-    final String title = postList.title;
-    final String description = postList.description;
-    final String restaurantName = postList.restaurantInfo.name;
-    final String address = postList.restaurantInfo.address;
-    final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= postList.commentCount;
+    final String peopleId = widget.postList.userInfo.id;
+    final String name = widget.postList.userInfo.fullName;
+    final String profileImage = "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+    final String postImage = widget.postList.file;
+    final String title = widget.postList.title;
+    final String description = widget.postList.description;
+    final String restaurantName = widget.postList.restaurantInfo.name;
+    final String address = widget.postList.restaurantInfo.address;
+    final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount= widget.postList.commentCount;
+    final String postId= widget.postList.id;
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final isSaved = postFeedState.savedPosts[postId] ?? false;
 
     return Container(
       padding:
@@ -168,7 +180,14 @@ class NotEpandedPostDetails extends StatelessWidget {
                     ],
                   ),
                   10.verticalSpace,
-                  Image.asset(Assets.bookmark),
+                  GestureDetector(
+                    onTap: (){
+                      postFeedNotifier.saveUnsavePost((){}, postId);
+                    },
+                      child: isSaved
+                          ? Image.asset(Assets.bookmark)
+                          : Image.asset(Assets.saved, scale: 2,)
+                  ),
                 ],
               )
             ],

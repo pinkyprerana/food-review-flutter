@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
@@ -10,26 +11,36 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../post_feed/domain/postFeed_model.dart';
+import '../../../post_feed/shared/provider.dart';
 
-
-class PostWidget extends StatelessWidget {
+class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   const PostWidget({super.key, required this.postList});
 
   @override
+  ConsumerState<PostWidget> createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends ConsumerState<PostWidget>{
+
+  @override
   Widget build(BuildContext context) {
-    final String peopleId = postList.userInfo.id;
-    final String name = postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
-    final String postImage = "${AppUrls.postImageLocation}${postList.file}";
-    final String title = postList.title;
-    final String description = postList.description;
-    final String restaurantName = postList.restaurantInfo.name;
-    final String address = postList.restaurantInfo.address;
-    final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= postList.commentCount;
-    double latitude = postList.geoLoc.coordinates[0];
-    double longitude = postList.geoLoc.coordinates[1];
+    final String peopleId = widget.postList.userInfo.id;
+    final String name = widget.postList.userInfo.fullName;
+    final String profileImage = "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+    final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
+    final String title = widget.postList.title;
+    final String description = widget.postList.description;
+    final String restaurantName = widget.postList.restaurantInfo.name;
+    final String address = widget.postList.restaurantInfo.address;
+    final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount= widget.postList.commentCount;
+    double latitude = widget.postList.geoLoc.coordinates[0];
+    double longitude = widget.postList.geoLoc.coordinates[1];
+    final String postId= widget.postList.id;
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final isSaved = postFeedState.savedPosts[postId] ?? false;
 
 
     return Container(
@@ -220,7 +231,14 @@ class PostWidget extends StatelessWidget {
                               ],
                             ),
                             10.verticalSpace,
-                            Image.asset(Assets.bookmark),
+                            GestureDetector(
+                                onTap: (){
+                                  postFeedNotifier.saveUnsavePost((){}, postId);
+                                },
+                                child: isSaved
+                                    ? Image.asset(Assets.bookmark)
+                                    : Image.asset(Assets.saved, scale: 2,)
+                            ),
                           ],
                         )
                       ],
