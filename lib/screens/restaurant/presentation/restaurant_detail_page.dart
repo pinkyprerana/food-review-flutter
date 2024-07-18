@@ -82,9 +82,11 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     ];
     _marker.addAll(_list);
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final restaurantStateNotifier =
           ref.watch(restaurantNotifierProvider.notifier);
+      restaurantStateNotifier.clearStateVariables();
       await restaurantStateNotifier.getPosts(
           context: context, restaurantId: widget.restaurantId);
     });
@@ -698,6 +700,18 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                             itemCount: state.postPerRestaurantList?.length ?? 0,
                             itemBuilder: (context, index) {
                               return PostItemWidget2(
+                                isFollowing: state.postPerRestaurantList?[index]
+                                        .isFollowing ??
+                                    false,
+                                commentCount: state
+                                        .postPerRestaurantList?[index]
+                                        .commentCount ??
+                                    0,
+                                restaurantAddress: state
+                                        .postPerRestaurantList?[index]
+                                        .restaurantInfo
+                                        ?.address ??
+                                    '',
                                 userName: state.postPerRestaurantList?[index]
                                         .userInfo?.fullName ??
                                     '',

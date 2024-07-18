@@ -33,6 +33,17 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     super.dispose();
   }
 
+  void clearStateVariables() {
+    state = state.copyWith(totalPagesPosts: 0);
+    state = state.copyWith(currentPageForPosts: 1);
+    state = state.copyWith(postPerRestaurantList: []);
+    AppLog.log('state.totalPagesPosts ------>> ${state.totalPagesPosts}');
+    AppLog.log(
+        'state.currentPageForPosts ------>> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
+  }
+
   Future<void> loadMoreRestaurants(BuildContext context) async {
     AppLog.log('state.currentPage: ------->> ${state.currentPage}');
     if (state.currentPage > state.totalPages) {

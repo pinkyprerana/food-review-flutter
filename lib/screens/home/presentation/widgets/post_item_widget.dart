@@ -22,6 +22,9 @@ class PostItemWidget2 extends StatelessWidget {
     required this.image,
     required this.restaurantName,
     required this.title,
+    required this.restaurantAddress,
+    required this.commentCount,
+    required this.isFollowing,
   });
   final String image;
   final String title;
@@ -30,6 +33,9 @@ class PostItemWidget2 extends StatelessWidget {
   final String restaurantName;
   final String userName;
   final String userImage;
+  final String restaurantAddress;
+  final int commentCount;
+  final bool isFollowing;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,11 @@ class PostItemWidget2 extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           // image: AssetImage(Assets.post2),
-          image: CachedNetworkImageProvider(image),
+          image: (image.contains('jpg') ||
+                  image.contains('png') ||
+                  image.contains('jpeg'))
+              ? CachedNetworkImageProvider(image)
+              : const AssetImage(Assets.noRestaurantImage),
           fit: BoxFit.cover,
         ),
       ),
@@ -89,18 +99,24 @@ class PostItemWidget2 extends StatelessWidget {
                           Container(
                             width: 20.w,
                             height: 20.h,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    Assets.follow1,
-                                  ),
+                                  // image: AssetImage(
+                                  //   Assets.follow2,
+                                  // ),
+                                  image: (userImage.contains('jpg') ||
+                                          userImage.contains('png') ||
+                                          userImage.contains('jpeg') ||
+                                          userImage.contains('gif'))
+                                      ? CachedNetworkImageProvider(userImage)
+                                      : const AssetImage(Assets.noProfileImage),
                                   fit: BoxFit.cover,
                                 )),
                           ),
                           8.horizontalSpace,
                           Text(
-                            'Ahmad Gouse',
+                            userName,
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(
                                     fontSize: 16.sp,
@@ -115,14 +131,25 @@ class PostItemWidget2 extends StatelessWidget {
                               color: AppColors.colorWhite.withOpacity(0.20),
                             ),
                             child: Center(
-                              child: Text(
-                                'Following',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
-                                  color: AppColors.colorWhite,
-                                  fontSize: 10.sp,
-                                ),
-                              ),
+                              child: (isFollowing)
+                                  ? Text(
+                                      'Following',
+                                      style: AppTextStyles
+                                          .textStylePoppinsRegular
+                                          .copyWith(
+                                        color: AppColors.colorWhite,
+                                        fontSize: 10.sp,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Follow',
+                                      style: AppTextStyles
+                                          .textStylePoppinsRegular
+                                          .copyWith(
+                                        color: AppColors.colorWhite,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
                             ),
                           ),
                         ],
@@ -145,15 +172,25 @@ class PostItemWidget2 extends StatelessWidget {
                                     color: AppColors.colorGreen,
                                   ),
                                   child: Center(
-                                    child: Text(
-                                      'Chinese Cuisine',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
-                                        color: AppColors.colorWhite,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
+                                    child: (cuisine != '')
+                                        ? Text(
+                                            cuisine,
+                                            style: AppTextStyles
+                                                .textStylePoppinsRegular
+                                                .copyWith(
+                                              color: AppColors.colorWhite,
+                                              fontSize: 10.sp,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Not Mentioned',
+                                            style: AppTextStyles
+                                                .textStylePoppinsRegular
+                                                .copyWith(
+                                              color: AppColors.colorWhite,
+                                              fontSize: 10.sp,
+                                            ),
+                                          ),
                                   ),
                                 ),
                                 8.horizontalSpace,
@@ -180,17 +217,23 @@ class PostItemWidget2 extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    (restaurantName != '')
+                                        ? Text(
+                                            restaurantName,
+                                            style: AppTextStyles
+                                                .textStylePoppinsMedium
+                                                .copyWith(
+                                              fontSize: 13.sp,
+                                              color: AppColors.colorWhite,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                     Text(
-                                      'Starbucks LA, California',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
-                                        fontSize: 13.sp,
-                                        color: AppColors.colorWhite,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Double road, Lorem City, LA',
+                                      restaurantAddress.length > 40
+                                          ? '${restaurantAddress.substring(0, 35)}...'
+                                          : restaurantAddress,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: AppTextStyles
                                           .textStylePoppinsRegular
                                           .copyWith(
@@ -208,7 +251,9 @@ class PostItemWidget2 extends StatelessWidget {
                           children: [
                             Image.asset(Assets.like),
                             15.verticalSpace,
-                            const CommentsIcon(),
+                            CommentsIcon(
+                              commentCount: commentCount,
+                            ),
                             10.verticalSpace,
                             Image.asset(Assets.bookmark),
                           ],
@@ -216,14 +261,21 @@ class PostItemWidget2 extends StatelessWidget {
                       ],
                     ),
                     10.verticalSpace,
-                    Text(
-                      'A memorable evening to be remembered.',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                        fontSize: 12.sp,
-                        color: AppColors.colorWhite,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          description.length > 40
+                              ? '${description.substring(0, 20)}...'
+                              : description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 12.sp,
+                            color: AppColors.colorWhite,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),

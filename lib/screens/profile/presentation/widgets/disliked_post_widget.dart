@@ -56,12 +56,11 @@ class DislikedPostWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                          peoplename: 'Ahmad Gouse',
-                          peopleimage:
-                              'assets/images/temp/follower-sample2.png',
-                           peopleId:'',
-                           isFollow: true
-                        ));
+                            peoplename: 'Ahmad Gouse',
+                            peopleimage:
+                                'assets/images/temp/follower-sample2.png',
+                            peopleId: '',
+                            isFollow: true));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -188,7 +187,9 @@ class DislikedPostWidget extends StatelessWidget {
                           children: [
                             Image.asset(Assets.like),
                             15.verticalSpace,
-                            const CommentsIcon(),
+                            const CommentsIcon(
+                              commentCount: 0,
+                            ),
                             10.verticalSpace,
                             Image.asset(Assets.bookmark),
                           ],

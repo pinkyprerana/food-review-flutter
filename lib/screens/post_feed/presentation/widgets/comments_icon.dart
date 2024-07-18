@@ -7,7 +7,8 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
 class CommentsIcon extends StatelessWidget {
-  const CommentsIcon({super.key});
+  const CommentsIcon({super.key, required this.commentCount});
+  final int commentCount;
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +17,21 @@ class CommentsIcon extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(Assets.comments),
-          Text(
-            '00',
-            style: AppTextStyles.textStylePoppinsRegular.copyWith(
-              color: AppColors.colorWhite,
-              fontSize: 10.sp,
-            ),
-          )
+          (commentCount > 9)
+              ? Text(
+                  commentCount.toString(),
+                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    color: AppColors.colorWhite,
+                    fontSize: 10.sp,
+                  ),
+                )
+              : Text(
+                  '0${commentCount.toString()}',
+                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    color: AppColors.colorWhite,
+                    fontSize: 10.sp,
+                  ),
+                )
         ],
       ),
     );
