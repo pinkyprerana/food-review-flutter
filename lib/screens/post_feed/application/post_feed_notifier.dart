@@ -142,9 +142,41 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          // state = state.copyWith(isLiked: !state.isLiked);
+          state = state.copyWith(isLiked: !state.isLiked);
           voidCallback.call();
 
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> saveUnsavePost(VoidCallback voidCallback, String postID) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${'/post-save/add'}',
+          body: {"post_id": postID});
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          final updatedSavedPosts = Map<String, bool>.from(state.savedPosts);
+          updatedSavedPosts[postID] = !(updatedSavedPosts[postID] ?? false);
+          state = state.copyWith(savedPosts: updatedSavedPosts);
+          voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
         }
