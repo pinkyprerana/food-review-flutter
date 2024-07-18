@@ -9,7 +9,7 @@ class AppUrls {
   static const verifyOTP = '/user/forget-password-otp-verification';
   static const resetPassword = '/user/forget-password-change-password';
   static const addPost = '/post/add';
-  static const follow_unfollow = '/user/follow';
+  static const followUnfollow = '/user/follow';
   static const getAllPreference = '/preference/list';
   static const getPostFeed = '/post/list';
   static const getAllFollowers = '/user/follower/list';

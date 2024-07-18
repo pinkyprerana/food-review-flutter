@@ -27,6 +27,8 @@ mixin _$YourPeopleState {
       throw _privateConstructorUsedError;
   List<RoleInfoOfFollower> get roleInfoOfFollower =>
       throw _privateConstructorUsedError;
+  List<FollowRequest> get followRequestsList =>
+      throw _privateConstructorUsedError;
   int get followerCurrentPage => throw _privateConstructorUsedError;
   int get followerTotalPages => throw _privateConstructorUsedError;
   int get followingCurrentPage => throw _privateConstructorUsedError;
@@ -53,6 +55,7 @@ abstract class $YourPeopleStateCopyWith<$Res> {
       List<RoleInfoOfFollowing> roleInfoOfFollowing,
       List<DataOfFollowerModel> followerList,
       List<RoleInfoOfFollower> roleInfoOfFollower,
+      List<FollowRequest> followRequestsList,
       int followerCurrentPage,
       int followerTotalPages,
       int followingCurrentPage,
@@ -81,6 +84,7 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
     Object? roleInfoOfFollowing = null,
     Object? followerList = null,
     Object? roleInfoOfFollower = null,
+    Object? followRequestsList = null,
     Object? followerCurrentPage = null,
     Object? followerTotalPages = null,
     Object? followingCurrentPage = null,
@@ -117,6 +121,10 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
           ? _value.roleInfoOfFollower
           : roleInfoOfFollower // ignore: cast_nullable_to_non_nullable
               as List<RoleInfoOfFollower>,
+      followRequestsList: null == followRequestsList
+          ? _value.followRequestsList
+          : followRequestsList // ignore: cast_nullable_to_non_nullable
+              as List<FollowRequest>,
       followerCurrentPage: null == followerCurrentPage
           ? _value.followerCurrentPage
           : followerCurrentPage // ignore: cast_nullable_to_non_nullable
@@ -161,6 +169,7 @@ abstract class _$$YourPeopleStateImplCopyWith<$Res>
       List<RoleInfoOfFollowing> roleInfoOfFollowing,
       List<DataOfFollowerModel> followerList,
       List<RoleInfoOfFollower> roleInfoOfFollower,
+      List<FollowRequest> followRequestsList,
       int followerCurrentPage,
       int followerTotalPages,
       int followingCurrentPage,
@@ -187,6 +196,7 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
     Object? roleInfoOfFollowing = null,
     Object? followerList = null,
     Object? roleInfoOfFollower = null,
+    Object? followRequestsList = null,
     Object? followerCurrentPage = null,
     Object? followerTotalPages = null,
     Object? followingCurrentPage = null,
@@ -223,6 +233,10 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
           ? _value._roleInfoOfFollower
           : roleInfoOfFollower // ignore: cast_nullable_to_non_nullable
               as List<RoleInfoOfFollower>,
+      followRequestsList: null == followRequestsList
+          ? _value._followRequestsList
+          : followRequestsList // ignore: cast_nullable_to_non_nullable
+              as List<FollowRequest>,
       followerCurrentPage: null == followerCurrentPage
           ? _value.followerCurrentPage
           : followerCurrentPage // ignore: cast_nullable_to_non_nullable
@@ -262,6 +276,7 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       final List<RoleInfoOfFollowing> roleInfoOfFollowing = const [],
       final List<DataOfFollowerModel> followerList = const [],
       final List<RoleInfoOfFollower> roleInfoOfFollower = const [],
+      final List<FollowRequest> followRequestsList = const [],
       this.followerCurrentPage = 1,
       this.followerTotalPages = 1,
       this.followingCurrentPage = 1,
@@ -271,7 +286,8 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       : _followingList = followingList,
         _roleInfoOfFollowing = roleInfoOfFollowing,
         _followerList = followerList,
-        _roleInfoOfFollower = roleInfoOfFollower;
+        _roleInfoOfFollower = roleInfoOfFollower,
+        _followRequestsList = followRequestsList;
 
   @override
   @JsonKey()
@@ -320,6 +336,16 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
     return EqualUnmodifiableListView(_roleInfoOfFollower);
   }
 
+  final List<FollowRequest> _followRequestsList;
+  @override
+  @JsonKey()
+  List<FollowRequest> get followRequestsList {
+    if (_followRequestsList is EqualUnmodifiableListView)
+      return _followRequestsList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_followRequestsList);
+  }
+
   @override
   @JsonKey()
   final int followerCurrentPage;
@@ -341,7 +367,7 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
 
   @override
   String toString() {
-    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, roleInfoOfFollowing: $roleInfoOfFollowing, followerList: $followerList, roleInfoOfFollower: $roleInfoOfFollower, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages)';
+    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, roleInfoOfFollowing: $roleInfoOfFollowing, followerList: $followerList, roleInfoOfFollower: $roleInfoOfFollower, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages)';
   }
 
   @override
@@ -362,6 +388,8 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
                 .equals(other._followerList, _followerList) &&
             const DeepCollectionEquality()
                 .equals(other._roleInfoOfFollower, _roleInfoOfFollower) &&
+            const DeepCollectionEquality()
+                .equals(other._followRequestsList, _followRequestsList) &&
             (identical(other.followerCurrentPage, followerCurrentPage) ||
                 other.followerCurrentPage == followerCurrentPage) &&
             (identical(other.followerTotalPages, followerTotalPages) ||
@@ -386,6 +414,7 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       const DeepCollectionEquality().hash(_roleInfoOfFollowing),
       const DeepCollectionEquality().hash(_followerList),
       const DeepCollectionEquality().hash(_roleInfoOfFollower),
+      const DeepCollectionEquality().hash(_followRequestsList),
       followerCurrentPage,
       followerTotalPages,
       followingCurrentPage,
@@ -410,6 +439,7 @@ abstract class _YourPeopleState implements YourPeopleState {
       final List<RoleInfoOfFollowing> roleInfoOfFollowing,
       final List<DataOfFollowerModel> followerList,
       final List<RoleInfoOfFollower> roleInfoOfFollower,
+      final List<FollowRequest> followRequestsList,
       final int followerCurrentPage,
       final int followerTotalPages,
       final int followingCurrentPage,
@@ -431,6 +461,8 @@ abstract class _YourPeopleState implements YourPeopleState {
   List<DataOfFollowerModel> get followerList;
   @override
   List<RoleInfoOfFollower> get roleInfoOfFollower;
+  @override
+  List<FollowRequest> get followRequestsList;
   @override
   int get followerCurrentPage;
   @override

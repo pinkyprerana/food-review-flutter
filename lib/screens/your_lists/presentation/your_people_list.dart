@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/follower_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/following_model.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
@@ -32,12 +33,13 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
       final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
       await followNotifier.getAllFollowingList();
+      await followNotifier.getAllRequestList();
     });
   }
 
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
-    followNotifier.follow_unfollow(() {}, userId);
+    followNotifier.followUnfollow(() {}, userId);
   }
 
   @override
@@ -47,7 +49,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     final followState = ref.watch(yourPeopleNotifierProvider);
     final followList = followState.followingList;
     final followerList = followState.followerList;
-    final requestList = followState.followerList; //requestList
+    final requestList = followState.followRequestsList; //requestList
 
     return Scaffold(
       extendBody: true,
@@ -85,12 +87,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
       body: SmartRefresher(
         controller: followState.selectedIndex == 0
             ? stateNotifier.followersRefreshController
-            : stateNotifier.followingRefreshController,
+            : followState.selectedIndex == 1
+                ? stateNotifier.followingRefreshController
+                : stateNotifier.requestRefreshController,
         enablePullDown: false,
         enablePullUp: true,
         onLoading: followState.selectedIndex == 0
             ? stateNotifier.loadMoreFollowers
-            : stateNotifier.loadMoreFollowings,
+            : followState.selectedIndex == 1
+                ? stateNotifier.loadMoreFollowings
+                : stateNotifier.loadMoreRequests,
         footer: CustomFooter(
           builder: (BuildContext context, mode) {
             Widget body;
@@ -266,7 +272,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     );
   }
 
-  Widget _requestsList(requestList) {
+  Widget _requestsList(List<FollowRequest> requestList) {
     return Column(
       children: [
         Align(
@@ -279,6 +285,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
             ),
           ),
         ),
+        20.verticalSpace,
         GridView.builder(
           itemCount: requestList.length,
           physics: const NeverScrollableScrollPhysics(),
@@ -297,7 +304,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
             final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
 
             return CustomCard(
-              name: requests.fullName, //requests[index]['name'].toString(),
+              name: requests.fullName ?? '', //requests[index]['name'].toString(),
               date: "Joined May 5, 2018", //requests[index]['date'].toString(),
               imagePath: profileImage, //requests[index]['image'].toString(),
               button: AppButton(

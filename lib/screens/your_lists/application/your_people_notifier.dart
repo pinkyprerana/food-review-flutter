@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
+import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/infrastructure/hive_database.dart';
@@ -16,6 +17,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
   final RefreshController followersRefreshController = RefreshController();
   final RefreshController followingRefreshController = RefreshController();
+  final RefreshController requestRefreshController = RefreshController();
 
   void loadMoreFollowers() async {
     if (state.followerCurrentPage > state.followerTotalPages) {
@@ -37,6 +39,17 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
     await getAllFollowingList(isLoadMore: true);
     followingRefreshController.loadComplete();
+  }
+
+  void loadMoreRequests() async {
+    if (state.requestCurrentPage > state.requestTotalPages) {
+      showToastMessage('No new profiles to display');
+      requestRefreshController.loadComplete();
+      return;
+    }
+
+    await getAllRequestList(isLoadMore: true);
+    requestRefreshController.loadComplete();
   }
 
   updateSelectedIndex(int index) {
@@ -99,6 +112,74 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
           isLoading: false,
           followerList: followers,
           followerTotalPages: followerModel.pages,
+        );
+      } else {
+        showToastMessage(response.statusMessage.toString());
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> getAllRequestList({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.requestCurrentPage * 10 == state.followRequestsList.length)) {
+        state = state.copyWith(requestCurrentPage: state.requestCurrentPage + 1);
+      } else {
+        state = state.copyWith(requestCurrentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "perpage": 10,
+        "page": state.requestCurrentPage,
+        "showing_status": "Request",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+      var response = await _dio.post(
+        "${AppUrls.BASE_URL}${AppUrls.getAllFollowers}",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        FollowRequestModel followRequestModel = FollowRequestModel.fromJson(response.data);
+        final followRequests = followRequestModel.requestsList;
+
+        if (isLoadMore) {
+          final currentRequestsIds = state.followerList.map((req) => req.id).toSet();
+
+          final uniqueNewRequests =
+              followRequests?.where((req) => !currentRequestsIds.contains(req.id)).toList();
+
+          if ((uniqueNewRequests?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new profiles to display.');
+          }
+
+          state = state.copyWith(
+            isLoading: false,
+            followRequestsList: [
+              ...state.followRequestsList,
+              ...uniqueNewRequests ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          followRequestsList: followRequests ?? [],
+          requestTotalPages: followRequestModel.pages ?? 0,
         );
       } else {
         showToastMessage(response.statusMessage.toString());

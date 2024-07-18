@@ -1,5 +1,7 @@
+import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/follower_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/following_model.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'your_people_state.freezed.dart';
@@ -14,6 +16,7 @@ abstract class YourPeopleState with _$YourPeopleState {
     @Default([]) List<RoleInfoOfFollowing> roleInfoOfFollowing,
     @Default([]) List<DataOfFollowerModel> followerList,
     @Default([]) List<RoleInfoOfFollower> roleInfoOfFollower,
+    @Default([]) List<FollowRequest> followRequestsList,
     @Default(1) int followerCurrentPage,
     @Default(1) int followerTotalPages,
     @Default(1) int followingCurrentPage,
