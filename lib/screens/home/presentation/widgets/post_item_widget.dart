@@ -266,7 +266,7 @@ class PostItemWidget2 extends StatelessWidget {
                       children: [
                         Text(
                           description.length > 40
-                              ? '${description.substring(0, 20)}...'
+                              ? '${description.substring(0, 40)}...'
                               : description,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
