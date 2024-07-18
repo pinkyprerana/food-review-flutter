@@ -19,35 +19,6 @@ class FollowersList extends ConsumerStatefulWidget {
 }
 
 class _FollowersListState extends ConsumerState<FollowersList> {
-// class FollowersList extends ConsumerStatelessWidget {
-//   FollowersList({
-//     super.key,
-//   });
-
-  // Dummy data for the followers
-  // final followers = [
-  //   {
-  //     'name': 'Haylie Lipshutz',
-  //     'image': 'assets/images/temp/follower-sample1.png'
-  //   },
-  //   {
-  //     'name': 'Skylar Bergson',
-  //     'image': 'assets/images/temp/follower-sample2.png'
-  //   },
-  //   {'name': 'Maren Donin', 'image': 'assets/images/temp/follower-sample1.png'},
-  //   {
-  //     'name': 'Gretchen Donin',
-  //     'image': 'assets/images/temp/follower-sample2.png'
-  //   },
-  //   {
-  //     'name': 'Paityn Vaccaro',
-  //     'image': 'assets/images/temp/follower-sample1.png'
-  //   },
-  //   {
-  //     'name': 'Marley Septimus',
-  //     'image': 'assets/images/temp/follower-sample2.png'
-  //   },
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +59,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
               return GestureDetector(
                 onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
                     peoplename:
-                        followers.fullName.toString(), //followers[index]['name'].toString(),
-                    peopleimage: profileImage, //followers[index]['image'].toString()
+                        followers.fullName.toString(),
+                    peopleimage: profileImage,
                     peopleId: followers.id,
                     isFollow: followers.isFollow)),
                 child: Container(
@@ -128,13 +99,6 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                           ),
                         ),
                       ),
-                      // CircleAvatar(
-                      //   radius: 24.r,
-                      //   child: Image.network(
-                      //       profileImage ?? "",
-                      //     //followers[index]['image']!,
-                      //   ),
-                      // ),
                       SizedBox(height: 10.h),
                       Text(
                         followers.fullName.toString(),
