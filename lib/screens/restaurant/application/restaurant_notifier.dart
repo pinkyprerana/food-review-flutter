@@ -25,6 +25,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   int totalNumberOfRestaurants = 0;
 
   RefreshController restaurantRefreshController = RefreshController();
+  RefreshController restaurantRefreshController2 = RefreshController();
 
   @override
   void dispose() {
@@ -208,13 +209,13 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         'state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
     if (state.currentPageForPosts >= state.totalPagesPosts) {
       showToastMessage('No more posts');
-      restaurantRefreshController.loadComplete();
+      restaurantRefreshController2.loadComplete();
       return;
     }
 
     await getPosts(
         context: context, restaurantId: restaurantId, isLoadMore: true);
-    restaurantRefreshController.loadComplete();
+    restaurantRefreshController2.loadComplete();
   }
 
   Future<void> getPosts(
