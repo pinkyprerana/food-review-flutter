@@ -85,12 +85,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
       body: SmartRefresher(
         controller: followState.selectedIndex == 0
             ? stateNotifier.followersRefreshController
-            : stateNotifier.followingRefreshController,
+            : followState.selectedIndex == 1
+                ? stateNotifier.followingRefreshController
+                : stateNotifier.requestRefreshController,
         enablePullDown: false,
         enablePullUp: true,
         onLoading: followState.selectedIndex == 0
             ? stateNotifier.loadMoreFollowers
-            : stateNotifier.loadMoreFollowings,
+            : followState.selectedIndex == 1
+                ? stateNotifier.loadMoreFollowings
+                : stateNotifier.loadMoreRequests,
         footer: CustomFooter(
           builder: (BuildContext context, mode) {
             Widget body;

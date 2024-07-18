@@ -16,6 +16,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
   final RefreshController followersRefreshController = RefreshController();
   final RefreshController followingRefreshController = RefreshController();
+  final RefreshController requestRefreshController = RefreshController();
 
   void loadMoreFollowers() async {
     if (state.followerCurrentPage > state.followerTotalPages) {
@@ -39,6 +40,17 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     followingRefreshController.loadComplete();
   }
 
+  void loadMoreRequests() async {
+    if (state.requestCurrentPage > state.requestTotalPages) {
+      showToastMessage('No new profiles to display');
+      requestRefreshController.loadComplete();
+      return;
+    }
+
+    await getAllRequestList(isLoadMore: true);
+    requestRefreshController.loadComplete();
+  }
+
   updateSelectedIndex(int index) {
     state = state.copyWith(selectedIndex: index);
   }
@@ -57,6 +69,71 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
         "perpage": 10,
         "page": state.followerCurrentPage,
       });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+      var response = await _dio.post(
+        "${AppUrls.BASE_URL}${AppUrls.getAllFollowers}",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        FollowerModel followerModel = FollowerModel.fromJson(response.data);
+        final followers = followerModel.followerList;
+
+        if (isLoadMore) {
+          final currentFriendsIds = state.followerList.map((friend) => friend.id).toSet();
+
+          final uniqueNewFriends =
+              followers.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
+
+          if (uniqueNewFriends.isEmpty && isLoadMore) {
+            showToastMessage('No new profiles to display.');
+          }
+
+          state = state.copyWith(
+            isLoading: false,
+            followerList: [
+              ...state.followerList,
+              ...uniqueNewFriends,
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          followerList: followers,
+          followerTotalPages: followerModel.pages,
+        );
+      } else {
+        showToastMessage(response.statusMessage.toString());
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> getAllRequestList({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.followerCurrentPage * 10 == state.followerList.length)) {
+        state = state.copyWith(followerCurrentPage: state.followerCurrentPage + 1);
+      } else {
+        state = state.copyWith(followerCurrentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap(
+          {"perpage": 10, "page": state.followerCurrentPage, "showing_status": "Request"});
 
       var headers = {
         'Accept': '*/*',
