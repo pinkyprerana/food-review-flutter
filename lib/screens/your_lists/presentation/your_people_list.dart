@@ -13,7 +13,7 @@ import '../shared/provider.dart';
 import 'widgets/custom_widgets.dart';
 
 @RoutePage()
-class YourPeopleListPage extends ConsumerStatefulWidget{
+class YourPeopleListPage extends ConsumerStatefulWidget {
   const YourPeopleListPage({super.key});
 
   @override
@@ -21,16 +21,16 @@ class YourPeopleListPage extends ConsumerStatefulWidget{
 }
 
 class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
+      final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
       await followNotifier.getAllFollowingList();
     });
   }
+
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
     followNotifier.follow_unfollow(() {}, userId);
@@ -38,9 +38,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _selectedIndex = ref.watch(YourPeopleNotifierProvider).selectedIndex;
-    final stateNotifier = ref.read(YourPeopleNotifierProvider.notifier);
-    final followState = ref.watch(YourPeopleNotifierProvider);
+    final _selectedIndex = ref.watch(yourPeopleNotifierProvider).selectedIndex;
+    final stateNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final followState = ref.watch(yourPeopleNotifierProvider);
     final followList = followState.followingList;
     final followerList = followState.followerList;
     final requestList = followState.followerList; //requestList
@@ -56,8 +56,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-            const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -66,8 +65,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -93,23 +91,27 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: List.generate(
                 3,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: FilterButton(
-                                        text: index == 0 ? 'Followers' : index == 1 ? 'Following' : 'Requests',
-                                        isSelected: _selectedIndex == index,
-                                        onPressed: () {
-                                          stateNotifier.updateSelectedIndex(index);
-                                        },
-                                      ),
-                    ),
+                (index) => Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: FilterButton(
+                    text: index == 0
+                        ? 'Followers'
+                        : index == 1
+                            ? 'Following'
+                            : 'Requests',
+                    isSelected: _selectedIndex == index,
+                    onPressed: () {
+                      stateNotifier.updateSelectedIndex(index);
+                    },
+                  ),
+                ),
               ).toList(),
             ),
             16.verticalSpace,
             Expanded(
               child: _selectedIndex == 0
-                  ? _FollowersList(followerList)
-                  : (_selectedIndex == 1 ? _FollowingList(followList) : _RequestsList(requestList)),
+                  ? _followersList(followerList)
+                  : (_selectedIndex == 1 ? _followingList(followList) : _requestsList(requestList)),
             ),
           ],
         ),
@@ -117,15 +119,15 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     );
   }
 
-
-Widget _FollowersList( followerList){
-    return Container(
+  Widget _followersList(followerList) {
+    return SizedBox(
       height: 500,
       child: Column(
         children: [
           Align(
             alignment: Alignment.topLeft,
-            child: Text('Followers List',
+            child: Text(
+              'Followers List',
               style: AppTextStyles.textStylePoppinsMedium.copyWith(
                 fontSize: 13.sp,
                 color: AppColors.colorBlack,
@@ -134,7 +136,7 @@ Widget _FollowersList( followerList){
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: followerList.length, //followers.length,
+              itemCount: followerList.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 3 / 4,
@@ -145,19 +147,19 @@ Widget _FollowersList( followerList){
                 if (index < 0 || index >= followerList.length) {
                   return const SizedBox.shrink();
                 }
-                final followers= followerList[index];
-                final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
+                final follower = followerList[index];
+                final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
 
                 return CustomCard(
-                    name: followers.fullName, //followers[index]['name'].toString(),
-                    date: "Joined May 5, 2018",//followers[index]['date'].toString(),
-                    imagePath: profileImage, //followers[index]['image'].toString(),
+                  name: follower.fullName, //followers[index]['name'].toString(),
+                  date: "Joined May 5, 2018", //followers[index]['date'].toString(),
+                  imagePath: profileImage, //followers[index]['image'].toString(),
                   button: AppButton(
                     height: 30,
                     width: 80,
-                    text: followers.isFollow ? 'Unfollow' : 'Follow',
-                    onPressed: (){
-                      _handleFollowUnfollowButtonPressed(followers.id);
+                    text: follower.isFollow ? 'Unfollow' : 'Follow',
+                    onPressed: () {
+                      _handleFollowUnfollowButtonPressed(follower.id);
                     },
                     color: AppColors.colorCommentBoxBorder,
                   ),
@@ -170,106 +172,108 @@ Widget _FollowersList( followerList){
     );
   }
 
-Widget _FollowingList(followList){
-  return Container(
-    height: 500,
-    child: Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text('List of Your Following',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
+  Widget _followingList(followList) {
+    return SizedBox(
+      height: 500,
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              'List of Your Following',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: GridView.builder(
-            itemCount: followList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3 / 4,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-            ),
-            itemBuilder: (context, index) {
-              if (index < 0 || index >= followList.length) {
-                return const SizedBox.shrink();
-              }
-              final following= followList[index];
-              final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
+          Expanded(
+            child: GridView.builder(
+              itemCount: followList.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 4,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+              ),
+              itemBuilder: (context, index) {
+                if (index < 0 || index >= followList.length) {
+                  return const SizedBox.shrink();
+                }
+                final following = followList[index];
+                final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
 
-              return CustomCard(
-                name: following.fullName, //following[index]['name'].toString(),
-                date: "Joined May 5, 2018", //following[index]['date'].toString(),
-                imagePath: profileImage, //following[index]['image'].toString(),
-                button: AppButton(
-                  height: 30,
-                  width: 100,
-                  text: 'Unfollow',
+                return CustomCard(
+                  name: following.fullName, //following[index]['name'].toString(),
+                  date: "Joined May 5, 2018", //following[index]['date'].toString(),
+                  imagePath: profileImage, //following[index]['image'].toString(),
+                  button: AppButton(
+                    height: 30,
+                    width: 100,
+                    text: 'Unfollow',
                     // text:  following.isFollow ? 'Unfollow' : 'Follow',
-                  onPressed: (){},
-                  color: AppColors.colorCommentBoxBorder,
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _RequestsList(requestList){
-  return Container(
-    height: 500,
-    child: Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text('Pending Requests',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
+                    onPressed: () {},
+                    color: AppColors.colorCommentBoxBorder,
+                  ),
+                );
+              },
             ),
           ),
-        ),
-        Expanded(
-          child: GridView.builder(
-            itemCount: requestList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3 / 4,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-            ),
-            itemBuilder: (context, index) {
-              if (index < 0 || index >= requestList.length) {
-                return const SizedBox.shrink();
-              }
-              final requests= requestList[index];
-              final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
+        ],
+      ),
+    );
+  }
 
-              return CustomCard(
-                name: requests.fullName, //requests[index]['name'].toString(),
-                date: "Joined May 5, 2018", //requests[index]['date'].toString(),
-                imagePath: profileImage, //requests[index]['image'].toString(),
-                button: AppButton(
-                  height: 30,
-                  width: 150,
-                  text: "Accept Request",
-                  onPressed: (){},
-                  color: AppColors.colorCommentBoxBorder,
-                ),
-              );
-            },
+  Widget _requestsList(requestList) {
+    return SizedBox(
+      height: 500,
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              'Pending Requests',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
+              ),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+          Expanded(
+            child: GridView.builder(
+              itemCount: requestList.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 4,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+              ),
+              itemBuilder: (context, index) {
+                if (index < 0 || index >= requestList.length) {
+                  return const SizedBox.shrink();
+                }
+                final requests = requestList[index];
+                final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
+
+                return CustomCard(
+                  name: requests.fullName, //requests[index]['name'].toString(),
+                  date: "Joined May 5, 2018", //requests[index]['date'].toString(),
+                  imagePath: profileImage, //requests[index]['image'].toString(),
+                  button: AppButton(
+                    height: 30,
+                    width: 150,
+                    text: "Accept Request",
+                    onPressed: () {},
+                    color: AppColors.colorCommentBoxBorder,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 

@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/core/constants/assets.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
-
 
 class FilterButton extends StatelessWidget {
   final String text;
@@ -22,9 +23,7 @@ class FilterButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        side: const BorderSide(
-          color: AppColors.colorGrey3
-        ),
+        side: const BorderSide(color: AppColors.colorGrey3),
         foregroundColor: AppColors.colorPrimaryAlpha,
         backgroundColor: isSelected ? AppColors.colorBlack : AppColors.colorWhite,
       ),
@@ -38,19 +37,18 @@ class FilterButton extends StatelessWidget {
   }
 }
 
-
 class CustomCard extends StatelessWidget {
   final String name;
   final String date;
   final String imagePath;
   final Widget button;
 
-  const CustomCard({
-    required this.name,
-    required this.date,
-    required this.imagePath,
-     required this.button
-  });
+  const CustomCard(
+      {super.key,
+      required this.name,
+      required this.date,
+      required this.imagePath,
+      required this.button});
 
   @override
   Widget build(BuildContext context) {
@@ -73,18 +71,19 @@ class CustomCard extends StatelessWidget {
               ),
             ),
             decoration: BoxDecoration(
-              color: AppColors.colorGrey,
-              image: DecorationImage(
-                image: NetworkImage(
-                  CachedNetworkImage(
-                    imageUrl: imagePath,
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ).imageUrl,
-                ),
-                fit: BoxFit.cover,
-              )
-            ),
+                color: AppColors.colorGrey,
+                image: DecorationImage(
+                  image: imagePath == '${AppUrls.profilePicLocation}/'
+                      ? const AssetImage(Assets.noProfileImage)
+                      : NetworkImage(
+                          CachedNetworkImage(
+                            imageUrl: imagePath,
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ).imageUrl,
+                        ),
+                  fit: BoxFit.cover,
+                )),
           ),
           Positioned.fill(
             child: Column(

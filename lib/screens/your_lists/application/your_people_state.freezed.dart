@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'yourPeople_state.dart';
+part of 'your_people_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -27,6 +27,8 @@ mixin _$YourPeopleState {
       throw _privateConstructorUsedError;
   List<RoleInfoOfFollower> get roleInfoOfFollower =>
       throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $YourPeopleStateCopyWith<YourPeopleState> get copyWith =>
@@ -46,7 +48,9 @@ abstract class $YourPeopleStateCopyWith<$Res> {
       List<DataOfFollowingModel> followingList,
       List<RoleInfoOfFollowing> roleInfoOfFollowing,
       List<DataOfFollowerModel> followerList,
-      List<RoleInfoOfFollower> roleInfoOfFollower});
+      List<RoleInfoOfFollower> roleInfoOfFollower,
+      int currentPage,
+      int totalPages});
 }
 
 /// @nodoc
@@ -69,6 +73,8 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
     Object? roleInfoOfFollowing = null,
     Object? followerList = null,
     Object? roleInfoOfFollower = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
   }) {
     return _then(_value.copyWith(
       selectedIndex: null == selectedIndex
@@ -99,6 +105,14 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
           ? _value.roleInfoOfFollower
           : roleInfoOfFollower // ignore: cast_nullable_to_non_nullable
               as List<RoleInfoOfFollower>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -118,7 +132,9 @@ abstract class _$$YourPeopleStateImplCopyWith<$Res>
       List<DataOfFollowingModel> followingList,
       List<RoleInfoOfFollowing> roleInfoOfFollowing,
       List<DataOfFollowerModel> followerList,
-      List<RoleInfoOfFollower> roleInfoOfFollower});
+      List<RoleInfoOfFollower> roleInfoOfFollower,
+      int currentPage,
+      int totalPages});
 }
 
 /// @nodoc
@@ -139,6 +155,8 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
     Object? roleInfoOfFollowing = null,
     Object? followerList = null,
     Object? roleInfoOfFollower = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
   }) {
     return _then(_$YourPeopleStateImpl(
       selectedIndex: null == selectedIndex
@@ -169,6 +187,14 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
           ? _value._roleInfoOfFollower
           : roleInfoOfFollower // ignore: cast_nullable_to_non_nullable
               as List<RoleInfoOfFollower>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -183,7 +209,9 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       final List<DataOfFollowingModel> followingList = const [],
       final List<RoleInfoOfFollowing> roleInfoOfFollowing = const [],
       final List<DataOfFollowerModel> followerList = const [],
-      final List<RoleInfoOfFollower> roleInfoOfFollower = const []})
+      final List<RoleInfoOfFollower> roleInfoOfFollower = const [],
+      this.currentPage = 1,
+      this.totalPages = 1})
       : _followingList = followingList,
         _roleInfoOfFollowing = roleInfoOfFollowing,
         _followerList = followerList,
@@ -237,8 +265,15 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
   }
 
   @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final int totalPages;
+
+  @override
   String toString() {
-    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, roleInfoOfFollowing: $roleInfoOfFollowing, followerList: $followerList, roleInfoOfFollower: $roleInfoOfFollower)';
+    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, roleInfoOfFollowing: $roleInfoOfFollowing, followerList: $followerList, roleInfoOfFollower: $roleInfoOfFollower, currentPage: $currentPage, totalPages: $totalPages)';
   }
 
   @override
@@ -258,7 +293,11 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
             const DeepCollectionEquality()
                 .equals(other._followerList, _followerList) &&
             const DeepCollectionEquality()
-                .equals(other._roleInfoOfFollower, _roleInfoOfFollower));
+                .equals(other._roleInfoOfFollower, _roleInfoOfFollower) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages));
   }
 
   @override
@@ -270,7 +309,9 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       const DeepCollectionEquality().hash(_followingList),
       const DeepCollectionEquality().hash(_roleInfoOfFollowing),
       const DeepCollectionEquality().hash(_followerList),
-      const DeepCollectionEquality().hash(_roleInfoOfFollower));
+      const DeepCollectionEquality().hash(_roleInfoOfFollower),
+      currentPage,
+      totalPages);
 
   @JsonKey(ignore: true)
   @override
@@ -282,14 +323,15 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
 
 abstract class _YourPeopleState implements YourPeopleState {
   const factory _YourPeopleState(
-          {final int selectedIndex,
-          final bool isLoading,
-          final String userId,
-          final List<DataOfFollowingModel> followingList,
-          final List<RoleInfoOfFollowing> roleInfoOfFollowing,
-          final List<DataOfFollowerModel> followerList,
-          final List<RoleInfoOfFollower> roleInfoOfFollower}) =
-      _$YourPeopleStateImpl;
+      {final int selectedIndex,
+      final bool isLoading,
+      final String userId,
+      final List<DataOfFollowingModel> followingList,
+      final List<RoleInfoOfFollowing> roleInfoOfFollowing,
+      final List<DataOfFollowerModel> followerList,
+      final List<RoleInfoOfFollower> roleInfoOfFollower,
+      final int currentPage,
+      final int totalPages}) = _$YourPeopleStateImpl;
 
   @override
   int get selectedIndex;
@@ -305,6 +347,10 @@ abstract class _YourPeopleState implements YourPeopleState {
   List<DataOfFollowerModel> get followerList;
   @override
   List<RoleInfoOfFollower> get roleInfoOfFollower;
+  @override
+  int get currentPage;
+  @override
+  int get totalPages;
   @override
   @JsonKey(ignore: true)
   _$$YourPeopleStateImplCopyWith<_$YourPeopleStateImpl> get copyWith =>

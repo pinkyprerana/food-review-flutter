@@ -51,7 +51,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
 
   @override
   Widget build(BuildContext context) {
-    final followState = ref.watch(YourPeopleNotifierProvider);
+    final followState = ref.watch(yourPeopleNotifierProvider);
     final followerList = followState.followerList;
 
     return Column(
@@ -67,7 +67,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
           ),
         ),
         16.verticalSpace,
-        Container(
+        SizedBox(
           height: 0.55.sh,
           child: GridView.builder(
             physics: const ClampingScrollPhysics(),
@@ -83,15 +83,13 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 return const SizedBox.shrink();
               }
               final followers = followerList[index];
-              final profileImage =
-                  '${AppUrls.profilePicLocation}/${followers.profileImage}';
+              final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
 
               return GestureDetector(
                 onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
-                    peoplename: followers.fullName
-                        .toString(), //followers[index]['name'].toString(),
-                    peopleimage:
-                        profileImage, //followers[index]['image'].toString()
+                    peoplename:
+                        followers.fullName.toString(), //followers[index]['name'].toString(),
+                    peopleimage: profileImage, //followers[index]['image'].toString()
                     peopleId: followers.id,
                     isFollow: followers.isFollow)),
                 child: Container(
@@ -103,15 +101,14 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: 24.w,
                         height: 24.h,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
                           child: CachedNetworkImage(
-                            imageUrl: profileImage ?? "",
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
+                            imageUrl: profileImage,
+                            placeholder: (context, url) => const CircularProgressIndicator(),
                             errorWidget: (context, url, error) => Image.asset(
                               Assets.avatar,
                               scale: 1,

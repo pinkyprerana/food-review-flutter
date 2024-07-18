@@ -12,13 +12,13 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/restaurant_widget.dart';
+import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../base/shared/providers.dart';
 import '../../list/shared/provider.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../restaurant/shared/provider.dart';
-import '../../your_lists/shared/provider.dart';
 
 @RoutePage()
 class HomePageNew extends ConsumerStatefulWidget {
@@ -29,8 +29,6 @@ class HomePageNew extends ConsumerStatefulWidget {
 }
 
 class _HomePageNewState extends ConsumerState<HomePageNew> {
-
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +37,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       await stateNotifier.getHomeRestaurants(context: context);
       final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
-      final followNotifier = ref.watch(YourPeopleNotifierProvider.notifier);
+      final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
     });
   }
@@ -53,16 +51,16 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
 
   @override
   Widget build(BuildContext context) {
-    var hive = ref.watch(hiveProvider);
-    final token = hive.box.get(AppPreferenceKeys.token);
-    final followState = ref.watch(YourPeopleNotifierProvider);
+    // var hive = ref.watch(hiveProvider);
+    // final token = hive.box.get(AppPreferenceKeys.token);
+    final followState = ref.watch(yourPeopleNotifierProvider);
     final followerList = followState.followerList;
-    final state = ref.watch(baseNotifierProvider);
+    // final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
-    final stateOfListScreen = ref.watch(listProvider);
+    // final stateOfListScreen = ref.watch(listProvider);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
-    final stateNotifierRestaurant =
-        ref.watch(restaurantNotifierProvider.notifier);
+    // final stateNotifierRestaurant =
+    // ref.watch(restaurantNotifierProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
@@ -113,8 +111,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                   children: [
                     Text(
                       'Follow',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -145,17 +143,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         return const SizedBox.shrink();
                       }
                       final followers = followerList[index];
-                      final imgpath = followers.profileImage != ""
-                          ? followers.profileImage
-                          : "";
-                      final profileImage =
-                          '${AppUrls.profilePicLocation}/$imgpath';
+                      final imgpath = followers.profileImage != "" ? followers.profileImage : "";
+                      final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
 
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
-                              peoplename: followers.fullName
-                                  .toString(), //'Ahmad Gouse',
+                              peoplename: followers.fullName.toString(), //'Ahmad Gouse',
                               peopleimage: profileImage.toString(),
                               peopleId: followers.id,
                               isFollow: followers.isFollow
@@ -164,10 +158,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         },
                         child: FollowOptionWidget(
                             followersId: followers.id,
-                            imgpath:
-                                profileImage, //followOptions[index]['image'],
-                            name: followers.fullName
-                                .toString(), //followOptions[index]['name'],
+                            imgpath: profileImage, //followOptions[index]['image'],
+                            name: followers.fullName.toString(), //followOptions[index]['name'],
                             isFollow: followers.isFollow),
                       );
                     }),
@@ -180,8 +172,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                   children: [
                     Text(
                       'Restaurant List',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -207,68 +199,44 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       ),
                     )
                   : (stateRestaurant.homeRestaurantList != null &&
-                          (stateRestaurant.homeRestaurantList?.isNotEmpty ??
-                              false))
+                          (stateRestaurant.homeRestaurantList?.isNotEmpty ?? false))
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: ListView.builder(
                               padding: const EdgeInsets.all(0),
-                              itemCount:
-                                  stateRestaurant.homeRestaurantList?.length,
+                              itemCount: stateRestaurant.homeRestaurantList?.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return GestureDetector(
-                                  onTap: () => AutoRouter.of(context)
-                                      .push(RestaurantDetailRoute(
+                                  onTap: () => AutoRouter.of(context).push(RestaurantDetailRoute(
                                     numberOfReviews: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .userRatingsTotal ??
+                                            .homeRestaurantList?[index].userRatingsTotal ??
                                         '',
-                                    address: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .address ??
+                                    address: stateRestaurant.homeRestaurantList?[index].address ??
                                         'No name',
-                                    image: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .image?[0] ??
-                                        '',
-                                    lat: stateRestaurant
-                                            .homeRestaurantList?[index].lat ??
-                                        '',
-                                    lng: stateRestaurant
-                                            .homeRestaurantList?[index].lng ??
-                                        '',
-                                    name: stateRestaurant
-                                            .homeRestaurantList?[index].name ??
-                                        '',
-                                    rating: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .rating ??
-                                        '',
-                                    description: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .description ??
-                                        '',
+                                    image:
+                                        stateRestaurant.homeRestaurantList?[index].image?[0] ?? '',
+                                    lat: stateRestaurant.homeRestaurantList?[index].lat ?? '',
+                                    lng: stateRestaurant.homeRestaurantList?[index].lng ?? '',
+                                    name: stateRestaurant.homeRestaurantList?[index].name ?? '',
+                                    rating: stateRestaurant.homeRestaurantList?[index].rating ?? '',
+                                    description:
+                                        stateRestaurant.homeRestaurantList?[index].description ??
+                                            '',
                                   )),
                                   child: RestaurantWidget(
                                     // imgpath: restaurantlist[index]['image'],
                                     imgpath:
                                         'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${stateRestaurant.homeRestaurantList?[index].image?[0]}',
-                                    name: stateRestaurant
-                                            .homeRestaurantList?[index].name ??
+                                    name: stateRestaurant.homeRestaurantList?[index].name ??
                                         'No Name',
-                                    address: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .address ??
+                                    address: stateRestaurant.homeRestaurantList?[index].address ??
                                         'No address',
-                                    rating: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .rating ??
-                                        '0',
+                                    rating:
+                                        stateRestaurant.homeRestaurantList?[index].rating ?? '0',
                                     numberOfReviews: stateRestaurant
-                                            .homeRestaurantList?[index]
-                                            .userRatingsTotal ??
+                                            .homeRestaurantList?[index].userRatingsTotal ??
                                         '0',
                                   ),
                                 );
@@ -288,8 +256,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                   children: [
                     Text(
                       'Post List',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -321,14 +289,11 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         color: AppColors.colorPrimary,
                       ),
                     )
-                  : (postFeedState.postList != null &&
-                          (postFeedState.postList.isNotEmpty ?? false))
+                  : (postFeedState.postList != null && (postFeedState.postList.isNotEmpty ?? false))
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: ListView.builder(
-                              itemCount: postFeedList.length > 3
-                                  ? 3
-                                  : postFeedList.length, //3
+                              itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.all(0),
