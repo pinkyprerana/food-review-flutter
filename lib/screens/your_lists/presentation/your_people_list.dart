@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/screens/your_lists/application/your_people_notifier.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
 import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/follower_model.dart';
@@ -14,7 +15,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/app_button.dart';
-import '../../people_profile/shared/providers.dart';
 import '../shared/provider.dart';
 import 'widgets/custom_widgets.dart';
 
@@ -36,11 +36,6 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
       await followNotifier.getAllFollowingList();
       await followNotifier.getAllRequestList();
     });
-  }
-
-  void _handleFollowUnfollowButtonPressed(userId) {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, userId);
   }
 
   @override
@@ -153,6 +148,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                         isSelected: _selectedIndex == index,
                         onPressed: () {
                           stateNotifier.updateSelectedIndex(index);
+                          index == 0
+                              ? stateNotifier.getAllFollowerList()
+                              : index == 1
+                                  ? stateNotifier.getAllFollowingList()
+                                  : stateNotifier.getAllRequestList();
                         },
                       ),
                     ),
@@ -160,10 +160,18 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                 ),
                 16.verticalSpace,
                 _selectedIndex == 0
-                    ? _followersList(followerList, followState)
+                    ? _followersList(
+                        followerList,
+                        followState,
+                        stateNotifier,
+                      )
                     : (_selectedIndex == 1
                         ? _followingList(followList, followState)
-                        : _requestsList(requestList, followState)),
+                        : _requestsList(
+                            requestList,
+                            followState,
+                            stateNotifier,
+                          )),
               ],
             ),
           ),
@@ -172,7 +180,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     );
   }
 
-  Widget _followersList(List<DataOfFollowerModel> followerList, YourPeopleState followState) {
+  Widget _followersList(
+    List<DataOfFollowerModel> followerList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+  ) {
     return followState.followerList.isEmpty
         ? Center(
             child: Text(
@@ -222,7 +234,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       width: 80,
                       text: follower.isFollow ? 'Unfollow' : 'Follow',
                       onPressed: () {
-                        _handleFollowUnfollowButtonPressed(follower.id);
+                        stateNotifier.unfollowFriend(follower.requestId);
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),
@@ -293,7 +305,8 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 
-  Widget _requestsList(List<FollowRequest> requestList, YourPeopleState followState) {
+  Widget _requestsList(List<FollowRequest> requestList, YourPeopleState followState,
+      YourPeopleNotifier stateNotifier) {
     return followState.followRequestsList.isEmpty
         ? Center(
             child: Text(
@@ -342,7 +355,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       height: 30,
                       width: 150,
                       text: "Accept Request",
-                      onPressed: () {},
+                      onPressed: () async {
+                        await stateNotifier.acceptFriendRequest(requests.requestId ?? '');
+                      },
                       color: AppColors.colorCommentBoxBorder,
                     ),
                   );

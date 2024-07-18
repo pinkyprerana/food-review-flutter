@@ -11,7 +11,8 @@ class FilterButton extends StatelessWidget {
   final bool isSelected;
   final Function() onPressed;
 
-  FilterButton({
+  const FilterButton({
+    super.key,
     required this.text,
     required this.isSelected,
     required this.onPressed,

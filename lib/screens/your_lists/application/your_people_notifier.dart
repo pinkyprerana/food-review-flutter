@@ -69,6 +69,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       final FormData formData = FormData.fromMap({
         "perpage": 10,
         "page": state.followerCurrentPage,
+        "showing_status": "Follower",
       });
 
       var headers = {
@@ -204,6 +205,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       final FormData formData = FormData.fromMap({
         "perpage": 10,
         "page": state.followingCurrentPage,
+        "showing_status": "Follow",
       });
 
       var headers = {
@@ -249,6 +251,78 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
           followingList: following,
           followingTotalPages: followingModel.pages,
         );
+      } else {
+        showToastMessage(response.statusMessage.toString());
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> acceptFriendRequest(String requestId) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final FormData formData = FormData.fromMap({
+        "request_id": requestId,
+        "status": "Accept",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      var response = await _dio.post(
+        "${AppUrls.BASE_URL}${AppUrls.acceptOrRejectRequest}",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage(response.statusMessage.toString());
+        await getAllRequestList();
+        state = state.copyWith(isLoading: false);
+      } else {
+        showToastMessage(response.statusMessage.toString());
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> unfollowFriend(String requestId) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final FormData formData = FormData.fromMap({
+        "request_id": requestId,
+        "status": "Reject",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      var response = await _dio.post(
+        "${AppUrls.BASE_URL}${AppUrls.acceptOrRejectRequest}",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage(response.statusMessage.toString());
+        await getAllFollowerList();
+        state = state.copyWith(isLoading: false);
       } else {
         showToastMessage(response.statusMessage.toString());
         state = state.copyWith(isLoading: false);
