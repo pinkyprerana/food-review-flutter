@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
 import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/follower_model.dart';
 import 'package:for_the_table/screens/your_lists/domain/following_model.dart';
@@ -159,10 +160,10 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                 ),
                 16.verticalSpace,
                 _selectedIndex == 0
-                    ? _followersList(followerList)
+                    ? _followersList(followerList, followState)
                     : (_selectedIndex == 1
-                        ? _followingList(followList)
-                        : _requestsList(requestList)),
+                        ? _followingList(followList, followState)
+                        : _requestsList(requestList, followState)),
               ],
             ),
           ),
@@ -171,154 +172,184 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     );
   }
 
-  Widget _followersList(List<DataOfFollowerModel> followerList) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            'Followers List',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
+  Widget _followersList(List<DataOfFollowerModel> followerList, YourPeopleState followState) {
+    return followState.followerList.isEmpty
+        ? Center(
+            child: Text(
+              'You have no followers.',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
+              ),
             ),
-          ),
-        ),
-        20.verticalSpace,
-        GridView.builder(
-          itemCount: followerList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-          ),
-          itemBuilder: (context, index) {
-            if (index < 0 || index >= followerList.length) {
-              return const SizedBox.shrink();
-            }
-            final follower = followerList[index];
-            final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
+          )
+        : Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Followers List',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorBlack,
+                  ),
+                ),
+              ),
+              20.verticalSpace,
+              GridView.builder(
+                itemCount: followerList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < 0 || index >= followerList.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final follower = followerList[index];
+                  final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
 
-            return CustomCard(
-              name: follower.fullName ?? '', //followers[index]['name'].toString(),
-              date: "Joined May 5, 2018", //followers[index]['date'].toString(),
-              imagePath: profileImage, //followers[index]['image'].toString(),
-              button: AppButton(
-                height: 30,
-                width: 80,
-                text: follower.isFollow ? 'Unfollow' : 'Follow',
-                onPressed: () {
-                  _handleFollowUnfollowButtonPressed(follower.id);
+                  return CustomCard(
+                    name: follower.fullName ?? '', //followers[index]['name'].toString(),
+                    date: "Joined May 5, 2018", //followers[index]['date'].toString(),
+                    imagePath: profileImage, //followers[index]['image'].toString(),
+                    button: AppButton(
+                      height: 30,
+                      width: 80,
+                      text: follower.isFollow ? 'Unfollow' : 'Follow',
+                      onPressed: () {
+                        _handleFollowUnfollowButtonPressed(follower.id);
+                      },
+                      color: AppColors.colorCommentBoxBorder,
+                    ),
+                  );
                 },
-                color: AppColors.colorCommentBoxBorder,
               ),
-            );
-          },
-        ),
-      ],
-    );
+            ],
+          );
   }
 
-  Widget _followingList(List<DataOfFollowingModel> followList) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            'List of Your Following',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
-            ),
-          ),
-        ),
-        20.verticalSpace,
-        GridView.builder(
-          itemCount: followList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-          ),
-          itemBuilder: (context, index) {
-            if (index < 0 || index >= followList.length) {
-              return const SizedBox.shrink();
-            }
-            final following = followList[index];
-            final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
-
-            return CustomCard(
-              name: following.fullName ?? '', //following[index]['name'].toString(),
-              date: "Joined May 5, 2024", //following[index]['date'].toString(),
-              imagePath: profileImage, //following[index]['image'].toString(),
-              button: AppButton(
-                height: 30,
-                width: 100,
-                text: 'Unfollow',
-                // text:  following.isFollow ? 'Unfollow' : 'Follow',
-                onPressed: () {},
-                color: AppColors.colorCommentBoxBorder,
+  Widget _followingList(List<DataOfFollowingModel> followList, YourPeopleState followState) {
+    return followState.followingList.isEmpty
+        ? Center(
+            child: Text(
+              'You are not following anyone.',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
               ),
-            );
-          },
-        ),
-      ],
-    );
+            ),
+          )
+        : Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'List of Your Following',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorBlack,
+                  ),
+                ),
+              ),
+              20.verticalSpace,
+              GridView.builder(
+                itemCount: followList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < 0 || index >= followList.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final following = followList[index];
+                  final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
+
+                  return CustomCard(
+                    name: following.fullName ?? '', //following[index]['name'].toString(),
+                    date: "Joined May 5, 2024", //following[index]['date'].toString(),
+                    imagePath: profileImage, //following[index]['image'].toString(),
+                    button: AppButton(
+                      height: 30,
+                      width: 100,
+                      text: 'Unfollow',
+                      // text:  following.isFollow ? 'Unfollow' : 'Follow',
+                      onPressed: () {},
+                      color: AppColors.colorCommentBoxBorder,
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
   }
 
-  Widget _requestsList(List<FollowRequest> requestList) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            'Pending Requests',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
-            ),
-          ),
-        ),
-        20.verticalSpace,
-        GridView.builder(
-          itemCount: requestList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-          ),
-          itemBuilder: (context, index) {
-            if (index < 0 || index >= requestList.length) {
-              return const SizedBox.shrink();
-            }
-            final requests = requestList[index];
-            final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
-
-            return CustomCard(
-              name: requests.fullName ?? '', //requests[index]['name'].toString(),
-              date: "Joined May 5, 2018", //requests[index]['date'].toString(),
-              imagePath: profileImage, //requests[index]['image'].toString(),
-              button: AppButton(
-                height: 30,
-                width: 150,
-                text: "Accept Request",
-                onPressed: () {},
-                color: AppColors.colorCommentBoxBorder,
+  Widget _requestsList(List<FollowRequest> requestList, YourPeopleState followState) {
+    return followState.followRequestsList.isEmpty
+        ? Center(
+            child: Text(
+              'You have no requests.',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
               ),
-            );
-          },
-        ),
-      ],
-    );
+            ),
+          )
+        : Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Pending Requests',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorBlack,
+                  ),
+                ),
+              ),
+              20.verticalSpace,
+              GridView.builder(
+                itemCount: requestList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < 0 || index >= requestList.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final requests = requestList[index];
+                  final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
+
+                  return CustomCard(
+                    name: requests.fullName ?? '', //requests[index]['name'].toString(),
+                    date: "Joined May 5, 2018", //requests[index]['date'].toString(),
+                    imagePath: profileImage, //requests[index]['image'].toString(),
+                    button: AppButton(
+                      height: 30,
+                      width: 150,
+                      text: "Accept Request",
+                      onPressed: () {},
+                      color: AppColors.colorCommentBoxBorder,
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
   }
 }
 
