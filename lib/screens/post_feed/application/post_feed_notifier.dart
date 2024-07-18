@@ -82,6 +82,45 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
+  Future<void> getFollowingPostFeed( follow) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+          body:
+          {
+            "lat": getLatitude,
+            "lng": getLongitude,
+            "user_id": userId,
+            "view_type": follow,
+          }
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        PostModel postModel = PostModel.fromJson(response.data);
+        if (postModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              postList:
+              postModel.postList
+          );
+
+        } else {
+          showToastMessage(postModel.message.toString());
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
   Future<void> likeUnlikePost(VoidCallback voidCallback, String postID) async {
     state = state.copyWith(isLoading: true);
     try {

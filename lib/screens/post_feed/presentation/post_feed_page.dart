@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -171,8 +172,12 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                         itemCount: buttonTexts.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               stateNotifier.selectButton(index);
+                              if(index == 1){
+                                final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+                                await postFeedNotifier.getFollowingPostFeed("follow");
+                              }
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 5),
