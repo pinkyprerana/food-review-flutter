@@ -375,7 +375,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           title: activitiesList?[index].title ?? '',
                         );
                       },
-                      itemCount: 3,
+                      itemCount: (state.userActivitiesList?.length ?? 0) < 3
+                          ? state.userActivitiesList?.length
+                          : 3,
                     ),
                     18.verticalSpace,
                     Row(

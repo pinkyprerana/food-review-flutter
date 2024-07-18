@@ -15,14 +15,14 @@ class FollowNotifier extends StateNotifier<FollowState> {
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
-  String? get getLatitude=> _hiveDatabase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude=> _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
-  Future<void> follow_unfollow(VoidCallback voidCallback, String userID) async {
+  Future<void> followUnfollow(VoidCallback voidCallback, String userID) async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${AppUrls.follow_unfollow}',
+        url: '${AppUrls.BASE_URL}${AppUrls.followUnfollow}',
         body: {
           "follow_user_id": userID,
         },
@@ -57,14 +57,12 @@ class FollowNotifier extends StateNotifier<FollowState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      var (response, dioException) =
-      await _networkApiService.postApiRequestWithToken(
-          url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}",
-          body: {
-                "lat": getLatitude,
-                "lng": getLongitude,
-                "user_id": userID,
-          });
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}", body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+        "user_id": userID,
+      });
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
@@ -74,10 +72,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
         PostListOfOtherModel postListOfOtherModel = PostListOfOtherModel.fromJson(response.data);
         if (postListOfOtherModel.status == 200) {
           state = state.copyWith(
-              isLoading: false,
-              postListOfOtherUser: postListOfOtherModel.postListOfOtherUser
-          );
-
+              isLoading: false, postListOfOtherUser: postListOfOtherModel.postListOfOtherUser);
         } else {
           showToastMessage(postListOfOtherModel.message.toString());
         }
@@ -88,5 +83,4 @@ class FollowNotifier extends StateNotifier<FollowState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
-
 }

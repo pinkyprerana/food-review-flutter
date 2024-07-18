@@ -37,7 +37,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
-    followNotifier.follow_unfollow(() {}, userId);
+    followNotifier.followUnfollow(() {}, userId);
   }
 
   @override
