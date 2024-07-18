@@ -48,9 +48,7 @@ class PostItemWidget2 extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           // image: AssetImage(Assets.post2),
-          image: (image.contains('jpg') ||
-                  image.contains('png') ||
-                  image.contains('jpeg'))
+          image: (image.contains('jpg') || image.contains('png') || image.contains('jpeg'))
               ? CachedNetworkImageProvider(image)
               : const AssetImage(Assets.noRestaurantImage),
           fit: BoxFit.cover,
@@ -79,19 +77,17 @@ class PostItemWidget2 extends StatelessWidget {
                 Colors.transparent,
               ]),
               child: Padding(
-                padding: const EdgeInsets.only(
-                        top: 15, left: 15, right: 15, bottom: 10)
-                    .r,
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
                 child: Column(
                   children: [
                     GestureDetector(
                       onTap: () {
-                        AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: 'Ahmad Gouse',
-                            peopleimage:
-                                'assets/images/temp/follower-sample2.png',
-                            peopleId: '',
-                            isFollow: true));
+                        // AutoRouter.of(context).push(PeopleProfileRoute(
+                        //     peoplename: 'Ahmad Gouse',
+                        //     peopleimage:
+                        //         'assets/images/temp/follower-sample2.png',
+                        //     peopleId: '',
+                        //     isFollow: true));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -118,14 +114,11 @@ class PostItemWidget2 extends StatelessWidget {
                           Text(
                             userName,
                             style: AppTextStyles.textStylePoppinsMedium
-                                .copyWith(
-                                    fontSize: 16.sp,
-                                    color: AppColors.colorWhite),
+                                .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
                               color: AppColors.colorWhite.withOpacity(0.20),
@@ -134,18 +127,14 @@ class PostItemWidget2 extends StatelessWidget {
                               child: (isFollowing)
                                   ? Text(
                                       'Following',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
                                       ),
                                     )
                                   : Text(
                                       'Follow',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
                                       ),
@@ -175,18 +164,14 @@ class PostItemWidget2 extends StatelessWidget {
                                     child: (cuisine != '')
                                         ? Text(
                                             cuisine,
-                                            style: AppTextStyles
-                                                .textStylePoppinsRegular
-                                                .copyWith(
+                                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                               color: AppColors.colorWhite,
                                               fontSize: 10.sp,
                                             ),
                                           )
                                         : Text(
                                             'Not Mentioned',
-                                            style: AppTextStyles
-                                                .textStylePoppinsRegular
-                                                .copyWith(
+                                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                               color: AppColors.colorWhite,
                                               fontSize: 10.sp,
                                             ),
@@ -220,9 +205,7 @@ class PostItemWidget2 extends StatelessWidget {
                                     (restaurantName != '')
                                         ? Text(
                                             restaurantName,
-                                            style: AppTextStyles
-                                                .textStylePoppinsMedium
-                                                .copyWith(
+                                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                               fontSize: 13.sp,
                                               color: AppColors.colorWhite,
                                             ),
@@ -234,9 +217,7 @@ class PostItemWidget2 extends StatelessWidget {
                                           : restaurantAddress,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
                                       ),
