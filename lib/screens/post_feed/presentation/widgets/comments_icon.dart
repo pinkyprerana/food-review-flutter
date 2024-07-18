@@ -5,6 +5,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 
 class CommentsIcon extends StatelessWidget {
   const CommentsIcon({super.key, required this.commentCount});
@@ -12,6 +13,7 @@ class CommentsIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLog.log('commentsCount--------->> $commentCount');
     return GestureDetector(
       onTap: () => AutoRouter.of(context).push(CommentsRoute(amount: '100')),
       child: Column(

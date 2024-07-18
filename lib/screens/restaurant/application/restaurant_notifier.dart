@@ -294,4 +294,44 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       state = state.copyWith(isLoadingForPosts: false);
     }
   }
+
+  Future<void> saveRestaurant(String restaurantID) async {
+    AppLog.log('restaurantID------------->>>> $restaurantID');
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final data = {
+        "restaurant_id": restaurantID,
+      };
+
+      final headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.saveRestaurant}',
+        data: data,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        AppLog.log('response ----->> $response');
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isLoading: false);
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to save/unsave restaurant');
+
+      state = state.copyWith(isLoading: false);
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
@@ -406,22 +407,59 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                           MainAxisAlignment
                                                                               .start,
                                                                       children: [
-                                                                        Image.asset(
-                                                                            Assets.rate),
-                                                                        2.horizontalSpace,
-                                                                        Image.asset(
-                                                                            Assets.rate),
-                                                                        2.horizontalSpace,
-                                                                        Image.asset(
-                                                                            Assets.rate),
-                                                                        2.horizontalSpace,
-                                                                        Image.asset(
-                                                                            Assets.rate),
-                                                                        2.horizontalSpace,
-                                                                        Image.asset(
-                                                                            Assets.rate),
+                                                                        RatingBar
+                                                                            .builder(
+                                                                          glow:
+                                                                              false,
+                                                                          initialRating:
+                                                                              0,
+                                                                          minRating:
+                                                                              0.5,
+                                                                          direction:
+                                                                              Axis.horizontal,
+                                                                          allowHalfRating:
+                                                                              true,
+                                                                          itemCount:
+                                                                              5,
+                                                                          itemPadding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 2.0),
+                                                                          itemSize:
+                                                                              25.21,
+                                                                          itemBuilder: (context, _) =>
+                                                                              const Icon(
+                                                                            Icons.star_rounded,
+                                                                            color:
+                                                                                Colors.amber,
+                                                                          ),
+                                                                          onRatingUpdate:
+                                                                              (rating) {
+                                                                            print(rating);
+                                                                          },
+                                                                        ),
                                                                       ],
                                                                     ),
+                                                                    // Row(
+                                                                    //   mainAxisAlignment:
+                                                                    //       MainAxisAlignment
+                                                                    //           .start,
+                                                                    //   children: [
+                                                                    //     Image.asset(
+                                                                    //         Assets.rate),
+                                                                    //     2.horizontalSpace,
+                                                                    //     Image.asset(
+                                                                    //         Assets.rate),
+                                                                    //     2.horizontalSpace,
+                                                                    //     Image.asset(
+                                                                    //         Assets.rate),
+                                                                    //     2.horizontalSpace,
+                                                                    //     Image.asset(
+                                                                    //         Assets.rate),
+                                                                    //     2.horizontalSpace,
+                                                                    //     Image.asset(
+                                                                    //         Assets.rate),
+                                                                    //   ],
+                                                                    // ),
                                                                     10.verticalSpace,
                                                                     Row(
                                                                         mainAxisAlignment:

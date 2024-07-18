@@ -26,4 +26,7 @@ class AppUrls {
   static const updatePassword = '/user/change-password';
   static const contact = '/contactUs/submit';
   static const postListPerRestaurant = '/post/list';
+
+  //restaurant
+  static const saveRestaurant = '/restaurant/save';
 }
