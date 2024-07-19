@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'follow_request_model.dart';
+part of 'follow_type_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FollowRequestModelImpl _$$FollowRequestModelImplFromJson(
+_$FollowTypeModelImpl _$$FollowTypeModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$FollowRequestModelImpl(
+    _$FollowTypeModelImpl(
       status: (json['status'] as num?)?.toInt(),
       type: json['type'] as String?,
       message: json['message'] as String?,
-      requestsList: (json['data'] as List<dynamic>?)
-          ?.map((e) => FollowRequest.fromJson(e as Map<String, dynamic>))
+      usersList: (json['data'] as List<dynamic>?)
+          ?.map((e) => Users.fromJson(e as Map<String, dynamic>))
           .toList(),
       total: (json['total'] as num?)?.toInt(),
       page: (json['page'] as num?)?.toInt(),
@@ -21,21 +21,20 @@ _$FollowRequestModelImpl _$$FollowRequestModelImplFromJson(
       limit: (json['limit'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$$FollowRequestModelImplToJson(
-        _$FollowRequestModelImpl instance) =>
+Map<String, dynamic> _$$FollowTypeModelImplToJson(
+        _$FollowTypeModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'type': instance.type,
       'message': instance.message,
-      'data': instance.requestsList,
+      'data': instance.usersList,
       'total': instance.total,
       'page': instance.page,
       'pages': instance.pages,
       'limit': instance.limit,
     };
 
-_$FollowRequestImpl _$$FollowRequestImplFromJson(Map<String, dynamic> json) =>
-    _$FollowRequestImpl(
+_$DatumImpl _$$DatumImplFromJson(Map<String, dynamic> json) => _$DatumImpl(
       id: json['_id'] as String?,
       firstName: json['first_name'] as String?,
       lastName: json['last_name'] as String?,
@@ -45,12 +44,15 @@ _$FollowRequestImpl _$$FollowRequestImplFromJson(Map<String, dynamic> json) =>
       roleInfo: json['role_info'] == null
           ? null
           : RoleInfo.fromJson(json['role_info'] as Map<String, dynamic>),
-      requestId: json['request_id'] as String?,
-      isRequest: json['isRequest'] as bool?,
-      isFollow: json['isFollow'] as bool?,
+      followingRequestId: json['following_request_id'],
+      followerRequestId: json['follower_request_id'] as String?,
+      isFollowingRequest: json['isFollowingRequest'] as bool?,
+      isFollowerRequest: json['isFollowerRequest'] as bool?,
+      isFollowing: json['isFollowing'] as bool?,
+      isFollower: json['isFollower'] as bool?,
     );
 
-Map<String, dynamic> _$$FollowRequestImplToJson(_$FollowRequestImpl instance) =>
+Map<String, dynamic> _$$DatumImplToJson(_$DatumImpl instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'first_name': instance.firstName,
@@ -59,9 +61,12 @@ Map<String, dynamic> _$$FollowRequestImplToJson(_$FollowRequestImpl instance) =>
       'email': instance.email,
       'profile_image': instance.profileImage,
       'role_info': instance.roleInfo,
-      'request_id': instance.requestId,
-      'isRequest': instance.isRequest,
-      'isFollow': instance.isFollow,
+      'following_request_id': instance.followingRequestId,
+      'follower_request_id': instance.followerRequestId,
+      'isFollowingRequest': instance.isFollowingRequest,
+      'isFollowerRequest': instance.isFollowerRequest,
+      'isFollowing': instance.isFollowing,
+      'isFollower': instance.isFollower,
     };
 
 _$RoleInfoImpl _$$RoleInfoImplFromJson(Map<String, dynamic> json) =>

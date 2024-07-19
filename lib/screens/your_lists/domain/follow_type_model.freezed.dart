@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'follow_request_model.dart';
+part of 'follow_type_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-FollowRequestModel _$FollowRequestModelFromJson(Map<String, dynamic> json) {
-  return _FollowRequestModel.fromJson(json);
+FollowTypeModel _$FollowTypeModelFromJson(Map<String, dynamic> json) {
+  return _FollowTypeModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$FollowRequestModel {
+mixin _$FollowTypeModel {
   @JsonKey(name: "status")
   int? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "type")
@@ -27,7 +27,7 @@ mixin _$FollowRequestModel {
   @JsonKey(name: "message")
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
-  List<FollowRequest>? get requestsList => throw _privateConstructorUsedError;
+  List<Users>? get usersList => throw _privateConstructorUsedError;
   @JsonKey(name: "total")
   int? get total => throw _privateConstructorUsedError;
   @JsonKey(name: "page")
@@ -39,21 +39,21 @@ mixin _$FollowRequestModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FollowRequestModelCopyWith<FollowRequestModel> get copyWith =>
+  $FollowTypeModelCopyWith<FollowTypeModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FollowRequestModelCopyWith<$Res> {
-  factory $FollowRequestModelCopyWith(
-          FollowRequestModel value, $Res Function(FollowRequestModel) then) =
-      _$FollowRequestModelCopyWithImpl<$Res, FollowRequestModel>;
+abstract class $FollowTypeModelCopyWith<$Res> {
+  factory $FollowTypeModelCopyWith(
+          FollowTypeModel value, $Res Function(FollowTypeModel) then) =
+      _$FollowTypeModelCopyWithImpl<$Res, FollowTypeModel>;
   @useResult
   $Res call(
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") List<FollowRequest>? requestsList,
+      @JsonKey(name: "data") List<Users>? usersList,
       @JsonKey(name: "total") int? total,
       @JsonKey(name: "page") int? page,
       @JsonKey(name: "pages") int? pages,
@@ -61,9 +61,9 @@ abstract class $FollowRequestModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FollowRequestModelCopyWithImpl<$Res, $Val extends FollowRequestModel>
-    implements $FollowRequestModelCopyWith<$Res> {
-  _$FollowRequestModelCopyWithImpl(this._value, this._then);
+class _$FollowTypeModelCopyWithImpl<$Res, $Val extends FollowTypeModel>
+    implements $FollowTypeModelCopyWith<$Res> {
+  _$FollowTypeModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -76,7 +76,7 @@ class _$FollowRequestModelCopyWithImpl<$Res, $Val extends FollowRequestModel>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? requestsList = freezed,
+    Object? usersList = freezed,
     Object? total = freezed,
     Object? page = freezed,
     Object? pages = freezed,
@@ -95,10 +95,10 @@ class _$FollowRequestModelCopyWithImpl<$Res, $Val extends FollowRequestModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      requestsList: freezed == requestsList
-          ? _value.requestsList
-          : requestsList // ignore: cast_nullable_to_non_nullable
-              as List<FollowRequest>?,
+      usersList: freezed == usersList
+          ? _value.usersList
+          : usersList // ignore: cast_nullable_to_non_nullable
+              as List<Users>?,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -120,18 +120,18 @@ class _$FollowRequestModelCopyWithImpl<$Res, $Val extends FollowRequestModel>
 }
 
 /// @nodoc
-abstract class _$$FollowRequestModelImplCopyWith<$Res>
-    implements $FollowRequestModelCopyWith<$Res> {
-  factory _$$FollowRequestModelImplCopyWith(_$FollowRequestModelImpl value,
-          $Res Function(_$FollowRequestModelImpl) then) =
-      __$$FollowRequestModelImplCopyWithImpl<$Res>;
+abstract class _$$FollowTypeModelImplCopyWith<$Res>
+    implements $FollowTypeModelCopyWith<$Res> {
+  factory _$$FollowTypeModelImplCopyWith(_$FollowTypeModelImpl value,
+          $Res Function(_$FollowTypeModelImpl) then) =
+      __$$FollowTypeModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") List<FollowRequest>? requestsList,
+      @JsonKey(name: "data") List<Users>? usersList,
       @JsonKey(name: "total") int? total,
       @JsonKey(name: "page") int? page,
       @JsonKey(name: "pages") int? pages,
@@ -139,11 +139,11 @@ abstract class _$$FollowRequestModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$FollowRequestModelImplCopyWithImpl<$Res>
-    extends _$FollowRequestModelCopyWithImpl<$Res, _$FollowRequestModelImpl>
-    implements _$$FollowRequestModelImplCopyWith<$Res> {
-  __$$FollowRequestModelImplCopyWithImpl(_$FollowRequestModelImpl _value,
-      $Res Function(_$FollowRequestModelImpl) _then)
+class __$$FollowTypeModelImplCopyWithImpl<$Res>
+    extends _$FollowTypeModelCopyWithImpl<$Res, _$FollowTypeModelImpl>
+    implements _$$FollowTypeModelImplCopyWith<$Res> {
+  __$$FollowTypeModelImplCopyWithImpl(
+      _$FollowTypeModelImpl _value, $Res Function(_$FollowTypeModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -152,13 +152,13 @@ class __$$FollowRequestModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? requestsList = freezed,
+    Object? usersList = freezed,
     Object? total = freezed,
     Object? page = freezed,
     Object? pages = freezed,
     Object? limit = freezed,
   }) {
-    return _then(_$FollowRequestModelImpl(
+    return _then(_$FollowTypeModelImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -171,10 +171,10 @@ class __$$FollowRequestModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      requestsList: freezed == requestsList
-          ? _value._requestsList
-          : requestsList // ignore: cast_nullable_to_non_nullable
-              as List<FollowRequest>?,
+      usersList: freezed == usersList
+          ? _value._usersList
+          : usersList // ignore: cast_nullable_to_non_nullable
+              as List<Users>?,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -197,20 +197,20 @@ class __$$FollowRequestModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FollowRequestModelImpl implements _FollowRequestModel {
-  const _$FollowRequestModelImpl(
+class _$FollowTypeModelImpl implements _FollowTypeModel {
+  const _$FollowTypeModelImpl(
       {@JsonKey(name: "status") this.status,
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
-      @JsonKey(name: "data") final List<FollowRequest>? requestsList,
+      @JsonKey(name: "data") final List<Users>? usersList,
       @JsonKey(name: "total") this.total,
       @JsonKey(name: "page") this.page,
       @JsonKey(name: "pages") this.pages,
       @JsonKey(name: "limit") this.limit})
-      : _requestsList = requestsList;
+      : _usersList = usersList;
 
-  factory _$FollowRequestModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FollowRequestModelImplFromJson(json);
+  factory _$FollowTypeModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FollowTypeModelImplFromJson(json);
 
   @override
   @JsonKey(name: "status")
@@ -221,13 +221,13 @@ class _$FollowRequestModelImpl implements _FollowRequestModel {
   @override
   @JsonKey(name: "message")
   final String? message;
-  final List<FollowRequest>? _requestsList;
+  final List<Users>? _usersList;
   @override
   @JsonKey(name: "data")
-  List<FollowRequest>? get requestsList {
-    final value = _requestsList;
+  List<Users>? get usersList {
+    final value = _usersList;
     if (value == null) return null;
-    if (_requestsList is EqualUnmodifiableListView) return _requestsList;
+    if (_usersList is EqualUnmodifiableListView) return _usersList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -247,19 +247,19 @@ class _$FollowRequestModelImpl implements _FollowRequestModel {
 
   @override
   String toString() {
-    return 'FollowRequestModel(status: $status, type: $type, message: $message, requestsList: $requestsList, total: $total, page: $page, pages: $pages, limit: $limit)';
+    return 'FollowTypeModel(status: $status, type: $type, message: $message, usersList: $usersList, total: $total, page: $page, pages: $pages, limit: $limit)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FollowRequestModelImpl &&
+            other is _$FollowTypeModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.message, message) || other.message == message) &&
             const DeepCollectionEquality()
-                .equals(other._requestsList, _requestsList) &&
+                .equals(other._usersList, _usersList) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.pages, pages) || other.pages == pages) &&
@@ -273,7 +273,7 @@ class _$FollowRequestModelImpl implements _FollowRequestModel {
       status,
       type,
       message,
-      const DeepCollectionEquality().hash(_requestsList),
+      const DeepCollectionEquality().hash(_usersList),
       total,
       page,
       pages,
@@ -282,31 +282,31 @@ class _$FollowRequestModelImpl implements _FollowRequestModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FollowRequestModelImplCopyWith<_$FollowRequestModelImpl> get copyWith =>
-      __$$FollowRequestModelImplCopyWithImpl<_$FollowRequestModelImpl>(
+  _$$FollowTypeModelImplCopyWith<_$FollowTypeModelImpl> get copyWith =>
+      __$$FollowTypeModelImplCopyWithImpl<_$FollowTypeModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FollowRequestModelImplToJson(
+    return _$$FollowTypeModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _FollowRequestModel implements FollowRequestModel {
-  const factory _FollowRequestModel(
+abstract class _FollowTypeModel implements FollowTypeModel {
+  const factory _FollowTypeModel(
       {@JsonKey(name: "status") final int? status,
       @JsonKey(name: "type") final String? type,
       @JsonKey(name: "message") final String? message,
-      @JsonKey(name: "data") final List<FollowRequest>? requestsList,
+      @JsonKey(name: "data") final List<Users>? usersList,
       @JsonKey(name: "total") final int? total,
       @JsonKey(name: "page") final int? page,
       @JsonKey(name: "pages") final int? pages,
-      @JsonKey(name: "limit") final int? limit}) = _$FollowRequestModelImpl;
+      @JsonKey(name: "limit") final int? limit}) = _$FollowTypeModelImpl;
 
-  factory _FollowRequestModel.fromJson(Map<String, dynamic> json) =
-      _$FollowRequestModelImpl.fromJson;
+  factory _FollowTypeModel.fromJson(Map<String, dynamic> json) =
+      _$FollowTypeModelImpl.fromJson;
 
   @override
   @JsonKey(name: "status")
@@ -319,7 +319,7 @@ abstract class _FollowRequestModel implements FollowRequestModel {
   String? get message;
   @override
   @JsonKey(name: "data")
-  List<FollowRequest>? get requestsList;
+  List<Users>? get usersList;
   @override
   @JsonKey(name: "total")
   int? get total;
@@ -334,16 +334,16 @@ abstract class _FollowRequestModel implements FollowRequestModel {
   int? get limit;
   @override
   @JsonKey(ignore: true)
-  _$$FollowRequestModelImplCopyWith<_$FollowRequestModelImpl> get copyWith =>
+  _$$FollowTypeModelImplCopyWith<_$FollowTypeModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-FollowRequest _$FollowRequestFromJson(Map<String, dynamic> json) {
-  return _FollowRequest.fromJson(json);
+Users _$UsersFromJson(Map<String, dynamic> json) {
+  return _Datum.fromJson(json);
 }
 
 /// @nodoc
-mixin _$FollowRequest {
+mixin _$Users {
   @JsonKey(name: "_id")
   String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "first_name")
@@ -358,24 +358,28 @@ mixin _$FollowRequest {
   String? get profileImage => throw _privateConstructorUsedError;
   @JsonKey(name: "role_info")
   RoleInfo? get roleInfo => throw _privateConstructorUsedError;
-  @JsonKey(name: "request_id")
-  String? get requestId => throw _privateConstructorUsedError;
-  @JsonKey(name: "isRequest")
-  bool? get isRequest => throw _privateConstructorUsedError;
-  @JsonKey(name: "isFollow")
-  bool? get isFollow => throw _privateConstructorUsedError;
+  @JsonKey(name: "following_request_id")
+  dynamic get followingRequestId => throw _privateConstructorUsedError;
+  @JsonKey(name: "follower_request_id")
+  String? get followerRequestId => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowingRequest")
+  bool? get isFollowingRequest => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowerRequest")
+  bool? get isFollowerRequest => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowing")
+  bool? get isFollowing => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollower")
+  bool? get isFollower => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FollowRequestCopyWith<FollowRequest> get copyWith =>
-      throw _privateConstructorUsedError;
+  $UsersCopyWith<Users> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FollowRequestCopyWith<$Res> {
-  factory $FollowRequestCopyWith(
-          FollowRequest value, $Res Function(FollowRequest) then) =
-      _$FollowRequestCopyWithImpl<$Res, FollowRequest>;
+abstract class $UsersCopyWith<$Res> {
+  factory $UsersCopyWith(Users value, $Res Function(Users) then) =
+      _$UsersCopyWithImpl<$Res, Users>;
   @useResult
   $Res call(
       {@JsonKey(name: "_id") String? id,
@@ -385,17 +389,20 @@ abstract class $FollowRequestCopyWith<$Res> {
       @JsonKey(name: "email") String? email,
       @JsonKey(name: "profile_image") String? profileImage,
       @JsonKey(name: "role_info") RoleInfo? roleInfo,
-      @JsonKey(name: "request_id") String? requestId,
-      @JsonKey(name: "isRequest") bool? isRequest,
-      @JsonKey(name: "isFollow") bool? isFollow});
+      @JsonKey(name: "following_request_id") dynamic followingRequestId,
+      @JsonKey(name: "follower_request_id") String? followerRequestId,
+      @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
+      @JsonKey(name: "isFollowerRequest") bool? isFollowerRequest,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollower") bool? isFollower});
 
   $RoleInfoCopyWith<$Res>? get roleInfo;
 }
 
 /// @nodoc
-class _$FollowRequestCopyWithImpl<$Res, $Val extends FollowRequest>
-    implements $FollowRequestCopyWith<$Res> {
-  _$FollowRequestCopyWithImpl(this._value, this._then);
+class _$UsersCopyWithImpl<$Res, $Val extends Users>
+    implements $UsersCopyWith<$Res> {
+  _$UsersCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -412,9 +419,12 @@ class _$FollowRequestCopyWithImpl<$Res, $Val extends FollowRequest>
     Object? email = freezed,
     Object? profileImage = freezed,
     Object? roleInfo = freezed,
-    Object? requestId = freezed,
-    Object? isRequest = freezed,
-    Object? isFollow = freezed,
+    Object? followingRequestId = freezed,
+    Object? followerRequestId = freezed,
+    Object? isFollowingRequest = freezed,
+    Object? isFollowerRequest = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollower = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -445,17 +455,29 @@ class _$FollowRequestCopyWithImpl<$Res, $Val extends FollowRequest>
           ? _value.roleInfo
           : roleInfo // ignore: cast_nullable_to_non_nullable
               as RoleInfo?,
-      requestId: freezed == requestId
-          ? _value.requestId
-          : requestId // ignore: cast_nullable_to_non_nullable
+      followingRequestId: freezed == followingRequestId
+          ? _value.followingRequestId
+          : followingRequestId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      followerRequestId: freezed == followerRequestId
+          ? _value.followerRequestId
+          : followerRequestId // ignore: cast_nullable_to_non_nullable
               as String?,
-      isRequest: freezed == isRequest
-          ? _value.isRequest
-          : isRequest // ignore: cast_nullable_to_non_nullable
+      isFollowingRequest: freezed == isFollowingRequest
+          ? _value.isFollowingRequest
+          : isFollowingRequest // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isFollow: freezed == isFollow
-          ? _value.isFollow
-          : isFollow // ignore: cast_nullable_to_non_nullable
+      isFollowerRequest: freezed == isFollowerRequest
+          ? _value.isFollowerRequest
+          : isFollowerRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollower: freezed == isFollower
+          ? _value.isFollower
+          : isFollower // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -474,11 +496,10 @@ class _$FollowRequestCopyWithImpl<$Res, $Val extends FollowRequest>
 }
 
 /// @nodoc
-abstract class _$$FollowRequestImplCopyWith<$Res>
-    implements $FollowRequestCopyWith<$Res> {
-  factory _$$FollowRequestImplCopyWith(
-          _$FollowRequestImpl value, $Res Function(_$FollowRequestImpl) then) =
-      __$$FollowRequestImplCopyWithImpl<$Res>;
+abstract class _$$DatumImplCopyWith<$Res> implements $UsersCopyWith<$Res> {
+  factory _$$DatumImplCopyWith(
+          _$DatumImpl value, $Res Function(_$DatumImpl) then) =
+      __$$DatumImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -489,20 +510,23 @@ abstract class _$$FollowRequestImplCopyWith<$Res>
       @JsonKey(name: "email") String? email,
       @JsonKey(name: "profile_image") String? profileImage,
       @JsonKey(name: "role_info") RoleInfo? roleInfo,
-      @JsonKey(name: "request_id") String? requestId,
-      @JsonKey(name: "isRequest") bool? isRequest,
-      @JsonKey(name: "isFollow") bool? isFollow});
+      @JsonKey(name: "following_request_id") dynamic followingRequestId,
+      @JsonKey(name: "follower_request_id") String? followerRequestId,
+      @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
+      @JsonKey(name: "isFollowerRequest") bool? isFollowerRequest,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollower") bool? isFollower});
 
   @override
   $RoleInfoCopyWith<$Res>? get roleInfo;
 }
 
 /// @nodoc
-class __$$FollowRequestImplCopyWithImpl<$Res>
-    extends _$FollowRequestCopyWithImpl<$Res, _$FollowRequestImpl>
-    implements _$$FollowRequestImplCopyWith<$Res> {
-  __$$FollowRequestImplCopyWithImpl(
-      _$FollowRequestImpl _value, $Res Function(_$FollowRequestImpl) _then)
+class __$$DatumImplCopyWithImpl<$Res>
+    extends _$UsersCopyWithImpl<$Res, _$DatumImpl>
+    implements _$$DatumImplCopyWith<$Res> {
+  __$$DatumImplCopyWithImpl(
+      _$DatumImpl _value, $Res Function(_$DatumImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -515,11 +539,14 @@ class __$$FollowRequestImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? profileImage = freezed,
     Object? roleInfo = freezed,
-    Object? requestId = freezed,
-    Object? isRequest = freezed,
-    Object? isFollow = freezed,
+    Object? followingRequestId = freezed,
+    Object? followerRequestId = freezed,
+    Object? isFollowingRequest = freezed,
+    Object? isFollowerRequest = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollower = freezed,
   }) {
-    return _then(_$FollowRequestImpl(
+    return _then(_$DatumImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -548,17 +575,29 @@ class __$$FollowRequestImplCopyWithImpl<$Res>
           ? _value.roleInfo
           : roleInfo // ignore: cast_nullable_to_non_nullable
               as RoleInfo?,
-      requestId: freezed == requestId
-          ? _value.requestId
-          : requestId // ignore: cast_nullable_to_non_nullable
+      followingRequestId: freezed == followingRequestId
+          ? _value.followingRequestId
+          : followingRequestId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      followerRequestId: freezed == followerRequestId
+          ? _value.followerRequestId
+          : followerRequestId // ignore: cast_nullable_to_non_nullable
               as String?,
-      isRequest: freezed == isRequest
-          ? _value.isRequest
-          : isRequest // ignore: cast_nullable_to_non_nullable
+      isFollowingRequest: freezed == isFollowingRequest
+          ? _value.isFollowingRequest
+          : isFollowingRequest // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isFollow: freezed == isFollow
-          ? _value.isFollow
-          : isFollow // ignore: cast_nullable_to_non_nullable
+      isFollowerRequest: freezed == isFollowerRequest
+          ? _value.isFollowerRequest
+          : isFollowerRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollower: freezed == isFollower
+          ? _value.isFollower
+          : isFollower // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -566,8 +605,8 @@ class __$$FollowRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FollowRequestImpl implements _FollowRequest {
-  const _$FollowRequestImpl(
+class _$DatumImpl implements _Datum {
+  const _$DatumImpl(
       {@JsonKey(name: "_id") this.id,
       @JsonKey(name: "first_name") this.firstName,
       @JsonKey(name: "last_name") this.lastName,
@@ -575,12 +614,15 @@ class _$FollowRequestImpl implements _FollowRequest {
       @JsonKey(name: "email") this.email,
       @JsonKey(name: "profile_image") this.profileImage,
       @JsonKey(name: "role_info") this.roleInfo,
-      @JsonKey(name: "request_id") this.requestId,
-      @JsonKey(name: "isRequest") this.isRequest,
-      @JsonKey(name: "isFollow") this.isFollow});
+      @JsonKey(name: "following_request_id") this.followingRequestId,
+      @JsonKey(name: "follower_request_id") this.followerRequestId,
+      @JsonKey(name: "isFollowingRequest") this.isFollowingRequest,
+      @JsonKey(name: "isFollowerRequest") this.isFollowerRequest,
+      @JsonKey(name: "isFollowing") this.isFollowing,
+      @JsonKey(name: "isFollower") this.isFollower});
 
-  factory _$FollowRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FollowRequestImplFromJson(json);
+  factory _$DatumImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DatumImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
@@ -604,25 +646,34 @@ class _$FollowRequestImpl implements _FollowRequest {
   @JsonKey(name: "role_info")
   final RoleInfo? roleInfo;
   @override
-  @JsonKey(name: "request_id")
-  final String? requestId;
+  @JsonKey(name: "following_request_id")
+  final dynamic followingRequestId;
   @override
-  @JsonKey(name: "isRequest")
-  final bool? isRequest;
+  @JsonKey(name: "follower_request_id")
+  final String? followerRequestId;
   @override
-  @JsonKey(name: "isFollow")
-  final bool? isFollow;
+  @JsonKey(name: "isFollowingRequest")
+  final bool? isFollowingRequest;
+  @override
+  @JsonKey(name: "isFollowerRequest")
+  final bool? isFollowerRequest;
+  @override
+  @JsonKey(name: "isFollowing")
+  final bool? isFollowing;
+  @override
+  @JsonKey(name: "isFollower")
+  final bool? isFollower;
 
   @override
   String toString() {
-    return 'FollowRequest(id: $id, firstName: $firstName, lastName: $lastName, fullName: $fullName, email: $email, profileImage: $profileImage, roleInfo: $roleInfo, requestId: $requestId, isRequest: $isRequest, isFollow: $isFollow)';
+    return 'Users(id: $id, firstName: $firstName, lastName: $lastName, fullName: $fullName, email: $email, profileImage: $profileImage, roleInfo: $roleInfo, followingRequestId: $followingRequestId, followerRequestId: $followerRequestId, isFollowingRequest: $isFollowingRequest, isFollowerRequest: $isFollowerRequest, isFollowing: $isFollowing, isFollower: $isFollower)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FollowRequestImpl &&
+            other is _$DatumImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
@@ -635,35 +686,54 @@ class _$FollowRequestImpl implements _FollowRequest {
                 other.profileImage == profileImage) &&
             (identical(other.roleInfo, roleInfo) ||
                 other.roleInfo == roleInfo) &&
-            (identical(other.requestId, requestId) ||
-                other.requestId == requestId) &&
-            (identical(other.isRequest, isRequest) ||
-                other.isRequest == isRequest) &&
-            (identical(other.isFollow, isFollow) ||
-                other.isFollow == isFollow));
+            const DeepCollectionEquality()
+                .equals(other.followingRequestId, followingRequestId) &&
+            (identical(other.followerRequestId, followerRequestId) ||
+                other.followerRequestId == followerRequestId) &&
+            (identical(other.isFollowingRequest, isFollowingRequest) ||
+                other.isFollowingRequest == isFollowingRequest) &&
+            (identical(other.isFollowerRequest, isFollowerRequest) ||
+                other.isFollowerRequest == isFollowerRequest) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing) &&
+            (identical(other.isFollower, isFollower) ||
+                other.isFollower == isFollower));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, firstName, lastName,
-      fullName, email, profileImage, roleInfo, requestId, isRequest, isFollow);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      firstName,
+      lastName,
+      fullName,
+      email,
+      profileImage,
+      roleInfo,
+      const DeepCollectionEquality().hash(followingRequestId),
+      followerRequestId,
+      isFollowingRequest,
+      isFollowerRequest,
+      isFollowing,
+      isFollower);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FollowRequestImplCopyWith<_$FollowRequestImpl> get copyWith =>
-      __$$FollowRequestImplCopyWithImpl<_$FollowRequestImpl>(this, _$identity);
+  _$$DatumImplCopyWith<_$DatumImpl> get copyWith =>
+      __$$DatumImplCopyWithImpl<_$DatumImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FollowRequestImplToJson(
+    return _$$DatumImplToJson(
       this,
     );
   }
 }
 
-abstract class _FollowRequest implements FollowRequest {
-  const factory _FollowRequest(
+abstract class _Datum implements Users {
+  const factory _Datum(
       {@JsonKey(name: "_id") final String? id,
       @JsonKey(name: "first_name") final String? firstName,
       @JsonKey(name: "last_name") final String? lastName,
@@ -671,12 +741,14 @@ abstract class _FollowRequest implements FollowRequest {
       @JsonKey(name: "email") final String? email,
       @JsonKey(name: "profile_image") final String? profileImage,
       @JsonKey(name: "role_info") final RoleInfo? roleInfo,
-      @JsonKey(name: "request_id") final String? requestId,
-      @JsonKey(name: "isRequest") final bool? isRequest,
-      @JsonKey(name: "isFollow") final bool? isFollow}) = _$FollowRequestImpl;
+      @JsonKey(name: "following_request_id") final dynamic followingRequestId,
+      @JsonKey(name: "follower_request_id") final String? followerRequestId,
+      @JsonKey(name: "isFollowingRequest") final bool? isFollowingRequest,
+      @JsonKey(name: "isFollowerRequest") final bool? isFollowerRequest,
+      @JsonKey(name: "isFollowing") final bool? isFollowing,
+      @JsonKey(name: "isFollower") final bool? isFollower}) = _$DatumImpl;
 
-  factory _FollowRequest.fromJson(Map<String, dynamic> json) =
-      _$FollowRequestImpl.fromJson;
+  factory _Datum.fromJson(Map<String, dynamic> json) = _$DatumImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
@@ -700,17 +772,26 @@ abstract class _FollowRequest implements FollowRequest {
   @JsonKey(name: "role_info")
   RoleInfo? get roleInfo;
   @override
-  @JsonKey(name: "request_id")
-  String? get requestId;
+  @JsonKey(name: "following_request_id")
+  dynamic get followingRequestId;
   @override
-  @JsonKey(name: "isRequest")
-  bool? get isRequest;
+  @JsonKey(name: "follower_request_id")
+  String? get followerRequestId;
   @override
-  @JsonKey(name: "isFollow")
-  bool? get isFollow;
+  @JsonKey(name: "isFollowingRequest")
+  bool? get isFollowingRequest;
+  @override
+  @JsonKey(name: "isFollowerRequest")
+  bool? get isFollowerRequest;
+  @override
+  @JsonKey(name: "isFollowing")
+  bool? get isFollowing;
+  @override
+  @JsonKey(name: "isFollower")
+  bool? get isFollower;
   @override
   @JsonKey(ignore: true)
-  _$$FollowRequestImplCopyWith<_$FollowRequestImpl> get copyWith =>
+  _$$DatumImplCopyWith<_$DatumImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

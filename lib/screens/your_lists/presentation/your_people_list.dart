@@ -7,9 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_notifier.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
-import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
-import 'package:for_the_table/screens/your_lists/domain/follower_model.dart';
-import 'package:for_the_table/screens/your_lists/domain/following_model.dart';
+import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/styles/app_colors.dart';
@@ -102,7 +100,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               body = const CupertinoActivityIndicator();
             } else if (mode == LoadStatus.failed) {
               body = Text(
-                "Load Failed!Click retry!",
+                "Load Failed! Click retry!",
                 style: AppTextStyles.textStylePoppinsLight,
               );
             } else if (mode == LoadStatus.canLoading) {
@@ -166,7 +164,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                         stateNotifier,
                       )
                     : (_selectedIndex == 1
-                        ? _followingList(followList, followState)
+                        ? _followingList(
+                            followList,
+                            followState,
+                            stateNotifier,
+                          )
                         : _requestsList(
                             requestList,
                             followState,
@@ -181,7 +183,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
   }
 
   Widget _followersList(
-    List<DataOfFollowerModel> followerList,
+    List<Users> followerList,
     YourPeopleState followState,
     YourPeopleNotifier stateNotifier,
   ) {
@@ -226,18 +228,22 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
 
                   return CustomCard(
-                    name: follower.fullName ?? '', //followers[index]['name'].toString(),
-                    date: "Joined May 5, 2018", //followers[index]['date'].toString(),
-                    imagePath: profileImage, //followers[index]['image'].toString(),
-                    button: AppButton(
-                      height: 30,
-                      width: 80,
-                      text: follower.isFollow ? 'Unfollow' : 'Follow',
-                      onPressed: () {
-                        stateNotifier.unfollowFriend(follower.requestId);
-                      },
-                      color: AppColors.colorCommentBoxBorder,
-                    ),
+                    name: follower.fullName ?? '',
+                    date: "Joined May 5, 2018",
+                    imagePath: profileImage,
+                    button: (follower.isFollowing ?? false)
+                        ? const SizedBox.shrink()
+                        : AppButton(
+                            height: 30,
+                            width: (follower.isFollowingRequest ?? false) ? 120 : 80,
+                            text: (follower.isFollowingRequest ?? false)
+                                ? 'Requested'
+                                : 'Follow', // update here
+                            onPressed: () {
+                              stateNotifier.followFriend(follower.id ?? '');
+                            },
+                            color: AppColors.colorCommentBoxBorder,
+                          ),
                   );
                 },
               ),
@@ -245,7 +251,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 
-  Widget _followingList(List<DataOfFollowingModel> followList, YourPeopleState followState) {
+  Widget _followingList(
+    List<Users> followList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+  ) {
     return followState.followingList.isEmpty
         ? Center(
             child: Text(
@@ -287,15 +297,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
 
                   return CustomCard(
-                    name: following.fullName ?? '', //following[index]['name'].toString(),
-                    date: "Joined May 5, 2024", //following[index]['date'].toString(),
-                    imagePath: profileImage, //following[index]['image'].toString(),
+                    name: following.fullName ?? '',
+                    date: "Joined May 5, 2024",
+                    imagePath: profileImage,
                     button: AppButton(
                       height: 30,
                       width: 100,
                       text: 'Unfollow',
-                      // text:  following.isFollow ? 'Unfollow' : 'Follow',
-                      onPressed: () {},
+                      onPressed: () async {
+                        await stateNotifier.unfollowFriend(following.id ?? '');
+                      },
                       color: AppColors.colorCommentBoxBorder,
                     ),
                   );
@@ -305,8 +316,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 
-  Widget _requestsList(List<FollowRequest> requestList, YourPeopleState followState,
-      YourPeopleNotifier stateNotifier) {
+  Widget _requestsList(
+    List<Users> requestList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+  ) {
     return followState.followRequestsList.isEmpty
         ? Center(
             child: Text(
@@ -348,15 +362,15 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
 
                   return CustomCard(
-                    name: requests.fullName ?? '', //requests[index]['name'].toString(),
-                    date: "Joined May 5, 2018", //requests[index]['date'].toString(),
-                    imagePath: profileImage, //requests[index]['image'].toString(),
+                    name: requests.fullName ?? '',
+                    date: "Joined May 5, 2018",
+                    imagePath: profileImage,
                     button: AppButton(
                       height: 30,
                       width: 150,
                       text: "Accept Request",
                       onPressed: () async {
-                        await stateNotifier.acceptFriendRequest(requests.requestId ?? '');
+                        await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),
@@ -367,36 +381,3 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 }
-
-
-// final List<Map<String, String>> followers = [
-//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-// ];
-//
-// final List<Map<String, String>> following = [
-//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-// ];
-
-// final List<Map<String, String>> requests = [
-//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-// ];
-
-
-
-
-

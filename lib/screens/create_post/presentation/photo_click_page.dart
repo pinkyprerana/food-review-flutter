@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
@@ -24,6 +25,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   XFile? imageFile;
   int selectedCameraIndex = 0;
   bool isIOS = Platform.isIOS;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -89,6 +91,19 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   //   );
   // }
 
+  // Future<void> _initializeCamera() async {
+  //   cameras = await availableCameras();
+  //   _controller = CameraController(
+  //     cameras![selectedCameraIndex],
+  //     ResolutionPreset.high,
+  //     enableAudio: false,
+  //   );
+  //   await _controller!.initialize();
+  //   if (!mounted) {
+  //     return;
+  //   }
+  // }
+
   Future<void> _initializeCamera() async {
     cameras = await availableCameras();
     _controller = CameraController(
@@ -96,11 +111,24 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
       ResolutionPreset.high,
       enableAudio: false,
     );
-    await _controller!.initialize();
+
+    await _controller!.initialize().then((_) {
+      _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+        if (_controller != null) {
+          if (_controller!.value.isStreamingImages) {
+            _controller!.stopImageStream();
+          } else {
+            _controller!.startImageStream((image) {});
+          }
+        }
+      });
+    });
+
     if (!mounted) {
       return;
     }
   }
+
 
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();

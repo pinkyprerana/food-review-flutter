@@ -154,18 +154,19 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(PeopleProfileRoute(
-                              peoplename: followers.fullName.toString(), //'Ahmad Gouse',
-                              peopleimage: profileImage.toString(),
-                              peopleId: followers.id,
-                              isFollow: followers.isFollow
+                            peoplename: followers.fullName.toString(), //'Ahmad Gouse',
+                            peopleimage: profileImage.toString(),
+                            peopleId: followers.id ?? '',
+                            isFollow: followers.isFollowingRequest ?? false,
                             // 'assets/images/temp/follower-sample2.png',
                           ));
                         },
                         child: FollowOptionWidget(
-                            followersId: followers.id,
-                            imgpath: profileImage, //followOptions[index]['image'],
-                            name: followers.fullName.toString(), //followOptions[index]['name'],
-                            isFollow: followers.isFollow),
+                          followersId: followers.id ?? '',
+                          imgpath: profileImage, //followOptions[index]['image'],
+                          name: followers.fullName.toString(), //followOptions[index]['name'],
+                          isFollow: followers.isFollowingRequest ?? false,
+                        ),
                       );
                     })
                     : Center(

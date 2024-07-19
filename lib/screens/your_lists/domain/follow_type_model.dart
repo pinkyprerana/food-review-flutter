@@ -2,29 +2,28 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'follow_request_model.freezed.dart';
-part 'follow_request_model.g.dart';
+part 'follow_type_model.freezed.dart';
+part 'follow_type_model.g.dart';
 
 @freezed
-class FollowRequestModel with _$FollowRequestModel {
-  const factory FollowRequestModel({
+class FollowTypeModel with _$FollowTypeModel {
+  const factory FollowTypeModel({
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
     @JsonKey(name: "message") String? message,
-    @JsonKey(name: "data") List<FollowRequest>? requestsList,
+    @JsonKey(name: "data") List<Users>? usersList,
     @JsonKey(name: "total") int? total,
     @JsonKey(name: "page") int? page,
     @JsonKey(name: "pages") int? pages,
     @JsonKey(name: "limit") int? limit,
-  }) = _FollowRequestModel;
+  }) = _FollowTypeModel;
 
-  factory FollowRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$FollowRequestModelFromJson(json);
+  factory FollowTypeModel.fromJson(Map<String, dynamic> json) => _$FollowTypeModelFromJson(json);
 }
 
 @freezed
-class FollowRequest with _$FollowRequest {
-  const factory FollowRequest({
+class Users with _$Users {
+  const factory Users({
     @JsonKey(name: "_id") String? id,
     @JsonKey(name: "first_name") String? firstName,
     @JsonKey(name: "last_name") String? lastName,
@@ -32,12 +31,15 @@ class FollowRequest with _$FollowRequest {
     @JsonKey(name: "email") String? email,
     @JsonKey(name: "profile_image") String? profileImage,
     @JsonKey(name: "role_info") RoleInfo? roleInfo,
-    @JsonKey(name: "request_id") String? requestId,
-    @JsonKey(name: "isRequest") bool? isRequest,
-    @JsonKey(name: "isFollow") bool? isFollow,
-  }) = _FollowRequest;
+    @JsonKey(name: "following_request_id") dynamic followingRequestId,
+    @JsonKey(name: "follower_request_id") String? followerRequestId,
+    @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
+    @JsonKey(name: "isFollowerRequest") bool? isFollowerRequest,
+    @JsonKey(name: "isFollowing") bool? isFollowing,
+    @JsonKey(name: "isFollower") bool? isFollower,
+  }) = _Datum;
 
-  factory FollowRequest.fromJson(Map<String, dynamic> json) => _$FollowRequestFromJson(json);
+  factory Users.fromJson(Map<String, dynamic> json) => _$UsersFromJson(json);
 }
 
 @freezed
