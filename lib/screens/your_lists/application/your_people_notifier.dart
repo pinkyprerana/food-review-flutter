@@ -115,7 +115,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
           followerTotalPages: followerModel.pages,
         );
       } else {
-        showToastMessage(response.statusMessage.toString());
+        showToastMessage(response.data["message"]);
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
@@ -183,7 +183,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
           requestTotalPages: followRequestModel.pages ?? 0,
         );
       } else {
-        showToastMessage(response.statusMessage.toString());
+        showToastMessage(response.data["message"]);
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
@@ -252,7 +252,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
           followingTotalPages: followingModel.pages,
         );
       } else {
-        showToastMessage(response.statusMessage.toString());
+        showToastMessage(response.data["message"]);
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
@@ -284,11 +284,11 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        showToastMessage(response.statusMessage.toString());
+        showToastMessage(response.data["message"]);
         await getAllRequestList();
         state = state.copyWith(isLoading: false);
       } else {
-        showToastMessage(response.statusMessage.toString());
+        showToastMessage(response.data["message"]);
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
@@ -297,13 +297,12 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     }
   }
 
-  Future<void> unfollowFriend(String requestId) async {
+  Future<void> unfollowFriend(String userId) async {
     try {
       state = state.copyWith(isLoading: true);
 
       final FormData formData = FormData.fromMap({
-        "request_id": requestId,
-        "status": "Reject",
+        "follow_user_id": userId,
       });
 
       var headers = {
@@ -315,16 +314,16 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.acceptOrRejectRequest}",
+        "${AppUrls.BASE_URL}${AppUrls.followUnfollow}",
         data: formData,
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        showToastMessage(response.statusMessage.toString());
-        await getAllFollowerList();
+        showToastMessage(response.data["message"]);
+        await getAllFollowingList();
         state = state.copyWith(isLoading: false);
       } else {
-        showToastMessage(response.statusMessage.toString());
+        showToastMessage(response.data["message"]);
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {

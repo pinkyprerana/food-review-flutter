@@ -102,7 +102,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               body = const CupertinoActivityIndicator();
             } else if (mode == LoadStatus.failed) {
               body = Text(
-                "Load Failed!Click retry!",
+                "Load Failed! Click retry!",
                 style: AppTextStyles.textStylePoppinsLight,
               );
             } else if (mode == LoadStatus.canLoading) {
@@ -166,7 +166,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                         stateNotifier,
                       )
                     : (_selectedIndex == 1
-                        ? _followingList(followList, followState)
+                        ? _followingList(
+                            followList,
+                            followState,
+                            stateNotifier,
+                          )
                         : _requestsList(
                             requestList,
                             followState,
@@ -226,15 +230,15 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
 
                   return CustomCard(
-                    name: follower.fullName ?? '', //followers[index]['name'].toString(),
-                    date: "Joined May 5, 2018", //followers[index]['date'].toString(),
-                    imagePath: profileImage, //followers[index]['image'].toString(),
+                    name: follower.fullName ?? '',
+                    date: "Joined May 5, 2018",
+                    imagePath: profileImage,
                     button: AppButton(
                       height: 30,
                       width: 80,
-                      text: follower.isFollow ? 'Unfollow' : 'Follow',
+                      text: follower.isFollow ? 'Unfollow' : 'Follow', // update here
                       onPressed: () {
-                        stateNotifier.unfollowFriend(follower.requestId);
+                        stateNotifier.unfollowFriend(follower.id);
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),
@@ -245,7 +249,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 
-  Widget _followingList(List<DataOfFollowingModel> followList, YourPeopleState followState) {
+  Widget _followingList(
+    List<DataOfFollowingModel> followList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+  ) {
     return followState.followingList.isEmpty
         ? Center(
             child: Text(
@@ -287,15 +295,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
 
                   return CustomCard(
-                    name: following.fullName ?? '', //following[index]['name'].toString(),
-                    date: "Joined May 5, 2024", //following[index]['date'].toString(),
-                    imagePath: profileImage, //following[index]['image'].toString(),
+                    name: following.fullName ?? '',
+                    date: "Joined May 5, 2024",
+                    imagePath: profileImage,
                     button: AppButton(
                       height: 30,
                       width: 100,
                       text: 'Unfollow',
-                      // text:  following.isFollow ? 'Unfollow' : 'Follow',
-                      onPressed: () {},
+                      onPressed: () async {
+                        await stateNotifier.unfollowFriend(following.id);
+                      },
                       color: AppColors.colorCommentBoxBorder,
                     ),
                   );
@@ -348,9 +357,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
 
                   return CustomCard(
-                    name: requests.fullName ?? '', //requests[index]['name'].toString(),
-                    date: "Joined May 5, 2018", //requests[index]['date'].toString(),
-                    imagePath: profileImage, //requests[index]['image'].toString(),
+                    name: requests.fullName ?? '',
+                    date: "Joined May 5, 2018",
+                    imagePath: profileImage,
                     button: AppButton(
                       height: 30,
                       width: 150,
@@ -367,36 +376,3 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 }
-
-
-// final List<Map<String, String>> followers = [
-//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-// ];
-//
-// final List<Map<String, String>> following = [
-//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-// ];
-
-// final List<Map<String, String>> requests = [
-//   {'name': 'Hanna Philips', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Omar Hewitz', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-//   {'name': 'Mira Saris', 'date': 'Joined May 5, 2018', 'image': Assets.woman},
-//   {'name': 'Lincoln Philips', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Person 5', 'date': 'Joined May 5, 2018', 'image': Assets.man},
-//   {'name': 'Person 6', 'date': 'Joined May 5, 2018', 'image': Assets.profileImage},
-// ];
-
-
-
-
-
