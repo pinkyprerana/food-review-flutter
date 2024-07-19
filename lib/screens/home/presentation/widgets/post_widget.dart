@@ -12,6 +12,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../post_feed/domain/postFeed_model.dart';
 import '../../../post_feed/shared/provider.dart';
+import '../../../profile/shared/providers.dart';
 
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
@@ -22,6 +23,14 @@ class PostWidget extends ConsumerStatefulWidget {
 }
 
 class _PostWidgetState extends ConsumerState<PostWidget>{
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getSavedList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,12 +241,18 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                             ),
                             10.verticalSpace,
                             GestureDetector(
+                                // onTap: () async {
+                                //   await postFeedNotifier.saveUnsavePost(() {}, postId).then((_) async {
+                                //     final savedNotifier = ref.read(profileNotifierProvider.notifier);
+                                //     await savedNotifier.getSavedList();
+                                //   });
+                                // },
                                 onTap: (){
                                   postFeedNotifier.saveUnsavePost((){}, postId);
                                 },
                                 child: isSaved
-                                    ? Image.asset(Assets.bookmark)
-                                    : Image.asset(Assets.saved, scale: 2,)
+                                    ? Image.asset(Assets.saved, scale: 2,)
+                                    : Image.asset(Assets.bookmark)
                             ),
                           ],
                         )

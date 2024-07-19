@@ -18,6 +18,7 @@ import '../../../core/constants/app_urls.dart';
 import '../../base/shared/providers.dart';
 import '../../list/shared/provider.dart';
 import '../../post_feed/shared/provider.dart';
+import '../../profile/shared/providers.dart';
 import '../../restaurant/shared/provider.dart';
 
 @RoutePage()
@@ -39,6 +40,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       await postFeedNotifier.getPostFeed();
       final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
       await followNotifier.getAllFollowerList();
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getSavedList();
     });
   }
 
@@ -51,16 +54,10 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
 
   @override
   Widget build(BuildContext context) {
-    // var hive = ref.watch(hiveProvider);
-    // final token = hive.box.get(AppPreferenceKeys.token);
     final followState = ref.watch(yourPeopleNotifierProvider);
     final followerList = followState.followerList;
-    // final state = ref.watch(baseNotifierProvider);
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
-    // final stateOfListScreen = ref.watch(listProvider);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
-    // final stateNotifierRestaurant =
-    // ref.watch(restaurantNotifierProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
@@ -131,7 +128,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 ),
               ),
               5.verticalSpace,
-              SizedBox(
+              Container(
+                alignment: Alignment.topLeft,
                 height: 180.0.h,
                 child: ListView.builder(
                     physics: const ClampingScrollPhysics(),

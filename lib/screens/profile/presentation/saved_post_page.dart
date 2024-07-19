@@ -84,7 +84,7 @@ class _SavedPageState extends ConsumerState<SavedPage> {
         itemBuilder: (context, index) {
           final imageURL =  "${AppUrls.postImageLocation}${savedList[index].file}";
           final String postId= savedList[index].id;
-          final isSaved = postFeedState.savedPosts[postId] ?? false;
+          bool isSaved = savedList[index].isSave;
 
           return ClipRRect(
             borderRadius: BorderRadius.circular(20),
@@ -102,14 +102,14 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                       right: 8,
                       child: GestureDetector(
                           onTap: () async {
-                            await postFeedNotifier.saveUnsavePost(() async {
+                            await postFeedNotifier.saveUnsavePost(() {}, postId).then((_) async {
                               final savedNotifier = ref.read(profileNotifierProvider.notifier);
                               await savedNotifier.getSavedList();
-                            }, postId);
+                            });
                           },
                           child: isSaved
-                              ? Image.asset(Assets.bookmark)
-                              : Image.asset(Assets.saved, scale: 2,)
+                              ? Image.asset(Assets.saved, scale: 2,)
+                              : Image.asset(Assets.bookmark)
                       ),
                   )
                 ],
