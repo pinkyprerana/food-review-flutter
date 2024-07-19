@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
+import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
@@ -15,14 +16,18 @@ import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../model/saved_post_model/saved_post_model.dart';
+
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(
     this._dio,
     this._hiveDataBase,
+      this._networkApiService
   ) : super(const ProfileState());
 
   final HiveDatabase _hiveDataBase;
   final Dio _dio;
+  final NetworkApiService _networkApiService;
 
   final picker = ImagePicker();
 
@@ -562,6 +567,46 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       showToastMessage(error, errorMessage: 'Failed to logout');
 
       state = state.copyWith(isLoading: false);
+    }
+  }
+
+
+  String? get getLatitude=> _hiveDataBase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude=> _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+
+  Future<void> getSavedList() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.BASE_URL}${'/post-save/list'}',
+          body:
+          {
+            "lat": getLatitude,
+            "lng": getLongitude,
+          }
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        SavedPostModel savedModel = SavedPostModel.fromJson(response.data);
+        if (savedModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              savedList:
+              savedModel.savedList
+          );
+
+        } else {
+          showToastMessage(savedModel.message.toString());
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
     }
   }
 }

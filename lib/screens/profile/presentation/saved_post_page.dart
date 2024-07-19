@@ -2,9 +2,12 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/screens/profile/shared/providers.dart';
+import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
+import '../../post_feed/shared/provider.dart';
 
 @RoutePage()
 class SavedPage extends ConsumerStatefulWidget {
@@ -16,7 +19,22 @@ class SavedPage extends ConsumerStatefulWidget {
 
 class _SavedPageState extends ConsumerState<SavedPage> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final savedNotifier = ref.read(profileNotifierProvider.notifier);
+      await savedNotifier.getSavedList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+  final profileState = ref.watch(profileNotifierProvider);
+  final savedList = profileState.savedList;
+  final postFeedState = ref.watch(postFeedNotifierProvider);
+  final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -37,7 +55,7 @@ class _SavedPageState extends ConsumerState<SavedPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                5.horizontalSpace, //this is for centering the icon
+                5.horizontalSpace,
                 Icon(Icons.arrow_back_ios,
                     color: AppColors.colorPrimary, size: 15.h),
               ],
@@ -62,8 +80,12 @@ class _SavedPageState extends ConsumerState<SavedPage> {
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,
         ),
-        itemCount: imageUrls.length,
+        itemCount: savedList.length,
         itemBuilder: (context, index) {
+          final imageURL =  "${AppUrls.postImageLocation}${savedList[index].file}";
+          final String postId= savedList[index].id;
+          final isSaved = postFeedState.savedPosts[postId] ?? false;
+
           return ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
@@ -71,17 +93,25 @@ class _SavedPageState extends ConsumerState<SavedPage> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    imageUrls[index],
+                  Image.network(
+                    imageURL,
                     fit: BoxFit.cover,
                   ),
                   Positioned(
                       top: 8,
                       right: 8,
-                      child: Image.asset(
-                        Assets.saved,
-                        scale: 2,
-                      ))
+                      child: GestureDetector(
+                          onTap: () async {
+                            await postFeedNotifier.saveUnsavePost(() async {
+                              final savedNotifier = ref.read(profileNotifierProvider.notifier);
+                              await savedNotifier.getSavedList();
+                            }, postId);
+                          },
+                          child: isSaved
+                              ? Image.asset(Assets.bookmark)
+                              : Image.asset(Assets.saved, scale: 2,)
+                      ),
+                  )
                 ],
               ),
             ),
@@ -90,19 +120,4 @@ class _SavedPageState extends ConsumerState<SavedPage> {
       ),
     );
   }
-
-  final List<String> imageUrls = [
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-    Assets.coverPhoto,
-    Assets.photo,
-  ];
 }

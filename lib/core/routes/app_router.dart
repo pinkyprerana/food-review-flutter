@@ -35,7 +35,7 @@ import '../../screens/profile/presentation/settings_page.dart';
 import '../../screens/profile/presentation/widgets/privacy_policy.dart';
 import '../../screens/profile/presentation/your_people_page.dart';
 import '../../screens/restaurant/presentation/restaurant_detail_page.dart';
-import '../../screens/saved/presentation/saved.dart';
+import '../../screens/profile/presentation/saved_post_page.dart';
 import '../../screens/splash/presentation/splash_page.dart';
 import '../../screens/your_lists/presentation/your_people_list.dart';
 part 'app_router.gr.dart';
