@@ -173,9 +173,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          final updatedSavedPosts = Map<String, bool>.from(state.savedPosts);
-          updatedSavedPosts[postID] = !(updatedSavedPosts[postID] ?? false);
-          state = state.copyWith(savedPosts: updatedSavedPosts);
+          await getPostFeed();
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);

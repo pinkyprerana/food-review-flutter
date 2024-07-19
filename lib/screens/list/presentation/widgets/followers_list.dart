@@ -82,7 +82,14 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 );
               },
             ),
-            child: GridView.builder(
+            child: followState.isLoading || followerList.isEmpty
+                ? const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.colorPrimary,
+              ),
+            )
+                : followerList.isNotEmpty
+                ? GridView.builder(
               physics: const ClampingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -181,6 +188,12 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                   ),
                 );
               },
+            )
+            : Center(
+              child: Text(
+                'No follower found',
+                style: AppTextStyles.textStylePoppins,
+              ),
             ),
           ),
         ),

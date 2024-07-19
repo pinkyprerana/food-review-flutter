@@ -89,9 +89,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 ),
                 child: Center(
                     child: Image.asset(
-                  Assets.search,
-                  color: AppColors.colorPrimary,
-                )),
+                      Assets.search,
+                      color: AppColors.colorPrimary,
+                    )),
               ),
             ),
             const NotificationIcon(),
@@ -131,7 +131,14 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               Container(
                 alignment: Alignment.topLeft,
                 height: 180.0.h,
-                child: ListView.builder(
+                child: followState.isLoading || followerList.isEmpty
+                    ? const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.colorPrimary,
+                  ),
+                )
+                    : followerList.isNotEmpty
+                    ? ListView.builder(
                     physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: followerList.length, //followOptions.length,
@@ -151,8 +158,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               peopleimage: profileImage.toString(),
                               peopleId: followers.id,
                               isFollow: followers.isFollow
-                              // 'assets/images/temp/follower-sample2.png',
-                              ));
+                            // 'assets/images/temp/follower-sample2.png',
+                          ));
                         },
                         child: FollowOptionWidget(
                             followersId: followers.id,
@@ -160,7 +167,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                             name: followers.fullName.toString(), //followOptions[index]['name'],
                             isFollow: followers.isFollow),
                       );
-                    }),
+                    })
+                    : Center(
+                  child: Text(
+                    'No follower found',
+                    style: AppTextStyles.textStylePoppins,
+                  ),
+                ),
               ),
               10.verticalSpace,
               Padding(
@@ -192,62 +205,62 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               5.verticalSpace,
               (stateRestaurant.isLoading)
                   ? const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.colorPrimary,
-                      ),
-                    )
+                child: CircularProgressIndicator(
+                  color: AppColors.colorPrimary,
+                ),
+              )
                   : (stateRestaurant.homeRestaurantList != null &&
-                          (stateRestaurant.homeRestaurantList?.isNotEmpty ?? false))
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                          child: ListView.builder(
-                              padding: const EdgeInsets.all(0),
-                              itemCount: stateRestaurant.homeRestaurantList?.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () => AutoRouter.of(context).push(RestaurantDetailRoute(
-                                    restaurantId:
-                                        stateRestaurant.homeRestaurantList?[index].id ?? '',
-                                    numberOfReviews: stateRestaurant
-                                            .homeRestaurantList?[index].userRatingsTotal ??
-                                        '',
-                                    address: stateRestaurant.homeRestaurantList?[index].address ??
-                                        'No name',
-                                    image:
-                                        stateRestaurant.homeRestaurantList?[index].image?[0] ?? '',
-                                    lat: stateRestaurant.homeRestaurantList?[index].lat ?? '',
-                                    lng: stateRestaurant.homeRestaurantList?[index].lng ?? '',
-                                    name: stateRestaurant.homeRestaurantList?[index].name ?? '',
-                                    rating: stateRestaurant.homeRestaurantList?[index].rating ?? '',
-                                    description:
-                                        stateRestaurant.homeRestaurantList?[index].description ??
-                                            '',
-                                  )),
-                                  child: RestaurantWidget(
-                                    // imgpath: restaurantlist[index]['image'],
-                                    imgpath:
-                                        'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${stateRestaurant.homeRestaurantList?[index].image?[0]}',
-                                    name: stateRestaurant.homeRestaurantList?[index].name ??
-                                        'No Name',
-                                    address: stateRestaurant.homeRestaurantList?[index].address ??
-                                        'No address',
-                                    rating:
-                                        stateRestaurant.homeRestaurantList?[index].rating ?? '0',
-                                    numberOfReviews: stateRestaurant
-                                            .homeRestaurantList?[index].userRatingsTotal ??
-                                        '0',
-                                  ),
-                                );
-                              }),
-                        )
-                      : Center(
-                          child: Text(
-                            'No restaurants',
-                            style: AppTextStyles.textStylePoppins,
-                          ),
+                  (stateRestaurant.homeRestaurantList?.isNotEmpty ?? false))
+                  ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(0),
+                    itemCount: stateRestaurant.homeRestaurantList?.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => AutoRouter.of(context).push(RestaurantDetailRoute(
+                          restaurantId:
+                          stateRestaurant.homeRestaurantList?[index].id ?? '',
+                          numberOfReviews: stateRestaurant
+                              .homeRestaurantList?[index].userRatingsTotal ??
+                              '',
+                          address: stateRestaurant.homeRestaurantList?[index].address ??
+                              'No name',
+                          image:
+                          stateRestaurant.homeRestaurantList?[index].image?[0] ?? '',
+                          lat: stateRestaurant.homeRestaurantList?[index].lat ?? '',
+                          lng: stateRestaurant.homeRestaurantList?[index].lng ?? '',
+                          name: stateRestaurant.homeRestaurantList?[index].name ?? '',
+                          rating: stateRestaurant.homeRestaurantList?[index].rating ?? '',
+                          description:
+                          stateRestaurant.homeRestaurantList?[index].description ??
+                              '',
+                        )),
+                        child: RestaurantWidget(
+                          // imgpath: restaurantlist[index]['image'],
+                          imgpath:
+                          'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${stateRestaurant.homeRestaurantList?[index].image?[0]}',
+                          name: stateRestaurant.homeRestaurantList?[index].name ??
+                              'No Name',
+                          address: stateRestaurant.homeRestaurantList?[index].address ??
+                              'No address',
+                          rating:
+                          stateRestaurant.homeRestaurantList?[index].rating ?? '0',
+                          numberOfReviews: stateRestaurant
+                              .homeRestaurantList?[index].userRatingsTotal ??
+                              '0',
                         ),
+                      );
+                    }),
+              )
+                  : Center(
+                child: Text(
+                  'No restaurants',
+                  style: AppTextStyles.textStylePoppins,
+                ),
+              ),
               10.verticalSpace,
               Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -283,33 +296,33 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               ),
               5.verticalSpace,
               //list of posts
-              (postFeedState.isLoading)
+              postFeedState.isLoading || postFeedState.postList.isEmpty
                   ? const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.colorPrimary,
-                      ),
-                    )
-                  : (postFeedState.postList != null && (postFeedState.postList.isNotEmpty ?? false))
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                          child: ListView.builder(
-                              itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(0),
-                              itemBuilder: (context, index) {
-                                final postList = postFeedList[index];
-                                return PostWidget(
-                                  postList: postList,
-                                );
-                              }),
-                        )
-                      : Center(
-                          child: Text(
-                            'No post found',
-                            style: AppTextStyles.textStylePoppins,
-                          ),
-                        ),
+                child: CircularProgressIndicator(
+                  color: AppColors.colorPrimary,
+                ),
+              )
+                  :(postFeedState.postList != null && (postFeedState.postList.isNotEmpty ?? false))
+                  ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: ListView.builder(
+                    itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(0),
+                    itemBuilder: (context, index) {
+                      final postList = postFeedList[index];
+                      return PostWidget(
+                        postList: postList,
+                      );
+                    }),
+              )
+                  : Center(
+                child: Text(
+                  'No post found',
+                  style: AppTextStyles.textStylePoppins,
+                ),
+              ),
               90.verticalSpace,
             ],
           ),

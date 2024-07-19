@@ -105,6 +105,7 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                             await postFeedNotifier.saveUnsavePost(() {}, postId).then((_) async {
                               final savedNotifier = ref.read(profileNotifierProvider.notifier);
                               await savedNotifier.getSavedList();
+                              await savedNotifier.getUserDetails();
                             });
                           },
                           child: isSaved

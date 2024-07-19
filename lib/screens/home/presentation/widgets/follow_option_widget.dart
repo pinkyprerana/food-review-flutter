@@ -6,6 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import '../../../people_profile/shared/providers.dart';
+import '../../../your_lists/shared/provider.dart';
 
 class FollowOptionWidget extends ConsumerStatefulWidget {
   const FollowOptionWidget({
@@ -28,12 +29,16 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
+    // followNotifier.followUnfollow(() {}, userId).then((_) async {
+    //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
+    //   await followNotifier.getAllFollowerList();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    final isFollowing = ref.watch(FollowNotifierProvider.select(
-        (state) => state.userFollowStatus[widget.followersId] ?? widget.isFollow));
+    // final isFollowing = ref.watch(FollowNotifierProvider.select(
+    //     (state) => state.userFollowStatus[widget.followersId] ?? widget.isFollow));
 
     return Container(
       margin: const EdgeInsets.only(left: 15).r,
@@ -98,7 +103,7 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: isFollowing ? AppColors.colorWhite : AppColors.colorNavy,
+                color: widget.isFollow ? AppColors.colorWhite : AppColors.colorNavy,
                 border: Border.all(
                   color: AppColors.colorSmallProfileContainerBorder,
                   width: 1,
@@ -106,10 +111,10 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
               ),
               child: Center(
                 child: Text(
-                  isFollowing ? 'UNFOLLOW' : 'FOLLOW',
+                  widget.isFollow ? 'UNFOLLOW' : 'FOLLOW',
                   style: AppTextStyles.textStylePoppinsBold.copyWith(
                     fontSize: 10.sp,
-                    color: isFollowing ? AppColors.colorBlack : AppColors.colorWhite,
+                    color: widget.isFollow ? AppColors.colorBlack : AppColors.colorWhite,
                   ),
                 ),
               ),

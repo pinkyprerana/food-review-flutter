@@ -47,9 +47,10 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
     double latitude = widget.postList.geoLoc.coordinates[0];
     double longitude = widget.postList.geoLoc.coordinates[1];
     final String postId= widget.postList.id;
+    final bool isSaved= widget.postList.isSave;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final isSaved = postFeedState.savedPosts[postId] ?? false;
+
 
 
     return Container(
@@ -241,15 +242,7 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                                // onTap: () async {
-                                //   await postFeedNotifier.saveUnsavePost(() {}, postId).then((_) async {
-                                //     final savedNotifier = ref.read(profileNotifierProvider.notifier);
-                                //     await savedNotifier.getSavedList();
-                                //   });
-                                // },
-                                onTap: (){
-                                  postFeedNotifier.saveUnsavePost((){}, postId);
-                                },
+                                onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
                                 child: isSaved
                                     ? Image.asset(Assets.saved, scale: 2,)
                                     : Image.asset(Assets.bookmark)

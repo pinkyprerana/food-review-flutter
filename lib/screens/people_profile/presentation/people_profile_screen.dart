@@ -10,6 +10,7 @@ import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
+import '../../your_lists/shared/provider.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -42,14 +43,16 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isFollowing = ref.watch(FollowNotifierProvider.select(
-        (state) => state.userFollowStatus[widget.peopleId] ?? widget.isFollow));
     final state = ref.watch(FollowNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
     print("postListOfOtherUser:--->>> $postListOfOtherUser");
     void _handleFollowButtonPressed(userId) {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
       followNotifier.followUnfollow(() {}, userId);
+      // followNotifier.followUnfollow(() {}, userId).then((_) async {
+      //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
+      //   await followNotifier.getAllFollowerList();
+      // });
     }
 
     return Scaffold(
@@ -151,7 +154,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(13),
-                                        color: isFollowing
+                                        color: widget.isFollow
                                             ? AppColors.colorBackground
                                             : AppColors.colorBlack,
                                         border: Border.all(
@@ -160,10 +163,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                         ),
                                       ),
                                       child: Text(
-                                        isFollowing ? 'Unfollow' : 'Follow',
+                                        widget.isFollow ? 'Unfollow' : 'Follow',
                                         style: AppTextStyles.textStylePoppinsBold.copyWith(
                                           fontSize: 15.sp,
-                                          color: isFollowing
+                                          color: widget.isFollow
                                               ? AppColors.colorBlack
                                               : AppColors.colorBackground,
                                           fontWeight: FontWeight.w500,
@@ -249,7 +252,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 ],
                               ),
                               10.verticalSpace,
-                              isFollowing
+                              widget.isFollow
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -386,7 +389,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
-                child: isFollowing
+                child: widget.isFollow
                     ? postListOfOtherUser.isNotEmpty
                         ? GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),

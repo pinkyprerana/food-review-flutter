@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PostFeedState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
-  Map<String, bool> get savedPosts => throw _privateConstructorUsedError;
   bool get isLiked => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
   List<dynamic> get postTitles => throw _privateConstructorUsedError;
@@ -43,7 +42,6 @@ abstract class $PostFeedStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isExpanded,
-      Map<String, bool> savedPosts,
       bool isLiked,
       int selectedIndex,
       List<dynamic> postTitles,
@@ -68,7 +66,6 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
   $Res call({
     Object? isLoading = null,
     Object? isExpanded = null,
-    Object? savedPosts = null,
     Object? isLiked = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
@@ -86,10 +83,6 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
               as bool,
-      savedPosts: null == savedPosts
-          ? _value.savedPosts
-          : savedPosts // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
       isLiked: null == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
@@ -133,7 +126,6 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isExpanded,
-      Map<String, bool> savedPosts,
       bool isLiked,
       int selectedIndex,
       List<dynamic> postTitles,
@@ -156,7 +148,6 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isExpanded = null,
-    Object? savedPosts = null,
     Object? isLiked = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
@@ -174,10 +165,6 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
               as bool,
-      savedPosts: null == savedPosts
-          ? _value._savedPosts
-          : savedPosts // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
       isLiked: null == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
@@ -216,7 +203,6 @@ class _$PostFeedStateImpl extends _PostFeedState {
   const _$PostFeedStateImpl(
       {this.isLoading = false,
       this.isExpanded = false,
-      final Map<String, bool> savedPosts = const {},
       this.isLiked = false,
       this.selectedIndex = 0,
       final List<dynamic> postTitles = const [],
@@ -224,8 +210,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
       final List<UserInfo>? userInfoList = const [],
       final List<PreferenceInfo>? preferenceInfoList = const [],
       final List<RestaurantInfo>? restaurantInfoList = const []})
-      : _savedPosts = savedPosts,
-        _postTitles = postTitles,
+      : _postTitles = postTitles,
         _postList = postList,
         _userInfoList = userInfoList,
         _preferenceInfoList = preferenceInfoList,
@@ -238,15 +223,6 @@ class _$PostFeedStateImpl extends _PostFeedState {
   @override
   @JsonKey()
   final bool isExpanded;
-  final Map<String, bool> _savedPosts;
-  @override
-  @JsonKey()
-  Map<String, bool> get savedPosts {
-    if (_savedPosts is EqualUnmodifiableMapView) return _savedPosts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_savedPosts);
-  }
-
   @override
   @JsonKey()
   final bool isLiked;
@@ -308,7 +284,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isExpanded: $isExpanded, savedPosts: $savedPosts, isLiked: $isLiked, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'PostFeedState(isLoading: $isLoading, isExpanded: $isExpanded, isLiked: $isLiked, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -320,8 +296,6 @@ class _$PostFeedStateImpl extends _PostFeedState {
                 other.isLoading == isLoading) &&
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
-            const DeepCollectionEquality()
-                .equals(other._savedPosts, _savedPosts) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
             (identical(other.selectedIndex, selectedIndex) ||
                 other.selectedIndex == selectedIndex) &&
@@ -341,7 +315,6 @@ class _$PostFeedStateImpl extends _PostFeedState {
       runtimeType,
       isLoading,
       isExpanded,
-      const DeepCollectionEquality().hash(_savedPosts),
       isLiked,
       selectedIndex,
       const DeepCollectionEquality().hash(_postTitles),
@@ -361,7 +334,6 @@ abstract class _PostFeedState extends PostFeedState {
   const factory _PostFeedState(
       {final bool isLoading,
       final bool isExpanded,
-      final Map<String, bool> savedPosts,
       final bool isLiked,
       final int selectedIndex,
       final List<dynamic> postTitles,
@@ -375,8 +347,6 @@ abstract class _PostFeedState extends PostFeedState {
   bool get isLoading;
   @override
   bool get isExpanded;
-  @override
-  Map<String, bool> get savedPosts;
   @override
   bool get isLiked;
   @override

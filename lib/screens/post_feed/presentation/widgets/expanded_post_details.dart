@@ -45,7 +45,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     final String postId= widget.postList.id;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final isSaved = postFeedState.savedPosts[postId] ?? false;
+    final bool isSaved= widget.postList.isSave;
 
     return Container(
       color: Colors.transparent,
@@ -163,15 +163,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                    // onTap: () async {
-                    //   await postFeedNotifier.saveUnsavePost(() {}, postId).then((_) async {
-                    //     final savedNotifier = ref.read(profileNotifierProvider.notifier);
-                    //     await savedNotifier.getSavedList();
-                    //   });
-                    // },
-                      onTap: (){
-                        postFeedNotifier.saveUnsavePost((){}, postId);
-                      },
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
                       child: isSaved
                           ? Image.asset(Assets.saved, scale: 2,)
                           : Image.asset(Assets.bookmark)
