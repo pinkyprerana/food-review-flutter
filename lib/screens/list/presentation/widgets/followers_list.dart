@@ -22,7 +22,6 @@ class FollowersList extends ConsumerStatefulWidget {
 }
 
 class _FollowersListState extends ConsumerState<FollowersList> {
-
   @override
   Widget build(BuildContext context) {
     final followState = ref.watch(yourPeopleNotifierProvider);
@@ -97,16 +96,18 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 }
                 final followers = followerList[index];
                 final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
-                final isFollowing = ref.watch(FollowNotifierProvider.select(
-                        (state) => state.userFollowStatus[followers.id] ?? followers.isFollow));
+                final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
+                    state.userFollowStatus[followers.id] ?? followers.isFollowingRequest));
 
                 return GestureDetector(
-                  onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename:
-                          followers.fullName.toString(),
+                  onTap: () => AutoRouter.of(context).push(
+                    PeopleProfileRoute(
+                      peoplename: followers.fullName.toString(),
                       peopleimage: profileImage,
-                      peopleId: followers.id,
-                      isFollow: followers.isFollow)),
+                      peopleId: followers.id ?? '',
+                      isFollow: followers.isFollowingRequest ?? false,
+                    ),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.all(8.0).r,
                     decoration: BoxDecoration(
@@ -166,12 +167,15 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                           height: 21.h,
                           width: 64.w,
                           radius: 8,
-                          color: isFollowing? AppColors.colorGrey2 : AppColors.colorNavy,
+                          color:
+                              (isFollowing ?? false) ? AppColors.colorGrey2 : AppColors.colorNavy,
                           child: Text(
                             // 'Follow',
-                            isFollowing ? 'Unfollow' : 'Follow',
+                            (isFollowing ?? false) ? 'Unfollow' : 'Follow',
                             style: AppTextStyles.textStylePoppinsBold.copyWith(
-                              color: isFollowing? AppColors.colorBlack : AppColors.colorGrey2,
+                              color: (isFollowing ?? false)
+                                  ? AppColors.colorBlack
+                                  : AppColors.colorGrey2,
                               fontSize: 10.sp,
                             ),
                           ),

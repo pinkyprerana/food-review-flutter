@@ -7,9 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_notifier.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
-import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
-import 'package:for_the_table/screens/your_lists/domain/follower_model.dart';
-import 'package:for_the_table/screens/your_lists/domain/following_model.dart';
+import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/styles/app_colors.dart';
@@ -185,7 +183,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
   }
 
   Widget _followersList(
-    List<DataOfFollowerModel> followerList,
+    List<Users> followerList,
     YourPeopleState followState,
     YourPeopleNotifier stateNotifier,
   ) {
@@ -233,15 +231,19 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     name: follower.fullName ?? '',
                     date: "Joined May 5, 2018",
                     imagePath: profileImage,
-                    button: AppButton(
-                      height: 30,
-                      width: 80,
-                      text: follower.isFollow ? 'Unfollow' : 'Follow', // update here
-                      onPressed: () {
-                        stateNotifier.unfollowFriend(follower.id);
-                      },
-                      color: AppColors.colorCommentBoxBorder,
-                    ),
+                    button: (follower.isFollowing ?? false)
+                        ? const SizedBox.shrink()
+                        : AppButton(
+                            height: 30,
+                            width: (follower.isFollowingRequest ?? false) ? 120 : 80,
+                            text: (follower.isFollowingRequest ?? false)
+                                ? 'Requested'
+                                : 'Follow', // update here
+                            onPressed: () {
+                              stateNotifier.followFriend(follower.id ?? '');
+                            },
+                            color: AppColors.colorCommentBoxBorder,
+                          ),
                   );
                 },
               ),
@@ -250,7 +252,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
   }
 
   Widget _followingList(
-    List<DataOfFollowingModel> followList,
+    List<Users> followList,
     YourPeopleState followState,
     YourPeopleNotifier stateNotifier,
   ) {
@@ -303,7 +305,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       width: 100,
                       text: 'Unfollow',
                       onPressed: () async {
-                        await stateNotifier.unfollowFriend(following.id);
+                        await stateNotifier.unfollowFriend(following.id ?? '');
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),
@@ -314,8 +316,11 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           );
   }
 
-  Widget _requestsList(List<FollowRequest> requestList, YourPeopleState followState,
-      YourPeopleNotifier stateNotifier) {
+  Widget _requestsList(
+    List<Users> requestList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+  ) {
     return followState.followRequestsList.isEmpty
         ? Center(
             child: Text(
@@ -365,7 +370,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       width: 150,
                       text: "Accept Request",
                       onPressed: () async {
-                        await stateNotifier.acceptFriendRequest(requests.requestId ?? '');
+                        await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),

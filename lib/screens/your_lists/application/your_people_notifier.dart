@@ -1,13 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
-import 'package:for_the_table/screens/your_lists/domain/follow_request_model.dart';
+import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/utils/toast.dart';
-import '../domain/following_model.dart';
-import '../domain/follower_model.dart';
 
 class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
   YourPeopleNotifier(this._dio, this._hiveDatabase) : super(const YourPeopleState());
@@ -80,21 +78,21 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowers}",
+        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        FollowerModel followerModel = FollowerModel.fromJson(response.data);
-        final followers = followerModel.followerList;
+        FollowTypeModel followerModel = FollowTypeModel.fromJson(response.data);
+        final followers = followerModel.usersList;
 
         if (isLoadMore) {
           final currentFriendsIds = state.followerList.map((friend) => friend.id).toSet();
 
           final uniqueNewFriends =
-              followers.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
+              followers?.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
 
-          if (uniqueNewFriends.isEmpty && isLoadMore) {
+          if ((uniqueNewFriends?.isEmpty ?? false) && isLoadMore) {
             showToastMessage('No new profiles to display.');
           }
 
@@ -102,7 +100,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
             isLoading: false,
             followerList: [
               ...state.followerList,
-              ...uniqueNewFriends,
+              ...uniqueNewFriends ?? [],
             ],
           );
 
@@ -111,8 +109,8 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
         state = state.copyWith(
           isLoading: false,
-          followerList: followers,
-          followerTotalPages: followerModel.pages,
+          followerList: followers ?? [],
+          followerTotalPages: followerModel.pages ?? 0,
         );
       } else {
         showToastMessage(response.data["message"]);
@@ -137,7 +135,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       final FormData formData = FormData.fromMap({
         "perpage": 10,
         "page": state.requestCurrentPage,
-        "showing_status": "Request",
+        "showing_status": "Follower Request",
       });
 
       var headers = {
@@ -148,13 +146,13 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowers}",
+        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        FollowRequestModel followRequestModel = FollowRequestModel.fromJson(response.data);
-        final followRequests = followRequestModel.requestsList;
+        FollowTypeModel followRequestModel = FollowTypeModel.fromJson(response.data);
+        final followRequests = followRequestModel.usersList;
 
         if (isLoadMore) {
           final currentRequestsIds = state.followRequestsList.map((req) => req.id).toSet();
@@ -205,7 +203,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       final FormData formData = FormData.fromMap({
         "perpage": 10,
         "page": state.followingCurrentPage,
-        "showing_status": "Follow",
+        "showing_status": "Following",
       });
 
       var headers = {
@@ -222,16 +220,16 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        FollowingModel followingModel = FollowingModel.fromJson(response.data);
-        final following = followingModel.followingList;
+        FollowTypeModel followingModel = FollowTypeModel.fromJson(response.data);
+        final following = followingModel.usersList;
 
         if (isLoadMore) {
           final currentFriendsIds = state.followingList.map((friend) => friend.id).toSet();
 
           final uniqueNewFriends =
-              following.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
+              following?.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
 
-          if (uniqueNewFriends.isEmpty && isLoadMore) {
+          if ((uniqueNewFriends?.isEmpty ?? false) && isLoadMore) {
             showToastMessage('No new profiles to display.');
           }
 
@@ -239,7 +237,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
             isLoading: false,
             followingList: [
               ...state.followingList,
-              ...uniqueNewFriends,
+              ...uniqueNewFriends ?? [],
             ],
           );
 
@@ -248,8 +246,8 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
         state = state.copyWith(
           isLoading: false,
-          followingList: following,
-          followingTotalPages: followingModel.pages,
+          followingList: following ?? [],
+          followingTotalPages: followingModel.pages ?? 0,
         );
       } else {
         showToastMessage(response.data["message"]);
@@ -321,6 +319,41 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       if (response.statusCode == 200 && response.data != null) {
         showToastMessage(response.data["message"]);
         await getAllFollowingList();
+        state = state.copyWith(isLoading: false);
+      } else {
+        showToastMessage(response.data["message"]);
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> followFriend(String userId) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final FormData formData = FormData.fromMap({
+        "follow_user_id": userId,
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      var response = await _dio.post(
+        "${AppUrls.BASE_URL}${AppUrls.followUnfollow}",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage(response.data["message"]);
+        await getAllFollowerList();
         state = state.copyWith(isLoading: false);
       } else {
         showToastMessage(response.data["message"]);
