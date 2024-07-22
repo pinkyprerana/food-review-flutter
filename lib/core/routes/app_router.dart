@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:for_the_table/model/notification_model/notification_model.dart';
 import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 
 import '../../screens/auth/presentation/forget_password_page.dart';
@@ -35,7 +36,7 @@ import '../../screens/profile/presentation/settings_page.dart';
 import '../../screens/profile/presentation/widgets/privacy_policy.dart';
 import '../../screens/profile/presentation/your_people_page.dart';
 import '../../screens/restaurant/presentation/restaurant_detail_page.dart';
-import '../../screens/saved/presentation/saved.dart';
+import '../../screens/profile/presentation/saved_post_page.dart';
 import '../../screens/splash/presentation/splash_page.dart';
 import '../../screens/your_lists/presentation/your_people_list.dart';
 part 'app_router.gr.dart';

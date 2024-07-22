@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
@@ -25,7 +24,7 @@ class SettingsOptionWidget extends StatelessWidget {
         if (title == 'Help') {
           AutoRouter.of(context).push(const HelpRoute());
         } else if (title == 'Notifications') {
-          AutoRouter.of(context).push(const NotificationRoute());
+          // AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList));
         } else if (title == 'Deactivate My Account') {
           getModal(title, context);
         } else if (title == 'Manage Account') {

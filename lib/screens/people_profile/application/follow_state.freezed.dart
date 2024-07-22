@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$FollowState {
   Map<String, bool> get userFollowStatus => throw _privateConstructorUsedError;
-  bool get isFollowing => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   List<DataOfPostListOfOtherModel> get postListOfOtherUser =>
       throw _privateConstructorUsedError;
@@ -41,7 +40,6 @@ abstract class $FollowStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<String, bool> userFollowStatus,
-      bool isFollowing,
       bool isLoading,
       List<DataOfPostListOfOtherModel> postListOfOtherUser,
       List<GeoLoc>? coordinateList,
@@ -64,7 +62,6 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
   @override
   $Res call({
     Object? userFollowStatus = null,
-    Object? isFollowing = null,
     Object? isLoading = null,
     Object? postListOfOtherUser = null,
     Object? coordinateList = freezed,
@@ -77,10 +74,6 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
           ? _value.userFollowStatus
           : userFollowStatus // ignore: cast_nullable_to_non_nullable
               as Map<String, bool>,
-      isFollowing: null == isFollowing
-          ? _value.isFollowing
-          : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -119,7 +112,6 @@ abstract class _$$FollowStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {Map<String, bool> userFollowStatus,
-      bool isFollowing,
       bool isLoading,
       List<DataOfPostListOfOtherModel> postListOfOtherUser,
       List<GeoLoc>? coordinateList,
@@ -140,7 +132,6 @@ class __$$FollowStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userFollowStatus = null,
-    Object? isFollowing = null,
     Object? isLoading = null,
     Object? postListOfOtherUser = null,
     Object? coordinateList = freezed,
@@ -153,10 +144,6 @@ class __$$FollowStateImplCopyWithImpl<$Res>
           ? _value._userFollowStatus
           : userFollowStatus // ignore: cast_nullable_to_non_nullable
               as Map<String, bool>,
-      isFollowing: null == isFollowing
-          ? _value.isFollowing
-          : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -190,7 +177,6 @@ class __$$FollowStateImplCopyWithImpl<$Res>
 class _$FollowStateImpl implements _FollowState {
   const _$FollowStateImpl(
       {final Map<String, bool> userFollowStatus = const {},
-      this.isFollowing = false,
       this.isLoading = false,
       final List<DataOfPostListOfOtherModel> postListOfOtherUser = const [],
       final List<GeoLoc>? coordinateList = const [],
@@ -213,9 +199,6 @@ class _$FollowStateImpl implements _FollowState {
     return EqualUnmodifiableMapView(_userFollowStatus);
   }
 
-  @override
-  @JsonKey()
-  final bool isFollowing;
   @override
   @JsonKey()
   final bool isLoading;
@@ -277,7 +260,7 @@ class _$FollowStateImpl implements _FollowState {
 
   @override
   String toString() {
-    return 'FollowState(userFollowStatus: $userFollowStatus, isFollowing: $isFollowing, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'FollowState(userFollowStatus: $userFollowStatus, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -287,8 +270,6 @@ class _$FollowStateImpl implements _FollowState {
             other is _$FollowStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._userFollowStatus, _userFollowStatus) &&
-            (identical(other.isFollowing, isFollowing) ||
-                other.isFollowing == isFollowing) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
@@ -307,7 +288,6 @@ class _$FollowStateImpl implements _FollowState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_userFollowStatus),
-      isFollowing,
       isLoading,
       const DeepCollectionEquality().hash(_postListOfOtherUser),
       const DeepCollectionEquality().hash(_coordinateList),
@@ -325,7 +305,6 @@ class _$FollowStateImpl implements _FollowState {
 abstract class _FollowState implements FollowState {
   const factory _FollowState(
       {final Map<String, bool> userFollowStatus,
-      final bool isFollowing,
       final bool isLoading,
       final List<DataOfPostListOfOtherModel> postListOfOtherUser,
       final List<GeoLoc>? coordinateList,
@@ -335,8 +314,6 @@ abstract class _FollowState implements FollowState {
 
   @override
   Map<String, bool> get userFollowStatus;
-  @override
-  bool get isFollowing;
   @override
   bool get isLoading;
   @override

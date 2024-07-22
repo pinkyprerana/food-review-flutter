@@ -7,6 +7,7 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../profile/shared/providers.dart';
 import '../../domain/postFeed_model.dart';
 import '../../shared/provider.dart';
 
@@ -19,6 +20,14 @@ class ExpandedPostDetails extends ConsumerStatefulWidget {
 }
 
 class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getSavedList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     final String postId= widget.postList.id;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final isSaved = postFeedState.savedPosts[postId] ?? false;
+    final bool isSaved= widget.postList.isSave;
 
     return Container(
       color: Colors.transparent,
@@ -154,12 +163,10 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: (){
-                        postFeedNotifier.saveUnsavePost((){}, postId);
-                      },
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
                       child: isSaved
-                          ? Image.asset(Assets.bookmark)
-                          : Image.asset(Assets.saved, scale: 2,)
+                          ? Image.asset(Assets.saved, scale: 2,)
+                          : Image.asset(Assets.bookmark)
                   ),
                 ],
               )

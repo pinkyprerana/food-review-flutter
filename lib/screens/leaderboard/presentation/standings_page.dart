@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
@@ -8,15 +9,17 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 
+import '../../profile/shared/providers.dart';
+
 @RoutePage()
-class StandingsPage extends StatefulWidget {
+class StandingsPage extends ConsumerStatefulWidget {
   const StandingsPage({super.key});
 
   @override
-  State<StandingsPage> createState() => _StandingsPageState();
+  ConsumerState<StandingsPage> createState() => _StandingsPageState();
 }
 
-class _StandingsPageState extends State<StandingsPage> {
+class _StandingsPageState extends ConsumerState<StandingsPage> {
   final List<Map<String, dynamic>> users = [
     {
       'name': 'David Brown',
@@ -82,6 +85,8 @@ class _StandingsPageState extends State<StandingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final profileState = ref.watch(profileNotifierProvider);
+    final notificationList = profileState.notificationList;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -96,7 +101,7 @@ class _StandingsPageState extends State<StandingsPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: [const NotificationIcon()],
+        actions: [ NotificationIcon(notificationList: notificationList)],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

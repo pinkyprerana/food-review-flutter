@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:for_the_table/screens/onboarding/shared/provider.dart';
+import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
@@ -24,15 +27,20 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   XFile? imageFile;
   int selectedCameraIndex = 0;
   bool isIOS = Platform.isIOS;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     // WidgetsBinding.instance.addObserver(this);
-    WidgetsBinding.instance.addPostFrameCallback((time) {
+    WidgetsBinding.instance.addPostFrameCallback((time) async {
       _initializeCamera().then((_) {
         setState(() {});
       });
+      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getRestaurants();
+      final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
+      await preferenceNotifier.getAllPreference();
     });
   }
 
@@ -89,6 +97,19 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   //   );
   // }
 
+  // Future<void> _initializeCamera() async {
+  //   cameras = await availableCameras();
+  //   _controller = CameraController(
+  //     cameras![selectedCameraIndex],
+  //     ResolutionPreset.high,
+  //     enableAudio: false,
+  //   );
+  //   await _controller!.initialize();
+  //   if (!mounted) {
+  //     return;
+  //   }
+  // }
+
   Future<void> _initializeCamera() async {
     cameras = await availableCameras();
     _controller = CameraController(
@@ -96,7 +117,19 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
       ResolutionPreset.high,
       enableAudio: false,
     );
-    await _controller!.initialize();
+
+    await _controller!.initialize().then((_) {
+      // _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      if (_controller != null) {
+        if (_controller!.value.isStreamingImages) {
+          _controller!.stopImageStream();
+        } else {
+          _controller!.startImageStream((image) {});
+        }
+      }
+      // });
+    });
+
     if (!mounted) {
       return;
     }
@@ -219,18 +252,19 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(width: 4, color: Colors.white),
                         borderRadius: BorderRadius.circular(100)),
-                    onPressed: (state.isPressed)
+                    onPressed: state.isPressed
                         ? null
                         : () async {
                             // (Platform.isIOS)
                             //     ?
                             // createPostState.checkPermissionForIOS(context)
                             //     : createPostState.checkPermission(context);
-                            final image = await _controller!.takePicture();
+                            stateNotifier.toggleIsPressedToTrue();
+                            final image = await _controller?.takePicture();
                             setState(() {
                               imageFile = image;
                             });
-                            stateNotifier.toggleIsPressedToTrue();
+                            if (!context.mounted) return;
                             AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
                           },
                   ),

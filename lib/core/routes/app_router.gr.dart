@@ -139,9 +139,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     NotificationRoute.name: (routeData) {
+      final args = routeData.argsAs<NotificationRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const NotificationPage(),
+        child: NotificationPage(
+          notificationList: args.notificationList,
+          key: args.key,
+        ),
       );
     },
     PeopleProfileRoute.name: (routeData) {
@@ -578,16 +582,40 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [NotificationPage]
-class NotificationRoute extends PageRouteInfo<void> {
-  const NotificationRoute({List<PageRouteInfo>? children})
-      : super(
+class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
+  NotificationRoute({
+    required List<NotificationData> notificationList,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           NotificationRoute.name,
+          args: NotificationRouteArgs(
+            notificationList: notificationList,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'NotificationRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<NotificationRouteArgs> page =
+      PageInfo<NotificationRouteArgs>(name);
+}
+
+class NotificationRouteArgs {
+  const NotificationRouteArgs({
+    required this.notificationList,
+    this.key,
+  });
+
+  final List<NotificationData> notificationList;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'NotificationRouteArgs{notificationList: $notificationList, key: $key}';
+  }
 }
 
 /// generated route for

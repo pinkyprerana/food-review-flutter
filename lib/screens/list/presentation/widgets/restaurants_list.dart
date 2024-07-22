@@ -120,7 +120,7 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
     AppLog.log('initState is called');
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants(context: context);
+      await stateNotifier.getRestaurants();
     });
     super.initState();
   }
@@ -185,22 +185,16 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
                 },
                 children: [
                   CircleAvatar(
-                    backgroundColor: isSelected[0] == true
-                        ? AppColors.colorBlack
-                        : AppColors.colorTransparent,
+                    backgroundColor:
+                        isSelected[0] == true ? AppColors.colorBlack : AppColors.colorTransparent,
                     child: Image.asset(
-                      isSelected[0] == true
-                          ? Assets.listingSelected
-                          : Assets.listing,
+                      isSelected[0] == true ? Assets.listingSelected : Assets.listing,
                     ),
                   ),
                   CircleAvatar(
-                    backgroundColor: isSelected[1] == true
-                        ? AppColors.colorBlack
-                        : AppColors.colorTransparent,
-                    child: Image.asset(isSelected[1] == true
-                        ? Assets.mapSelected
-                        : Assets.map),
+                    backgroundColor:
+                        isSelected[1] == true ? AppColors.colorBlack : AppColors.colorTransparent,
+                    child: Image.asset(isSelected[1] == true ? Assets.mapSelected : Assets.map),
                   ),
                 ],
               ),

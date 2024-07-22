@@ -6,8 +6,8 @@ part 'post_feed_state.freezed.dart';
 class PostFeedState with _$PostFeedState {
   const factory PostFeedState({
     @Default(false) bool isLoading,
+    @Default(false) bool isSavePost,
     @Default(false) bool isExpanded,
-    @Default({}) Map<String, bool> savedPosts,
     @Default(false) bool isLiked,
     @Default(0) int selectedIndex,
     @Default([]) List postTitles,
