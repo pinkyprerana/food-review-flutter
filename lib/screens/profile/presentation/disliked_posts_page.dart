@@ -83,13 +83,23 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
                       children: [
                         20.verticalSpace,
                         ListView.builder(
-                            itemCount: state.dislikedPostsList.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(0),
-                            itemBuilder: (context, index) {
-                              return const DislikedPostWidget();
-                            }),
+                          itemCount: state.dislikedPostsList.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(0),
+                          itemBuilder: (context, index) {
+                            final dislikedPost = state.dislikedPostsList[index];
+
+                            return DislikedPostWidget(
+                              userFullName: dislikedPost.userInfo?.fullName,
+                              userDisplayPicture: dislikedPost.userInfo?.profileImage,
+                              postPicture: dislikedPost.file,
+                              cuisine: dislikedPost.preferenceInfo?.title,
+                              address: dislikedPost.location,
+                              comment: dislikedPost.howWasIt,
+                            );
+                          },
+                        ),
                         10.verticalSpace,
                       ],
                     ),
