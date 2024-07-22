@@ -581,10 +581,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         final dislikedPosts = dislikedPostsModel.postsList;
 
         if (isLoadMore) {
-          final postIds = state.userActivitiesList?.map((post) => post.id).toSet();
+          final postIds = state.dislikedPostsList.map((post) => post.id).toSet();
 
-          final uniquePosts =
-              dislikedPosts?.where((post) => !(postIds?.contains(post.id) ?? false)).toList();
+          final uniquePosts = dislikedPosts?.where((post) => !(postIds.contains(post.id))).toList();
 
           if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
             showToastMessage('No new posts are available.');
