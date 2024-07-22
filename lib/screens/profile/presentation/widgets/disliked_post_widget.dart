@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +10,20 @@ import 'package:glassmorphism/glassmorphism.dart';
 import '../../../post_feed/presentation/widgets/comments_icon.dart';
 
 class DislikedPostWidget extends StatelessWidget {
-  const DislikedPostWidget({super.key});
+  final String? userFullName;
+  final String? userDisplayPicture;
+  final String? cuisine;
+  final String? address;
+  final String? comment;
+
+  const DislikedPostWidget({
+    super.key,
+    this.userFullName,
+    this.userDisplayPicture,
+    this.cuisine,
+    this.address,
+    this.comment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +34,7 @@ class DislikedPostWidget extends StatelessWidget {
       // height: 295.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        image: const DecorationImage(
-            image: AssetImage(Assets.post2), fit: BoxFit.cover),
+        image: const DecorationImage(image: AssetImage(Assets.post2), fit: BoxFit.cover),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0).r,
@@ -48,19 +59,19 @@ class DislikedPostWidget extends StatelessWidget {
                 Colors.transparent,
               ]),
               child: Padding(
-                padding: const EdgeInsets.only(
-                        top: 15, left: 15, right: 15, bottom: 10)
-                    .r,
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
                 child: Column(
                   children: [
                     GestureDetector(
                       onTap: () {
-                        AutoRouter.of(context).push(PeopleProfileRoute(
+                        AutoRouter.of(context).push(
+                          PeopleProfileRoute(
                             peoplename: 'Ahmad Gouse',
-                            peopleimage:
-                                'assets/images/temp/follower-sample2.png',
+                            peopleimage: 'assets/images/temp/follower-sample2.png',
                             peopleId: '',
-                            isFollow: true));
+                            isFollow: true,
+                          ),
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -81,14 +92,11 @@ class DislikedPostWidget extends StatelessWidget {
                           Text(
                             'Ahmad Gouse',
                             style: AppTextStyles.textStylePoppinsMedium
-                                .copyWith(
-                                    fontSize: 16.sp,
-                                    color: AppColors.colorWhite),
+                                .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
                               color: AppColors.colorWhite.withOpacity(0.20),
@@ -96,8 +104,7 @@ class DislikedPostWidget extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 'Following',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -126,9 +133,7 @@ class DislikedPostWidget extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       'Chinese Cuisine',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
                                       ),
@@ -161,18 +166,14 @@ class DislikedPostWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       'Starbucks LA, California',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
                                       ),
                                     ),
                                     Text(
                                       'Double road, Lorem City, LA',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
                                       ),

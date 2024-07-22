@@ -12,6 +12,7 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/model/user_profile/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
+import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -20,11 +21,8 @@ import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
-  ProfileNotifier(
-    this._dio,
-    this._hiveDataBase,
-      this._networkApiService
-  ) : super(const ProfileState());
+  ProfileNotifier(this._dio, this._hiveDataBase, this._networkApiService)
+      : super(const ProfileState());
 
   final HiveDatabase _hiveDataBase;
   final Dio _dio;
@@ -45,6 +43,20 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController contactPhoneController = TextEditingController();
   final TextEditingController contactMessageController = TextEditingController();
   final RefreshController refreshController = RefreshController();
+
+  @override
+  void dispose() {
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    bioController.dispose();
+    contactNameController.dispose();
+    contactEmailController.dispose();
+    contactPhoneController.dispose();
+    contactMessageController.dispose();
+    refreshController.dispose();
+    super.dispose();
+  }
 
   void populateContactDetails() {
     contactNameController.text = state.fetchedUser?.fullName ?? '';
@@ -522,6 +534,76 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
+  Future<void> fetchDislikedPosts({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.currentPage * 10 == state.userActivitiesList?.length)) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "page": state.currentPage,
+        "perpage": 10,
+        "view_type": "dislike",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final dislikedPostsModel = PostsModel.fromJson(response.data ?? {});
+        final dislikedPosts = dislikedPostsModel.postsList;
+
+        if (isLoadMore) {
+          final postIds = state.userActivitiesList?.map((post) => post.id).toSet();
+
+          final uniquePosts =
+              dislikedPosts?.where((post) => !(postIds?.contains(post.id) ?? false)).toList();
+
+          if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new posts are available.');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            dislikedPostsList: [
+              ...state.dislikedPostsList,
+              ...uniquePosts ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          dislikedPostsList: dislikedPosts ?? [],
+          totalPages: dislikedPostsModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.data?["message"]);
+        contactMessageController.text = '';
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      contactMessageController.text = '';
+      showToastMessage(error.toString());
+    }
+  }
+
   Future<void> logout({required BuildContext context}) async {
     try {
       state = state.copyWith(isLoading: true);
@@ -571,21 +653,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
-
-  String? get getLatitude=> _hiveDataBase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude=> _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+  String? get getLatitude => _hiveDataBase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude => _hiveDataBase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> getSavedList() async {
     state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-save/list'}',
-          body:
-          {
-            "lat": getLatitude,
-            "lng": getLongitude,
-          }
-      );
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${'/post-save/list'}', body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -595,12 +673,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } else {
         SavedPostModel savedModel = SavedPostModel.fromJson(response.data);
         if (savedModel.status == 200) {
-          state = state.copyWith(
-              isLoading: false,
-              savedList:
-              savedModel.savedList
-          );
-
+          state = state.copyWith(isLoading: false, savedList: savedModel.savedList);
         } else {
           showToastMessage(savedModel.message.toString());
         }
@@ -627,11 +700,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         NotificationModel notificationModel = NotificationModel.fromJson(response.data);
         if (notificationModel.status == 200) {
           state = state.copyWith(
-              isLoading: false,
-              notificationList:
-              notificationModel.notificationList
-          );
-
+              isLoading: false, notificationList: notificationModel.notificationList);
         } else {
           showToastMessage(notificationModel.message.toString());
         }
