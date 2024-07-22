@@ -70,7 +70,8 @@ class _SavedPageState extends ConsumerState<SavedPage> {
           ),
         ),
       ),
-      body: GridView.builder(
+      body: savedList.isNotEmpty
+          ? GridView.builder(
         shrinkWrap: true,
         padding: const EdgeInsets.all(16),
         physics: const BouncingScrollPhysics(),
@@ -118,7 +119,13 @@ class _SavedPageState extends ConsumerState<SavedPage> {
             ),
           );
         },
-      ),
+      )
+          : Center(
+          child: Text(
+          'You have no saved post.',
+          style: AppTextStyles.textStylePoppins,
+        )
+      )
     );
   }
 }
