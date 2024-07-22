@@ -52,7 +52,7 @@ _$NotificationDataImpl _$$NotificationDataImplFromJson(
       refPostSaveId: json['ref_post_save_id'] as String?,
       status: json['status'] as String,
       readStatus: json['read_status'] as bool,
-      createdAt: json['createdAt'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
       postedUserInfo: UserNotificationInfo.fromJson(
           json['posted_user_info'] as Map<String, dynamic>),
       receiverUserInfo: UserNotificationInfo.fromJson(
@@ -73,7 +73,7 @@ Map<String, dynamic> _$$NotificationDataImplToJson(
       'ref_post_save_id': instance.refPostSaveId,
       'status': instance.status,
       'read_status': instance.readStatus,
-      'createdAt': instance.createdAt,
+      'createdAt': instance.createdAt.toIso8601String(),
       'posted_user_info': instance.postedUserInfo,
       'receiver_user_info': instance.receiverUserInfo,
     };

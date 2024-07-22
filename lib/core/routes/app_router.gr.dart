@@ -143,7 +143,9 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: NotificationPage(
-          notificationList: args.notificationList,
+          todayNotifications: args.todayNotifications,
+          yesterdayNotifications: args.yesterdayNotifications,
+          olderNotifications: args.olderNotifications,
           key: args.key,
         ),
       );
@@ -584,13 +586,17 @@ class LoginRoute extends PageRouteInfo<void> {
 /// [NotificationPage]
 class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
   NotificationRoute({
-    required List<NotificationData> notificationList,
+    required List<NotificationData> todayNotifications,
+    required List<NotificationData> yesterdayNotifications,
+    required List<NotificationData> olderNotifications,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           NotificationRoute.name,
           args: NotificationRouteArgs(
-            notificationList: notificationList,
+            todayNotifications: todayNotifications,
+            yesterdayNotifications: yesterdayNotifications,
+            olderNotifications: olderNotifications,
             key: key,
           ),
           initialChildren: children,
@@ -604,17 +610,23 @@ class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
 
 class NotificationRouteArgs {
   const NotificationRouteArgs({
-    required this.notificationList,
+    required this.todayNotifications,
+    required this.yesterdayNotifications,
+    required this.olderNotifications,
     this.key,
   });
 
-  final List<NotificationData> notificationList;
+  final List<NotificationData> todayNotifications;
+
+  final List<NotificationData> yesterdayNotifications;
+
+  final List<NotificationData> olderNotifications;
 
   final Key? key;
 
   @override
   String toString() {
-    return 'NotificationRouteArgs{notificationList: $notificationList, key: $key}';
+    return 'NotificationRouteArgs{todayNotifications: $todayNotifications, yesterdayNotifications: $yesterdayNotifications, olderNotifications: $olderNotifications, key: $key}';
   }
 }
 

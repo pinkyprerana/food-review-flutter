@@ -56,8 +56,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     double longitude = widget.postList.geoLoc.coordinates[1];
     final String postId = widget.postList.id;
     final bool isSaved = widget.postList.isSave;
+    final bool isLiked = widget.postList.isMyLike;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
@@ -222,7 +224,12 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                         ),
                         Column(
                           children: [
-                            Image.asset(Assets.like),
+                            GestureDetector(
+                              onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
+                                child: isLiked
+                                    ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                                    : Image.asset(Assets.like)
+                            ),
                             15.verticalSpace,
                             Column(
                               children: [

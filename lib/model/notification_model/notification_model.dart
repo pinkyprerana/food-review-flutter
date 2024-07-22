@@ -1,9 +1,11 @@
+// ignore_for_file: parameter_assignments, empty_catches
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'notification_model.freezed.dart';
 part 'notification_model.g.dart';
 
 @freezed
-abstract class NotificationModel with _$NotificationModel {
+class NotificationModel with _$NotificationModel {
   const factory NotificationModel({
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
@@ -22,7 +24,7 @@ abstract class NotificationModel with _$NotificationModel {
 }
 
 @freezed
-abstract class NotificationData with _$NotificationData {
+class NotificationData with _$NotificationData {
   const factory NotificationData({
     @JsonKey(name: "_id") required String id,
     @JsonKey(name: "title") required String title,
@@ -35,7 +37,7 @@ abstract class NotificationData with _$NotificationData {
     @JsonKey(name: "ref_post_save_id") String? refPostSaveId,
     @JsonKey(name: "status") required String status,
     @JsonKey(name: "read_status") required bool readStatus,
-    @JsonKey(name: "createdAt") required String createdAt,
+    @JsonKey(name: "createdAt") required DateTime createdAt,
     @JsonKey(name: "posted_user_info") required UserNotificationInfo postedUserInfo,
     @JsonKey(name: "receiver_user_info") required UserNotificationInfo receiverUserInfo,
   }) = _NotificationData;
@@ -45,7 +47,7 @@ abstract class NotificationData with _$NotificationData {
 }
 
 @freezed
-abstract class UserNotificationInfo with _$UserNotificationInfo {
+class UserNotificationInfo with _$UserNotificationInfo {
   const factory UserNotificationInfo({
     @JsonKey(name: "_id") required String id,
     @JsonKey(name: "fullName") required String fullName,

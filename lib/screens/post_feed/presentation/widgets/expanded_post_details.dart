@@ -46,6 +46,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool isSaved= widget.postList.isSave;
+    final bool isLiked= widget.postList.isMyLike;
 
     return Container(
       color: Colors.transparent,
@@ -147,7 +148,12 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
               ),
               Column(
                 children: [
-                  Image.asset(Assets.like),
+                  GestureDetector(
+                      onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
+                      child: isLiked
+                          ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                          : Image.asset(Assets.like)
+                  ),
                   15.verticalSpace,
                   Column(
                     children: [

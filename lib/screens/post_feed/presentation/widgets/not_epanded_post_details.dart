@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,8 +46,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final String postId= widget.postList.id;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    // final isSaved = postFeedState.savedPosts[postId] ?? false;
     final bool isSaved= widget.postList.isSave;
+    final bool isLiked= widget.postList.isMyLike;
 
 
     return Container(
@@ -176,7 +177,12 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               ),
               Column(
                 children: [
-                  Image.asset(Assets.like),
+                  GestureDetector(
+                      onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
+                      child: isLiked
+                          ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                          : Image.asset(Assets.like)
+                  ),
                   15.verticalSpace,
                   Column(
                     children: [

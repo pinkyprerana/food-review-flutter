@@ -419,7 +419,7 @@ mixin _$NotificationData {
   @JsonKey(name: "read_status")
   bool get readStatus => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  String get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "posted_user_info")
   UserNotificationInfo get postedUserInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "receiver_user_info")
@@ -450,7 +450,7 @@ abstract class $NotificationDataCopyWith<$Res> {
       @JsonKey(name: "ref_post_save_id") String? refPostSaveId,
       @JsonKey(name: "status") String status,
       @JsonKey(name: "read_status") bool readStatus,
-      @JsonKey(name: "createdAt") String createdAt,
+      @JsonKey(name: "createdAt") DateTime createdAt,
       @JsonKey(name: "posted_user_info") UserNotificationInfo postedUserInfo,
       @JsonKey(name: "receiver_user_info")
       UserNotificationInfo receiverUserInfo});
@@ -535,7 +535,7 @@ class _$NotificationDataCopyWithImpl<$Res, $Val extends NotificationData>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       postedUserInfo: null == postedUserInfo
           ? _value.postedUserInfo
           : postedUserInfo // ignore: cast_nullable_to_non_nullable
@@ -585,7 +585,7 @@ abstract class _$$NotificationDataImplCopyWith<$Res>
       @JsonKey(name: "ref_post_save_id") String? refPostSaveId,
       @JsonKey(name: "status") String status,
       @JsonKey(name: "read_status") bool readStatus,
-      @JsonKey(name: "createdAt") String createdAt,
+      @JsonKey(name: "createdAt") DateTime createdAt,
       @JsonKey(name: "posted_user_info") UserNotificationInfo postedUserInfo,
       @JsonKey(name: "receiver_user_info")
       UserNotificationInfo receiverUserInfo});
@@ -670,7 +670,7 @@ class __$$NotificationDataImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       postedUserInfo: null == postedUserInfo
           ? _value.postedUserInfo
           : postedUserInfo // ignore: cast_nullable_to_non_nullable
@@ -740,7 +740,7 @@ class _$NotificationDataImpl implements _NotificationData {
   final bool readStatus;
   @override
   @JsonKey(name: "createdAt")
-  final String createdAt;
+  final DateTime createdAt;
   @override
   @JsonKey(name: "posted_user_info")
   final UserNotificationInfo postedUserInfo;
@@ -830,7 +830,7 @@ abstract class _NotificationData implements NotificationData {
           @JsonKey(name: "ref_post_save_id") final String? refPostSaveId,
           @JsonKey(name: "status") required final String status,
           @JsonKey(name: "read_status") required final bool readStatus,
-          @JsonKey(name: "createdAt") required final String createdAt,
+          @JsonKey(name: "createdAt") required final DateTime createdAt,
           @JsonKey(name: "posted_user_info")
           required final UserNotificationInfo postedUserInfo,
           @JsonKey(name: "receiver_user_info")
@@ -875,7 +875,7 @@ abstract class _NotificationData implements NotificationData {
   bool get readStatus;
   @override
   @JsonKey(name: "createdAt")
-  String get createdAt;
+  DateTime get createdAt;
   @override
   @JsonKey(name: "posted_user_info")
   UserNotificationInfo get postedUserInfo;

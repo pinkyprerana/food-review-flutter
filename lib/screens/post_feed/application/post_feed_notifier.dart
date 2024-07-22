@@ -104,7 +104,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> likeUnlikePost(VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isSavePost: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
           url: '${AppUrls.BASE_URL}${'/post-like/add'}', body: {"post_id": postID});
@@ -119,7 +119,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          state = state.copyWith(isLiked: !state.isLiked);
+          await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isLiked: false);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -127,7 +128,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       }
     } catch (error) {
       AppLog.log("Error fetching post feed: $error");
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }
   }

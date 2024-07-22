@@ -81,14 +81,14 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 );
               },
             ),
-            child: followState.isLoading || followerList.isEmpty
+            child: followState.isLoading
                 ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
               ),
             )
                 : followerList.isNotEmpty
-                ? GridView.builder(
+                ?  GridView.builder(
               physics: const ClampingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -178,7 +178,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                               (isFollowing ?? false) ? AppColors.colorGrey2 : AppColors.colorNavy,
                           child: Text(
                             // 'Follow',
-                            (isFollowing ?? false) ? 'Unfollow' : 'Follow',
+                            (isFollowing ?? false) ? 'Requested' : 'Follow',
                             style: AppTextStyles.textStylePoppinsBold.copyWith(
                               color: (isFollowing ?? false)
                                   ? AppColors.colorBlack
@@ -195,7 +195,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
             )
             : Center(
               child: Text(
-                'No follower found',
+                'You have no follower.',
                 style: AppTextStyles.textStylePoppins,
               ),
             ),

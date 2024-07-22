@@ -1,18 +1,24 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/model/notification_model/notification_model.dart';
 import 'package:for_the_table/screens/notification/presentation/widgets/notification_widget.dart';
-
 import '../../../core/constants/app_urls.dart';
 
 @RoutePage()
 class NotificationPage extends StatelessWidget {
-  List<NotificationData> notificationList;
-  NotificationPage({required this.notificationList,super.key});
+  final List<NotificationData> todayNotifications;
+  final List<NotificationData> yesterdayNotifications;
+  final List<NotificationData> olderNotifications;
+
+  NotificationPage({
+    required this.todayNotifications,
+    required this.yesterdayNotifications,
+    required this.olderNotifications,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +26,12 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         centerTitle: false,
-        // leadingWidth: 60,
         automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -35,9 +39,8 @@ class NotificationPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                5.horizontalSpace,
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -55,44 +58,99 @@ class NotificationPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,
           child: Column(
             children: [
-              ListView.builder(
-                  padding: const EdgeInsets.all(0.0),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: notificationList.length,//3,
-                  itemBuilder: (context, index) {
-                    final notifications= notificationList[index];
-                    final imgUrl = '${AppUrls.postImageLocation}${notifications.postedUserInfo.profileImage}';
-                    return  NotificationWidget(
-                        imgpath: imgUrl != ""? imgUrl: Assets.food2,
-                        title: notifications.title, //'A. Johnson has liked your post.',
-                        subtitle: notifications.message//'1 Hour ago'
-                    );
-                  }),
-              10.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Yesterday',
-                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      fontSize: 10.sp,
-                      color: AppColors.colorPrimaryAlpha,
+              // Today's Notifications
+              if (todayNotifications.isNotEmpty) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Today',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        fontSize: 10.sp,
+                        color: AppColors.colorPrimaryAlpha,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              ListView.builder(
+                  ],
+                ),
+                ListView.builder(
                   padding: const EdgeInsets.all(0.0),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
+                  itemCount: todayNotifications.length,
                   itemBuilder: (context, index) {
-                    return const NotificationWidget(
-                        imgpath: Assets.food2,
-                        title: 'A. Johnson has liked your post.',
-                        subtitle: '1 Hour ago');
-                  }),
+                    final notifications = todayNotifications[index];
+                    final imgUrl = '${AppUrls.profilePicLocation}/${notifications.postedUserInfo.profileImage}';
+                    return NotificationWidget(
+                      imgpath: imgUrl,
+                      title: notifications.title,
+                      subtitle: notifications.message,
+                    );
+                  },
+                ),
+                10.verticalSpace,
+              ],
+              // Yesterday's Notifications
+              if (yesterdayNotifications.isNotEmpty) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Yesterday',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        fontSize: 10.sp,
+                        color: AppColors.colorPrimaryAlpha,
+                      ),
+                    ),
+                  ],
+                ),
+                ListView.builder(
+                  padding: const EdgeInsets.all(0.0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: yesterdayNotifications.length,
+                  itemBuilder: (context, index) {
+                    final notifications = yesterdayNotifications[index];
+                    final imgUrl = '${AppUrls.profilePicLocation}/${notifications.postedUserInfo.profileImage}';
+                    return NotificationWidget(
+                      imgpath: imgUrl,
+                      title: notifications.title,
+                      subtitle: notifications.message,
+                    );
+                  },
+                ),
+                10.verticalSpace,
+              ],
+              // Older Notifications
+              if (olderNotifications.isNotEmpty) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Earlier',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        fontSize: 10.sp,
+                        color: AppColors.colorPrimaryAlpha,
+                      ),
+                    ),
+                  ],
+                ),
+                ListView.builder(
+                  padding: const EdgeInsets.all(0.0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: olderNotifications.length,
+                  itemBuilder: (context, index) {
+                    final notifications = olderNotifications[index];
+                    final imgUrl = '${AppUrls.profilePicLocation}/${notifications.postedUserInfo.profileImage}';
+                    return NotificationWidget(
+                      imgpath: imgUrl,
+                      title: notifications.title,
+                      subtitle: notifications.message,
+                    );
+                  },
+                ),
+                10.verticalSpace,
+              ],
             ],
           ),
         ),
@@ -100,3 +158,4 @@ class NotificationPage extends StatelessWidget {
     );
   }
 }
+

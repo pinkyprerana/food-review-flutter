@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
-import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
@@ -18,6 +16,7 @@ import 'package:for_the_table/widgets/notification_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../base/shared/providers.dart';
 import '../../list/shared/provider.dart';
+import '../../notification/shared/providers.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../profile/shared/providers.dart';
 import '../../restaurant/shared/provider.dart';
@@ -38,18 +37,15 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      final notificationNotifier = ref.read(notificationNotifierProvider.notifier);
       Future.wait([
         followNotifier.getAllFollowerList(),
         stateNotifier.getHomeRestaurants(),
         postFeedNotifier.getPostFeed(),
+        notificationNotifier.getNotificationList()
       ]);
     });
   }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
 
   var selectedIndex = 0;
 
@@ -63,8 +59,10 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     AppLog.log(stateRestaurant.homeRestaurantList.toString());
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    final profileState = ref.watch(profileNotifierProvider);
-    final notificationList = profileState.notificationList;
+    final notificationState = ref.watch(notificationNotifierProvider);
+    final todayNotifications = notificationState.todayNotifications;
+    final yesterdayNotifications = notificationState.yesterdayNotifications;
+    final olderNotifications = notificationState.olderNotifications;
 
     return Scaffold(
         extendBody: true,
@@ -82,8 +80,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
           ),
           actions: [
             GestureDetector(
-              onTap: () => AutoRouter.of(context)
-                  .push(NotificationRoute(notificationList: notificationList)),
+              // onTap: () => AutoRouter.of(context).push(SearchRoute()),
               child: Container(
                 height: 26.r,
                 width: 26.r,
@@ -100,7 +97,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               ),
             ),
             NotificationIcon(
-              notificationList: notificationList,
+              todayNotifications: todayNotifications,
+              yesterdayNotifications: yesterdayNotifications,
+              olderNotifications: olderNotifications,
             ),
           ],
         ),
@@ -148,32 +147,29 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         ? ListView.builder(
                             physics: const ClampingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            itemCount: followerList.length, //followOptions.length,
+                            itemCount: followerList.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               if (index < 0 || index >= followerList.length) {
                                 return const SizedBox.shrink();
                               }
                               final followers = followerList[index];
-                              final imgpath =
-                                  followers.profileImage != "" ? followers.profileImage : "";
+                              final imgpath = followers.profileImage != "" ? followers.profileImage : "";
                               final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
 
                               return GestureDetector(
                                 onTap: () {
                                   AutoRouter.of(context).push(PeopleProfileRoute(
-                                    peoplename: followers.fullName.toString(), //'Ahmad Gouse',
+                                    peoplename: followers.fullName.toString(),
                                     peopleimage: profileImage.toString(),
                                     peopleId: followers.id ?? '',
                                     isFollow: followers.isFollowingRequest ?? false,
-                                    // 'assets/images/temp/follower-sample2.png',
                                   ));
                                 },
                                 child: FollowOptionWidget(
                                   followersId: followers.id ?? '',
-                                  imgpath: profileImage, //followOptions[index]['image'],
-                                  name:
-                                      followers.fullName.toString(), //followOptions[index]['name'],
+                                  imgpath: profileImage,
+                                  name: followers.fullName.toString(),
                                   isFollow: followers.isFollowingRequest ?? false,
                                 ),
                               );
@@ -249,7 +245,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                             '',
                                   )),
                                   child: RestaurantWidget(
-                                    // imgpath: restaurantlist[index]['image'],
                                     imgpath:
                                         'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${stateRestaurant.homeRestaurantList?[index].image?[0]}',
                                     name: stateRestaurant.homeRestaurantList?[index].name ??
@@ -305,7 +300,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 ),
               ),
               5.verticalSpace,
-              //list of posts
+
               postFeedState.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(

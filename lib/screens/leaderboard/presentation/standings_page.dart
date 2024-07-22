@@ -8,8 +8,8 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
+import '../../notification/shared/providers.dart';
 
-import '../../profile/shared/providers.dart';
 
 @RoutePage()
 class StandingsPage extends ConsumerStatefulWidget {
@@ -85,8 +85,10 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final profileState = ref.watch(profileNotifierProvider);
-    final notificationList = profileState.notificationList;
+    final notificationState = ref.watch(notificationNotifierProvider);
+    final todayNotifications = notificationState.todayNotifications;
+    final yesterdayNotifications = notificationState.yesterdayNotifications;
+    final olderNotifications = notificationState.olderNotifications;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -101,7 +103,9 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: [ NotificationIcon(notificationList: notificationList)],
+        actions: [ NotificationIcon( todayNotifications: todayNotifications,
+            yesterdayNotifications: yesterdayNotifications,
+            olderNotifications: olderNotifications)],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

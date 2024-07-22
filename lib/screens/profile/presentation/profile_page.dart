@@ -12,6 +12,7 @@ import 'package:for_the_table/screens/profile/presentation/widgets/recent_activi
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_contianer2.dart';
 import 'package:for_the_table/widgets/app_button.dart';
+import '../../notification/shared/providers.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -44,8 +45,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     final state = ref.watch(profileNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
-    final profileState = ref.watch(profileNotifierProvider);
-    final notificationList = profileState.notificationList;
+    final notificationState = ref.watch(notificationNotifierProvider);
+    final todayNotifications = notificationState.todayNotifications;
+    final yesterdayNotifications = notificationState.yesterdayNotifications;
+    final olderNotifications = notificationState.olderNotifications;
 
     return Scaffold(
       extendBody: true,
@@ -62,7 +65,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () => AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList)),
+            onTap: () => AutoRouter.of(context).push( NotificationRoute(
+                todayNotifications: todayNotifications,
+                yesterdayNotifications: yesterdayNotifications,
+                olderNotifications: olderNotifications)
+            ),
             child: Container(
               height: 26.r,
               width: 26.r,

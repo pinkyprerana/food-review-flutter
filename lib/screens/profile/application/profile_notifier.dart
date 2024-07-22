@@ -611,34 +611,4 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
-  Future<void> getNotificationList() async {
-    state = state.copyWith(isLoading: true);
-    try {
-      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${'/notification/list'}',
-      );
-      state = state.copyWith(isLoading: false);
-
-      if (response == null && dioException == null) {
-        showConnectionWasInterruptedToastMessage();
-      } else if (dioException != null) {
-        showDioError(dioException);
-      } else {
-        NotificationModel notificationModel = NotificationModel.fromJson(response.data);
-        if (notificationModel.status == 200) {
-          state = state.copyWith(
-              isLoading: false,
-              notificationList:
-              notificationModel.notificationList
-          );
-
-        } else {
-          showToastMessage(notificationModel.message.toString());
-        }
-      }
-    } catch (error) {
-      state = state.copyWith(isLoading: false);
-      showConnectionWasInterruptedToastMessage();
-    }
-  }
 }
