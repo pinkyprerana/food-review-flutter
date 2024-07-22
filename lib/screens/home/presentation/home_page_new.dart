@@ -8,6 +8,7 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_widget.dart';
@@ -34,15 +35,14 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getHomeRestaurants(context: context);
-      final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-      await postFeedNotifier.getPostFeed();
-      final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
-      await followNotifier.getAllFollowerList();
-      final profileNotifier = ref.read(profileNotifierProvider.notifier);
-      await profileNotifier.getSavedList();
-      await profileNotifier.getNotificationList();
+      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      Future.wait([
+        followNotifier.getAllFollowerList(),
+        stateNotifier.getHomeRestaurants(),
+        postFeedNotifier.getPostFeed(),
+      ]);
     });
   }
 
@@ -60,6 +60,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
+    AppLog.log(stateRestaurant.homeRestaurantList.toString());
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
     final profileState = ref.watch(profileNotifierProvider);
@@ -81,7 +82,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
           ),
           actions: [
             GestureDetector(
-              onTap: () => AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList)),
+              onTap: () => AutoRouter.of(context)
+                  .push(NotificationRoute(notificationList: notificationList)),
               child: Container(
                 height: 26.r,
                 width: 26.r,
@@ -97,7 +99,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 )),
               ),
             ),
-            NotificationIcon(notificationList: notificationList,),
+            NotificationIcon(
+              notificationList: notificationList,
+            ),
           ],
         ),
         body: SingleChildScrollView(
@@ -134,7 +138,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               Container(
                 alignment: Alignment.topLeft,
                 height: 180.0.h,
-                child: followState.isLoading || followerList.isEmpty
+                child: followState.isLoading
                     ? const Center(
                         child: CircularProgressIndicator(
                           color: AppColors.colorPrimary,
@@ -176,7 +180,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                             })
                         : Center(
                             child: Text(
-                              'No follower found',
+                              'You have no follower.',
                               style: AppTextStyles.textStylePoppins,
                             ),
                           ),
@@ -302,14 +306,20 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               ),
               5.verticalSpace,
               //list of posts
-              postFeedState.isLoading || postFeedState.postList.isEmpty
+              postFeedState.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
                         color: AppColors.colorPrimary,
                       ),
                     )
-                  : (postFeedState.postList != null && (postFeedState.postList.isNotEmpty ?? false))
-                      ? Padding(
+                  : postFeedState.postList.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No post found',
+                            style: AppTextStyles.textStylePoppins,
+                          ),
+                        )
+                      : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: ListView.builder(
                               itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
@@ -319,15 +329,10 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               itemBuilder: (context, index) {
                                 final postList = postFeedList[index];
                                 return PostWidget(
+                                  isSaving: postFeedState.isSavePost,
                                   postList: postList,
                                 );
                               }),
-                        )
-                      : Center(
-                          child: Text(
-                            'No post found',
-                            style: AppTextStyles.textStylePoppins,
-                          ),
                         ),
               90.verticalSpace,
             ],

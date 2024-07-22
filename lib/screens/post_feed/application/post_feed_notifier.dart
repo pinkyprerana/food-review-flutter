@@ -33,29 +33,24 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     AppLog.log('selectedIndex ----------- ${state.selectedIndex}');
   }
 
-  final TextEditingController searchTextController =
-  TextEditingController();
+  final TextEditingController searchTextController = TextEditingController();
   int totalNumberOfPosts = 0;
 
-  String? get userId=> _hiveDatabase.box.get(AppPreferenceKeys.userId);
-  String? get getLatitude=> _hiveDatabase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude=> _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  String? get userId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
+  String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
-
-  Future<void> getPostFeed() async {
+  Future<void> getPostFeed({bool isPostLoading = false}) async {
     AppLog.log("Latitude: ${getLatitude}");
     AppLog.log("Longitude: ${getLongitude}");
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: !isPostLoading);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
-        body:
-          {
-            "lat": getLatitude,
-            "lng": getLongitude,
-            "user_id": userId,
-          }
-      );
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}', body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+        "user_id": userId,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -65,12 +60,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state = state.copyWith(
-              isLoading: false,
-              postList:
-                postModel.postList
-          );
-
+          state = state.copyWith(isLoading: false, postList: postModel.postList);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -82,19 +72,16 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> getFollowingPostFeed( follow) async {
+  Future<void> getFollowingPostFeed(follow) async {
     state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
-          body:
-          {
-            "lat": getLatitude,
-            "lng": getLongitude,
-            "user_id": userId,
-            "view_type": follow,
-          }
-      );
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}', body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+        "user_id": userId,
+        "view_type": follow,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -104,12 +91,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state = state.copyWith(
-              isLoading: false,
-              postList:
-              postModel.postList
-          );
-
+          state = state.copyWith(isLoading: false, postList: postModel.postList);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -125,12 +107,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-like/add'}',
-          body:
-          {
-            "post_id": postID
-          }
-      );
+          url: '${AppUrls.BASE_URL}${'/post-like/add'}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -144,7 +121,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage(jsonData['message']);
           state = state.copyWith(isLiked: !state.isLiked);
           voidCallback.call();
-
         } else {
           showToastMessage(jsonData['message']);
         }
@@ -157,11 +133,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> saveUnsavePost(VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isSavePost: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-save/add'}',
-          body: {"post_id": postID});
+          url: '${AppUrls.BASE_URL}${'/post-save/add'}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -173,15 +148,17 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed();
+          await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isSavePost: false);
           voidCallback.call();
         } else {
+          state = state.copyWith(isSavePost: false);
           showToastMessage(jsonData['message']);
         }
       }
     } catch (error) {
       AppLog.log("Error fetching post feed: $error");
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }
   }
@@ -191,12 +168,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
           url: '${AppUrls.BASE_URL}${'/post-like/swapped'}',
-          body:
-          {
-            "post_id": postID,
-            "type": "like"
-          }
-      );
+          body: {"post_id": postID, "type": "like"});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -210,7 +182,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage(jsonData['message']);
           // state = state.copyWith(isLiked: !state.isLiked);
           voidCallback.call();
-
         } else {
           showToastMessage(jsonData['message']);
         }
@@ -227,12 +198,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
           url: '${AppUrls.BASE_URL}${'/post-like/swapped'}',
-          body:
-          {
-            "post_id": postID,
-            "type": "dislike"
-          }
-      );
+          body: {"post_id": postID, "type": "dislike"});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -246,7 +212,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage(jsonData['message']);
           // state = state.copyWith(isLiked: !state.isLiked);
           voidCallback.call();
-
         } else {
           showToastMessage(jsonData['message']);
         }
@@ -257,5 +222,4 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
-
 }

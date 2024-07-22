@@ -8,6 +8,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../post_feed/domain/postFeed_model.dart';
@@ -16,13 +17,19 @@ import '../../../profile/shared/providers.dart';
 
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
-  const PostWidget({super.key, required this.postList});
+  final bool isSaving;
+
+  const PostWidget({
+    super.key,
+    required this.postList,
+    required this.isSaving,
+  });
 
   @override
   ConsumerState<PostWidget> createState() => _PostWidgetState();
 }
 
-class _PostWidgetState extends ConsumerState<PostWidget>{
+class _PostWidgetState extends ConsumerState<PostWidget> {
   @override
   void initState() {
     super.initState();
@@ -36,22 +43,21 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
   Widget build(BuildContext context) {
     final String peopleId = widget.postList.userInfo.id;
     final String name = widget.postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+    final String profileImage =
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
     final String title = widget.postList.title;
     final String description = widget.postList.description;
     final String restaurantName = widget.postList.restaurantInfo.name;
     final String address = widget.postList.restaurantInfo.address;
-    final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= widget.postList.commentCount;
+    final String cuisine = widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount = widget.postList.commentCount;
     double latitude = widget.postList.geoLoc.coordinates[0];
     double longitude = widget.postList.geoLoc.coordinates[1];
-    final String postId= widget.postList.id;
-    final bool isSaved= widget.postList.isSave;
+    final String postId = widget.postList.id;
+    final bool isSaved = widget.postList.isSave;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-
-
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
@@ -94,20 +100,18 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                 Colors.transparent,
               ]),
               child: Padding(
-                padding: const EdgeInsets.only(
-                        top: 15, left: 15, right: 15, bottom: 10)
-                    .r,
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
                 child: Column(
                   children: [
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                          peoplename: name, //'Ahmad Gouse', //widget.postList.name,
-                          peopleimage: profileImage,
-                           peopleId: peopleId,
+                            peoplename: name, //'Ahmad Gouse', //widget.postList.name,
+                            peopleimage: profileImage,
+                            peopleId: peopleId,
                             isFollow: true
-                              // 'assets/images/temp/follower-sample2.png',
-                        ));
+                            // 'assets/images/temp/follower-sample2.png',
+                            ));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -115,7 +119,7 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                           Container(
                             width: 20.w,
                             height: 20.h,
-                            decoration:  BoxDecoration(
+                            decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   image: NetworkImage(
@@ -131,14 +135,11 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                           Text(
                             name, //'Ahmad Gouse',
                             style: AppTextStyles.textStylePoppinsMedium
-                                .copyWith(
-                                    fontSize: 16.sp,
-                                    color: AppColors.colorWhite),
+                                .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
                               color: AppColors.colorWhite.withOpacity(0.20),
@@ -146,8 +147,7 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                             child: Center(
                               child: Text(
                                 'Following',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -176,9 +176,7 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                                   child: Center(
                                     child: Text(
                                       cuisine, //'Chinese Cuisine',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
                                       ),
@@ -201,19 +199,17 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                                   children: [
                                     Text(
                                       restaurantName, //'Starbucks LA, California',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
                                       ),
                                     ),
                                     Text(
-                                      address.length > 40 ? '${address.substring(0, 40)}...' : address,
+                                      address.length > 40
+                                          ? '${address.substring(0, 40)}...'
+                                          : address,
                                       //'Double road, Lorem City, LA',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
                                       ),
@@ -242,10 +238,11 @@ class _PostWidgetState extends ConsumerState<PostWidget>{
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                                onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
-                                child: isSaved
-                                    ? Image.asset(Assets.saved, scale: 2,)
-                                    : Image.asset(Assets.bookmark)
+                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
+                              child: SaveButtonWidget(
+                                isSavePost: postFeedState.isSavePost,
+                                isSaved: isSaved,
+                              ),
                             ),
                           ],
                         )

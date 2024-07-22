@@ -111,7 +111,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> getHomeRestaurants({
-    required BuildContext context,
     bool isLoadMore = false,
   }) async {
     try {

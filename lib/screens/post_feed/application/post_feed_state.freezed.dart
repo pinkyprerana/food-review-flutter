@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PostFeedState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isSavePost => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
   bool get isLiked => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $PostFeedStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isSavePost,
       bool isExpanded,
       bool isLiked,
       int selectedIndex,
@@ -65,6 +67,7 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isSavePost = null,
     Object? isExpanded = null,
     Object? isLiked = null,
     Object? selectedIndex = null,
@@ -78,6 +81,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSavePost: null == isSavePost
+          ? _value.isSavePost
+          : isSavePost // ignore: cast_nullable_to_non_nullable
               as bool,
       isExpanded: null == isExpanded
           ? _value.isExpanded
@@ -125,6 +132,7 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isSavePost,
       bool isExpanded,
       bool isLiked,
       int selectedIndex,
@@ -147,6 +155,7 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isSavePost = null,
     Object? isExpanded = null,
     Object? isLiked = null,
     Object? selectedIndex = null,
@@ -160,6 +169,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSavePost: null == isSavePost
+          ? _value.isSavePost
+          : isSavePost // ignore: cast_nullable_to_non_nullable
               as bool,
       isExpanded: null == isExpanded
           ? _value.isExpanded
@@ -202,6 +215,7 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
 class _$PostFeedStateImpl extends _PostFeedState {
   const _$PostFeedStateImpl(
       {this.isLoading = false,
+      this.isSavePost = false,
       this.isExpanded = false,
       this.isLiked = false,
       this.selectedIndex = 0,
@@ -220,6 +234,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isSavePost;
   @override
   @JsonKey()
   final bool isExpanded;
@@ -284,7 +301,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isExpanded: $isExpanded, isLiked: $isLiked, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isExpanded: $isExpanded, isLiked: $isLiked, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -294,6 +311,8 @@ class _$PostFeedStateImpl extends _PostFeedState {
             other is _$PostFeedStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isSavePost, isSavePost) ||
+                other.isSavePost == isSavePost) &&
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
@@ -314,6 +333,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
+      isSavePost,
       isExpanded,
       isLiked,
       selectedIndex,
@@ -333,6 +353,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
 abstract class _PostFeedState extends PostFeedState {
   const factory _PostFeedState(
       {final bool isLoading,
+      final bool isSavePost,
       final bool isExpanded,
       final bool isLiked,
       final int selectedIndex,
@@ -345,6 +366,8 @@ abstract class _PostFeedState extends PostFeedState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isSavePost;
   @override
   bool get isExpanded;
   @override

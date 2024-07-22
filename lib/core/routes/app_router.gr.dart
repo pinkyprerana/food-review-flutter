@@ -584,7 +584,7 @@ class LoginRoute extends PageRouteInfo<void> {
 /// [NotificationPage]
 class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
   NotificationRoute({
-    required dynamic notificationList,
+    required List<NotificationData> notificationList,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -608,7 +608,7 @@ class NotificationRouteArgs {
     this.key,
   });
 
-  final dynamic notificationList;
+  final List<NotificationData> notificationList;
 
   final Key? key;
 
