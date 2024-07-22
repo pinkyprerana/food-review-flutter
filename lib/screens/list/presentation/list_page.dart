@@ -10,6 +10,7 @@ import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 
+import '../../profile/shared/providers.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -30,6 +31,8 @@ class _ListPageState extends ConsumerState<ListPage> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.read(listProvider.notifier);
     final state = ref.watch(listProvider);
+    final profileState = ref.watch(profileNotifierProvider);
+    final notificationList = profileState.notificationList;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -45,7 +48,7 @@ class _ListPageState extends ConsumerState<ListPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: [const NotificationIcon()],
+        actions: [ NotificationIcon(notificationList: notificationList)],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

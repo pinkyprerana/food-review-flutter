@@ -42,6 +42,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       await followNotifier.getAllFollowerList();
       final profileNotifier = ref.read(profileNotifierProvider.notifier);
       await profileNotifier.getSavedList();
+      await profileNotifier.getNotificationList();
     });
   }
 
@@ -61,6 +62,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
+    final profileState = ref.watch(profileNotifierProvider);
+    final notificationList = profileState.notificationList;
 
     return Scaffold(
         extendBody: true,
@@ -78,7 +81,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
           ),
           actions: [
             GestureDetector(
-              // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
+              onTap: () => AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList)),
               child: Container(
                 height: 26.r,
                 width: 26.r,
@@ -94,7 +97,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     )),
               ),
             ),
-            const NotificationIcon(),
+            NotificationIcon(notificationList: notificationList,),
           ],
         ),
         body: SingleChildScrollView(

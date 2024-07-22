@@ -16,6 +16,7 @@ import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
@@ -602,6 +603,37 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         } else {
           showToastMessage(savedModel.message.toString());
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> getNotificationList() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}${'/notification/list'}',
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        NotificationModel notificationModel = NotificationModel.fromJson(response.data);
+        if (notificationModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              notificationList:
+              notificationModel.notificationList
+          );
+
+        } else {
+          showToastMessage(notificationModel.message.toString());
         }
       }
     } catch (error) {
