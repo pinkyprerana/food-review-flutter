@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
@@ -52,29 +53,16 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
           2.verticalSpace,
           Container(
             width: 49.w,
-            height: 49.h,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: CachedNetworkImage(
-              imageUrl: widget.imgpath,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.asset(
-                  Assets.avatar,
-                  scale: 1,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              imageBuilder: (context, imageProvider) => Container(
-                width: 49.w,
-                height: 49.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+            height: 49.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              image: DecorationImage(
+                image: widget.imgpath == '${AppUrls.profilePicLocation}/'
+                    ? const AssetImage(Assets.avatar)
+                    : CachedNetworkImageProvider(
+                        widget.imgpath,
+                      ),
+                fit: BoxFit.cover,
               ),
             ),
           ),
