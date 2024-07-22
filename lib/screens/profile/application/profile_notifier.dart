@@ -43,6 +43,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController contactPhoneController = TextEditingController();
   final TextEditingController contactMessageController = TextEditingController();
   final RefreshController refreshController = RefreshController();
+  final RefreshController dislikePostRefreshController = RefreshController();
 
   @override
   void dispose() {
@@ -55,6 +56,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     contactPhoneController.dispose();
     contactMessageController.dispose();
     refreshController.dispose();
+    dislikePostRefreshController.dispose();
     super.dispose();
   }
 
@@ -73,6 +75,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
     await fetchUserActivities(perpage: 10, isLoadMore: true);
     refreshController.loadComplete();
+  }
+
+  void loadMoreDislikePosts() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new posts are available');
+      dislikePostRefreshController.loadComplete();
+      return;
+    }
+
+    await fetchDislikedPosts(isLoadMore: true);
+    dislikePostRefreshController.loadComplete();
   }
 
   Future<void> getUserDetails() async {
@@ -538,7 +551,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     try {
       state = state.copyWith(isLoading: !isLoadMore);
 
-      if (isLoadMore && (state.currentPage * 10 == state.userActivitiesList?.length)) {
+      if (isLoadMore && (state.currentPage * 10 == state.dislikedPostsList.length)) {
         state = state.copyWith(currentPage: state.currentPage + 1);
       } else {
         state = state.copyWith(currentPage: 1);

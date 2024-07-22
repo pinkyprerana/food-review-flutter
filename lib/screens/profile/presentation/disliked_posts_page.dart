@@ -6,6 +6,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/disliked_post_widget.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 @RoutePage()
 class DislikedPostsPage extends ConsumerStatefulWidget {
@@ -28,6 +29,7 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileNotifierProvider);
+    final stateNotifier = ref.watch(profileNotifierProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -76,32 +78,38 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
                     style: AppTextStyles.textStyleLatoMedium,
                   ),
                 )
-              : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0).r,
-                    child: Column(
-                      children: [
-                        20.verticalSpace,
-                        ListView.builder(
-                          itemCount: state.dislikedPostsList.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(0),
-                          itemBuilder: (context, index) {
-                            final dislikedPost = state.dislikedPostsList[index];
+              : SmartRefresher(
+                  controller: stateNotifier.dislikePostRefreshController,
+                  enablePullDown: false,
+                  enablePullUp: true,
+                  onLoading: stateNotifier.loadMoreDislikePosts,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0).r,
+                      child: Column(
+                        children: [
+                          // 10.verticalSpace,
+                          ListView.builder(
+                            itemCount: state.dislikedPostsList.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(0),
+                            itemBuilder: (context, index) {
+                              final dislikedPost = state.dislikedPostsList[index];
 
-                            return DislikedPostWidget(
-                              userFullName: dislikedPost.userInfo?.fullName,
-                              userDisplayPicture: dislikedPost.userInfo?.profileImage,
-                              postPicture: dislikedPost.file,
-                              cuisine: dislikedPost.preferenceInfo?.title,
-                              address: dislikedPost.location,
-                              comment: dislikedPost.howWasIt,
-                            );
-                          },
-                        ),
-                        10.verticalSpace,
-                      ],
+                              return DislikedPostWidget(
+                                userFullName: dislikedPost.userInfo?.fullName,
+                                userDisplayPicture: dislikedPost.userInfo?.profileImage,
+                                postPicture: dislikedPost.file,
+                                cuisine: dislikedPost.preferenceInfo?.title,
+                                address: dislikedPost.location,
+                                comment: dislikedPost.howWasIt,
+                              );
+                            },
+                          ),
+                          // 10.verticalSpace,
+                        ],
+                      ),
                     ),
                   ),
                 ),
