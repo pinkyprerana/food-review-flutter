@@ -317,7 +317,7 @@ class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
   CommentsRoute({
     Key? key,
     required DataOfPostModel postInfoList,
-    required dynamic commentInfoList,
+    required List<CommentInfo> commentInfoList,
     List<PageRouteInfo>? children,
   }) : super(
           CommentsRoute.name,
@@ -346,7 +346,7 @@ class CommentsRouteArgs {
 
   final DataOfPostModel postInfoList;
 
-  final dynamic commentInfoList;
+  final List<CommentInfo> commentInfoList;
 
   @override
   String toString() {

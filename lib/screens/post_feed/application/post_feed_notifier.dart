@@ -220,7 +220,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> postComment(VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isSavePost: true);
+    state = state.copyWith(isCommentLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}/post-comment/add',
@@ -241,7 +241,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
           await getPostFeed(isPostLoading: true);
-          state = state.copyWith(isSavePost: false);
+          state = state.copyWith(isCommentLoading: false);
           commentController.clear();
           voidCallback.call();
         } else {
@@ -256,7 +256,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> postCommentLikeUnlike(VoidCallback voidCallback, String commentID) async {
-    state = state.copyWith(isSavePost: true);
+    state = state.copyWith(isCommentLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}/post-like/comment',
@@ -274,7 +274,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
           await getPostFeed(isPostLoading: true);
-          state = state.copyWith(isSavePost: false);
+          state = state.copyWith(isCommentLoading: false);
           commentController.clear();
           voidCallback.call();
         } else {

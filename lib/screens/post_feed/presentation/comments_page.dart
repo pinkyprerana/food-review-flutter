@@ -29,6 +29,7 @@ class CommentsPage extends ConsumerStatefulWidget {
 class _CommentsPageState extends ConsumerState<CommentsPage> {
   @override
   Widget build(BuildContext context) {
+    final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final String postId = widget.postInfoList.id;
     final String name = widget.postInfoList.userInfo.fullName;
@@ -259,7 +260,9 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                 ],
               ),
               18.verticalSpace,
-              widget.commentInfoList.isEmpty
+              postFeedState.isCommentLoading
+              ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,))
+              :widget.commentInfoList.isEmpty
               ? Center(child: Text("Be the first to comment in this post.",
                 style: AppTextStyles.textStylePoppinsMedium.copyWith(
                 fontSize: 12.sp,

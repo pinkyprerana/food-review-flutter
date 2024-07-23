@@ -7,6 +7,7 @@ class PostFeedState with _$PostFeedState {
   const factory PostFeedState({
     @Default(false) bool isLoading,
     @Default(false) bool isSavePost,
+    @Default(false) bool isCommentLoading,
     @Default(false) bool isExpanded,
     @Default(false) bool isLiked,
     @Default(0) int selectedIndex,
