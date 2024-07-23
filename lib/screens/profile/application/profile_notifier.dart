@@ -44,6 +44,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController contactMessageController = TextEditingController();
   final RefreshController refreshController = RefreshController();
   final RefreshController dislikePostRefreshController = RefreshController();
+  final RefreshController likePostRefreshController = RefreshController();
 
   @override
   void dispose() {
@@ -57,6 +58,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     contactMessageController.dispose();
     refreshController.dispose();
     dislikePostRefreshController.dispose();
+    likePostRefreshController.dispose();
     super.dispose();
   }
 
@@ -86,6 +88,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
     await fetchDislikedPosts(isLoadMore: true);
     dislikePostRefreshController.loadComplete();
+  }
+
+  void loadMorelikePosts() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new posts are available');
+      likePostRefreshController.loadComplete();
+      return;
+    }
+
+    await fetchlikedPosts(isLoadMore: true);
+    likePostRefreshController.loadComplete();
   }
 
   Future<void> getUserDetails() async {
@@ -603,6 +616,75 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           isLoading: false,
           dislikedPostsList: dislikedPosts ?? [],
           totalPages: dislikedPostsModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.data?["message"]);
+        contactMessageController.text = '';
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      contactMessageController.text = '';
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> fetchlikedPosts({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.currentPage * 10 == state.likedPostList.length)) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "page": state.currentPage,
+        "perpage": 10,
+        "view_type": "like",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final likedPostsModel = PostsModel.fromJson(response.data ?? {});
+        final likedPosts = likedPostsModel.postsList;
+
+        if (isLoadMore) {
+          final postIds = state.likedPostList.map((post) => post.id).toSet();
+
+          final uniquePosts = likedPosts?.where((post) => !(postIds.contains(post.id))).toList();
+
+          if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new posts are available.');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            likedPostList: [
+              ...state.likedPostList,
+              ...uniquePosts ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          likedPostList: likedPosts ?? [],
+          totalPages: likedPostsModel.pages ?? 0,
         );
       } else {
         showToastMessage(response.data?["message"]);
