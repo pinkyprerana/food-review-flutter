@@ -112,11 +112,13 @@ class _HelpPageState extends ConsumerState<HelpPage> {
               ),
               20.verticalSpace,
               AppButton(
-                text: 'Send',
-                loading: state.isLoading,
-                disable: state.isLoading,
-                onPressed: () => stateNotifier.requestHelp(context),
-              )
+                  text: 'Send',
+                  loading: state.isLoading,
+                  disable: state.isLoading,
+                  onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    stateNotifier.requestHelp(context);
+                  })
             ],
           ),
         ),
