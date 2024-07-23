@@ -249,7 +249,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         }
       }
     } catch (error) {
-      AppLog.log("Error posting comment: $error");
       state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }
@@ -282,7 +281,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         }
       }
     } catch (error) {
-      AppLog.log("Error posting comment: $error");
       state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }

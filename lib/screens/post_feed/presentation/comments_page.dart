@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/comment_item.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import '../../../core/constants/app_urls.dart';
-import '../../../core/utils/app_log.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -46,6 +46,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final int amount = widget.postInfoList.commentCount;
     final bool isSaved = widget.postInfoList.isSave;
     final bool isLiked = widget.postInfoList.isMyLike;
+    final comments = widget.commentInfoList;
 
     return Scaffold(
       backgroundColor: AppColors.colorCommentPageBg,
@@ -262,13 +263,13 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               18.verticalSpace,
               postFeedState.isCommentLoading
               ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,))
-              :widget.commentInfoList.isEmpty
+              :comments.isEmpty
               ? Center(child: Text("Be the first to comment in this post.",
                 style: AppTextStyles.textStylePoppinsMedium.copyWith(
                 fontSize: 12.sp,
                 color: AppColors.colorPrimaryAlpha,
               )))
-              : CommentItem(commentInfoList:widget.commentInfoList),
+              : CommentItem(commentInfoList:comments),
               20.verticalSpace,
               Container(
                 width: double.infinity,
@@ -310,7 +311,11 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                         ),
                       ),
                       AppButton(
-                        onPressed: ()=> postFeedNotifier.postComment((){}, postId),
+                        onPressed: () async {
+                          await postFeedNotifier.postComment(() async {
+                            dismissKeyboard(context);
+                          }, postId);
+                        },
                         text: 'Submit',
                       )
                     ],
