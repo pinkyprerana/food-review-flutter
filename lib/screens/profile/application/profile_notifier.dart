@@ -699,6 +699,38 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
+  Future<void> deleteAccount({VoidCallback? onSuccess}) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      var response = await _dio.get(
+        "${AppUrls.BASE_URL}${AppUrls.deleteAccount}",
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage(response.data["message"]);
+
+        if (onSuccess != null) onSuccess.call();
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        showToastMessage(response.data["message"]);
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
   Future<void> logout({required BuildContext context}) async {
     try {
       state = state.copyWith(isLoading: true);

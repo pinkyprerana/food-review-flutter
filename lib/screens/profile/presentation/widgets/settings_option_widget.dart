@@ -1,14 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
+import 'package:for_the_table/screens/profile/application/profile_notifier.dart';
+import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/app_outline_button.dart';
 
-class SettingsOptionWidget extends StatelessWidget {
+class SettingsOptionWidget extends ConsumerWidget {
   const SettingsOptionWidget({
     super.key,
     required this.title,
@@ -18,7 +21,8 @@ class SettingsOptionWidget extends StatelessWidget {
   final String imgpath;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileNotifier = ref.watch(profileNotifierProvider.notifier);
     return GestureDetector(
       onTap: () {
         if (title == 'Help') {
@@ -34,7 +38,7 @@ class SettingsOptionWidget extends StatelessWidget {
         } else if (title == 'Privacy Policy') {
           AutoRouter.of(context).push(const PrivacyPolicyRoute());
         } else {
-          getModal('Delete My Account', context);
+          getModal('Delete My Account', context, profileNotifier: profileNotifier);
         }
       },
       child: Padding(
@@ -146,7 +150,7 @@ class SettingsOptionWidget extends StatelessWidget {
     );
   }
 
-  void getModal(String title, BuildContext context) {
+  void getModal(String title, BuildContext context, {ProfileNotifier? profileNotifier}) {
     switch (title) {
       case 'Deactivate My Account':
         {
@@ -232,7 +236,7 @@ class SettingsOptionWidget extends StatelessWidget {
                       3.verticalSpace,
                       Center(
                         child: Text(
-                          'Are you Sure Want to delete Your Account',
+                          'This will permanently delete Your account',
                           textAlign: TextAlign.center,
                           style: AppTextStyles.textStylePoppinsRegular
                               .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
@@ -252,7 +256,13 @@ class SettingsOptionWidget extends StatelessWidget {
                           AppButton(
                             width: 166.w,
                             text: 'Delete',
-                            onPressed: () => AutoRouter.of(context).push(const LandingIntroRoute()),
+                            onPressed: () {
+                              profileNotifier?.deleteAccount(
+                                onSuccess: () {
+                                  AutoRouter.of(context).push(const LandingIntroRoute());
+                                },
+                              );
+                            },
                           ),
                         ],
                       )
