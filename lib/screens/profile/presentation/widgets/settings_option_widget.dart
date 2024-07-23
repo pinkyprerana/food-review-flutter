@@ -30,7 +30,7 @@ class SettingsOptionWidget extends ConsumerWidget {
         } else if (title == 'Notifications') {
           // AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList));
         } else if (title == 'Deactivate My Account') {
-          getModal(title, context);
+          getModal(title, context, profileNotifier: profileNotifier);
         } else if (title == 'Manage Account') {
           AutoRouter.of(context).push(const EditProfileRoute());
         } else if (title == 'App Info') {
@@ -154,129 +154,144 @@ class SettingsOptionWidget extends ConsumerWidget {
     switch (title) {
       case 'Deactivate My Account':
         {
-          commonModal(context, onTap: () {
-            Navigator.pop(context);
-          },
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      RichText(
-                          text: TextSpan(
-                        text: 'Deactivate',
-                        style: AppTextStyles.textStylePoppinsMedium
-                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
-                        children: [
-                          TextSpan(
-                            text: '',
-                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              fontSize: 16.sp,
-                              color: AppColors.colorPrimaryAlpha,
-                            ),
-                          )
-                        ],
-                      )),
-                      3.verticalSpace,
-                      Center(
-                        child: Text(
-                          'Are you Sure Want to logout from Your Account.',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.textStylePoppinsRegular
-                              .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
-                        ),
+          commonModal(
+            context,
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                      text: 'Deactivate',
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
+                      children: [
+                        TextSpan(
+                          text: '',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 16.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        )
+                      ],
+                    )),
+                    3.verticalSpace,
+                    Center(
+                      child: Text(
+                        'This will deactivate your account.',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.textStylePoppinsRegular
+                            .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                       ),
-                      20.verticalSpace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AppOutlineButton(
-                            width: 166.w,
-                            text: 'Cancel',
-                            textColor: AppColors.colorPrimary,
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          5.horizontalSpace,
-                          AppButton(
-                            width: 166.w,
-                            text: 'Deactivate',
-                            onPressed: () => AutoRouter.of(context).push(const LandingIntroRoute()),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ));
+                    ),
+                    20.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppOutlineButton(
+                          width: 166.w,
+                          text: 'Cancel',
+                          textColor: AppColors.colorPrimary,
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        5.horizontalSpace,
+                        AppButton(
+                          width: 166.w,
+                          text: 'Deactivate',
+                          onPressed: () {
+                            profileNotifier?.deactivateAccount(
+                              onSuccess: () {
+                                AutoRouter.of(context).pushAndPopUntil(
+                                  const LandingIntroRoute(),
+                                  predicate: (_) => false,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
         }
-        break;
       case 'Delete My Account':
         {
-          commonModal(context, onTap: () {
-            Navigator.pop(context);
-          },
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      RichText(
-                          text: TextSpan(
-                        text: 'Delete',
-                        style: AppTextStyles.textStylePoppinsMedium
-                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
-                        children: [
-                          TextSpan(
-                            text: '',
-                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              fontSize: 16.sp,
-                              color: AppColors.colorPrimaryAlpha,
-                            ),
-                          )
-                        ],
-                      )),
-                      3.verticalSpace,
-                      Center(
-                        child: Text(
-                          'This will permanently delete Your account',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.textStylePoppinsRegular
-                              .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
-                        ),
+          commonModal(
+            context,
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                      text: 'Delete',
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
+                      children: [
+                        TextSpan(
+                          text: '',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 16.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        )
+                      ],
+                    )),
+                    3.verticalSpace,
+                    Center(
+                      child: Text(
+                        'This will permanently delete Your account',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.textStylePoppinsRegular
+                            .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                       ),
-                      20.verticalSpace,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AppOutlineButton(
-                            width: 166.w,
-                            text: 'Cancel',
-                            textColor: AppColors.colorPrimary,
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          5.horizontalSpace,
-                          AppButton(
-                            width: 166.w,
-                            text: 'Delete',
-                            onPressed: () {
-                              profileNotifier?.deleteAccount(
-                                onSuccess: () {
-                                  AutoRouter.of(context).push(const LandingIntroRoute());
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ));
+                    ),
+                    20.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppOutlineButton(
+                          width: 166.w,
+                          text: 'Cancel',
+                          textColor: AppColors.colorPrimary,
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        5.horizontalSpace,
+                        AppButton(
+                          width: 166.w,
+                          text: 'Delete',
+                          onPressed: () {
+                            profileNotifier?.deleteAccount(
+                              onSuccess: () {
+                                AutoRouter.of(context).pushAndPopUntil(
+                                  const LandingIntroRoute(),
+                                  predicate: (_) => false,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
         }
-        break;
       default:
         {
           null;
         }
-        break;
     }
   }
 }
