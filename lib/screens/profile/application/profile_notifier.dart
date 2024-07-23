@@ -144,17 +144,18 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         imageQuality: 50,
       );
 
+      if (pickedFile == null) {
+        return;
+      }
+
       state = state.copyWith(isLoading: true);
 
-      final filePicked = File(pickedFile?.path ?? '');
+      final filePicked = File(pickedFile.path);
 
       String fileName = filePicked.path.split('/').last;
 
       final FormData formData = FormData.fromMap({
-        if (pickedFile != null)
-          "profile_image": await MultipartFile.fromFile(
-            filePicked.path,
-          ),
+        "profile_image": await MultipartFile.fromFile(filePicked.path),
         "email": state.fetchedUser?.email,
         "phone": state.fetchedUser?.phone,
         "first_name": state.fetchedUser?.firstName,
