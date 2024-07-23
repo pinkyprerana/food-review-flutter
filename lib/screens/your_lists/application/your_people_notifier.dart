@@ -381,13 +381,13 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     }
   }
 
-  void searchUser() {
+  void searchUser() async {
     if (state.selectedIndex == 0) {
-      getAllFollowerList();
+      await getAllFollowerList();
     } else if (state.selectedIndex == 1) {
-      getAllFollowingList();
+      await getAllFollowingList();
     } else {
-      getAllRequestList();
+      await getAllRequestList();
     }
   }
 }
