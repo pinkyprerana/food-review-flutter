@@ -11,6 +11,7 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../../core/utils/app_log.dart';
 import '../../../post_feed/domain/postFeed_model.dart';
 import '../../../post_feed/shared/provider.dart';
 import '../../../profile/shared/providers.dart';
@@ -18,11 +19,13 @@ import '../../../profile/shared/providers.dart';
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   final bool isSaving;
+  final commentInfoList;
 
   const PostWidget({
     super.key,
     required this.postList,
     required this.isSaving,
+    required this.commentInfoList
   });
 
   @override
@@ -52,20 +55,15 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final String address = widget.postList.restaurantInfo.address;
     final String cuisine = widget.postList.preferenceInfo?.title ?? "No cuisine";
     final int commentCount = widget.postList.commentCount;
-    double latitude = widget.postList.geoLoc.coordinates[0];
-    double longitude = widget.postList.geoLoc.coordinates[1];
     final String postId = widget.postList.id;
     final bool isSaved = widget.postList.isSave;
     final bool isLiked = widget.postList.isMyLike;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
-
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
       width: double.infinity,
-      // height: mediaQuery.height * 0.45,
-      // height: 295.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
@@ -108,11 +106,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: name, //'Ahmad Gouse', //widget.postList.name,
+                            peoplename: name,
                             peopleimage: profileImage,
                             peopleId: peopleId,
                             isFollow: true
-                            // 'assets/images/temp/follower-sample2.png',
                             ));
                       },
                       child: Row(
@@ -223,7 +220,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             GestureDetector(
                               onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
                                 child: isLiked
-                                    ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                                    ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)
                             ),
                             15.verticalSpace,
@@ -232,12 +229,13 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                 GestureDetector(
                                     onTap: ()=> AutoRouter.of(context).push(
                                         CommentsRoute(
-                                            postInfoList: widget.postList
+                                            postInfoList: widget.postList,
+                                            commentInfoList: widget.commentInfoList
                                         )),
                                     child: Image.asset(Assets.comments)
                                 ),
                                 Text(
-                                  commentCount.toString(), //'00',
+                                  (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
                                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                     color: AppColors.colorWhite,
                                     fontSize: 10.sp,
@@ -261,7 +259,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        description, //'A memorable evening to be remembered.',
+                        description,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(

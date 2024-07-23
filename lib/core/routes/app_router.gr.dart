@@ -40,6 +40,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: CommentsPage(
           key: args.key,
           postInfoList: args.postInfoList,
+          commentInfoList: args.commentInfoList,
         ),
       );
     },
@@ -315,13 +316,15 @@ class BaseRoute extends PageRouteInfo<void> {
 class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
   CommentsRoute({
     Key? key,
-    required dynamic postInfoList,
+    required DataOfPostModel postInfoList,
+    required dynamic commentInfoList,
     List<PageRouteInfo>? children,
   }) : super(
           CommentsRoute.name,
           args: CommentsRouteArgs(
             key: key,
             postInfoList: postInfoList,
+            commentInfoList: commentInfoList,
           ),
           initialChildren: children,
         );
@@ -336,15 +339,18 @@ class CommentsRouteArgs {
   const CommentsRouteArgs({
     this.key,
     required this.postInfoList,
+    required this.commentInfoList,
   });
 
   final Key? key;
 
-  final dynamic postInfoList;
+  final DataOfPostModel postInfoList;
+
+  final dynamic commentInfoList;
 
   @override
   String toString() {
-    return 'CommentsRouteArgs{key: $key, postInfoList: $postInfoList}';
+    return 'CommentsRouteArgs{key: $key, postInfoList: $postInfoList, commentInfoList: $commentInfoList}';
   }
 }
 

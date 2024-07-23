@@ -13,28 +13,20 @@ class CommentsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AutoRouter.of(context).push(
-          CommentsRoute(
-              postInfoList: null
-          )),
+      // onTap: () => AutoRouter.of(context).push(
+      //     CommentsRoute(
+      //         commentInfoList: widget.commentInfo, postInfoList: widget.postList
+      //     )),
       child: Column(
         children: [
           Image.asset(Assets.comments),
-          (commentCount > 9)
-              ? Text(
-                  commentCount.toString(),
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: AppColors.colorWhite,
-                    fontSize: 10.sp,
-                  ),
-                )
-              : Text(
-                  commentCount.toString(),
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: AppColors.colorWhite,
-                    fontSize: 10.sp,
-                  ),
-                )
+          Text(
+            (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
+            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+              color: AppColors.colorWhite,
+              fontSize: 10.sp,
+            ),
+          )
         ],
       ),
     );

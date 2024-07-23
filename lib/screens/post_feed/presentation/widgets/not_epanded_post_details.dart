@@ -180,7 +180,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   GestureDetector(
                       onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
                       child: isLiked
-                          ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                          ? Image.asset(Assets.redHeart)
                           : Image.asset(Assets.like)
                   ),
                   15.verticalSpace,
@@ -188,7 +188,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     children: [
                       Image.asset(Assets.comments),
                       Text(
-                        commentCount.toString(),//'00',
+                        (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           color: AppColors.colorWhite,
                           fontSize: 10.sp,

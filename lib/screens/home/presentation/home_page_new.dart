@@ -6,7 +6,6 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_widget.dart';
@@ -18,7 +17,6 @@ import '../../base/shared/providers.dart';
 import '../../list/shared/provider.dart';
 import '../../notification/shared/providers.dart';
 import '../../post_feed/shared/provider.dart';
-import '../../profile/shared/providers.dart';
 import '../../restaurant/shared/provider.dart';
 
 @RoutePage()
@@ -56,7 +54,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
-    AppLog.log(stateRestaurant.homeRestaurantList.toString());
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
     final notificationState = ref.watch(notificationNotifierProvider);
@@ -323,9 +320,11 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               padding: const EdgeInsets.all(0),
                               itemBuilder: (context, index) {
                                 final postList = postFeedList[index];
+                                final commentInfoList = postList.commentInfo;
                                 return PostWidget(
                                   isSaving: postFeedState.isSavePost,
                                   postList: postList,
+                                  commentInfoList: commentInfoList
                                 );
                               }),
                         ),

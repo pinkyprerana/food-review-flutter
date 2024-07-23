@@ -13,46 +13,54 @@ abstract class PostModel with _$PostModel {
     @JsonKey(name: "page") int? page,
     @JsonKey(name: "pages") int? pages,
     @JsonKey(name: "limit") int? limit,
-  }) = _PreferenceModel;
+  }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);
 }
 
 @freezed
-abstract class DataOfPostModel with _$DataOfPostModel  {
-  const factory DataOfPostModel ({
+abstract class DataOfPostModel with _$DataOfPostModel {
+  const factory DataOfPostModel({
     @JsonKey(name: "_id") required String id,
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "description") required String description,
     @JsonKey(name: "file") required String file,
     @JsonKey(name: "mimetype") required String mimetype,
     @JsonKey(name: "how_was_it") required String howWasIt,
+    @JsonKey(name: "location") required String location,
+    @JsonKey(name: "geo_distance") required double geoDistance,
+    @JsonKey(name: "geo_loc") required GeoLocation geoLoc,
     @JsonKey(name: "status") required String status,
     @JsonKey(name: "createdAt") required DateTime createdAt,
     @JsonKey(name: "isOwn") required bool isOwn,
+    @JsonKey(name: "isNear") required bool isNear,
+    @JsonKey(name: "isFollowing") required bool isFollowing,
+    @JsonKey(name: "isFollower") required bool isFollower,
     @JsonKey(name: "isSave") required bool isSave,
     @JsonKey(name: "like_count") required int likeCount,
     @JsonKey(name: "isMyLike") required bool isMyLike,
+    @JsonKey(name: "isMyDisLike") required bool isMyDisLike,
     @JsonKey(name: "comment_count") required int commentCount,
-    @JsonKey(name: "geo_loc") required GeoLoc geoLoc,
     @JsonKey(name: "userInfo") required UserInfo userInfo,
-    @JsonKey(name: "preferenceInfo") required PreferenceInfo? preferenceInfo,
+    @JsonKey(name: "commentInfo") required List<CommentInfo> commentInfo,
+    @JsonKey(name: "preferenceInfo") required PreferenceInfo preferenceInfo,
     @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
   }) = _DataOfPostModel;
 
-  factory DataOfPostModel.fromJson(Map<String, dynamic> json) => _$DataOfPostModelFromJson(json);
+  factory DataOfPostModel.fromJson(Map<String, dynamic> json) =>
+      _$DataOfPostModelFromJson(json);
 }
 
 @freezed
-abstract class GeoLoc with _$GeoLoc {
-  const factory GeoLoc({
+abstract class GeoLocation with _$GeoLocation {
+  const factory GeoLocation({
     @JsonKey(name: "type") required String type,
     @JsonKey(name: "coordinates") required List<double> coordinates,
-  }) = _GeoLoc;
+  }) = _GeoLocation;
 
-  factory GeoLoc.fromJson(Map<String, dynamic> json) =>
-      _$GeoLocFromJson(json);
+  factory GeoLocation.fromJson(Map<String, dynamic> json) =>
+      _$GeoLocationFromJson(json);
 }
 
 @freezed
@@ -66,6 +74,35 @@ abstract class UserInfo with _$UserInfo {
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>
       _$UserInfoFromJson(json);
+}
+
+@freezed
+abstract class CommentInfo with _$CommentInfo {
+  const factory CommentInfo({
+    @JsonKey(name: "_id") required String id,
+    @JsonKey(name: "user_id") required String userId,
+    @JsonKey(name: "post_id") required String postId,
+    @JsonKey(name: "comment") required String comment,
+    @JsonKey(name: "createdAt") required DateTime createdAt,
+    @JsonKey(name: "commentedUserData") required CommentedUserData commentedUserData,
+    @JsonKey(name: "isCommentLiked") required bool isCommentLiked,
+  }) = _CommentInfo;
+
+  factory CommentInfo.fromJson(Map<String, dynamic> json) =>
+      _$CommentInfoFromJson(json);
+}
+
+@freezed
+abstract class CommentedUserData with _$CommentedUserData {
+  const factory CommentedUserData({
+    @JsonKey(name: "_id") required String id,
+    @JsonKey(name: "fullName") required String fullName,
+    @JsonKey(name: "email") required String email,
+    @JsonKey(name: "profile_image") required String profileImage,
+  }) = _CommentedUserData;
+
+  factory CommentedUserData.fromJson(Map<String, dynamic> json) =>
+      _$CommentedUserDataFromJson(json);
 }
 
 @freezed
@@ -96,4 +133,3 @@ abstract class RestaurantInfo with _$RestaurantInfo {
   factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
       _$RestaurantInfoFromJson(json);
 }
-

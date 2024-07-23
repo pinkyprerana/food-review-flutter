@@ -242,7 +242,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage(jsonData['message']);
           await getPostFeed(isPostLoading: true);
           state = state.copyWith(isSavePost: false);
-          commentController.clear(); // Clear the comment controller
+          commentController.clear();
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -275,7 +275,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage(jsonData['message']);
           await getPostFeed(isPostLoading: true);
           state = state.copyWith(isSavePost: false);
-          commentController.clear(); // Clear the comment controller
+          commentController.clear();
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);

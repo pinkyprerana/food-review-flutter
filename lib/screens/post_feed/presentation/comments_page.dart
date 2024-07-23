@@ -5,10 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/comment_item.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/comments_icon.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import '../../../core/constants/app_urls.dart';
+import '../../../core/utils/app_log.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -16,8 +17,10 @@ class CommentsPage extends ConsumerStatefulWidget {
   const CommentsPage({
     super.key,
     required this.postInfoList,
+    required this.commentInfoList,
   });
-  final dynamic postInfoList;
+  final DataOfPostModel postInfoList;
+  final List<CommentInfo> commentInfoList;
 
   @override
   ConsumerState<CommentsPage> createState()=> _CommentsPageState();
@@ -42,7 +45,6 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final int amount = widget.postInfoList.commentCount;
     final bool isSaved = widget.postInfoList.isSave;
     final bool isLiked = widget.postInfoList.isMyLike;
-
 
     return Scaffold(
       backgroundColor: AppColors.colorCommentPageBg,
@@ -134,11 +136,20 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     children: [
                       20.verticalSpace,
                       isLiked
-                          ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                          ? Image.asset(Assets.redHeart)
                           : Image.asset(Assets.like),
                       15.verticalSpace,
-                      CommentsIcon(
-                        commentCount: commentCount,
+                      Column(
+                        children: [
+                          Image.asset(Assets.comments),
+                          Text(
+                              (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                              color: AppColors.colorWhite,
+                              fontSize: 10.sp,
+                            ),
+                           )
+                          ]
                       ),
                       10.verticalSpace,
                       isSaved
@@ -248,9 +259,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                 ],
               ),
               18.verticalSpace,
-              CommentItem(commentLength:commentCount.toString(),),
-              // 20.verticalSpace,
-              // CommentItem(),
+              CommentItem(commentInfoList:widget.commentInfoList),
               20.verticalSpace,
               Container(
                 width: double.infinity,

@@ -13,6 +13,7 @@ class PostFeedState with _$PostFeedState {
     @Default([]) List postTitles,
     @Default([]) List<DataOfPostModel> postList,
     @Default([]) List<UserInfo>? userInfoList,
+    @Default([]) List<CommentInfo>? commentInfoList,
     @Default([]) List<PreferenceInfo>? preferenceInfoList,
     @Default([]) List<RestaurantInfo>? restaurantInfoList,
   }) = _PostFeedState;

@@ -44,6 +44,7 @@ class Assets {
   static const String search = 'assets/icons/search.png';
   static const String bell = 'assets/icons/notification.png';
   static const String like = 'assets/icons/heart.png';
+  static const String redHeart = 'assets/icons/redHeart.png';
   static const String comment = 'assets/icons/comment.png';
   static const String send = 'assets/icons/send.png';
   static const String dish = 'assets/icons/dish.png';
