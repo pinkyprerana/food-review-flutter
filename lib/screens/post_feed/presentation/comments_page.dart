@@ -259,7 +259,13 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                 ],
               ),
               18.verticalSpace,
-              CommentItem(commentInfoList:widget.commentInfoList),
+              widget.commentInfoList.isEmpty
+              ? Center(child: Text("Be the first to comment in this post.",
+                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 12.sp,
+                color: AppColors.colorPrimaryAlpha,
+              )))
+              : CommentItem(commentInfoList:widget.commentInfoList),
               20.verticalSpace,
               Container(
                 width: double.infinity,
