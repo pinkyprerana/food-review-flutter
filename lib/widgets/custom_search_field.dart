@@ -15,6 +15,7 @@ class CustomSearchField extends StatefulWidget {
     this.isBorder = false,
     this.keyboardType = TextInputType.text,
     this.onFieldSubmitted,
+    this.onChanged,
     this.bgColor,
     super.key,
   });
@@ -27,6 +28,7 @@ class CustomSearchField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final Function(String)? onFieldSubmitted;
+  final Function(String)? onChanged;
   final Color? bgColor;
   final bool isBorder;
 
@@ -68,6 +70,7 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
         keyboardType: widget.keyboardType,
         style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
         onFieldSubmitted: widget.onFieldSubmitted,
+        onChanged: widget.onChanged,
       ),
     );
   }

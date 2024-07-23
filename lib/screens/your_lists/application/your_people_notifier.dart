@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
 import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
@@ -16,6 +17,18 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
   final RefreshController followersRefreshController = RefreshController();
   final RefreshController followingRefreshController = RefreshController();
   final RefreshController requestRefreshController = RefreshController();
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    followersRefreshController.dispose();
+    followingRefreshController.dispose();
+    requestRefreshController.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void clearSearch() => searchController.clear();
 
   void loadMoreFollowers() async {
     if (state.followerCurrentPage > state.followerTotalPages) {
@@ -68,6 +81,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
         "perpage": 10,
         "page": state.followerCurrentPage,
         "showing_status": "Follower",
+        if (searchController.text.isNotEmpty) "search": searchController.text,
       });
 
       var headers = {
@@ -136,6 +150,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
         "perpage": 10,
         "page": state.requestCurrentPage,
         "showing_status": "Follower Request",
+        if (searchController.text.isNotEmpty) "search": searchController.text,
       });
 
       var headers = {
@@ -204,6 +219,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
         "perpage": 10,
         "page": state.followingCurrentPage,
         "showing_status": "Following",
+        if (searchController.text.isNotEmpty) "search": searchController.text,
       });
 
       var headers = {
@@ -362,6 +378,16 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       showToastMessage(error.toString());
+    }
+  }
+
+  void searchUser() {
+    if (state.selectedIndex == 0) {
+      getAllFollowerList();
+    } else if (state.selectedIndex == 1) {
+      getAllFollowingList();
+    } else {
+      getAllRequestList();
     }
   }
 }

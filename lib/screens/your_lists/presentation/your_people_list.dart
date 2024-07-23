@@ -137,8 +137,10 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomSearchField(
+                  CustomSearchField(
                     hint: 'Search',
+                    controller: stateNotifier.searchController,
+                    onChanged: (_) => stateNotifier.searchUser(),
                   ),
                   16.verticalSpace,
                   Row(
@@ -155,6 +157,8 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                                   : 'Requests',
                           isSelected: _selectedIndex == index,
                           onPressed: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            stateNotifier.clearSearch();
                             stateNotifier.updateSelectedIndex(index);
                             index == 0
                                 ? stateNotifier.getAllFollowerList()
