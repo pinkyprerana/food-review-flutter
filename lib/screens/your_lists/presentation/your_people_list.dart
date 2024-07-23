@@ -18,7 +18,12 @@ import 'widgets/custom_widgets.dart';
 
 @RoutePage()
 class YourPeopleListPage extends ConsumerStatefulWidget {
-  const YourPeopleListPage({super.key});
+  final int? tabIndex;
+
+  const YourPeopleListPage({
+    super.key,
+    this.tabIndex,
+  });
 
   @override
   ConsumerState<YourPeopleListPage> createState() => _YourPeopleListPageState();
@@ -30,6 +35,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
+      if (widget.tabIndex != null) {
+        followNotifier.updateSelectedIndex(widget.tabIndex ?? 0);
+      }
       await followNotifier.getAllFollowerList();
       await followNotifier.getAllFollowingList();
       await followNotifier.getAllRequestList();

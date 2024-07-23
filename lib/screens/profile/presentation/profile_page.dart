@@ -62,7 +62,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () => AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList)),
+            onTap: () =>
+                AutoRouter.of(context).push(NotificationRoute(notificationList: notificationList)),
             child: Container(
               height: 26.r,
               width: 26.r,
@@ -165,7 +166,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       children: [
                                         GestureDetector(
                                           onTap: () => AutoRouter.of(context)
-                                              .push(const YourPeopleListRoute()),
+                                              .push(YourPeopleListRoute(tabIndex: 0)),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
@@ -200,7 +201,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () => AutoRouter.of(context)
-                                              .push(const YourPeopleListRoute()),
+                                              .push(YourPeopleListRoute(tabIndex: 1)),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
