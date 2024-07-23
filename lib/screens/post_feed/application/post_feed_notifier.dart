@@ -11,17 +11,12 @@ import '../../../core/utils/toast.dart';
 import '../domain/postFeed_model.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
-  PostFeedNotifier(this._dio, this._hiveDatabase, this._networkApiService)
+  PostFeedNotifier( this._hiveDatabase, this._networkApiService)
       : super(const PostFeedState());
 
-  final Dio _dio;
   final HiveDatabase _hiveDatabase;
   NetworkApiService _networkApiService;
-
-  // void setListIndex(int index) {
-  //   state = state.copyWith(listIndex: index);
-  //   print(state.listIndex);
-  // }
+  TextEditingController commentController = TextEditingController();
 
   void setIsExpanded() {
     state = state.copyWith(isExpanded: !state.isExpanded);
@@ -223,4 +218,74 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
+
+  Future<void> postComment(VoidCallback voidCallback, String postID) async {
+    state = state.copyWith(isSavePost: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}/post-comment/add',
+        body: {
+          "post_id": postID,
+          "comment": commentController.text,
+        },
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isSavePost: false);
+          commentController.clear(); // Clear the comment controller
+          voidCallback.call();
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error posting comment: $error");
+      state = state.copyWith(isSavePost: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> postCommentLikeUnlike(VoidCallback voidCallback, String commentID) async {
+    state = state.copyWith(isSavePost: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}/post-like/comment',
+        body: {"comment_id": commentID,},
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isSavePost: false);
+          commentController.clear(); // Clear the comment controller
+          voidCallback.call();
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error posting comment: $error");
+      state = state.copyWith(isSavePost: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
 }

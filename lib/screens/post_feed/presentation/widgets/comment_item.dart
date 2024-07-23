@@ -5,7 +5,11 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
 class CommentItem extends StatelessWidget {
-  const CommentItem({super.key});
+  final commentLength;
+  const CommentItem({
+    super.key,
+    required this.commentLength
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,8 @@ class CommentItem extends StatelessWidget {
           ),
           10.verticalSpace,
           Text(
-            'lorem ipsum dolor sit amet consectetur. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            commentLength,
+            // 'lorem ipsum dolor sit amet consectetur. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
             style: AppTextStyles.textStylePoppinsRegular.copyWith(
               fontSize: 11.sp,
               color: AppColors.colorWhite.withOpacity(0.70),

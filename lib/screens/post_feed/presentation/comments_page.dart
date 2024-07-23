@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
@@ -7,14 +8,42 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/comment_item.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/comments_icon.dart';
 import 'package:for_the_table/widgets/app_button.dart';
+import '../../../core/constants/app_urls.dart';
+import '../shared/provider.dart';
 
 @RoutePage()
-class CommentsPage extends StatelessWidget {
-  const CommentsPage({super.key, required this.amount});
-  final String amount;
+class CommentsPage extends ConsumerStatefulWidget {
+  const CommentsPage({
+    super.key,
+    required this.postInfoList,
+  });
+  final dynamic postInfoList;
 
   @override
+  ConsumerState<CommentsPage> createState()=> _CommentsPageState();
+}
+
+class _CommentsPageState extends ConsumerState<CommentsPage> {
+  @override
   Widget build(BuildContext context) {
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final String postId = widget.postInfoList.id;
+    final String name = widget.postInfoList.userInfo.fullName;
+    final String profileImage =
+        "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo.profileImage}";
+    final String postImage = "${AppUrls.postImageLocation}${widget.postInfoList.file}";
+    final String title = widget.postInfoList.title;
+    final String description = widget.postInfoList.description;
+    final String restaurantName = widget.postInfoList.restaurantInfo.name;
+    final String rating = widget.postInfoList.restaurantInfo.rating;
+    final String address = widget.postInfoList.restaurantInfo.address;
+    final String cuisine = widget.postInfoList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount = widget.postInfoList.commentCount;
+    final int amount = widget.postInfoList.commentCount;
+    final bool isSaved = widget.postInfoList.isSave;
+    final bool isLiked = widget.postInfoList.isMyLike;
+
+
     return Scaffold(
       backgroundColor: AppColors.colorCommentPageBg,
       body: SingleChildScrollView(
@@ -38,15 +67,15 @@ class CommentsPage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    Assets.follow1,
+                                  image: NetworkImage(
+                                    profileImage,
                                   ),
                                   fit: BoxFit.cover,
                                 )),
                           ),
                           8.horizontalSpace,
                           Text(
-                            'Ahmad Gouse',
+                            name,
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(
                                     fontSize: 16.sp,
@@ -86,7 +115,7 @@ class CommentsPage extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                'Chinese Cuisine',
+                                cuisine,
                                 style: AppTextStyles.textStylePoppinsRegular
                                     .copyWith(
                                   color: AppColors.colorWhite,
@@ -95,17 +124,7 @@ class CommentsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          8.horizontalSpace,
-                          // Image.asset(Assets.dislike_emoji),
-                          5.horizontalSpace,
-                          // Text(
-                          //   'Didn\'t Like',
-                          //   style:
-                          //       AppTextStyles.textStylePoppinsRegular.copyWith(
-                          //     fontSize: 10.sp,
-                          //     color: AppColors.colorWhite,
-                          //   ),
-                          // )
+                          13.horizontalSpace,
                         ],
                       ),
                     ],
@@ -114,13 +133,17 @@ class CommentsPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       20.verticalSpace,
-                      Image.asset(Assets.like),
+                      isLiked
+                          ? const Icon(Icons.favorite, color: Colors.red, size:  20,)
+                          : Image.asset(Assets.like),
                       15.verticalSpace,
-                      const CommentsIcon(
-                        commentCount: 0,
+                      CommentsIcon(
+                        commentCount: commentCount,
                       ),
                       10.verticalSpace,
-                      Image.asset(Assets.bookmark),
+                      isSaved
+                          ? Image.asset(Assets.saved, scale: 2,)
+                          : Image.asset(Assets.bookmark),
                     ],
                   )
                 ],
@@ -137,14 +160,16 @@ class CommentsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Starbucks LA, California',
+                        restaurantName,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp,
                           color: AppColors.colorWhite,
                         ),
                       ),
                       Text(
-                        'Double road, Lorem City, LA',
+                        address.length > 40
+                            ? '${address.substring(0, 40)}...'
+                            : address,
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           fontSize: 10.sp,
                           color: AppColors.colorWhite,
@@ -168,7 +193,7 @@ class CommentsPage extends StatelessWidget {
                   Image.asset(Assets.star),
                   5.horizontalSpace,
                   Text(
-                    '4.8',
+                    rating,
                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,
@@ -181,7 +206,7 @@ class CommentsPage extends StatelessWidget {
                   ),
                   8.horizontalSpace,
                   Text(
-                    '\$$amount For 2',
+                    '\$${amount} For 2',
                     style: AppTextStyles.textStyleUbuntuRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,
@@ -194,7 +219,7 @@ class CommentsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'A memorable evening to be remembered.',
+                    description,
                     style: AppTextStyles.textStylePoppinsMedium.copyWith(
                       fontSize: 13.sp,
                       color: AppColors.colorWhite,
@@ -223,13 +248,12 @@ class CommentsPage extends StatelessWidget {
                 ],
               ),
               18.verticalSpace,
-              CommentItem(),
-              20.verticalSpace,
-              CommentItem(),
+              CommentItem(commentLength:commentCount.toString(),),
+              // 20.verticalSpace,
+              // CommentItem(),
               20.verticalSpace,
               Container(
                 width: double.infinity,
-                //height: 192.h,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -251,6 +275,7 @@ class CommentsPage extends StatelessWidget {
                       SizedBox(
                         height: 130.h,
                         child: TextField(
+                          controller: postFeedNotifier.commentController,
                           style: AppTextStyles.textStylePoppinsRegular
                               .copyWith(color: AppColors.colorWhite),
                           decoration: InputDecoration(
@@ -267,6 +292,7 @@ class CommentsPage extends StatelessWidget {
                         ),
                       ),
                       AppButton(
+                        onPressed: ()=> postFeedNotifier.postComment((){}, postId),
                         text: 'Submit',
                       )
                     ],

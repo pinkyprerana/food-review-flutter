@@ -127,9 +127,6 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   image: NetworkImage(
                                     profileImage,
                                   ),
-                                  // image: AssetImage(
-                                  //   Assets.follow1,
-                                  // ),
                                   fit: BoxFit.cover,
                                 )),
                           ),
@@ -177,7 +174,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cuisine, //'Chinese Cuisine',
+                                      cuisine,
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
@@ -200,7 +197,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      restaurantName, //'Starbucks LA, California',
+                                      restaurantName,
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
@@ -210,7 +207,6 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                       address.length > 40
                                           ? '${address.substring(0, 40)}...'
                                           : address,
-                                      //'Double road, Lorem City, LA',
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
@@ -233,7 +229,13 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             15.verticalSpace,
                             Column(
                               children: [
-                                Image.asset(Assets.comments),
+                                GestureDetector(
+                                    onTap: ()=> AutoRouter.of(context).push(
+                                        CommentsRoute(
+                                            postInfoList: widget.postList
+                                        )),
+                                    child: Image.asset(Assets.comments)
+                                ),
                                 Text(
                                   commentCount.toString(), //'00',
                                   style: AppTextStyles.textStylePoppinsRegular.copyWith(

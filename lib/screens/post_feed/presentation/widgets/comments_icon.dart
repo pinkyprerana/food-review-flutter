@@ -13,7 +13,10 @@ class CommentsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AutoRouter.of(context).push(CommentsRoute(amount: '100')),
+      onTap: () => AutoRouter.of(context).push(
+          CommentsRoute(
+              postInfoList: null
+          )),
       child: Column(
         children: [
           Image.asset(Assets.comments),
@@ -26,7 +29,7 @@ class CommentsIcon extends StatelessWidget {
                   ),
                 )
               : Text(
-                  '0${commentCount.toString()}',
+                  commentCount.toString(),
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                     color: AppColors.colorWhite,
                     fontSize: 10.sp,
