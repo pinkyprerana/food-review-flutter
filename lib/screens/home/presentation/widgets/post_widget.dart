@@ -193,7 +193,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      restaurantName??"Restaurant not available",
+                                      restaurantName??"Restaurant name not available",
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
@@ -202,7 +202,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                     Text(
                                       address != null && address.length > 40
                                           ? '${address.substring(0, 40)}...'
-                                          : address ?? 'Address not available',
+                                          : address ?? 'Restaurant address not available',
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,

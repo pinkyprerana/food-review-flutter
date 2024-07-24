@@ -153,7 +153,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            restaurantName??"Restaurant not available",
+                            restaurantName??"Restaurant name not available",
                             style:
                                 AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
@@ -163,7 +163,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                           Text(
                             address != null && address.length > 40
                                 ? '${address.substring(0, 40)}...'
-                                : address ?? 'Address not available',
+                                : address ?? 'Restaurant address not available',
                             style:
                                 AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
