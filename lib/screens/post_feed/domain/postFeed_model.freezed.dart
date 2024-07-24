@@ -386,7 +386,7 @@ mixin _$DataOfPostModel {
   @JsonKey(name: "preferenceInfo")
   PreferenceInfo get preferenceInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "restaurantInfo")
-  RestaurantInfo get restaurantInfo => throw _privateConstructorUsedError;
+  RestaurantInfo? get restaurantInfo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -424,12 +424,12 @@ abstract class $DataOfPostModelCopyWith<$Res> {
       @JsonKey(name: "userInfo") UserInfo userInfo,
       @JsonKey(name: "commentInfo") List<CommentInfo> commentInfo,
       @JsonKey(name: "preferenceInfo") PreferenceInfo preferenceInfo,
-      @JsonKey(name: "restaurantInfo") RestaurantInfo restaurantInfo});
+      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
 
   $GeoLocationCopyWith<$Res> get geoLoc;
   $UserInfoCopyWith<$Res> get userInfo;
   $PreferenceInfoCopyWith<$Res> get preferenceInfo;
-  $RestaurantInfoCopyWith<$Res> get restaurantInfo;
+  $RestaurantInfoCopyWith<$Res>? get restaurantInfo;
 }
 
 /// @nodoc
@@ -468,7 +468,7 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
     Object? userInfo = null,
     Object? commentInfo = null,
     Object? preferenceInfo = null,
-    Object? restaurantInfo = null,
+    Object? restaurantInfo = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -563,10 +563,10 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
           ? _value.preferenceInfo
           : preferenceInfo // ignore: cast_nullable_to_non_nullable
               as PreferenceInfo,
-      restaurantInfo: null == restaurantInfo
+      restaurantInfo: freezed == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
-              as RestaurantInfo,
+              as RestaurantInfo?,
     ) as $Val);
   }
 
@@ -596,8 +596,12 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $RestaurantInfoCopyWith<$Res> get restaurantInfo {
-    return $RestaurantInfoCopyWith<$Res>(_value.restaurantInfo, (value) {
+  $RestaurantInfoCopyWith<$Res>? get restaurantInfo {
+    if (_value.restaurantInfo == null) {
+      return null;
+    }
+
+    return $RestaurantInfoCopyWith<$Res>(_value.restaurantInfo!, (value) {
       return _then(_value.copyWith(restaurantInfo: value) as $Val);
     });
   }
@@ -635,7 +639,7 @@ abstract class _$$DataOfPostModelImplCopyWith<$Res>
       @JsonKey(name: "userInfo") UserInfo userInfo,
       @JsonKey(name: "commentInfo") List<CommentInfo> commentInfo,
       @JsonKey(name: "preferenceInfo") PreferenceInfo preferenceInfo,
-      @JsonKey(name: "restaurantInfo") RestaurantInfo restaurantInfo});
+      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
 
   @override
   $GeoLocationCopyWith<$Res> get geoLoc;
@@ -644,7 +648,7 @@ abstract class _$$DataOfPostModelImplCopyWith<$Res>
   @override
   $PreferenceInfoCopyWith<$Res> get preferenceInfo;
   @override
-  $RestaurantInfoCopyWith<$Res> get restaurantInfo;
+  $RestaurantInfoCopyWith<$Res>? get restaurantInfo;
 }
 
 /// @nodoc
@@ -681,7 +685,7 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
     Object? userInfo = null,
     Object? commentInfo = null,
     Object? preferenceInfo = null,
-    Object? restaurantInfo = null,
+    Object? restaurantInfo = freezed,
   }) {
     return _then(_$DataOfPostModelImpl(
       id: null == id
@@ -776,10 +780,10 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
           ? _value.preferenceInfo
           : preferenceInfo // ignore: cast_nullable_to_non_nullable
               as PreferenceInfo,
-      restaurantInfo: null == restaurantInfo
+      restaurantInfo: freezed == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
-              as RestaurantInfo,
+              as RestaurantInfo?,
     ));
   }
 }
@@ -895,7 +899,7 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
   final PreferenceInfo preferenceInfo;
   @override
   @JsonKey(name: "restaurantInfo")
-  final RestaurantInfo restaurantInfo;
+  final RestaurantInfo? restaurantInfo;
 
   @override
   String toString() {
@@ -1022,7 +1026,7 @@ abstract class _DataOfPostModel implements DataOfPostModel {
       @JsonKey(name: "preferenceInfo")
       required final PreferenceInfo preferenceInfo,
       @JsonKey(name: "restaurantInfo")
-      required final RestaurantInfo restaurantInfo}) = _$DataOfPostModelImpl;
+      required final RestaurantInfo? restaurantInfo}) = _$DataOfPostModelImpl;
 
   factory _DataOfPostModel.fromJson(Map<String, dynamic> json) =
       _$DataOfPostModelImpl.fromJson;
@@ -1098,7 +1102,7 @@ abstract class _DataOfPostModel implements DataOfPostModel {
   PreferenceInfo get preferenceInfo;
   @override
   @JsonKey(name: "restaurantInfo")
-  RestaurantInfo get restaurantInfo;
+  RestaurantInfo? get restaurantInfo;
   @override
   @JsonKey(ignore: true)
   _$$DataOfPostModelImplCopyWith<_$DataOfPostModelImpl> get copyWith =>

@@ -45,7 +45,7 @@ abstract class DataOfPostModel with _$DataOfPostModel {
     @JsonKey(name: "userInfo") required UserInfo userInfo,
     @JsonKey(name: "commentInfo") required List<CommentInfo> commentInfo,
     @JsonKey(name: "preferenceInfo") required PreferenceInfo preferenceInfo,
-    @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
+    @JsonKey(name: "restaurantInfo") required RestaurantInfo? restaurantInfo,
   }) = _DataOfPostModel;
 
   factory DataOfPostModel.fromJson(Map<String, dynamic> json) =>

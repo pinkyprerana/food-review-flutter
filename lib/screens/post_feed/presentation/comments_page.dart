@@ -45,9 +45,9 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final String postImage = "${AppUrls.postImageLocation}${widget.postInfoList.file}";
     final String title = widget.postInfoList.title;
     final String description = widget.postInfoList.description;
-    final String restaurantName = widget.postInfoList.restaurantInfo.name;
-    final String rating = widget.postInfoList.restaurantInfo.rating;
-    final String address = widget.postInfoList.restaurantInfo.address;
+    final String? restaurantName = widget.postInfoList.restaurantInfo?.name;
+    final String? rating = widget.postInfoList.restaurantInfo?.rating;
+    final String? address = widget.postInfoList.restaurantInfo?.address;
     final String cuisine = widget.postInfoList.preferenceInfo?.title ?? "No cuisine";
     final int commentCount = widget.postInfoList.commentCount;
     final int amount = widget.postInfoList.commentCount;
@@ -182,16 +182,16 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        restaurantName,
+                        restaurantName!,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp,
                           color: AppColors.colorWhite,
                         ),
                       ),
                       Text(
-                        address.length > 40
+                        address != null && address.length > 40
                             ? '${address.substring(0, 40)}...'
-                            : address,
+                            : address ?? 'Address not available',
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           fontSize: 10.sp,
                           color: AppColors.colorWhite,
@@ -215,7 +215,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                   Image.asset(Assets.star),
                   5.horizontalSpace,
                   Text(
-                    rating,
+                    rating!,
                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,

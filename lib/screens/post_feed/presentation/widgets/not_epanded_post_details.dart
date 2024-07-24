@@ -39,8 +39,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final String postImage = widget.postList.file;
     final String title = widget.postList.title;
     final String description = widget.postList.description;
-    final String restaurantName = widget.postList.restaurantInfo.name;
-    final String address = widget.postList.restaurantInfo.address;
+    final String? restaurantName = widget.postList.restaurantInfo?.name;
+    final String? address = widget.postList.restaurantInfo?.address;
     final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
     final int commentCount= widget.postList.commentCount;
     final String postId= widget.postList.id;
@@ -153,7 +153,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            restaurantName, //'Starbucks LA, California',
+                            restaurantName!, //'Starbucks LA, California',
                             style:
                                 AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
@@ -161,8 +161,9 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                             ),
                           ),
                           Text(
-                            address.length > 40 ? '${address.substring(0, 40)}...' : address,
-                            // 'Double road, Lorem City, LA',
+                            address != null && address.length > 40
+                                ? '${address.substring(0, 40)}...'
+                                : address ?? 'Address not available',
                             style:
                                 AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,

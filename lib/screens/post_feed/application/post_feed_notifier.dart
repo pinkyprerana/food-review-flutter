@@ -42,11 +42,11 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
-          body: {
-            "lat": getLatitude,
-            "lng": getLongitude,
-            "user_id": userId,
-        }
+          // body: {
+            // "lat": getLatitude,
+            // "lng": getLongitude,
+            // "user_id": userId,
+        // }
       );
       state = state.copyWith(isLoading: false);
 
@@ -55,13 +55,9 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        AppLog.log("Response Data: ${response.data}");
-
         try {
           PostModel postModel = PostModel.fromJson(response.data);
           if (postModel.status == 200) {
-            PostModel postModel = PostModel.fromJson(response.data);
-
             List<CommentInfo> allComments = postModel.postList.expand((post) => post.commentInfo).toList();
 
             state = state.copyWith(

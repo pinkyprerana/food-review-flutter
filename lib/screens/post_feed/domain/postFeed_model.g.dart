@@ -61,8 +61,10 @@ _$DataOfPostModelImpl _$$DataOfPostModelImplFromJson(
           .toList(),
       preferenceInfo: PreferenceInfo.fromJson(
           json['preferenceInfo'] as Map<String, dynamic>),
-      restaurantInfo: RestaurantInfo.fromJson(
-          json['restaurantInfo'] as Map<String, dynamic>),
+      restaurantInfo: json['restaurantInfo'] == null
+          ? null
+          : RestaurantInfo.fromJson(
+              json['restaurantInfo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DataOfPostModelImplToJson(
