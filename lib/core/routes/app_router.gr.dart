@@ -202,6 +202,7 @@ abstract class _$AppRouter extends RootStackRouter {
           rating: args.rating,
           numberOfReviews: args.numberOfReviews,
           restaurantId: args.restaurantId,
+          isBookmarked: args.isBookmarked,
         ),
       );
     },
@@ -721,6 +722,7 @@ class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
     required String rating,
     required String numberOfReviews,
     required String restaurantId,
+    required bool isBookmarked,
     List<PageRouteInfo>? children,
   }) : super(
           RestaurantDetailRoute.name,
@@ -735,6 +737,7 @@ class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
             rating: rating,
             numberOfReviews: numberOfReviews,
             restaurantId: restaurantId,
+            isBookmarked: isBookmarked,
           ),
           initialChildren: children,
         );
@@ -757,6 +760,7 @@ class RestaurantDetailRouteArgs {
     required this.rating,
     required this.numberOfReviews,
     required this.restaurantId,
+    required this.isBookmarked,
   });
 
   final Key? key;
@@ -779,9 +783,11 @@ class RestaurantDetailRouteArgs {
 
   final String restaurantId;
 
+  final bool isBookmarked;
+
   @override
   String toString() {
-    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, rating: $rating, numberOfReviews: $numberOfReviews, restaurantId: $restaurantId}';
+    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, rating: $rating, numberOfReviews: $numberOfReviews, restaurantId: $restaurantId, isBookmarked: $isBookmarked}';
   }
 }
 

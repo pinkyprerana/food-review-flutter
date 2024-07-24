@@ -320,6 +320,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       if (response.statusCode == 200 && response.data != null) {
         AppLog.log('response ----->> $response');
 
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
         state = state.copyWith(isLoading: false);
       } else {
         final message = response.data?['message'] as String?;
@@ -330,6 +333,48 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     } on DioException catch (e) {
       final error = DioExceptions.fromDioError(e).message;
       showToastMessage(error, errorMessage: 'Failed to save/unsave restaurant');
+
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> restaurantDetails(String restaurantId) async {
+    AppLog.log('restaurantID------------->>>> $restaurantId');
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final data = {
+        "restaurant_id": restaurantId,
+      };
+
+      final headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.restaurnatDetails}',
+        data: data,
+      );
+      if (response.statusCode == 200 && response.data != null) {
+        AppLog.log('response ----->> $response');
+
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isLoading: false);
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to get restaurant details');
 
       state = state.copyWith(isLoading: false);
     }

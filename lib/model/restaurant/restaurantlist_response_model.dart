@@ -42,6 +42,7 @@ class Restaurant with _$Restaurant {
     @JsonKey(name: "status") String? status,
     @JsonKey(name: "street") String? street,
     @JsonKey(name: "place_id") String? placeId,
+    @JsonKey(name: "isSave") bool? isSave,
   }) = _Restaurant;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>

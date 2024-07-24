@@ -29,4 +29,5 @@ class AppUrls {
 
   //restaurant
   static const saveRestaurant = '/restaurant/save';
+  static const restaurnatDetails = '/restaurant/details';
 }

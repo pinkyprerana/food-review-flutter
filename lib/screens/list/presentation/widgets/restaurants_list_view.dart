@@ -92,6 +92,8 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
+                            isBookmarked:
+                                state.restaurantList?[index].isSave ?? false,
                             restaurantId: state.restaurantList?[index].id ?? '',
                             numberOfReviews:
                                 state.restaurantList?[index].userRatingsTotal ??

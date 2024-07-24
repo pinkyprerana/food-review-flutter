@@ -219,6 +219,10 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 return GestureDetector(
                                   onTap: () => AutoRouter.of(context)
                                       .push(RestaurantDetailRoute(
+                                    isBookmarked: stateRestaurant
+                                            .homeRestaurantList?[index]
+                                            .isSave ??
+                                        false,
                                     restaurantId: stateRestaurant
                                             .homeRestaurantList?[index].id ??
                                         '',

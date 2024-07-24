@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -19,6 +20,7 @@ import 'package:for_the_table/screens/post_feed/presentation/widgets/post_item_w
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
+import 'package:for_the_table/widgets/save_icon.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
@@ -42,6 +44,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
     required this.rating,
     required this.numberOfReviews,
     required this.restaurantId,
+    required this.isBookmarked,
   });
   final String lat;
   final String lng;
@@ -52,6 +55,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
   final String description;
   final String numberOfReviews;
   final String restaurantId;
+  final bool isBookmarked;
 
   @override
   ConsumerState<RestaurantDetailPage> createState() =>
@@ -690,17 +694,43 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                           ],
                                         )),
                                   ),
-                                  Positioned(
-                                      left: 310,
-                                      top: 10,
-                                      child: GestureDetector(
-                                        onTap: () => AutoRouter.of(context)
-                                            .push(const SavedRoute()),
-                                        child: Image.asset(
-                                          Assets.bookmark,
-                                          color: AppColors.colorPrimary,
-                                        ),
-                                      ))
+                                  (state.isLoading)
+                                      ? const Positioned(
+                                          left: 310,
+                                          top: 10,
+                                          child: SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.colorPrimary,
+                                            ),
+                                          ))
+                                      : Positioned(
+                                          left: 310,
+                                          top: 10,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              await stateNotifier
+                                                  .saveRestaurant(
+                                                      widget.restaurantId);
+                                              // AutoRouter.of(context)
+                                              //     .push(const SavedRoute());
+                                            },
+                                            child: SaveIcon(
+                                                isBookmarked:
+                                                    widget.isBookmarked,
+                                                onTap: () async {
+                                                  await stateNotifier
+                                                      .saveRestaurant(
+                                                          widget.restaurantId);
+                                                }),
+                                            // child: Image.asset(
+                                            //   Assets.bookmark,
+                                            //   color: (state.isSaved)
+                                            //       ? Colors.amber
+                                            //       : AppColors.colorPrimary,
+                                            // ),
+                                          ))
                                 ],
                               ),
                             ],
