@@ -35,12 +35,10 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      final notificationNotifier = ref.read(notificationNotifierProvider.notifier);
       Future.wait([
-        followNotifier.getAllUnfollowList(),
+        followNotifier.getAllUsersList(),
         stateNotifier.getHomeRestaurants(),
         postFeedNotifier.getPostFeed(),
-        notificationNotifier.getNotificationList()
       ]);
     });
   }
@@ -50,12 +48,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
   @override
   Widget build(BuildContext context) {
     final followState = ref.watch(yourPeopleNotifierProvider);
-    final followerList = followState.followerList;
+    final allUsersList = followState.allUsersList;
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
+    print("postFeedList---->>>>${postFeedList}");
 
     return Scaffold(
         extendBody: true,
@@ -132,17 +131,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                           color: AppColors.colorPrimary,
                         ),
                       )
-                    : followerList.isNotEmpty
+                    : allUsersList.isNotEmpty
                         ? ListView.builder(
                             physics: const ClampingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            itemCount: followerList.length,
+                            itemCount: allUsersList.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              if (index < 0 || index >= followerList.length) {
+                              if (index < 0 || index >= allUsersList.length) {
                                 return const SizedBox.shrink();
                               }
-                              final followers = followerList[index];
+                              final followers = allUsersList[index];
                               final imgpath = followers.profileImage != "" ? followers.profileImage : "";
                               final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
 

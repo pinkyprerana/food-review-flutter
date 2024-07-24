@@ -6,9 +6,9 @@ import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
+import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
-import '../domain/postFeed_model.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
   PostFeedNotifier( this._hiveDatabase, this._networkApiService)
@@ -41,11 +41,13 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: !isPostLoading);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}', body: {
-        "lat": getLatitude,
-        "lng": getLongitude,
-        "user_id": userId,
-      });
+          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+          body: {
+            "lat": getLatitude,
+            "lng": getLongitude,
+            "user_id": userId,
+        }
+      );
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -53,17 +55,26 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        PostModel postModel = PostModel.fromJson(response.data);
-        if (postModel.status == 200) {
-          List<CommentInfo> allComments = postModel.postList.expand((post) => post.commentInfo).toList();
+        AppLog.log("Response Data: ${response.data}");
 
-          state = state.copyWith(
-              isLoading: false,
-              postList: postModel.postList,
-              commentInfoList: allComments
-          );
-        } else {
-          showToastMessage(postModel.message.toString());
+        try {
+          PostModel postModel = PostModel.fromJson(response.data);
+          if (postModel.status == 200) {
+            PostModel postModel = PostModel.fromJson(response.data);
+
+            List<CommentInfo> allComments = postModel.postList.expand((post) => post.commentInfo).toList();
+
+            state = state.copyWith(
+                isLoading: false,
+                postList: postModel.postList,
+                commentInfoList: allComments
+            );
+          } else {
+            showToastMessage(postModel.message.toString());
+          }
+        } catch (error) {
+          AppLog.log("Error parsing PostModel: $error");
+          showToastMessage("Error parsing response data");
         }
       }
     } catch (error) {

@@ -6,9 +6,9 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
-import '../../domain/postFeed_model.dart';
 import '../../shared/provider.dart';
 
 class ExpandedPostDetails extends ConsumerStatefulWidget {

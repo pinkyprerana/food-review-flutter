@@ -25,8 +25,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
   @override
   Widget build(BuildContext context) {
     final followState = ref.watch(yourPeopleNotifierProvider);
-    final followerList = followState.followerList;
-    final stateNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final allUsersList = followState.allUsersList;
+    final stateNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -45,13 +45,13 @@ class _FollowersListState extends ConsumerState<FollowersList> {
           height: 0.55.sh,
           child: SmartRefresher(
             controller: followState.selectedIndex == 0
-                ? stateNotifier.followersRefreshController
-                : stateNotifier.followingRefreshController,
+                ? stateNotifier.allUsersRefreshController
+                : stateNotifier.allUsersRefreshController,
             enablePullDown: false,
             enablePullUp: true,
             onLoading: followState.selectedIndex == 0
-                ? stateNotifier.loadMoreFollowers
-                : stateNotifier.loadMoreFollowings,
+                ? stateNotifier.loadMoreUsers
+                : stateNotifier.loadMoreUsers,
             footer: CustomFooter(
               builder: (BuildContext context, mode) {
                 Widget body;
@@ -87,7 +87,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 color: AppColors.colorPrimary,
               ),
             )
-                : followerList.isNotEmpty
+                : allUsersList.isNotEmpty
                 ?  GridView.builder(
               physics: const ClampingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -96,23 +96,23 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 mainAxisSpacing: 10.h,
                 childAspectRatio: 1,
               ),
-              itemCount: followerList.length, //6,
+              itemCount: allUsersList.length, //6,
               itemBuilder: (context, index) {
-                if (index < 0 || index >= followerList.length) {
+                if (index < 0 || index >= allUsersList.length) {
                   return const SizedBox.shrink();
                 }
-                final followers = followerList[index];
-                final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
+                final users = allUsersList[index];
+                final profileImage = '${AppUrls.profilePicLocation}/${users.profileImage}';
                 final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
-                    state.userFollowStatus[followers.id] ?? followers.isFollowingRequest));
+                    state.userFollowStatus[users.id] ?? users.isFollowingRequest));
 
                 return GestureDetector(
                   onTap: () => AutoRouter.of(context).push(
                     PeopleProfileRoute(
-                      peoplename: followers.fullName.toString(),
+                      peoplename: users.fullName.toString(),
                       peopleimage: profileImage,
-                      peopleId: followers.id ?? '',
-                      isFollow: followers.isFollowingRequest ?? false,
+                      peopleId: users.id ?? '',
+                      isFollow: users.isFollowingRequest ?? false,
                     ),
                   ),
                   child: Container(
@@ -153,7 +153,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                         ),
                         SizedBox(height: 10.h),
                         Text(
-                          followers.fullName.toString(),
+                          users.fullName.toString(),
                           //followers[index]['name']!,
                           style: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimary,

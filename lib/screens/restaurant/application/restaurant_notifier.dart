@@ -10,9 +10,9 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../post_feed/domain/postFeed_model.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RestaurantNotifier(this._dio, this._hiveDataBase, this._networkApiService)

@@ -133,3 +133,5 @@ abstract class RestaurantInfo with _$RestaurantInfo {
   factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
       _$RestaurantInfoFromJson(json);
 }
+
+

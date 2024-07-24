@@ -21,6 +21,7 @@ mixin _$YourPeopleState {
   String get userId => throw _privateConstructorUsedError;
   List<Users> get followingList => throw _privateConstructorUsedError;
   List<Users> get followerList => throw _privateConstructorUsedError;
+  List<Users> get allUsersList => throw _privateConstructorUsedError;
   List<Users> get followRequestsList => throw _privateConstructorUsedError;
   int get followerCurrentPage => throw _privateConstructorUsedError;
   int get followerTotalPages => throw _privateConstructorUsedError;
@@ -28,6 +29,8 @@ mixin _$YourPeopleState {
   int get followingTotalPages => throw _privateConstructorUsedError;
   int get requestCurrentPage => throw _privateConstructorUsedError;
   int get requestTotalPages => throw _privateConstructorUsedError;
+  int get allUsersCurrentPage => throw _privateConstructorUsedError;
+  int get allUsersTotalPages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $YourPeopleStateCopyWith<YourPeopleState> get copyWith =>
@@ -46,13 +49,16 @@ abstract class $YourPeopleStateCopyWith<$Res> {
       String userId,
       List<Users> followingList,
       List<Users> followerList,
+      List<Users> allUsersList,
       List<Users> followRequestsList,
       int followerCurrentPage,
       int followerTotalPages,
       int followingCurrentPage,
       int followingTotalPages,
       int requestCurrentPage,
-      int requestTotalPages});
+      int requestTotalPages,
+      int allUsersCurrentPage,
+      int allUsersTotalPages});
 }
 
 /// @nodoc
@@ -73,6 +79,7 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
     Object? userId = null,
     Object? followingList = null,
     Object? followerList = null,
+    Object? allUsersList = null,
     Object? followRequestsList = null,
     Object? followerCurrentPage = null,
     Object? followerTotalPages = null,
@@ -80,6 +87,8 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
     Object? followingTotalPages = null,
     Object? requestCurrentPage = null,
     Object? requestTotalPages = null,
+    Object? allUsersCurrentPage = null,
+    Object? allUsersTotalPages = null,
   }) {
     return _then(_value.copyWith(
       selectedIndex: null == selectedIndex
@@ -101,6 +110,10 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
       followerList: null == followerList
           ? _value.followerList
           : followerList // ignore: cast_nullable_to_non_nullable
+              as List<Users>,
+      allUsersList: null == allUsersList
+          ? _value.allUsersList
+          : allUsersList // ignore: cast_nullable_to_non_nullable
               as List<Users>,
       followRequestsList: null == followRequestsList
           ? _value.followRequestsList
@@ -130,6 +143,14 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
           ? _value.requestTotalPages
           : requestTotalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      allUsersCurrentPage: null == allUsersCurrentPage
+          ? _value.allUsersCurrentPage
+          : allUsersCurrentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      allUsersTotalPages: null == allUsersTotalPages
+          ? _value.allUsersTotalPages
+          : allUsersTotalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -148,13 +169,16 @@ abstract class _$$YourPeopleStateImplCopyWith<$Res>
       String userId,
       List<Users> followingList,
       List<Users> followerList,
+      List<Users> allUsersList,
       List<Users> followRequestsList,
       int followerCurrentPage,
       int followerTotalPages,
       int followingCurrentPage,
       int followingTotalPages,
       int requestCurrentPage,
-      int requestTotalPages});
+      int requestTotalPages,
+      int allUsersCurrentPage,
+      int allUsersTotalPages});
 }
 
 /// @nodoc
@@ -173,6 +197,7 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? followingList = null,
     Object? followerList = null,
+    Object? allUsersList = null,
     Object? followRequestsList = null,
     Object? followerCurrentPage = null,
     Object? followerTotalPages = null,
@@ -180,6 +205,8 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
     Object? followingTotalPages = null,
     Object? requestCurrentPage = null,
     Object? requestTotalPages = null,
+    Object? allUsersCurrentPage = null,
+    Object? allUsersTotalPages = null,
   }) {
     return _then(_$YourPeopleStateImpl(
       selectedIndex: null == selectedIndex
@@ -201,6 +228,10 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
       followerList: null == followerList
           ? _value._followerList
           : followerList // ignore: cast_nullable_to_non_nullable
+              as List<Users>,
+      allUsersList: null == allUsersList
+          ? _value._allUsersList
+          : allUsersList // ignore: cast_nullable_to_non_nullable
               as List<Users>,
       followRequestsList: null == followRequestsList
           ? _value._followRequestsList
@@ -230,6 +261,14 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
           ? _value.requestTotalPages
           : requestTotalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      allUsersCurrentPage: null == allUsersCurrentPage
+          ? _value.allUsersCurrentPage
+          : allUsersCurrentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      allUsersTotalPages: null == allUsersTotalPages
+          ? _value.allUsersTotalPages
+          : allUsersTotalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -243,15 +282,19 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       this.userId = "",
       final List<Users> followingList = const [],
       final List<Users> followerList = const [],
+      final List<Users> allUsersList = const [],
       final List<Users> followRequestsList = const [],
       this.followerCurrentPage = 1,
       this.followerTotalPages = 1,
       this.followingCurrentPage = 1,
       this.followingTotalPages = 1,
       this.requestCurrentPage = 1,
-      this.requestTotalPages = 1})
+      this.requestTotalPages = 1,
+      this.allUsersCurrentPage = 1,
+      this.allUsersTotalPages = 1})
       : _followingList = followingList,
         _followerList = followerList,
+        _allUsersList = allUsersList,
         _followRequestsList = followRequestsList;
 
   @override
@@ -279,6 +322,15 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
     if (_followerList is EqualUnmodifiableListView) return _followerList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_followerList);
+  }
+
+  final List<Users> _allUsersList;
+  @override
+  @JsonKey()
+  List<Users> get allUsersList {
+    if (_allUsersList is EqualUnmodifiableListView) return _allUsersList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allUsersList);
   }
 
   final List<Users> _followRequestsList;
@@ -309,10 +361,16 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
   @override
   @JsonKey()
   final int requestTotalPages;
+  @override
+  @JsonKey()
+  final int allUsersCurrentPage;
+  @override
+  @JsonKey()
+  final int allUsersTotalPages;
 
   @override
   String toString() {
-    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, followerList: $followerList, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages)';
+    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, followerList: $followerList, allUsersList: $allUsersList, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages, allUsersCurrentPage: $allUsersCurrentPage, allUsersTotalPages: $allUsersTotalPages)';
   }
 
   @override
@@ -330,6 +388,8 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
             const DeepCollectionEquality()
                 .equals(other._followerList, _followerList) &&
             const DeepCollectionEquality()
+                .equals(other._allUsersList, _allUsersList) &&
+            const DeepCollectionEquality()
                 .equals(other._followRequestsList, _followRequestsList) &&
             (identical(other.followerCurrentPage, followerCurrentPage) ||
                 other.followerCurrentPage == followerCurrentPage) &&
@@ -342,7 +402,11 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
             (identical(other.requestCurrentPage, requestCurrentPage) ||
                 other.requestCurrentPage == requestCurrentPage) &&
             (identical(other.requestTotalPages, requestTotalPages) ||
-                other.requestTotalPages == requestTotalPages));
+                other.requestTotalPages == requestTotalPages) &&
+            (identical(other.allUsersCurrentPage, allUsersCurrentPage) ||
+                other.allUsersCurrentPage == allUsersCurrentPage) &&
+            (identical(other.allUsersTotalPages, allUsersTotalPages) ||
+                other.allUsersTotalPages == allUsersTotalPages));
   }
 
   @override
@@ -353,13 +417,16 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       userId,
       const DeepCollectionEquality().hash(_followingList),
       const DeepCollectionEquality().hash(_followerList),
+      const DeepCollectionEquality().hash(_allUsersList),
       const DeepCollectionEquality().hash(_followRequestsList),
       followerCurrentPage,
       followerTotalPages,
       followingCurrentPage,
       followingTotalPages,
       requestCurrentPage,
-      requestTotalPages);
+      requestTotalPages,
+      allUsersCurrentPage,
+      allUsersTotalPages);
 
   @JsonKey(ignore: true)
   @override
@@ -376,13 +443,16 @@ abstract class _YourPeopleState implements YourPeopleState {
       final String userId,
       final List<Users> followingList,
       final List<Users> followerList,
+      final List<Users> allUsersList,
       final List<Users> followRequestsList,
       final int followerCurrentPage,
       final int followerTotalPages,
       final int followingCurrentPage,
       final int followingTotalPages,
       final int requestCurrentPage,
-      final int requestTotalPages}) = _$YourPeopleStateImpl;
+      final int requestTotalPages,
+      final int allUsersCurrentPage,
+      final int allUsersTotalPages}) = _$YourPeopleStateImpl;
 
   @override
   int get selectedIndex;
@@ -394,6 +464,8 @@ abstract class _YourPeopleState implements YourPeopleState {
   List<Users> get followingList;
   @override
   List<Users> get followerList;
+  @override
+  List<Users> get allUsersList;
   @override
   List<Users> get followRequestsList;
   @override
@@ -408,6 +480,10 @@ abstract class _YourPeopleState implements YourPeopleState {
   int get requestCurrentPage;
   @override
   int get requestTotalPages;
+  @override
+  int get allUsersCurrentPage;
+  @override
+  int get allUsersTotalPages;
   @override
   @JsonKey(ignore: true)
   _$$YourPeopleStateImplCopyWith<_$YourPeopleStateImpl> get copyWith =>

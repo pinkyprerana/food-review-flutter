@@ -23,7 +23,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../home/presentation/widgets/post_widget.dart';
-import '../../post_feed/domain/postFeed_model.dart';
 import '../../post_feed/shared/provider.dart';
 import '../shared/provider.dart';
 

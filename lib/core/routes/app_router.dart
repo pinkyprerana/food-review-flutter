@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:for_the_table/model/notification_model/notification_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 
 import '../../screens/auth/presentation/forget_password_page.dart';
@@ -22,7 +23,6 @@ import '../../screens/location/presentation/location_page.dart';
 import '../../screens/notification/presentation/notification_page.dart';
 import '../../screens/onboarding/presentation/select_preferene_page.dart';
 import '../../screens/people_profile/presentation/people_profile_screen.dart';
-import '../../screens/post_feed/domain/postFeed_model.dart';
 import '../../screens/post_feed/presentation/comments_page.dart';
 import '../../screens/profile/presentation/add_bio_page.dart';
 import '../../screens/profile/presentation/app_info_page.dart';
