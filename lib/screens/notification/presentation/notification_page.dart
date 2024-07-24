@@ -24,7 +24,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final notificationNotifier = ref.read(notificationNotifierProvider.notifier);
-        notificationNotifier.getNotificationList();
+      await notificationNotifier.getNotificationList();
     });
   }
 
@@ -65,7 +65,10 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: notificationState.isLoading
+       ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,),)
+       : todayNotifications.isNotEmpty
+      ? SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,
           child: Column(
@@ -166,6 +169,8 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
             ],
           ),
         ),
+      )
+      : Center(child: Text('No notification.', style: AppTextStyles.textStylePoppins,),
       ),
     );
   }

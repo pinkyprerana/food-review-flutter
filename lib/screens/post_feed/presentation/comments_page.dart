@@ -237,17 +237,15 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                 ],
               ),
               20.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
+              Align(
+                alignment: Alignment.topLeft,
+                  child: Text(
                     description,
                     style: AppTextStyles.textStylePoppinsMedium.copyWith(
                       fontSize: 13.sp,
                       color: AppColors.colorWhite,
                     ),
                   ),
-                ],
               ),
               15.verticalSpace,
               Row(
