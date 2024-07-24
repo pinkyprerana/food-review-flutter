@@ -182,7 +182,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        restaurantName!,
+                        restaurantName??"Restaurant not available",
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp,
                           color: AppColors.colorWhite,

@@ -124,7 +124,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            restaurantName!, //'Starbucks LA, California',
+                            restaurantName??"Restaurant not available",
                             style:
                                 AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
