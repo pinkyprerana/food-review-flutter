@@ -92,12 +92,16 @@ class LocationNotifier extends StateNotifier<LocationState> {
         // Provide option to request permission again
         final permissionStatus = await Geolocator.requestPermission();
         if (permissionStatus == LocationPermission.denied) {
+          showToastMessage(
+              'Request Denied, please go to app settings to grant location permission');
           if (!context.mounted) return;
           _showPermissionDialog(context);
         } else if (permissionStatus == LocationPermission.whileInUse) {
           if (!context.mounted) return;
           await getLocation(context);
         } else if (permissionStatus == LocationPermission.deniedForever) {
+          showToastMessage(
+              'Request Denied, please go to app settings to grant location permission');
           if (!context.mounted) return;
           _showPermissionDialog(context);
         }
