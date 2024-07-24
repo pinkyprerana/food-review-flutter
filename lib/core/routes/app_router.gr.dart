@@ -248,9 +248,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     YourPeopleListRoute.name: (routeData) {
+      final args = routeData.argsAs<YourPeopleListRouteArgs>(
+          orElse: () => const YourPeopleListRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const YourPeopleListPage(),
+        child: YourPeopleListPage(
+          key: args.key,
+          tabIndex: args.tabIndex,
+        ),
       );
     },
     YourPeopleRoute.name: (routeData) {
@@ -891,16 +896,40 @@ class VerifyOtpRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [YourPeopleListPage]
-class YourPeopleListRoute extends PageRouteInfo<void> {
-  const YourPeopleListRoute({List<PageRouteInfo>? children})
-      : super(
+class YourPeopleListRoute extends PageRouteInfo<YourPeopleListRouteArgs> {
+  YourPeopleListRoute({
+    Key? key,
+    int? tabIndex,
+    List<PageRouteInfo>? children,
+  }) : super(
           YourPeopleListRoute.name,
+          args: YourPeopleListRouteArgs(
+            key: key,
+            tabIndex: tabIndex,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'YourPeopleListRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<YourPeopleListRouteArgs> page =
+      PageInfo<YourPeopleListRouteArgs>(name);
+}
+
+class YourPeopleListRouteArgs {
+  const YourPeopleListRouteArgs({
+    this.key,
+    this.tabIndex,
+  });
+
+  final Key? key;
+
+  final int? tabIndex;
+
+  @override
+  String toString() {
+    return 'YourPeopleListRouteArgs{key: $key, tabIndex: $tabIndex}';
+  }
 }
 
 /// generated route for

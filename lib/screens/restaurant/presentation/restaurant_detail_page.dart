@@ -56,8 +56,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
 }
 
 class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
-  Completer<GoogleMapController> _controller = Completer();
-
+  final Completer<GoogleMapController> _controller = Completer();
   late CameraPosition _currentPosition;
   List<Marker> _marker = [];
   // List<Marker> _list = [
@@ -86,6 +85,12 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
       restaurantStateNotifier.clearStateVariables();
       await restaurantStateNotifier.getPosts(context: context, restaurantId: widget.restaurantId);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.future.then((ctlrer) => ctlrer.dispose());
   }
 
   @override

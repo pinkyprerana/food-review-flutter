@@ -26,6 +26,8 @@ class AppUrls {
   static const contact = '/contactUs/submit';
   static const userActivities = '/user/activity/list';
   static const acceptOrRejectRequest = '/user/follow/status/update';
+  static const deleteAccount = '/user/delete';
+  static const deactivateAccount = '/user/deactivate';
 
   // Restaurant
   static const postListPerRestaurant = '/post/list';

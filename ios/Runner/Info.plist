@@ -80,6 +80,8 @@
 	<!-- <string>UIStatusBarStyleLightContent</string> -->
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FLTEnableImpeller</key>
+  <false/>
 
 </dict>
 </plist>
