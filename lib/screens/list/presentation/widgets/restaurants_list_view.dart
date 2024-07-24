@@ -25,7 +25,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants(context: context);
+      await stateNotifier.getRestaurants();
     });
 
     super.initState();

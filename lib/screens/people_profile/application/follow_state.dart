@@ -5,7 +5,7 @@ part 'follow_state.freezed.dart';
 @freezed
 class FollowState with _$FollowState {
   const factory FollowState({
-    @Default(false) bool isFollowing,
+    @Default({}) Map<String, bool> userFollowStatus,
     @Default(false) bool isLoading,
     @Default([]) List<DataOfPostListOfOtherModel> postListOfOtherUser,
     @Default([]) List<GeoLoc>? coordinateList,

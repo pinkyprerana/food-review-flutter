@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import 'package:for_the_table/screens/profile/presentation/your_people_page.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
@@ -15,21 +16,18 @@ class FollowNotifier extends StateNotifier<FollowState> {
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
-  String? get getLatitude=> _hiveDatabase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude=> _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
-  Future<void> follow_unfollow(VoidCallback voidCallback, String userID) async {
+  Future<void> followUnfollow(VoidCallback voidCallback, String userID) async {
     state = state.copyWith(isLoading: true);
     try {
-      var (
-      response,
-      dioException
-      ) = await _networkApiService.postApiRequestWithToken(
-          url:
-          '${AppUrls.BASE_URL}${AppUrls.follow_unfollow}',
-          body: {
-            "follow_user_id": userID,
-          });
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}${AppUrls.followUnfollow}',
+        body: {
+          "follow_user_id": userID,
+        },
+      );
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -41,7 +39,6 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          state = state.copyWith(isFollowing: !state.isFollowing);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -57,14 +54,12 @@ class FollowNotifier extends StateNotifier<FollowState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      var (response, dioException) =
-      await _networkApiService.postApiRequestWithToken(
-          url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}",
-          body: {
-                "lat": getLatitude,
-                "lng": getLongitude,
-                "user_id": userID,
-          });
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}", body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+        "user_id": userID,
+      });
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
@@ -74,10 +69,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
         PostListOfOtherModel postListOfOtherModel = PostListOfOtherModel.fromJson(response.data);
         if (postListOfOtherModel.status == 200) {
           state = state.copyWith(
-              isLoading: false,
-              postListOfOtherUser: postListOfOtherModel.postListOfOtherUser
-          );
-
+              isLoading: false, postListOfOtherUser: postListOfOtherModel.postListOfOtherUser);
         } else {
           showToastMessage(postListOfOtherModel.message.toString());
         }
@@ -88,5 +80,4 @@ class FollowNotifier extends StateNotifier<FollowState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
-
 }

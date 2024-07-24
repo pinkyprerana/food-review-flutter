@@ -2,35 +2,62 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../post_feed/domain/postFeed_model.dart';
+import '../../../post_feed/shared/provider.dart';
+import '../../../profile/shared/providers.dart';
 
-
-class PostWidget extends StatelessWidget {
+class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
-  const PostWidget({super.key, required this.postList});
+  final bool isSaving;
+
+  const PostWidget({
+    super.key,
+    required this.postList,
+    required this.isSaving,
+  });
+
+  @override
+  ConsumerState<PostWidget> createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends ConsumerState<PostWidget> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getSavedList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String peopleId = postList.userInfo.id;
-    final String name = postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
-    final String postImage = "${AppUrls.postImageLocation}${postList.file}";
-    final String title = postList.title;
-    final String description = postList.description;
-    final String restaurantName = postList.restaurantInfo.name;
-    final String address = postList.restaurantInfo.address;
-    final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= postList.commentCount;
-    double latitude = postList.geoLoc.coordinates[0];
-    double longitude = postList.geoLoc.coordinates[1];
-
+    final String peopleId = widget.postList.userInfo.id;
+    final String name = widget.postList.userInfo.fullName;
+    final String profileImage =
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+    final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
+    final String title = widget.postList.title;
+    final String description = widget.postList.description;
+    final String restaurantName = widget.postList.restaurantInfo.name;
+    final String address = widget.postList.restaurantInfo.address;
+    final String cuisine = widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount = widget.postList.commentCount;
+    double latitude = widget.postList.geoLoc.coordinates[0];
+    double longitude = widget.postList.geoLoc.coordinates[1];
+    final String postId = widget.postList.id;
+    final bool isSaved = widget.postList.isSave;
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
@@ -73,20 +100,18 @@ class PostWidget extends StatelessWidget {
                 Colors.transparent,
               ]),
               child: Padding(
-                padding: const EdgeInsets.only(
-                        top: 15, left: 15, right: 15, bottom: 10)
-                    .r,
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
                 child: Column(
                   children: [
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                          peoplename: name, //'Ahmad Gouse', //widget.postList.name,
-                          peopleimage: profileImage,
-                           peopleId: peopleId,
+                            peoplename: name, //'Ahmad Gouse', //widget.postList.name,
+                            peopleimage: profileImage,
+                            peopleId: peopleId,
                             isFollow: true
-                              // 'assets/images/temp/follower-sample2.png',
-                        ));
+                            // 'assets/images/temp/follower-sample2.png',
+                            ));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -94,7 +119,7 @@ class PostWidget extends StatelessWidget {
                           Container(
                             width: 20.w,
                             height: 20.h,
-                            decoration:  BoxDecoration(
+                            decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   image: NetworkImage(
@@ -110,14 +135,11 @@ class PostWidget extends StatelessWidget {
                           Text(
                             name, //'Ahmad Gouse',
                             style: AppTextStyles.textStylePoppinsMedium
-                                .copyWith(
-                                    fontSize: 16.sp,
-                                    color: AppColors.colorWhite),
+                                .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
                               color: AppColors.colorWhite.withOpacity(0.20),
@@ -125,8 +147,7 @@ class PostWidget extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 'Following',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -155,9 +176,7 @@ class PostWidget extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       cuisine, //'Chinese Cuisine',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
                                       ),
@@ -180,19 +199,17 @@ class PostWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       restaurantName, //'Starbucks LA, California',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
                                       ),
                                     ),
                                     Text(
-                                      address.length > 40 ? '${address.substring(0, 40)}...' : address,
+                                      address.length > 40
+                                          ? '${address.substring(0, 40)}...'
+                                          : address,
                                       //'Double road, Lorem City, LA',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
                                       ),
@@ -220,7 +237,13 @@ class PostWidget extends StatelessWidget {
                               ],
                             ),
                             10.verticalSpace,
-                            Image.asset(Assets.bookmark),
+                            GestureDetector(
+                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
+                              child: SaveButtonWidget(
+                                isSavePost: postFeedState.isSavePost,
+                                isSaved: isSaved,
+                              ),
+                            ),
                           ],
                         )
                       ],

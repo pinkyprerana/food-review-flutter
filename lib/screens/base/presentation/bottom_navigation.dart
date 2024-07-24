@@ -16,7 +16,7 @@ class BottomNavigation extends ConsumerStatefulWidget {
 
 class _BottomNavigationState extends ConsumerState<BottomNavigation> {
   Future<void> _checkPermissions({required VoidCallback onSuccess}) async {
-    final cameraStatus = await Permission.camera.status;
+    final cameraStatus = await Permission.camera.request();
 
     if (cameraStatus.isGranted) {
       onSuccess();

@@ -139,9 +139,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     NotificationRoute.name: (routeData) {
+      final args = routeData.argsAs<NotificationRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const NotificationPage(),
+        child: NotificationPage(
+          notificationList: args.notificationList,
+          key: args.key,
+        ),
       );
     },
     PeopleProfileRoute.name: (routeData) {
@@ -173,6 +177,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ProfilePage(),
+      );
+    },
+    RecentActivityRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RecentActivityPage(),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -243,9 +253,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     YourPeopleListRoute.name: (routeData) {
+      final args = routeData.argsAs<YourPeopleListRouteArgs>(
+          orElse: () => const YourPeopleListRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const YourPeopleListPage(),
+        child: YourPeopleListPage(
+          key: args.key,
+          tabIndex: args.tabIndex,
+        ),
       );
     },
     YourPeopleRoute.name: (routeData) {
@@ -573,16 +588,40 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [NotificationPage]
-class NotificationRoute extends PageRouteInfo<void> {
-  const NotificationRoute({List<PageRouteInfo>? children})
-      : super(
+class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
+  NotificationRoute({
+    required List<NotificationData> notificationList,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           NotificationRoute.name,
+          args: NotificationRouteArgs(
+            notificationList: notificationList,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'NotificationRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<NotificationRouteArgs> page =
+      PageInfo<NotificationRouteArgs>(name);
+}
+
+class NotificationRouteArgs {
+  const NotificationRouteArgs({
+    required this.notificationList,
+    this.key,
+  });
+
+  final List<NotificationData> notificationList;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'NotificationRouteArgs{notificationList: $notificationList, key: $key}';
+  }
 }
 
 /// generated route for
@@ -676,6 +715,20 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RecentActivityPage]
+class RecentActivityRoute extends PageRouteInfo<void> {
+  const RecentActivityRoute({List<PageRouteInfo>? children})
+      : super(
+          RecentActivityRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RecentActivityRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -877,16 +930,40 @@ class VerifyOtpRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [YourPeopleListPage]
-class YourPeopleListRoute extends PageRouteInfo<void> {
-  const YourPeopleListRoute({List<PageRouteInfo>? children})
-      : super(
+class YourPeopleListRoute extends PageRouteInfo<YourPeopleListRouteArgs> {
+  YourPeopleListRoute({
+    Key? key,
+    int? tabIndex,
+    List<PageRouteInfo>? children,
+  }) : super(
           YourPeopleListRoute.name,
+          args: YourPeopleListRouteArgs(
+            key: key,
+            tabIndex: tabIndex,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'YourPeopleListRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<YourPeopleListRouteArgs> page =
+      PageInfo<YourPeopleListRouteArgs>(name);
+}
+
+class YourPeopleListRouteArgs {
+  const YourPeopleListRouteArgs({
+    this.key,
+    this.tabIndex,
+  });
+
+  final Key? key;
+
+  final int? tabIndex;
+
+  @override
+  String toString() {
+    return 'YourPeopleListRouteArgs{key: $key, tabIndex: $tabIndex}';
+  }
 }
 
 /// generated route for

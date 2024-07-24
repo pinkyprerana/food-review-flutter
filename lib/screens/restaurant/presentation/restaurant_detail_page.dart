@@ -16,7 +16,6 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_item_widget.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/post_item_widget.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
@@ -63,8 +62,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
 }
 
 class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
-  Completer<GoogleMapController> _controller = Completer();
-
+  final Completer<GoogleMapController> _controller = Completer();
   late CameraPosition _currentPosition;
   List<Marker> _marker = [];
   // List<Marker> _list = [
@@ -95,6 +93,12 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
       await restaurantStateNotifier.getPosts(
           context: context, restaurantId: widget.restaurantId);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.future.then((ctlrer) => ctlrer.dispose());
   }
 
   @override
@@ -411,59 +415,118 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                           MainAxisAlignment
                                                                               .start,
                                                                       children: [
-                                                                        RatingBar
-                                                                            .builder(
-                                                                          glow:
-                                                                              false,
-                                                                          initialRating:
-                                                                              0,
-                                                                          minRating:
-                                                                              0.5,
-                                                                          direction:
-                                                                              Axis.horizontal,
-                                                                          allowHalfRating:
-                                                                              true,
-                                                                          itemCount:
-                                                                              5,
-                                                                          itemPadding: const EdgeInsets
-                                                                              .symmetric(
-                                                                              horizontal: 2.0),
-                                                                          itemSize:
-                                                                              25.21,
-                                                                          itemBuilder: (context, _) =>
-                                                                              const Icon(
-                                                                            Icons.star_rounded,
-                                                                            color:
-                                                                                Colors.amber,
-                                                                          ),
-                                                                          onRatingUpdate:
-                                                                              (rating) {
-                                                                            print(rating);
-                                                                          },
+                                                                        Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
+                                                                                RatingBar.builder(
+                                                                                  glow: false,
+                                                                                  initialRating: 0,
+                                                                                  minRating: 0.5,
+                                                                                  direction: Axis.horizontal,
+                                                                                  allowHalfRating: true,
+                                                                                  itemCount: 5,
+                                                                                  itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                                                                  itemSize: 25.21,
+                                                                                  itemBuilder: (context, _) => const Icon(
+                                                                                    Icons.star_rounded,
+                                                                                    color: Colors.amber,
+                                                                                  ),
+                                                                                  onRatingUpdate: (rating) {
+                                                                                    print(rating);
+                                                                                  },
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            // Row(
+                                                                            //   mainAxisAlignment:
+                                                                            //       MainAxisAlignment
+                                                                            //           .start,
+                                                                            //   children: [
+                                                                            //     Image.asset(
+                                                                            //         Assets.rate),
+                                                                            //     2.horizontalSpace,
+                                                                            //     Image.asset(
+                                                                            //         Assets.rate),
+                                                                            //     2.horizontalSpace,
+                                                                            //     Image.asset(
+                                                                            //         Assets.rate),
+                                                                            //     2.horizontalSpace,
+                                                                            //     Image.asset(
+                                                                            //         Assets.rate),
+                                                                            //     2.horizontalSpace,
+                                                                            //     Image.asset(
+                                                                            //         Assets.rate),
+                                                                            //   ],
+                                                                            // ),
+                                                                            10.verticalSpace,
+                                                                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                                                              Text(
+                                                                                'Add a Title',
+                                                                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                                                                  fontSize: 13.sp,
+                                                                                  color: AppColors.colorPrimary,
+                                                                                ),
+                                                                              )
+                                                                            ]),
+                                                                            5.verticalSpace,
+                                                                            const CustomInputField(
+                                                                              hint: 'Write the title',
+                                                                            ),
+                                                                            20.verticalSpace,
+                                                                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                                                              Text(
+                                                                                'Add a written review',
+                                                                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                                                                  fontSize: 13.sp,
+                                                                                  color: AppColors.colorPrimary,
+                                                                                ),
+                                                                              )
+                                                                            ]),
+                                                                            5.verticalSpace,
+                                                                            SizedBox(
+                                                                              height: 130.h,
+                                                                              child: const ExpandedCommonTextField(
+                                                                                maxLines: null,
+                                                                                expands: true,
+                                                                                hint: 'Write review',
+                                                                              ),
+                                                                            ),
+                                                                            20.verticalSpace,
+                                                                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                                                                              Text(
+                                                                                'Add a Photo or Video',
+                                                                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                                                                  fontSize: 13.sp,
+                                                                                  color: AppColors.colorPrimary,
+                                                                                ),
+                                                                              )
+                                                                            ]),
+                                                                            5.verticalSpace,
+                                                                            DottedBorder(
+                                                                                borderType: BorderType.RRect,
+                                                                                radius: const Radius.circular(10),
+                                                                                strokeWidth: 1,
+                                                                                color: const Color(0xffCED0D2),
+                                                                                child: ClipRRect(
+                                                                                  borderRadius: BorderRadius.circular(10),
+                                                                                  child: SizedBox(
+                                                                                    width: 344.w,
+                                                                                    height: 148.h,
+                                                                                    child: Center(
+                                                                                      child: Image.asset(Assets.add),
+                                                                                    ),
+                                                                                  ),
+                                                                                )),
+                                                                            10.verticalSpace,
+                                                                            const AppButton(
+                                                                              text: 'Submit',
+                                                                            )
+                                                                          ],
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    // Row(
-                                                                    //   mainAxisAlignment:
-                                                                    //       MainAxisAlignment
-                                                                    //           .start,
-                                                                    //   children: [
-                                                                    //     Image.asset(
-                                                                    //         Assets.rate),
-                                                                    //     2.horizontalSpace,
-                                                                    //     Image.asset(
-                                                                    //         Assets.rate),
-                                                                    //     2.horizontalSpace,
-                                                                    //     Image.asset(
-                                                                    //         Assets.rate),
-                                                                    //     2.horizontalSpace,
-                                                                    //     Image.asset(
-                                                                    //         Assets.rate),
-                                                                    //     2.horizontalSpace,
-                                                                    //     Image.asset(
-                                                                    //         Assets.rate),
-                                                                    //   ],
-                                                                    // ),
                                                                     10.verticalSpace,
                                                                     Row(
                                                                         mainAxisAlignment:

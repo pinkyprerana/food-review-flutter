@@ -1,7 +1,6 @@
 class AppUrls {
   static const BASE_URL = 'https://forthetable.dedicateddevelopers.us/api';
-  static const postImageLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/post/';
+  static const postImageLocation = 'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   static const signup = '/user/signup';
   static const signin = '/user/signin';
@@ -10,7 +9,7 @@ class AppUrls {
   static const verifyOTP = '/user/forget-password-otp-verification';
   static const resetPassword = '/user/forget-password-change-password';
   static const addPost = '/post/add';
-  static const follow_unfollow = '/user/follow';
+  static const followUnfollow = '/user/follow';
   static const getAllPreference = '/preference/list';
   static const getPostFeed = '/post/list';
   static const getAllFollowers = '/user/follower/list';
@@ -25,6 +24,12 @@ class AppUrls {
   // Profile
   static const updatePassword = '/user/change-password';
   static const contact = '/contactUs/submit';
+  static const userActivities = '/user/activity/list';
+  static const acceptOrRejectRequest = '/user/follow/status/update';
+  static const deleteAccount = '/user/delete';
+  static const deactivateAccount = '/user/deactivate';
+
+  // Restaurant
   static const postListPerRestaurant = '/post/list';
 
   //restaurant

@@ -1,29 +1,51 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../profile/shared/providers.dart';
 import '../../domain/postFeed_model.dart';
+import '../../shared/provider.dart';
 
-class ExpandedPostDetails extends StatelessWidget {
+class ExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   const ExpandedPostDetails({super.key, required this.postList});
 
   @override
+  ConsumerState<ExpandedPostDetails> createState() => _ExpandedPostDetailsState();
+}
+
+class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getSavedList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final String peopleId = postList.userInfo.id;
-    final String name = postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${postList.userInfo.profileImage}";
-    final String postImage = postList.file;
-    final String title = postList.title;
-    final String description = postList.description;
-    final String restaurantName = postList.restaurantInfo.name;
-    final String address = postList.restaurantInfo.address;
-    final String cuisine= postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= postList.commentCount;
+    final String peopleId = widget.postList.userInfo.id;
+    final String name = widget.postList.userInfo.fullName;
+    final String profileImage = "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+    final String postImage = widget.postList.file;
+    final String title = widget.postList.title;
+    final String description = widget.postList.description;
+    final String restaurantName = widget.postList.restaurantInfo.name;
+    final String restaurantRating = widget.postList.restaurantInfo.rating;
+    final String address = widget.postList.restaurantInfo.address;
+    final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount= widget.postList.commentCount;
+    final String postId= widget.postList.id;
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final bool isSaved= widget.postList.isSave;
 
     return Container(
       color: Colors.transparent,
@@ -140,7 +162,12 @@ class ExpandedPostDetails extends StatelessWidget {
                     ],
                   ),
                   10.verticalSpace,
-                  Image.asset(Assets.bookmark),
+                  GestureDetector(
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
+                      child: isSaved
+                          ? Image.asset(Assets.saved, scale: 2,)
+                          : Image.asset(Assets.bookmark)
+                  ),
                 ],
               )
             ],
@@ -159,7 +186,7 @@ class ExpandedPostDetails extends StatelessWidget {
               Image.asset(Assets.star),
               5.horizontalSpace,
               Text(
-                '4.8',
+                restaurantRating,
                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                   fontSize: 10.sp,
                   color: AppColors.colorWhite,
@@ -181,24 +208,25 @@ class ExpandedPostDetails extends StatelessWidget {
             ],
           ),
           20.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                description,//'A memorable evening to be remembered.',
-                style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                  fontSize: 13.sp,
-                  color: AppColors.colorWhite,
-                ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              title,
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorWhite,
               ),
-            ],
+            ),
           ),
           15.verticalSpace,
-          Text(
-            'Lorem ipsum dolor sit amet consectetur. Dui eget feugiat lacus turpis proin tellus mauris consectetur. Adipiscing enim scelerisque ultrices tincidunt. Orci duis euismod ullamcorper adipiscing. Mattis vitae ut in turpis hendrerit tincidunt posuere. Et lorem quis vel scelerisque nec. Et nunc facilisis faucibus mattis a sit mi donec commodo. ',
-            style: AppTextStyles.textStylePoppinsRegular.copyWith(
-              fontSize: 10.sp,
-              color: AppColors.colorWhite,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              description,
+              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                fontSize: 10.sp,
+                color: AppColors.colorWhite,
+              ),
             ),
           )
         ],

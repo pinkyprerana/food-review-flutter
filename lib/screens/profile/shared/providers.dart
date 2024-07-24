@@ -5,4 +5,4 @@ import '../application/profile_state.dart';
 
 final profileNotifierProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>((ref) =>
-        ProfileNotifier(ref.watch(dioProvider), ref.watch(hiveProvider)));
+        ProfileNotifier(ref.watch(dioProvider), ref.watch(hiveProvider), ref.watch(networkService)));

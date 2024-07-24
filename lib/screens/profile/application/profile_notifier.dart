@@ -6,22 +6,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
+import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/model/user_profile/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
+import 'package:for_the_table/screens/profile/domain/posts_model.dart';
+import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../../model/notification_model/notification_model.dart';
+import '../../../model/saved_post_model/saved_post_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
-  ProfileNotifier(
-    this._dio,
-    this._hiveDataBase,
-  ) : super(const ProfileState());
+  ProfileNotifier(this._dio, this._hiveDataBase, this._networkApiService)
+      : super(const ProfileState());
 
   final HiveDatabase _hiveDataBase;
   final Dio _dio;
+  final NetworkApiService _networkApiService;
 
   final picker = ImagePicker();
 
@@ -37,11 +42,63 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final TextEditingController contactEmailController = TextEditingController();
   final TextEditingController contactPhoneController = TextEditingController();
   final TextEditingController contactMessageController = TextEditingController();
+  final RefreshController refreshController = RefreshController();
+  final RefreshController dislikePostRefreshController = RefreshController();
+  final RefreshController likePostRefreshController = RefreshController();
+
+  @override
+  void dispose() {
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    bioController.dispose();
+    contactNameController.dispose();
+    contactEmailController.dispose();
+    contactPhoneController.dispose();
+    contactMessageController.dispose();
+    refreshController.dispose();
+    dislikePostRefreshController.dispose();
+    likePostRefreshController.dispose();
+    super.dispose();
+  }
 
   void populateContactDetails() {
     contactNameController.text = state.fetchedUser?.fullName ?? '';
     contactEmailController.text = state.fetchedUser?.email ?? '';
     contactPhoneController.text = state.fetchedUser?.phone ?? '';
+  }
+
+  void loadMoreActivities() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new activities are available');
+      refreshController.loadComplete();
+      return;
+    }
+
+    await fetchUserActivities(perpage: 10, isLoadMore: true);
+    refreshController.loadComplete();
+  }
+
+  void loadMoreDislikePosts() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new posts are available');
+      dislikePostRefreshController.loadComplete();
+      return;
+    }
+
+    await fetchDislikedPosts(isLoadMore: true);
+    dislikePostRefreshController.loadComplete();
+  }
+
+  void loadMorelikePosts() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new posts are available');
+      likePostRefreshController.loadComplete();
+      return;
+    }
+
+    await fetchlikedPosts(isLoadMore: true);
+    likePostRefreshController.loadComplete();
   }
 
   Future<void> getUserDetails() async {
@@ -58,8 +115,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       final response = await _dio.get('${AppUrls.BASE_URL}${AppUrls.profile}');
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response ===== $response');
-
         fetchedUser = ProfileDetails.fromJson(response.data!['data']);
         final userProdileResponseModel = UserProfileModel.fromJson(response.data);
 
@@ -69,7 +124,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           userProfileResponseModel: userProdileResponseModel,
           profileImgPath: '${AppUrls.profilePicLocation}/${fetchedUser?.profileImage}',
         );
-        AppLog.log('state.fetchedUser =============== ${state.fetchedUser}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -90,26 +144,23 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         imageQuality: 50,
       );
 
+      if (pickedFile == null) {
+        return;
+      }
+
       state = state.copyWith(isLoading: true);
 
-      final filePicked = File(pickedFile?.path ?? '');
+      final filePicked = File(pickedFile.path);
 
       String fileName = filePicked.path.split('/').last;
 
-      AppLog.log('fileName --------->> $fileName');
-
       final FormData formData = FormData.fromMap({
-        if (pickedFile != null)
-          "profile_image": await MultipartFile.fromFile(
-            filePicked.path,
-          ),
+        "profile_image": await MultipartFile.fromFile(filePicked.path),
         "email": state.fetchedUser?.email,
         "phone": state.fetchedUser?.phone,
         "first_name": state.fetchedUser?.firstName,
         "last_name": state.fetchedUser?.lastName,
       });
-
-      AppLog.log('TOKEN ---- ${_hiveDataBase.box.get(AppPreferenceKeys.token)}');
 
       var headers = {
         'Accept': '*/*',
@@ -125,7 +176,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('------SUCCESS----------');
         state = state.copyWith(
           isLoading: false,
           profileImgPath:
@@ -147,10 +197,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   bool validateEmailField() {
     if (emailAddress.text.isEmpty) {
-      showToastMessage('Please enter your Email Address');
+      showToastMessage('Please enter your email address');
       return false;
     } else if (emailAddress.text.isNotEmpty && !Validator.validateEmail(emailAddress.text)) {
-      showToastMessage('Please enter Valid Email');
+      showToastMessage('Please enter a valid email');
       return false;
     } else {
       return true;
@@ -200,8 +250,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           data: formData,
         );
 
-        AppLog.log(response.toString());
-
         if (response.statusCode == 200 && response.data != null) {
           showToastMessage('Password updated successfully!');
 
@@ -209,6 +257,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           newPasswordController.text = '';
           confirmPasswordController.text = '';
 
+          if (!context.mounted) return;
           Navigator.pop(context);
 
           state = state.copyWith(isLoading: false);
@@ -236,18 +285,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   Future<void> changeEmailAddress(BuildContext context) async {
     if (validateEmailField()) {
       try {
-        state = state.copyWith(isLoading: true);
+        state = state.copyWith(isBeingSubmitted: true);
 
-        final FormData formData = FormData.fromMap({
-          // if (pickedFile != null)
-          //   "profile_image": await MultipartFile.fromFile(
-          //     filePicked.path,
-          //   ),
-          "email": emailAddress.text,
-          "phone": state.fetchedUser?.phone,
-          "first_name": state.fetchedUser?.firstName,
-          "last_name": state.fetchedUser?.lastName,
-        });
+        final FormData formData = FormData.fromMap({"email": emailAddress.text});
 
         var headers = {
           'Accept': '*/*',
@@ -269,34 +309,31 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
           await getUserDetails();
 
+          if (!context.mounted) return;
           Navigator.pop(context);
 
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         } else {
-          showToastMessage('Something went wrong, try again');
-
+          showToastMessage(response.statusMessage.toString());
           emailAddress.text = '';
-
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         }
       } catch (error) {
-        state = state.copyWith(isLoading: false);
-
+        state = state.copyWith(isBeingSubmitted: false);
         emailAddress.text = '';
-
-        showToastMessage('Something, went wrong, please try again');
+        showToastMessage(error.toString());
       }
     }
   }
 
   bool validatePhoneNumber() {
     if (phoneNumber.text.isEmpty) {
-      showToastMessage('Please Enter Your Phone Number');
+      showToastMessage('Please enter your phone number');
       return false;
-    } else if (phoneNumber.text.isNotEmpty && phoneNumber.text.length < 10) {
-      showToastMessage('Please Enter A Valid Phone Number');
+    } else if (phoneNumber.text.length < 10) {
+      showToastMessage('Please enter a valid phone number');
       return false;
-    } else if (phoneNumber.text.isNotEmpty && !Validator.validatePhone(phoneNumber.text)) {
+    } else if (!Validator.validatePhone(phoneNumber.text)) {
       showToastMessage('Please enter a valid phone number');
       return false;
     } else {
@@ -307,14 +344,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   Future<void> changePhoneNumber(BuildContext context) async {
     if (validatePhoneNumber()) {
       try {
-        state = state.copyWith(isLoading: true);
+        state = state.copyWith(isBeingSubmitted: true);
 
-        final FormData formData = FormData.fromMap({
-          "email": state.fetchedUser?.email,
-          "phone": phoneNumber.text,
-          "first_name": state.fetchedUser?.firstName,
-          "last_name": state.fetchedUser?.lastName,
-        });
+        final FormData formData = FormData.fromMap({"phone": phoneNumber.text});
 
         var headers = {
           'Accept': '*/*',
@@ -336,22 +368,19 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
           await getUserDetails();
 
+          if (!context.mounted) return;
           Navigator.pop(context);
 
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         } else {
-          showToastMessage('Something went wrong, try again');
-
+          showToastMessage(response.statusMessage.toString());
           phoneNumber.text = '';
-
-          state = state.copyWith(isLoading: false);
+          state = state.copyWith(isBeingSubmitted: false);
         }
       } catch (error) {
-        state = state.copyWith(isLoading: false);
-
+        state = state.copyWith(isBeingSubmitted: false);
         phoneNumber.text = '';
-
-        showToastMessage('Something, went wrong, please try again');
+        showToastMessage(error.toString());
       }
     }
   }
@@ -382,16 +411,17 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         await getUserDetails();
 
+        if (!context.mounted) return;
         Navigator.pop(context);
 
         state = state.copyWith(isLoading: false);
       } else {
-        showToastMessage('Something went wrong, try again');
+        showToastMessage(response.statusCode.toString());
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage('Something, went wrong, please try again');
+      showToastMessage(error.toString());
     }
   }
 
@@ -443,19 +473,293 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         if (response.statusCode == 200 && response.data != null) {
           showToastMessage('Thank you for reaching out. Our team will get to you soon.');
           contactMessageController.text = '';
+
+          if (!context.mounted) return;
           Navigator.pop(context);
 
           state = state.copyWith(isLoading: false);
         } else {
-          showToastMessage('Something went wrong, try again');
+          showToastMessage(response.statusMessage.toString());
           contactMessageController.text = '';
           state = state.copyWith(isLoading: false);
         }
       } catch (error) {
         state = state.copyWith(isLoading: false);
         contactMessageController.text = '';
-        showToastMessage('Something, went wrong, please try again');
+        showToastMessage(error.toString());
       }
+    }
+  }
+
+  Future<void> fetchUserActivities({int? perpage, bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.currentPage * 10 == state.userActivitiesList?.length)) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "perpage": perpage ?? 3,
+        "page": state.currentPage,
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.userActivities}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final userActivitiesModel = UserActivities.fromJson(response.data ?? {});
+        final userActivities = userActivitiesModel.activitiesList;
+
+        if (isLoadMore) {
+          final activityIds = state.userActivitiesList?.map((activity) => activity.id).toSet();
+
+          final uniqueActivities = userActivities
+              ?.where((activity) => !(activityIds?.contains(activity.id) ?? false))
+              .toList();
+
+          if ((uniqueActivities?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new activities are available.');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            userActivitiesList: [
+              ...state.userActivitiesList ?? [],
+              ...uniqueActivities ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          userActivitiesList: userActivities,
+          totalPages: userActivitiesModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.statusMessage.toString());
+        contactMessageController.text = '';
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      contactMessageController.text = '';
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> fetchDislikedPosts({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.currentPage * 10 == state.dislikedPostsList.length)) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "page": state.currentPage,
+        "perpage": 10,
+        "view_type": "dislike",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final dislikedPostsModel = PostsModel.fromJson(response.data ?? {});
+        final dislikedPosts = dislikedPostsModel.postsList;
+
+        if (isLoadMore) {
+          final postIds = state.dislikedPostsList.map((post) => post.id).toSet();
+
+          final uniquePosts = dislikedPosts?.where((post) => !(postIds.contains(post.id))).toList();
+
+          if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new posts are available.');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            dislikedPostsList: [
+              ...state.dislikedPostsList,
+              ...uniquePosts ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          dislikedPostsList: dislikedPosts ?? [],
+          totalPages: dislikedPostsModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.data?["message"]);
+        contactMessageController.text = '';
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      contactMessageController.text = '';
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> fetchlikedPosts({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.currentPage * 10 == state.likedPostList.length)) {
+        state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "page": state.currentPage,
+        "perpage": 10,
+        "view_type": "like",
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final likedPostsModel = PostsModel.fromJson(response.data ?? {});
+        final likedPosts = likedPostsModel.postsList;
+
+        if (isLoadMore) {
+          final postIds = state.likedPostList.map((post) => post.id).toSet();
+
+          final uniquePosts = likedPosts?.where((post) => !(postIds.contains(post.id))).toList();
+
+          if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new posts are available.');
+          }
+          state = state.copyWith(
+            isLoading: false,
+            likedPostList: [
+              ...state.likedPostList,
+              ...uniquePosts ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          likedPostList: likedPosts ?? [],
+          totalPages: likedPostsModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.data?["message"]);
+        contactMessageController.text = '';
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      contactMessageController.text = '';
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> deactivateAccount({VoidCallback? onSuccess}) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      var response = await _dio.get(
+        "${AppUrls.BASE_URL}${AppUrls.deactivateAccount}",
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage(response.data["message"]);
+
+        if (onSuccess != null) onSuccess.call();
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        showToastMessage(response.data["message"]);
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
+    }
+  }
+
+  Future<void> deleteAccount({VoidCallback? onSuccess}) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      var response = await _dio.get(
+        "${AppUrls.BASE_URL}${AppUrls.deleteAccount}",
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        showToastMessage(response.data["message"]);
+
+        if (onSuccess != null) onSuccess.call();
+
+        state = state.copyWith(isLoading: false);
+      } else {
+        showToastMessage(response.data["message"]);
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage(error.toString());
     }
   }
 
@@ -505,6 +809,64 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       showToastMessage(error, errorMessage: 'Failed to logout');
 
       state = state.copyWith(isLoading: false);
+    }
+  }
+
+  String? get getLatitude => _hiveDataBase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude => _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+
+  Future<void> getSavedList() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${'/post-save/list'}', body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+      });
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        SavedPostModel savedModel = SavedPostModel.fromJson(response.data);
+        if (savedModel.status == 200) {
+          state = state.copyWith(isLoading: false, savedList: savedModel.savedList);
+        } else {
+          showToastMessage(savedModel.message.toString());
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> getNotificationList() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}${'/notification/list'}',
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        NotificationModel notificationModel = NotificationModel.fromJson(response.data);
+        if (notificationModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false, notificationList: notificationModel.notificationList);
+        } else {
+          showToastMessage(notificationModel.message.toString());
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
     }
   }
 }

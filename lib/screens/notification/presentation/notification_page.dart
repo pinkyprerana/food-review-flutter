@@ -4,11 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/model/notification_model/notification_model.dart';
 import 'package:for_the_table/screens/notification/presentation/widgets/notification_widget.dart';
+
+import '../../../core/constants/app_urls.dart';
 
 @RoutePage()
 class NotificationPage extends StatelessWidget {
-  const NotificationPage({super.key});
+  List<NotificationData> notificationList;
+  NotificationPage({required this.notificationList,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +59,15 @@ class NotificationPage extends StatelessWidget {
                   padding: const EdgeInsets.all(0.0),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
+                  itemCount: notificationList.length,//3,
                   itemBuilder: (context, index) {
-                    return const NotificationWidget(
-                        imgpath: Assets.food2,
-                        title: 'A. Johnson has liked your post.',
-                        subtitle: '1 Hour ago');
+                    final notifications= notificationList[index];
+                    final imgUrl = '${AppUrls.postImageLocation}${notifications.postedUserInfo.profileImage}';
+                    return  NotificationWidget(
+                        imgpath: imgUrl != ""? imgUrl: Assets.food2,
+                        title: notifications.title, //'A. Johnson has liked your post.',
+                        subtitle: notifications.message//'1 Hour ago'
+                    );
                   }),
               10.verticalSpace,
               Row(

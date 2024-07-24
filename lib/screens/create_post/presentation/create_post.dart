@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
@@ -35,16 +36,16 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants(context: context);
-      final preferenceNotifier = ref.watch(preferenceNotifierProvider.notifier);
-      await preferenceNotifier.getAllPreference();
-      final allPreferences = ref.watch(preferenceNotifierProvider).data;
-      final stateNotifierForCreatePost = ref.watch(CreatePostNotifierProvider.notifier);
+      // final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      // await stateNotifier.getRestaurants();
+      // final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
+      // await preferenceNotifier.getAllPreference();
+      final stateNotifierForCreatePost = ref.read(CreatePostNotifierProvider.notifier);
       stateNotifierForCreatePost.toggleIsPressedToFalse();
+      // AppLog.log(object)
     });
+    super.initState();
   }
 
   @override
@@ -78,8 +79,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           },
           child: Container(
             alignment: Alignment.center,
-            margin:
-            const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -88,8 +88,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -109,11 +108,12 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             createPostNotifier.pageController.jumpToPage(0);
             createPostNotifier.clearRestaurantDetails();
             createPostNotifier.resetPage();
-          } else {
-            createPostNotifier.clearAllPostDetails();
-            Navigator.pop(context);
-            createPostNotifier.resetPage();
           }
+          // else {
+          //   createPostNotifier.clearAllPostDetails();
+          //   Navigator.pop(context);
+          //   createPostNotifier.resetPage();
+          // }
         },
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
@@ -122,8 +122,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               10.verticalSpace,
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                 height: MediaQuery.of(context).size.height * 0.37,
                 width: MediaQuery.of(context).size.width,
                 child: Center(
@@ -132,11 +131,11 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                     child: imageFile == null
                         ? const Text('No image selected.')
                         : Image.file(
-                      File(imageFile.path),
-                      fit: BoxFit.fill,
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
+                            File(imageFile.path),
+                            fit: BoxFit.fill,
+                            height: double.infinity,
+                            width: double.infinity,
+                          ),
                   ),
                 ),
               ),
@@ -162,68 +161,64 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   ),
                   currentPage == 1
                       ? Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppButton(
-                          loading: state.isLoading,
-                          width: MediaQuery.of(context).size.width * 0.73,
-                          text: "Post",
-                          onPressed: () async {
-                            dismissKeyboard(context);
-                            if (imageFile != null) {
-                              createPostNotifier.addPost(() {
-                                FocusManager.instance.primaryFocus
-                                    ?.unfocus();
-                                createPostNotifier
-                                    .onContinuePressed(context);
-                                postFeedNotifier.getPostFeed();
-                                createPostNotifier.clearRestaurantDetails();
-                              }, imageFile);
-                            }else{
-                              showToastMessage("Click or select image");
-                            }
-                          },
-                        ),
-                        AppButton(
-                          color: AppColors.colorPrimaryAlpha,
-                          width: MediaQuery.of(context).size.width * 0.13,
-                          onPressed: () {
-                            createPostNotifier.resetPage();
-                            createPostNotifier.clearAllPostDetails();
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset(
-                            Assets.cancel,
-                            color: AppColors.colorBackground,
-                            scale: 2,
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppButton(
+                                loading: state.isLoading,
+                                width: MediaQuery.of(context).size.width * 0.73,
+                                text: "Post",
+                                onPressed: () async {
+                                  dismissKeyboard(context);
+                                  if (imageFile != null) {
+                                    createPostNotifier.addPost(() {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      createPostNotifier.onContinuePressed(context);
+                                      postFeedNotifier.getPostFeed();
+                                      createPostNotifier.clearRestaurantDetails();
+                                    }, imageFile);
+                                  } else {
+                                    showToastMessage("Click or select image");
+                                  }
+                                },
+                              ),
+                              AppButton(
+                                color: AppColors.colorPrimaryAlpha,
+                                width: MediaQuery.of(context).size.width * 0.13,
+                                onPressed: () {
+                                  createPostNotifier.resetPage();
+                                  createPostNotifier.clearAllPostDetails();
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset(
+                                  Assets.cancel,
+                                  color: AppColors.colorBackground,
+                                  scale: 2,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  )
+                        )
                       : Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: AppButton(
-                        loading: state.isLoading,
-                        text: "Continue",
-                        onPressed: () {
-                          if (createPostNotifier
-                              .postTitleTextController.text
-                              .trim()
-                              .isNotEmpty &&
-                              createPostNotifier
-                                  .postDescriptionTextController.text
-                                  .trim()
-                                  .isNotEmpty) {
-                            createPostNotifier.onContinuePressed(context);
-                          } else {
-                            showToastMessage(
-                                "Post title and description are required");
-                          }
-                        }),
-                  ),
+                          padding: const EdgeInsets.all(16.0),
+                          child: AppButton(
+                              loading: state.isLoading,
+                              text: "Continue",
+                              onPressed: () {
+                                dismissKeyboard(context);
+                                if (createPostNotifier.postTitleTextController.text
+                                        .trim()
+                                        .isNotEmpty &&
+                                    createPostNotifier.postDescriptionTextController.text
+                                        .trim()
+                                        .isNotEmpty) {
+                                  createPostNotifier.onContinuePressed(context);
+                                } else {
+                                  showToastMessage("Post title and description are required");
+                                }
+                              }),
+                        ),
                 ],
               ),
             ],
@@ -276,12 +271,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   color: AppColors.colorPrimaryAlpha,
                 ),
                 focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    const BorderSide(width: 1, color: AppColors.colorBlack),
+                    borderSide: const BorderSide(width: 1, color: AppColors.colorBlack),
                     borderRadius: BorderRadius.circular(15.0)),
                 border: OutlineInputBorder(
-                    borderSide:
-                    const BorderSide(width: 0, color: AppColors.colorBlack),
+                    borderSide: const BorderSide(width: 0, color: AppColors.colorBlack),
                     borderRadius: BorderRadius.circular(15.0)),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
@@ -297,7 +290,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
     final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
     List<dynamic> cuisineList = allPreferences;
-
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -332,10 +324,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Text(
                 createPostNotifier.postDescriptionTextController.text,
                 // "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
-                style: AppTextStyles.textStylePoppinsLight.copyWith(
-                    fontSize: 10.sp,
-                    color: AppColors.colorBlack2,
-                    letterSpacing: 0),
+                style: AppTextStyles.textStylePoppinsLight
+                    .copyWith(fontSize: 10.sp, color: AppColors.colorBlack2, letterSpacing: 0),
               ),
             ),
             20.verticalSpace,
@@ -354,12 +344,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 16).r,
               decoration: BoxDecoration(
-                  color: AppColors.colorGrey,
-                  borderRadius: BorderRadius.circular(10)),
+                  color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
               child: CupertinoTypeAheadField<Restaurant>(
                 controller: createPostNotifier.restaurantNameTextController,
-                builder: (context, TextEditingController controller,
-                    FocusNode focusNode) {
+                builder: (context, TextEditingController controller, FocusNode focusNode) {
                   return TextField(
                     controller: controller,
                     focusNode: focusNode,
@@ -377,10 +365,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 },
                 suggestionsCallback: (pattern) {
                   return restaurantList
-                      ?.where((restaurant) => restaurant.name!
-                      .toLowerCase()
-                      .contains(pattern.toLowerCase()))
-                      .toList() ??
+                          ?.where((restaurant) =>
+                              restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
+                          .toList() ??
                       [];
                 },
                 itemBuilder: (context, suggestion) {
@@ -392,8 +379,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                         children: [
                           Text(
                             suggestion.name!,
-                            style: AppTextStyles.textStylePoppinsLight.copyWith(
-                                color: AppColors.colorBlack, fontSize: 10),
+                            style: AppTextStyles.textStylePoppinsLight
+                                .copyWith(color: AppColors.colorBlack, fontSize: 10),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -408,9 +395,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                     ? '${suggestion.address!.substring(0, 40)}...'
                                     : suggestion.address ?? "",
                                 style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
-                                    color: AppColors.colorPrimaryAlpha,
-                                    fontSize: 10),
+                                    .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
                               )
                             ],
                           ),
@@ -426,12 +411,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
                   createPostNotifier.restaurantAddressTextController.text = selection.address!;
                   dismissKeyboard(context);
-                  createPostNotifier.restaurantNameTextController.text =
-                      selectedRestaurantName;
-                  createPostNotifier.restaurantIdTextController.text =
-                      selectedRestaurantId;
-                  createPostNotifier.restaurantAddressTextController.text =
-                  selection.address!;
+                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
                 },
               ),
             ),
@@ -475,8 +457,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 16).r,
               decoration: BoxDecoration(
-                  color: AppColors.colorGrey,
-                  borderRadius: BorderRadius.circular(10)),
+                  color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
               child: TextFormField(
                 enabled: false,
                 controller: createPostNotifier.restaurantAddressTextController,
@@ -486,8 +467,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   counterText: '',
                   hintText: 'Location',
                   hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: createPostNotifier
-                        .restaurantAddressTextController.text.isEmpty
+                    color: createPostNotifier.restaurantAddressTextController.text.isEmpty
                         ? AppColors.colorPrimaryAlpha
                         : AppColors.colorBlack,
                   ),
@@ -498,10 +478,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   // ),
                 ),
                 keyboardType: TextInputType.text,
-                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    fontSize: 12.sp,
-                    color: AppColors.colorBlack
-                ),
+                style: AppTextStyles.textStylePoppinsRegular
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
             ),
             15.verticalSpace,
@@ -518,8 +496,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
             Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: AppColors.colorGrey,
-                  borderRadius: BorderRadius.circular(10)),
+                  color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.all(16).r,
               height: 56.r,
               child: DropdownButtonFormField<String>(
@@ -557,14 +534,16 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 //   },
                 // ),
 
-                items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
-                  value: cuisine.id,
-                  child: Text(
-                    cuisine.title,
-                    style: AppTextStyles.textStylePoppinsLight.copyWith(
-                        color: AppColors.colorBlack, fontSize: 14),
-                  ),
-                )).toList(),
+                items: cuisineList
+                    .map((cuisine) => DropdownMenuItem<String>(
+                          value: cuisine.id,
+                          child: Text(
+                            cuisine.title,
+                            style: AppTextStyles.textStylePoppinsLight
+                                .copyWith(color: AppColors.colorBlack, fontSize: 14),
+                          ),
+                        ))
+                    .toList(),
                 onChanged: (String? value) {
                   if (value != null) {
                     final selectedCuisine = cuisineList.firstWhere((c) => c.id == value);
@@ -607,8 +586,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
                   'How Was It?',
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      fontSize: 10.sp, color: AppColors.colorPrimaryAlpha),
+                  style: AppTextStyles.textStylePoppinsRegular
+                      .copyWith(fontSize: 10.sp, color: AppColors.colorPrimaryAlpha),
                 ),
               ),
             ),
@@ -621,18 +600,14 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                     'Liked it',
                     style: AppTextStyles.textStylePoppins.copyWith(
                         fontSize: 12.sp,
-                        color: createPostNotifier
-                            .postHowWasItTextController.text ==
-                            "like"
+                        color: createPostNotifier.postHowWasItTextController.text == "like"
                             ? AppColors.colorGreen
                             : AppColors.colorPrimaryAlpha),
                   ),
                   icon: Image.asset(Assets.likedIt,
                       height: 20,
                       width: 20,
-                      color:
-                      createPostNotifier.postHowWasItTextController.text ==
-                          "like"
+                      color: createPostNotifier.postHowWasItTextController.text == "like"
                           ? AppColors.colorGreen
                           : AppColors.colorBlack),
                 ),
@@ -642,40 +617,31 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                     'Fine',
                     style: AppTextStyles.textStylePoppins.copyWith(
                         fontSize: 12.sp,
-                        color: createPostNotifier
-                            .postHowWasItTextController.text ==
-                            "fine"
+                        color: createPostNotifier.postHowWasItTextController.text == "fine"
                             ? AppColors.colorRatingStar
                             : AppColors.colorPrimaryAlpha),
                   ),
                   icon: Image.asset(Assets.fine,
                       height: 20,
                       width: 20,
-                      color:
-                      createPostNotifier.postHowWasItTextController.text ==
-                          "fine"
+                      color: createPostNotifier.postHowWasItTextController.text == "fine"
                           ? AppColors.colorRatingStar
                           : AppColors.colorBlack),
                 ),
                 TextButton.icon(
-                  onPressed: () =>
-                      createPostNotifier.selectedReview("not_like"),
+                  onPressed: () => createPostNotifier.selectedReview("not_like"),
                   label: Text(
                     'Didn\'t Like',
                     style: AppTextStyles.textStylePoppins.copyWith(
                         fontSize: 12.sp,
-                        color: createPostNotifier
-                            .postHowWasItTextController.text ==
-                            "not_like"
+                        color: createPostNotifier.postHowWasItTextController.text == "not_like"
                             ? AppColors.colorRed
                             : AppColors.colorPrimaryAlpha),
                   ),
                   icon: Image.asset(Assets.didnotLike,
                       height: 20,
                       width: 20,
-                      color:
-                      createPostNotifier.postHowWasItTextController.text ==
-                          "not_like"
+                      color: createPostNotifier.postHowWasItTextController.text == "not_like"
                           ? AppColors.colorRed
                           : AppColors.colorBlack),
                 ),

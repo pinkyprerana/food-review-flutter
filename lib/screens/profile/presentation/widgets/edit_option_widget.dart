@@ -6,29 +6,35 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
+import 'package:for_the_table/screens/profile/application/profile_notifier.dart';
+import 'package:for_the_table/screens/profile/application/profile_state.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import '../../shared/providers.dart';
 
 class EditOptionWidget extends ConsumerWidget {
-  const EditOptionWidget(
-      {super.key, required this.title, required this.imgpath, this.subtitle = ''});
   final String title;
   final String imgpath;
   final String subtitle;
+
+  const EditOptionWidget({
+    super.key,
+    required this.title,
+    required this.imgpath,
+    this.subtitle = '',
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
     final state = ref.watch(profileNotifierProvider);
+
     return GestureDetector(
       onTap: () {
         if (title == 'Email' || title == 'Change Password' || title == 'Phone Number') {
           getModal(title, context, stateNotifier, state);
         } else if (title == 'Add Bio') {
           AutoRouter.of(context).push(const AddBioRoute());
-        } else if (title == 'Home City') {
-          AutoRouter.of(context).push(const HomeCityRoute());
         }
       },
       child: Padding(
@@ -36,92 +42,87 @@ class EditOptionWidget extends ConsumerWidget {
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(width: 1, color: AppColors.colorGrey)),
-          child: Container(
-            // color: Colors.red,
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 10).r,
-                  padding: const EdgeInsets.all(10).r,
-                  decoration: BoxDecoration(
-                    color: AppColors.colorGrey,
-                    border: Border.all(color: AppColors.colorGrey, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Image(
-                    image: AssetImage(imgpath),
-                    color: AppColors.colorPrimary,
-                  ),
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(width: 1, color: AppColors.colorGrey),
+          ),
+          child: Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10).r,
+                padding: const EdgeInsets.all(10).r,
+                decoration: BoxDecoration(
+                  color: AppColors.colorGrey,
+                  border: Border.all(color: AppColors.colorGrey, width: 1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                10.horizontalSpace,
-                Expanded(
-                  child: Container(
-                    // color: Colors.amber,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        (subtitle != '')
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    title,
-                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                      fontSize: 13.sp,
-                                      color: AppColors.colorPrimary,
-                                    ),
-                                  ),
-                                  2.verticalSpace,
-                                  Text(
-                                    subtitle,
-                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                      fontSize: 10.sp,
-                                      color: AppColors.colorPrimaryAlpha,
-                                    ),
-                                  )
-                                ],
+                child: Image(
+                  image: AssetImage(imgpath),
+                  color: AppColors.colorPrimary,
+                ),
+              ),
+              10.horizontalSpace,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    (subtitle != '')
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                  fontSize: 13.sp,
+                                  color: AppColors.colorPrimary,
+                                ),
+                              ),
+                              2.verticalSpace,
+                              Text(
+                                subtitle,
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                  fontSize: 10.sp,
+                                  color: AppColors.colorPrimaryAlpha,
+                                ),
                               )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    title,
-                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                      fontSize: 13.sp,
-                                      color: AppColors.colorPrimary,
-                                    ),
-                                  ),
-                                  2.verticalSpace,
-                                ],
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                  fontSize: 13.sp,
+                                  color: AppColors.colorPrimary,
+                                ),
                               ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 56.w,
-                          height: 52.h,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                color: AppColors.colorGrey,
-                                width: 1,
-                              ),
-                            ),
+                              2.verticalSpace,
+                            ],
                           ),
-                          child: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.colorArrowIcon,
-                            size: 15.6,
-                            weight: 500,
+                    Container(
+                      alignment: Alignment.center,
+                      width: 56.w,
+                      height: 52.h,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            color: AppColors.colorGrey,
+                            width: 1,
                           ),
-                          // color: Colors.blue,
                         ),
-                      ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.colorArrowIcon,
+                        size: 15.6,
+                        weight: 500,
+                      ),
+                      // color: Colors.blue,
                     ),
-                  ),
-                )
-              ],
-            ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -178,7 +179,8 @@ class EditOptionWidget extends ConsumerWidget {
   }
 }
 
-void getModal(String title, BuildContext context, stateNotifier, state) {
+void getModal(
+    String title, BuildContext context, ProfileNotifier stateNotifier, ProfileState state) {
   switch (title) {
     case 'Email':
       {
@@ -186,48 +188,45 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
           stateNotifier.emailAddress.text = '';
           Navigator.pop(context);
         },
-            child: Stack(
+            child: Column(
               children: [
-                Column(
-                  children: [
-                    RichText(
-                        text: TextSpan(
-                      text: 'Change',
-                      style: AppTextStyles.textStylePoppinsMedium
-                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
-                      children: [
-                        TextSpan(
-                          text: ' Email Address',
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 16.sp,
-                            color: AppColors.colorPrimaryAlpha,
-                          ),
-                        )
-                      ],
-                    )),
-                    3.verticalSpace,
-                    Text(
-                      'Change your email address below.',
-                      style: AppTextStyles.textStylePoppinsRegular
-                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
-                    ),
-                    20.verticalSpace,
-                    CustomInputField(
-                      controller: stateNotifier.emailAddress,
-                      label: 'Email Address',
-                      hint: 'Enter email address',
-                    ),
-                    10.verticalSpace,
-                    AppButton(
-                      loading: state.isLoading,
-                      text: 'Submit',
-                      onPressed: () async {
-                        await stateNotifier.changeEmailAddress(context);
-                        // Navigator.pop(context);
-                      },
-                    )
-                  ],
+                RichText(
+                  text: TextSpan(
+                    text: 'Change',
+                    style: AppTextStyles.textStylePoppinsMedium
+                        .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
+                    children: [
+                      TextSpan(
+                        text: ' Email Address',
+                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 16.sp,
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
+                3.verticalSpace,
+                Text(
+                  'Change your email address below.',
+                  style: AppTextStyles.textStylePoppinsRegular
+                      .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                ),
+                20.verticalSpace,
+                CustomInputField(
+                  controller: stateNotifier.emailAddress,
+                  label: 'Email Address',
+                  hint: 'Enter email address',
+                ),
+                10.verticalSpace,
+                AppButton(
+                  loading: state.isBeingSubmitted,
+                  disable: state.isBeingSubmitted,
+                  text: 'Submit',
+                  onPressed: () async {
+                    await stateNotifier.changeEmailAddress(context);
+                  },
+                )
               ],
             ));
       }
@@ -307,20 +306,21 @@ void getModal(String title, BuildContext context, stateNotifier, state) {
                 Column(
                   children: [
                     RichText(
-                        text: TextSpan(
-                      text: 'Change',
-                      style: AppTextStyles.textStylePoppinsMedium
-                          .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
-                      children: [
-                        TextSpan(
-                          text: ' Phone Number',
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 16.sp,
-                            color: AppColors.colorPrimaryAlpha,
-                          ),
-                        )
-                      ],
-                    )),
+                      text: TextSpan(
+                        text: 'Change',
+                        style: AppTextStyles.textStylePoppinsMedium
+                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
+                        children: [
+                          TextSpan(
+                            text: 'Phone Number',
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                              fontSize: 16.sp,
+                              color: AppColors.colorPrimaryAlpha,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     3.verticalSpace,
                     Text(
                       'Change your phone number below.',

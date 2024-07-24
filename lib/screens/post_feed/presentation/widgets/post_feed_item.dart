@@ -53,7 +53,7 @@ class PostFeedItem extends ConsumerWidget {
             8.verticalSpace,
             (state.isExpanded)
                 ? ExpandedPostDetails(postList: postList,)
-                : NotEpandedPostDetails(postList: postList,),
+                : NotExpandedPostDetails(postList: postList,),
             (state.isExpanded)
                 ? Column(
                     children: [
