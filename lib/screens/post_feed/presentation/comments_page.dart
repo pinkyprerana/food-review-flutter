@@ -215,7 +215,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                   Image.asset(Assets.star),
                   5.horizontalSpace,
                   Text(
-                    rating!,
+                    rating??"4.0",
                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,
