@@ -37,7 +37,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       final notificationNotifier = ref.read(notificationNotifierProvider.notifier);
       Future.wait([
-        followNotifier.getAllFollowerList(),
+        followNotifier.getAllUnfollowList(),
         stateNotifier.getHomeRestaurants(),
         postFeedNotifier.getPostFeed(),
         notificationNotifier.getNotificationList()
