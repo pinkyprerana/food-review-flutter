@@ -23,6 +23,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   final NetworkApiService _networkApiService;
 
   int totalNumberOfRestaurants = 0;
+  Restaurant? reastaurantDetials;
 
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
@@ -38,8 +39,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     state = state.copyWith(currentPageForPosts: 1);
     state = state.copyWith(postPerRestaurantList: []);
     AppLog.log('state.totalPagesPosts ------>> ${state.totalPagesPosts}');
-    AppLog.log('state.currentPageForPosts ------>> ${state.currentPageForPosts}');
-    AppLog.log('state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
+    AppLog.log(
+        'state.currentPageForPosts ------>> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
   }
 
   Future<void> loadMoreRestaurants(BuildContext context) async {
@@ -85,15 +88,20 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final reastaurantListResponseModel = RestaurantlistResponseModel.fromJson(response.data!);
+        final reastaurantListResponseModel =
+            RestaurantlistResponseModel.fromJson(response.data!);
 
-        final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
+        final List<Restaurant>? restaurantList =
+            reastaurantListResponseModel.restaurantList;
 
         totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
 
         state = state.copyWith(
           isLoading: false,
-          restaurantList: [...state.restaurantList ?? [], ...restaurantList ?? []],
+          restaurantList: [
+            ...state.restaurantList ?? [],
+            ...restaurantList ?? []
+          ],
           totalPages: reastaurantListResponseModel.pages ?? 0,
         );
       } else {
@@ -136,9 +144,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final reastaurantListResponseModel = RestaurantlistResponseModel.fromJson(response.data!);
+        final reastaurantListResponseModel =
+            RestaurantlistResponseModel.fromJson(response.data!);
 
-        final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
+        final List<Restaurant>? restaurantList =
+            reastaurantListResponseModel.restaurantList;
 
         totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
 
@@ -166,19 +176,22 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   String? get userId => _hiveDataBase.box.get(AppPreferenceKeys.userId);
   String? get getLatitude => _hiveDataBase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude => _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+  String? get getLongitude =>
+      _hiveDataBase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> getPostListRelatedToRestaurant(
       VoidCallback voidCallback, String restaurantId) async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}', body: {
-        "lat": getLatitude,
-        "lng": getLongitude,
-        'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
-        'user_id': userId
-      });
+          .postApiRequestWithToken(
+              url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+              body: {
+            "lat": getLatitude,
+            "lng": getLongitude,
+            'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
+            'user_id': userId
+          });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -188,7 +201,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state = state.copyWith(isLoading: false, postList: postModel.postList);
+          state =
+              state.copyWith(isLoading: false, postList: postModel.postList);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -201,14 +215,16 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> loadMorePosts(BuildContext context, String? restaurantId) async {
-    AppLog.log('state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
     if (state.currentPageForPosts >= state.totalPagesPosts) {
       showToastMessage('No more posts');
       restaurantRefreshController2.loadComplete();
       return;
     }
 
-    await getPosts(context: context, restaurantId: restaurantId, isLoadMore: true);
+    await getPosts(
+        context: context, restaurantId: restaurantId, isLoadMore: true);
     restaurantRefreshController2.loadComplete();
   }
 
@@ -216,12 +232,14 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       {required BuildContext context,
       bool isLoadMore = false,
       required String? restaurantId}) async {
-    AppLog.log('state.currentPageForPosts ======== ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.currentPageForPosts ======== ${state.currentPageForPosts}');
     try {
       state = state.copyWith(isLoadingForPosts: !isLoadMore);
 
       if (isLoadMore) {
-        state = state.copyWith(currentPageForPosts: state.currentPageForPosts + 1);
+        state =
+            state.copyWith(currentPageForPosts: state.currentPageForPosts + 1);
       }
 
       final data = {
@@ -251,11 +269,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final postlistPerRestaurantResponseModel =
             PostlistPerRestaurantResponseModel.fromJson(response.data!);
 
-        final List<Post>? postList = postlistPerRestaurantResponseModel.postList;
+        final List<Post>? postList =
+            postlistPerRestaurantResponseModel.postList;
 
         state = state.copyWith(
           isLoadingForPosts: false,
-          postPerRestaurantList: [...state.postPerRestaurantList ?? [], ...postList ?? []],
+          postPerRestaurantList: [
+            ...state.postPerRestaurantList ?? [],
+            ...postList ?? []
+          ],
           totalPagesPosts: postlistPerRestaurantResponseModel.pages ?? 0,
         );
       } else {
@@ -318,7 +340,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   Future<void> restaurantDetails(String restaurantId) async {
     AppLog.log('restaurantID------------->>>> $restaurantId');
     try {
-      state = state.copyWith(isLoading: true);
+      state = state.copyWith(isLoadingForRestaurantDetails: true);
 
       final data = {
         "restaurant_id": restaurantId,
@@ -337,23 +359,30 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         data: data,
       );
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response ----->> $response');
+        AppLog.log('restaurant details----->> $response');
+
+        AppLog.log('response.data ======== ${response.data}');
+
+        // reastaurantDetials = Restaurant.fromJson(response.data ?? {});
+
+        // AppLog.log(
+        //     'Restaurant-details variable ------->>>${reastaurantDetials.toString()}');
 
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
-        state = state.copyWith(isLoading: false);
+        state = state.copyWith(isLoadingForRestaurantDetails: false);
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
-        state = state.copyWith(isLoading: false);
+        state = state.copyWith(isLoadingForRestaurantDetails: false);
       }
     } on DioException catch (e) {
       final error = DioExceptions.fromDioError(e).message;
       showToastMessage(error, errorMessage: 'Failed to get restaurant details');
 
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoadingForRestaurantDetails: false);
     }
   }
 }

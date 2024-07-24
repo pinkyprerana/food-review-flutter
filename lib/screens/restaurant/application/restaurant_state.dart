@@ -23,6 +23,7 @@ class RestaurantState with _$RestaurantState {
     @Default(1) int currentPageForPosts,
     @Default(false) bool isLoadingForPosts,
     @Default(0) int totalPagesPosts,
+    @Default(false) bool isLoadingForRestaurantDetails,
   }) = _RestaurantState;
   const RestaurantState._();
 }
