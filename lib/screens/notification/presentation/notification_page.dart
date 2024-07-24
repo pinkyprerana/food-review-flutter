@@ -1,27 +1,39 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/model/notification_model/notification_model.dart';
 import 'package:for_the_table/screens/notification/presentation/widgets/notification_widget.dart';
 import '../../../core/constants/app_urls.dart';
+import '../shared/providers.dart';
 
 @RoutePage()
-class NotificationPage extends StatelessWidget {
-  final List<NotificationData> todayNotifications;
-  final List<NotificationData> yesterdayNotifications;
-  final List<NotificationData> olderNotifications;
+class NotificationPage extends ConsumerStatefulWidget {
+  const NotificationPage({super.key,});
 
-  NotificationPage({
-    required this.todayNotifications,
-    required this.yesterdayNotifications,
-    required this.olderNotifications,
-    super.key,
-  });
+  @override
+  ConsumerState<NotificationPage> createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends ConsumerState<NotificationPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final notificationNotifier = ref.read(notificationNotifierProvider.notifier);
+        notificationNotifier.getNotificationList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final notificationState = ref.watch(notificationNotifierProvider);
+    final todayNotifications = notificationState.todayNotifications;
+    final yesterdayNotifications = notificationState.yesterdayNotifications;
+    final olderNotifications = notificationState.olderNotifications;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

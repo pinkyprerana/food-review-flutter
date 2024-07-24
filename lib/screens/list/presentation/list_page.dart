@@ -50,11 +50,7 @@ class _ListPageState extends ConsumerState<ListPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: [ NotificationIcon(
-            todayNotifications: todayNotifications,
-          yesterdayNotifications: yesterdayNotifications,
-          olderNotifications: olderNotifications,
-        )],
+        actions: const [ NotificationIcon()],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

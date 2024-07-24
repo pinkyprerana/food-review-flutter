@@ -65,11 +65,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () => AutoRouter.of(context).push( NotificationRoute(
-                todayNotifications: todayNotifications,
-                yesterdayNotifications: yesterdayNotifications,
-                olderNotifications: olderNotifications)
-            ),
+            onTap: () => AutoRouter.of(context).push( NotificationRoute()),
             child: Container(
               height: 26.r,
               width: 26.r,

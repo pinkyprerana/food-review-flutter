@@ -56,10 +56,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    final notificationState = ref.watch(notificationNotifierProvider);
-    final todayNotifications = notificationState.todayNotifications;
-    final yesterdayNotifications = notificationState.yesterdayNotifications;
-    final olderNotifications = notificationState.olderNotifications;
 
     return Scaffold(
         extendBody: true,
@@ -93,11 +89,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 )),
               ),
             ),
-            NotificationIcon(
-              todayNotifications: todayNotifications,
-              yesterdayNotifications: yesterdayNotifications,
-              olderNotifications: olderNotifications,
-            ),
+            const NotificationIcon(),
           ],
         ),
         body: SingleChildScrollView(

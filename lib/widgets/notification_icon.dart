@@ -4,26 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
-import '../model/notification_model/notification_model.dart';
 
 class NotificationIcon extends StatelessWidget {
-  final List<NotificationData> todayNotifications;
-  final List<NotificationData> yesterdayNotifications;
-  final List<NotificationData> olderNotifications;
-  const NotificationIcon({
-    required this.todayNotifications,
-    required this.yesterdayNotifications,
-    required this.olderNotifications,
-    super.key,
-  });
+  const NotificationIcon({super.key,});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AutoRouter.of(context).push( NotificationRoute(
-          todayNotifications: todayNotifications,
-          yesterdayNotifications: yesterdayNotifications,
-          olderNotifications: olderNotifications)),
+      onTap: () => AutoRouter.of(context).push( NotificationRoute()),
       child: Container(
         height: 26.r,
         width: 26.r,

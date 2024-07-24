@@ -139,15 +139,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     NotificationRoute.name: (routeData) {
-      final args = routeData.argsAs<NotificationRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: NotificationPage(
-          todayNotifications: args.todayNotifications,
-          yesterdayNotifications: args.yesterdayNotifications,
-          olderNotifications: args.olderNotifications,
-          key: args.key,
-        ),
+        child: const NotificationPage(),
       );
     },
     PeopleProfileRoute.name: (routeData) {
@@ -584,50 +578,16 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [NotificationPage]
-class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
-  NotificationRoute({
-    required List<NotificationData> todayNotifications,
-    required List<NotificationData> yesterdayNotifications,
-    required List<NotificationData> olderNotifications,
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
+class NotificationRoute extends PageRouteInfo<void> {
+  const NotificationRoute({List<PageRouteInfo>? children})
+      : super(
           NotificationRoute.name,
-          args: NotificationRouteArgs(
-            todayNotifications: todayNotifications,
-            yesterdayNotifications: yesterdayNotifications,
-            olderNotifications: olderNotifications,
-            key: key,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'NotificationRoute';
 
-  static const PageInfo<NotificationRouteArgs> page =
-      PageInfo<NotificationRouteArgs>(name);
-}
-
-class NotificationRouteArgs {
-  const NotificationRouteArgs({
-    required this.todayNotifications,
-    required this.yesterdayNotifications,
-    required this.olderNotifications,
-    this.key,
-  });
-
-  final List<NotificationData> todayNotifications;
-
-  final List<NotificationData> yesterdayNotifications;
-
-  final List<NotificationData> olderNotifications;
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'NotificationRouteArgs{todayNotifications: $todayNotifications, yesterdayNotifications: $yesterdayNotifications, olderNotifications: $olderNotifications, key: $key}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
