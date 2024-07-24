@@ -184,17 +184,21 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                           : Image.asset(Assets.like)
                   ),
                   15.verticalSpace,
-                  Column(
-                    children: [
-                      Image.asset(Assets.comments),
-                      Text(
-                        (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
-                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          color: AppColors.colorWhite,
-                          fontSize: 10.sp,
-                        ),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () => AutoRouter.of(context).push(
+                        CommentsRoute(postInfoList: widget.postList,)),
+                    child: Column(
+                      children: [
+                        Image.asset(Assets.comments),
+                        Text(
+                          (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
+                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            color: AppColors.colorWhite,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   10.verticalSpace,
                   GestureDetector(

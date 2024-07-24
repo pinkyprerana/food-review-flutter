@@ -17,16 +17,23 @@ class CommentsPage extends ConsumerStatefulWidget {
   const CommentsPage({
     super.key,
     required this.postInfoList,
-    required this.commentInfoList,
   });
   final DataOfPostModel postInfoList;
-  final List<CommentInfo> commentInfoList;
 
   @override
   ConsumerState<CommentsPage> createState()=> _CommentsPageState();
 }
 
 class _CommentsPageState extends ConsumerState<CommentsPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      await postFeedNotifier.getPostFeed();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final postFeedState = ref.watch(postFeedNotifierProvider);
@@ -46,7 +53,9 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final int amount = widget.postInfoList.commentCount;
     final bool isSaved = widget.postInfoList.isSave;
     final bool isLiked = widget.postInfoList.isMyLike;
-    final comments = widget.commentInfoList;
+    final comments = postFeedState.commentInfoList
+        ?.where((comment) => comment.postId == postId)
+        .toList();
 
     return Scaffold(
       backgroundColor: AppColors.colorCommentPageBg,
@@ -262,8 +271,8 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               ),
               18.verticalSpace,
               postFeedState.isCommentLoading
-              ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,))
-              :comments.isEmpty
+              ? const Center(child: CircularProgressIndicator(color: AppColors.colorWhite,))
+              :comments!.isEmpty
               ? Center(child: Text("Be the first to comment in this post.",
                 style: AppTextStyles.textStylePoppinsMedium.copyWith(
                 fontSize: 12.sp,
@@ -314,7 +323,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                         onPressed: () async {
                           await postFeedNotifier.postComment(() async {
                             dismissKeyboard(context);
-                          }, postId);
+                           }, postId);
                         },
                         text: 'Submit',
                       )

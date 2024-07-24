@@ -11,7 +11,6 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
-import '../../../../core/utils/app_log.dart';
 import '../../../post_feed/domain/postFeed_model.dart';
 import '../../../post_feed/shared/provider.dart';
 import '../../../profile/shared/providers.dart';
@@ -19,7 +18,7 @@ import '../../../profile/shared/providers.dart';
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   final bool isSaving;
-  final commentInfoList;
+  final List<CommentInfo> commentInfoList;
 
   const PostWidget({
     super.key,
@@ -228,10 +227,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                               children: [
                                 GestureDetector(
                                     onTap: ()=> AutoRouter.of(context).push(
-                                        CommentsRoute(
-                                            postInfoList: widget.postList,
-                                            commentInfoList: widget.commentInfoList
-                                        )),
+                                        CommentsRoute(postInfoList: widget.postList,)),
                                     child: Image.asset(Assets.comments)
                                 ),
                                 Text(

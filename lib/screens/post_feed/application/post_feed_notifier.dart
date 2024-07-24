@@ -55,7 +55,13 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state = state.copyWith(isLoading: false, postList: postModel.postList);
+          List<CommentInfo> allComments = postModel.postList.expand((post) => post.commentInfo).toList();
+
+          state = state.copyWith(
+              isLoading: false,
+              postList: postModel.postList,
+              commentInfoList: allComments
+          );
         } else {
           showToastMessage(postModel.message.toString());
         }
