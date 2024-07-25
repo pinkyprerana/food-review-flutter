@@ -6,7 +6,8 @@ import 'package:for_the_table/screens/splash/application/splash_state.dart';
 class SplashNotifier extends StateNotifier<SplashState> {
   SplashNotifier(this._dio, this._hiveDatabase) : super(const SplashState());
 
+  // ignore: unused_field
   final Dio _dio;
+  // ignore: unused_field
   final HiveDatabase _hiveDatabase;
-
 }

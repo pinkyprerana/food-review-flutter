@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
@@ -36,13 +35,12 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
   @override
   void initState() {
     final state = ref.read(restaurantNotifierProvider);
-    AppLog.log(
-        'state.restaurantList.length ------------>>> ${state.restaurantList?.length}');
+    AppLog.log('state.restaurantList.length ------------>>> ${state.restaurantList?.length}');
 
-    var index = 0;
+    // var index = 0;
 
     for (final item in state.restaurantList!) {
-      var uuid = Uuid();
+      var uuid = const Uuid();
       var uniqueString = uuid.v4();
       final marker = LabelMarker(
         label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
@@ -60,7 +58,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
       AppLog.log('markers.length -------------->> ${markers.length}');
     }
 
-    AppLog.log('markers -------------->> ${markers}');
+    AppLog.log('markers -------------->> $markers');
 
     // AppLog.log('markers.length -------------->> ${markers.length}');
 
@@ -85,18 +83,16 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                 ? Stack(
                     children: [
                       GoogleMap(
-                        gestureRecognizers:
-                            <Factory<OneSequenceGestureRecognizer>>[
-                          new Factory<OneSequenceGestureRecognizer>(
-                            () => new EagerGestureRecognizer(),
+                        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                          Factory<OneSequenceGestureRecognizer>(
+                            () => EagerGestureRecognizer(),
                           ),
                         ].toSet(),
                         myLocationButtonEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target: LatLng(
                             double.parse((state.restaurantList![0].lat ?? '1')),
-                            double.parse(
-                                ((state.restaurantList![0].lng ?? '1'))),
+                            double.parse(((state.restaurantList![0].lng ?? '1'))),
                           ),
                           zoom: 12,
                         ),
@@ -108,20 +104,18 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                           _googleMapController = controller;
                           _googleMapController.getVisibleRegion();
 
-                          Set<Marker> _markers = Set();
+                          Set<Marker> markers = Set();
 
                           // _markers = Set.from(
                           //   markers,
                           // );
-                          _markers = markers;
+                          markers = markers;
                           Future.delayed(
                               const Duration(milliseconds: 200),
-                              () => controller.animateCamera(
-                                  CameraUpdate.newLatLngBounds(
-                                      MapUtils.boundsFromLatLngList(_markers
-                                          .map((loc) => loc.position)
-                                          .toList()),
-                                      1)));
+                              () => controller.animateCamera(CameraUpdate.newLatLngBounds(
+                                  MapUtils.boundsFromLatLngList(
+                                      markers.map((loc) => loc.position).toList()),
+                                  1)));
                         },
                         markers: markers,
                         zoomControlsEnabled: true,

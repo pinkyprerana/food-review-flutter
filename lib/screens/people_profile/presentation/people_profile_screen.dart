@@ -1,16 +1,15 @@
-import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
-import '../../your_lists/shared/provider.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -45,8 +44,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   Widget build(BuildContext context) {
     final state = ref.watch(FollowNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
-    print("postListOfOtherUser:--->>> $postListOfOtherUser");
-    void _handleFollowButtonPressed(userId) {
+    AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
+    void handleFollowButtonPressed(userId) {
       final followNotifier = ref.read(FollowNotifierProvider.notifier);
       followNotifier.followUnfollow(() {}, userId);
       // followNotifier.followUnfollow(() {}, userId).then((_) async {
@@ -146,7 +145,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      _handleFollowButtonPressed(widget.peopleId);
+                                      handleFollowButtonPressed(widget.peopleId);
                                     },
                                     child: Container(
                                       width: 158.w,
@@ -329,10 +328,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       image: (widget.peopleimage !=
                                                   'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/' &&
                                               widget.peopleimage != '')
-                                          ? CachedNetworkImageProvider(
-                                              widget.peopleimage)
-                                          : const AssetImage(
-                                              Assets.noProfileImage),
+                                          ? CachedNetworkImageProvider(widget.peopleimage)
+                                          : const AssetImage(Assets.noProfileImage),
                                       fit: BoxFit.cover,
                                     ),
                                     color: Colors.red,
@@ -400,7 +397,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                             itemCount: postListOfOtherUser.length,
                             itemBuilder: (context, index) {
                               final postList = postListOfOtherUser[index];
-                              print("postList:--->>> $postList");
+                              AppLog.log("postList:--->>> $postList");
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Container(

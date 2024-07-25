@@ -7,7 +7,9 @@ import 'base_state.dart';
 class BaseNotifier extends StateNotifier<BaseState> {
   BaseNotifier(this._dio, this._hiveDatabase) : super(const BaseState());
 
+  // ignore: unused_field
   final Dio _dio;
+  // ignore: unused_field
   final HiveDatabase _hiveDatabase;
 
   void tapBottomNavIndex(int value) {

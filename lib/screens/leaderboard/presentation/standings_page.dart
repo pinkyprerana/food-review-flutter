@@ -8,8 +8,6 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
-import '../../notification/shared/providers.dart';
-
 
 @RoutePage()
 class StandingsPage extends ConsumerStatefulWidget {
@@ -85,10 +83,10 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final notificationState = ref.watch(notificationNotifierProvider);
-    final todayNotifications = notificationState.todayNotifications;
-    final yesterdayNotifications = notificationState.yesterdayNotifications;
-    final olderNotifications = notificationState.olderNotifications;
+    // final notificationState = ref.watch(notificationNotifierProvider);
+    // final todayNotifications = notificationState.todayNotifications;
+    // final yesterdayNotifications = notificationState.yesterdayNotifications;
+    // final olderNotifications = notificationState.olderNotifications;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -103,7 +101,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: const [ NotificationIcon()],
+        actions: const [NotificationIcon()],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -135,16 +133,14 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                         children: [
                           Text(
                             'Standing List',
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               color: AppColors.colorPrimary,
                               fontSize: 13.sp,
                             ),
                           ),
                           Text(
                             '10 Standings',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 10.sp,
                             ),
@@ -161,8 +157,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                       itemCount: users.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          padding:
-                              const EdgeInsets.fromLTRB(9.0, 8.0, 18.0, 8.0).r,
+                          padding: const EdgeInsets.fromLTRB(9.0, 8.0, 18.0, 8.0).r,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(color: AppColors.colorGrey),
@@ -172,13 +167,11 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  AutoRouter.of(context)
-                                      .push(PeopleProfileRoute(
-                                    peoplename: users[index]['name'],
-                                    peopleimage: users[index]['image']!,
-                                    peopleId: "",
-                                      isFollow: true
-                                  ));
+                                  AutoRouter.of(context).push(PeopleProfileRoute(
+                                      peoplename: users[index]['name'],
+                                      peopleimage: users[index]['image']!,
+                                      peopleId: "",
+                                      isFollow: true));
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0).r,
@@ -197,9 +190,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                   children: [
                                     Text(
                                       users[index]['name']!,
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         color: AppColors.colorPrimary,
                                         fontSize: 13.sp,
                                       ),
@@ -211,9 +202,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                         3.horizontalSpace,
                                         Text(
                                           users[index]['address']!,
-                                          style: AppTextStyles
-                                              .textStylePoppinsRegular
-                                              .copyWith(
+                                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                             color: AppColors.colorPrimaryAlpha,
                                             fontSize: 10.sp,
                                           ),
@@ -235,12 +224,8 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                           Image.asset(Assets.standingIndex),
                                           // 2.horizontalSpace,
                                           Text(
-                                            index < 9
-                                                ? '0${index + 1}'
-                                                : '${index + 1}',
-                                            style: AppTextStyles
-                                                .textStylePoppinsBold
-                                                .copyWith(
+                                            index < 9 ? '0${index + 1}' : '${index + 1}',
+                                            style: AppTextStyles.textStylePoppinsBold.copyWith(
                                               color: AppColors.colorPrimary,
                                               fontSize: 10.sp,
                                             ),
@@ -249,19 +234,15 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                       ),
                                       4.verticalSpace,
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                                horizontal: 7, vertical: 3)
-                                            .r,
+                                        padding:
+                                            const EdgeInsets.symmetric(horizontal: 7, vertical: 3)
+                                                .r,
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(80).r,
-                                            color: AppColors.colorPrimary
-                                                .withOpacity(0.1)),
+                                            borderRadius: BorderRadius.circular(80).r,
+                                            color: AppColors.colorPrimary.withOpacity(0.1)),
                                         child: Text(
                                           users[index]['score'].toString(),
-                                          style: AppTextStyles
-                                              .textStylePoppinsRegular
-                                              .copyWith(
+                                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                             color: AppColors.colorPrimary,
                                             fontSize: 8.sp,
                                           ),
@@ -275,8 +256,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                           ),
                         );
                       },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          5.verticalSpace,
+                      separatorBuilder: (BuildContext context, int index) => 5.verticalSpace,
                     ),
                   ),
                 ],

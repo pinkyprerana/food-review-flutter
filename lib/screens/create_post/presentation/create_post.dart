@@ -4,7 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
@@ -22,7 +21,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 @RoutePage()
 class CreatePostPage extends ConsumerStatefulWidget {
   final XFile? imageFile;
-  CreatePostPage({super.key, this.imageFile});
+  const CreatePostPage({super.key, this.imageFile});
 
   @override
   ConsumerState<CreatePostPage> createState() => _CreatePostPageState();
@@ -41,7 +40,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
       // await stateNotifier.getRestaurants();
       // final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
       // await preferenceNotifier.getAllPreference();
-      final stateNotifierForCreatePost = ref.read(CreatePostNotifierProvider.notifier);
+      final stateNotifierForCreatePost = ref.read(createPostNotifierProvider.notifier);
       stateNotifierForCreatePost.toggleIsPressedToFalse();
       // AppLog.log(object)
     });
@@ -50,10 +49,10 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.read(CreatePostNotifierProvider);
-    final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
+    final state = ref.read(createPostNotifierProvider);
+    final createPostNotifier = ref.read(createPostNotifierProvider.notifier);
     final pageController = createPostNotifier.pageController;
-    var currentPage = ref.watch(CreatePostNotifierProvider).currentPage;
+    var currentPage = ref.watch(createPostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
@@ -229,7 +228,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   }
 
   Widget _createPostTitleDescription() {
-    final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
+    final createPostNotifier = ref.read(createPostNotifierProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SingleChildScrollView(
@@ -287,7 +286,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   }
 
   Widget _selectRestaurantPage(allPreferences) {
-    final createPostNotifier = ref.read(CreatePostNotifierProvider.notifier);
+    final createPostNotifier = ref.read(createPostNotifierProvider.notifier);
     final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
     List<dynamic> cuisineList = allPreferences;
 

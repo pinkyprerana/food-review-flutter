@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +19,8 @@ class PostWidget extends ConsumerStatefulWidget {
   final bool isSaving;
   final List<CommentInfo> commentInfoList;
 
-  const PostWidget({
-    super.key,
-    required this.postList,
-    required this.isSaving,
-    required this.commentInfoList
-  });
+  const PostWidget(
+      {super.key, required this.postList, required this.isSaving, required this.commentInfoList});
 
   @override
   ConsumerState<PostWidget> createState() => _PostWidgetState();
@@ -48,11 +43,11 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
-    final String title = widget.postList.title;
+    // final String title = widget.postList.title;
     final String description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
-    final String cuisine = widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final String cuisine = widget.postList.preferenceInfo.title;
     final int commentCount = widget.postList.commentCount;
     final String postId = widget.postList.id;
     final bool isSaved = widget.postList.isSave;
@@ -108,8 +103,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             peoplename: name,
                             peopleimage: profileImage,
                             peopleId: peopleId,
-                            isFollow: true
-                            ));
+                            isFollow: true));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -193,7 +187,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      restaurantName??"Restaurant name not available",
+                                      restaurantName ?? "Restaurant name not available",
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
@@ -217,20 +211,22 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                         Column(
                           children: [
                             GestureDetector(
-                              onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
+                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId),
                                 child: isLiked
                                     ? Image.asset(Assets.redHeart)
-                                    : Image.asset(Assets.like)
-                            ),
+                                    : Image.asset(Assets.like)),
                             15.verticalSpace,
                             GestureDetector(
-                              onTap: ()=> AutoRouter.of(context).push(
-                                  CommentsRoute(postInfoList: widget.postList,)),
+                              onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                                postInfoList: widget.postList,
+                              )),
                               child: Column(
                                 children: [
                                   Image.asset(Assets.comments),
                                   Text(
-                                    (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
+                                    (commentCount > 9)
+                                        ? commentCount.toString()
+                                        : "0${commentCount.toString()}",
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorWhite,
                                       fontSize: 10.sp,

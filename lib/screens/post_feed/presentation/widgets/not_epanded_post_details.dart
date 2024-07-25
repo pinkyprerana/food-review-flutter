@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -123,13 +122,13 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(70),
-                          color: Color(0xffACE9B6).withOpacity(0.31),
+                          color: const Color(0xffACE9B6).withOpacity(0.31),
                         ),
                         child: Center(
                           child: Text(
                             cuisine, //'Chinese Cuisine',
                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              color: Color(0xff6BCE7B).withOpacity(0.85),
+                              color: const Color(0xff6BCE7B).withOpacity(0.85),
                               fontSize: 10.sp,
                             ),
                           ),

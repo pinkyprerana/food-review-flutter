@@ -5,8 +5,7 @@ class Assets {
   //
   static const String landingintro = 'assets/images/landing-intro.png';
   //
-  static const String ftbCustomShapeImage1 =
-      'assets/images/ftb-custom-shape-img1.png';
+  static const String ftbCustomShapeImage1 = 'assets/images/ftb-custom-shape-img1.png';
   static const String reviewImg1 = 'assets/images/review-img1.png';
   static const String reviewImg2 = 'assets/images/review-img2.png';
   static const String profileImage = 'assets/images/girl.jpg';
@@ -74,7 +73,7 @@ class Assets {
   static const String frame = 'assets/icons/frame.png';
   static const String text = 'assets/icons/text.png';
   static const String star = 'assets/icons/star.png';
-  static const String dislike_emoji = 'assets/icons/dislike_emoji.png';
+  static const String dislikeEmoji = 'assets/icons/dislike_emoji.png';
   static const String location2 = 'assets/icons/location2.png';
   static const String comments = 'assets/icons/comments.png';
   static const String bookmark = 'assets/icons/bookmark.png';

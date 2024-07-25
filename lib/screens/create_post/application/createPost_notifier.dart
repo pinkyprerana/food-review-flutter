@@ -1,11 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../core/utils/app_log.dart';
@@ -13,9 +11,9 @@ import '../../../core/utils/toast.dart';
 import 'createPost_state.dart';
 
 class CreatePostNotifier extends StateNotifier<CreatePostState> {
-  CreatePostNotifier(this._dio, this._networkApiService)
-      : super(const CreatePostState());
+  CreatePostNotifier(this._dio, this._networkApiService) : super(const CreatePostState());
 
+  // ignore: unused_field
   final Dio _dio;
   final NetworkApiService _networkApiService;
   final PageController _pageController = PageController();
@@ -43,8 +41,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       );
     } else {
       resetPage();
-      AutoRouter.of(context)
-          .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
+      AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
     }
   }
 
@@ -57,17 +54,12 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   }
 
   TextEditingController restaurantNameTextController = TextEditingController();
-  final TextEditingController restaurantIdTextController =
-      TextEditingController();
+  final TextEditingController restaurantIdTextController = TextEditingController();
   final TextEditingController postTitleTextController = TextEditingController();
-  final TextEditingController postDescriptionTextController =
-      TextEditingController();
-  final TextEditingController restaurantAddressTextController =
-      TextEditingController();
-  final TextEditingController postCuisineIdTextController =
-      TextEditingController();
-  final TextEditingController postHowWasItTextController =
-      TextEditingController();
+  final TextEditingController postDescriptionTextController = TextEditingController();
+  final TextEditingController restaurantAddressTextController = TextEditingController();
+  final TextEditingController postCuisineIdTextController = TextEditingController();
+  final TextEditingController postHowWasItTextController = TextEditingController();
 
   Future<void> addPost(VoidCallback voidCallback, XFile? imageFile) async {
     state = state.copyWith(isLoading: true);
@@ -75,8 +67,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
 
     try {
       final formData = FormData.fromMap({
-        if (imageFile != null)
-          "image": await MultipartFile.fromFile(imageFile.path),
+        if (imageFile != null) "image": await MultipartFile.fromFile(imageFile.path),
         "restaurant_id": restaurantIdTextController.text,
         "title": postTitleTextController.text,
         "description": postDescriptionTextController.text,
@@ -84,8 +75,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
         "preference_id": postCuisineIdTextController.text,
       });
 
-      var (response, dioException) =
-          await _networkApiService.postApiRequestWithToken(
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}${AppUrls.addPost}',
         body: formData,
       );
@@ -110,7 +100,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
         }
       }
     } catch (error) {
-      AppLog.log("_______${error}");
+      AppLog.log("_______$error");
       state = state.copyWith(isLoading: false);
       showConnectionWasInterruptedToastMessage();
     }
@@ -139,31 +129,31 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
     state = state.copyWith(selectedReview: selectedReview);
   }
 
-  void _showPermissionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Camera Permission Required'),
-        content: const Text(
-            'This app needs Camera permission to work properly. Please grant the permission in settings.'),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              openAppSettings();
-            },
-            child: const Text('Open Settings'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-          ),
-        ],
-      ),
-    );
-  }
+  // void _showPermissionDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('Camera Permission Required'),
+  //       content: const Text(
+  //           'This app needs Camera permission to work properly. Please grant the permission in settings.'),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () async {
+  //             Navigator.of(context).pop();
+  //             openAppSettings();
+  //           },
+  //           child: const Text('Open Settings'),
+  //         ),
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(context).pop();
+  //           },
+  //           child: const Text('Cancel'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void toggleIsPressedToTrue() {
     state = state.copyWith(isPressed: true);
@@ -172,5 +162,4 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   void toggleIsPressedToFalse() {
     state = state.copyWith(isPressed: false);
   }
-
 }

@@ -6,7 +6,6 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/widgets/custom_background.dart';
 import '../../../core/constants/assets.dart';
-import '../../location/shared/provider.dart';
 
 @RoutePage()
 class SplashPage extends ConsumerStatefulWidget {
@@ -38,28 +37,23 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> navigate() async {
-    final stateOfLocation = ref.watch(locationNotifierProvider);
+    // final stateOfLocation = ref.watch(locationNotifierProvider);
     final hive = ref.read(hiveProvider);
     final token = hive.box.get(AppPreferenceKeys.token);
-    final getStartedDone =
-        await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
-    final isLocationFetched =
-        await hive.box.get(AppPreferenceKeys.isLocationFetched);
+    final getStartedDone = await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
+    final isLocationFetched = await hive.box.get(AppPreferenceKeys.isLocationFetched);
     // final id = await hive.box.get(AppPreferenceKeys.userId);
 
     if (mounted) {
       if (token != null && token.toString().isNotEmpty) {
         (isLocationFetched != null)
-            ? AutoRouter.of(context)
-                .pushAndPopUntil(const BaseRoute(), predicate: (_) => false)
-            : AutoRouter.of(context).pushAndPopUntil(const LocationRoute(),
-                predicate: (_) => false);
+            ? AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false)
+            : AutoRouter.of(context)
+                .pushAndPopUntil(const LocationRoute(), predicate: (_) => false);
       } else if (getStartedDone == 'true') {
-        AutoRouter.of(context)
-            .pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
+        AutoRouter.of(context).pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
       } else {
-        AutoRouter.of(context).pushAndPopUntil(const LandingIntroRoute(),
-            predicate: (_) => false);
+        AutoRouter.of(context).pushAndPopUntil(const LandingIntroRoute(), predicate: (_) => false);
       }
     }
   }
