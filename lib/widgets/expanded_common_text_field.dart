@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
-import '../screens/auth/shared/providers.dart';
-
-class ExpandedCommonTextField extends ConsumerStatefulWidget {
+class ExpandedCommonTextField extends StatefulWidget {
   const ExpandedCommonTextField({
     this.label,
     required this.hint,
@@ -34,15 +31,14 @@ class ExpandedCommonTextField extends ConsumerStatefulWidget {
   final int? maxLines;
 
   @override
-  ConsumerState<ExpandedCommonTextField> createState() =>
+  State<ExpandedCommonTextField> createState() =>
       _ExpandedCommonTextFieldState();
 }
 
-class _ExpandedCommonTextFieldState extends ConsumerState<ExpandedCommonTextField> {
-
+class _ExpandedCommonTextFieldState extends State<ExpandedCommonTextField> {
+  bool isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(authNotifierProvider);
     return Container(
       height: 60.r,
       width: widget.width ?? double.infinity,
@@ -73,25 +69,27 @@ class _ExpandedCommonTextFieldState extends ConsumerState<ExpandedCommonTextFiel
               : FloatingLabelBehavior.never,
           suffix: widget.isPassword
               ? GestureDetector(
-            onTap: () => ref.read(authNotifierProvider.notifier).togglePasswordVisibility(),
-            child: state.isPasswordVisible
-                      ? const Icon(
-                          Icons.visibility_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        )
-                      : const Icon(
-                          Icons.visibility_off_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                )
+            onTap: () => setState(() {
+              isPasswordVisible = !isPasswordVisible;
+            }),
+            child: isPasswordVisible
+                ? const Icon(
+              Icons.visibility_outlined,
+              color: AppColors.colorPrimaryAlpha,
+            )
+                : const Icon(
+              Icons.visibility_off_outlined,
+              color: AppColors.colorPrimaryAlpha,
+            ),
+          )
               : const Icon(
-                  Icons.text_fields_rounded,
-                  color: AppColors.colorTransparent,
-                ),
+            Icons.text_fields_rounded,
+            color: AppColors.colorTransparent,
+          ),
           prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
         ),
         keyboardType: widget.keyboardType,
-        obscureText: widget.isPassword && !state.isPasswordVisible,
+        obscureText: widget.isPassword && !isPasswordVisible,
         style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
         onFieldSubmitted: widget.onFieldSubmitted,
       ),

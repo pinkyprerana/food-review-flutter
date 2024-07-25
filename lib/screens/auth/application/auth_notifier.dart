@@ -118,10 +118,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  void togglePasswordVisibility() {
-    state = state.copyWith(isPasswordVisible: !state.isPasswordVisible);
-  }
-
   Timer? _timer;
   void _startTimer() {
     _timer?.cancel();
