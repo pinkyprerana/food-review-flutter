@@ -1,4 +1,4 @@
-// ignore_for_file: parameter_assignments, empty_catches
+// ignore_for_file: parameter_assignments, empty_catches, invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notification_model.freezed.dart';
@@ -42,8 +42,7 @@ class NotificationData with _$NotificationData {
     @JsonKey(name: "receiver_user_info") required UserNotificationInfo receiverUserInfo,
   }) = _NotificationData;
 
-  factory NotificationData.fromJson(Map<String, dynamic> json) =>
-      _$NotificationDataFromJson(json);
+  factory NotificationData.fromJson(Map<String, dynamic> json) => _$NotificationDataFromJson(json);
 }
 
 @freezed

@@ -59,14 +59,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
             color: AppColors.colorPrimaryAlpha,
           ),
           border: InputBorder.none,
-          floatingLabelBehavior: (widget.label != null)
-              ? FloatingLabelBehavior.always
-              : FloatingLabelBehavior.never,
+          floatingLabelBehavior:
+              (widget.label != null) ? FloatingLabelBehavior.always : FloatingLabelBehavior.never,
           suffixIcon: widget.isPassword
               ? GestureDetector(
                   onTap: () => setState(() {
                     isPasswordVisible = !isPasswordVisible;
-                    print("IVP: $isPasswordVisible");
                   }),
                   child: isPasswordVisible
                       ? const Icon(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/assets.dart';
-import 'package:for_the_table/core/styles/app_colors.dart';
 
 class SaveButtonWidget extends ConsumerStatefulWidget {
   final bool isSavePost;

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'saved_post_model.freezed.dart';
 part 'saved_post_model.g.dart';
@@ -97,6 +99,7 @@ abstract class RestaurantInfo with _$RestaurantInfo {
   }) = _RestaurantInfo;
 
   factory RestaurantInfo.fromJson(Map<String, dynamic> json) => _$RestaurantInfoFromJson(json);
+
 }
 
 @freezed
@@ -124,4 +127,5 @@ abstract class CommentedUserData with _$CommentedUserData {
   }) = _CommentedUserData;
 
   factory CommentedUserData.fromJson(Map<String, dynamic> json) => _$CommentedUserDataFromJson(json);
+
 }
