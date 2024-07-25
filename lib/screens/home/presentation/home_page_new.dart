@@ -33,13 +33,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+      await followNotifier.getAllUsersList();
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getHomeRestaurants();
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      Future.wait([
-        followNotifier.getAllUsersList(),
-        stateNotifier.getHomeRestaurants(),
-        postFeedNotifier.getPostFeed(),
-      ]);
+      await postFeedNotifier.getPostFeed();
+      // Future.wait([
+      // ]);
     });
   }
 
@@ -76,16 +76,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               child: Container(
                 height: 26.r,
                 width: 26.r,
-                margin: const EdgeInsets.only(right: 15).r,
+                margin: const EdgeInsets.only(right: 5).r,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.colorGrey2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                    child: Image.asset(
-                  Assets.search,
-                  color: AppColors.colorPrimary,
-                )),
+                  child: Image.asset(
+                    Assets.search,
+                    color: AppColors.colorPrimary,
+                  ),
+                ),
               ),
             ),
             const NotificationIcon(),

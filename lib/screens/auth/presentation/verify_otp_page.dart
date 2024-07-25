@@ -14,7 +14,6 @@ import 'package:pinput/pinput.dart';
 
 import '../shared/providers.dart';
 
-
 @RoutePage()
 class VerifyOtpPage extends ConsumerStatefulWidget {
   const VerifyOtpPage({super.key});
@@ -61,8 +60,8 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    final stateNotifier = ref.watch(authNotifierProvider.notifier);
+    final state = ref.watch(authNotifierProvider);
 
     final defaultPinTheme = PinTheme(
       width: 60.r,
@@ -87,8 +86,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -97,8 +95,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -127,13 +124,11 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                         CustomRichText(
                           firstText: 'Forgot Your',
                           secondText: 'Password?',
-                          firstTextStyle:
-                              AppTextStyles.textStylePoppinsMedium.copyWith(
+                          firstTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimary,
                             fontSize: 16.sp,
                           ),
-                          secondTextStyle:
-                              AppTextStyles.textStylePoppinsMedium.copyWith(
+                          secondTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimaryAlpha,
                             fontSize: 16.sp,
                           ),
@@ -154,10 +149,8 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                             preFilledWidget: Center(
                               child: Text(
                                 '_',
-                                style:
-                                    AppTextStyles.textStyleLatoLight.copyWith(
-                                  color: AppColors.colorPrimaryAlpha
-                                      .withOpacity(0.70),
+                                style: AppTextStyles.textStyleLatoLight.copyWith(
+                                  color: AppColors.colorPrimaryAlpha.withOpacity(0.70),
                                   fontSize: 10.sp,
                                 ),
                               ),
@@ -188,9 +181,9 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                               showToastMessage('Please enter valid OTP');
                             } else {
                               stateNotifier.verifyOTP(() {
-                                FocusManager.instance.primaryFocus
-                                    ?.unfocus();
-                                AutoRouter.of(context).pushAndPopUntil(const ResetPasswordRoute(), predicate: (_) => false);
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                AutoRouter.of(context).pushAndPopUntil(const ResetPasswordRoute(),
+                                    predicate: (_) => false);
                               });
                             }
                             stateNotifier.fpOtpTextController.clear();
@@ -206,15 +199,13 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                                     onTap: () async {
                                       startTimer();
                                       dismissKeyboard(context);
-                                        stateNotifier.resendOTP(() {
-                                          FocusManager.instance.primaryFocus?.unfocus();
-                                        });
+                                      stateNotifier.resendOTP(() {
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                      });
                                     },
                                     child: Text(
                                       'Resend OTP',
-                                      style: AppTextStyles
-                                          .textStylePoppinsSemiBold
-                                          .copyWith(
+                                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                                         color: AppColors.colorPrimary,
                                         fontSize: 12.sp,
                                       ),
@@ -222,8 +213,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                                   )
                                 : Text(
                                     'Resend OTP in $_start seconds',
-                                    style: AppTextStyles.textStylePoppinsRegular
-                                        .copyWith(
+                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorPrimaryAlpha,
                                       fontSize: 12.sp,
                                     ),

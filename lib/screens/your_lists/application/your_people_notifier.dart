@@ -115,7 +115,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
           final currentFriendsIds = state.allUsersList.map((friend) => friend.id).toSet();
 
           final uniqueNewFriends =
-          users?.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
+              users?.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
 
           if ((uniqueNewFriends?.isEmpty ?? false) && isLoadMore) {
             showToastMessage('No new profiles to display.');
@@ -143,7 +143,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong, please try again');
     }
   }
 
