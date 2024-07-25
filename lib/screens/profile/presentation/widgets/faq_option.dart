@@ -31,20 +31,18 @@ class _FaqOptionState extends State<FaqOption> {
             'Lorem ipsum dolor sit amet?',
             style: AppTextStyles.textStylePoppinsMedium.copyWith(
                 fontSize: 13.sp,
-                color: (_isExpanded)
-                    ? AppColors.colorWhite
-                    : AppColors.colorPrimary),
+                color: (_isExpanded) ? AppColors.colorWhite : AppColors.colorPrimary),
           ),
           trailing: (_isExpanded)
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+              ? const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
                   child: Icon(
                     Icons.expand_less,
                     color: AppColors.colorWhite,
                   ),
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+              : const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
                   child: Icon(Icons.expand_more),
                 ),
           children: [
@@ -53,8 +51,7 @@ class _FaqOptionState extends State<FaqOption> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 8, right: 8, bottom: 30).r,
+                    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 30).r,
                     child: Text(
                       'Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Comm odonisl suspendisse tincidunt.',
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(

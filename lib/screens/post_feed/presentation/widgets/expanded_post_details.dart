@@ -33,20 +33,21 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
   Widget build(BuildContext context) {
     final String peopleId = widget.postList.userInfo.id;
     final String name = widget.postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
-    final String postImage = widget.postList.file;
+    final String profileImage =
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+    // final String postImage = widget.postList.file;
     final String title = widget.postList.title;
     final String description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? restaurantRating = widget.postList.restaurantInfo?.rating;
     final String? address = widget.postList.restaurantInfo?.address;
-    final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= widget.postList.commentCount;
-    final String postId= widget.postList.id;
-    final postFeedState = ref.watch(postFeedNotifierProvider);
+    // final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
+    final int commentCount = widget.postList.commentCount;
+    final String postId = widget.postList.id;
+    // final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final bool isSaved= widget.postList.isSave;
-    final bool isLiked= widget.postList.isMyLike;
+    final bool isSaved = widget.postList.isSave;
+    final bool isLiked = widget.postList.isMyLike;
 
     return Container(
       color: Colors.transparent,
@@ -62,11 +63,10 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   GestureDetector(
                     onTap: () {
                       AutoRouter.of(context).push(PeopleProfileRoute(
-                        peoplename: name, //'Ahmad Gouse',
-                        peopleimage: profileImage,//'assets/images/temp/follower-sample2.png',
-                        peopleId: peopleId,
-                          isFollow: true
-                      ));
+                          peoplename: name, //'Ahmad Gouse',
+                          peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                          peopleId: peopleId,
+                          isFollow: true));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -85,24 +85,22 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         ),
                         8.horizontalSpace,
                         Text(
-                          name , //'Ahmad Gouse',
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              fontSize: 16.sp, color: AppColors.colorWhite),
+                          name, //'Ahmad Gouse',
+                          style: AppTextStyles.textStylePoppinsMedium
+                              .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                         ),
                         8.horizontalSpace,
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(70),
-                            border: Border.all(
-                                width: 1, color: const Color(0xffDDDFE6)),
+                            border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
                             color: AppColors.colorWhite.withOpacity(0.20),
                           ),
                           child: Center(
                             child: Text(
                               'Following',
-                              style: AppTextStyles.textStylePoppinsRegular
-                                  .copyWith(
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                 color: AppColors.colorWhite,
                                 fontSize: 10.sp,
                               ),
@@ -124,9 +122,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            restaurantName??"Restaurant name not available",
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            restaurantName ?? "Restaurant name not available",
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -135,8 +132,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             address != null && address.length > 40
                                 ? '${address.substring(0, 40)}...'
                                 : address ?? 'Restaurant address not available',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -150,20 +146,20 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
               Column(
                 children: [
                   GestureDetector(
-                      onTap: ()=> postFeedNotifier.likeUnlikePost((){}, postId),
-                      child: isLiked
-                          ? Image.asset(Assets.redHeart)
-                          : Image.asset(Assets.like)
-                  ),
+                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId),
+                      child: isLiked ? Image.asset(Assets.redHeart) : Image.asset(Assets.like)),
                   15.verticalSpace,
                   GestureDetector(
-                    onTap: () => AutoRouter.of(context).push(
-                        CommentsRoute(postInfoList: widget.postList,)),
+                    onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                      postInfoList: widget.postList,
+                    )),
                     child: Column(
                       children: [
                         Image.asset(Assets.comments),
                         Text(
-                          (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
+                          (commentCount > 9)
+                              ? commentCount.toString()
+                              : "0${commentCount.toString()}",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             color: AppColors.colorWhite,
                             fontSize: 10.sp,
@@ -176,9 +172,11 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   GestureDetector(
                       onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
                       child: isSaved
-                          ? Image.asset(Assets.saved, scale: 2,)
-                          : Image.asset(Assets.bookmark)
-                  ),
+                          ? Image.asset(
+                              Assets.saved,
+                              scale: 2,
+                            )
+                          : Image.asset(Assets.bookmark)),
                 ],
               )
             ],
@@ -197,7 +195,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
               Image.asset(Assets.star),
               5.horizontalSpace,
               Text(
-                restaurantRating??"",
+                restaurantRating ?? "",
                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                   fontSize: 10.sp,
                   color: AppColors.colorWhite,

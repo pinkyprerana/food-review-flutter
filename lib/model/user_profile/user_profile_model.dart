@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_profile_model.freezed.dart';
@@ -14,8 +16,7 @@ class UserProfileModel with _$UserProfileModel {
     @JsonKey(name: "savePostStats") SavePostStats? savePostStats,
   }) = _UserProfileModel;
 
-  factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileModelFromJson(json);
+  factory UserProfileModel.fromJson(Map<String, dynamic> json) => _$UserProfileModelFromJson(json);
 }
 
 @freezed
@@ -40,8 +41,7 @@ class ProfileDetails with _$ProfileDetails {
     @JsonKey(name: "otpExpireTime") DateTime? otpExpireTime,
   }) = _ProfileDetails;
 
-  factory ProfileDetails.fromJson(Map<String, dynamic> json) =>
-      _$ProfileDetailsFromJson(json);
+  factory ProfileDetails.fromJson(Map<String, dynamic> json) => _$ProfileDetailsFromJson(json);
 }
 
 @freezed
@@ -71,6 +71,5 @@ class SavePostStats with _$SavePostStats {
     @JsonKey(name: "savePostCount") @Default(0) int savePostCount,
   }) = _SavePostStats;
 
-  factory SavePostStats.fromJson(Map<String, dynamic> json) =>
-      _$SavePostStatsFromJson(json);
+  factory SavePostStats.fromJson(Map<String, dynamic> json) => _$SavePostStatsFromJson(json);
 }

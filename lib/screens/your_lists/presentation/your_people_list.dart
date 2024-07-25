@@ -27,7 +27,6 @@ class YourPeopleListPage extends ConsumerStatefulWidget {
     this.tabIndex,
   });
 
-
   @override
   ConsumerState<YourPeopleListPage> createState() => _YourPeopleListPageState();
 }
@@ -49,7 +48,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _selectedIndex = ref.watch(yourPeopleNotifierProvider).selectedIndex;
+    final selectedIndex = ref.watch(yourPeopleNotifierProvider).selectedIndex;
     final stateNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final followState = ref.watch(yourPeopleNotifierProvider);
     final followList = followState.followingList;
@@ -94,15 +93,15 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
         controller: followState.selectedIndex == 0
             ? stateNotifier.followersRefreshController
             : followState.selectedIndex == 1
-            ? stateNotifier.followingRefreshController
-            : stateNotifier.requestRefreshController,
+                ? stateNotifier.followingRefreshController
+                : stateNotifier.requestRefreshController,
         enablePullDown: false,
         enablePullUp: true,
         onLoading: followState.selectedIndex == 0
             ? stateNotifier.loadMoreFollowers
             : followState.selectedIndex == 1
-            ? stateNotifier.loadMoreFollowings
-            : stateNotifier.loadMoreRequests,
+                ? stateNotifier.loadMoreFollowings
+                : stateNotifier.loadMoreRequests,
         footer: CustomFooter(
           builder: (BuildContext context, mode) {
             Widget body;
@@ -147,48 +146,48 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: List.generate(
                     3,
-                        (index) => Padding(
+                    (index) => Padding(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: FilterButton(
                         text: index == 0
                             ? 'Followers'
                             : index == 1
-                            ? 'Following'
-                            : 'Requests',
-                        isSelected: _selectedIndex == index,
+                                ? 'Following'
+                                : 'Requests',
+                        isSelected: selectedIndex == index,
                         onPressed: () {
                           stateNotifier.updateSelectedIndex(index);
                           index == 0
                               ? stateNotifier.getAllFollowerList()
                               : index == 1
-                              ? stateNotifier.getAllFollowingList()
-                              : stateNotifier.getAllRequestList();
+                                  ? stateNotifier.getAllFollowingList()
+                                  : stateNotifier.getAllRequestList();
                         },
                       ),
                     ),
                   ).toList(),
                 ),
                 16.verticalSpace,
-                _selectedIndex == 0
+                selectedIndex == 0
                     ? _followersList(
-                  followerList,
-                  followState,
-                  stateNotifier,
-                  profileNotifier,
-                )
-                    : (_selectedIndex == 1
-                    ? _followingList(
-                  followList,
-                  followState,
-                  stateNotifier,
-                  profileNotifier,
-                )
-                    : _requestsList(
-                  requestList,
-                  followState,
-                  stateNotifier,
-                  profileNotifier,
-                )),
+                        followerList,
+                        followState,
+                        stateNotifier,
+                        profileNotifier,
+                      )
+                    : (selectedIndex == 1
+                        ? _followingList(
+                            followList,
+                            followState,
+                            stateNotifier,
+                            profileNotifier,
+                          )
+                        : _requestsList(
+                            requestList,
+                            followState,
+                            stateNotifier,
+                            profileNotifier,
+                          )),
               ],
             ),
           ),
@@ -198,207 +197,207 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
   }
 
   Widget _followersList(
-      List<Users> followerList,
-      YourPeopleState followState,
-      YourPeopleNotifier stateNotifier,
-      ProfileNotifier profileNotifier,
-      ) {
+    List<Users> followerList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+    ProfileNotifier profileNotifier,
+  ) {
     return followState.followerList.isEmpty
         ? Center(
-      child: Text(
-        'You have no followers.',
-        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-          fontSize: 13.sp,
-          color: AppColors.colorBlack,
-        ),
-      ),
-    )
-        : Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            'Followers List',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
-            ),
-          ),
-        ),
-        20.verticalSpace,
-        GridView.builder(
-          itemCount: followerList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-          ),
-          itemBuilder: (context, index) {
-            if (index < 0 || index >= followerList.length) {
-              return const SizedBox.shrink();
-            }
-            final follower = followerList[index];
-            final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
-
-            return CustomCard(
-              name: follower.fullName ?? '',
-              date: "Joined May 5, 2018",
-              imagePath: profileImage,
-              button: (follower.isFollowing ?? false)
-                  ? const SizedBox.shrink()
-                  : AppButton(
-                height: 30,
-                width: (follower.isFollowingRequest ?? false) ? 120 : 80,
-                text: (follower.isFollowingRequest ?? false)
-                    ? 'Requested'
-                    : 'Follow', // update here
-                onPressed: () async {
-                  await stateNotifier.followFriend(follower.id ?? '');
-                  await profileNotifier.getUserDetails();
-                },
-                color: AppColors.colorCommentBoxBorder,
+            child: Text(
+              'You have no followers.',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
               ),
-            );
-          },
-        ),
-      ],
-    );
+            ),
+          )
+        : Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Followers List',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorBlack,
+                  ),
+                ),
+              ),
+              20.verticalSpace,
+              GridView.builder(
+                itemCount: followerList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < 0 || index >= followerList.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final follower = followerList[index];
+                  final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
+
+                  return CustomCard(
+                    name: follower.fullName ?? '',
+                    date: "Joined May 5, 2018",
+                    imagePath: profileImage,
+                    button: (follower.isFollowing ?? false)
+                        ? const SizedBox.shrink()
+                        : AppButton(
+                            height: 30,
+                            width: (follower.isFollowingRequest ?? false) ? 120 : 80,
+                            text: (follower.isFollowingRequest ?? false)
+                                ? 'Requested'
+                                : 'Follow', // update here
+                            onPressed: () async {
+                              await stateNotifier.followFriend(follower.id ?? '');
+                              await profileNotifier.getUserDetails();
+                            },
+                            color: AppColors.colorCommentBoxBorder,
+                          ),
+                  );
+                },
+              ),
+            ],
+          );
   }
 
   Widget _followingList(
-      List<Users> followList,
-      YourPeopleState followState,
-      YourPeopleNotifier stateNotifier,
-      ProfileNotifier profileNotifier,
-      ) {
+    List<Users> followList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+    ProfileNotifier profileNotifier,
+  ) {
     return followState.followingList.isEmpty
         ? Center(
-      child: Text(
-        'You are not following anyone.',
-        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-          fontSize: 13.sp,
-          color: AppColors.colorBlack,
-        ),
-      ),
-    )
-        : Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            'List of Your Following',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
-            ),
-          ),
-        ),
-        20.verticalSpace,
-        GridView.builder(
-          itemCount: followList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-          ),
-          itemBuilder: (context, index) {
-            if (index < 0 || index >= followList.length) {
-              return const SizedBox.shrink();
-            }
-            final following = followList[index];
-            final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
-
-            return CustomCard(
-              name: following.fullName ?? '',
-              date: "Joined May 5, 2024",
-              imagePath: profileImage,
-              button: AppButton(
-                height: 30,
-                width: 100,
-                text: 'Unfollow',
-                onPressed: () async {
-                  await stateNotifier.unfollowFriend(following.id ?? '');
-                  await profileNotifier.getUserDetails();
-                },
-                color: AppColors.colorCommentBoxBorder,
+            child: Text(
+              'You are not following anyone.',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
               ),
-            );
-          },
-        ),
-      ],
-    );
+            ),
+          )
+        : Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'List of Your Following',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorBlack,
+                  ),
+                ),
+              ),
+              20.verticalSpace,
+              GridView.builder(
+                itemCount: followList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < 0 || index >= followList.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final following = followList[index];
+                  final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
+
+                  return CustomCard(
+                    name: following.fullName ?? '',
+                    date: "Joined May 5, 2024",
+                    imagePath: profileImage,
+                    button: AppButton(
+                      height: 30,
+                      width: 100,
+                      text: 'Unfollow',
+                      onPressed: () async {
+                        await stateNotifier.unfollowFriend(following.id ?? '');
+                        await profileNotifier.getUserDetails();
+                      },
+                      color: AppColors.colorCommentBoxBorder,
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
   }
 
   Widget _requestsList(
-      List<Users> requestList,
-      YourPeopleState followState,
-      YourPeopleNotifier stateNotifier,
-      ProfileNotifier profileNotifier,
-      ) {
+    List<Users> requestList,
+    YourPeopleState followState,
+    YourPeopleNotifier stateNotifier,
+    ProfileNotifier profileNotifier,
+  ) {
     return followState.followRequestsList.isEmpty
         ? Center(
-      child: Text(
-        'You have no requests.',
-        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-          fontSize: 13.sp,
-          color: AppColors.colorBlack,
-        ),
-      ),
-    )
-        : Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            'Pending Requests',
-            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-              fontSize: 13.sp,
-              color: AppColors.colorBlack,
-            ),
-          ),
-        ),
-        20.verticalSpace,
-        GridView.builder(
-          itemCount: requestList.length,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-          ),
-          itemBuilder: (context, index) {
-            if (index < 0 || index >= requestList.length) {
-              return const SizedBox.shrink();
-            }
-            final requests = requestList[index];
-            final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
-
-            return CustomCard(
-              name: requests.fullName ?? '',
-              date: "Joined May 5, 2018",
-              imagePath: profileImage,
-              button: AppButton(
-                height: 30,
-                width: 150,
-                text: "Accept Request",
-                onPressed: () async {
-                  await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
-                  await profileNotifier.getUserDetails();
-                },
-                color: AppColors.colorCommentBoxBorder,
+            child: Text(
+              'You have no requests.',
+              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                fontSize: 13.sp,
+                color: AppColors.colorBlack,
               ),
-            );
-          },
-        ),
-      ],
-    );
+            ),
+          )
+        : Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Pending Requests',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorBlack,
+                  ),
+                ),
+              ),
+              20.verticalSpace,
+              GridView.builder(
+                itemCount: requestList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < 0 || index >= requestList.length) {
+                    return const SizedBox.shrink();
+                  }
+                  final requests = requestList[index];
+                  final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
+
+                  return CustomCard(
+                    name: requests.fullName ?? '',
+                    date: "Joined May 5, 2018",
+                    imagePath: profileImage,
+                    button: AppButton(
+                      height: 30,
+                      width: 150,
+                      text: "Accept Request",
+                      onPressed: () async {
+                        await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
+                        await profileNotifier.getUserDetails();
+                      },
+                      color: AppColors.colorCommentBoxBorder,
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
   }
 }

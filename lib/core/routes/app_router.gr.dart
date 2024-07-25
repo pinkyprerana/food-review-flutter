@@ -258,12 +258,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    YourPeopleRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const YourPeoplePage(),
-      );
-    },
   };
 }
 
@@ -930,18 +924,4 @@ class YourPeopleListRouteArgs {
   String toString() {
     return 'YourPeopleListRouteArgs{key: $key, tabIndex: $tabIndex}';
   }
-}
-
-/// generated route for
-/// [YourPeoplePage]
-class YourPeopleRoute extends PageRouteInfo<void> {
-  const YourPeopleRoute({List<PageRouteInfo>? children})
-      : super(
-          YourPeopleRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'YourPeopleRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }

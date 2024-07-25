@@ -6,12 +6,14 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 
 class NotificationIcon extends StatelessWidget {
-  const NotificationIcon({super.key,});
+  const NotificationIcon({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => AutoRouter.of(context).push( NotificationRoute()),
+      onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
       child: Container(
         height: 26.r,
         width: 26.r,

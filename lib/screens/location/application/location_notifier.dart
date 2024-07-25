@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
@@ -24,29 +23,29 @@ class LocationNotifier extends StateNotifier<LocationState> {
   final HiveDatabase _hiveDataBase;
   String address = '';
 
-  checkPermissionForIOS(BuildContext context) async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  // checkPermissionForIOS(BuildContext context) async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-    AppLog.log('serviceEnabled -------->> $serviceEnabled');
+  //   AppLog.log('serviceEnabled -------->> $serviceEnabled');
 
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-      return;
-    }
+  //   if (!serviceEnabled) {
+  //     await Geolocator.openLocationSettings();
+  //     return;
+  //   }
 
-    permission = await Geolocator.checkPermission();
-    AppLog.log('permission --------->> $permission');
+  //   permission = await Geolocator.checkPermission();
+  //   AppLog.log('permission --------->> $permission');
 
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      _showPermissionDialog(context);
-    } else {
-      getLocation(context);
-    }
-  }
+  //   if (permission == LocationPermission.denied ||
+  //       permission == LocationPermission.deniedForever) {
+  //     _showPermissionDialog(context);
+  //   } else {
+  //     getLocation(context);
+  //   }
+  // }
 
   void _showPermissionDialog(BuildContext context) {
     showDialog(
@@ -93,8 +92,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        showToastMessage(
-            'Request Denied, please go to app settings to grant location permission');
+        showToastMessage('Request Denied, please go to app settings to grant location permission');
         _showPermissionDialog(context);
         return;
       }
@@ -115,10 +113,8 @@ class LocationNotifier extends StateNotifier<LocationState> {
     try {
       state = state.copyWith(isLoading: true);
 
-      print('getLocation is called');
-
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position =
+          await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
       AppLog.log('postion.lat: -------->> ${position.latitude}');
       AppLog.log('postion.long: -------->> ${position.longitude}');
@@ -134,14 +130,10 @@ class LocationNotifier extends StateNotifier<LocationState> {
       if (result.isNotEmpty) {
         // state = state.copyWith(isLoading: false);
 
-        address =
-            '${result[0].name}, ${result[0].locality}, ${result[0].administrativeArea}';
-        await _hiveDataBase.box
-            .put(AppPreferenceKeys.isLocationFetched, 'true');
-        await _hiveDataBase.box
-            .put(AppPreferenceKeys.latitude, position.latitude.toString());
-        await _hiveDataBase.box
-            .put(AppPreferenceKeys.longitude, position.longitude.toString());
+        address = '${result[0].name}, ${result[0].locality}, ${result[0].administrativeArea}';
+        await _hiveDataBase.box.put(AppPreferenceKeys.isLocationFetched, 'true');
+        await _hiveDataBase.box.put(AppPreferenceKeys.latitude, position.latitude.toString());
+        await _hiveDataBase.box.put(AppPreferenceKeys.longitude, position.longitude.toString());
         await _hiveDataBase.box.put(AppPreferenceKeys.location,
             '${place.name}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}');
         updateProfile(
@@ -156,8 +148,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
     }
   }
 
-  Future<void> updateProfile(
-      double lat, double long, String location, BuildContext context) async {
+  Future<void> updateProfile(double lat, double long, String location, BuildContext context) async {
     try {
       state = state.copyWith(isLoading: true);
 
@@ -182,8 +173,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
 
       if (response.statusCode == 200 && response.data != null) {
         showToastMessage('Location updated successfully');
-        AutoRouter.of(context)
-            .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
+        AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
         state = state.copyWith(isLoading: false);
       } else {
         showToastMessage('Something went wrong, try again');

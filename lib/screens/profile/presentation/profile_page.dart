@@ -44,8 +44,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     final state = ref.watch(profileNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
-    final profileState = ref.watch(profileNotifierProvider);
-    final notificationList = profileState.notificationList;
 
     return Scaffold(
       extendBody: true,
@@ -62,8 +60,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () =>
-                AutoRouter.of(context).push(NotificationRoute()),
+            onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
             child: Container(
               height: 26.r,
               width: 26.r,

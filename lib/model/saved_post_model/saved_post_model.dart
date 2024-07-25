@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'saved_post_model.freezed.dart';
 part 'saved_post_model.g.dart';
@@ -15,8 +17,7 @@ abstract class SavedPostModel with _$SavedPostModel {
     @JsonKey(name: "limit") int? limit,
   }) = _SavedPostModel;
 
-  factory SavedPostModel.fromJson(Map<String, dynamic> json) =>
-      _$SavedPostModelFromJson(json);
+  factory SavedPostModel.fromJson(Map<String, dynamic> json) => _$SavedPostModelFromJson(json);
 }
 
 @freezed
@@ -58,8 +59,7 @@ abstract class GeoLoc with _$GeoLoc {
     @JsonKey(name: "coordinates") required List<double> coordinates,
   }) = _GeoLoc;
 
-  factory GeoLoc.fromJson(Map<String, dynamic> json) =>
-      _$GeoLocFromJson(json);
+  factory GeoLoc.fromJson(Map<String, dynamic> json) => _$GeoLocFromJson(json);
 }
 
 @freezed
@@ -71,8 +71,7 @@ abstract class UserInfo with _$UserInfo {
     @JsonKey(name: "profile_image") required String profileImage,
   }) = _UserInfo;
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 }
 
 @freezed
@@ -82,8 +81,7 @@ abstract class PreferenceInfo with _$PreferenceInfo {
     @JsonKey(name: "title") required String title,
   }) = _PreferenceInfo;
 
-  factory PreferenceInfo.fromJson(Map<String, dynamic> json) =>
-      _$PreferenceInfoFromJson(json);
+  factory PreferenceInfo.fromJson(Map<String, dynamic> json) => _$PreferenceInfoFromJson(json);
 }
 
 @freezed
@@ -100,6 +98,5 @@ abstract class RestaurantInfo with _$RestaurantInfo {
     @JsonKey(name: "rating") required String rating,
   }) = _RestaurantInfo;
 
-  factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantInfoFromJson(json);
+  factory RestaurantInfo.fromJson(Map<String, dynamic> json) => _$RestaurantInfoFromJson(json);
 }
