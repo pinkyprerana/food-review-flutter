@@ -312,7 +312,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               padding: const EdgeInsets.all(0),
                               itemBuilder: (context, index) {
                                 final postList = postFeedList[index];
-                                final commentInfoList = postList.commentInfo;
+                                final commentInfoList = postList.commentInfo??[];
                                 return PostWidget(
                                     isSaving: postFeedState.isSavePost,
                                     postList: postList,

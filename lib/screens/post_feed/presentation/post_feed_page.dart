@@ -23,8 +23,6 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  // SlideRegion? _currentRegion;
-  bool _isStackFinished = false;
 
   @override
   void initState() {
@@ -80,7 +78,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight,
-            child: _isStackFinished
+            child: postFeedState.isStackFinished
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -120,9 +118,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       //   content: Text("Post Finished"),
                       //   duration: Duration(milliseconds: 500),
                       // ));
-                      setState(() {
-                        _isStackFinished = true;
-                      });
+                      ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
                     },
                     itemChanged: (SwipeItem item, int index) {
                       AppLog.log("item: ${item.content.text}, index: $index");

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,17 +55,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   bool validateLoginFields({VoidCallback? onSuccess}) {
     if (loginEmailTextController.text.isEmpty) {
-      showToastMessage('Please enter your email');
+      showToastMessage('Please enter email');
       return false;
     } else if (!Validator.validateEmail(loginEmailTextController.text)) {
-      showToastMessage('Please enter a valid email');
+      showToastMessage('Please enter valid email');
       return false;
     } else if (loginPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter your password');
+      showToastMessage('Please enter password');
       return false;
-    } else if (loginPasswordTextController.text.length < 8 ||
-        loginPasswordTextController.text.length > 15) {
-      showToastMessage('Password should be at between 8 to 15 characters');
+    } else if (loginPasswordTextController.text.length < 6) {
+      showToastMessage('Password should be at least 6 characters');
       return false;
     } else {
       return true;
@@ -73,31 +73,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   bool validateSignupFields() {
     if (signupFirstNameTextController.text.isEmpty) {
-      showToastMessage('Please enter your first name');
+      showToastMessage('Please enter first name');
       return false;
     } else if (signupLastNameTextController.text.isEmpty) {
-      showToastMessage('Please enter your last name');
+      showToastMessage('Please enter last name');
       return false;
     } else if (signupEmailTextController.text.isEmpty) {
-      showToastMessage('Please enter your email');
+      showToastMessage('Please enter email');
       return false;
     } else if (!Validator.validateEmail(signupEmailTextController.text)) {
-      showToastMessage('Please enter a valid email');
+      showToastMessage('Please enter valid email');
       return false;
     }
     if (signupContactNumberTextController.text.isEmpty) {
-      showToastMessage('Please enter your phone number');
+      showToastMessage('Please Enter Your Phone Number');
       return false;
     } else if (signupContactNumberTextController.text.isNotEmpty &&
         signupContactNumberTextController.text.length < 10) {
-      showToastMessage('Please enter a valid phone number');
+      showToastMessage('Please Enter A Valid Phone Number');
       return false;
     } else if (signupContactNumberTextController.text.isNotEmpty &&
         !Validator.validatePhone(signupContactNumberTextController.text)) {
       showToastMessage('Please enter a valid phone number');
       return false;
     } else if (signupPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter a password');
+      showToastMessage('Please enter password');
       return false;
     } else if (signupConfirmPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter your confirm password');
@@ -108,14 +108,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
     } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
-<<<<<<< HEAD
       showToastMessage('Passwords must be same');
       return false;
     } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
       showToastMessage('Password and confirm password can\'t be different');
-=======
-      showToastMessage('Password and confirm password are different');
->>>>>>> 4c1111d997f282a72559adeeb868f797b1cdee97
       return false;
     } else {
       return true;
@@ -131,6 +127,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
       return false;
     }
     return true;
+  }
+
+
+  Timer? _timer;
+  void _startTimer() {
+    _timer?.cancel();
+    state = state.copyWith(canResendOtp: false, remainingTime: 30);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (state.remainingTime <= 1) {
+        state = state.copyWith(canResendOtp: true);
+        timer.cancel();
+      } else {
+        state = state.copyWith(remainingTime: state.remainingTime - 1);
+      }
+    });
+  }
+
+  void resetTimer() {
+    _startTimer();
   }
 
   Future<void> signIn(VoidCallback voidCallback) async {
@@ -365,26 +380,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   bool validatePassword() {
-<<<<<<< HEAD
     if (fpPasswordTextController.text.length < 8 || fpPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
     } else if (fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
       showToastMessage('Passwords must be same');
-=======
-    if (fpPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter a new password');
-      return false;
-    } else if (fpConfirmPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter your password again');
-      return false;
-    } else if (fpPasswordTextController.text.length < 8 ||
-        fpPasswordTextController.text.length > 15) {
-      showToastMessage('Password must be between 8 to 15 characters');
-      return false;
-    } else if (fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
-      showToastMessage('Password and confirm password are different');
->>>>>>> 4c1111d997f282a72559adeeb868f797b1cdee97
       return false;
     } else {
       return true;

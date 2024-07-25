@@ -8,11 +8,27 @@ import '../../../core/utils/toast.dart';
 import '../domain/preference_model.dart';
 
 class PreferenceNotifier extends StateNotifier<PreferenceState> {
-  PreferenceNotifier(this._dio, this._networkApiService) : super(const PreferenceState());
+  PreferenceNotifier(this._dio, this._networkApiService)
+      : super(const PreferenceState());
 
-  // ignore: unused_field
   final Dio _dio;
   final NetworkApiService _networkApiService;
+
+  void addTag(String tag) {
+    state = state.copyWith(tags: [...state.tags, tag]);
+  }
+
+  void removeTag(String tag) {
+    state = state.copyWith(tags: state.tags.where((t) => t != tag).toList());
+  }
+
+  void toggleTag(String tag) {
+    if (state.tags.contains(tag)) {
+      removeTag(tag);
+    } else {
+      addTag(tag);
+    }
+  }
 
   // Future<void> selectPreference(VoidCallback voidCallback) async {
   //     state = state.copyWith(isLoading: true);
@@ -53,7 +69,8 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      var (response, dioException) = await _networkApiService.getApiRequest(
+      var (response, dioException) =
+      await _networkApiService.getApiRequest(
           url: "${AppUrls.BASE_URL}${AppUrls.getAllPreference}");
 
       if (response == null && dioException == null) {
@@ -61,9 +78,11 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        PreferenceModel preferenceModel = PreferenceModel.fromJson(response.data);
+        PreferenceModel preferenceModel =
+        PreferenceModel.fromJson(response.data);
         if (preferenceModel.status == 200) {
-          state = state.copyWith(isLoading: false, data: preferenceModel.data);
+          state = state.copyWith(isLoading: false,
+              data: preferenceModel.data);
         } else {
           showToastMessage(preferenceModel.message.toString());
         }
@@ -75,3 +94,6 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
     }
   }
 }
+
+
+
