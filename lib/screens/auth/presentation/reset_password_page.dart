@@ -26,8 +26,8 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    final stateNotifier = ref.watch(authNotifierProvider.notifier);
+    final state = ref.watch(authNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -78,13 +78,11 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                         CustomRichText(
                           firstText: 'Reset Your',
                           secondText: 'Password',
-                          firstTextStyle:
-                              AppTextStyles.textStylePoppinsMedium.copyWith(
+                          firstTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimary,
                             fontSize: 16.sp,
                           ),
-                          secondTextStyle:
-                              AppTextStyles.textStylePoppinsMedium.copyWith(
+                          secondTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimaryAlpha,
                             fontSize: 16.sp,
                           ),
@@ -106,13 +104,12 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                           hint: 'Enter new password',
                           isPassword: true,
                           keyboardType: TextInputType.text,
-                          onFieldSubmitted: (p0) => FocusScope.of(context)
-                              .requestFocus(fgConfirmPasswordFN),
+                          onFieldSubmitted: (p0) =>
+                              FocusScope.of(context).requestFocus(fgConfirmPasswordFN),
                         ),
                         10.verticalSpace,
                         CustomInputField(
-                          controller:
-                              stateNotifier.fpConfirmPasswordTextController,
+                          controller: stateNotifier.fpConfirmPasswordTextController,
                           focusNode: fgConfirmPasswordFN,
                           label: 'Confirm New Password',
                           hint: 'Enter confirmed password',
@@ -127,10 +124,8 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                           onPressed: () {
                             dismissKeyboard(context);
                             stateNotifier.resetPassword(() {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              AutoRouter.of(context).pushAndPopUntil(
-                                  const LoginRoute(),
-                                  predicate: (_) => false);
+                              AutoRouter.of(context)
+                                  .pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
                             });
                           },
                         ),
