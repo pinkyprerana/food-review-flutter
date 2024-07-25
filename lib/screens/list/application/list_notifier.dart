@@ -6,11 +6,12 @@ import 'list_state.dart';
 class ListNotifier extends StateNotifier<ListState> {
   ListNotifier(this._dio, this._hiveDatabase) : super(const ListState());
 
+  // ignore: unused_field
   final Dio _dio;
+  // ignore: unused_field
   final HiveDatabase _hiveDatabase;
 
   void setListIndex(int index) {
     state = state.copyWith(listIndex: index);
-    print(state.listIndex);
   }
 }

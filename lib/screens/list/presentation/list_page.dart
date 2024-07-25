@@ -9,7 +9,6 @@ import 'package:for_the_table/screens/list/presentation/widgets/followers_list.d
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
-import '../../notification/shared/providers.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -30,10 +29,10 @@ class _ListPageState extends ConsumerState<ListPage> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.read(listProvider.notifier);
     final state = ref.watch(listProvider);
-    final notificationState = ref.watch(notificationNotifierProvider);
-    final todayNotifications = notificationState.todayNotifications;
-    final yesterdayNotifications = notificationState.yesterdayNotifications;
-    final olderNotifications = notificationState.olderNotifications;
+    // final notificationState = ref.watch(notificationNotifierProvider);
+    // final todayNotifications = notificationState.todayNotifications;
+    // final yesterdayNotifications = notificationState.yesterdayNotifications;
+    // final olderNotifications = notificationState.olderNotifications;
 
     return Scaffold(
       extendBody: true,
@@ -50,7 +49,7 @@ class _ListPageState extends ConsumerState<ListPage> {
             fontSize: 16.sp,
           ),
         ),
-        actions: const [ NotificationIcon()],
+        actions: const [NotificationIcon()],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -103,9 +102,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                           horizontal: 8,
                         ).r,
                         labelStyle: TextStyle(
-                          color: isSelected == i
-                              ? Colors.white
-                              : AppColors.colorPrimaryAlpha,
+                          color: isSelected == i ? Colors.white : AppColors.colorPrimaryAlpha,
                         ),
                         shape: RoundedRectangleBorder(
                           side: const BorderSide(color: AppColors.colorGrey3),
@@ -116,7 +113,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                   },
                 ),
               ),
-              state.listIndex == 0 ? FollowersList() : RestaurantsList(),
+              state.listIndex == 0 ? const FollowersList() : const RestaurantsList(),
             ],
           ),
         ),

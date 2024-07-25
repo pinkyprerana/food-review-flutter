@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
@@ -11,11 +9,10 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
-  PostFeedNotifier( this._hiveDatabase, this._networkApiService)
-      : super(const PostFeedState());
+  PostFeedNotifier(this._hiveDatabase, this._networkApiService) : super(const PostFeedState());
 
   final HiveDatabase _hiveDatabase;
-  NetworkApiService _networkApiService;
+  final NetworkApiService _networkApiService;
   TextEditingController commentController = TextEditingController();
 
   void setIsExpanded() {
@@ -36,16 +33,16 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> getPostFeed({bool isPostLoading = false}) async {
-    AppLog.log("Latitude: ${getLatitude}");
-    AppLog.log("Longitude: ${getLongitude}");
+    AppLog.log("Latitude: $getLatitude");
+    AppLog.log("Longitude: $getLongitude");
     state = state.copyWith(isLoading: !isPostLoading);
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
-          // body: {
-            // "lat": getLatitude,
-            // "lng": getLongitude,
-            // "user_id": userId,
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        // body: {
+        // "lat": getLatitude,
+        // "lng": getLongitude,
+        // "user_id": userId,
         // }
       );
       state = state.copyWith(isLoading: false);
@@ -58,13 +55,11 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         try {
           PostModel postModel = PostModel.fromJson(response.data);
           if (postModel.status == 200) {
-            List<CommentInfo> allComments = postModel.postList.expand((post) => post.commentInfo).toList();
+            List<CommentInfo> allComments =
+                postModel.postList.expand((post) => post.commentInfo).toList();
 
             state = state.copyWith(
-                isLoading: false,
-                postList: postModel.postList,
-                commentInfoList: allComments
-            );
+                isLoading: false, postList: postModel.postList, commentInfoList: allComments);
           } else {
             showToastMessage(postModel.message.toString());
           }
@@ -272,7 +267,9 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}/post-like/comment',
-        body: {"comment_id": commentID,},
+        body: {
+          "comment_id": commentID,
+        },
       );
       state = state.copyWith(isLoading: false);
 
@@ -298,5 +295,4 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
-
 }

@@ -2,16 +2,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import '../../../core/constants/app_urls.dart';
-import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/utils/toast.dart';
 import '../../../model/notification_model/notification_model.dart';
 import 'notification_state.dart';
 
 class NotificationNotifier extends StateNotifier<NotificationState> {
-  NotificationNotifier( this._networkApiService) : super(const NotificationState());
+  NotificationNotifier(this._networkApiService) : super(const NotificationState());
 
   final NetworkApiService _networkApiService;
-
 
   Future<void> getNotificationList() async {
     state = state.copyWith(isLoading: true);
@@ -34,7 +32,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 
           final now = DateTime.now();
           final todayStart = DateTime(now.year, now.month, now.day);
-          final yesterdayStart = todayStart.subtract(Duration(days: 1));
+          final yesterdayStart = todayStart.subtract(const Duration(days: 1));
           final yesterdayEnd = todayStart;
 
           for (var notification in notificationModel.notificationList) {
@@ -55,7 +53,6 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
             yesterdayNotifications: yesterdayNotifications,
             olderNotifications: olderNotifications,
           );
-
         } else {
           showToastMessage(notificationModel.message.toString());
         }
@@ -65,6 +62,4 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
-
-
 }

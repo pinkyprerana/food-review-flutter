@@ -9,45 +9,31 @@ import '../../../core/infrastructure/network_api_services.dart';
 import '../../../core/utils/app_log.dart';
 import 'auth_state.dart';
 
-
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this._hiveDatabase, this._networkApiService)
-      : super(const AuthState());
+  AuthNotifier(this._hiveDatabase, this._networkApiService) : super(const AuthState());
 
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
   String? get getUserId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
 
-
-
   //login
-  final TextEditingController loginEmailTextController =
-      TextEditingController();
-  final TextEditingController loginPasswordTextController =
-      TextEditingController();
+  final TextEditingController loginEmailTextController = TextEditingController();
+  final TextEditingController loginPasswordTextController = TextEditingController();
 
   //signup
-  final TextEditingController signupEmailTextController =
-      TextEditingController();
-  final TextEditingController signupFirstNameTextController =
-      TextEditingController();
-  final TextEditingController signupLastNameTextController =
-      TextEditingController();
-  final TextEditingController signupContactNumberTextController =
-      TextEditingController();
-  final TextEditingController signupPasswordTextController =
-      TextEditingController();
-  final TextEditingController signupConfirmPasswordTextController =
-      TextEditingController();
+  final TextEditingController signupEmailTextController = TextEditingController();
+  final TextEditingController signupFirstNameTextController = TextEditingController();
+  final TextEditingController signupLastNameTextController = TextEditingController();
+  final TextEditingController signupContactNumberTextController = TextEditingController();
+  final TextEditingController signupPasswordTextController = TextEditingController();
+  final TextEditingController signupConfirmPasswordTextController = TextEditingController();
 
   //forgot-password
   final TextEditingController fpEmailTextController = TextEditingController();
   final TextEditingController fpOtpTextController = TextEditingController();
-  final TextEditingController fpPasswordTextController =
-      TextEditingController();
-  final TextEditingController fpConfirmPasswordTextController =
-      TextEditingController();
+  final TextEditingController fpPasswordTextController = TextEditingController();
+  final TextEditingController fpConfirmPasswordTextController = TextEditingController();
 
   //preference
   // final List preferences = [];
@@ -120,12 +106,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
         signupPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
-    } else if (signupPasswordTextController.text !=
-        signupConfirmPasswordTextController.text) {
+    } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
       showToastMessage('Passwords must be same');
       return false;
-    } else if (signupPasswordTextController.text !=
-        signupConfirmPasswordTextController.text) {
+    } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
       showToastMessage('Password and confirm password can\'t be different');
       return false;
     } else {
@@ -160,26 +144,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
         Map<String, dynamic> jsonData = response.data;
         if (response.statusCode == 200) {
           AppLog.log(jsonEncode(jsonData));
-          print(jsonData);
 
+          _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
           _hiveDatabase.box
-              .put(AppPreferenceKeys.token, jsonData['token'] ?? '');
+              .put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
           _hiveDatabase.box
-              .put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userFirstName,
-              jsonData['data']['first_name'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userLastName,
-              jsonData['data']['last_name'] ?? '');
-          _hiveDatabase.box.put(
-              AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
-          _hiveDatabase.box.put(
-              AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
-          _hiveDatabase.box.put(
-              AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.profileImage,
-              jsonData['data']['profile_image'] ?? '');
+              .put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
           _hiveDatabase.box
-              .put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
+              .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
           showToastMessage(jsonData["message"]);
           loginEmailTextController.clear();
           loginPasswordTextController.clear();
@@ -239,24 +216,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
         if (jsonData['status'] == 200) {
           AppLog.log(jsonData.toString());
           AppLog.log(jsonData['token']);
+          _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
           _hiveDatabase.box
-              .put(AppPreferenceKeys.token, jsonData['token'] ?? '');
+              .put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
           _hiveDatabase.box
-              .put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userFirstName,
-              jsonData['data']['first_name'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userLastName,
-              jsonData['data']['last_name'] ?? '');
-          _hiveDatabase.box.put(
-              AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
-          _hiveDatabase.box.put(
-              AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
-          _hiveDatabase.box.put(
-              AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.profileImage,
-              jsonData['data']['profile_image'] ?? '');
+              .put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
           _hiveDatabase.box
-              .put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
+              .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
           showToastMessage(jsonData['message']);
           signupFirstNameTextController.clear();
           signupLastNameTextController.clear();
@@ -284,11 +255,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
     state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${AppUrls.sendOTP}',
-          body: {
-            "email": fpEmailTextController.text,
-          });
+      var (response, dioException) = await _networkApiService
+          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.sendOTP}', body: {
+        "email": fpEmailTextController.text,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -318,11 +288,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
     state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${AppUrls.resendOTP}',
-          body: {
-            "email": fpEmailTextController.text,
-          });
+      var (response, dioException) = await _networkApiService
+          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.resendOTP}', body: {
+        "email": fpEmailTextController.text,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -348,12 +317,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> verifyOTP(VoidCallback voidCallback) async {
     state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequest(
-          url: '${AppUrls.BASE_URL}${AppUrls.verifyOTP}',
-          body: {
-            "email": fpEmailTextController.text,
-            "otp": fpOtpTextController.text,
-          });
+      var (response, dioException) = await _networkApiService
+          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.verifyOTP}', body: {
+        "email": fpEmailTextController.text,
+        "otp": fpOtpTextController.text,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -381,12 +349,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   bool validatePassword() {
-    if (fpPasswordTextController.text.length < 8 ||
-        fpPasswordTextController.text.length > 15) {
+    if (fpPasswordTextController.text.length < 8 || fpPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
-    } else if (fpPasswordTextController.text !=
-        fpConfirmPasswordTextController.text) {
+    } else if (fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
       showToastMessage('Passwords must be same');
       return false;
     } else {
@@ -399,17 +365,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(isLoading: true);
 
       try {
-        var (
-          response,
-          dioException
-        ) = await _networkApiService.postApiRequestWithToken(
-            url:
-                '${AppUrls.BASE_URL}${AppUrls.resetPassword}',
-            body: {
-              "email": fpEmailTextController.text,
-              "new_password": fpPasswordTextController.text,
-              "confirm_password": fpConfirmPasswordTextController.text,
-            });
+        var (response, dioException) = await _networkApiService
+            .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.resetPassword}', body: {
+          "email": fpEmailTextController.text,
+          "new_password": fpPasswordTextController.text,
+          "confirm_password": fpConfirmPasswordTextController.text,
+        });
         state = state.copyWith(isLoading: false);
 
         if (response == null && dioException == null) {
@@ -435,5 +396,4 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
     }
   }
-
 }

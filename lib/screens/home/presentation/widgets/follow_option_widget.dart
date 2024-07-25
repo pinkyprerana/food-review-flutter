@@ -7,7 +7,6 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import '../../../people_profile/shared/providers.dart';
-import '../../../your_lists/shared/provider.dart';
 
 class FollowOptionWidget extends ConsumerStatefulWidget {
   const FollowOptionWidget({

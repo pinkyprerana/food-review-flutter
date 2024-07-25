@@ -21,7 +21,7 @@ class CommentsPage extends ConsumerStatefulWidget {
   final DataOfPostModel postInfoList;
 
   @override
-  ConsumerState<CommentsPage> createState()=> _CommentsPageState();
+  ConsumerState<CommentsPage> createState() => _CommentsPageState();
 }
 
 class _CommentsPageState extends ConsumerState<CommentsPage> {
@@ -42,20 +42,19 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final String name = widget.postInfoList.userInfo.fullName;
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo.profileImage}";
-    final String postImage = "${AppUrls.postImageLocation}${widget.postInfoList.file}";
-    final String title = widget.postInfoList.title;
+    // final String postImage = "${AppUrls.postImageLocation}${widget.postInfoList.file}";
+    // final String title = widget.postInfoList.title;
     final String description = widget.postInfoList.description;
     final String? restaurantName = widget.postInfoList.restaurantInfo?.name;
     final String? rating = widget.postInfoList.restaurantInfo?.rating;
     final String? address = widget.postInfoList.restaurantInfo?.address;
-    final String cuisine = widget.postInfoList.preferenceInfo?.title ?? "No cuisine";
+    final String cuisine = widget.postInfoList.preferenceInfo.title;
     final int commentCount = widget.postInfoList.commentCount;
     final int amount = widget.postInfoList.commentCount;
     final bool isSaved = widget.postInfoList.isSave;
     final bool isLiked = widget.postInfoList.isMyLike;
-    final comments = postFeedState.commentInfoList
-        ?.where((comment) => comment.postId == postId)
-        .toList();
+    final comments =
+        postFeedState.commentInfoList?.where((comment) => comment.postId == postId).toList();
 
     return Scaffold(
       backgroundColor: AppColors.colorCommentPageBg,
@@ -90,24 +89,20 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                           Text(
                             name,
                             style: AppTextStyles.textStylePoppinsMedium
-                                .copyWith(
-                                    fontSize: 16.sp,
-                                    color: AppColors.colorWhite),
+                                .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
-                              border: Border.all(
-                                  width: 1, color: const Color(0xffDDDFE6)),
+                              border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
                               color: AppColors.colorWhite.withOpacity(0.10),
                             ),
                             child: Center(
                               child: Text(
                                 'Following',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -129,8 +124,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             child: Center(
                               child: Text(
                                 cuisine,
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -146,25 +140,26 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       20.verticalSpace,
-                      isLiked
-                          ? Image.asset(Assets.redHeart)
-                          : Image.asset(Assets.like),
+                      isLiked ? Image.asset(Assets.redHeart) : Image.asset(Assets.like),
                       15.verticalSpace,
-                      Column(
-                        children: [
-                          Image.asset(Assets.comments),
-                          Text(
-                              (commentCount > 9) ? commentCount.toString() : "0${commentCount.toString()}",
-                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              color: AppColors.colorWhite,
-                              fontSize: 10.sp,
-                            ),
-                           )
-                          ]
-                      ),
+                      Column(children: [
+                        Image.asset(Assets.comments),
+                        Text(
+                          (commentCount > 9)
+                              ? commentCount.toString()
+                              : "0${commentCount.toString()}",
+                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            color: AppColors.colorWhite,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                      ]),
                       10.verticalSpace,
                       isSaved
-                          ? Image.asset(Assets.saved, scale: 2,)
+                          ? Image.asset(
+                              Assets.saved,
+                              scale: 2,
+                            )
                           : Image.asset(Assets.bookmark),
                     ],
                   )
@@ -182,7 +177,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        restaurantName??"Restaurant name not available",
+                        restaurantName ?? "Restaurant name not available",
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp,
                           color: AppColors.colorWhite,
@@ -215,7 +210,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                   Image.asset(Assets.star),
                   5.horizontalSpace,
                   Text(
-                    rating??"4.0",
+                    rating ?? "4.0",
                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,
@@ -228,7 +223,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                   ),
                   8.horizontalSpace,
                   Text(
-                    '\$${amount} For 2',
+                    '\$$amount For 2',
                     style: AppTextStyles.textStyleUbuntuRegular.copyWith(
                       fontSize: 10.sp,
                       color: AppColors.colorWhite,
@@ -239,13 +234,13 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               20.verticalSpace,
               Align(
                 alignment: Alignment.topLeft,
-                  child: Text(
-                    description,
-                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                      fontSize: 13.sp,
-                      color: AppColors.colorWhite,
-                    ),
+                child: Text(
+                  description,
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                    fontSize: 13.sp,
+                    color: AppColors.colorWhite,
                   ),
+                ),
               ),
               15.verticalSpace,
               Row(
@@ -269,14 +264,18 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               ),
               18.verticalSpace,
               postFeedState.isCommentLoading
-              ? const Center(child: CircularProgressIndicator(color: AppColors.colorWhite,))
-              :comments!.isEmpty
-              ? Center(child: Text("Be the first to comment in this post.",
-                style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                fontSize: 12.sp,
-                color: AppColors.colorPrimaryAlpha,
-              )))
-              : CommentItem(commentInfoList:comments),
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: AppColors.colorWhite,
+                    ))
+                  : comments!.isEmpty
+                      ? Center(
+                          child: Text("Be the first to comment in this post.",
+                              style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                fontSize: 12.sp,
+                                color: AppColors.colorPrimaryAlpha,
+                              )))
+                      : CommentItem(commentInfoList: comments),
               20.verticalSpace,
               Container(
                 width: double.infinity,
@@ -307,8 +306,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Write a comment',
-                              hintStyle: AppTextStyles.textStylePoppinsRegular
-                                  .copyWith(
+                              hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
                                 fontSize: 13.sp,
                                 color: AppColors.colorWhite.withOpacity(0.70),
                               )),
@@ -321,7 +319,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                         onPressed: () async {
                           await postFeedNotifier.postComment(() async {
                             dismissKeyboard(context);
-                           }, postId);
+                          }, postId);
                         },
                         text: 'Submit',
                       )
