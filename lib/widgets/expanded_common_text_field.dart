@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
-class ExpandedCommonTextField extends StatefulWidget {
+import '../screens/auth/shared/providers.dart';
+
+class ExpandedCommonTextField extends ConsumerStatefulWidget {
   const ExpandedCommonTextField({
     this.label,
     required this.hint,
@@ -31,14 +34,15 @@ class ExpandedCommonTextField extends StatefulWidget {
   final int? maxLines;
 
   @override
-  State<ExpandedCommonTextField> createState() =>
+  ConsumerState<ExpandedCommonTextField> createState() =>
       _ExpandedCommonTextFieldState();
 }
 
-class _ExpandedCommonTextFieldState extends State<ExpandedCommonTextField> {
-  bool isPasswordVisible = false;
+class _ExpandedCommonTextFieldState extends ConsumerState<ExpandedCommonTextField> {
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(authNotifierProvider);
     return Container(
       height: 60.r,
       width: widget.width ?? double.infinity,
@@ -69,10 +73,8 @@ class _ExpandedCommonTextFieldState extends State<ExpandedCommonTextField> {
               : FloatingLabelBehavior.never,
           suffix: widget.isPassword
               ? GestureDetector(
-                  onTap: () => setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  }),
-                  child: isPasswordVisible
+            onTap: () => ref.read(authNotifierProvider.notifier).togglePasswordVisibility(),
+            child: state.isPasswordVisible
                       ? const Icon(
                           Icons.visibility_outlined,
                           color: AppColors.colorPrimaryAlpha,
@@ -89,7 +91,7 @@ class _ExpandedCommonTextFieldState extends State<ExpandedCommonTextField> {
           prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
         ),
         keyboardType: widget.keyboardType,
-        obscureText: widget.isPassword && !isPasswordVisible,
+        obscureText: widget.isPassword && !state.isPasswordVisible,
         style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
         onFieldSubmitted: widget.onFieldSubmitted,
       ),

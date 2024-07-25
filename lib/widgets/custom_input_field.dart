@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import '../screens/auth/shared/providers.dart';
 
-class CustomInputField extends StatefulWidget {
+class CustomInputField extends ConsumerStatefulWidget {
   const CustomInputField({
     this.label,
     required this.hint,
@@ -27,18 +29,17 @@ class CustomInputField extends StatefulWidget {
   final Function(String)? onFieldSubmitted;
 
   @override
-  State<CustomInputField> createState() => _CustomInputFieldState();
+  ConsumerState<CustomInputField> createState() => _CustomInputFieldState();
 }
 
-class _CustomInputFieldState extends State<CustomInputField> {
-  bool isPasswordVisible = false;
+class _CustomInputFieldState extends ConsumerState<CustomInputField> {
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(authNotifierProvider);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: TextFormField(
-        //expands: (widget.expands != null) ? widget.expands! : false,
-        //maxLines: (widget.maxLines != null) ? widget.maxLines : null,
         controller: widget.controller,
         focusNode: widget.focusNode,
         maxLength: widget.maxLength,
@@ -46,8 +47,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
           filled: true,
           fillColor: AppColors.colorGrey,
           alignLabelWithHint: true,
-          // contentPadding: EdgeInsets.symmetric(vertical: 15),
-          // counterText: '',
           labelText: (widget.label != null) ? widget.label : null,
           labelStyle: AppTextStyles.textStylePoppinsLight.copyWith(
             color: AppColors.colorPrimaryAlpha,
@@ -63,10 +62,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
               (widget.label != null) ? FloatingLabelBehavior.always : FloatingLabelBehavior.never,
           suffixIcon: widget.isPassword
               ? GestureDetector(
-                  onTap: () => setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  }),
-                  child: isPasswordVisible
+            onTap: () => ref.read(authNotifierProvider.notifier).togglePasswordVisibility(),
+            child: state.isPasswordVisible
                       ? const Icon(
                           Icons.visibility_off_outlined,
                           color: AppColors.colorPrimaryAlpha,
@@ -83,7 +80,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
           // prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
         ),
         keyboardType: widget.keyboardType,
-        obscureText: widget.isPassword && !isPasswordVisible,
+        obscureText: widget.isPassword && !state.isPasswordVisible,
         obscuringCharacter: '*',
         style: AppTextStyles.textStylePoppinsRegular.copyWith(fontSize: 13.sp),
         onFieldSubmitted: widget.onFieldSubmitted,

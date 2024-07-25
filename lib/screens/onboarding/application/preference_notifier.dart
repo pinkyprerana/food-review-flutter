@@ -14,7 +14,21 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
   final Dio _dio;
   final NetworkApiService _networkApiService;
 
+  void addTag(String tag) {
+    state = state.copyWith(tags: [...state.tags, tag]);
+  }
 
+  void removeTag(String tag) {
+    state = state.copyWith(tags: state.tags.where((t) => t != tag).toList());
+  }
+
+  void toggleTag(String tag) {
+    if (state.tags.contains(tag)) {
+      removeTag(tag);
+    } else {
+      addTag(tag);
+    }
+  }
 
   // Future<void> selectPreference(VoidCallback voidCallback) async {
   //     state = state.copyWith(isLoading: true);

@@ -47,7 +47,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final String description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
-    final String cuisine = widget.postList.preferenceInfo.title;
+    final String? cuisine = widget.postList.preferenceInfo?.title;
     final int commentCount = widget.postList.commentCount;
     final String postId = widget.postList.id;
     final bool isSaved = widget.postList.isSave;
@@ -164,7 +164,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cuisine,
+                                      cuisine??"No cuisine",
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,

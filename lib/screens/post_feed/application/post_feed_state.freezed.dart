@@ -21,6 +21,7 @@ mixin _$PostFeedState {
   bool get isCommentLoading => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
   bool get isLiked => throw _privateConstructorUsedError;
+  bool get isStackFinished => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
   List<dynamic> get postTitles => throw _privateConstructorUsedError;
   List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $PostFeedStateCopyWith<$Res> {
       bool isCommentLoading,
       bool isExpanded,
       bool isLiked,
+      bool isStackFinished,
       int selectedIndex,
       List<dynamic> postTitles,
       List<DataOfPostModel> postList,
@@ -75,6 +77,7 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? isCommentLoading = null,
     Object? isExpanded = null,
     Object? isLiked = null,
+    Object? isStackFinished = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
     Object? postList = null,
@@ -103,6 +106,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
       isLiked: null == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isStackFinished: null == isStackFinished
+          ? _value.isStackFinished
+          : isStackFinished // ignore: cast_nullable_to_non_nullable
               as bool,
       selectedIndex: null == selectedIndex
           ? _value.selectedIndex
@@ -150,6 +157,7 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       bool isCommentLoading,
       bool isExpanded,
       bool isLiked,
+      bool isStackFinished,
       int selectedIndex,
       List<dynamic> postTitles,
       List<DataOfPostModel> postList,
@@ -175,6 +183,7 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? isCommentLoading = null,
     Object? isExpanded = null,
     Object? isLiked = null,
+    Object? isStackFinished = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
     Object? postList = null,
@@ -203,6 +212,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
       isLiked: null == isLiked
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isStackFinished: null == isStackFinished
+          ? _value.isStackFinished
+          : isStackFinished // ignore: cast_nullable_to_non_nullable
               as bool,
       selectedIndex: null == selectedIndex
           ? _value.selectedIndex
@@ -245,6 +258,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
       this.isCommentLoading = false,
       this.isExpanded = false,
       this.isLiked = false,
+      this.isStackFinished = false,
       this.selectedIndex = 0,
       final List<dynamic> postTitles = const [],
       final List<DataOfPostModel> postList = const [],
@@ -275,6 +289,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
   @override
   @JsonKey()
   final bool isLiked;
+  @override
+  @JsonKey()
+  final bool isStackFinished;
   @override
   @JsonKey()
   final int selectedIndex;
@@ -344,7 +361,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -361,6 +378,8 @@ class _$PostFeedStateImpl extends _PostFeedState {
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
+            (identical(other.isStackFinished, isStackFinished) ||
+                other.isStackFinished == isStackFinished) &&
             (identical(other.selectedIndex, selectedIndex) ||
                 other.selectedIndex == selectedIndex) &&
             const DeepCollectionEquality()
@@ -384,6 +403,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
       isCommentLoading,
       isExpanded,
       isLiked,
+      isStackFinished,
       selectedIndex,
       const DeepCollectionEquality().hash(_postTitles),
       const DeepCollectionEquality().hash(_postList),
@@ -406,6 +426,7 @@ abstract class _PostFeedState extends PostFeedState {
       final bool isCommentLoading,
       final bool isExpanded,
       final bool isLiked,
+      final bool isStackFinished,
       final int selectedIndex,
       final List<dynamic> postTitles,
       final List<DataOfPostModel> postList,
@@ -425,6 +446,8 @@ abstract class _PostFeedState extends PostFeedState {
   bool get isExpanded;
   @override
   bool get isLiked;
+  @override
+  bool get isStackFinished;
   @override
   int get selectedIndex;
   @override

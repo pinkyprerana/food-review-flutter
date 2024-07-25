@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -115,6 +116,28 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else {
       return true;
     }
+  }
+
+  void togglePasswordVisibility() {
+    state = state.copyWith(isPasswordVisible: !state.isPasswordVisible);
+  }
+
+  Timer? _timer;
+  void _startTimer() {
+    _timer?.cancel();
+    state = state.copyWith(canResendOtp: false, remainingTime: 30);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (state.remainingTime <= 1) {
+        state = state.copyWith(canResendOtp: true);
+        timer.cancel();
+      } else {
+        state = state.copyWith(remainingTime: state.remainingTime - 1);
+      }
+    });
+  }
+
+  void resetTimer() {
+    _startTimer();
   }
 
   Future<void> signIn(VoidCallback voidCallback) async {

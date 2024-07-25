@@ -25,6 +25,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     AppLog.log('selectedIndex ----------- ${state.selectedIndex}');
   }
 
+  void stackEmptyStatus() {
+    state = state.copyWith(isStackFinished: true);
+  }
+
   final TextEditingController searchTextController = TextEditingController();
   int totalNumberOfPosts = 0;
 

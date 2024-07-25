@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +10,6 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
 import 'package:pinput/pinput.dart';
-
 import '../shared/providers.dart';
 
 
@@ -26,43 +24,26 @@ class VerifyOtpPage extends ConsumerStatefulWidget {
 class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
   final emailFocusNode = FocusNode();
   final focusNode = FocusNode();
-  late Timer _timer;
-  int _start = 30;
-  bool _canResendOtp = false;
 
   @override
   void initState() {
     super.initState();
-    startTimer();
-  }
-
-  void startTimer() {
-    _canResendOtp = false;
-    _start = 30;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_start == 0) {
-        setState(() {
-          _canResendOtp = true;
-          _timer.cancel();
-        });
-      } else {
-        setState(() {
-          _start--;
-        });
-      }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final authNotifier = ref.watch(authNotifierProvider.notifier);
+      authNotifier.resetTimer();
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    final state = ref.watch(authNotifierProvider);
 
     final defaultPinTheme = PinTheme(
       width: 60.r,
@@ -81,7 +62,6 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: false,
-        // leadingWidth: 60,
         automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -96,7 +76,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                5.horizontalSpace, //this is for centering the icon
+                5.horizontalSpace,
                 Icon(Icons.arrow_back_ios,
                     color: AppColors.colorPrimary, size: 15.h),
               ],
@@ -201,14 +181,12 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            _canResendOtp
+                            state.canResendOtp
                                 ? GestureDetector(
                                     onTap: () async {
-                                      startTimer();
-                                      dismissKeyboard(context);
-                                        stateNotifier.resendOTP(() {
-                                          FocusManager.instance.primaryFocus?.unfocus();
-                                        });
+                                      ref.read(authNotifierProvider.notifier).resetTimer();
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      stateNotifier.resendOTP(() {});
                                     },
                                     child: Text(
                                       'Resend OTP',
@@ -221,7 +199,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
                                     ),
                                   )
                                 : Text(
-                                    'Resend OTP in $_start seconds',
+                                    'Resend OTP in ${state.remainingTime} seconds',
                                     style: AppTextStyles.textStylePoppinsRegular
                                         .copyWith(
                                       color: AppColors.colorPrimaryAlpha,
