@@ -33,13 +33,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+      await followNotifier.getAllUsersList();
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getHomeRestaurants();
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      Future.wait([
-        followNotifier.getAllUsersList(),
-        stateNotifier.getHomeRestaurants(),
-        postFeedNotifier.getPostFeed(),
-      ]);
+      await postFeedNotifier.getPostFeed();
+      // Future.wait([
+      // ]);
     });
   }
 
