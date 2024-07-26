@@ -9,7 +9,6 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/map_utls.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:label_marker/label_marker.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../restaurant/shared/provider.dart';
 
@@ -34,33 +33,10 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
 
   @override
   void initState() {
-    final state = ref.read(restaurantNotifierProvider);
-    AppLog.log('state.restaurantList.length ------------>>> ${state.restaurantList?.length}');
-
-    // var index = 0;
-
-    for (final item in state.restaurantList!) {
-      var uuid = const Uuid();
-      var uniqueString = uuid.v4();
-      final marker = LabelMarker(
-        label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
-        backgroundColor: AppColors.colorPrimary,
-        // markerId: MarkerId(item.name.toString()),
-        markerId: MarkerId(uniqueString),
-        position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
-        infoWindow: InfoWindow(
-          title: item.name,
-        ),
-      );
-      markers.addLabelMarker(marker).then((_) {
-        setState(() {});
-      });
-      AppLog.log('markers.length -------------->> ${markers.length}');
-    }
-
-    AppLog.log('markers -------------->> $markers');
-
-    // AppLog.log('markers.length -------------->> ${markers.length}');
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getAllRestaurants();
+    });
 
     super.initState();
   }
@@ -68,6 +44,8 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restaurantNotifierProvider);
+    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    // AppLog.log('stateNotifier.maekers ----------->> ${stateNotifier.markers}');
 
     return SingleChildScrollView(
       child: Column(
@@ -79,107 +57,61 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
               borderRadius: BorderRadius.circular(10).r,
             ),
             height: 0.52.sh,
-            child: (markers.isNotEmpty)
-                ? Stack(
-                    children: [
-                      GoogleMap(
-                        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                          Factory<OneSequenceGestureRecognizer>(
-                            () => EagerGestureRecognizer(),
-                          ),
-                        ].toSet(),
-                        myLocationButtonEnabled: false,
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            double.parse((state.restaurantList![0].lat ?? '1')),
-                            double.parse(((state.restaurantList![0].lng ?? '1'))),
-                          ),
-                          zoom: 12,
-                        ),
-                        onMapCreated: (GoogleMapController controller) {
-                          // setState(() {
-                          //   controller = controller;
-                          // });
-                          _controller.complete(controller);
-                          _googleMapController = controller;
-                          _googleMapController.getVisibleRegion();
-
-                          Set<Marker> markers = Set();
-
-                          // _markers = Set.from(
-                          //   markers,
-                          // );
-                          markers = markers;
-                          Future.delayed(
-                              const Duration(milliseconds: 200),
-                              () => controller.animateCamera(CameraUpdate.newLatLngBounds(
-                                  MapUtils.boundsFromLatLngList(
-                                      markers.map((loc) => loc.position).toList()),
-                                  1)));
-                        },
-                        markers: markers,
-                        zoomControlsEnabled: true,
-                      ),
-                      // Positioned(
-                      //   bottom: 20.0, // Adjust position as needed
-                      //   right: 10.0, // Adjust position as needed
-                      //   child: Column(
-                      //     children: [
-                      //       GestureDetector(
-                      //         onTap: () {
-                      //           // mapController
-                      //           //     .animateCamera(CameraUpdate.zoomIn());
-                      //         },
-                      //         child: Container(
-                      //           alignment: Alignment.center,
-                      //           height: 44.r,
-                      //           width: 44.r,
-                      //           decoration: BoxDecoration(
-                      //             color: AppColors.colorWhite,
-                      //             borderRadius: BorderRadius.circular(5),
-                      //           ),
-                      //           child: Text(
-                      //             '+',
-                      //             style: AppTextStyles.textStylePoppinsMedium
-                      //                 .copyWith(
-                      //               color: AppColors.colorPrimary,
-                      //               fontSize: 14.sp,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       8.verticalSpace,
-                      //       GestureDetector(
-                      //         onTap: () {
-                      //           // mapController
-                      //           //     .animateCamera(CameraUpdate.zoomOut());
-                      //         },
-                      //         child: Container(
-                      //           alignment: Alignment.center,
-                      //           height: 44.r,
-                      //           width: 44.r,
-                      //           decoration: BoxDecoration(
-                      //             color: AppColors.colorWhite,
-                      //             borderRadius: BorderRadius.circular(5),
-                      //           ),
-                      //           child: Text(
-                      //             '-',
-                      //             style: AppTextStyles.textStylePoppinsMedium
-                      //                 .copyWith(
-                      //               color: AppColors.colorPrimary,
-                      //               fontSize: 14.sp,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ],
+            child: state.isAllRestaurantsLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.colorPrimary,
+                    ),
                   )
-                : const Center(
-                    child: Text('Something went wrong, please try again'),
-                  ),
+                : state.allRestaurantList.isNotEmpty
+                    ? Stack(
+                        children: [
+                          GoogleMap(
+                            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                              Factory<OneSequenceGestureRecognizer>(
+                                () => EagerGestureRecognizer(),
+                              ),
+                            ].toSet(),
+                            myLocationButtonEnabled: false,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                double.parse((state.allRestaurantList[0].lat ?? '1')),
+                                double.parse(((state.allRestaurantList[0].lng ?? '1'))),
+                              ),
+                              zoom: 12,
+                            ),
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                              _googleMapController = controller;
+                              _googleMapController.getVisibleRegion();
+                              controller.animateCamera(
+                                CameraUpdate.newLatLngBounds(
+                                    MapUtils.boundsFromLatLngList(
+                                        stateNotifier.markers.map((loc) => loc.position).toList()),
+                                    1),
+                              );
+
+                              // Set<Marker> markers = Set();
+
+                              markers = stateNotifier.markers;
+                              // Future.delayed(
+                              //   const Duration(milliseconds: 200),
+                              //   () => controller.animateCamera(
+                              //     CameraUpdate.newLatLngBounds(
+                              //         MapUtils.boundsFromLatLngList(
+                              //             markers.map((loc) => loc.position).toList()),
+                              //         1),
+                              //   ),
+                              // );
+                            },
+                            // markers: markers,
+                            zoomControlsEnabled: true,
+                          ),
+                        ],
+                      )
+                    : const Center(
+                        child: Text('Data not available at the moment'),
+                      ),
           ),
           100.verticalSpace,
         ],

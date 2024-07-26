@@ -6,13 +6,18 @@ import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/model/restaurant/all_restaurants_model.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:label_marker/label_marker.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:uuid/uuid.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RestaurantNotifier(this._dio, this._hiveDataBase, this._networkApiService)
@@ -26,6 +31,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
+  Set<Marker> markers = {};
 
   @override
   void dispose() {
@@ -107,6 +113,53 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       showToastMessage(error, errorMessage: 'Failed to get restaurants');
 
       state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> getAllRestaurants() async {
+    try {
+      state = state.copyWith(isAllRestaurantsLoading: true);
+
+      final headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.BASE_URL}${AppUrls.getAllRestaurants}',
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final allReastaurantsModel = AllRestaurantsModel.fromJson(response.data!);
+
+        final List<RestaurantData> allRestaurantList = [];
+
+        for (var restaurant in allReastaurantsModel.data ?? []) {
+          allRestaurantList.add(restaurant);
+        }
+
+        if (allRestaurantList.isNotEmpty) {
+          addMarker(allRestaurantList);
+        }
+
+        state = state.copyWith(
+          isAllRestaurantsLoading: false,
+          allRestaurantList: [...allRestaurantList],
+        );
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isAllRestaurantsLoading: false);
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to get restaurants');
+
+      state = state.copyWith(isAllRestaurantsLoading: false);
     }
   }
 
@@ -270,5 +323,24 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       state = state.copyWith(isLoadingForPosts: false);
     }
+  }
+
+  void addMarker(List<RestaurantData> restaurantList) {
+    for (final item in restaurantList) {
+      var uuid = const Uuid();
+      var uniqueString = uuid.v4();
+      final marker = Marker(
+        // label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
+        // backgroundColor: AppColors.colorPrimary,
+        // markerId: MarkerId(item.name.toString()),
+        markerId: MarkerId(uniqueString),
+        position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
+        infoWindow: InfoWindow(
+          title: item.name,
+        ),
+      );
+      markers.add(marker);
+    }
+    state = state.copyWith();
   }
 }

@@ -31,4 +31,5 @@ class AppUrls {
 
   // Restaurant
   static const postListPerRestaurant = '/post/list';
+  static const getAllRestaurants = '/restaurant/full-list';
 }

@@ -17,8 +17,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RestaurantState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isAllRestaurantsLoading => throw _privateConstructorUsedError;
   List<Restaurant>? get restaurantList => throw _privateConstructorUsedError;
   List<Restaurant>? get homeRestaurantList =>
+      throw _privateConstructorUsedError;
+  List<RestaurantData> get allRestaurantList =>
       throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
@@ -43,8 +46,10 @@ abstract class $RestaurantStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isAllRestaurantsLoading,
       List<Restaurant>? restaurantList,
       List<Restaurant>? homeRestaurantList,
+      List<RestaurantData> allRestaurantList,
       int currentPage,
       bool hasMore,
       int totalPages,
@@ -70,8 +75,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isAllRestaurantsLoading = null,
     Object? restaurantList = freezed,
     Object? homeRestaurantList = freezed,
+    Object? allRestaurantList = null,
     Object? currentPage = null,
     Object? hasMore = null,
     Object? totalPages = null,
@@ -87,6 +94,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAllRestaurantsLoading: null == isAllRestaurantsLoading
+          ? _value.isAllRestaurantsLoading
+          : isAllRestaurantsLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       restaurantList: freezed == restaurantList
           ? _value.restaurantList
           : restaurantList // ignore: cast_nullable_to_non_nullable
@@ -95,6 +106,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.homeRestaurantList
           : homeRestaurantList // ignore: cast_nullable_to_non_nullable
               as List<Restaurant>?,
+      allRestaurantList: null == allRestaurantList
+          ? _value.allRestaurantList
+          : allRestaurantList // ignore: cast_nullable_to_non_nullable
+              as List<RestaurantData>,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -145,8 +160,10 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isAllRestaurantsLoading,
       List<Restaurant>? restaurantList,
       List<Restaurant>? homeRestaurantList,
+      List<RestaurantData> allRestaurantList,
       int currentPage,
       bool hasMore,
       int totalPages,
@@ -170,8 +187,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isAllRestaurantsLoading = null,
     Object? restaurantList = freezed,
     Object? homeRestaurantList = freezed,
+    Object? allRestaurantList = null,
     Object? currentPage = null,
     Object? hasMore = null,
     Object? totalPages = null,
@@ -187,6 +206,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAllRestaurantsLoading: null == isAllRestaurantsLoading
+          ? _value.isAllRestaurantsLoading
+          : isAllRestaurantsLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       restaurantList: freezed == restaurantList
           ? _value._restaurantList
           : restaurantList // ignore: cast_nullable_to_non_nullable
@@ -195,6 +218,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
           ? _value._homeRestaurantList
           : homeRestaurantList // ignore: cast_nullable_to_non_nullable
               as List<Restaurant>?,
+      allRestaurantList: null == allRestaurantList
+          ? _value._allRestaurantList
+          : allRestaurantList // ignore: cast_nullable_to_non_nullable
+              as List<RestaurantData>,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -239,8 +266,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
 class _$RestaurantStateImpl extends _RestaurantState {
   const _$RestaurantStateImpl(
       {this.isLoading = false,
+      this.isAllRestaurantsLoading = false,
       final List<Restaurant>? restaurantList = const [],
       final List<Restaurant>? homeRestaurantList = const [],
+      final List<RestaurantData> allRestaurantList = const [],
       this.currentPage = 1,
       this.hasMore = true,
       this.totalPages = 0,
@@ -252,6 +281,7 @@ class _$RestaurantStateImpl extends _RestaurantState {
       this.totalPagesPosts = 0})
       : _restaurantList = restaurantList,
         _homeRestaurantList = homeRestaurantList,
+        _allRestaurantList = allRestaurantList,
         _postList = postList,
         _postPerRestaurantList = postPerRestaurantList,
         super._();
@@ -259,6 +289,9 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isAllRestaurantsLoading;
   final List<Restaurant>? _restaurantList;
   @override
   @JsonKey()
@@ -280,6 +313,16 @@ class _$RestaurantStateImpl extends _RestaurantState {
       return _homeRestaurantList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
+  }
+
+  final List<RestaurantData> _allRestaurantList;
+  @override
+  @JsonKey()
+  List<RestaurantData> get allRestaurantList {
+    if (_allRestaurantList is EqualUnmodifiableListView)
+      return _allRestaurantList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allRestaurantList);
   }
 
   @override
@@ -329,7 +372,7 @@ class _$RestaurantStateImpl extends _RestaurantState {
 
   @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts)';
+    return 'RestaurantState(isLoading: $isLoading, isAllRestaurantsLoading: $isAllRestaurantsLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, allRestaurantList: $allRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts)';
   }
 
   @override
@@ -339,10 +382,15 @@ class _$RestaurantStateImpl extends _RestaurantState {
             other is _$RestaurantStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(
+                    other.isAllRestaurantsLoading, isAllRestaurantsLoading) ||
+                other.isAllRestaurantsLoading == isAllRestaurantsLoading) &&
             const DeepCollectionEquality()
                 .equals(other._restaurantList, _restaurantList) &&
             const DeepCollectionEquality()
                 .equals(other._homeRestaurantList, _homeRestaurantList) &&
+            const DeepCollectionEquality()
+                .equals(other._allRestaurantList, _allRestaurantList) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
@@ -365,8 +413,10 @@ class _$RestaurantStateImpl extends _RestaurantState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
+      isAllRestaurantsLoading,
       const DeepCollectionEquality().hash(_restaurantList),
       const DeepCollectionEquality().hash(_homeRestaurantList),
+      const DeepCollectionEquality().hash(_allRestaurantList),
       currentPage,
       hasMore,
       totalPages,
@@ -388,8 +438,10 @@ class _$RestaurantStateImpl extends _RestaurantState {
 abstract class _RestaurantState extends RestaurantState {
   const factory _RestaurantState(
       {final bool isLoading,
+      final bool isAllRestaurantsLoading,
       final List<Restaurant>? restaurantList,
       final List<Restaurant>? homeRestaurantList,
+      final List<RestaurantData> allRestaurantList,
       final int currentPage,
       final bool hasMore,
       final int totalPages,
@@ -404,9 +456,13 @@ abstract class _RestaurantState extends RestaurantState {
   @override
   bool get isLoading;
   @override
+  bool get isAllRestaurantsLoading;
+  @override
   List<Restaurant>? get restaurantList;
   @override
   List<Restaurant>? get homeRestaurantList;
+  @override
+  List<RestaurantData> get allRestaurantList;
   @override
   int get currentPage;
   @override

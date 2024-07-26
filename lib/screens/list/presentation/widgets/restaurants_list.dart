@@ -127,7 +127,6 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
 
   @override
   Widget build(BuildContext context) {
-    AppLog.log('this is called');
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     // final state = ref.watch(restaurantNotifierProvider);
     return Column(
