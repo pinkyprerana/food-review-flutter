@@ -2,16 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../shared/providers.dart';
 
@@ -28,8 +26,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    final stateNotifier = ref.watch(authNotifierProvider.notifier);
+    final state = ref.watch(authNotifierProvider);
     return PopScope(
       canPop: !state.isLoading,
       child: Scaffold(
@@ -45,8 +43,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     padding: const EdgeInsets.only(top: 20.0).r,
                     child: Center(
                       child: Text('FOR THE TABLE',
-                          style:
-                              AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                          style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                             color: AppColors.colorWhite,
                             fontSize: 24.sp,
                           )),
@@ -73,13 +70,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           CustomRichText(
                             firstText: 'Login With',
                             secondText: 'Email',
-                            firstTextStyle:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            firstTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                               color: AppColors.colorPrimary,
                               fontSize: 16.sp,
                             ),
-                            secondTextStyle:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            secondTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 16.sp,
                             ),
@@ -87,8 +82,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           8.verticalSpace,
                           Text(
                             'Enter your email to login to the platform',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 12.sp,
                             ),
@@ -113,8 +107,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           8.verticalSpace,
                           CustomInputField(
                             focusNode: passwordNode,
-                            controller:
-                                stateNotifier.loginPasswordTextController,
+                            controller: stateNotifier.loginPasswordTextController,
                             label: 'Password',
                             hint: 'Please Enter Password',
                             isPassword: true,
@@ -123,14 +116,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                           10.verticalSpace,
                           GestureDetector(
-                            onTap: () => AutoRouter.of(context)
-                                .push(const ForgotPasswordRoute()),
+                            onTap: () => AutoRouter.of(context).push(const ForgotPasswordRoute()),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Text(
                                 'Forgot Your Password?',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorPrimary,
                                   fontSize: 13.sp,
                                 ),
@@ -142,23 +133,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             loading: state.isLoading,
                             text: 'Login',
                             onPressed: () async {
-                              AppLog.log('message');
-
-                              await stateNotifier.signIn(() async {
-                                final hive = ref.read(hiveProvider);
-                                final isLocationFetched = await hive.box
-                                    .get(AppPreferenceKeys.isLocationFetched);
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                (isLocationFetched != null)
-                                    ? AutoRouter.of(context).pushAndPopUntil(
-                                        const BaseRoute(),
-                                        predicate: (_) => false)
-                                    : AutoRouter.of(context).pushAndPopUntil(
-                                        const LocationRoute(),
-                                        predicate: (_) => false);
-                              });
-
                               dismissKeyboard(context);
+                              await stateNotifier.signIn(
+                                () async {
+                                  final permission = await Geolocator.checkPermission();
+
+                                  if (!context.mounted) return;
+                                  (permission == LocationPermission.whileInUse)
+                                      ? AutoRouter.of(context).pushAndPopUntil(const BaseRoute(),
+                                          predicate: (_) => false)
+                                      : AutoRouter.of(context).pushAndPopUntil(
+                                          const LocationRoute(),
+                                          predicate: (_) => false);
+                                },
+                              );
                             },
                           ),
                         ],
@@ -170,19 +158,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         children: [
                           Text(
                             'Do not have an account?',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimary,
                               fontSize: 12.sp,
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => AutoRouter.of(context)
-                                .push(const RegisterRoute()),
+                            onTap: () => AutoRouter.of(context).push(const RegisterRoute()),
                             child: Text(
                               'Register With Us',
-                              style: AppTextStyles.textStylePoppinsSemiBold
-                                  .copyWith(
+                              style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                                 color: AppColors.colorPrimary,
                                 fontSize: 12.sp,
                               ),

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'postFeed_model.freezed.dart';
 part 'postFeed_model.g.dart';
@@ -15,8 +17,7 @@ abstract class PostModel with _$PostModel {
     @JsonKey(name: "limit") int? limit,
   }) = _PostModel;
 
-  factory PostModel.fromJson(Map<String, dynamic> json) =>
-      _$PostModelFromJson(json);
+  factory PostModel.fromJson(Map<String, dynamic> json) => _$PostModelFromJson(json);
 }
 
 @freezed
@@ -48,8 +49,7 @@ abstract class DataOfPostModel with _$DataOfPostModel {
     @JsonKey(name: "restaurantInfo") required RestaurantInfo? restaurantInfo,
   }) = _DataOfPostModel;
 
-  factory DataOfPostModel.fromJson(Map<String, dynamic> json) =>
-      _$DataOfPostModelFromJson(json);
+  factory DataOfPostModel.fromJson(Map<String, dynamic> json) => _$DataOfPostModelFromJson(json);
 }
 
 @freezed
@@ -59,8 +59,7 @@ abstract class GeoLocation with _$GeoLocation {
     @JsonKey(name: "coordinates") required List<double> coordinates,
   }) = _GeoLocation;
 
-  factory GeoLocation.fromJson(Map<String, dynamic> json) =>
-      _$GeoLocationFromJson(json);
+  factory GeoLocation.fromJson(Map<String, dynamic> json) => _$GeoLocationFromJson(json);
 }
 
 @freezed
@@ -72,8 +71,7 @@ abstract class UserInfo with _$UserInfo {
     @JsonKey(name: "profile_image") required String profileImage,
   }) = _UserInfo;
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 }
 
 @freezed
@@ -88,8 +86,7 @@ abstract class CommentInfo with _$CommentInfo {
     @JsonKey(name: "isCommentLiked") required bool isCommentLiked,
   }) = _CommentInfo;
 
-  factory CommentInfo.fromJson(Map<String, dynamic> json) =>
-      _$CommentInfoFromJson(json);
+  factory CommentInfo.fromJson(Map<String, dynamic> json) => _$CommentInfoFromJson(json);
 }
 
 @freezed
@@ -112,8 +109,7 @@ abstract class PreferenceInfo with _$PreferenceInfo {
     @JsonKey(name: "title") required String title,
   }) = _PreferenceInfo;
 
-  factory PreferenceInfo.fromJson(Map<String, dynamic> json) =>
-      _$PreferenceInfoFromJson(json);
+  factory PreferenceInfo.fromJson(Map<String, dynamic> json) => _$PreferenceInfoFromJson(json);
 }
 
 @freezed
@@ -130,8 +126,5 @@ abstract class RestaurantInfo with _$RestaurantInfo {
     @JsonKey(name: "rating") required String rating,
   }) = _RestaurantInfo;
 
-  factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantInfoFromJson(json);
+  factory RestaurantInfo.fromJson(Map<String, dynamic> json) => _$RestaurantInfoFromJson(json);
 }
-
-

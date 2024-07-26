@@ -6,10 +6,10 @@ class GradientIcon extends StatelessWidget {
   final double size;
 
   const GradientIcon({
-    Key? key,
+    super.key,
     required this.icon,
     required this.size,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +30,8 @@ class GradientIcon extends StatelessWidget {
 }
 
 class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'postListOfOther_model.freezed.dart';
 part 'postListOfOther_model.g.dart';
@@ -15,7 +17,8 @@ abstract class PostListOfOtherModel with _$PostListOfOtherModel {
     @JsonKey(name: "limit") int? limit,
   }) = _PostListOfOtherModel;
 
-  factory PostListOfOtherModel.fromJson(Map<String, dynamic> json) => _$PostListOfOtherModelFromJson(json);
+  factory PostListOfOtherModel.fromJson(Map<String, dynamic> json) =>
+      _$PostListOfOtherModelFromJson(json);
 }
 
 @freezed
@@ -44,7 +47,8 @@ abstract class DataOfPostListOfOtherModel with _$DataOfPostListOfOtherModel {
     @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
   }) = _DataOfPostListOfOtherModel;
 
-  factory DataOfPostListOfOtherModel.fromJson(Map<String, dynamic> json) => _$DataOfPostListOfOtherModelFromJson(json);
+  factory DataOfPostListOfOtherModel.fromJson(Map<String, dynamic> json) =>
+      _$DataOfPostListOfOtherModelFromJson(json);
 }
 
 @freezed

@@ -1,11 +1,12 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'postlist_per_restaurant_response_model.freezed.dart';
 part 'postlist_per_restaurant_response_model.g.dart';
 
 @freezed
-class PostlistPerRestaurantResponseModel
-    with _$PostlistPerRestaurantResponseModel {
+class PostlistPerRestaurantResponseModel with _$PostlistPerRestaurantResponseModel {
   const factory PostlistPerRestaurantResponseModel({
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
@@ -17,8 +18,7 @@ class PostlistPerRestaurantResponseModel
     @JsonKey(name: "limit") int? limit,
   }) = _PostlistPerRestaurantResponseModel;
 
-  factory PostlistPerRestaurantResponseModel.fromJson(
-          Map<String, dynamic> json) =>
+  factory PostlistPerRestaurantResponseModel.fromJson(Map<String, dynamic> json) =>
       _$PostlistPerRestaurantResponseModelFromJson(json);
 }
 
@@ -71,8 +71,7 @@ class UserInfo with _$UserInfo {
     @JsonKey(name: "profile_image") String? profileImage,
   }) = _UserInfo;
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 }
 
 @freezed
@@ -82,8 +81,7 @@ class PreferenceInfo with _$PreferenceInfo {
     @JsonKey(name: "title") String? title,
   }) = _PreferenceInfo;
 
-  factory PreferenceInfo.fromJson(Map<String, dynamic> json) =>
-      _$PreferenceInfoFromJson(json);
+  factory PreferenceInfo.fromJson(Map<String, dynamic> json) => _$PreferenceInfoFromJson(json);
 }
 
 @freezed
@@ -100,6 +98,5 @@ class RestaurantInfo with _$RestaurantInfo {
     @JsonKey(name: "rating") String? rating,
   }) = _RestaurantInfo;
 
-  factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantInfoFromJson(json);
+  factory RestaurantInfo.fromJson(Map<String, dynamic> json) => _$RestaurantInfoFromJson(json);
 }

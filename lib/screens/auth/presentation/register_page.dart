@@ -39,8 +39,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isScreenSmall = size.height < 750;
-    final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    final stateNotifier = ref.watch(authNotifierProvider.notifier);
+    final state = ref.watch(authNotifierProvider);
     return PopScope(
       canPop: !state.isLoading,
       child: Scaffold(
@@ -57,8 +57,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     padding: const EdgeInsets.only(top: 20.0).r,
                     child: Center(
                       child: Text('FOR THE TABLE',
-                          style:
-                              AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                          style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                             color: AppColors.colorWhite,
                             fontSize: 24.sp,
                           )),
@@ -86,13 +85,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           CustomRichText(
                             firstText: 'Register',
                             secondText: 'Now',
-                            firstTextStyle:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            firstTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                               color: AppColors.colorPrimary,
                               fontSize: 16.sp,
                             ),
-                            secondTextStyle:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            secondTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 16.sp,
                             ),
@@ -100,8 +97,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           6.verticalSpace,
                           Text(
                             'Register with us now to our platform',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 12.sp,
                             ),
@@ -120,8 +116,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             children: [
                               Expanded(
                                 child: CustomInputField(
-                                  controller: stateNotifier
-                                      .signupFirstNameTextController,
+                                  controller: stateNotifier.signupFirstNameTextController,
                                   focusNode: firstNameFN,
                                   label: 'First Name',
                                   hint: 'Enter first name',
@@ -129,15 +124,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   keyboardType: TextInputType.text,
                                   // maxLength: 20,
                                   onFieldSubmitted: (p0) =>
-                                      FocusScope.of(context)
-                                          .requestFocus(lastNameFN),
+                                      FocusScope.of(context).requestFocus(lastNameFN),
                                 ),
                               ),
                               5.horizontalSpace,
                               Expanded(
                                 child: CustomInputField(
-                                  controller: stateNotifier
-                                      .signupLastNameTextController,
+                                  controller: stateNotifier.signupLastNameTextController,
                                   focusNode: lastNameFN,
                                   label: 'Last Name',
                                   hint: 'Enter last name',
@@ -145,8 +138,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   keyboardType: TextInputType.text,
                                   // maxLength: 20,
                                   onFieldSubmitted: (p0) =>
-                                      FocusScope.of(context)
-                                          .requestFocus(emailFN),
+                                      FocusScope.of(context).requestFocus(emailFN),
                                 ),
                               ),
                             ],
@@ -163,8 +155,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           8.verticalSpace,
                           CustomInputField(
-                            controller:
-                                stateNotifier.signupContactNumberTextController,
+                            controller: stateNotifier.signupContactNumberTextController,
                             focusNode: contactFN,
                             label: 'Contact Number',
                             hint: 'Enter contact number',
@@ -175,20 +166,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           8.verticalSpace,
                           CustomInputField(
-                            controller:
-                                stateNotifier.signupPasswordTextController,
+                            controller: stateNotifier.signupPasswordTextController,
                             focusNode: passwordFN,
                             label: 'Password',
                             hint: 'Enter password',
                             isPassword: true,
                             keyboardType: TextInputType.text,
-                            onFieldSubmitted: (p0) => FocusScope.of(context)
-                                .requestFocus(confirmPasswordFN),
+                            onFieldSubmitted: (p0) =>
+                                FocusScope.of(context).requestFocus(confirmPasswordFN),
                           ),
                           8.verticalSpace,
                           CustomInputField(
-                            controller: stateNotifier
-                                .signupConfirmPasswordTextController,
+                            controller: stateNotifier.signupConfirmPasswordTextController,
                             focusNode: confirmPasswordFN,
                             isPassword: true,
                             label: 'Confirm password',
@@ -205,8 +194,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               stateNotifier.signUp(() {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 AutoRouter.of(context).pushAndPopUntil(
-                                    const LocationRoute(),
-                                    predicate: (_) => false);
+                                  const LoginRoute(),
+                                  predicate: (_) => false,
+                                );
                                 // AutoRouter.of(context).pushAndPopUntil(
                                 //     const SelectPreferenceRoute(),
                                 //     predicate: (_) => false);
@@ -242,19 +232,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         children: [
                           Text(
                             'Already have an account?',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimary,
                               fontSize: 12.sp,
                             ),
                           ),
                           GestureDetector(
-                            onTap: () =>
-                                AutoRouter.of(context).push(const LoginRoute()),
+                            onTap: () => AutoRouter.of(context).push(const LoginRoute()),
                             child: Text(
                               'Login Now',
-                              style: AppTextStyles.textStylePoppinsSemiBold
-                                  .copyWith(
+                              style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                                 color: AppColors.colorPrimary,
                                 fontSize: 12.sp,
                               ),

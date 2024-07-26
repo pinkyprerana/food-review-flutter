@@ -6,6 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_widget.dart';
@@ -15,7 +16,6 @@ import 'package:for_the_table/widgets/notification_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../base/shared/providers.dart';
 import '../../list/shared/provider.dart';
-import '../../notification/shared/providers.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../restaurant/shared/provider.dart';
 
@@ -33,13 +33,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+      await followNotifier.getAllUsersList();
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getHomeRestaurants();
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      Future.wait([
-        followNotifier.getAllUsersList(),
-        stateNotifier.getHomeRestaurants(),
-        postFeedNotifier.getPostFeed(),
-      ]);
+      await postFeedNotifier.getPostFeed();
+      // Future.wait([
+      // ]);
     });
   }
 
@@ -54,7 +54,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    print("postFeedList---->>>>${postFeedList}");
+    AppLog.log("postFeedList---->>>>$postFeedList");
 
     return Scaffold(
         extendBody: true,
@@ -76,16 +76,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
               child: Container(
                 height: 26.r,
                 width: 26.r,
-                margin: const EdgeInsets.only(right: 15).r,
+                margin: const EdgeInsets.only(right: 5).r,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.colorGrey2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                    child: Image.asset(
-                  Assets.search,
-                  color: AppColors.colorPrimary,
-                )),
+                  child: Image.asset(
+                    Assets.search,
+                    color: AppColors.colorPrimary,
+                  ),
+                ),
               ),
             ),
             const NotificationIcon(),
@@ -142,7 +143,8 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 return const SizedBox.shrink();
                               }
                               final followers = allUsersList[index];
-                              final imgpath = followers.profileImage != "" ? followers.profileImage : "";
+                              final imgpath =
+                                  followers.profileImage != "" ? followers.profileImage : "";
                               final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
 
                               return GestureDetector(
@@ -288,7 +290,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 ),
               ),
               5.verticalSpace,
-
               postFeedState.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
@@ -313,10 +314,9 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 final postList = postFeedList[index];
                                 final commentInfoList = postList.commentInfo;
                                 return PostWidget(
-                                  isSaving: postFeedState.isSavePost,
-                                  postList: postList,
-                                  commentInfoList: commentInfoList
-                                );
+                                    isSaving: postFeedState.isSavePost,
+                                    postList: postList,
+                                    commentInfoList: commentInfoList);
                               }),
                         ),
               90.verticalSpace,

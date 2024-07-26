@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
@@ -24,28 +23,29 @@ class LocationNotifier extends StateNotifier<LocationState> {
   final HiveDatabase _hiveDataBase;
   String address = '';
 
-  checkPermissionForIOS(BuildContext context) async {
-    bool serviceEnabled;
-    LocationPermission permission;
+  // checkPermissionForIOS(BuildContext context) async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-    AppLog.log('serviceEnabled -------->> $serviceEnabled');
+  //   AppLog.log('serviceEnabled -------->> $serviceEnabled');
 
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-      return;
-    }
+  //   if (!serviceEnabled) {
+  //     await Geolocator.openLocationSettings();
+  //     return;
+  //   }
 
-    permission = await Geolocator.checkPermission();
-    AppLog.log('permission --------->> $permission');
+  //   permission = await Geolocator.checkPermission();
+  //   AppLog.log('permission --------->> $permission');
 
-    if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-      _showPermissionDialog(context);
-    } else {
-      getLocation(context);
-    }
-  }
+  //   if (permission == LocationPermission.denied ||
+  //       permission == LocationPermission.deniedForever) {
+  //     _showPermissionDialog(context);
+  //   } else {
+  //     getLocation(context);
+  //   }
+  // }
 
   void _showPermissionDialog(BuildContext context) {
     showDialog(
@@ -132,8 +132,6 @@ class LocationNotifier extends StateNotifier<LocationState> {
   getLocation(BuildContext context) async {
     try {
       state = state.copyWith(isLoading: true);
-
-      print('getLocation is called');
 
       Position position =
           await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

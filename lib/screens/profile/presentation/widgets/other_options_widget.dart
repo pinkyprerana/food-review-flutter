@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/shared/providers.dart';
+// import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
@@ -13,8 +13,7 @@ import 'package:for_the_table/widgets/app_outline_button.dart';
 import '../../shared/providers.dart';
 
 class OtherOptionsWidget extends ConsumerWidget {
-  const OtherOptionsWidget(
-      {super.key, required this.title, required this.imgpath});
+  const OtherOptionsWidget({super.key, required this.title, required this.imgpath});
   final String title;
   final String imgpath;
 
@@ -23,7 +22,7 @@ class OtherOptionsWidget extends ConsumerWidget {
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
     final state = ref.watch(profileNotifierProvider);
 
-    final hive = ref.read(hiveProvider);
+    // final hive = ref.read(hiveProvider);
     return GestureDetector(
       onTap: () {
         if (title == 'Logout') {
@@ -37,13 +36,12 @@ class OtherOptionsWidget extends ConsumerWidget {
                       RichText(
                           text: TextSpan(
                         text: 'Log',
-                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 16.sp, color: AppColors.colorPrimary),
+                        style: AppTextStyles.textStylePoppinsMedium
+                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
                         children: [
                           TextSpan(
                             text: ' Out',
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 16.sp,
                               color: AppColors.colorPrimaryAlpha,
                             ),
@@ -55,9 +53,8 @@ class OtherOptionsWidget extends ConsumerWidget {
                         child: Text(
                           'Are you Sure Want to logout from Your Account.',
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              fontSize: 13.sp,
-                              color: AppColors.colorPrimaryAlpha),
+                          style: AppTextStyles.textStylePoppinsRegular
+                              .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
                         ),
                       ),
                       20.verticalSpace,
@@ -76,8 +73,7 @@ class OtherOptionsWidget extends ConsumerWidget {
                             text: 'Logout',
                             loading: state.isLoading,
                             onPressed: () async {
-                              AppLog.log(
-                                  "---------------abc------------------");
+                              AppLog.log("---------------abc------------------");
                               await stateNotifier.logout(context: context);
                               // await stateNotifier.logout(callback: () async {
                               //   Future.delayed(const Duration(seconds: 3), () {

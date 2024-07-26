@@ -6,8 +6,6 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
-import 'package:for_the_table/core/utils/toast.dart';
-import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
@@ -27,8 +25,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    final stateNotifier = ref.watch(authNotifierProvider.notifier);
+    final state = ref.watch(authNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -39,8 +37,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -49,8 +46,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -80,13 +76,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         CustomRichText(
                           firstText: 'Forgot Your',
                           secondText: 'Password?',
-                          firstTextStyle:
-                              AppTextStyles.textStylePoppinsMedium.copyWith(
+                          firstTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimary,
                             fontSize: 16.sp,
                           ),
-                          secondTextStyle:
-                              AppTextStyles.textStylePoppinsMedium.copyWith(
+                          secondTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                             color: AppColors.colorPrimaryAlpha,
                             fontSize: 16.sp,
                           ),
@@ -115,17 +109,17 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                           text: 'Submit',
                           onPressed: () async {
                             dismissKeyboard(context);
-                            if (!Validator.validateEmail(
-                                stateNotifier.fpEmailTextController.text)) {
-                              showToastMessage('Please enter valid email');
-                            } else {
-                              stateNotifier.sendOTP(() {
-                                FocusManager.instance.primaryFocus
-                                    ?.unfocus();
-                                AutoRouter.of(context).push(
-                                    const VerifyOtpRoute());
-                              });
+
+                            bool isEmailValid = stateNotifier.validateForgotEmailField();
+
+                            if (!isEmailValid) {
+                              return;
                             }
+
+                            stateNotifier.sendOTP(() {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              AutoRouter.of(context).push(const VerifyOtpRoute());
+                            });
                           },
                         ),
                       ],

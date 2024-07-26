@@ -27,7 +27,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   XFile? imageFile;
   int selectedCameraIndex = 0;
   bool isIOS = Platform.isIOS;
-  Timer? _timer;
+  // Timer? _timer;
 
   @override
   void initState() {
@@ -175,8 +175,8 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(CreatePostNotifierProvider);
-    final stateNotifier = ref.watch(CreatePostNotifierProvider.notifier);
+    final state = ref.watch(createPostNotifierProvider);
+    final stateNotifier = ref.watch(createPostNotifierProvider.notifier);
     // if (_controller == null || !(_controller?.value.isInitialized ?? false)) {
     //   return const Center(child: CircularProgressIndicator());
     // }

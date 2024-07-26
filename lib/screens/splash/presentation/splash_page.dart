@@ -9,7 +9,6 @@ import 'package:for_the_table/widgets/custom_background.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../core/constants/assets.dart';
-import '../../location/shared/provider.dart';
 
 @RoutePage()
 class SplashPage extends ConsumerStatefulWidget {
@@ -41,11 +40,11 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> navigate() async {
-    final stateOfLocation = ref.watch(locationNotifierProvider);
+    // final stateOfLocation = ref.watch(locationNotifierProvider);
     final hive = ref.read(hiveProvider);
     final token = hive.box.get(AppPreferenceKeys.token);
     final getStartedDone = await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
-    final isLocationFetched = await hive.box.get(AppPreferenceKeys.isLocationFetched);
+    // final isLocationFetched = await hive.box.get(AppPreferenceKeys.isLocationFetched);
     // final id = await hive.box.get(AppPreferenceKeys.userId);
 
     final permission = await Geolocator.checkPermission();

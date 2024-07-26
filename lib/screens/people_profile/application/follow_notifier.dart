@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
-import 'package:for_the_table/screens/profile/presentation/your_people_page.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';

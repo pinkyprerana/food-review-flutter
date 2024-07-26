@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -23,7 +23,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  SlideRegion? _currentRegion;
+  // SlideRegion? _currentRegion;
   bool _isStackFinished = false;
 
   @override
@@ -47,10 +47,10 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
         _swipeItems.add(SwipeItem(
             content: Content(text: postFeedList[i].toString()),
             likeAction: () async {
-              await postFeedNotifier.swipeRightToLikePost((){}, postFeedList[i].id);
+              await postFeedNotifier.swipeRightToLikePost(() {}, postFeedList[i].id);
             },
             nopeAction: () async {
-              await postFeedNotifier.swipeLeftToDislikePost((){}, postFeedList[i].id);
+              await postFeedNotifier.swipeLeftToDislikePost(() {}, postFeedList[i].id);
             },
             // superlikeAction: () {
             //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -59,15 +59,13 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             //   ));
             // },
             onSlideUpdate: (SlideRegion? region) async {
-              print("Region $region");
-            }
-        ));
+              AppLog.log("Region $region");
+            }));
       }
 
       _matchEngine = MatchEngine(swipeItems: _swipeItems);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +73,6 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-
 
     return Scaffold(
       key: _scaffoldKey,
@@ -85,54 +82,54 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
             height: MediaQuery.of(context).size.height - kToolbarHeight,
             child: _isStackFinished
                 ? Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GradientIcon(
-                    icon: Icons.check_circle_outline_rounded,
-                    size:100.h,
-                  ),
-                  Text(
-                    "You're all caught up",
-                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                      fontSize: 12.sp,
-                      color: AppColors.colorBlack,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GradientIcon(
+                          icon: Icons.check_circle_outline_rounded,
+                          size: 100.h,
+                        ),
+                        Text(
+                          "You're all caught up",
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 12.sp,
+                            color: AppColors.colorBlack,
+                          ),
+                        ),
+                        Text(
+                          "You've seen all new posts !",
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 11.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        ),
+                      ],
                     ),
+                  )
+                : SwipeCards(
+                    matchEngine: _matchEngine!,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index < 0 || index >= postFeedList.length) {
+                        return const SizedBox.shrink();
+                      }
+                      final postList = postFeedList[index];
+                      return PostFeedItem(postList: postList);
+                    },
+                    onStackFinished: () {
+                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //   content: Text("Post Finished"),
+                      //   duration: Duration(milliseconds: 500),
+                      // ));
+                      setState(() {
+                        _isStackFinished = true;
+                      });
+                    },
+                    itemChanged: (SwipeItem item, int index) {
+                      AppLog.log("item: ${item.content.text}, index: $index");
+                    },
+                    upSwipeAllowed: false,
+                    fillSpace: true,
                   ),
-                  Text(
-                    "You've seen all new posts !",
-                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                      fontSize: 11.sp,
-                      color: AppColors.colorPrimaryAlpha,
-                    ),
-                  ),
-                ],
-              ),
-            )
-            : SwipeCards(
-              matchEngine: _matchEngine!,
-              itemBuilder: (BuildContext context, int index) {
-                if (index < 0 || index >= postFeedList.length) {
-                  return const SizedBox.shrink();
-                }
-                final postList = postFeedList[index];
-                return PostFeedItem(postList: postList);
-              },
-              onStackFinished: () {
-                // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                //   content: Text("Post Finished"),
-                //   duration: Duration(milliseconds: 500),
-                // ));
-                setState(() {
-                  _isStackFinished = true;
-                });
-              },
-              itemChanged: (SwipeItem item, int index) {
-                print("item: ${item.content.text}, index: $index");
-              },
-              upSwipeAllowed: false,
-              fillSpace: true,
-            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
@@ -154,7 +151,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                         color: AppColors.colorWhite.withOpacity(0.10),
                       ),
                       child: const Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: EdgeInsets.only(left: 8.0),
                         child: Icon(
                           Icons.arrow_back_ios,
                           size: 15,
@@ -174,16 +171,16 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           return GestureDetector(
                             onTap: () async {
                               stateNotifier.selectButton(index);
-                              if(index == 1){
-                                final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+                              if (index == 1) {
+                                final postFeedNotifier =
+                                    ref.read(postFeedNotifierProvider.notifier);
                                 await postFeedNotifier.getFollowingPostFeed("follow");
                               }
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 5),
                               alignment: Alignment.center,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15).r,
+                              padding: const EdgeInsets.symmetric(horizontal: 15).r,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: (postFeedState.selectedIndex == index)
@@ -193,9 +190,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                               child: Text(
                                 buttonTexts[index],
                                 style: AppTextStyles.textStylePoppinsSemiBold
-                                    .copyWith(
-                                        fontSize: 16.sp,
-                                        color: AppColors.colorWhite),
+                                    .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                               ),
                             ),
                           );
