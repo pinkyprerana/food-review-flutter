@@ -6,7 +6,6 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_widget.dart';
@@ -33,13 +32,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-      await followNotifier.getAllUsersList();
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getHomeRestaurants();
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      await postFeedNotifier.getPostFeed();
-      // Future.wait([
-      // ]);
+      Future.wait([
+       followNotifier.getAllUsersList(),
+       stateNotifier.getHomeRestaurants(),
+       postFeedNotifier.getPostFeed(),
+      ]);
     });
   }
 
@@ -54,7 +53,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    AppLog.log("postFeedList---->>>>$postFeedList");
 
     return Scaffold(
         extendBody: true,
