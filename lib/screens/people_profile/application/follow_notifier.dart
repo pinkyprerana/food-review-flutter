@@ -19,7 +19,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
   String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> followUnfollow(VoidCallback voidCallback, String userID) async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}${AppUrls.followUnfollow}',
@@ -27,7 +27,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
           "follow_user_id": userID,
         },
       );
-      state = state.copyWith(isLoading: false);
+      // state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();

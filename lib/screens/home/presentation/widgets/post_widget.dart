@@ -103,7 +103,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             peoplename: name??"",
                             peopleimage: profileImage,
                             peopleId: peopleId??"",
-                            isFollow: true));
+                            isFollow: true,
+                          isRequested: false,
+                          isFollowing: false,
+                        ));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

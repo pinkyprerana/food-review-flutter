@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
+import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
@@ -18,13 +19,18 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
   final String peopleimage;
   final String peopleId;
   final bool isFollow;
+  final bool isRequested;
+  final bool isFollowing;
 
   const PeopleProfilePage(
       {super.key,
       required this.peoplename,
       required this.peopleimage,
       required this.peopleId,
-      required this.isFollow});
+      required this.isFollow,
+        required this.isRequested,
+        required this.isFollowing
+      });
 
   @override
   ConsumerState<PeopleProfilePage> createState() => _PeopleProfilePageState();
@@ -39,20 +45,21 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
   }
-
+  void handleFollowButtonPressed(userId) {
+    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    followNotifier.followUnfollow(() {}, userId);
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    // followNotifier.followUnfollow(() {}, userId).then((_) async {
+    //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
+    //   await followNotifier.getAllFollowerList();
+    // });
+  }
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(FollowNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
     AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
-    void handleFollowButtonPressed(userId) {
-      final followNotifier = ref.read(FollowNotifierProvider.notifier);
-      followNotifier.followUnfollow(() {}, userId);
-      // followNotifier.followUnfollow(() {}, userId).then((_) async {
-      //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
-      //   await followNotifier.getAllFollowerList();
-      // });
-    }
 
     return Scaffold(
       extendBody: true,
@@ -162,7 +169,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                         ),
                                       ),
                                       child: Text(
-                                        widget.isFollow ? 'Unfollow' : 'Follow',
+                                        widget.isFollow ? 'Following': widget.isRequested ? 'Requested' : 'Follow',
                                         style: AppTextStyles.textStylePoppinsBold.copyWith(
                                           fontSize: 15.sp,
                                           color: widget.isFollow

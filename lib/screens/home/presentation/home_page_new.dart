@@ -151,14 +151,18 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                     peoplename: followers.fullName.toString(),
                                     peopleimage: profileImage.toString(),
                                     peopleId: followers.id ?? '',
-                                    isFollow: followers.isFollowingRequest ?? false,
+                                    isFollow: followers.isFollowerRequest ?? false,
+                                    isRequested: followers.isFollowingRequest ??false,
+                                    isFollowing: followers.isFollowing??false
                                   ));
                                 },
                                 child: FollowOptionWidget(
                                   followersId: followers.id ?? '',
                                   imgpath: profileImage,
                                   name: followers.fullName.toString(),
-                                  isFollow: followers.isFollowingRequest ?? false,
+                                  isFollow: followers.isFollowerRequest ?? false,
+                                  isRequested: followers.isFollowingRequest ??false,
+                                    isFollowing: followers.isFollowing??false
                                 ),
                               );
                             })

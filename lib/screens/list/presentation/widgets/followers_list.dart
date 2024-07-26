@@ -113,7 +113,9 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                                 peoplename: users.fullName.toString(),
                                 peopleimage: profileImage,
                                 peopleId: users.id ?? '',
-                                isFollow: users.isFollowingRequest ?? false,
+                                isFollow: users.isFollowerRequest ?? false,
+                                isRequested: users.isFollowingRequest ??false,
+                                isFollowing: users.isFollowing ??false,
                               ),
                             ),
                             child: Container(

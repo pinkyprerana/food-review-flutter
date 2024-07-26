@@ -11,6 +11,7 @@ import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
+import '../../../your_lists/shared/provider.dart';
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
@@ -32,6 +33,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
 
   @override
   Widget build(BuildContext context) {
+    final followState = ref.watch(yourPeopleNotifierProvider);
+    final allUsersList = followState.allUsersList;
     final String? peopleId = widget.postList.userInfo?.id;
     final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =
@@ -48,6 +51,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
+    // final bool? isFollow = allUsersList.isFollowerRequest;
+    // final bool? isRequested = allUsersList.isFollowingRequest;
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -63,7 +68,12 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                       peoplename: name??"", //'Ahmad Gouse',
                       peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
                       peopleId: peopleId??"",
-                      isFollow: true));
+                    isFollow: true,
+                    isRequested:false,
+                    isFollowing: false,
+
+                  )
+                  );
                 },
                 child: Row(
                   children: [

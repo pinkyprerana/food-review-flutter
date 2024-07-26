@@ -66,7 +66,10 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                           peoplename: name??"", //'Ahmad Gouse',
                           peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
                           peopleId: peopleId??"",
-                          isFollow: true));
+                          isFollow: true,
+                        isRequested: false,
+                        isFollowing: false,
+                      ));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,

@@ -171,7 +171,10 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                       peoplename: users[index]['name'],
                                       peopleimage: users[index]['image']!,
                                       peopleId: "",
-                                      isFollow: true));
+                                      isFollow: true,
+                                    isRequested: false,
+                                    isFollowing: false,
+                                  ));
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0).r,

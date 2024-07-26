@@ -79,6 +79,8 @@ class DislikedPostWidget extends StatelessWidget {
                             peopleimage: userDisplayPicture ?? '',
                             peopleId: '',
                             isFollow: true,
+                            isRequested: false,
+                            isFollowing: false,
                           ),
                         );
                       },
