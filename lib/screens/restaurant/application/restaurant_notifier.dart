@@ -31,12 +31,17 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
-  Set<Marker> markers = {};
+  // Set<Marker> markers = {};
+  List<Marker> markers = [];
 
   @override
   void dispose() {
     restaurantRefreshController.dispose();
     super.dispose();
+  }
+
+  void clearMarkers() {
+    markers = [];
   }
 
   void clearStateVariables() {
@@ -133,7 +138,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
+        AppLog.log('response +++++++++++ $response');
         final allReastaurantsModel = AllRestaurantsModel.fromJson(response.data!);
+
+        // final List<RestaurantData> allRestaurantList = [
+        //   allReastaurantsModel.data?[0] ?? RestaurantData(),
+        //   allReastaurantsModel.data?[1] ?? RestaurantData(),
+        //   allReastaurantsModel.data?[2] ?? RestaurantData(),
+        //   allReastaurantsModel.data?[3] ?? RestaurantData()
+        // ];
 
         final List<RestaurantData> allRestaurantList = [];
 
@@ -334,11 +347,12 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         // backgroundColor: AppColors.colorPrimary,
         // markerId: MarkerId(item.name.toString()),
         markerId: MarkerId(uniqueString),
-        position: LatLng(double.parse(item.lat!), double.parse(item.lng!)),
+        position: LatLng(double.parse(item.lat ?? '1'), double.parse(item.lng ?? '1')),
         infoWindow: InfoWindow(
           title: item.name,
         ),
       );
+      // markers.add(marker);
       markers.add(marker);
     }
     state = state.copyWith();

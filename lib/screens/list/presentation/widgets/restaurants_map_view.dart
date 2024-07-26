@@ -35,6 +35,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      stateNotifier.clearMarkers();
       await stateNotifier.getAllRestaurants();
     });
 
@@ -42,11 +43,16 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(restaurantNotifierProvider);
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    // AppLog.log('stateNotifier.maekers ----------->> ${stateNotifier.markers}');
-
+    AppLog.log('stateNotifier.maekers ----------->> ${stateNotifier.markers}');
+    AppLog.log('stateNotifier.maekers.length ----------->> ${stateNotifier.markers.length}');
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -80,31 +86,18 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                               ),
                               zoom: 12,
                             ),
+                            markers: Set<Marker>.from(stateNotifier.markers),
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
-                              _googleMapController = controller;
-                              _googleMapController.getVisibleRegion();
-                              controller.animateCamera(
-                                CameraUpdate.newLatLngBounds(
-                                    MapUtils.boundsFromLatLngList(
-                                        stateNotifier.markers.map((loc) => loc.position).toList()),
-                                    1),
-                              );
-
-                              // Set<Marker> markers = Set();
-
-                              markers = stateNotifier.markers;
-                              // Future.delayed(
-                              //   const Duration(milliseconds: 200),
-                              //   () => controller.animateCamera(
-                              //     CameraUpdate.newLatLngBounds(
-                              //         MapUtils.boundsFromLatLngList(
-                              //             markers.map((loc) => loc.position).toList()),
-                              //         1),
-                              //   ),
+                              // _googleMapController = controller;
+                              // _googleMapController.getVisibleRegion();
+                              // controller.animateCamera(
+                              //   CameraUpdate.newLatLngBounds(
+                              //       MapUtils.boundsFromLatLngList(
+                              //           stateNotifier.markers.map((loc) => loc.position).toList()),
+                              //       1),
                               // );
                             },
-                            // markers: markers,
                             zoomControlsEnabled: true,
                           ),
                         ],
