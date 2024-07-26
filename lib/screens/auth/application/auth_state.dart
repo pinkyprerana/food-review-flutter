@@ -8,6 +8,8 @@ class AuthState with _$AuthState {
     @Default(false) bool isLoading,
     @Default(false) bool isLoginLoading,
     @Default("") String userID,
+    @Default(30) int remainingTime,
+    @Default(false) bool canResendOtp,
   }) = _AuthState;
   const AuthState._();
 }

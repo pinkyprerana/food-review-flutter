@@ -19,7 +19,7 @@ class RestaurantState with _$RestaurantState {
     @Default(true) bool hasMore,
     @Default(0) int totalPages,
     @Default(true) isMoreDataFetchable,
-    @Default([]) List<DataOfPostModel> postList,
+    @Default([]) List<DataOfPostModel>? postList,
     @Default([]) List<Post>? postPerRestaurantList,
     @Default(1) int currentPageForPosts,
     @Default(false) bool isLoadingForPosts,

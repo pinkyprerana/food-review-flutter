@@ -23,6 +23,7 @@ class ProfileState with _$ProfileState {
     @Default([]) List<NotificationData> notificationList,
     @Default([]) List<Posts> dislikedPostsList,
     @Default([]) List<Posts> likedPostList,
+    @Default(false) bool isExpanded,
   }) = _ProfileState;
   const ProfileState._();
 }

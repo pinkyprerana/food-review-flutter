@@ -38,20 +38,20 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final String peopleId = widget.postList.userInfo.id;
-    final String name = widget.postList.userInfo.fullName;
+    final String? peopleId = widget.postList.userInfo?.id;
+    final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
     // final String title = widget.postList.title;
-    final String description = widget.postList.description;
+    final String? description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
-    final String cuisine = widget.postList.preferenceInfo.title;
-    final int commentCount = widget.postList.commentCount;
-    final String postId = widget.postList.id;
-    final bool isSaved = widget.postList.isSave;
-    final bool isLiked = widget.postList.isMyLike;
+    final String? cuisine = widget.postList.preferenceInfo?.title;
+    final int? commentCount = widget.postList.commentCount;
+    final String? postId = widget.postList.id;
+    final bool? isSaved = widget.postList.isSave;
+    final bool? isLiked = widget.postList.isMyLike;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
@@ -100,9 +100,9 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: name,
+                            peoplename: name??"",
                             peopleimage: profileImage,
-                            peopleId: peopleId,
+                            peopleId: peopleId??"",
                             isFollow: true));
                       },
                       child: Row(
@@ -122,7 +122,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                           ),
                           8.horizontalSpace,
                           Text(
-                            name, //'Ahmad Gouse',
+                            name??"", //'Ahmad Gouse',
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
@@ -164,7 +164,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cuisine,
+                                      cuisine??"No cuisine",
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
@@ -211,8 +211,8 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                         Column(
                           children: [
                             GestureDetector(
-                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId),
-                                child: isLiked
+                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId??""),
+                                child: (isLiked??false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
@@ -224,7 +224,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                 children: [
                                   Image.asset(Assets.comments),
                                   Text(
-                                    (commentCount > 9)
+                                    (commentCount! > 9)
                                         ? commentCount.toString()
                                         : "0${commentCount.toString()}",
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -237,10 +237,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
+                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId??""),
                               child: SaveButtonWidget(
                                 isSavePost: postFeedState.isSavePost,
-                                isSaved: isSaved,
+                                isSaved: isSaved??false,
                               ),
                             ),
                           ],
@@ -251,7 +251,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        description,
+                        description??"",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(

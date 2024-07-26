@@ -21,6 +21,7 @@ mixin _$PreferenceState {
   String get type => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   List<PreferenceList>? get data => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PreferenceStateCopyWith<PreferenceState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $PreferenceStateCopyWith<$Res> {
       int status,
       String type,
       String message,
-      List<PreferenceList>? data});
+      List<PreferenceList>? data,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$PreferenceStateCopyWithImpl<$Res, $Val extends PreferenceState>
     Object? type = null,
     Object? message = null,
     Object? data = freezed,
+    Object? tags = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -81,6 +84,10 @@ class _$PreferenceStateCopyWithImpl<$Res, $Val extends PreferenceState>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<PreferenceList>?,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$PreferenceStateImplCopyWith<$Res>
       int status,
       String type,
       String message,
-      List<PreferenceList>? data});
+      List<PreferenceList>? data,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -117,6 +125,7 @@ class __$$PreferenceStateImplCopyWithImpl<$Res>
     Object? type = null,
     Object? message = null,
     Object? data = freezed,
+    Object? tags = null,
   }) {
     return _then(_$PreferenceStateImpl(
       isLoading: null == isLoading
@@ -139,6 +148,10 @@ class __$$PreferenceStateImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<PreferenceList>?,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -151,8 +164,10 @@ class _$PreferenceStateImpl implements _PreferenceState {
       this.status = 0,
       this.type = '',
       this.message = '',
-      final List<PreferenceList>? data = const []})
-      : _data = data;
+      final List<PreferenceList>? data = const [],
+      final List<String> tags = const []})
+      : _data = data,
+        _tags = tags;
 
   @override
   @JsonKey()
@@ -177,9 +192,18 @@ class _$PreferenceStateImpl implements _PreferenceState {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String> _tags;
+  @override
+  @JsonKey()
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
   @override
   String toString() {
-    return 'PreferenceState(isLoading: $isLoading, status: $status, type: $type, message: $message, data: $data)';
+    return 'PreferenceState(isLoading: $isLoading, status: $status, type: $type, message: $message, data: $data, tags: $tags)';
   }
 
   @override
@@ -192,12 +216,19 @@ class _$PreferenceStateImpl implements _PreferenceState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, status, type, message,
-      const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      status,
+      type,
+      message,
+      const DeepCollectionEquality().hash(_data),
+      const DeepCollectionEquality().hash(_tags));
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +244,8 @@ abstract class _PreferenceState implements PreferenceState {
       final int status,
       final String type,
       final String message,
-      final List<PreferenceList>? data}) = _$PreferenceStateImpl;
+      final List<PreferenceList>? data,
+      final List<String> tags}) = _$PreferenceStateImpl;
 
   @override
   bool get isLoading;
@@ -225,6 +257,8 @@ abstract class _PreferenceState implements PreferenceState {
   String get message;
   @override
   List<PreferenceList>? get data;
+  @override
+  List<String> get tags;
   @override
   @JsonKey(ignore: true)
   _$$PreferenceStateImplCopyWith<_$PreferenceStateImpl> get copyWith =>

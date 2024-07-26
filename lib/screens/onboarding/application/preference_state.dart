@@ -11,5 +11,6 @@ abstract class PreferenceState with _$PreferenceState {
     @Default('') String type,
     @Default('') String message,
     @Default([]) List<PreferenceList>? data,
+    @Default([]) List<String> tags,
   }) = _PreferenceState;
 }

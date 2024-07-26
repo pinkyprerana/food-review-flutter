@@ -21,9 +21,10 @@ mixin _$PostFeedState {
   bool get isCommentLoading => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
   bool get isLiked => throw _privateConstructorUsedError;
+  bool get isStackFinished => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
   List<dynamic> get postTitles => throw _privateConstructorUsedError;
-  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
+  List<DataOfPostModel>? get postList => throw _privateConstructorUsedError;
   List<UserInfo>? get userInfoList => throw _privateConstructorUsedError;
   List<CommentInfo>? get commentInfoList => throw _privateConstructorUsedError;
   List<PreferenceInfo>? get preferenceInfoList =>
@@ -48,9 +49,10 @@ abstract class $PostFeedStateCopyWith<$Res> {
       bool isCommentLoading,
       bool isExpanded,
       bool isLiked,
+      bool isStackFinished,
       int selectedIndex,
       List<dynamic> postTitles,
-      List<DataOfPostModel> postList,
+      List<DataOfPostModel>? postList,
       List<UserInfo>? userInfoList,
       List<CommentInfo>? commentInfoList,
       List<PreferenceInfo>? preferenceInfoList,
@@ -75,9 +77,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? isCommentLoading = null,
     Object? isExpanded = null,
     Object? isLiked = null,
+    Object? isStackFinished = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
-    Object? postList = null,
+    Object? postList = freezed,
     Object? userInfoList = freezed,
     Object? commentInfoList = freezed,
     Object? preferenceInfoList = freezed,
@@ -104,6 +107,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
               as bool,
+      isStackFinished: null == isStackFinished
+          ? _value.isStackFinished
+          : isStackFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
       selectedIndex: null == selectedIndex
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
@@ -112,10 +119,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.postTitles
           : postTitles // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      postList: null == postList
+      postList: freezed == postList
           ? _value.postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
       userInfoList: freezed == userInfoList
           ? _value.userInfoList
           : userInfoList // ignore: cast_nullable_to_non_nullable
@@ -150,9 +157,10 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       bool isCommentLoading,
       bool isExpanded,
       bool isLiked,
+      bool isStackFinished,
       int selectedIndex,
       List<dynamic> postTitles,
-      List<DataOfPostModel> postList,
+      List<DataOfPostModel>? postList,
       List<UserInfo>? userInfoList,
       List<CommentInfo>? commentInfoList,
       List<PreferenceInfo>? preferenceInfoList,
@@ -175,9 +183,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? isCommentLoading = null,
     Object? isExpanded = null,
     Object? isLiked = null,
+    Object? isStackFinished = null,
     Object? selectedIndex = null,
     Object? postTitles = null,
-    Object? postList = null,
+    Object? postList = freezed,
     Object? userInfoList = freezed,
     Object? commentInfoList = freezed,
     Object? preferenceInfoList = freezed,
@@ -204,6 +213,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value.isLiked
           : isLiked // ignore: cast_nullable_to_non_nullable
               as bool,
+      isStackFinished: null == isStackFinished
+          ? _value.isStackFinished
+          : isStackFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
       selectedIndex: null == selectedIndex
           ? _value.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
@@ -212,10 +225,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value._postTitles
           : postTitles // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      postList: null == postList
+      postList: freezed == postList
           ? _value._postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
       userInfoList: freezed == userInfoList
           ? _value._userInfoList
           : userInfoList // ignore: cast_nullable_to_non_nullable
@@ -245,9 +258,10 @@ class _$PostFeedStateImpl extends _PostFeedState {
       this.isCommentLoading = false,
       this.isExpanded = false,
       this.isLiked = false,
+      this.isStackFinished = false,
       this.selectedIndex = 0,
       final List<dynamic> postTitles = const [],
-      final List<DataOfPostModel> postList = const [],
+      final List<DataOfPostModel>? postList = const [],
       final List<UserInfo>? userInfoList = const [],
       final List<CommentInfo>? commentInfoList = const [],
       final List<PreferenceInfo>? preferenceInfoList = const [],
@@ -277,6 +291,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
   final bool isLiked;
   @override
   @JsonKey()
+  final bool isStackFinished;
+  @override
+  @JsonKey()
   final int selectedIndex;
   final List<dynamic> _postTitles;
   @override
@@ -287,13 +304,15 @@ class _$PostFeedStateImpl extends _PostFeedState {
     return EqualUnmodifiableListView(_postTitles);
   }
 
-  final List<DataOfPostModel> _postList;
+  final List<DataOfPostModel>? _postList;
   @override
   @JsonKey()
-  List<DataOfPostModel> get postList {
+  List<DataOfPostModel>? get postList {
+    final value = _postList;
+    if (value == null) return null;
     if (_postList is EqualUnmodifiableListView) return _postList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_postList);
+    return EqualUnmodifiableListView(value);
   }
 
   final List<UserInfo>? _userInfoList;
@@ -344,7 +363,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -361,6 +380,8 @@ class _$PostFeedStateImpl extends _PostFeedState {
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
             (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
+            (identical(other.isStackFinished, isStackFinished) ||
+                other.isStackFinished == isStackFinished) &&
             (identical(other.selectedIndex, selectedIndex) ||
                 other.selectedIndex == selectedIndex) &&
             const DeepCollectionEquality()
@@ -384,6 +405,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
       isCommentLoading,
       isExpanded,
       isLiked,
+      isStackFinished,
       selectedIndex,
       const DeepCollectionEquality().hash(_postTitles),
       const DeepCollectionEquality().hash(_postList),
@@ -406,9 +428,10 @@ abstract class _PostFeedState extends PostFeedState {
       final bool isCommentLoading,
       final bool isExpanded,
       final bool isLiked,
+      final bool isStackFinished,
       final int selectedIndex,
       final List<dynamic> postTitles,
-      final List<DataOfPostModel> postList,
+      final List<DataOfPostModel>? postList,
       final List<UserInfo>? userInfoList,
       final List<CommentInfo>? commentInfoList,
       final List<PreferenceInfo>? preferenceInfoList,
@@ -426,11 +449,13 @@ abstract class _PostFeedState extends PostFeedState {
   @override
   bool get isLiked;
   @override
+  bool get isStackFinished;
+  @override
   int get selectedIndex;
   @override
   List<dynamic> get postTitles;
   @override
-  List<DataOfPostModel> get postList;
+  List<DataOfPostModel>? get postList;
   @override
   List<UserInfo>? get userInfoList;
   @override
