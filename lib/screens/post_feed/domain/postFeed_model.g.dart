@@ -47,7 +47,9 @@ _$DataOfPostModelImpl _$$DataOfPostModelImplFromJson(
           ? null
           : GeoLoc.fromJson(json['geo_loc'] as Map<String, dynamic>),
       status: json['status'] as String?,
-      createdAt: json['createdAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
       isOwn: json['isOwn'] as bool?,
       isNear: json['isNear'] as bool?,
       isFollowing: json['isFollowing'] as bool?,
@@ -86,7 +88,7 @@ Map<String, dynamic> _$$DataOfPostModelImplToJson(
       'geo_distance': instance.geoDistance,
       'geo_loc': instance.geoLoc,
       'status': instance.status,
-      'createdAt': instance.createdAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
       'isOwn': instance.isOwn,
       'isNear': instance.isNear,
       'isFollowing': instance.isFollowing,
@@ -108,7 +110,9 @@ _$CommentInfoImpl _$$CommentInfoImplFromJson(Map<String, dynamic> json) =>
       userId: json['user_id'] as String?,
       postId: json['post_id'] as String?,
       comment: json['comment'] as String?,
-      createdAt: json['createdAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
       commentedUserData: json['commentedUserData'] == null
           ? null
           : UserInfo.fromJson(
@@ -122,7 +126,7 @@ Map<String, dynamic> _$$CommentInfoImplToJson(_$CommentInfoImpl instance) =>
       'user_id': instance.userId,
       'post_id': instance.postId,
       'comment': instance.comment,
-      'createdAt': instance.createdAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
       'commentedUserData': instance.commentedUserData,
       'isCommentLiked': instance.isCommentLiked,
     };

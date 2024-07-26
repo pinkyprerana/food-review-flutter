@@ -32,6 +32,7 @@ class RecentActivityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('${AppUrls.profilePicLocation}/$imgpath');
     return Padding(
       padding: const EdgeInsets.only(top: 5.0).r,
       child: ListTile(
@@ -53,9 +54,12 @@ class RecentActivityWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 )
-              : CachedNetworkImage(
-                  imageUrl: '${AppUrls.profilePicLocation}/$imgpath',
-                  fit: BoxFit.cover,
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: CachedNetworkImage(
+                    imageUrl: '${AppUrls.profilePicLocation}/$imgpath',
+                    fit: BoxFit.cover,
+                  ),
                 ),
         ),
         title: Text(

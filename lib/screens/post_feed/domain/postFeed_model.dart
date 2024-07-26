@@ -32,7 +32,7 @@ class DataOfPostModel with _$DataOfPostModel {
     @JsonKey(name: "geo_distance") double? geoDistance,
     @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
     @JsonKey(name: "status") String? status,
-    @JsonKey(name: "createdAt") String? createdAt,
+    @JsonKey(name: "createdAt") DateTime? createdAt,
     @JsonKey(name: "isOwn") bool? isOwn,
     @JsonKey(name: "isNear") bool? isNear,
     @JsonKey(name: "isFollowing") bool? isFollowing,
@@ -58,7 +58,7 @@ class CommentInfo with _$CommentInfo {
     @JsonKey(name: "user_id") String? userId,
     @JsonKey(name: "post_id") String? postId,
     @JsonKey(name: "comment") String? comment,
-    @JsonKey(name: "createdAt") String? createdAt,
+    @JsonKey(name: "createdAt") DateTime? createdAt,
     @JsonKey(name: "commentedUserData") UserInfo? commentedUserData,
     @JsonKey(name: "isCommentLiked") bool? isCommentLiked,
   }) = _CommentInfo;
@@ -114,4 +114,3 @@ class PreferenceInfo with _$PreferenceInfo {
 
   factory PreferenceInfo.fromJson(Map<String, dynamic> json) => _$PreferenceInfoFromJson(json);
 }
-

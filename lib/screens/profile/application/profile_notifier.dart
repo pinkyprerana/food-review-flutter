@@ -796,10 +796,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         await _hiveDataBase.box.delete(AppPreferenceKeys.fullName);
         await _hiveDataBase.box.delete(AppPreferenceKeys.userPhone);
         await _hiveDataBase.box.delete(AppPreferenceKeys.profileImage);
-        await _hiveDataBase.box.delete(AppPreferenceKeys.latitude);
-        await _hiveDataBase.box.delete(AppPreferenceKeys.longitude);
+        // await _hiveDataBase.box.delete(AppPreferenceKeys.latitude);
+        // await _hiveDataBase.box.delete(AppPreferenceKeys.longitude);
 
-        await _hiveDataBase.box.clear();
+        // await _hiveDataBase.box.clear();
 
         state = state.copyWith(isLoading: false);
       } else {

@@ -22,8 +22,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   final Dio _dio;
   final NetworkApiService _networkApiService;
 
-  int totalNumberOfRestaurants = 0;
-
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
 
@@ -89,12 +87,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
 
-        totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
-
         state = state.copyWith(
           isLoading: false,
           restaurantList: [...state.restaurantList ?? [], ...restaurantList ?? []],
           totalPages: reastaurantListResponseModel.pages ?? 0,
+          totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
         );
       } else {
         final message = response.data?['message'] as String?;
@@ -140,16 +137,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
 
-        totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
-
         state = state.copyWith(
-          isLoading: false,
-          homeRestaurantList: restaurantList,
-          // restaurantList: [
-          //   ...state.restaurantList ?? [],
-          //   ...restaurantList ?? []
-          // ],
-        );
+            isLoading: false,
+            homeRestaurantList: restaurantList,
+            totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0
+            // restaurantList: [
+            //   ...state.restaurantList ?? [],
+            //   ...restaurantList ?? []
+            // ],
+            );
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');

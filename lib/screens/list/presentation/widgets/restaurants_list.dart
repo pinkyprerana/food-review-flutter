@@ -128,8 +128,8 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
   @override
   Widget build(BuildContext context) {
     AppLog.log('this is called');
-    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    // final state = ref.watch(restaurantNotifierProvider);
+    // final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    final state = ref.watch(restaurantNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +151,7 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
                   ),
                 ),
                 Text(
-                  '${stateNotifier.totalNumberOfRestaurants} Restaurants',
+                  '${state.totalNumberOfRestaurants == 0 ? 'Loading' : state.totalNumberOfRestaurants} Restaurants',
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                     color: AppColors.colorPrimaryAlpha,
                     fontSize: 10.sp,

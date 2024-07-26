@@ -29,6 +29,7 @@ mixin _$RestaurantState {
   int get currentPageForPosts => throw _privateConstructorUsedError;
   bool get isLoadingForPosts => throw _privateConstructorUsedError;
   int get totalPagesPosts => throw _privateConstructorUsedError;
+  int get totalNumberOfRestaurants => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RestaurantStateCopyWith<RestaurantState> get copyWith =>
@@ -53,7 +54,8 @@ abstract class $RestaurantStateCopyWith<$Res> {
       List<Post>? postPerRestaurantList,
       int currentPageForPosts,
       bool isLoadingForPosts,
-      int totalPagesPosts});
+      int totalPagesPosts,
+      int totalNumberOfRestaurants});
 }
 
 /// @nodoc
@@ -81,6 +83,7 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
     Object? currentPageForPosts = null,
     Object? isLoadingForPosts = null,
     Object? totalPagesPosts = null,
+    Object? totalNumberOfRestaurants = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -131,6 +134,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.totalPagesPosts
           : totalPagesPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      totalNumberOfRestaurants: null == totalNumberOfRestaurants
+          ? _value.totalNumberOfRestaurants
+          : totalNumberOfRestaurants // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -155,7 +162,8 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
       List<Post>? postPerRestaurantList,
       int currentPageForPosts,
       bool isLoadingForPosts,
-      int totalPagesPosts});
+      int totalPagesPosts,
+      int totalNumberOfRestaurants});
 }
 
 /// @nodoc
@@ -181,6 +189,7 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
     Object? currentPageForPosts = null,
     Object? isLoadingForPosts = null,
     Object? totalPagesPosts = null,
+    Object? totalNumberOfRestaurants = null,
   }) {
     return _then(_$RestaurantStateImpl(
       isLoading: null == isLoading
@@ -230,6 +239,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
           ? _value.totalPagesPosts
           : totalPagesPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      totalNumberOfRestaurants: null == totalNumberOfRestaurants
+          ? _value.totalNumberOfRestaurants
+          : totalNumberOfRestaurants // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -249,7 +262,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
       final List<Post>? postPerRestaurantList = const [],
       this.currentPageForPosts = 1,
       this.isLoadingForPosts = false,
-      this.totalPagesPosts = 0})
+      this.totalPagesPosts = 0,
+      this.totalNumberOfRestaurants = 0})
       : _restaurantList = restaurantList,
         _homeRestaurantList = homeRestaurantList,
         _postList = postList,
@@ -326,10 +340,13 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final int totalPagesPosts;
+  @override
+  @JsonKey()
+  final int totalNumberOfRestaurants;
 
   @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts)';
+    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts, totalNumberOfRestaurants: $totalNumberOfRestaurants)';
   }
 
   @override
@@ -358,7 +375,10 @@ class _$RestaurantStateImpl extends _RestaurantState {
             (identical(other.isLoadingForPosts, isLoadingForPosts) ||
                 other.isLoadingForPosts == isLoadingForPosts) &&
             (identical(other.totalPagesPosts, totalPagesPosts) ||
-                other.totalPagesPosts == totalPagesPosts));
+                other.totalPagesPosts == totalPagesPosts) &&
+            (identical(
+                    other.totalNumberOfRestaurants, totalNumberOfRestaurants) ||
+                other.totalNumberOfRestaurants == totalNumberOfRestaurants));
   }
 
   @override
@@ -375,7 +395,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
       const DeepCollectionEquality().hash(_postPerRestaurantList),
       currentPageForPosts,
       isLoadingForPosts,
-      totalPagesPosts);
+      totalPagesPosts,
+      totalNumberOfRestaurants);
 
   @JsonKey(ignore: true)
   @override
@@ -398,7 +419,8 @@ abstract class _RestaurantState extends RestaurantState {
       final List<Post>? postPerRestaurantList,
       final int currentPageForPosts,
       final bool isLoadingForPosts,
-      final int totalPagesPosts}) = _$RestaurantStateImpl;
+      final int totalPagesPosts,
+      final int totalNumberOfRestaurants}) = _$RestaurantStateImpl;
   const _RestaurantState._() : super._();
 
   @override
@@ -425,6 +447,8 @@ abstract class _RestaurantState extends RestaurantState {
   bool get isLoadingForPosts;
   @override
   int get totalPagesPosts;
+  @override
+  int get totalNumberOfRestaurants;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantStateImplCopyWith<_$RestaurantStateImpl> get copyWith =>

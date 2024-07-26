@@ -362,7 +362,7 @@ mixin _$DataOfPostModel {
   @JsonKey(name: "status")
   String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  String? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "isOwn")
   bool? get isOwn => throw _privateConstructorUsedError;
   @JsonKey(name: "isNear")
@@ -413,7 +413,7 @@ abstract class $DataOfPostModelCopyWith<$Res> {
       @JsonKey(name: "geo_distance") double? geoDistance,
       @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
       @JsonKey(name: "status") String? status,
-      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
       @JsonKey(name: "isOwn") bool? isOwn,
       @JsonKey(name: "isNear") bool? isNear,
       @JsonKey(name: "isFollowing") bool? isFollowing,
@@ -516,7 +516,7 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       isOwn: freezed == isOwn
           ? _value.isOwn
           : isOwn // ignore: cast_nullable_to_non_nullable
@@ -640,7 +640,7 @@ abstract class _$$DataOfPostModelImplCopyWith<$Res>
       @JsonKey(name: "geo_distance") double? geoDistance,
       @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
       @JsonKey(name: "status") String? status,
-      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
       @JsonKey(name: "isOwn") bool? isOwn,
       @JsonKey(name: "isNear") bool? isNear,
       @JsonKey(name: "isFollowing") bool? isFollowing,
@@ -745,7 +745,7 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       isOwn: freezed == isOwn
           ? _value.isOwn
           : isOwn // ignore: cast_nullable_to_non_nullable
@@ -867,7 +867,7 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
   final String? status;
   @override
   @JsonKey(name: "createdAt")
-  final String? createdAt;
+  final DateTime? createdAt;
   @override
   @JsonKey(name: "isOwn")
   final bool? isOwn;
@@ -1025,7 +1025,7 @@ abstract class _DataOfPostModel implements DataOfPostModel {
       @JsonKey(name: "geo_distance") final double? geoDistance,
       @JsonKey(name: "geo_loc") final GeoLoc? geoLoc,
       @JsonKey(name: "status") final String? status,
-      @JsonKey(name: "createdAt") final String? createdAt,
+      @JsonKey(name: "createdAt") final DateTime? createdAt,
       @JsonKey(name: "isOwn") final bool? isOwn,
       @JsonKey(name: "isNear") final bool? isNear,
       @JsonKey(name: "isFollowing") final bool? isFollowing,
@@ -1076,7 +1076,7 @@ abstract class _DataOfPostModel implements DataOfPostModel {
   String? get status;
   @override
   @JsonKey(name: "createdAt")
-  String? get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(name: "isOwn")
   bool? get isOwn;
@@ -1137,7 +1137,7 @@ mixin _$CommentInfo {
   @JsonKey(name: "comment")
   String? get comment => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  String? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "commentedUserData")
   UserInfo? get commentedUserData => throw _privateConstructorUsedError;
   @JsonKey(name: "isCommentLiked")
@@ -1160,7 +1160,7 @@ abstract class $CommentInfoCopyWith<$Res> {
       @JsonKey(name: "user_id") String? userId,
       @JsonKey(name: "post_id") String? postId,
       @JsonKey(name: "comment") String? comment,
-      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
       @JsonKey(name: "commentedUserData") UserInfo? commentedUserData,
       @JsonKey(name: "isCommentLiked") bool? isCommentLiked});
 
@@ -1208,7 +1208,7 @@ class _$CommentInfoCopyWithImpl<$Res, $Val extends CommentInfo>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       commentedUserData: freezed == commentedUserData
           ? _value.commentedUserData
           : commentedUserData // ignore: cast_nullable_to_non_nullable
@@ -1246,7 +1246,7 @@ abstract class _$$CommentInfoImplCopyWith<$Res>
       @JsonKey(name: "user_id") String? userId,
       @JsonKey(name: "post_id") String? postId,
       @JsonKey(name: "comment") String? comment,
-      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
       @JsonKey(name: "commentedUserData") UserInfo? commentedUserData,
       @JsonKey(name: "isCommentLiked") bool? isCommentLiked});
 
@@ -1293,7 +1293,7 @@ class __$$CommentInfoImplCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       commentedUserData: freezed == commentedUserData
           ? _value.commentedUserData
           : commentedUserData // ignore: cast_nullable_to_non_nullable
@@ -1335,7 +1335,7 @@ class _$CommentInfoImpl implements _CommentInfo {
   final String? comment;
   @override
   @JsonKey(name: "createdAt")
-  final String? createdAt;
+  final DateTime? createdAt;
   @override
   @JsonKey(name: "commentedUserData")
   final UserInfo? commentedUserData;
@@ -1390,7 +1390,7 @@ abstract class _CommentInfo implements CommentInfo {
           @JsonKey(name: "user_id") final String? userId,
           @JsonKey(name: "post_id") final String? postId,
           @JsonKey(name: "comment") final String? comment,
-          @JsonKey(name: "createdAt") final String? createdAt,
+          @JsonKey(name: "createdAt") final DateTime? createdAt,
           @JsonKey(name: "commentedUserData") final UserInfo? commentedUserData,
           @JsonKey(name: "isCommentLiked") final bool? isCommentLiked}) =
       _$CommentInfoImpl;
@@ -1412,7 +1412,7 @@ abstract class _CommentInfo implements CommentInfo {
   String? get comment;
   @override
   @JsonKey(name: "createdAt")
-  String? get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(name: "commentedUserData")
   UserInfo? get commentedUserData;

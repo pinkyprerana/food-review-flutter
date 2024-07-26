@@ -50,7 +50,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      commentInfo.commentedUserData?.fullName??"",
+                      commentInfo.commentedUserData?.fullName ?? "",
                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                         fontSize: 12.sp,
                         color: AppColors.colorWhite,
@@ -58,7 +58,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     ),
                     4.verticalSpace,
                     Text(
-                      _formatDate((commentInfo.createdAt??"") as DateTime),
+                      _formatDate(commentInfo.createdAt ?? DateTime.now()),
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         fontSize: 10.sp,
                         color: AppColors.colorWhite.withOpacity(0.70),
@@ -66,7 +66,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     ),
                     8.verticalSpace,
                     Text(
-                      commentInfo.comment??"",
+                      commentInfo.comment ?? "",
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         fontSize: 11.sp,
                         color: AppColors.colorWhite.withOpacity(0.70),
@@ -76,8 +76,9 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: GestureDetector(
-                        onTap: ()=> postFeedNotifier.postCommentLikeUnlike((){},  commentInfo.id??""),
-                        child: (commentInfo.isCommentLiked??false)
+                        onTap: () =>
+                            postFeedNotifier.postCommentLikeUnlike(() {}, commentInfo.id ?? ""),
+                        child: (commentInfo.isCommentLiked ?? false)
                             ? Image.asset(Assets.redHeart)
                             : Image.asset(Assets.like),
                       ),

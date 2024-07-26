@@ -5,8 +5,6 @@ import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dar
 import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
-
 part 'restaurant_state.freezed.dart';
 
 @freezed
@@ -24,6 +22,7 @@ class RestaurantState with _$RestaurantState {
     @Default(1) int currentPageForPosts,
     @Default(false) bool isLoadingForPosts,
     @Default(0) int totalPagesPosts,
+    @Default(0) int totalNumberOfRestaurants,
   }) = _RestaurantState;
   const RestaurantState._();
 }

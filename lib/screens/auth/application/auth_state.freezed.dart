@@ -19,7 +19,6 @@ mixin _$AuthState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoginLoading => throw _privateConstructorUsedError;
   String get userID => throw _privateConstructorUsedError;
-  bool get isPasswordVisible => throw _privateConstructorUsedError;
   int get remainingTime => throw _privateConstructorUsedError;
   bool get canResendOtp => throw _privateConstructorUsedError;
 
@@ -37,7 +36,6 @@ abstract class $AuthStateCopyWith<$Res> {
       {bool isLoading,
       bool isLoginLoading,
       String userID,
-      bool isPasswordVisible,
       int remainingTime,
       bool canResendOtp});
 }
@@ -58,7 +56,6 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isLoading = null,
     Object? isLoginLoading = null,
     Object? userID = null,
-    Object? isPasswordVisible = null,
     Object? remainingTime = null,
     Object? canResendOtp = null,
   }) {
@@ -75,10 +72,6 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.userID
           : userID // ignore: cast_nullable_to_non_nullable
               as String,
-      isPasswordVisible: null == isPasswordVisible
-          ? _value.isPasswordVisible
-          : isPasswordVisible // ignore: cast_nullable_to_non_nullable
-              as bool,
       remainingTime: null == remainingTime
           ? _value.remainingTime
           : remainingTime // ignore: cast_nullable_to_non_nullable
@@ -103,7 +96,6 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       {bool isLoading,
       bool isLoginLoading,
       String userID,
-      bool isPasswordVisible,
       int remainingTime,
       bool canResendOtp});
 }
@@ -122,7 +114,6 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isLoginLoading = null,
     Object? userID = null,
-    Object? isPasswordVisible = null,
     Object? remainingTime = null,
     Object? canResendOtp = null,
   }) {
@@ -139,10 +130,6 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.userID
           : userID // ignore: cast_nullable_to_non_nullable
               as String,
-      isPasswordVisible: null == isPasswordVisible
-          ? _value.isPasswordVisible
-          : isPasswordVisible // ignore: cast_nullable_to_non_nullable
-              as bool,
       remainingTime: null == remainingTime
           ? _value.remainingTime
           : remainingTime // ignore: cast_nullable_to_non_nullable
@@ -162,7 +149,6 @@ class _$AuthStateImpl extends _AuthState {
       {this.isLoading = false,
       this.isLoginLoading = false,
       this.userID = "",
-      this.isPasswordVisible = false,
       this.remainingTime = 30,
       this.canResendOtp = false})
       : super._();
@@ -178,9 +164,6 @@ class _$AuthStateImpl extends _AuthState {
   final String userID;
   @override
   @JsonKey()
-  final bool isPasswordVisible;
-  @override
-  @JsonKey()
   final int remainingTime;
   @override
   @JsonKey()
@@ -188,7 +171,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(isLoading: $isLoading, isLoginLoading: $isLoginLoading, userID: $userID, isPasswordVisible: $isPasswordVisible, remainingTime: $remainingTime, canResendOtp: $canResendOtp)';
+    return 'AuthState(isLoading: $isLoading, isLoginLoading: $isLoginLoading, userID: $userID, remainingTime: $remainingTime, canResendOtp: $canResendOtp)';
   }
 
   @override
@@ -201,8 +184,6 @@ class _$AuthStateImpl extends _AuthState {
             (identical(other.isLoginLoading, isLoginLoading) ||
                 other.isLoginLoading == isLoginLoading) &&
             (identical(other.userID, userID) || other.userID == userID) &&
-            (identical(other.isPasswordVisible, isPasswordVisible) ||
-                other.isPasswordVisible == isPasswordVisible) &&
             (identical(other.remainingTime, remainingTime) ||
                 other.remainingTime == remainingTime) &&
             (identical(other.canResendOtp, canResendOtp) ||
@@ -211,7 +192,7 @@ class _$AuthStateImpl extends _AuthState {
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, isLoginLoading,
-      userID, isPasswordVisible, remainingTime, canResendOtp);
+      userID, remainingTime, canResendOtp);
 
   @JsonKey(ignore: true)
   @override
@@ -225,7 +206,6 @@ abstract class _AuthState extends AuthState {
       {final bool isLoading,
       final bool isLoginLoading,
       final String userID,
-      final bool isPasswordVisible,
       final int remainingTime,
       final bool canResendOtp}) = _$AuthStateImpl;
   const _AuthState._() : super._();
@@ -236,8 +216,6 @@ abstract class _AuthState extends AuthState {
   bool get isLoginLoading;
   @override
   String get userID;
-  @override
-  bool get isPasswordVisible;
   @override
   int get remainingTime;
   @override

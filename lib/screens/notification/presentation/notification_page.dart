@@ -71,7 +71,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                 color: AppColors.colorPrimary,
               ),
             )
-          : todayNotifications.isNotEmpty
+          : todayNotifications.isNotEmpty ||
+                  yesterdayNotifications.isNotEmpty ||
+                  olderNotifications.isNotEmpty
               ? SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,

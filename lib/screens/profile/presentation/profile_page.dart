@@ -376,7 +376,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       itemBuilder: (context, index) {
                         final activitiesList = state.userActivitiesList;
                         return RecentActivityWidget(
-                          imgpath: activitiesList?[index].imagePath ?? '',
+                          imgpath: activitiesList?[index].userInfo?.profileImage ?? '',
                           subtitle: activitiesList?[index].createdAt ?? DateTime.now(),
                           title: activitiesList?[index].title ?? '',
                         );

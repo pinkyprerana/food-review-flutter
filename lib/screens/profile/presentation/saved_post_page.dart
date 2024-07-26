@@ -67,65 +67,71 @@ class _SavedPageState extends ConsumerState<SavedPage> {
             ),
           ),
         ),
-        body: savedList.isNotEmpty
-            ? GridView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(16),
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2 / 2,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
+        body: profileState.isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.colorPrimary,
                 ),
-                itemCount: savedList.length,
-                itemBuilder: (context, index) {
-                  final imageURL = "${AppUrls.postImageLocation}${savedList[index].file}";
-                  final String postId = savedList[index].id;
-                  bool isSaved = savedList[index].isSave;
-
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      margin: const EdgeInsets.all(2),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.network(
-                            imageURL,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: GestureDetector(
-                                onTap: () async {
-                                  await postFeedNotifier
-                                      .saveUnsavePost(() {}, postId)
-                                      .then((_) async {
-                                    final savedNotifier =
-                                        ref.read(profileNotifierProvider.notifier);
-                                    await savedNotifier.getSavedList();
-                                    await savedNotifier.getUserDetails();
-                                  });
-                                },
-                                child: isSaved
-                                    ? Image.asset(
-                                        Assets.saved,
-                                        scale: 2,
-                                      )
-                                    : Image.asset(Assets.bookmark)),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
               )
-            : Center(
-                child: Text(
-                'You have no saved post.',
-                style: AppTextStyles.textStylePoppins,
-              )));
+            : savedList.isNotEmpty
+                ? GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(16),
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2 / 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                    ),
+                    itemCount: savedList.length,
+                    itemBuilder: (context, index) {
+                      final imageURL = "${AppUrls.postImageLocation}${savedList[index].file}";
+                      final String postId = savedList[index].id;
+                      bool isSaved = savedList[index].isSave;
+
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          margin: const EdgeInsets.all(2),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.network(
+                                imageURL,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: GestureDetector(
+                                    onTap: () async {
+                                      await postFeedNotifier
+                                          .saveUnsavePost(() {}, postId)
+                                          .then((_) async {
+                                        final savedNotifier =
+                                            ref.read(profileNotifierProvider.notifier);
+                                        await savedNotifier.getSavedList();
+                                        await savedNotifier.getUserDetails();
+                                      });
+                                    },
+                                    child: isSaved
+                                        ? Image.asset(
+                                            Assets.saved,
+                                            scale: 2,
+                                          )
+                                        : Image.asset(Assets.bookmark)),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                    'You have no saved post.',
+                    style: AppTextStyles.textStylePoppins,
+                  )));
   }
 }
