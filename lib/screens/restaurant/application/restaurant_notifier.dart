@@ -350,6 +350,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         position: LatLng(double.parse(item.lat ?? '1'), double.parse(item.lng ?? '1')),
         infoWindow: InfoWindow(
           title: item.name,
+          snippet: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
         ),
       );
       // markers.add(marker);

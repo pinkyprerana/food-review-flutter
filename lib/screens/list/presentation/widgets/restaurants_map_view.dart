@@ -28,8 +28,8 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
   Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController _googleMapController;
 
-  Set<Marker> markers = {};
-  List<LabelMarker> labelMarkers = [];
+  // Set<Marker> markers = {};
+  // List<LabelMarker> labelMarkers = [];
 
   @override
   void initState() {
@@ -86,7 +86,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                               ),
                               zoom: 12,
                             ),
-                            markers: Set<Marker>.from(stateNotifier.markers),
+                            markers: Set<Marker>.of(stateNotifier.markers),
                             onMapCreated: (GoogleMapController controller) {
                               _controller.complete(controller);
                               // _googleMapController = controller;
