@@ -359,7 +359,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '01',
+                                        postListOfOtherUser.length>9 ? postListOfOtherUser.length.toString():"0${postListOfOtherUser.length.toString()}",
                                         style: AppTextStyles.textStylePoppinsMedium
                                             .copyWith(fontSize: 13.sp, color: AppColors.colorText),
                                       ),
