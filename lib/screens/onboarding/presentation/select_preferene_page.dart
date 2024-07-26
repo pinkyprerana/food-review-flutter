@@ -10,6 +10,7 @@ import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
+import '../shared/provider.dart';
 
 @RoutePage()
 class SelectPreferencePage extends ConsumerStatefulWidget {
@@ -22,26 +23,26 @@ class SelectPreferencePage extends ConsumerStatefulWidget {
 class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
   final emailFocusNode = FocusNode();
 
-  // multiple choice value
-  List<String> tags = [];
-
-  // list of string options
-  List<String> options = [
-    'Chinese Food',
-    'Mexican Food',
-    'Indian Cuisine',
-    'Thai Food',
-    'Continental',
-    'Vegan',
-    'Dairy Food',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
+      await preferenceNotifier.getAllPreference();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    // final isScreenSmall = size.height < 750;
-    // final stateNotifier = ref.read(authNotifierProvider.notifier);
-    // final state = ref.read(authNotifierProvider);
+    var preferenceState = ref.watch(preferenceNotifierProvider);
+    final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
+    var tags = ref.watch(preferenceNotifierProvider).tags;
+    final preferencesList = preferenceState.data??[];
+    final options = preferencesList
+        .map((preference) => preference.title ?? '')
+        .where((title) => title.isNotEmpty)
+        .toList();
+
     return Scaffold(
       backgroundColor: AppColors.colorBlack2,
       body: GestureDetector(
@@ -113,7 +114,7 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                           child: ChipsChoice<String>.multiple(
                             value: tags,
                             padding: EdgeInsets.zero,
-                            onChanged: (val) => setState(() => tags = val),
+                            onChanged: (val) => preferenceState = preferenceState.copyWith(tags: val),
                             choiceItems: C2Choice.listFrom<String, String>(
                               source: options,
                               value: (i, v) => v,
@@ -143,9 +144,7 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                                 ),
                                 selected: isSelected,
                                 onSelected: (_) {
-                                  setState(() {
-                                    isSelected ? tags.remove(item.value) : tags.add(item.value);
-                                  });
+                                  preferenceNotifier.toggleTag(item.value);
                                 },
                                 selectedColor: AppColors.colorBlack2,
                                 backgroundColor: AppColors.colorWhite,

@@ -33,6 +33,7 @@ mixin _$ProfileState {
       throw _privateConstructorUsedError;
   List<Posts> get dislikedPostsList => throw _privateConstructorUsedError;
   List<Posts> get likedPostList => throw _privateConstructorUsedError;
+  bool get isExpanded => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -59,7 +60,8 @@ abstract class $ProfileStateCopyWith<$Res> {
       List<DataOfSavedPostModel> savedList,
       List<NotificationData> notificationList,
       List<Posts> dislikedPostsList,
-      List<Posts> likedPostList});
+      List<Posts> likedPostList,
+      bool isExpanded});
 
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
   $UserProfileModelCopyWith<$Res>? get userProfileResponseModel;
@@ -92,6 +94,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? notificationList = null,
     Object? dislikedPostsList = null,
     Object? likedPostList = null,
+    Object? isExpanded = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -150,6 +153,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.likedPostList
           : likedPostList // ignore: cast_nullable_to_non_nullable
               as List<Posts>,
+      isExpanded: null == isExpanded
+          ? _value.isExpanded
+          : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -201,7 +208,8 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       List<DataOfSavedPostModel> savedList,
       List<NotificationData> notificationList,
       List<Posts> dislikedPostsList,
-      List<Posts> likedPostList});
+      List<Posts> likedPostList,
+      bool isExpanded});
 
   @override
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
@@ -234,6 +242,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? notificationList = null,
     Object? dislikedPostsList = null,
     Object? likedPostList = null,
+    Object? isExpanded = null,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -291,6 +300,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value._likedPostList
           : likedPostList // ignore: cast_nullable_to_non_nullable
               as List<Posts>,
+      isExpanded: null == isExpanded
+          ? _value.isExpanded
+          : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -312,7 +325,8 @@ class _$ProfileStateImpl extends _ProfileState {
       final List<DataOfSavedPostModel> savedList = const [],
       final List<NotificationData> notificationList = const [],
       final List<Posts> dislikedPostsList = const [],
-      final List<Posts> likedPostList = const []})
+      final List<Posts> likedPostList = const [],
+      this.isExpanded = false})
       : _userActivitiesList = userActivitiesList,
         _savedList = savedList,
         _notificationList = notificationList,
@@ -395,8 +409,12 @@ class _$ProfileStateImpl extends _ProfileState {
   }
 
   @override
+  @JsonKey()
+  final bool isExpanded;
+
+  @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList)';
+    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, isExpanded: $isExpanded)';
   }
 
   @override
@@ -432,7 +450,9 @@ class _$ProfileStateImpl extends _ProfileState {
             const DeepCollectionEquality()
                 .equals(other._dislikedPostsList, _dislikedPostsList) &&
             const DeepCollectionEquality()
-                .equals(other._likedPostList, _likedPostList));
+                .equals(other._likedPostList, _likedPostList) &&
+            (identical(other.isExpanded, isExpanded) ||
+                other.isExpanded == isExpanded));
   }
 
   @override
@@ -451,7 +471,8 @@ class _$ProfileStateImpl extends _ProfileState {
       const DeepCollectionEquality().hash(_savedList),
       const DeepCollectionEquality().hash(_notificationList),
       const DeepCollectionEquality().hash(_dislikedPostsList),
-      const DeepCollectionEquality().hash(_likedPostList));
+      const DeepCollectionEquality().hash(_likedPostList),
+      isExpanded);
 
   @JsonKey(ignore: true)
   @override
@@ -475,7 +496,8 @@ abstract class _ProfileState extends ProfileState {
       final List<DataOfSavedPostModel> savedList,
       final List<NotificationData> notificationList,
       final List<Posts> dislikedPostsList,
-      final List<Posts> likedPostList}) = _$ProfileStateImpl;
+      final List<Posts> likedPostList,
+      final bool isExpanded}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
   @override
@@ -506,6 +528,8 @@ abstract class _ProfileState extends ProfileState {
   List<Posts> get dislikedPostsList;
   @override
   List<Posts> get likedPostList;
+  @override
+  bool get isExpanded;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

@@ -445,6 +445,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     return true;
   }
 
+  void toggleExpansion() {
+    state = state.copyWith(isExpanded: !state.isExpanded);
+  }
+
   Future<void> requestHelp(BuildContext context) async {
     if (validateContactFields()) {
       try {

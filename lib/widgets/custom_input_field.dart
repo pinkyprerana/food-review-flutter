@@ -16,6 +16,7 @@ class CustomInputField extends StatefulWidget {
     this.onFieldSubmitted,
     super.key,
   });
+
   final String? label;
   final String hint;
   final bool isPassword;
@@ -32,13 +33,12 @@ class CustomInputField extends StatefulWidget {
 
 class _CustomInputFieldState extends State<CustomInputField> {
   bool isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: TextFormField(
-        //expands: (widget.expands != null) ? widget.expands! : false,
-        //maxLines: (widget.maxLines != null) ? widget.maxLines : null,
         controller: widget.controller,
         focusNode: widget.focusNode,
         maxLength: widget.maxLength,
@@ -46,9 +46,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
           filled: true,
           fillColor: AppColors.colorGrey,
           alignLabelWithHint: true,
-          // contentPadding: EdgeInsets.symmetric(vertical: 15),
-          // counterText: '',
-          labelText: (widget.label != null) ? widget.label : null,
+          labelText: widget.label,
           labelStyle: AppTextStyles.textStylePoppinsLight.copyWith(
             color: AppColors.colorPrimaryAlpha,
             fontSize: 11.sp,
@@ -59,28 +57,25 @@ class _CustomInputFieldState extends State<CustomInputField> {
             color: AppColors.colorPrimaryAlpha,
           ),
           border: InputBorder.none,
-          floatingLabelBehavior:
-              (widget.label != null) ? FloatingLabelBehavior.always : FloatingLabelBehavior.never,
+          floatingLabelBehavior: widget.label != null
+              ? FloatingLabelBehavior.always
+              : FloatingLabelBehavior.never,
           suffixIcon: widget.isPassword
               ? GestureDetector(
-                  onTap: () => setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  }),
-                  child: isPasswordVisible
-                      ? const Icon(
-                          Icons.visibility_off_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        )
-                      : const Icon(
-                          Icons.visibility_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                )
+            onTap: () => setState(() {
+              isPasswordVisible = !isPasswordVisible;
+            }),
+            child: Icon(
+              isPasswordVisible
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              color: AppColors.colorPrimaryAlpha,
+            ),
+          )
               : const Icon(
-                  Icons.text_fields_rounded,
-                  color: AppColors.colorTransparent,
-                ),
-          // prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
+            Icons.text_fields_rounded,
+            color: AppColors.colorTransparent,
+          ),
         ),
         keyboardType: widget.keyboardType,
         obscureText: widget.isPassword && !isPasswordVisible,

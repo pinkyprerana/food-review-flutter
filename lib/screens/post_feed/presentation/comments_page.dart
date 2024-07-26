@@ -38,21 +38,21 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
   Widget build(BuildContext context) {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final String postId = widget.postInfoList.id;
-    final String name = widget.postInfoList.userInfo.fullName;
+    final String? postId = widget.postInfoList.id;
+    final String name = widget.postInfoList.userInfo?.fullName??"";
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo.profileImage}";
+        "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo?.profileImage}";
     // final String postImage = "${AppUrls.postImageLocation}${widget.postInfoList.file}";
     // final String title = widget.postInfoList.title;
-    final String description = widget.postInfoList.description;
+    final String? description = widget.postInfoList.description;
     final String? restaurantName = widget.postInfoList.restaurantInfo?.name;
     final String? rating = widget.postInfoList.restaurantInfo?.rating;
     final String? address = widget.postInfoList.restaurantInfo?.address;
-    final String cuisine = widget.postInfoList.preferenceInfo.title;
-    final int commentCount = widget.postInfoList.commentCount;
-    final int amount = widget.postInfoList.commentCount;
-    final bool isSaved = widget.postInfoList.isSave;
-    final bool isLiked = widget.postInfoList.isMyLike;
+    final String? cuisine = widget.postInfoList.preferenceInfo?.title;
+    final int? commentCount = widget.postInfoList.commentCount;
+    final int? amount = widget.postInfoList.commentCount;
+    final bool? isSaved = widget.postInfoList.isSave;
+    final bool? isLiked = widget.postInfoList.isMyLike;
     final comments =
         postFeedState.commentInfoList?.where((comment) => comment.postId == postId).toList();
 
@@ -123,7 +123,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             ),
                             child: Center(
                               child: Text(
-                                cuisine,
+                                cuisine??"",
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
@@ -140,12 +140,12 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       20.verticalSpace,
-                      isLiked ? Image.asset(Assets.redHeart) : Image.asset(Assets.like),
+                      (isLiked??false) ? Image.asset(Assets.redHeart) : Image.asset(Assets.like),
                       15.verticalSpace,
                       Column(children: [
                         Image.asset(Assets.comments),
                         Text(
-                          (commentCount > 9)
+                          (commentCount! > 9)
                               ? commentCount.toString()
                               : "0${commentCount.toString()}",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -155,7 +155,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                         )
                       ]),
                       10.verticalSpace,
-                      isSaved
+                      (isSaved??false)
                           ? Image.asset(
                               Assets.saved,
                               scale: 2,
@@ -235,7 +235,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  description,
+                  description??"",
                   style: AppTextStyles.textStylePoppinsMedium.copyWith(
                     fontSize: 13.sp,
                     color: AppColors.colorWhite,
@@ -319,7 +319,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                         onPressed: () async {
                           await postFeedNotifier.postComment(() async {
                             dismissKeyboard(context);
-                          }, postId);
+                          }, postId??"");
                         },
                         text: 'Submit',
                       )

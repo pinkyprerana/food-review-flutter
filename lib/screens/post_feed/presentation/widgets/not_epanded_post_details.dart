@@ -32,22 +32,22 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
 
   @override
   Widget build(BuildContext context) {
-    final String peopleId = widget.postList.userInfo.id;
-    final String name = widget.postList.userInfo.fullName;
+    final String? peopleId = widget.postList.userInfo?.id;
+    final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
     // final String postImage = widget.postList.file;
     // final String title = widget.postList.title;
-    final String description = widget.postList.description;
+    final String? description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
-    final String cuisine = widget.postList.preferenceInfo.title;
-    final int commentCount = widget.postList.commentCount;
-    final String postId = widget.postList.id;
+    final String? cuisine = widget.postList.preferenceInfo?.title;
+    final int? commentCount = widget.postList.commentCount;
+    final String? postId = widget.postList.id;
     // final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final bool isSaved = widget.postList.isSave;
-    final bool isLiked = widget.postList.isMyLike;
+    final bool? isSaved = widget.postList.isSave;
+    final bool? isLiked = widget.postList.isMyLike;
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -60,9 +60,9 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: name, //'Ahmad Gouse',
+                      peoplename: name??"", //'Ahmad Gouse',
                       peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                      peopleId: peopleId,
+                      peopleId: peopleId??"",
                       isFollow: true));
                 },
                 child: Row(
@@ -81,7 +81,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     ),
                     8.horizontalSpace,
                     Text(
-                      name, //'Ahmad Gouse',
+                      name??"", //'Ahmad Gouse',
                       style: AppTextStyles.textStylePoppinsMedium
                           .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
@@ -126,7 +126,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         ),
                         child: Center(
                           child: Text(
-                            cuisine, //'Chinese Cuisine',
+                            cuisine??"", //'Chinese Cuisine',
                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: const Color(0xff6BCE7B).withOpacity(0.85),
                               fontSize: 10.sp,
@@ -173,8 +173,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               Column(
                 children: [
                   GestureDetector(
-                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId),
-                      child: isLiked ? Image.asset(Assets.redHeart) : Image.asset(Assets.like)),
+                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId??""),
+                      child: (isLiked??false) ? Image.asset(Assets.redHeart) : Image.asset(Assets.like)),
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(CommentsRoute(
@@ -184,7 +184,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                       children: [
                         Image.asset(Assets.comments),
                         Text(
-                          (commentCount > 9)
+                          (commentCount! > 9)
                               ? commentCount.toString()
                               : "0${commentCount.toString()}",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -197,8 +197,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
-                      child: isSaved
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId??""),
+                      child: (isSaved??false)
                           ? Image.asset(
                               Assets.saved,
                               scale: 2,
@@ -213,7 +213,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              description, //'A memorable evening to be remembered.',
+              description??"", //'A memorable evening to be remembered.',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.textStylePoppinsMedium.copyWith(

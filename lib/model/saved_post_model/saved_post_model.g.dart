@@ -57,12 +57,17 @@ _$DataOfSavedPostModelImpl _$$DataOfSavedPostModelImplFromJson(
       isMyDisLike: json['isMyDisLike'] as bool,
       commentCount: (json['comment_count'] as num).toInt(),
       userInfo: UserInfo.fromJson(json['userInfo'] as Map<String, dynamic>),
+      commentInfo: (json['commentInfo'] as List<dynamic>?)
+          ?.map((e) => CommentInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
       preferenceInfo: json['preferenceInfo'] == null
           ? null
           : PreferenceInfo.fromJson(
               json['preferenceInfo'] as Map<String, dynamic>),
-      restaurantInfo: RestaurantInfo.fromJson(
-          json['restaurantInfo'] as Map<String, dynamic>),
+      restaurantInfo: json['restaurantInfo'] == null
+          ? null
+          : RestaurantInfo.fromJson(
+              json['restaurantInfo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DataOfSavedPostModelImplToJson(
@@ -89,6 +94,7 @@ Map<String, dynamic> _$$DataOfSavedPostModelImplToJson(
       'isMyDisLike': instance.isMyDisLike,
       'comment_count': instance.commentCount,
       'userInfo': instance.userInfo,
+      'commentInfo': instance.commentInfo,
       'preferenceInfo': instance.preferenceInfo,
       'restaurantInfo': instance.restaurantInfo,
     };
@@ -111,7 +117,7 @@ _$UserInfoImpl _$$UserInfoImplFromJson(Map<String, dynamic> json) =>
       id: json['_id'] as String,
       fullName: json['fullName'] as String,
       email: json['email'] as String,
-      profileImage: json['profile_image'] as String,
+      profileImage: json['profile_image'] as String?,
     );
 
 Map<String, dynamic> _$$UserInfoImplToJson(_$UserInfoImpl instance) =>
@@ -160,4 +166,45 @@ Map<String, dynamic> _$$RestaurantInfoImplToJson(
       'zipcode': instance.zipcode,
       'user_ratings_total': instance.userRatingsTotal,
       'rating': instance.rating,
+    };
+
+_$CommentInfoImpl _$$CommentInfoImplFromJson(Map<String, dynamic> json) =>
+    _$CommentInfoImpl(
+      id: json['_id'] as String,
+      userId: json['user_id'] as String,
+      postId: json['post_id'] as String,
+      comment: json['comment'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      commentedUserData: CommentedUserData.fromJson(
+          json['commentedUserData'] as Map<String, dynamic>),
+      isCommentLiked: json['isCommentLiked'] as bool,
+    );
+
+Map<String, dynamic> _$$CommentInfoImplToJson(_$CommentInfoImpl instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'user_id': instance.userId,
+      'post_id': instance.postId,
+      'comment': instance.comment,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'commentedUserData': instance.commentedUserData,
+      'isCommentLiked': instance.isCommentLiked,
+    };
+
+_$CommentedUserDataImpl _$$CommentedUserDataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommentedUserDataImpl(
+      id: json['_id'] as String,
+      fullName: json['fullName'] as String,
+      email: json['email'] as String,
+      profileImage: json['profile_image'] as String?,
+    );
+
+Map<String, dynamic> _$$CommentedUserDataImplToJson(
+        _$CommentedUserDataImpl instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'fullName': instance.fullName,
+      'email': instance.email,
+      'profile_image': instance.profileImage,
     };

@@ -23,8 +23,6 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  // SlideRegion? _currentRegion;
-  bool _isStackFinished = false;
 
   @override
   void initState() {
@@ -41,16 +39,16 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
 
-    if (_swipeItems.isEmpty && postFeedList.isNotEmpty) {
+    if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
       for (int i = 0; i < postFeedList.length; i++) {
         final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
         _swipeItems.add(SwipeItem(
             content: Content(text: postFeedList[i].toString()),
             likeAction: () async {
-              await postFeedNotifier.swipeRightToLikePost(() {}, postFeedList[i].id);
+              await postFeedNotifier.swipeRightToLikePost(() {}, postFeedList[i].id??"");
             },
             nopeAction: () async {
-              await postFeedNotifier.swipeLeftToDislikePost(() {}, postFeedList[i].id);
+              await postFeedNotifier.swipeLeftToDislikePost(() {}, postFeedList[i].id??"");
             },
             // superlikeAction: () {
             //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -80,7 +78,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight,
-            child: _isStackFinished
+            child: postFeedState.isStackFinished
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -109,7 +107,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                 : SwipeCards(
                     matchEngine: _matchEngine!,
                     itemBuilder: (BuildContext context, int index) {
-                      if (index < 0 || index >= postFeedList.length) {
+                      if (index < 0 || index >= postFeedList!.length) {
                         return const SizedBox.shrink();
                       }
                       final postList = postFeedList[index];
@@ -120,9 +118,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       //   content: Text("Post Finished"),
                       //   duration: Duration(milliseconds: 500),
                       // ));
-                      setState(() {
-                        _isStackFinished = true;
-                      });
+                      ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
                     },
                     itemChanged: (SwipeItem item, int index) {
                       AppLog.log("item: ${item.content.text}, index: $index");

@@ -44,12 +44,12 @@ abstract class DataOfSavedPostModel with _$DataOfSavedPostModel {
     @JsonKey(name: "isMyDisLike") required bool isMyDisLike,
     @JsonKey(name: "comment_count") required int commentCount,
     @JsonKey(name: "userInfo") required UserInfo userInfo,
+    @JsonKey(name: "commentInfo") List<CommentInfo>? commentInfo,
     @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
-    @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
+    @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo,
   }) = _DataOfSavedPostModel;
 
-  factory DataOfSavedPostModel.fromJson(Map<String, dynamic> json) =>
-      _$DataOfSavedPostModelFromJson(json);
+  factory DataOfSavedPostModel.fromJson(Map<String, dynamic> json) => _$DataOfSavedPostModelFromJson(json);
 }
 
 @freezed
@@ -68,7 +68,7 @@ abstract class UserInfo with _$UserInfo {
     @JsonKey(name: "_id") required String id,
     @JsonKey(name: "fullName") required String fullName,
     @JsonKey(name: "email") required String email,
-    @JsonKey(name: "profile_image") required String profileImage,
+    @JsonKey(name: "profile_image") String? profileImage,
   }) = _UserInfo;
 
   factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
@@ -99,4 +99,33 @@ abstract class RestaurantInfo with _$RestaurantInfo {
   }) = _RestaurantInfo;
 
   factory RestaurantInfo.fromJson(Map<String, dynamic> json) => _$RestaurantInfoFromJson(json);
+
+}
+
+@freezed
+abstract class CommentInfo with _$CommentInfo {
+  const factory CommentInfo({
+    @JsonKey(name: "_id") required String id,
+    @JsonKey(name: "user_id") required String userId,
+    @JsonKey(name: "post_id") required String postId,
+    @JsonKey(name: "comment") required String comment,
+    @JsonKey(name: "createdAt") required DateTime createdAt,
+    @JsonKey(name: "commentedUserData") required CommentedUserData commentedUserData,
+    @JsonKey(name: "isCommentLiked") required bool isCommentLiked,
+  }) = _CommentInfo;
+
+  factory CommentInfo.fromJson(Map<String, dynamic> json) => _$CommentInfoFromJson(json);
+}
+
+@freezed
+abstract class CommentedUserData with _$CommentedUserData {
+  const factory CommentedUserData({
+    @JsonKey(name: "_id") required String id,
+    @JsonKey(name: "fullName") required String fullName,
+    @JsonKey(name: "email") required String email,
+    @JsonKey(name: "profile_image") String? profileImage,
+  }) = _CommentedUserData;
+
+  factory CommentedUserData.fromJson(Map<String, dynamic> json) => _$CommentedUserDataFromJson(json);
+
 }
