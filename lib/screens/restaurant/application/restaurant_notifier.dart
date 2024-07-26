@@ -31,8 +31,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
-  // Set<Marker> markers = {};
-  List<Marker> markers = [];
+  Set<Marker> markers = {};
+  // List<LabelMarker> markers = [];
 
   @override
   void dispose() {
@@ -41,7 +41,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   void clearMarkers() {
-    markers = [];
+    markers = {};
   }
 
   void clearStateVariables() {
@@ -342,20 +342,20 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     for (final item in restaurantList) {
       var uuid = const Uuid();
       var uniqueString = uuid.v4();
-      final marker = Marker(
-        // label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
-        // backgroundColor: AppColors.colorPrimary,
+      final marker = LabelMarker(
+        label: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
+        backgroundColor: AppColors.colorPrimary,
         // markerId: MarkerId(item.name.toString()),
         markerId: MarkerId(uniqueString),
         position: LatLng(double.parse(item.lat ?? '1'), double.parse(item.lng ?? '1')),
-        infoWindow: InfoWindow(
-          title: item.name,
-          snippet: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
-        ),
+        // infoWindow: InfoWindow(
+        //   title: item.name,
+        //   snippet: (item.rating != '') ? '⭐ ${item.rating}' : '⭐ 0.0',
+        // ),
       );
       // markers.add(marker);
-      markers.add(marker);
+      markers.addLabelMarker(marker);
     }
-    state = state.copyWith();
+    // state = state.copyWith();
   }
 }

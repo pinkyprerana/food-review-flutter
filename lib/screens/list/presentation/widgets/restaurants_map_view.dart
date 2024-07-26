@@ -6,9 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
-import 'package:for_the_table/core/utils/map_utls.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:label_marker/label_marker.dart';
 
 import '../../../restaurant/shared/provider.dart';
 
@@ -25,8 +23,8 @@ class RestaurantMapView extends ConsumerStatefulWidget {
 }
 
 class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
-  Completer<GoogleMapController> _controller = Completer();
-  late GoogleMapController _googleMapController;
+  Completer<GoogleMapController> gController = Completer();
+  // late GoogleMapController _googleMapController;
 
   // Set<Marker> markers = {};
   // List<LabelMarker> labelMarkers = [];
@@ -88,7 +86,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                             ),
                             markers: Set<Marker>.of(stateNotifier.markers),
                             onMapCreated: (GoogleMapController controller) {
-                              _controller.complete(controller);
+                              gController.complete(controller);
                               // _googleMapController = controller;
                               // _googleMapController.getVisibleRegion();
                               // controller.animateCamera(
