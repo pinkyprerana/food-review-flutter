@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/screens/onboarding/application/preference_state.dart';
 import '../../../core/constants/app_urls.dart';
@@ -8,10 +7,9 @@ import '../../../core/utils/toast.dart';
 import '../domain/preference_model.dart';
 
 class PreferenceNotifier extends StateNotifier<PreferenceState> {
-  PreferenceNotifier(this._dio, this._networkApiService)
+  PreferenceNotifier(this._networkApiService)
       : super(const PreferenceState());
 
-  final Dio _dio;
   final NetworkApiService _networkApiService;
 
   void addTag(String tag) {

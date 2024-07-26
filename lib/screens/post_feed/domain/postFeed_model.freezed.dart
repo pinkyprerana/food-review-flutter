@@ -27,7 +27,7 @@ mixin _$PostModel {
   @JsonKey(name: "message")
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
-  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
+  List<DataOfPostModel>? get postList => throw _privateConstructorUsedError;
   @JsonKey(name: "total")
   int? get total => throw _privateConstructorUsedError;
   @JsonKey(name: "page")
@@ -52,7 +52,7 @@ abstract class $PostModelCopyWith<$Res> {
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") List<DataOfPostModel> postList,
+      @JsonKey(name: "data") List<DataOfPostModel>? postList,
       @JsonKey(name: "total") int? total,
       @JsonKey(name: "page") int? page,
       @JsonKey(name: "pages") int? pages,
@@ -75,7 +75,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? postList = null,
+    Object? postList = freezed,
     Object? total = freezed,
     Object? page = freezed,
     Object? pages = freezed,
@@ -94,10 +94,10 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      postList: null == postList
+      postList: freezed == postList
           ? _value.postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ abstract class _$$PostModelImplCopyWith<$Res>
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") List<DataOfPostModel> postList,
+      @JsonKey(name: "data") List<DataOfPostModel>? postList,
       @JsonKey(name: "total") int? total,
       @JsonKey(name: "page") int? page,
       @JsonKey(name: "pages") int? pages,
@@ -151,7 +151,7 @@ class __$$PostModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? postList = null,
+    Object? postList = freezed,
     Object? total = freezed,
     Object? page = freezed,
     Object? pages = freezed,
@@ -170,10 +170,10 @@ class __$$PostModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      postList: null == postList
+      postList: freezed == postList
           ? _value._postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
       total: freezed == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
@@ -201,7 +201,7 @@ class _$PostModelImpl implements _PostModel {
       {@JsonKey(name: "status") this.status,
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
-      @JsonKey(name: "data") required final List<DataOfPostModel> postList,
+      @JsonKey(name: "data") final List<DataOfPostModel>? postList,
       @JsonKey(name: "total") this.total,
       @JsonKey(name: "page") this.page,
       @JsonKey(name: "pages") this.pages,
@@ -220,13 +220,15 @@ class _$PostModelImpl implements _PostModel {
   @override
   @JsonKey(name: "message")
   final String? message;
-  final List<DataOfPostModel> _postList;
+  final List<DataOfPostModel>? _postList;
   @override
   @JsonKey(name: "data")
-  List<DataOfPostModel> get postList {
+  List<DataOfPostModel>? get postList {
+    final value = _postList;
+    if (value == null) return null;
     if (_postList is EqualUnmodifiableListView) return _postList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_postList);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -294,7 +296,7 @@ abstract class _PostModel implements PostModel {
       {@JsonKey(name: "status") final int? status,
       @JsonKey(name: "type") final String? type,
       @JsonKey(name: "message") final String? message,
-      @JsonKey(name: "data") required final List<DataOfPostModel> postList,
+      @JsonKey(name: "data") final List<DataOfPostModel>? postList,
       @JsonKey(name: "total") final int? total,
       @JsonKey(name: "page") final int? page,
       @JsonKey(name: "pages") final int? pages,
@@ -314,7 +316,7 @@ abstract class _PostModel implements PostModel {
   String? get message;
   @override
   @JsonKey(name: "data")
-  List<DataOfPostModel> get postList;
+  List<DataOfPostModel>? get postList;
   @override
   @JsonKey(name: "total")
   int? get total;
@@ -340,53 +342,53 @@ DataOfPostModel _$DataOfPostModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$DataOfPostModel {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: "description")
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "file")
-  String get file => throw _privateConstructorUsedError;
+  String? get file => throw _privateConstructorUsedError;
   @JsonKey(name: "mimetype")
-  String get mimetype => throw _privateConstructorUsedError;
+  String? get mimetype => throw _privateConstructorUsedError;
   @JsonKey(name: "how_was_it")
-  String get howWasIt => throw _privateConstructorUsedError;
+  String? get howWasIt => throw _privateConstructorUsedError;
   @JsonKey(name: "location")
-  String get location => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: "geo_distance")
-  double get geoDistance => throw _privateConstructorUsedError;
+  double? get geoDistance => throw _privateConstructorUsedError;
   @JsonKey(name: "geo_loc")
-  GeoLocation get geoLoc => throw _privateConstructorUsedError;
+  GeoLoc? get geoLoc => throw _privateConstructorUsedError;
   @JsonKey(name: "status")
-  String get status => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "isOwn")
-  bool get isOwn => throw _privateConstructorUsedError;
+  bool? get isOwn => throw _privateConstructorUsedError;
   @JsonKey(name: "isNear")
-  bool get isNear => throw _privateConstructorUsedError;
+  bool? get isNear => throw _privateConstructorUsedError;
   @JsonKey(name: "isFollowing")
-  bool get isFollowing => throw _privateConstructorUsedError;
+  bool? get isFollowing => throw _privateConstructorUsedError;
   @JsonKey(name: "isFollower")
-  bool get isFollower => throw _privateConstructorUsedError;
+  bool? get isFollower => throw _privateConstructorUsedError;
   @JsonKey(name: "isSave")
-  bool get isSave => throw _privateConstructorUsedError;
+  bool? get isSave => throw _privateConstructorUsedError;
   @JsonKey(name: "like_count")
-  int get likeCount => throw _privateConstructorUsedError;
+  int? get likeCount => throw _privateConstructorUsedError;
   @JsonKey(name: "isMyLike")
-  bool get isMyLike => throw _privateConstructorUsedError;
+  bool? get isMyLike => throw _privateConstructorUsedError;
   @JsonKey(name: "isMyDisLike")
-  bool get isMyDisLike => throw _privateConstructorUsedError;
+  bool? get isMyDisLike => throw _privateConstructorUsedError;
   @JsonKey(name: "comment_count")
-  int get commentCount => throw _privateConstructorUsedError;
+  int? get commentCount => throw _privateConstructorUsedError;
   @JsonKey(name: "userInfo")
-  UserInfo get userInfo => throw _privateConstructorUsedError;
+  UserInfo? get userInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "commentInfo")
-  List<CommentInfo> get commentInfo => throw _privateConstructorUsedError;
-  @JsonKey(name: "preferenceInfo")
-  PreferenceInfo get preferenceInfo => throw _privateConstructorUsedError;
+  List<CommentInfo>? get commentInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "restaurantInfo")
   RestaurantInfo? get restaurantInfo => throw _privateConstructorUsedError;
+  @JsonKey(name: "preferenceInfo")
+  PreferenceInfo? get preferenceInfo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -401,35 +403,35 @@ abstract class $DataOfPostModelCopyWith<$Res> {
       _$DataOfPostModelCopyWithImpl<$Res, DataOfPostModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "file") String file,
-      @JsonKey(name: "mimetype") String mimetype,
-      @JsonKey(name: "how_was_it") String howWasIt,
-      @JsonKey(name: "location") String location,
-      @JsonKey(name: "geo_distance") double geoDistance,
-      @JsonKey(name: "geo_loc") GeoLocation geoLoc,
-      @JsonKey(name: "status") String status,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "isOwn") bool isOwn,
-      @JsonKey(name: "isNear") bool isNear,
-      @JsonKey(name: "isFollowing") bool isFollowing,
-      @JsonKey(name: "isFollower") bool isFollower,
-      @JsonKey(name: "isSave") bool isSave,
-      @JsonKey(name: "like_count") int likeCount,
-      @JsonKey(name: "isMyLike") bool isMyLike,
-      @JsonKey(name: "isMyDisLike") bool isMyDisLike,
-      @JsonKey(name: "comment_count") int commentCount,
-      @JsonKey(name: "userInfo") UserInfo userInfo,
-      @JsonKey(name: "commentInfo") List<CommentInfo> commentInfo,
-      @JsonKey(name: "preferenceInfo") PreferenceInfo preferenceInfo,
-      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title,
+      @JsonKey(name: "description") String? description,
+      @JsonKey(name: "file") String? file,
+      @JsonKey(name: "mimetype") String? mimetype,
+      @JsonKey(name: "how_was_it") String? howWasIt,
+      @JsonKey(name: "location") String? location,
+      @JsonKey(name: "geo_distance") double? geoDistance,
+      @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+      @JsonKey(name: "status") String? status,
+      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "isOwn") bool? isOwn,
+      @JsonKey(name: "isNear") bool? isNear,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollower") bool? isFollower,
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "like_count") int? likeCount,
+      @JsonKey(name: "isMyLike") bool? isMyLike,
+      @JsonKey(name: "isMyDisLike") bool? isMyDisLike,
+      @JsonKey(name: "comment_count") int? commentCount,
+      @JsonKey(name: "userInfo") UserInfo? userInfo,
+      @JsonKey(name: "commentInfo") List<CommentInfo>? commentInfo,
+      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo,
+      @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo});
 
-  $GeoLocationCopyWith<$Res> get geoLoc;
-  $UserInfoCopyWith<$Res> get userInfo;
-  $PreferenceInfoCopyWith<$Res> get preferenceInfo;
+  $GeoLocCopyWith<$Res>? get geoLoc;
+  $UserInfoCopyWith<$Res>? get userInfo;
   $RestaurantInfoCopyWith<$Res>? get restaurantInfo;
+  $PreferenceInfoCopyWith<$Res>? get preferenceInfo;
 }
 
 /// @nodoc
@@ -445,152 +447,152 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? description = null,
-    Object? file = null,
-    Object? mimetype = null,
-    Object? howWasIt = null,
-    Object? location = null,
-    Object? geoDistance = null,
-    Object? geoLoc = null,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? isOwn = null,
-    Object? isNear = null,
-    Object? isFollowing = null,
-    Object? isFollower = null,
-    Object? isSave = null,
-    Object? likeCount = null,
-    Object? isMyLike = null,
-    Object? isMyDisLike = null,
-    Object? commentCount = null,
-    Object? userInfo = null,
-    Object? commentInfo = null,
-    Object? preferenceInfo = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? file = freezed,
+    Object? mimetype = freezed,
+    Object? howWasIt = freezed,
+    Object? location = freezed,
+    Object? geoDistance = freezed,
+    Object? geoLoc = freezed,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? isOwn = freezed,
+    Object? isNear = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollower = freezed,
+    Object? isSave = freezed,
+    Object? likeCount = freezed,
+    Object? isMyLike = freezed,
+    Object? isMyDisLike = freezed,
+    Object? commentCount = freezed,
+    Object? userInfo = freezed,
+    Object? commentInfo = freezed,
     Object? restaurantInfo = freezed,
+    Object? preferenceInfo = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      file: null == file
+              as String?,
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as String,
-      mimetype: null == mimetype
+              as String?,
+      mimetype: freezed == mimetype
           ? _value.mimetype
           : mimetype // ignore: cast_nullable_to_non_nullable
-              as String,
-      howWasIt: null == howWasIt
+              as String?,
+      howWasIt: freezed == howWasIt
           ? _value.howWasIt
           : howWasIt // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: null == location
+              as String?,
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
-      geoDistance: null == geoDistance
+              as String?,
+      geoDistance: freezed == geoDistance
           ? _value.geoDistance
           : geoDistance // ignore: cast_nullable_to_non_nullable
-              as double,
-      geoLoc: null == geoLoc
+              as double?,
+      geoLoc: freezed == geoLoc
           ? _value.geoLoc
           : geoLoc // ignore: cast_nullable_to_non_nullable
-              as GeoLocation,
-      status: null == status
+              as GeoLoc?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isOwn: null == isOwn
+              as String?,
+      isOwn: freezed == isOwn
           ? _value.isOwn
           : isOwn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isNear: null == isNear
+              as bool?,
+      isNear: freezed == isNear
           ? _value.isNear
           : isNear // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollowing: null == isFollowing
+              as bool?,
+      isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollower: null == isFollower
+              as bool?,
+      isFollower: freezed == isFollower
           ? _value.isFollower
           : isFollower // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSave: null == isSave
+              as bool?,
+      isSave: freezed == isSave
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
-              as bool,
-      likeCount: null == likeCount
+              as bool?,
+      likeCount: freezed == likeCount
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      isMyLike: null == isMyLike
+              as int?,
+      isMyLike: freezed == isMyLike
           ? _value.isMyLike
           : isMyLike // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMyDisLike: null == isMyDisLike
+              as bool?,
+      isMyDisLike: freezed == isMyDisLike
           ? _value.isMyDisLike
           : isMyDisLike // ignore: cast_nullable_to_non_nullable
-              as bool,
-      commentCount: null == commentCount
+              as bool?,
+      commentCount: freezed == commentCount
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      userInfo: null == userInfo
+              as int?,
+      userInfo: freezed == userInfo
           ? _value.userInfo
           : userInfo // ignore: cast_nullable_to_non_nullable
-              as UserInfo,
-      commentInfo: null == commentInfo
+              as UserInfo?,
+      commentInfo: freezed == commentInfo
           ? _value.commentInfo
           : commentInfo // ignore: cast_nullable_to_non_nullable
-              as List<CommentInfo>,
-      preferenceInfo: null == preferenceInfo
-          ? _value.preferenceInfo
-          : preferenceInfo // ignore: cast_nullable_to_non_nullable
-              as PreferenceInfo,
+              as List<CommentInfo>?,
       restaurantInfo: freezed == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
               as RestaurantInfo?,
+      preferenceInfo: freezed == preferenceInfo
+          ? _value.preferenceInfo
+          : preferenceInfo // ignore: cast_nullable_to_non_nullable
+              as PreferenceInfo?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $GeoLocationCopyWith<$Res> get geoLoc {
-    return $GeoLocationCopyWith<$Res>(_value.geoLoc, (value) {
+  $GeoLocCopyWith<$Res>? get geoLoc {
+    if (_value.geoLoc == null) {
+      return null;
+    }
+
+    return $GeoLocCopyWith<$Res>(_value.geoLoc!, (value) {
       return _then(_value.copyWith(geoLoc: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserInfoCopyWith<$Res> get userInfo {
-    return $UserInfoCopyWith<$Res>(_value.userInfo, (value) {
-      return _then(_value.copyWith(userInfo: value) as $Val);
-    });
-  }
+  $UserInfoCopyWith<$Res>? get userInfo {
+    if (_value.userInfo == null) {
+      return null;
+    }
 
-  @override
-  @pragma('vm:prefer-inline')
-  $PreferenceInfoCopyWith<$Res> get preferenceInfo {
-    return $PreferenceInfoCopyWith<$Res>(_value.preferenceInfo, (value) {
-      return _then(_value.copyWith(preferenceInfo: value) as $Val);
+    return $UserInfoCopyWith<$Res>(_value.userInfo!, (value) {
+      return _then(_value.copyWith(userInfo: value) as $Val);
     });
   }
 
@@ -605,6 +607,18 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
       return _then(_value.copyWith(restaurantInfo: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PreferenceInfoCopyWith<$Res>? get preferenceInfo {
+    if (_value.preferenceInfo == null) {
+      return null;
+    }
+
+    return $PreferenceInfoCopyWith<$Res>(_value.preferenceInfo!, (value) {
+      return _then(_value.copyWith(preferenceInfo: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -616,39 +630,39 @@ abstract class _$$DataOfPostModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "file") String file,
-      @JsonKey(name: "mimetype") String mimetype,
-      @JsonKey(name: "how_was_it") String howWasIt,
-      @JsonKey(name: "location") String location,
-      @JsonKey(name: "geo_distance") double geoDistance,
-      @JsonKey(name: "geo_loc") GeoLocation geoLoc,
-      @JsonKey(name: "status") String status,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "isOwn") bool isOwn,
-      @JsonKey(name: "isNear") bool isNear,
-      @JsonKey(name: "isFollowing") bool isFollowing,
-      @JsonKey(name: "isFollower") bool isFollower,
-      @JsonKey(name: "isSave") bool isSave,
-      @JsonKey(name: "like_count") int likeCount,
-      @JsonKey(name: "isMyLike") bool isMyLike,
-      @JsonKey(name: "isMyDisLike") bool isMyDisLike,
-      @JsonKey(name: "comment_count") int commentCount,
-      @JsonKey(name: "userInfo") UserInfo userInfo,
-      @JsonKey(name: "commentInfo") List<CommentInfo> commentInfo,
-      @JsonKey(name: "preferenceInfo") PreferenceInfo preferenceInfo,
-      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title,
+      @JsonKey(name: "description") String? description,
+      @JsonKey(name: "file") String? file,
+      @JsonKey(name: "mimetype") String? mimetype,
+      @JsonKey(name: "how_was_it") String? howWasIt,
+      @JsonKey(name: "location") String? location,
+      @JsonKey(name: "geo_distance") double? geoDistance,
+      @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+      @JsonKey(name: "status") String? status,
+      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "isOwn") bool? isOwn,
+      @JsonKey(name: "isNear") bool? isNear,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollower") bool? isFollower,
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "like_count") int? likeCount,
+      @JsonKey(name: "isMyLike") bool? isMyLike,
+      @JsonKey(name: "isMyDisLike") bool? isMyDisLike,
+      @JsonKey(name: "comment_count") int? commentCount,
+      @JsonKey(name: "userInfo") UserInfo? userInfo,
+      @JsonKey(name: "commentInfo") List<CommentInfo>? commentInfo,
+      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo,
+      @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo});
 
   @override
-  $GeoLocationCopyWith<$Res> get geoLoc;
+  $GeoLocCopyWith<$Res>? get geoLoc;
   @override
-  $UserInfoCopyWith<$Res> get userInfo;
-  @override
-  $PreferenceInfoCopyWith<$Res> get preferenceInfo;
+  $UserInfoCopyWith<$Res>? get userInfo;
   @override
   $RestaurantInfoCopyWith<$Res>? get restaurantInfo;
+  @override
+  $PreferenceInfoCopyWith<$Res>? get preferenceInfo;
 }
 
 /// @nodoc
@@ -662,128 +676,128 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? description = null,
-    Object? file = null,
-    Object? mimetype = null,
-    Object? howWasIt = null,
-    Object? location = null,
-    Object? geoDistance = null,
-    Object? geoLoc = null,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? isOwn = null,
-    Object? isNear = null,
-    Object? isFollowing = null,
-    Object? isFollower = null,
-    Object? isSave = null,
-    Object? likeCount = null,
-    Object? isMyLike = null,
-    Object? isMyDisLike = null,
-    Object? commentCount = null,
-    Object? userInfo = null,
-    Object? commentInfo = null,
-    Object? preferenceInfo = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? file = freezed,
+    Object? mimetype = freezed,
+    Object? howWasIt = freezed,
+    Object? location = freezed,
+    Object? geoDistance = freezed,
+    Object? geoLoc = freezed,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? isOwn = freezed,
+    Object? isNear = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollower = freezed,
+    Object? isSave = freezed,
+    Object? likeCount = freezed,
+    Object? isMyLike = freezed,
+    Object? isMyDisLike = freezed,
+    Object? commentCount = freezed,
+    Object? userInfo = freezed,
+    Object? commentInfo = freezed,
     Object? restaurantInfo = freezed,
+    Object? preferenceInfo = freezed,
   }) {
     return _then(_$DataOfPostModelImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      file: null == file
+              as String?,
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as String,
-      mimetype: null == mimetype
+              as String?,
+      mimetype: freezed == mimetype
           ? _value.mimetype
           : mimetype // ignore: cast_nullable_to_non_nullable
-              as String,
-      howWasIt: null == howWasIt
+              as String?,
+      howWasIt: freezed == howWasIt
           ? _value.howWasIt
           : howWasIt // ignore: cast_nullable_to_non_nullable
-              as String,
-      location: null == location
+              as String?,
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
-      geoDistance: null == geoDistance
+              as String?,
+      geoDistance: freezed == geoDistance
           ? _value.geoDistance
           : geoDistance // ignore: cast_nullable_to_non_nullable
-              as double,
-      geoLoc: null == geoLoc
+              as double?,
+      geoLoc: freezed == geoLoc
           ? _value.geoLoc
           : geoLoc // ignore: cast_nullable_to_non_nullable
-              as GeoLocation,
-      status: null == status
+              as GeoLoc?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isOwn: null == isOwn
+              as String?,
+      isOwn: freezed == isOwn
           ? _value.isOwn
           : isOwn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isNear: null == isNear
+              as bool?,
+      isNear: freezed == isNear
           ? _value.isNear
           : isNear // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollowing: null == isFollowing
+              as bool?,
+      isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollower: null == isFollower
+              as bool?,
+      isFollower: freezed == isFollower
           ? _value.isFollower
           : isFollower // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSave: null == isSave
+              as bool?,
+      isSave: freezed == isSave
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
-              as bool,
-      likeCount: null == likeCount
+              as bool?,
+      likeCount: freezed == likeCount
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      isMyLike: null == isMyLike
+              as int?,
+      isMyLike: freezed == isMyLike
           ? _value.isMyLike
           : isMyLike // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isMyDisLike: null == isMyDisLike
+              as bool?,
+      isMyDisLike: freezed == isMyDisLike
           ? _value.isMyDisLike
           : isMyDisLike // ignore: cast_nullable_to_non_nullable
-              as bool,
-      commentCount: null == commentCount
+              as bool?,
+      commentCount: freezed == commentCount
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      userInfo: null == userInfo
+              as int?,
+      userInfo: freezed == userInfo
           ? _value.userInfo
           : userInfo // ignore: cast_nullable_to_non_nullable
-              as UserInfo,
-      commentInfo: null == commentInfo
+              as UserInfo?,
+      commentInfo: freezed == commentInfo
           ? _value._commentInfo
           : commentInfo // ignore: cast_nullable_to_non_nullable
-              as List<CommentInfo>,
-      preferenceInfo: null == preferenceInfo
-          ? _value.preferenceInfo
-          : preferenceInfo // ignore: cast_nullable_to_non_nullable
-              as PreferenceInfo,
+              as List<CommentInfo>?,
       restaurantInfo: freezed == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
               as RestaurantInfo?,
+      preferenceInfo: freezed == preferenceInfo
+          ? _value.preferenceInfo
+          : preferenceInfo // ignore: cast_nullable_to_non_nullable
+              as PreferenceInfo?,
     ));
   }
 }
@@ -792,31 +806,30 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DataOfPostModelImpl implements _DataOfPostModel {
   const _$DataOfPostModelImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "description") required this.description,
-      @JsonKey(name: "file") required this.file,
-      @JsonKey(name: "mimetype") required this.mimetype,
-      @JsonKey(name: "how_was_it") required this.howWasIt,
-      @JsonKey(name: "location") required this.location,
-      @JsonKey(name: "geo_distance") required this.geoDistance,
-      @JsonKey(name: "geo_loc") required this.geoLoc,
-      @JsonKey(name: "status") required this.status,
-      @JsonKey(name: "createdAt") required this.createdAt,
-      @JsonKey(name: "isOwn") required this.isOwn,
-      @JsonKey(name: "isNear") required this.isNear,
-      @JsonKey(name: "isFollowing") required this.isFollowing,
-      @JsonKey(name: "isFollower") required this.isFollower,
-      @JsonKey(name: "isSave") required this.isSave,
-      @JsonKey(name: "like_count") required this.likeCount,
-      @JsonKey(name: "isMyLike") required this.isMyLike,
-      @JsonKey(name: "isMyDisLike") required this.isMyDisLike,
-      @JsonKey(name: "comment_count") required this.commentCount,
-      @JsonKey(name: "userInfo") required this.userInfo,
-      @JsonKey(name: "commentInfo")
-      required final List<CommentInfo> commentInfo,
-      @JsonKey(name: "preferenceInfo") required this.preferenceInfo,
-      @JsonKey(name: "restaurantInfo") required this.restaurantInfo})
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "title") this.title,
+      @JsonKey(name: "description") this.description,
+      @JsonKey(name: "file") this.file,
+      @JsonKey(name: "mimetype") this.mimetype,
+      @JsonKey(name: "how_was_it") this.howWasIt,
+      @JsonKey(name: "location") this.location,
+      @JsonKey(name: "geo_distance") this.geoDistance,
+      @JsonKey(name: "geo_loc") this.geoLoc,
+      @JsonKey(name: "status") this.status,
+      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "isOwn") this.isOwn,
+      @JsonKey(name: "isNear") this.isNear,
+      @JsonKey(name: "isFollowing") this.isFollowing,
+      @JsonKey(name: "isFollower") this.isFollower,
+      @JsonKey(name: "isSave") this.isSave,
+      @JsonKey(name: "like_count") this.likeCount,
+      @JsonKey(name: "isMyLike") this.isMyLike,
+      @JsonKey(name: "isMyDisLike") this.isMyDisLike,
+      @JsonKey(name: "comment_count") this.commentCount,
+      @JsonKey(name: "userInfo") this.userInfo,
+      @JsonKey(name: "commentInfo") final List<CommentInfo>? commentInfo,
+      @JsonKey(name: "restaurantInfo") this.restaurantInfo,
+      @JsonKey(name: "preferenceInfo") this.preferenceInfo})
       : _commentInfo = commentInfo;
 
   factory _$DataOfPostModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -824,86 +837,88 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "title")
-  final String title;
+  final String? title;
   @override
   @JsonKey(name: "description")
-  final String description;
+  final String? description;
   @override
   @JsonKey(name: "file")
-  final String file;
+  final String? file;
   @override
   @JsonKey(name: "mimetype")
-  final String mimetype;
+  final String? mimetype;
   @override
   @JsonKey(name: "how_was_it")
-  final String howWasIt;
+  final String? howWasIt;
   @override
   @JsonKey(name: "location")
-  final String location;
+  final String? location;
   @override
   @JsonKey(name: "geo_distance")
-  final double geoDistance;
+  final double? geoDistance;
   @override
   @JsonKey(name: "geo_loc")
-  final GeoLocation geoLoc;
+  final GeoLoc? geoLoc;
   @override
   @JsonKey(name: "status")
-  final String status;
+  final String? status;
   @override
   @JsonKey(name: "createdAt")
-  final DateTime createdAt;
+  final String? createdAt;
   @override
   @JsonKey(name: "isOwn")
-  final bool isOwn;
+  final bool? isOwn;
   @override
   @JsonKey(name: "isNear")
-  final bool isNear;
+  final bool? isNear;
   @override
   @JsonKey(name: "isFollowing")
-  final bool isFollowing;
+  final bool? isFollowing;
   @override
   @JsonKey(name: "isFollower")
-  final bool isFollower;
+  final bool? isFollower;
   @override
   @JsonKey(name: "isSave")
-  final bool isSave;
+  final bool? isSave;
   @override
   @JsonKey(name: "like_count")
-  final int likeCount;
+  final int? likeCount;
   @override
   @JsonKey(name: "isMyLike")
-  final bool isMyLike;
+  final bool? isMyLike;
   @override
   @JsonKey(name: "isMyDisLike")
-  final bool isMyDisLike;
+  final bool? isMyDisLike;
   @override
   @JsonKey(name: "comment_count")
-  final int commentCount;
+  final int? commentCount;
   @override
   @JsonKey(name: "userInfo")
-  final UserInfo userInfo;
-  final List<CommentInfo> _commentInfo;
+  final UserInfo? userInfo;
+  final List<CommentInfo>? _commentInfo;
   @override
   @JsonKey(name: "commentInfo")
-  List<CommentInfo> get commentInfo {
+  List<CommentInfo>? get commentInfo {
+    final value = _commentInfo;
+    if (value == null) return null;
     if (_commentInfo is EqualUnmodifiableListView) return _commentInfo;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_commentInfo);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  @JsonKey(name: "preferenceInfo")
-  final PreferenceInfo preferenceInfo;
-  @override
   @JsonKey(name: "restaurantInfo")
   final RestaurantInfo? restaurantInfo;
+  @override
+  @JsonKey(name: "preferenceInfo")
+  final PreferenceInfo? preferenceInfo;
 
   @override
   String toString() {
-    return 'DataOfPostModel(id: $id, title: $title, description: $description, file: $file, mimetype: $mimetype, howWasIt: $howWasIt, location: $location, geoDistance: $geoDistance, geoLoc: $geoLoc, status: $status, createdAt: $createdAt, isOwn: $isOwn, isNear: $isNear, isFollowing: $isFollowing, isFollower: $isFollower, isSave: $isSave, likeCount: $likeCount, isMyLike: $isMyLike, isMyDisLike: $isMyDisLike, commentCount: $commentCount, userInfo: $userInfo, commentInfo: $commentInfo, preferenceInfo: $preferenceInfo, restaurantInfo: $restaurantInfo)';
+    return 'DataOfPostModel(id: $id, title: $title, description: $description, file: $file, mimetype: $mimetype, howWasIt: $howWasIt, location: $location, geoDistance: $geoDistance, geoLoc: $geoLoc, status: $status, createdAt: $createdAt, isOwn: $isOwn, isNear: $isNear, isFollowing: $isFollowing, isFollower: $isFollower, isSave: $isSave, likeCount: $likeCount, isMyLike: $isMyLike, isMyDisLike: $isMyDisLike, commentCount: $commentCount, userInfo: $userInfo, commentInfo: $commentInfo, restaurantInfo: $restaurantInfo, preferenceInfo: $preferenceInfo)';
   }
 
   @override
@@ -947,10 +962,10 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
                 other.userInfo == userInfo) &&
             const DeepCollectionEquality()
                 .equals(other._commentInfo, _commentInfo) &&
-            (identical(other.preferenceInfo, preferenceInfo) ||
-                other.preferenceInfo == preferenceInfo) &&
             (identical(other.restaurantInfo, restaurantInfo) ||
-                other.restaurantInfo == restaurantInfo));
+                other.restaurantInfo == restaurantInfo) &&
+            (identical(other.preferenceInfo, preferenceInfo) ||
+                other.preferenceInfo == preferenceInfo));
   }
 
   @JsonKey(ignore: true)
@@ -979,8 +994,8 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
         commentCount,
         userInfo,
         const DeepCollectionEquality().hash(_commentInfo),
-        preferenceInfo,
-        restaurantInfo
+        restaurantInfo,
+        preferenceInfo
       ]);
 
   @JsonKey(ignore: true)
@@ -1000,502 +1015,110 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
 
 abstract class _DataOfPostModel implements DataOfPostModel {
   const factory _DataOfPostModel(
-      {@JsonKey(name: "_id") required final String id,
-      @JsonKey(name: "title") required final String title,
-      @JsonKey(name: "description") required final String description,
-      @JsonKey(name: "file") required final String file,
-      @JsonKey(name: "mimetype") required final String mimetype,
-      @JsonKey(name: "how_was_it") required final String howWasIt,
-      @JsonKey(name: "location") required final String location,
-      @JsonKey(name: "geo_distance") required final double geoDistance,
-      @JsonKey(name: "geo_loc") required final GeoLocation geoLoc,
-      @JsonKey(name: "status") required final String status,
-      @JsonKey(name: "createdAt") required final DateTime createdAt,
-      @JsonKey(name: "isOwn") required final bool isOwn,
-      @JsonKey(name: "isNear") required final bool isNear,
-      @JsonKey(name: "isFollowing") required final bool isFollowing,
-      @JsonKey(name: "isFollower") required final bool isFollower,
-      @JsonKey(name: "isSave") required final bool isSave,
-      @JsonKey(name: "like_count") required final int likeCount,
-      @JsonKey(name: "isMyLike") required final bool isMyLike,
-      @JsonKey(name: "isMyDisLike") required final bool isMyDisLike,
-      @JsonKey(name: "comment_count") required final int commentCount,
-      @JsonKey(name: "userInfo") required final UserInfo userInfo,
-      @JsonKey(name: "commentInfo")
-      required final List<CommentInfo> commentInfo,
+      {@JsonKey(name: "_id") final String? id,
+      @JsonKey(name: "title") final String? title,
+      @JsonKey(name: "description") final String? description,
+      @JsonKey(name: "file") final String? file,
+      @JsonKey(name: "mimetype") final String? mimetype,
+      @JsonKey(name: "how_was_it") final String? howWasIt,
+      @JsonKey(name: "location") final String? location,
+      @JsonKey(name: "geo_distance") final double? geoDistance,
+      @JsonKey(name: "geo_loc") final GeoLoc? geoLoc,
+      @JsonKey(name: "status") final String? status,
+      @JsonKey(name: "createdAt") final String? createdAt,
+      @JsonKey(name: "isOwn") final bool? isOwn,
+      @JsonKey(name: "isNear") final bool? isNear,
+      @JsonKey(name: "isFollowing") final bool? isFollowing,
+      @JsonKey(name: "isFollower") final bool? isFollower,
+      @JsonKey(name: "isSave") final bool? isSave,
+      @JsonKey(name: "like_count") final int? likeCount,
+      @JsonKey(name: "isMyLike") final bool? isMyLike,
+      @JsonKey(name: "isMyDisLike") final bool? isMyDisLike,
+      @JsonKey(name: "comment_count") final int? commentCount,
+      @JsonKey(name: "userInfo") final UserInfo? userInfo,
+      @JsonKey(name: "commentInfo") final List<CommentInfo>? commentInfo,
+      @JsonKey(name: "restaurantInfo") final RestaurantInfo? restaurantInfo,
       @JsonKey(name: "preferenceInfo")
-      required final PreferenceInfo preferenceInfo,
-      @JsonKey(name: "restaurantInfo")
-      required final RestaurantInfo? restaurantInfo}) = _$DataOfPostModelImpl;
+      final PreferenceInfo? preferenceInfo}) = _$DataOfPostModelImpl;
 
   factory _DataOfPostModel.fromJson(Map<String, dynamic> json) =
       _$DataOfPostModelImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "title")
-  String get title;
+  String? get title;
   @override
   @JsonKey(name: "description")
-  String get description;
+  String? get description;
   @override
   @JsonKey(name: "file")
-  String get file;
+  String? get file;
   @override
   @JsonKey(name: "mimetype")
-  String get mimetype;
+  String? get mimetype;
   @override
   @JsonKey(name: "how_was_it")
-  String get howWasIt;
+  String? get howWasIt;
   @override
   @JsonKey(name: "location")
-  String get location;
+  String? get location;
   @override
   @JsonKey(name: "geo_distance")
-  double get geoDistance;
+  double? get geoDistance;
   @override
   @JsonKey(name: "geo_loc")
-  GeoLocation get geoLoc;
+  GeoLoc? get geoLoc;
   @override
   @JsonKey(name: "status")
-  String get status;
+  String? get status;
   @override
   @JsonKey(name: "createdAt")
-  DateTime get createdAt;
+  String? get createdAt;
   @override
   @JsonKey(name: "isOwn")
-  bool get isOwn;
+  bool? get isOwn;
   @override
   @JsonKey(name: "isNear")
-  bool get isNear;
+  bool? get isNear;
   @override
   @JsonKey(name: "isFollowing")
-  bool get isFollowing;
+  bool? get isFollowing;
   @override
   @JsonKey(name: "isFollower")
-  bool get isFollower;
+  bool? get isFollower;
   @override
   @JsonKey(name: "isSave")
-  bool get isSave;
+  bool? get isSave;
   @override
   @JsonKey(name: "like_count")
-  int get likeCount;
+  int? get likeCount;
   @override
   @JsonKey(name: "isMyLike")
-  bool get isMyLike;
+  bool? get isMyLike;
   @override
   @JsonKey(name: "isMyDisLike")
-  bool get isMyDisLike;
+  bool? get isMyDisLike;
   @override
   @JsonKey(name: "comment_count")
-  int get commentCount;
+  int? get commentCount;
   @override
   @JsonKey(name: "userInfo")
-  UserInfo get userInfo;
+  UserInfo? get userInfo;
   @override
   @JsonKey(name: "commentInfo")
-  List<CommentInfo> get commentInfo;
-  @override
-  @JsonKey(name: "preferenceInfo")
-  PreferenceInfo get preferenceInfo;
+  List<CommentInfo>? get commentInfo;
   @override
   @JsonKey(name: "restaurantInfo")
   RestaurantInfo? get restaurantInfo;
   @override
+  @JsonKey(name: "preferenceInfo")
+  PreferenceInfo? get preferenceInfo;
+  @override
   @JsonKey(ignore: true)
   _$$DataOfPostModelImplCopyWith<_$DataOfPostModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-GeoLocation _$GeoLocationFromJson(Map<String, dynamic> json) {
-  return _GeoLocation.fromJson(json);
-}
-
-/// @nodoc
-mixin _$GeoLocation {
-  @JsonKey(name: "type")
-  String get type => throw _privateConstructorUsedError;
-  @JsonKey(name: "coordinates")
-  List<double> get coordinates => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $GeoLocationCopyWith<GeoLocation> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $GeoLocationCopyWith<$Res> {
-  factory $GeoLocationCopyWith(
-          GeoLocation value, $Res Function(GeoLocation) then) =
-      _$GeoLocationCopyWithImpl<$Res, GeoLocation>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "type") String type,
-      @JsonKey(name: "coordinates") List<double> coordinates});
-}
-
-/// @nodoc
-class _$GeoLocationCopyWithImpl<$Res, $Val extends GeoLocation>
-    implements $GeoLocationCopyWith<$Res> {
-  _$GeoLocationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? coordinates = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      coordinates: null == coordinates
-          ? _value.coordinates
-          : coordinates // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$GeoLocationImplCopyWith<$Res>
-    implements $GeoLocationCopyWith<$Res> {
-  factory _$$GeoLocationImplCopyWith(
-          _$GeoLocationImpl value, $Res Function(_$GeoLocationImpl) then) =
-      __$$GeoLocationImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "type") String type,
-      @JsonKey(name: "coordinates") List<double> coordinates});
-}
-
-/// @nodoc
-class __$$GeoLocationImplCopyWithImpl<$Res>
-    extends _$GeoLocationCopyWithImpl<$Res, _$GeoLocationImpl>
-    implements _$$GeoLocationImplCopyWith<$Res> {
-  __$$GeoLocationImplCopyWithImpl(
-      _$GeoLocationImpl _value, $Res Function(_$GeoLocationImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? coordinates = null,
-  }) {
-    return _then(_$GeoLocationImpl(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      coordinates: null == coordinates
-          ? _value._coordinates
-          : coordinates // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$GeoLocationImpl implements _GeoLocation {
-  const _$GeoLocationImpl(
-      {@JsonKey(name: "type") required this.type,
-      @JsonKey(name: "coordinates") required final List<double> coordinates})
-      : _coordinates = coordinates;
-
-  factory _$GeoLocationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GeoLocationImplFromJson(json);
-
-  @override
-  @JsonKey(name: "type")
-  final String type;
-  final List<double> _coordinates;
-  @override
-  @JsonKey(name: "coordinates")
-  List<double> get coordinates {
-    if (_coordinates is EqualUnmodifiableListView) return _coordinates;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_coordinates);
-  }
-
-  @override
-  String toString() {
-    return 'GeoLocation(type: $type, coordinates: $coordinates)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GeoLocationImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality()
-                .equals(other._coordinates, _coordinates));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, type, const DeepCollectionEquality().hash(_coordinates));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GeoLocationImplCopyWith<_$GeoLocationImpl> get copyWith =>
-      __$$GeoLocationImplCopyWithImpl<_$GeoLocationImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$GeoLocationImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _GeoLocation implements GeoLocation {
-  const factory _GeoLocation(
-      {@JsonKey(name: "type") required final String type,
-      @JsonKey(name: "coordinates")
-      required final List<double> coordinates}) = _$GeoLocationImpl;
-
-  factory _GeoLocation.fromJson(Map<String, dynamic> json) =
-      _$GeoLocationImpl.fromJson;
-
-  @override
-  @JsonKey(name: "type")
-  String get type;
-  @override
-  @JsonKey(name: "coordinates")
-  List<double> get coordinates;
-  @override
-  @JsonKey(ignore: true)
-  _$$GeoLocationImplCopyWith<_$GeoLocationImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
-  return _UserInfo.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UserInfo {
-  @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "fullName")
-  String get fullName => throw _privateConstructorUsedError;
-  @JsonKey(name: "email")
-  String get email => throw _privateConstructorUsedError;
-  @JsonKey(name: "profile_image")
-  String get profileImage => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $UserInfoCopyWith<UserInfo> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserInfoCopyWith<$Res> {
-  factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) then) =
-      _$UserInfoCopyWithImpl<$Res, UserInfo>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "profile_image") String profileImage});
-}
-
-/// @nodoc
-class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
-    implements $UserInfoCopyWith<$Res> {
-  _$UserInfoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? fullName = null,
-    Object? email = null,
-    Object? profileImage = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImage: null == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$UserInfoImplCopyWith<$Res>
-    implements $UserInfoCopyWith<$Res> {
-  factory _$$UserInfoImplCopyWith(
-          _$UserInfoImpl value, $Res Function(_$UserInfoImpl) then) =
-      __$$UserInfoImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "profile_image") String profileImage});
-}
-
-/// @nodoc
-class __$$UserInfoImplCopyWithImpl<$Res>
-    extends _$UserInfoCopyWithImpl<$Res, _$UserInfoImpl>
-    implements _$$UserInfoImplCopyWith<$Res> {
-  __$$UserInfoImplCopyWithImpl(
-      _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? fullName = null,
-    Object? email = null,
-    Object? profileImage = null,
-  }) {
-    return _then(_$UserInfoImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullName: null == fullName
-          ? _value.fullName
-          : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImage: null == profileImage
-          ? _value.profileImage
-          : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$UserInfoImpl implements _UserInfo {
-  const _$UserInfoImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "fullName") required this.fullName,
-      @JsonKey(name: "email") required this.email,
-      @JsonKey(name: "profile_image") required this.profileImage});
-
-  factory _$UserInfoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserInfoImplFromJson(json);
-
-  @override
-  @JsonKey(name: "_id")
-  final String id;
-  @override
-  @JsonKey(name: "fullName")
-  final String fullName;
-  @override
-  @JsonKey(name: "email")
-  final String email;
-  @override
-  @JsonKey(name: "profile_image")
-  final String profileImage;
-
-  @override
-  String toString() {
-    return 'UserInfo(id: $id, fullName: $fullName, email: $email, profileImage: $profileImage)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UserInfoImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.fullName, fullName) ||
-                other.fullName == fullName) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.profileImage, profileImage) ||
-                other.profileImage == profileImage));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, fullName, email, profileImage);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
-      __$$UserInfoImplCopyWithImpl<_$UserInfoImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserInfoImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _UserInfo implements UserInfo {
-  const factory _UserInfo(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "fullName") required final String fullName,
-          @JsonKey(name: "email") required final String email,
-          @JsonKey(name: "profile_image") required final String profileImage}) =
-      _$UserInfoImpl;
-
-  factory _UserInfo.fromJson(Map<String, dynamic> json) =
-      _$UserInfoImpl.fromJson;
-
-  @override
-  @JsonKey(name: "_id")
-  String get id;
-  @override
-  @JsonKey(name: "fullName")
-  String get fullName;
-  @override
-  @JsonKey(name: "email")
-  String get email;
-  @override
-  @JsonKey(name: "profile_image")
-  String get profileImage;
-  @override
-  @JsonKey(ignore: true)
-  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1506,19 +1129,19 @@ CommentInfo _$CommentInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CommentInfo {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "user_id")
-  String get userId => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
   @JsonKey(name: "post_id")
-  String get postId => throw _privateConstructorUsedError;
+  String? get postId => throw _privateConstructorUsedError;
   @JsonKey(name: "comment")
-  String get comment => throw _privateConstructorUsedError;
+  String? get comment => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "commentedUserData")
-  CommentedUserData get commentedUserData => throw _privateConstructorUsedError;
+  UserInfo? get commentedUserData => throw _privateConstructorUsedError;
   @JsonKey(name: "isCommentLiked")
-  bool get isCommentLiked => throw _privateConstructorUsedError;
+  bool? get isCommentLiked => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1533,15 +1156,15 @@ abstract class $CommentInfoCopyWith<$Res> {
       _$CommentInfoCopyWithImpl<$Res, CommentInfo>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "user_id") String userId,
-      @JsonKey(name: "post_id") String postId,
-      @JsonKey(name: "comment") String comment,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "commentedUserData") CommentedUserData commentedUserData,
-      @JsonKey(name: "isCommentLiked") bool isCommentLiked});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "user_id") String? userId,
+      @JsonKey(name: "post_id") String? postId,
+      @JsonKey(name: "comment") String? comment,
+      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "commentedUserData") UserInfo? commentedUserData,
+      @JsonKey(name: "isCommentLiked") bool? isCommentLiked});
 
-  $CommentedUserDataCopyWith<$Res> get commentedUserData;
+  $UserInfoCopyWith<$Res>? get commentedUserData;
 }
 
 /// @nodoc
@@ -1557,50 +1180,54 @@ class _$CommentInfoCopyWithImpl<$Res, $Val extends CommentInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? userId = null,
-    Object? postId = null,
-    Object? comment = null,
-    Object? createdAt = null,
-    Object? commentedUserData = null,
-    Object? isCommentLiked = null,
+    Object? id = freezed,
+    Object? userId = freezed,
+    Object? postId = freezed,
+    Object? comment = freezed,
+    Object? createdAt = freezed,
+    Object? commentedUserData = freezed,
+    Object? isCommentLiked = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      postId: null == postId
+              as String?,
+      postId: freezed == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
-              as String,
-      comment: null == comment
+              as String?,
+      comment: freezed == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      commentedUserData: null == commentedUserData
+              as String?,
+      commentedUserData: freezed == commentedUserData
           ? _value.commentedUserData
           : commentedUserData // ignore: cast_nullable_to_non_nullable
-              as CommentedUserData,
-      isCommentLiked: null == isCommentLiked
+              as UserInfo?,
+      isCommentLiked: freezed == isCommentLiked
           ? _value.isCommentLiked
           : isCommentLiked // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $CommentedUserDataCopyWith<$Res> get commentedUserData {
-    return $CommentedUserDataCopyWith<$Res>(_value.commentedUserData, (value) {
+  $UserInfoCopyWith<$Res>? get commentedUserData {
+    if (_value.commentedUserData == null) {
+      return null;
+    }
+
+    return $UserInfoCopyWith<$Res>(_value.commentedUserData!, (value) {
       return _then(_value.copyWith(commentedUserData: value) as $Val);
     });
   }
@@ -1615,16 +1242,16 @@ abstract class _$$CommentInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "user_id") String userId,
-      @JsonKey(name: "post_id") String postId,
-      @JsonKey(name: "comment") String comment,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "commentedUserData") CommentedUserData commentedUserData,
-      @JsonKey(name: "isCommentLiked") bool isCommentLiked});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "user_id") String? userId,
+      @JsonKey(name: "post_id") String? postId,
+      @JsonKey(name: "comment") String? comment,
+      @JsonKey(name: "createdAt") String? createdAt,
+      @JsonKey(name: "commentedUserData") UserInfo? commentedUserData,
+      @JsonKey(name: "isCommentLiked") bool? isCommentLiked});
 
   @override
-  $CommentedUserDataCopyWith<$Res> get commentedUserData;
+  $UserInfoCopyWith<$Res>? get commentedUserData;
 }
 
 /// @nodoc
@@ -1638,43 +1265,43 @@ class __$$CommentInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? userId = null,
-    Object? postId = null,
-    Object? comment = null,
-    Object? createdAt = null,
-    Object? commentedUserData = null,
-    Object? isCommentLiked = null,
+    Object? id = freezed,
+    Object? userId = freezed,
+    Object? postId = freezed,
+    Object? comment = freezed,
+    Object? createdAt = freezed,
+    Object? commentedUserData = freezed,
+    Object? isCommentLiked = freezed,
   }) {
     return _then(_$CommentInfoImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      postId: null == postId
+              as String?,
+      postId: freezed == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
-              as String,
-      comment: null == comment
+              as String?,
+      comment: freezed == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      commentedUserData: null == commentedUserData
+              as String?,
+      commentedUserData: freezed == commentedUserData
           ? _value.commentedUserData
           : commentedUserData // ignore: cast_nullable_to_non_nullable
-              as CommentedUserData,
-      isCommentLiked: null == isCommentLiked
+              as UserInfo?,
+      isCommentLiked: freezed == isCommentLiked
           ? _value.isCommentLiked
           : isCommentLiked // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }
@@ -1683,38 +1310,38 @@ class __$$CommentInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CommentInfoImpl implements _CommentInfo {
   const _$CommentInfoImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "user_id") required this.userId,
-      @JsonKey(name: "post_id") required this.postId,
-      @JsonKey(name: "comment") required this.comment,
-      @JsonKey(name: "createdAt") required this.createdAt,
-      @JsonKey(name: "commentedUserData") required this.commentedUserData,
-      @JsonKey(name: "isCommentLiked") required this.isCommentLiked});
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "user_id") this.userId,
+      @JsonKey(name: "post_id") this.postId,
+      @JsonKey(name: "comment") this.comment,
+      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "commentedUserData") this.commentedUserData,
+      @JsonKey(name: "isCommentLiked") this.isCommentLiked});
 
   factory _$CommentInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CommentInfoImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "user_id")
-  final String userId;
+  final String? userId;
   @override
   @JsonKey(name: "post_id")
-  final String postId;
+  final String? postId;
   @override
   @JsonKey(name: "comment")
-  final String comment;
+  final String? comment;
   @override
   @JsonKey(name: "createdAt")
-  final DateTime createdAt;
+  final String? createdAt;
   @override
   @JsonKey(name: "commentedUserData")
-  final CommentedUserData commentedUserData;
+  final UserInfo? commentedUserData;
   @override
   @JsonKey(name: "isCommentLiked")
-  final bool isCommentLiked;
+  final bool? isCommentLiked;
 
   @override
   String toString() {
@@ -1759,84 +1386,82 @@ class _$CommentInfoImpl implements _CommentInfo {
 
 abstract class _CommentInfo implements CommentInfo {
   const factory _CommentInfo(
-      {@JsonKey(name: "_id") required final String id,
-      @JsonKey(name: "user_id") required final String userId,
-      @JsonKey(name: "post_id") required final String postId,
-      @JsonKey(name: "comment") required final String comment,
-      @JsonKey(name: "createdAt") required final DateTime createdAt,
-      @JsonKey(name: "commentedUserData")
-      required final CommentedUserData commentedUserData,
-      @JsonKey(name: "isCommentLiked")
-      required final bool isCommentLiked}) = _$CommentInfoImpl;
+          {@JsonKey(name: "_id") final String? id,
+          @JsonKey(name: "user_id") final String? userId,
+          @JsonKey(name: "post_id") final String? postId,
+          @JsonKey(name: "comment") final String? comment,
+          @JsonKey(name: "createdAt") final String? createdAt,
+          @JsonKey(name: "commentedUserData") final UserInfo? commentedUserData,
+          @JsonKey(name: "isCommentLiked") final bool? isCommentLiked}) =
+      _$CommentInfoImpl;
 
   factory _CommentInfo.fromJson(Map<String, dynamic> json) =
       _$CommentInfoImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "user_id")
-  String get userId;
+  String? get userId;
   @override
   @JsonKey(name: "post_id")
-  String get postId;
+  String? get postId;
   @override
   @JsonKey(name: "comment")
-  String get comment;
+  String? get comment;
   @override
   @JsonKey(name: "createdAt")
-  DateTime get createdAt;
+  String? get createdAt;
   @override
   @JsonKey(name: "commentedUserData")
-  CommentedUserData get commentedUserData;
+  UserInfo? get commentedUserData;
   @override
   @JsonKey(name: "isCommentLiked")
-  bool get isCommentLiked;
+  bool? get isCommentLiked;
   @override
   @JsonKey(ignore: true)
   _$$CommentInfoImplCopyWith<_$CommentInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-CommentedUserData _$CommentedUserDataFromJson(Map<String, dynamic> json) {
-  return _CommentedUserData.fromJson(json);
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
+  return _UserInfo.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CommentedUserData {
+mixin _$UserInfo {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "fullName")
-  String get fullName => throw _privateConstructorUsedError;
+  String? get fullName => throw _privateConstructorUsedError;
   @JsonKey(name: "email")
-  String get email => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_image")
-  String get profileImage => throw _privateConstructorUsedError;
+  String? get profileImage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CommentedUserDataCopyWith<CommentedUserData> get copyWith =>
+  $UserInfoCopyWith<UserInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CommentedUserDataCopyWith<$Res> {
-  factory $CommentedUserDataCopyWith(
-          CommentedUserData value, $Res Function(CommentedUserData) then) =
-      _$CommentedUserDataCopyWithImpl<$Res, CommentedUserData>;
+abstract class $UserInfoCopyWith<$Res> {
+  factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) then) =
+      _$UserInfoCopyWithImpl<$Res, UserInfo>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "profile_image") String profileImage});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "fullName") String? fullName,
+      @JsonKey(name: "email") String? email,
+      @JsonKey(name: "profile_image") String? profileImage});
 }
 
 /// @nodoc
-class _$CommentedUserDataCopyWithImpl<$Res, $Val extends CommentedUserData>
-    implements $CommentedUserDataCopyWith<$Res> {
-  _$CommentedUserDataCopyWithImpl(this._value, this._then);
+class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
+    implements $UserInfoCopyWith<$Res> {
+  _$UserInfoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1846,119 +1471,119 @@ class _$CommentedUserDataCopyWithImpl<$Res, $Val extends CommentedUserData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? fullName = null,
-    Object? email = null,
-    Object? profileImage = null,
+    Object? id = freezed,
+    Object? fullName = freezed,
+    Object? email = freezed,
+    Object? profileImage = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullName: null == fullName
+              as String?,
+      fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImage: null == profileImage
+              as String?,
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$CommentedUserDataImplCopyWith<$Res>
-    implements $CommentedUserDataCopyWith<$Res> {
-  factory _$$CommentedUserDataImplCopyWith(_$CommentedUserDataImpl value,
-          $Res Function(_$CommentedUserDataImpl) then) =
-      __$$CommentedUserDataImplCopyWithImpl<$Res>;
+abstract class _$$UserInfoImplCopyWith<$Res>
+    implements $UserInfoCopyWith<$Res> {
+  factory _$$UserInfoImplCopyWith(
+          _$UserInfoImpl value, $Res Function(_$UserInfoImpl) then) =
+      __$$UserInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "profile_image") String profileImage});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "fullName") String? fullName,
+      @JsonKey(name: "email") String? email,
+      @JsonKey(name: "profile_image") String? profileImage});
 }
 
 /// @nodoc
-class __$$CommentedUserDataImplCopyWithImpl<$Res>
-    extends _$CommentedUserDataCopyWithImpl<$Res, _$CommentedUserDataImpl>
-    implements _$$CommentedUserDataImplCopyWith<$Res> {
-  __$$CommentedUserDataImplCopyWithImpl(_$CommentedUserDataImpl _value,
-      $Res Function(_$CommentedUserDataImpl) _then)
+class __$$UserInfoImplCopyWithImpl<$Res>
+    extends _$UserInfoCopyWithImpl<$Res, _$UserInfoImpl>
+    implements _$$UserInfoImplCopyWith<$Res> {
+  __$$UserInfoImplCopyWithImpl(
+      _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? fullName = null,
-    Object? email = null,
-    Object? profileImage = null,
+    Object? id = freezed,
+    Object? fullName = freezed,
+    Object? email = freezed,
+    Object? profileImage = freezed,
   }) {
-    return _then(_$CommentedUserDataImpl(
-      id: null == id
+    return _then(_$UserInfoImpl(
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullName: null == fullName
+              as String?,
+      fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImage: null == profileImage
+              as String?,
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$CommentedUserDataImpl implements _CommentedUserData {
-  const _$CommentedUserDataImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "fullName") required this.fullName,
-      @JsonKey(name: "email") required this.email,
-      @JsonKey(name: "profile_image") required this.profileImage});
+class _$UserInfoImpl implements _UserInfo {
+  const _$UserInfoImpl(
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "fullName") this.fullName,
+      @JsonKey(name: "email") this.email,
+      @JsonKey(name: "profile_image") this.profileImage});
 
-  factory _$CommentedUserDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CommentedUserDataImplFromJson(json);
+  factory _$UserInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserInfoImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "fullName")
-  final String fullName;
+  final String? fullName;
   @override
   @JsonKey(name: "email")
-  final String email;
+  final String? email;
   @override
   @JsonKey(name: "profile_image")
-  final String profileImage;
+  final String? profileImage;
 
   @override
   String toString() {
-    return 'CommentedUserData(id: $id, fullName: $fullName, email: $email, profileImage: $profileImage)';
+    return 'UserInfo(id: $id, fullName: $fullName, email: $email, profileImage: $profileImage)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CommentedUserDataImpl &&
+            other is _$UserInfoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
@@ -1975,78 +1600,76 @@ class _$CommentedUserDataImpl implements _CommentedUserData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CommentedUserDataImplCopyWith<_$CommentedUserDataImpl> get copyWith =>
-      __$$CommentedUserDataImplCopyWithImpl<_$CommentedUserDataImpl>(
-          this, _$identity);
+  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
+      __$$UserInfoImplCopyWithImpl<_$UserInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CommentedUserDataImplToJson(
+    return _$$UserInfoImplToJson(
       this,
     );
   }
 }
 
-abstract class _CommentedUserData implements CommentedUserData {
-  const factory _CommentedUserData(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "fullName") required final String fullName,
-          @JsonKey(name: "email") required final String email,
-          @JsonKey(name: "profile_image") required final String profileImage}) =
-      _$CommentedUserDataImpl;
+abstract class _UserInfo implements UserInfo {
+  const factory _UserInfo(
+          {@JsonKey(name: "_id") final String? id,
+          @JsonKey(name: "fullName") final String? fullName,
+          @JsonKey(name: "email") final String? email,
+          @JsonKey(name: "profile_image") final String? profileImage}) =
+      _$UserInfoImpl;
 
-  factory _CommentedUserData.fromJson(Map<String, dynamic> json) =
-      _$CommentedUserDataImpl.fromJson;
+  factory _UserInfo.fromJson(Map<String, dynamic> json) =
+      _$UserInfoImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "fullName")
-  String get fullName;
+  String? get fullName;
   @override
   @JsonKey(name: "email")
-  String get email;
+  String? get email;
   @override
   @JsonKey(name: "profile_image")
-  String get profileImage;
+  String? get profileImage;
   @override
   @JsonKey(ignore: true)
-  _$$CommentedUserDataImplCopyWith<_$CommentedUserDataImpl> get copyWith =>
+  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-PreferenceInfo _$PreferenceInfoFromJson(Map<String, dynamic> json) {
-  return _PreferenceInfo.fromJson(json);
+GeoLoc _$GeoLocFromJson(Map<String, dynamic> json) {
+  return _GeoLoc.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PreferenceInfo {
-  @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
+mixin _$GeoLoc {
+  @JsonKey(name: "type")
+  String? get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "coordinates")
+  List<double>? get coordinates => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PreferenceInfoCopyWith<PreferenceInfo> get copyWith =>
-      throw _privateConstructorUsedError;
+  $GeoLocCopyWith<GeoLoc> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PreferenceInfoCopyWith<$Res> {
-  factory $PreferenceInfoCopyWith(
-          PreferenceInfo value, $Res Function(PreferenceInfo) then) =
-      _$PreferenceInfoCopyWithImpl<$Res, PreferenceInfo>;
+abstract class $GeoLocCopyWith<$Res> {
+  factory $GeoLocCopyWith(GeoLoc value, $Res Function(GeoLoc) then) =
+      _$GeoLocCopyWithImpl<$Res, GeoLoc>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id, @JsonKey(name: "title") String title});
+      {@JsonKey(name: "type") String? type,
+      @JsonKey(name: "coordinates") List<double>? coordinates});
 }
 
 /// @nodoc
-class _$PreferenceInfoCopyWithImpl<$Res, $Val extends PreferenceInfo>
-    implements $PreferenceInfoCopyWith<$Res> {
-  _$PreferenceInfoCopyWithImpl(this._value, this._then);
+class _$GeoLocCopyWithImpl<$Res, $Val extends GeoLoc>
+    implements $GeoLocCopyWith<$Res> {
+  _$GeoLocCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2056,129 +1679,137 @@ class _$PreferenceInfoCopyWithImpl<$Res, $Val extends PreferenceInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
+    Object? type = freezed,
+    Object? coordinates = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      coordinates: freezed == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$PreferenceInfoImplCopyWith<$Res>
-    implements $PreferenceInfoCopyWith<$Res> {
-  factory _$$PreferenceInfoImplCopyWith(_$PreferenceInfoImpl value,
-          $Res Function(_$PreferenceInfoImpl) then) =
-      __$$PreferenceInfoImplCopyWithImpl<$Res>;
+abstract class _$$GeoLocImplCopyWith<$Res> implements $GeoLocCopyWith<$Res> {
+  factory _$$GeoLocImplCopyWith(
+          _$GeoLocImpl value, $Res Function(_$GeoLocImpl) then) =
+      __$$GeoLocImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id, @JsonKey(name: "title") String title});
+      {@JsonKey(name: "type") String? type,
+      @JsonKey(name: "coordinates") List<double>? coordinates});
 }
 
 /// @nodoc
-class __$$PreferenceInfoImplCopyWithImpl<$Res>
-    extends _$PreferenceInfoCopyWithImpl<$Res, _$PreferenceInfoImpl>
-    implements _$$PreferenceInfoImplCopyWith<$Res> {
-  __$$PreferenceInfoImplCopyWithImpl(
-      _$PreferenceInfoImpl _value, $Res Function(_$PreferenceInfoImpl) _then)
+class __$$GeoLocImplCopyWithImpl<$Res>
+    extends _$GeoLocCopyWithImpl<$Res, _$GeoLocImpl>
+    implements _$$GeoLocImplCopyWith<$Res> {
+  __$$GeoLocImplCopyWithImpl(
+      _$GeoLocImpl _value, $Res Function(_$GeoLocImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
+    Object? type = freezed,
+    Object? coordinates = freezed,
   }) {
-    return _then(_$PreferenceInfoImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_$GeoLocImpl(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      coordinates: freezed == coordinates
+          ? _value._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$PreferenceInfoImpl implements _PreferenceInfo {
-  const _$PreferenceInfoImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title});
+class _$GeoLocImpl implements _GeoLoc {
+  const _$GeoLocImpl(
+      {@JsonKey(name: "type") this.type,
+      @JsonKey(name: "coordinates") final List<double>? coordinates})
+      : _coordinates = coordinates;
 
-  factory _$PreferenceInfoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PreferenceInfoImplFromJson(json);
+  factory _$GeoLocImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GeoLocImplFromJson(json);
 
   @override
-  @JsonKey(name: "_id")
-  final String id;
+  @JsonKey(name: "type")
+  final String? type;
+  final List<double>? _coordinates;
   @override
-  @JsonKey(name: "title")
-  final String title;
+  @JsonKey(name: "coordinates")
+  List<double>? get coordinates {
+    final value = _coordinates;
+    if (value == null) return null;
+    if (_coordinates is EqualUnmodifiableListView) return _coordinates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'PreferenceInfo(id: $id, title: $title)';
+    return 'GeoLoc(type: $type, coordinates: $coordinates)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PreferenceInfoImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title));
+            other is _$GeoLocImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._coordinates, _coordinates));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title);
+  int get hashCode => Object.hash(
+      runtimeType, type, const DeepCollectionEquality().hash(_coordinates));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PreferenceInfoImplCopyWith<_$PreferenceInfoImpl> get copyWith =>
-      __$$PreferenceInfoImplCopyWithImpl<_$PreferenceInfoImpl>(
-          this, _$identity);
+  _$$GeoLocImplCopyWith<_$GeoLocImpl> get copyWith =>
+      __$$GeoLocImplCopyWithImpl<_$GeoLocImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PreferenceInfoImplToJson(
+    return _$$GeoLocImplToJson(
       this,
     );
   }
 }
 
-abstract class _PreferenceInfo implements PreferenceInfo {
-  const factory _PreferenceInfo(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "title") required final String title}) =
-      _$PreferenceInfoImpl;
+abstract class _GeoLoc implements GeoLoc {
+  const factory _GeoLoc(
+          {@JsonKey(name: "type") final String? type,
+          @JsonKey(name: "coordinates") final List<double>? coordinates}) =
+      _$GeoLocImpl;
 
-  factory _PreferenceInfo.fromJson(Map<String, dynamic> json) =
-      _$PreferenceInfoImpl.fromJson;
+  factory _GeoLoc.fromJson(Map<String, dynamic> json) = _$GeoLocImpl.fromJson;
 
   @override
-  @JsonKey(name: "_id")
-  String get id;
+  @JsonKey(name: "type")
+  String? get type;
   @override
-  @JsonKey(name: "title")
-  String get title;
+  @JsonKey(name: "coordinates")
+  List<double>? get coordinates;
   @override
   @JsonKey(ignore: true)
-  _$$PreferenceInfoImplCopyWith<_$PreferenceInfoImpl> get copyWith =>
+  _$$GeoLocImplCopyWith<_$GeoLocImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2189,23 +1820,23 @@ RestaurantInfo _$RestaurantInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RestaurantInfo {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "name")
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "address")
-  String get address => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
   @JsonKey(name: "state")
-  String get state => throw _privateConstructorUsedError;
+  String? get state => throw _privateConstructorUsedError;
   @JsonKey(name: "city")
-  String get city => throw _privateConstructorUsedError;
+  String? get city => throw _privateConstructorUsedError;
   @JsonKey(name: "country")
-  String get country => throw _privateConstructorUsedError;
+  String? get country => throw _privateConstructorUsedError;
   @JsonKey(name: "zipcode")
-  String get zipcode => throw _privateConstructorUsedError;
+  String? get zipcode => throw _privateConstructorUsedError;
   @JsonKey(name: "user_ratings_total")
-  String get userRatingsTotal => throw _privateConstructorUsedError;
+  String? get userRatingsTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "rating")
-  String get rating => throw _privateConstructorUsedError;
+  String? get rating => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2220,15 +1851,15 @@ abstract class $RestaurantInfoCopyWith<$Res> {
       _$RestaurantInfoCopyWithImpl<$Res, RestaurantInfo>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "name") String name,
-      @JsonKey(name: "address") String address,
-      @JsonKey(name: "state") String state,
-      @JsonKey(name: "city") String city,
-      @JsonKey(name: "country") String country,
-      @JsonKey(name: "zipcode") String zipcode,
-      @JsonKey(name: "user_ratings_total") String userRatingsTotal,
-      @JsonKey(name: "rating") String rating});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "name") String? name,
+      @JsonKey(name: "address") String? address,
+      @JsonKey(name: "state") String? state,
+      @JsonKey(name: "city") String? city,
+      @JsonKey(name: "country") String? country,
+      @JsonKey(name: "zipcode") String? zipcode,
+      @JsonKey(name: "user_ratings_total") String? userRatingsTotal,
+      @JsonKey(name: "rating") String? rating});
 }
 
 /// @nodoc
@@ -2244,53 +1875,53 @@ class _$RestaurantInfoCopyWithImpl<$Res, $Val extends RestaurantInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? address = null,
-    Object? state = null,
-    Object? city = null,
-    Object? country = null,
-    Object? zipcode = null,
-    Object? userRatingsTotal = null,
-    Object? rating = null,
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? address = freezed,
+    Object? state = freezed,
+    Object? city = freezed,
+    Object? country = freezed,
+    Object? zipcode = freezed,
+    Object? userRatingsTotal = freezed,
+    Object? rating = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      address: null == address
+              as String?,
+      address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
+              as String?,
+      state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
-      city: null == city
+              as String?,
+      city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: null == country
+              as String?,
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
-      zipcode: null == zipcode
+              as String?,
+      zipcode: freezed == zipcode
           ? _value.zipcode
           : zipcode // ignore: cast_nullable_to_non_nullable
-              as String,
-      userRatingsTotal: null == userRatingsTotal
+              as String?,
+      userRatingsTotal: freezed == userRatingsTotal
           ? _value.userRatingsTotal
           : userRatingsTotal // ignore: cast_nullable_to_non_nullable
-              as String,
-      rating: null == rating
+              as String?,
+      rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -2304,15 +1935,15 @@ abstract class _$$RestaurantInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "name") String name,
-      @JsonKey(name: "address") String address,
-      @JsonKey(name: "state") String state,
-      @JsonKey(name: "city") String city,
-      @JsonKey(name: "country") String country,
-      @JsonKey(name: "zipcode") String zipcode,
-      @JsonKey(name: "user_ratings_total") String userRatingsTotal,
-      @JsonKey(name: "rating") String rating});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "name") String? name,
+      @JsonKey(name: "address") String? address,
+      @JsonKey(name: "state") String? state,
+      @JsonKey(name: "city") String? city,
+      @JsonKey(name: "country") String? country,
+      @JsonKey(name: "zipcode") String? zipcode,
+      @JsonKey(name: "user_ratings_total") String? userRatingsTotal,
+      @JsonKey(name: "rating") String? rating});
 }
 
 /// @nodoc
@@ -2326,53 +1957,53 @@ class __$$RestaurantInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? address = null,
-    Object? state = null,
-    Object? city = null,
-    Object? country = null,
-    Object? zipcode = null,
-    Object? userRatingsTotal = null,
-    Object? rating = null,
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? address = freezed,
+    Object? state = freezed,
+    Object? city = freezed,
+    Object? country = freezed,
+    Object? zipcode = freezed,
+    Object? userRatingsTotal = freezed,
+    Object? rating = freezed,
   }) {
     return _then(_$RestaurantInfoImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      address: null == address
+              as String?,
+      address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
+              as String?,
+      state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as String,
-      city: null == city
+              as String?,
+      city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as String,
-      country: null == country
+              as String?,
+      country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as String,
-      zipcode: null == zipcode
+              as String?,
+      zipcode: freezed == zipcode
           ? _value.zipcode
           : zipcode // ignore: cast_nullable_to_non_nullable
-              as String,
-      userRatingsTotal: null == userRatingsTotal
+              as String?,
+      userRatingsTotal: freezed == userRatingsTotal
           ? _value.userRatingsTotal
           : userRatingsTotal // ignore: cast_nullable_to_non_nullable
-              as String,
-      rating: null == rating
+              as String?,
+      rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -2381,46 +2012,46 @@ class __$$RestaurantInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RestaurantInfoImpl implements _RestaurantInfo {
   const _$RestaurantInfoImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "name") required this.name,
-      @JsonKey(name: "address") required this.address,
-      @JsonKey(name: "state") required this.state,
-      @JsonKey(name: "city") required this.city,
-      @JsonKey(name: "country") required this.country,
-      @JsonKey(name: "zipcode") required this.zipcode,
-      @JsonKey(name: "user_ratings_total") required this.userRatingsTotal,
-      @JsonKey(name: "rating") required this.rating});
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "name") this.name,
+      @JsonKey(name: "address") this.address,
+      @JsonKey(name: "state") this.state,
+      @JsonKey(name: "city") this.city,
+      @JsonKey(name: "country") this.country,
+      @JsonKey(name: "zipcode") this.zipcode,
+      @JsonKey(name: "user_ratings_total") this.userRatingsTotal,
+      @JsonKey(name: "rating") this.rating});
 
   factory _$RestaurantInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$RestaurantInfoImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "name")
-  final String name;
+  final String? name;
   @override
   @JsonKey(name: "address")
-  final String address;
+  final String? address;
   @override
   @JsonKey(name: "state")
-  final String state;
+  final String? state;
   @override
   @JsonKey(name: "city")
-  final String city;
+  final String? city;
   @override
   @JsonKey(name: "country")
-  final String country;
+  final String? country;
   @override
   @JsonKey(name: "zipcode")
-  final String zipcode;
+  final String? zipcode;
   @override
   @JsonKey(name: "user_ratings_total")
-  final String userRatingsTotal;
+  final String? userRatingsTotal;
   @override
   @JsonKey(name: "rating")
-  final String rating;
+  final String? rating;
 
   @override
   String toString() {
@@ -2466,50 +2097,214 @@ class _$RestaurantInfoImpl implements _RestaurantInfo {
 
 abstract class _RestaurantInfo implements RestaurantInfo {
   const factory _RestaurantInfo(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "name") required final String name,
-          @JsonKey(name: "address") required final String address,
-          @JsonKey(name: "state") required final String state,
-          @JsonKey(name: "city") required final String city,
-          @JsonKey(name: "country") required final String country,
-          @JsonKey(name: "zipcode") required final String zipcode,
-          @JsonKey(name: "user_ratings_total")
-          required final String userRatingsTotal,
-          @JsonKey(name: "rating") required final String rating}) =
-      _$RestaurantInfoImpl;
+      {@JsonKey(name: "_id") final String? id,
+      @JsonKey(name: "name") final String? name,
+      @JsonKey(name: "address") final String? address,
+      @JsonKey(name: "state") final String? state,
+      @JsonKey(name: "city") final String? city,
+      @JsonKey(name: "country") final String? country,
+      @JsonKey(name: "zipcode") final String? zipcode,
+      @JsonKey(name: "user_ratings_total") final String? userRatingsTotal,
+      @JsonKey(name: "rating") final String? rating}) = _$RestaurantInfoImpl;
 
   factory _RestaurantInfo.fromJson(Map<String, dynamic> json) =
       _$RestaurantInfoImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "name")
-  String get name;
+  String? get name;
   @override
   @JsonKey(name: "address")
-  String get address;
+  String? get address;
   @override
   @JsonKey(name: "state")
-  String get state;
+  String? get state;
   @override
   @JsonKey(name: "city")
-  String get city;
+  String? get city;
   @override
   @JsonKey(name: "country")
-  String get country;
+  String? get country;
   @override
   @JsonKey(name: "zipcode")
-  String get zipcode;
+  String? get zipcode;
   @override
   @JsonKey(name: "user_ratings_total")
-  String get userRatingsTotal;
+  String? get userRatingsTotal;
   @override
   @JsonKey(name: "rating")
-  String get rating;
+  String? get rating;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantInfoImplCopyWith<_$RestaurantInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PreferenceInfo _$PreferenceInfoFromJson(Map<String, dynamic> json) {
+  return _PreferenceInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PreferenceInfo {
+  @JsonKey(name: "_id")
+  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "title")
+  String? get title => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PreferenceInfoCopyWith<PreferenceInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PreferenceInfoCopyWith<$Res> {
+  factory $PreferenceInfoCopyWith(
+          PreferenceInfo value, $Res Function(PreferenceInfo) then) =
+      _$PreferenceInfoCopyWithImpl<$Res, PreferenceInfo>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title});
+}
+
+/// @nodoc
+class _$PreferenceInfoCopyWithImpl<$Res, $Val extends PreferenceInfo>
+    implements $PreferenceInfoCopyWith<$Res> {
+  _$PreferenceInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PreferenceInfoImplCopyWith<$Res>
+    implements $PreferenceInfoCopyWith<$Res> {
+  factory _$$PreferenceInfoImplCopyWith(_$PreferenceInfoImpl value,
+          $Res Function(_$PreferenceInfoImpl) then) =
+      __$$PreferenceInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title});
+}
+
+/// @nodoc
+class __$$PreferenceInfoImplCopyWithImpl<$Res>
+    extends _$PreferenceInfoCopyWithImpl<$Res, _$PreferenceInfoImpl>
+    implements _$$PreferenceInfoImplCopyWith<$Res> {
+  __$$PreferenceInfoImplCopyWithImpl(
+      _$PreferenceInfoImpl _value, $Res Function(_$PreferenceInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+  }) {
+    return _then(_$PreferenceInfoImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PreferenceInfoImpl implements _PreferenceInfo {
+  const _$PreferenceInfoImpl(
+      {@JsonKey(name: "_id") this.id, @JsonKey(name: "title") this.title});
+
+  factory _$PreferenceInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PreferenceInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: "_id")
+  final String? id;
+  @override
+  @JsonKey(name: "title")
+  final String? title;
+
+  @override
+  String toString() {
+    return 'PreferenceInfo(id: $id, title: $title)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PreferenceInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PreferenceInfoImplCopyWith<_$PreferenceInfoImpl> get copyWith =>
+      __$$PreferenceInfoImplCopyWithImpl<_$PreferenceInfoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PreferenceInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PreferenceInfo implements PreferenceInfo {
+  const factory _PreferenceInfo(
+      {@JsonKey(name: "_id") final String? id,
+      @JsonKey(name: "title") final String? title}) = _$PreferenceInfoImpl;
+
+  factory _PreferenceInfo.fromJson(Map<String, dynamic> json) =
+      _$PreferenceInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: "_id")
+  String? get id;
+  @override
+  @JsonKey(name: "title")
+  String? get title;
+  @override
+  @JsonKey(ignore: true)
+  _$$PreferenceInfoImplCopyWith<_$PreferenceInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -24,7 +24,7 @@ mixin _$RestaurantState {
   bool get hasMore => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
   dynamic get isMoreDataFetchable => throw _privateConstructorUsedError;
-  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
+  List<DataOfPostModel>? get postList => throw _privateConstructorUsedError;
   List<Post>? get postPerRestaurantList => throw _privateConstructorUsedError;
   int get currentPageForPosts => throw _privateConstructorUsedError;
   bool get isLoadingForPosts => throw _privateConstructorUsedError;
@@ -49,7 +49,7 @@ abstract class $RestaurantStateCopyWith<$Res> {
       bool hasMore,
       int totalPages,
       dynamic isMoreDataFetchable,
-      List<DataOfPostModel> postList,
+      List<DataOfPostModel>? postList,
       List<Post>? postPerRestaurantList,
       int currentPageForPosts,
       bool isLoadingForPosts,
@@ -76,7 +76,7 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
     Object? hasMore = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
-    Object? postList = null,
+    Object? postList = freezed,
     Object? postPerRestaurantList = freezed,
     Object? currentPageForPosts = null,
     Object? isLoadingForPosts = null,
@@ -111,10 +111,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.isMoreDataFetchable
           : isMoreDataFetchable // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      postList: null == postList
+      postList: freezed == postList
           ? _value.postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
       postPerRestaurantList: freezed == postPerRestaurantList
           ? _value.postPerRestaurantList
           : postPerRestaurantList // ignore: cast_nullable_to_non_nullable
@@ -151,7 +151,7 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
       bool hasMore,
       int totalPages,
       dynamic isMoreDataFetchable,
-      List<DataOfPostModel> postList,
+      List<DataOfPostModel>? postList,
       List<Post>? postPerRestaurantList,
       int currentPageForPosts,
       bool isLoadingForPosts,
@@ -176,7 +176,7 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
     Object? hasMore = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
-    Object? postList = null,
+    Object? postList = freezed,
     Object? postPerRestaurantList = freezed,
     Object? currentPageForPosts = null,
     Object? isLoadingForPosts = null,
@@ -210,10 +210,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
       isMoreDataFetchable: freezed == isMoreDataFetchable
           ? _value.isMoreDataFetchable!
           : isMoreDataFetchable,
-      postList: null == postList
+      postList: freezed == postList
           ? _value._postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
       postPerRestaurantList: freezed == postPerRestaurantList
           ? _value._postPerRestaurantList
           : postPerRestaurantList // ignore: cast_nullable_to_non_nullable
@@ -245,7 +245,7 @@ class _$RestaurantStateImpl extends _RestaurantState {
       this.hasMore = true,
       this.totalPages = 0,
       this.isMoreDataFetchable = true,
-      final List<DataOfPostModel> postList = const [],
+      final List<DataOfPostModel>? postList = const [],
       final List<Post>? postPerRestaurantList = const [],
       this.currentPageForPosts = 1,
       this.isLoadingForPosts = false,
@@ -294,13 +294,15 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final dynamic isMoreDataFetchable;
-  final List<DataOfPostModel> _postList;
+  final List<DataOfPostModel>? _postList;
   @override
   @JsonKey()
-  List<DataOfPostModel> get postList {
+  List<DataOfPostModel>? get postList {
+    final value = _postList;
+    if (value == null) return null;
     if (_postList is EqualUnmodifiableListView) return _postList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_postList);
+    return EqualUnmodifiableListView(value);
   }
 
   final List<Post>? _postPerRestaurantList;
@@ -392,7 +394,7 @@ abstract class _RestaurantState extends RestaurantState {
       final bool hasMore,
       final int totalPages,
       final dynamic isMoreDataFetchable,
-      final List<DataOfPostModel> postList,
+      final List<DataOfPostModel>? postList,
       final List<Post>? postPerRestaurantList,
       final int currentPageForPosts,
       final bool isLoadingForPosts,
@@ -414,7 +416,7 @@ abstract class _RestaurantState extends RestaurantState {
   @override
   dynamic get isMoreDataFetchable;
   @override
-  List<DataOfPostModel> get postList;
+  List<DataOfPostModel>? get postList;
   @override
   List<Post>? get postPerRestaurantList;
   @override

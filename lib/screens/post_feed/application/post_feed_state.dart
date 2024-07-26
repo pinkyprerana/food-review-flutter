@@ -14,7 +14,7 @@ class PostFeedState with _$PostFeedState {
     @Default(false) bool isStackFinished,
     @Default(0) int selectedIndex,
     @Default([]) List postTitles,
-    @Default([]) List<DataOfPostModel> postList,
+    @Default([]) List<DataOfPostModel>? postList,
     @Default([]) List<UserInfo>? userInfoList,
     @Default([]) List<CommentInfo>? commentInfoList,
     @Default([]) List<PreferenceInfo>? preferenceInfoList,

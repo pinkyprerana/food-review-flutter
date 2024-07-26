@@ -43,11 +43,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
-        // body: {
-        // "lat": getLatitude,
-        // "lng": getLongitude,
-        // "user_id": userId,
-        // }
       );
       state = state.copyWith(isLoading: false);
 
@@ -59,11 +54,18 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         try {
           PostModel postModel = PostModel.fromJson(response.data);
           if (postModel.status == 200) {
-            List<CommentInfo> allComments =
-                postModel.postList.expand((post) => post.commentInfo).toList();
+            List<CommentInfo> allComments = [];
+            for (var post in postModel.postList ?? []) {
+              if (post.commentInfo != null) {
+                allComments.addAll(post.commentInfo!);
+              }
+            }
 
             state = state.copyWith(
-                isLoading: false, postList: postModel.postList, commentInfoList: allComments);
+              isLoading: false,
+              postList: postModel.postList,
+              commentInfoList: allComments,
+            );
           } else {
             showToastMessage(postModel.message.toString());
           }

@@ -269,7 +269,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (postFeedState.postList.isNotEmpty) {
+                        if (postFeedState.postList!.isNotEmpty) {
                           stateNotifier.setBottomNavIndexToDefault();
                         } else {
                           showToastMessage("No post found");
@@ -296,7 +296,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                         color: AppColors.colorPrimary,
                       ),
                     )
-                  : postFeedState.postList.isEmpty
+                  : postFeedState.postList!.isEmpty
                       ? Center(
                           child: Text(
                             'No post found',
@@ -306,7 +306,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: ListView.builder(
-                              itemCount: postFeedList.length > 3 ? 3 : postFeedList.length, //3
+                              itemCount: postFeedList!.length > 3 ? 3 : postFeedList.length, //3
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.all(0),
