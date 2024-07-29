@@ -199,6 +199,60 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
+  Future<void> uploadBannerImage(BuildContext context) async {
+    try {
+      XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+
+      if (pickedFile == null) {
+        return;
+      }
+
+      state = state.copyWith(isLoading: true);
+
+      final filePicked = File(pickedFile.path);
+
+      // String fileName = filePicked.path.split('/').last;
+
+      final FormData formData = FormData.fromMap({
+        "banner_image": await MultipartFile.fromFile(filePicked.path),
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        state = state.copyWith(
+          isLoading: false,
+          // profileImgPath:
+          //     '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}',
+          // profileImage: fileName,
+        );
+        await getUserDetails();
+      } else {
+        showToastMessage('Please upload a media');
+
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+
+      showToastMessage('Something, went wrong, please try again');
+    }
+  }
+
   bool validateEmailField() {
     if (emailAddress.text.isEmpty) {
       showToastMessage('Please enter your email address');

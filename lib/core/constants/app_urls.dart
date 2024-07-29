@@ -32,6 +32,9 @@ class AppUrls {
   // Leaderboard
   static const getLeaderboardList = '/user/leaderboard/list';
 
+  // Pic Locations
+  static const bannerLocation = 'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
+
   // Restaurant
   static const postListPerRestaurant = '/post/list';
 }
