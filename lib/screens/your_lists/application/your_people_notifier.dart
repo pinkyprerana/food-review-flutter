@@ -212,7 +212,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -281,7 +281,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -351,7 +351,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -387,7 +387,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -422,7 +422,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -457,7 +457,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 

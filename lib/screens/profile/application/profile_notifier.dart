@@ -321,7 +321,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } catch (error) {
         state = state.copyWith(isBeingSubmitted: false);
         emailAddress.text = '';
-        showToastMessage(error.toString());
+        showToastMessage('Something went wrong. Please try in some time.');
       }
     }
   }
@@ -380,7 +380,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } catch (error) {
         state = state.copyWith(isBeingSubmitted: false);
         phoneNumber.text = '';
-        showToastMessage(error.toString());
+        showToastMessage('Something went wrong. Please try in some time.');
       }
     }
   }
@@ -421,7 +421,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -490,7 +490,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } catch (error) {
         state = state.copyWith(isLoading: false);
         contactMessageController.text = '';
-        showToastMessage(error.toString());
+        showToastMessage('Something went wrong. Please try in some time.');
       }
     }
   }
@@ -561,7 +561,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       contactMessageController.text = '';
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -630,7 +630,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       contactMessageController.text = '';
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -699,7 +699,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       contactMessageController.text = '';
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -731,7 +731,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -763,7 +763,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
