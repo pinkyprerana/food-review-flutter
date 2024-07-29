@@ -9,12 +9,25 @@ import 'package:for_the_table/widgets/expanded_common_text_field.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
-class AddBioPage extends ConsumerWidget {
+class AddBioPage extends ConsumerStatefulWidget {
   const AddBioPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AddBioPage> createState() => _AddBioPageState();
+}
+
+class _AddBioPageState extends ConsumerState<AddBioPage> {
+  @override
+  void initState() {
+    final stateNotifier = ref.read(profileNotifierProvider.notifier);
+    stateNotifier.populateBio();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
+    final state = ref.watch(profileNotifierProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -66,7 +79,11 @@ class AddBioPage extends ConsumerWidget {
             const Spacer(),
             AppButton(
               text: 'Update',
-              onPressed: () => stateNotifier.updateBio(context),
+              loading: state.isLoading,
+              disable: state.isLoading,
+              onPressed: () => stateNotifier.updateBio(() {
+                Navigator.pop(context);
+              }),
             ),
             40.verticalSpace,
           ],

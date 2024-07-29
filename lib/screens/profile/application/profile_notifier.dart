@@ -68,6 +68,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     contactPhoneController.text = state.fetchedUser?.phone ?? '';
   }
 
+  void populateBio() {
+    bioController.text = state.fetchedUser?.bio ?? '';
+  }
+
   void loadMoreActivities() async {
     if (state.currentPage > state.totalPages) {
       showToastMessage('No new activities are available');
@@ -385,9 +389,24 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
-  Future<void> updateBio(BuildContext context) async {
+  bool validateBio() {
+    if (bioController.text.isEmpty || bioController.text.length < 50) {
+      showToastMessage('Please add min 50 characters about you.');
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> updateBio(VoidCallback? onSuccess) async {
     try {
       state = state.copyWith(isLoading: true);
+
+      bool isBioValid = validateBio();
+
+      if (!isBioValid) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
 
       final FormData formData = FormData.fromMap({
         "bio": bioController.text,
@@ -411,8 +430,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         await getUserDetails();
 
-        if (!context.mounted) return;
-        Navigator.pop(context);
+        if (onSuccess != null) onSuccess.call();
 
         state = state.copyWith(isLoading: false);
       } else {
