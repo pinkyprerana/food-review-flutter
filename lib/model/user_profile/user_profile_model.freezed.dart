@@ -350,6 +350,10 @@ mixin _$ProfileDetails {
   String? get city => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_image")
   String get profileImage => throw _privateConstructorUsedError;
+  @JsonKey(name: "banner_image")
+  String? get bannerImage => throw _privateConstructorUsedError;
+  @JsonKey(name: "createdAt")
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "otp")
   String? get otp => throw _privateConstructorUsedError;
   @JsonKey(name: "isOtpVerified")
@@ -388,6 +392,8 @@ abstract class $ProfileDetailsCopyWith<$Res> {
       @JsonKey(name: "bio") String? bio,
       @JsonKey(name: "city") String? city,
       @JsonKey(name: "profile_image") String profileImage,
+      @JsonKey(name: "banner_image") String? bannerImage,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
       @JsonKey(name: "otp") String? otp,
       @JsonKey(name: "isOtpVerified") bool isOtpVerified,
       @JsonKey(name: "isVerified") bool? isVerified,
@@ -422,6 +428,8 @@ class _$ProfileDetailsCopyWithImpl<$Res, $Val extends ProfileDetails>
     Object? bio = freezed,
     Object? city = freezed,
     Object? profileImage = null,
+    Object? bannerImage = freezed,
+    Object? createdAt = freezed,
     Object? otp = freezed,
     Object? isOtpVerified = null,
     Object? isVerified = freezed,
@@ -471,6 +479,14 @@ class _$ProfileDetailsCopyWithImpl<$Res, $Val extends ProfileDetails>
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String,
+      bannerImage: freezed == bannerImage
+          ? _value.bannerImage
+          : bannerImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
@@ -534,6 +550,8 @@ abstract class _$$ProfileDetailsImplCopyWith<$Res>
       @JsonKey(name: "bio") String? bio,
       @JsonKey(name: "city") String? city,
       @JsonKey(name: "profile_image") String profileImage,
+      @JsonKey(name: "banner_image") String? bannerImage,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
       @JsonKey(name: "otp") String? otp,
       @JsonKey(name: "isOtpVerified") bool isOtpVerified,
       @JsonKey(name: "isVerified") bool? isVerified,
@@ -567,6 +585,8 @@ class __$$ProfileDetailsImplCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? city = freezed,
     Object? profileImage = null,
+    Object? bannerImage = freezed,
+    Object? createdAt = freezed,
     Object? otp = freezed,
     Object? isOtpVerified = null,
     Object? isVerified = freezed,
@@ -616,6 +636,14 @@ class __$$ProfileDetailsImplCopyWithImpl<$Res>
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
               as String,
+      bannerImage: freezed == bannerImage
+          ? _value.bannerImage
+          : bannerImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
@@ -662,6 +690,8 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
       @JsonKey(name: "bio") this.bio,
       @JsonKey(name: "city") this.city,
       @JsonKey(name: "profile_image") this.profileImage = '',
+      @JsonKey(name: "banner_image") this.bannerImage,
+      @JsonKey(name: "createdAt") this.createdAt,
       @JsonKey(name: "otp") this.otp,
       @JsonKey(name: "isOtpVerified") this.isOtpVerified = false,
       @JsonKey(name: "isVerified") this.isVerified,
@@ -707,6 +737,12 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
   @JsonKey(name: "profile_image")
   final String profileImage;
   @override
+  @JsonKey(name: "banner_image")
+  final String? bannerImage;
+  @override
+  @JsonKey(name: "createdAt")
+  final DateTime? createdAt;
+  @override
   @JsonKey(name: "otp")
   final String? otp;
   @override
@@ -742,7 +778,7 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
 
   @override
   String toString() {
-    return 'ProfileDetails(id: $id, firstName: $firstName, lastName: $lastName, fullName: $fullName, role: $role, phone: $phone, email: $email, bio: $bio, city: $city, profileImage: $profileImage, otp: $otp, isOtpVerified: $isOtpVerified, isVerified: $isVerified, isOnBoarding: $isOnBoarding, preference: $preference, socialAccount: $socialAccount, otpExpireTime: $otpExpireTime)';
+    return 'ProfileDetails(id: $id, firstName: $firstName, lastName: $lastName, fullName: $fullName, role: $role, phone: $phone, email: $email, bio: $bio, city: $city, profileImage: $profileImage, bannerImage: $bannerImage, createdAt: $createdAt, otp: $otp, isOtpVerified: $isOtpVerified, isVerified: $isVerified, isOnBoarding: $isOnBoarding, preference: $preference, socialAccount: $socialAccount, otpExpireTime: $otpExpireTime)';
   }
 
   @override
@@ -764,6 +800,10 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
             (identical(other.city, city) || other.city == city) &&
             (identical(other.profileImage, profileImage) ||
                 other.profileImage == profileImage) &&
+            (identical(other.bannerImage, bannerImage) ||
+                other.bannerImage == bannerImage) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.otp, otp) || other.otp == otp) &&
             (identical(other.isOtpVerified, isOtpVerified) ||
                 other.isOtpVerified == isOtpVerified) &&
@@ -781,25 +821,28 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      firstName,
-      lastName,
-      fullName,
-      role,
-      phone,
-      email,
-      bio,
-      city,
-      profileImage,
-      otp,
-      isOtpVerified,
-      isVerified,
-      isOnBoarding,
-      const DeepCollectionEquality().hash(_preference),
-      const DeepCollectionEquality().hash(_socialAccount),
-      otpExpireTime);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        firstName,
+        lastName,
+        fullName,
+        role,
+        phone,
+        email,
+        bio,
+        city,
+        profileImage,
+        bannerImage,
+        createdAt,
+        otp,
+        isOtpVerified,
+        isVerified,
+        isOnBoarding,
+        const DeepCollectionEquality().hash(_preference),
+        const DeepCollectionEquality().hash(_socialAccount),
+        otpExpireTime
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -828,6 +871,8 @@ abstract class _ProfileDetails implements ProfileDetails {
           @JsonKey(name: "bio") final String? bio,
           @JsonKey(name: "city") final String? city,
           @JsonKey(name: "profile_image") final String profileImage,
+          @JsonKey(name: "banner_image") final String? bannerImage,
+          @JsonKey(name: "createdAt") final DateTime? createdAt,
           @JsonKey(name: "otp") final String? otp,
           @JsonKey(name: "isOtpVerified") final bool isOtpVerified,
           @JsonKey(name: "isVerified") final bool? isVerified,
@@ -870,6 +915,12 @@ abstract class _ProfileDetails implements ProfileDetails {
   @override
   @JsonKey(name: "profile_image")
   String get profileImage;
+  @override
+  @JsonKey(name: "banner_image")
+  String? get bannerImage;
+  @override
+  @JsonKey(name: "createdAt")
+  DateTime? get createdAt;
   @override
   @JsonKey(name: "otp")
   String? get otp;
