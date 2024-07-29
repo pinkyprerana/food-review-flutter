@@ -165,7 +165,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
             context);
       }
     } catch (e) {
-      showToastMessage('something went wrongzz');
+      showToastMessage('something went wrong');
       state = state.copyWith(isLoading: false);
     }
   }
