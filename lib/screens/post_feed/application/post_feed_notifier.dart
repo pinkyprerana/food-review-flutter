@@ -43,6 +43,9 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        body: {
+          'view_type':'list'
+        }
       );
       state = state.copyWith(isLoading: false);
 

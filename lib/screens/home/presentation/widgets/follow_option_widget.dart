@@ -36,17 +36,10 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    // followNotifier.followUnfollow(() {}, userId).then((_) async {
-    //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
-    //   await followNotifier.getAllFollowerList();
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final isFollowing = ref.watch(FollowNotifierProvider.select(
-    //     (state) => state.userFollowStatus[widget.followersId] ?? widget.isFollow));
-
     return Container(
       margin: const EdgeInsets.only(left: 15).r,
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30).r,

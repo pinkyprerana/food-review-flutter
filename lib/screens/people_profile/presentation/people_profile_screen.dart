@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
@@ -28,8 +29,8 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
       required this.peopleimage,
       required this.peopleId,
       required this.isFollow,
-        required this.isRequested,
-        required this.isFollowing
+      required this.isRequested,
+      required this.isFollowing
       });
 
   @override
@@ -41,25 +42,39 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final notifier = ref.watch(FollowNotifierProvider.notifier);
+      final notifier = ref.read(FollowNotifierProvider.notifier);
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
   }
   void handleFollowButtonPressed(userId) {
     final followNotifier = ref.read(FollowNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, userId);
-    yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    // followNotifier.followUnfollow(() {}, userId).then((_) async {
-    //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
-    //   await followNotifier.getAllFollowerList();
+    followNotifier.followUnfollow(() async {
+      final followNotifier = ref.read(FollowNotifierProvider.notifier);
+      AppLog.log("Updated follow state: $followNotifier");
+    }, userId);
+    // setState(() {
+      AutoRouter.of(context).push(PeopleProfileRoute(
+          peoplename: widget.peoplename,
+          peopleimage: widget.peopleimage,
+          peopleId: widget.peopleId,
+          isFollow: widget.isFollow,
+          isRequested: widget.isRequested,
+          isFollowing: widget.isFollowing
+        )
+       );
     // });
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
   }
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(FollowNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
     AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
+    final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
+    state.userFollowStatus[widget.peopleId] ?? widget.isFollowing));
+    final isRequested = ref.watch(FollowNotifierProvider.select((state) =>
+    state.userFollowStatus[widget.peopleId] ?? widget.isRequested));
 
     return Scaffold(
       extendBody: true,
@@ -160,21 +175,17 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(13),
-                                        color: widget.isFollow
-                                            ? AppColors.colorBackground
-                                            : AppColors.colorBlack,
+                                        color: isFollowing ? AppColors.colorWhite: isRequested ?AppColors.colorGrey2: AppColors.colorNavy,
                                         border: Border.all(
                                           color: AppColors.colorSmallProfileContainerBorder,
                                           width: 1,
                                         ),
                                       ),
                                       child: Text(
-                                        widget.isFollow ? 'Following': widget.isRequested ? 'Requested' : 'Follow',
+                                        isFollowing ? 'Following':isRequested ? 'Requested' : 'Follow',
                                         style: AppTextStyles.textStylePoppinsBold.copyWith(
                                           fontSize: 15.sp,
-                                          color: widget.isFollow
-                                              ? AppColors.colorBlack
-                                              : AppColors.colorBackground,
+                                          color: isFollowing ? AppColors.colorBlack: isRequested ?AppColors.colorBlack: AppColors.colorWhite,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -258,7 +269,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 ],
                               ),
                               10.verticalSpace,
-                              widget.isFollow
+                              isFollowing
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -393,7 +404,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
-                child: widget.isFollow
+                child: isFollowing
                     ? postListOfOtherUser.isNotEmpty
                         ? GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
