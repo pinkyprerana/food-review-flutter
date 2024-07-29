@@ -4,7 +4,7 @@ import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
@@ -42,7 +42,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: !isPostLoading);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
       );
       state = state.copyWith(isLoading: false);
 
@@ -85,7 +85,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}', body: {
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
         "lat": getLatitude,
         "lng": getLongitude,
         "user_id": userId,
@@ -116,7 +116,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isSavePost: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-like/add'}', body: {"post_id": postID});
+          url: '${AppUrls.baseUrl}${'/post-like/add'}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -146,7 +146,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isSavePost: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-save/add'}', body: {"post_id": postID});
+          url: '${AppUrls.baseUrl}${'/post-save/add'}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -177,7 +177,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-like/swapped'}',
+          url: '${AppUrls.baseUrl}${'/post-like/swapped'}',
           body: {"post_id": postID, "type": "like"});
       state = state.copyWith(isLoading: false);
 
@@ -207,7 +207,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.BASE_URL}${'/post-like/swapped'}',
+          url: '${AppUrls.baseUrl}${'/post-like/swapped'}',
           body: {"post_id": postID, "type": "dislike"});
       state = state.copyWith(isLoading: false);
 
@@ -237,7 +237,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isCommentLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}/post-comment/add',
+        url: '${AppUrls.baseUrl}/post-comment/add',
         body: {
           "post_id": postID,
           "comment": commentController.text,
@@ -272,7 +272,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isCommentLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}/post-like/comment',
+        url: '${AppUrls.baseUrl}/post-like/comment',
         body: {
           "comment_id": commentID,
         },

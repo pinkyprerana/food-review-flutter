@@ -6,7 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
 import '../../shared/provider.dart';
@@ -63,9 +63,9 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   GestureDetector(
                     onTap: () {
                       AutoRouter.of(context).push(PeopleProfileRoute(
-                          peoplename: name??"", //'Ahmad Gouse',
+                          peoplename: name ?? "", //'Ahmad Gouse',
                           peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                          peopleId: peopleId??"",
+                          peopleId: peopleId ?? "",
                           isFollow: true));
                     },
                     child: Row(
@@ -85,7 +85,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         ),
                         8.horizontalSpace,
                         Text(
-                          name??"", //'Ahmad Gouse',
+                          name ?? "", //'Ahmad Gouse',
                           style: AppTextStyles.textStylePoppinsMedium
                               .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                         ),
@@ -146,8 +146,10 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
               Column(
                 children: [
                   GestureDetector(
-                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId??""),
-                      child: (isLiked??false) ? Image.asset(Assets.redHeart) : Image.asset(Assets.like)),
+                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                      child: (isLiked ?? false)
+                          ? Image.asset(Assets.redHeart)
+                          : Image.asset(Assets.like)),
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(CommentsRoute(
@@ -170,8 +172,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId??""),
-                      child: (isSaved??false)
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      child: (isSaved ?? false)
                           ? Image.asset(
                               Assets.saved,
                               scale: 2,
@@ -220,7 +222,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              title??"",
+              title ?? "",
               style: AppTextStyles.textStylePoppinsMedium.copyWith(
                 fontSize: 13.sp,
                 color: AppColors.colorWhite,
@@ -231,7 +233,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              description??"",
+              description ?? "",
               style: AppTextStyles.textStylePoppinsRegular.copyWith(
                 fontSize: 10.sp,
                 color: AppColors.colorWhite,

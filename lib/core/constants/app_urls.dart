@@ -1,5 +1,5 @@
 class AppUrls {
-  static const BASE_URL = 'https://forthetable.dedicateddevelopers.us/api';
+  static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
   static const postImageLocation = 'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   static const signup = '/user/signup';

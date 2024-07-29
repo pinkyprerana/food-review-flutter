@@ -156,6 +156,8 @@ class LocationNotifier extends StateNotifier<LocationState> {
         await _hiveDataBase.box.put(AppPreferenceKeys.longitude, position.longitude.toString());
         await _hiveDataBase.box.put(AppPreferenceKeys.location,
             '${place.name}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}');
+        if (!context.mounted) return;
+
         updateProfile(
             position.latitude,
             position.longitude,
@@ -187,12 +189,14 @@ class LocationNotifier extends StateNotifier<LocationState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
         data: formData,
       );
 
       if (response.statusCode == 200 && response.data != null) {
         showToastMessage('Location updated successfully');
+        if (!context.mounted) return;
+
         AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
         state = state.copyWith(isLoading: false);
       } else {

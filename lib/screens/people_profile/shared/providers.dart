@@ -3,7 +3,7 @@ import 'package:for_the_table/core/shared/providers.dart';
 import '../application/follow_notifier.dart';
 import '../application/follow_state.dart';
 
-final FollowNotifierProvider = StateNotifierProvider<FollowNotifier, FollowState>(
+final followNotifierProvider = StateNotifierProvider<FollowNotifier, FollowState>(
   (ref) => FollowNotifier(
     ref.watch(networkService),
     ref.watch(hiveProvider),

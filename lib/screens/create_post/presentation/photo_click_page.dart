@@ -144,6 +144,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     });
 
     if (pickedFile != null) {
+      if (!mounted) return;
       AutoRouter.of(context).push(CreatePostRoute(imageFile: pickedFile));
     }
   }

@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'createPost_state.freezed.dart';
+part 'create_post_state.freezed.dart';
 
 @freezed
 abstract class CreatePostState with _$CreatePostState {

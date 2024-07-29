@@ -35,18 +35,18 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final notifier = ref.watch(FollowNotifierProvider.notifier);
+      final notifier = ref.watch(followNotifierProvider.notifier);
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(FollowNotifierProvider);
+    final state = ref.watch(followNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
     AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
     void handleFollowButtonPressed(userId) {
-      final followNotifier = ref.read(FollowNotifierProvider.notifier);
+      final followNotifier = ref.read(followNotifierProvider.notifier);
       followNotifier.followUnfollow(() {}, userId);
       // followNotifier.followUnfollow(() {}, userId).then((_) async {
       //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);

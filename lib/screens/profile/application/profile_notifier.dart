@@ -112,7 +112,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       };
       _dio.options.headers.addAll(headers);
 
-      final response = await _dio.get('${AppUrls.BASE_URL}${AppUrls.profile}');
+      final response = await _dio.get('${AppUrls.baseUrl}${AppUrls.profile}');
 
       if (response.statusCode == 200 && response.data != null) {
         fetchedUser = ProfileDetails.fromJson(response.data!['data']);
@@ -171,7 +171,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
         data: formData,
       );
 
@@ -246,7 +246,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.updatePassword}',
+          '${AppUrls.baseUrl}${AppUrls.updatePassword}',
           data: formData,
         );
 
@@ -298,7 +298,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+          '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
           data: formData,
         );
 
@@ -357,7 +357,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+          '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
           data: formData,
         );
 
@@ -402,7 +402,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
         data: formData,
       );
 
@@ -470,7 +470,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.contact}',
+          '${AppUrls.baseUrl}${AppUrls.contact}',
           data: formData,
         );
 
@@ -519,7 +519,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.userActivities}',
+        '${AppUrls.baseUrl}${AppUrls.userActivities}',
         data: formData,
       );
 
@@ -590,7 +590,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         data: formData,
       );
 
@@ -659,7 +659,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         data: formData,
       );
 
@@ -716,7 +716,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.get(
-        "${AppUrls.BASE_URL}${AppUrls.deactivateAccount}",
+        "${AppUrls.baseUrl}${AppUrls.deactivateAccount}",
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -748,7 +748,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.get(
-        "${AppUrls.BASE_URL}${AppUrls.deleteAccount}",
+        "${AppUrls.baseUrl}${AppUrls.deleteAccount}",
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -784,7 +784,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.get<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.logout}',
+        '${AppUrls.baseUrl}${AppUrls.logout}',
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -823,7 +823,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${'/post-save/list'}', body: {
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${'/post-save/list'}', body: {
         "lat": getLatitude,
         "lng": getLongitude,
       });
@@ -851,7 +851,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${'/notification/list'}',
+        url: '${AppUrls.baseUrl}${'/notification/list'}',
       );
       state = state.copyWith(isLoading: false);
 

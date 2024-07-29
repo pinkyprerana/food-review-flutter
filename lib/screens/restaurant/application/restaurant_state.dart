@@ -2,7 +2,7 @@
 
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'restaurant_state.freezed.dart';

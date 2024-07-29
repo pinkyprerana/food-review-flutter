@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../domain/postListOfOther_model.dart';
+import '../domain/post_list_of_other_model.dart';
 part 'follow_state.freezed.dart';
 
 @freezed

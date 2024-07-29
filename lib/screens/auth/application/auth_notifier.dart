@@ -129,7 +129,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return true;
   }
 
-
   Timer? _timer;
   void _startTimer() {
     _timer?.cancel();
@@ -160,7 +159,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.signin}', body: {
+          .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.signin}', body: {
         "email": loginEmailTextController.text.toLowerCase(),
         "password": loginPasswordTextController.text,
       });
@@ -233,7 +232,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       };
 
       var (response, dioException) = await _networkApiService.postApiRequest(
-        url: '${AppUrls.BASE_URL}${AppUrls.signup}',
+        url: '${AppUrls.baseUrl}${AppUrls.signup}',
         body: requestBody,
       );
       state = state.copyWith(isLoading: false);
@@ -287,7 +286,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.sendOTP}', body: {
+          .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.sendOTP}', body: {
         "email": fpEmailTextController.text,
       });
       state = state.copyWith(isLoading: false);
@@ -320,7 +319,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.resendOTP}', body: {
+          .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.resendOTP}', body: {
         "email": fpEmailTextController.text,
       });
       state = state.copyWith(isLoading: false);
@@ -349,7 +348,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequest(url: '${AppUrls.BASE_URL}${AppUrls.verifyOTP}', body: {
+          .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.verifyOTP}', body: {
         "email": fpEmailTextController.text,
         "otp": fpOtpTextController.text,
       });
@@ -397,7 +396,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       try {
         var (response, dioException) = await _networkApiService
-            .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.resetPassword}', body: {
+            .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.resetPassword}', body: {
           "email": fpEmailTextController.text,
           "new_password": fpPasswordTextController.text,
           "confirm_password": fpConfirmPasswordTextController.text,

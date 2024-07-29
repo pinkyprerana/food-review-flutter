@@ -103,7 +103,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -172,7 +172,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -241,7 +241,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -311,7 +311,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -373,7 +373,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.acceptOrRejectRequest}",
+        "${AppUrls.baseUrl}${AppUrls.acceptOrRejectRequest}",
         data: formData,
       );
 
@@ -408,7 +408,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.followUnfollow}",
+        "${AppUrls.baseUrl}${AppUrls.followUnfollow}",
         data: formData,
       );
 
@@ -443,7 +443,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.followUnfollow}",
+        "${AppUrls.baseUrl}${AppUrls.followUnfollow}",
         data: formData,
       );
 

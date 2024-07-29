@@ -15,7 +15,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${'/notification/list'}',
+        url: '${AppUrls.baseUrl}${'/notification/list'}',
       );
       state = state.copyWith(isLoading: false);
 

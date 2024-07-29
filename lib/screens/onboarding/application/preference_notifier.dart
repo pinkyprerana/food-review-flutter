@@ -7,8 +7,7 @@ import '../../../core/utils/toast.dart';
 import '../domain/preference_model.dart';
 
 class PreferenceNotifier extends StateNotifier<PreferenceState> {
-  PreferenceNotifier(this._networkApiService)
-      : super(const PreferenceState());
+  PreferenceNotifier(this._networkApiService) : super(const PreferenceState());
 
   final NetworkApiService _networkApiService;
 
@@ -37,7 +36,7 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
   //       dioException
   //       ) = await _networkApiService.postApiRequest(
   //           url:
-  //           '${AppUrls.BASE_URL}${'user/add-preferences'}',
+  //           '${AppUrls.baseUrl}${'user/add-preferences'}',
   //           body: {
   //             // "preferences": preferences,
   //           });
@@ -67,20 +66,17 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      var (response, dioException) =
-      await _networkApiService.getApiRequest(
-          url: "${AppUrls.BASE_URL}${AppUrls.getAllPreference}");
+      var (response, dioException) = await _networkApiService.getApiRequest(
+          url: "${AppUrls.baseUrl}${AppUrls.getAllPreference}");
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        PreferenceModel preferenceModel =
-        PreferenceModel.fromJson(response.data);
+        PreferenceModel preferenceModel = PreferenceModel.fromJson(response.data);
         if (preferenceModel.status == 200) {
-          state = state.copyWith(isLoading: false,
-              data: preferenceModel.data);
+          state = state.copyWith(isLoading: false, data: preferenceModel.data);
         } else {
           showToastMessage(preferenceModel.message.toString());
         }
@@ -92,6 +88,3 @@ class PreferenceNotifier extends StateNotifier<PreferenceState> {
     }
   }
 }
-
-
-

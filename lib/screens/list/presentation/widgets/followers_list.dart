@@ -104,7 +104,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                           final users = allUsersList[index];
                           final profileImage =
                               '${AppUrls.profilePicLocation}/${users.profileImage}';
-                          final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
+                          final isFollowing = ref.watch(followNotifierProvider.select((state) =>
                               state.userFollowStatus[users.id] ?? users.isFollowingRequest));
 
                           return GestureDetector(

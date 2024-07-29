@@ -1,8 +1,8 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'postListOfOther_model.freezed.dart';
-part 'postListOfOther_model.g.dart';
+part 'post_list_of_other_model.freezed.dart';
+part 'post_list_of_other_model.g.dart';
 
 @freezed
 abstract class PostListOfOtherModel with _$PostListOfOtherModel {

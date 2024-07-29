@@ -26,7 +26,7 @@ class RestaurantMapView extends ConsumerStatefulWidget {
 }
 
 class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController _googleMapController;
 
   Set<Marker> markers = {};

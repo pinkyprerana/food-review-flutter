@@ -7,7 +7,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
@@ -100,9 +100,9 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: name??"",
+                            peoplename: name ?? "",
                             peopleimage: profileImage,
-                            peopleId: peopleId??"",
+                            peopleId: peopleId ?? "",
                             isFollow: true));
                       },
                       child: Row(
@@ -122,7 +122,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                           ),
                           8.horizontalSpace,
                           Text(
-                            name??"", //'Ahmad Gouse',
+                            name ?? "", //'Ahmad Gouse',
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
@@ -164,7 +164,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cuisine??"No cuisine",
+                                      cuisine ?? "No cuisine",
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
@@ -211,8 +211,8 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                         Column(
                           children: [
                             GestureDetector(
-                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId??""),
-                                child: (isLiked??false)
+                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                                child: (isLiked ?? false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
@@ -237,10 +237,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId??""),
+                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
                               child: SaveButtonWidget(
                                 isSavePost: postFeedState.isSavePost,
-                                isSaved: isSaved??false,
+                                isSaved: isSaved ?? false,
                               ),
                             ),
                           ],
@@ -251,7 +251,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        description??"",
+                        description ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
