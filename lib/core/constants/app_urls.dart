@@ -29,6 +29,9 @@ class AppUrls {
   static const deleteAccount = '/user/delete';
   static const deactivateAccount = '/user/deactivate';
 
+  // Leaderboard
+  static const getLeaderboardList = '/user/leaderboard/list';
+
   // Restaurant
   static const postListPerRestaurant = '/post/list';
 }
