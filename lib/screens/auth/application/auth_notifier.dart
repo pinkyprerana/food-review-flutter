@@ -38,13 +38,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   //preference
   // final List preferences = [];
+  Timer? timer;
 
-  void clearLoginFields() {
+  @override
+  void dispose() {
+    loginEmailTextController.dispose();
+    loginPasswordTextController.dispose();
+    signupEmailTextController.dispose();
+    signupFirstNameTextController.dispose();
+    signupLastNameTextController.dispose();
+    signupContactNumberTextController.dispose();
+    signupPasswordTextController.dispose();
+    fpEmailTextController.dispose();
+    fpOtpTextController.dispose();
+    fpPasswordTextController.dispose();
+    fpConfirmPasswordTextController.dispose();
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void clearLoginPageFields() {
     loginEmailTextController.clear();
     loginPasswordTextController.clear();
   }
 
-  void clearRegistrationFields() {
+  void clearSignupPageFields() {
     signupFirstNameTextController.clear();
     signupLastNameTextController.clear();
     signupEmailTextController.clear();
@@ -55,16 +73,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   bool validateLoginFields({VoidCallback? onSuccess}) {
     if (loginEmailTextController.text.isEmpty) {
-      showToastMessage('Please enter email');
+      showToastMessage('Please enter your email');
       return false;
     } else if (!Validator.validateEmail(loginEmailTextController.text)) {
-      showToastMessage('Please enter valid email');
+      showToastMessage('Please enter a valid email');
       return false;
     } else if (loginPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter password');
+      showToastMessage('Please enter your password');
       return false;
-    } else if (loginPasswordTextController.text.length < 6) {
-      showToastMessage('Password should be at least 6 characters');
+    } else if (loginPasswordTextController.text.length < 8 ||
+        loginPasswordTextController.text.length > 15) {
+      showToastMessage('Password should be at between 8 to 15 characters');
       return false;
     } else {
       return true;
@@ -73,45 +92,38 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   bool validateSignupFields() {
     if (signupFirstNameTextController.text.isEmpty) {
-      showToastMessage('Please enter first name');
+      showToastMessage('Please enter your first name');
       return false;
     } else if (signupLastNameTextController.text.isEmpty) {
-      showToastMessage('Please enter last name');
+      showToastMessage('Please enter your last name');
       return false;
     } else if (signupEmailTextController.text.isEmpty) {
-      showToastMessage('Please enter email');
+      showToastMessage('Please enter your email');
       return false;
     } else if (!Validator.validateEmail(signupEmailTextController.text)) {
-      showToastMessage('Please enter valid email');
+      showToastMessage('Please enter a valid email');
       return false;
     }
     if (signupContactNumberTextController.text.isEmpty) {
-      showToastMessage('Please Enter Your Phone Number');
+      showToastMessage('Please enter your phone number');
       return false;
-    } else if (signupContactNumberTextController.text.isNotEmpty &&
-        signupContactNumberTextController.text.length < 10) {
-      showToastMessage('Please Enter A Valid Phone Number');
-      return false;
-    } else if (signupContactNumberTextController.text.isNotEmpty &&
+    } else if (signupContactNumberTextController.text.isNotEmpty ||
+        signupContactNumberTextController.text.length < 10 ||
         !Validator.validatePhone(signupContactNumberTextController.text)) {
       showToastMessage('Please enter a valid phone number');
       return false;
     } else if (signupPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter password');
+      showToastMessage('Please enter a password');
       return false;
     } else if (signupConfirmPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter your confirm password');
       return false;
-    }
-    if (signupPasswordTextController.text.length < 8 ||
+    } else if (signupPasswordTextController.text.length < 8 ||
         signupPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
     } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
-      showToastMessage('Passwords must be same');
-      return false;
-    } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
-      showToastMessage('Password and confirm password can\'t be different');
+      showToastMessage('Password and confirm password are different');
       return false;
     } else {
       return true;
@@ -129,11 +141,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return true;
   }
 
-  Timer? _timer;
   void _startTimer() {
-    _timer?.cancel();
+    timer?.cancel();
     state = state.copyWith(canResendOtp: false, remainingTime: 30);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (state.remainingTime <= 1) {
         state = state.copyWith(canResendOtp: true);
         timer.cancel();
@@ -188,8 +199,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
               .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
           showToastMessage(jsonData["message"]);
-          loginEmailTextController.clear();
-          loginPasswordTextController.clear();
+          clearLoginPageFields();
           voidCallback.call();
         } else if (jsonData['message'] ==
             "Sorry user is deleted by admin. Please contact with admin.") {
@@ -244,27 +254,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       } else {
         Map<String, dynamic> jsonData = response.data;
         if (jsonData['status'] == 200) {
-          AppLog.log(jsonData.toString());
-          AppLog.log(jsonData['token']);
-          _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
-          _hiveDatabase.box
-              .put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
-          _hiveDatabase.box
-              .put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
-          _hiveDatabase.box
-              .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
           showToastMessage(jsonData['message']);
-          signupFirstNameTextController.clear();
-          signupLastNameTextController.clear();
-          signupEmailTextController.clear();
-          signupContactNumberTextController.clear();
-          signupPasswordTextController.clear();
-          signupConfirmPasswordTextController.clear();
+          clearSignupPageFields();
           voidCallback?.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -379,11 +370,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   bool validatePassword() {
-    if (fpPasswordTextController.text.length < 8 || fpPasswordTextController.text.length > 15) {
+    if (fpPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter a new password');
+      return false;
+    } else if (fpConfirmPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter your password again');
+      return false;
+    } else if (fpPasswordTextController.text.length < 8 ||
+        fpPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
       return false;
     } else if (fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
-      showToastMessage('Passwords must be same');
+      showToastMessage('Password and confirm password are different');
       return false;
     } else {
       return true;
