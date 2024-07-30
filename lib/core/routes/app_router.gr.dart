@@ -218,6 +218,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SavedPage(),
       );
     },
+    SavedRestaurantsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SavedRestaurantsPage(),
+      );
+    },
     SelectPreferenceRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -820,6 +826,20 @@ class SavedRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SavedRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SavedRestaurantsPage]
+class SavedRestaurantsRoute extends PageRouteInfo<void> {
+  const SavedRestaurantsRoute({List<PageRouteInfo>? children})
+      : super(
+          SavedRestaurantsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SavedRestaurantsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -2,6 +2,7 @@
 
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
+import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -25,6 +26,10 @@ class RestaurantState with _$RestaurantState {
     @Default(false) bool isLoadingForRestaurantDetails,
     @Default(0) int totalNumberOfRestaurants,
     @Default(false) bool isLoadingSaveRestaurant,
+    @Default(false) bool isLoadingSaveRestaurantList,
+    @Default(1) int currentPageForSavedRestaurantList,
+    @Default(0) int totalPagesForSavedRestaurantList,
+    @Default([]) List<SavedRestaurant>? savedRestaurantList,
   }) = _RestaurantState;
   const RestaurantState._();
 }

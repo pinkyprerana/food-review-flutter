@@ -11,6 +11,7 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurant_details_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
+import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -27,6 +28,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
+  RefreshController savedRestaurantRefreshController = RefreshController();
 
   @override
   void dispose() {
@@ -382,6 +384,79 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       showToastMessage(error, errorMessage: 'Failed to get restaurant details');
 
       state = state.copyWith(isLoadingForRestaurantDetails: false);
+    }
+  }
+
+  Future<void> loadMoreSavedRestaurants() async {
+    if (state.currentPageForSavedRestaurantList >=
+        state.totalPagesForSavedRestaurantList) {
+      showToastMessage('No more restaurants');
+      savedRestaurantRefreshController.loadComplete();
+      return;
+    }
+
+    await getSavedRestaurants(isLoadMore: true);
+    AppLog.log('more saved restaurants are called');
+    savedRestaurantRefreshController.loadComplete();
+  }
+
+  Future<void> getSavedRestaurants({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoadingSaveRestaurantList: !isLoadMore);
+
+      if (isLoadMore) {
+        state = state.copyWith(
+            currentPageForSavedRestaurantList:
+                state.currentPageForSavedRestaurantList + 1);
+      }
+
+      final data = {
+        "search": "",
+        "perpage": 10,
+        "page": state.currentPageForSavedRestaurantList,
+      };
+
+      final headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.baseUrl}${AppUrls.getSavedRestaurantList}',
+        data: data,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        AppLog.log('RESPONSE:------------ $response');
+        final savedRestaurantsResponseModel =
+            SavedRestaurantsResponseModel.fromJson(response.data!);
+
+        final List<SavedRestaurant>? savedRestaurantList =
+            savedRestaurantsResponseModel.savedRestaurantList;
+
+        state = state.copyWith(
+          isLoadingSaveRestaurantList: false,
+          savedRestaurantList: [
+            ...state.savedRestaurantList ?? [],
+            ...savedRestaurantList ?? [],
+          ],
+          totalPagesForSavedRestaurantList:
+              savedRestaurantsResponseModel.pages ?? 0,
+        );
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(isLoadingSaveRestaurantList: false);
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to get restaurants');
+
+      state = state.copyWith(isLoadingSaveRestaurantList: false);
     }
   }
 }

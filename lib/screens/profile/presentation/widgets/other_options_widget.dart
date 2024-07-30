@@ -13,7 +13,8 @@ import 'package:for_the_table/widgets/app_outline_button.dart';
 import '../../shared/providers.dart';
 
 class OtherOptionsWidget extends ConsumerWidget {
-  const OtherOptionsWidget({super.key, required this.title, required this.imgpath});
+  const OtherOptionsWidget(
+      {super.key, required this.title, required this.imgpath});
   final String title;
   final String imgpath;
 
@@ -36,12 +37,13 @@ class OtherOptionsWidget extends ConsumerWidget {
                       RichText(
                           text: TextSpan(
                         text: 'Log',
-                        style: AppTextStyles.textStylePoppinsMedium
-                            .copyWith(fontSize: 16.sp, color: AppColors.colorPrimary),
+                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 16.sp, color: AppColors.colorPrimary),
                         children: [
                           TextSpan(
                             text: ' Out',
-                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 16.sp,
                               color: AppColors.colorPrimaryAlpha,
                             ),
@@ -53,8 +55,9 @@ class OtherOptionsWidget extends ConsumerWidget {
                         child: Text(
                           'Are you Sure Want to logout from Your Account.',
                           textAlign: TextAlign.center,
-                          style: AppTextStyles.textStylePoppinsRegular
-                              .copyWith(fontSize: 13.sp, color: AppColors.colorPrimaryAlpha),
+                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                              fontSize: 13.sp,
+                              color: AppColors.colorPrimaryAlpha),
                         ),
                       ),
                       20.verticalSpace,
@@ -73,7 +76,8 @@ class OtherOptionsWidget extends ConsumerWidget {
                             text: 'Logout',
                             loading: state.isLoading,
                             onPressed: () async {
-                              AppLog.log("---------------abc------------------");
+                              AppLog.log(
+                                  "---------------abc------------------");
                               await stateNotifier.logout(context: context);
                               // await stateNotifier.logout(callback: () async {
                               //   Future.delayed(const Duration(seconds: 3), () {
@@ -107,6 +111,8 @@ class OtherOptionsWidget extends ConsumerWidget {
           AutoRouter.of(context).push(const LikedPostsRoute());
         } else if (title == 'Disliked Posts') {
           AutoRouter.of(context).push(const DislikedPostsRoute());
+        } else if (title == 'Saved Restaurants') {
+          AutoRouter.of(context).push(const SavedRestaurantsRoute());
         }
       },
       child: Padding(
