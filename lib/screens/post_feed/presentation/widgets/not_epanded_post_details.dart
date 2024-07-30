@@ -47,7 +47,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final String? cuisine = widget.postList.preferenceInfo?.title;
     final int? commentCount = widget.postList.commentCount;
     final String? postId = widget.postList.id;
-    // final postFeedState = ref.watch(postFeedNotifierProvider);
+    final bool? isFollowing = widget.postList.isFollowing;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
@@ -107,7 +107,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                 ),
                 child: Center(
                   child: Text(
-                    'Following',
+                    (isFollowing??false) ? 'Following': 'Follow',
                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                       color: AppColors.colorWhite,
                       fontSize: 10.sp,
