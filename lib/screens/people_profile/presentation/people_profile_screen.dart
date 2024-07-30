@@ -440,14 +440,14 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                           top: 8,
                                           right: 8,
                                           child: GestureDetector(
-                                            onTap: () => postFeedNotifier.saveUnsavePost(
-                                                () {}, postList.id ?? ""),
+                                            onTap: () =>
+                                                postFeedNotifier.saveUnsavePost(() {}, postList.id),
                                             child: SaveButtonWidget(
                                               isSavePost: postFeedState.isSavePost,
                                               isSaved: postList.isSave,
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
