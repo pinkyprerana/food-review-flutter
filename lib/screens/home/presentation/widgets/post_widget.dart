@@ -105,9 +105,9 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             peoplename: name ?? "",
                             peopleimage: profileImage,
                             peopleId: peopleId??"",
-                            isFollow: true,
-                          isRequested: false,
-                          isFollowing: false,
+                            isFollow:  false,
+                            isRequested: false,
+                            isFollowing: isFollowing??false
                         ));
                       },
                       child: Row(
