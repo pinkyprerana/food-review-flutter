@@ -11,6 +11,8 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
+import '../../../widgets/save_button.dart';
+import '../../post_feed/shared/provider.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../shared/providers.dart';
 
@@ -53,7 +55,17 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
       final followNotifier = ref.read(followNotifierProvider.notifier);
       AppLog.log("Updated follow state: $followNotifier");
     }, userId);
-
+    // setState(() {
+    AutoRouter.of(context).push(PeopleProfileRoute(
+        peoplename: widget.peoplename,
+        peopleimage: widget.peopleimage,
+        peopleId: widget.peopleId,
+        isFollow: widget.isFollow,
+        isRequested: widget.isRequested,
+        isFollowing: widget.isFollowing
+    )
+    );
+    // });
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
   }
   @override
@@ -65,6 +77,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     state.userFollowStatus[widget.peopleId] ?? widget.isFollowing));
     final isRequested = ref.watch(followNotifierProvider.select((state) =>
     state.userFollowStatus[widget.peopleId] ?? widget.isRequested));
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+
 
     return Scaffold(
       extendBody: true,
@@ -420,7 +435,13 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                             Positioned(
                               top: 8,
                               right: 8,
-                              child: Image.asset(Assets.save),
+                              child: GestureDetector(
+                                  onTap: () => postFeedNotifier.saveUnsavePost(() {}, postList.id ?? ""),
+                                  child: SaveButtonWidget(
+                                    isSavePost: postFeedState.isSavePost,
+                                    isSaved: postList.isSave,
+                                  ),
+                              ),
                             )
                           ],
                         ),
