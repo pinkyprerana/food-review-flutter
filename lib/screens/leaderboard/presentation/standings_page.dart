@@ -159,7 +159,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                         PeopleProfileRoute(
                                           peoplename: user.fullName ?? '',
                                           peopleimage: profileImage ?? '',
-                                          peopleId: "",
+                                          peopleId: user.id ?? '',
                                           isFollow: false,
                                           isRequested: false,
                                           isFollowing: false,
