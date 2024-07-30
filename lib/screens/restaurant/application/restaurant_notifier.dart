@@ -10,7 +10,7 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -78,7 +78,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.restaurantList}',
+        '${AppUrls.baseUrl}${AppUrls.restaurantList}',
         data: data,
       );
 
@@ -128,7 +128,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.restaurantList}',
+        '${AppUrls.baseUrl}${AppUrls.restaurantList}',
         data: data,
       );
 
@@ -169,7 +169,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}', body: {
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
         "lat": getLatitude,
         "lng": getLongitude,
         'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
@@ -238,7 +238,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.postListPerRestaurant}',
+        '${AppUrls.baseUrl}${AppUrls.postListPerRestaurant}',
         data: data,
       );
 

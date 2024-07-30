@@ -68,6 +68,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     contactPhoneController.text = state.fetchedUser?.phone ?? '';
   }
 
+  void populateBio() {
+    bioController.text = state.fetchedUser?.bio ?? '';
+  }
+
   void loadMoreActivities() async {
     if (state.currentPage > state.totalPages) {
       showToastMessage('No new activities are available');
@@ -112,7 +116,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       };
       _dio.options.headers.addAll(headers);
 
-      final response = await _dio.get('${AppUrls.BASE_URL}${AppUrls.profile}');
+      final response = await _dio.get('${AppUrls.baseUrl}${AppUrls.profile}');
 
       if (response.statusCode == 200 && response.data != null) {
         fetchedUser = ProfileDetails.fromJson(response.data!['data']);
@@ -171,7 +175,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
         data: formData,
       );
 
@@ -181,6 +185,60 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           profileImgPath:
               '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}',
           profileImage: fileName,
+        );
+        await getUserDetails();
+      } else {
+        showToastMessage('Please upload a media');
+
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+
+      showToastMessage('Something, went wrong, please try again');
+    }
+  }
+
+  Future<void> uploadBannerImage(BuildContext context) async {
+    try {
+      XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+
+      if (pickedFile == null) {
+        return;
+      }
+
+      state = state.copyWith(isLoading: true);
+
+      final filePicked = File(pickedFile.path);
+
+      // String fileName = filePicked.path.split('/').last;
+
+      final FormData formData = FormData.fromMap({
+        "banner_image": await MultipartFile.fromFile(filePicked.path),
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        state = state.copyWith(
+          isLoading: false,
+          // profileImgPath:
+          //     '${AppUrls.profilePicLocation}/${response.data!['data']['profile_image']}',
+          // profileImage: fileName,
         );
         await getUserDetails();
       } else {
@@ -246,7 +304,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.updatePassword}',
+          '${AppUrls.baseUrl}${AppUrls.updatePassword}',
           data: formData,
         );
 
@@ -298,7 +356,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+          '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
           data: formData,
         );
 
@@ -321,7 +379,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } catch (error) {
         state = state.copyWith(isBeingSubmitted: false);
         emailAddress.text = '';
-        showToastMessage(error.toString());
+        showToastMessage('Something went wrong. Please try in some time.');
       }
     }
   }
@@ -357,7 +415,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+          '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
           data: formData,
         );
 
@@ -380,14 +438,29 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } catch (error) {
         state = state.copyWith(isBeingSubmitted: false);
         phoneNumber.text = '';
-        showToastMessage(error.toString());
+        showToastMessage('Something went wrong. Please try in some time.');
       }
     }
   }
 
-  Future<void> updateBio(BuildContext context) async {
+  bool validateBio() {
+    if (bioController.text.isEmpty || bioController.text.length < 50) {
+      showToastMessage('Please add min 50 characters about you.');
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> updateBio(VoidCallback? onSuccess) async {
     try {
       state = state.copyWith(isLoading: true);
+
+      bool isBioValid = validateBio();
+
+      if (!isBioValid) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
 
       final FormData formData = FormData.fromMap({
         "bio": bioController.text,
@@ -402,7 +475,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.profileUpdate}',
+        '${AppUrls.baseUrl}${AppUrls.profileUpdate}',
         data: formData,
       );
 
@@ -411,8 +484,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         await getUserDetails();
 
-        if (!context.mounted) return;
-        Navigator.pop(context);
+        if (onSuccess != null) onSuccess.call();
 
         state = state.copyWith(isLoading: false);
       } else {
@@ -421,7 +493,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -470,7 +542,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         _dio.options.headers.addAll(headers);
 
         final response = await _dio.post<Map<String, dynamic>>(
-          '${AppUrls.BASE_URL}${AppUrls.contact}',
+          '${AppUrls.baseUrl}${AppUrls.contact}',
           data: formData,
         );
 
@@ -490,7 +562,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       } catch (error) {
         state = state.copyWith(isLoading: false);
         contactMessageController.text = '';
-        showToastMessage(error.toString());
+        showToastMessage('Something went wrong. Please try in some time.');
       }
     }
   }
@@ -519,7 +591,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.userActivities}',
+        '${AppUrls.baseUrl}${AppUrls.userActivities}',
         data: formData,
       );
 
@@ -561,7 +633,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       contactMessageController.text = '';
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -590,7 +662,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         data: formData,
       );
 
@@ -630,7 +702,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       contactMessageController.text = '';
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -659,7 +731,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+        '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         data: formData,
       );
 
@@ -699,7 +771,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (error) {
       state = state.copyWith(isLoading: false);
       contactMessageController.text = '';
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -716,7 +788,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.get(
-        "${AppUrls.BASE_URL}${AppUrls.deactivateAccount}",
+        "${AppUrls.baseUrl}${AppUrls.deactivateAccount}",
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -731,7 +803,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -748,7 +820,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.get(
-        "${AppUrls.BASE_URL}${AppUrls.deleteAccount}",
+        "${AppUrls.baseUrl}${AppUrls.deleteAccount}",
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -763,7 +835,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -784,7 +856,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.get<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.logout}',
+        '${AppUrls.baseUrl}${AppUrls.logout}',
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -823,7 +895,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.BASE_URL}${'/post-save/list'}', body: {
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${'/post-save/list'}', body: {
         "lat": getLatitude,
         "lng": getLongitude,
       });
@@ -851,7 +923,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${'/notification/list'}',
+        url: '${AppUrls.baseUrl}${'/notification/list'}',
       );
       state = state.copyWith(isLoading: false);
 

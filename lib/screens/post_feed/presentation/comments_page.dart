@@ -6,7 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/comment_item.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import '../../../core/constants/app_urls.dart';

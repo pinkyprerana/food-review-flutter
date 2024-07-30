@@ -8,7 +8,7 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
-import 'createPost_state.dart';
+import 'create_post_state.dart';
 
 class CreatePostNotifier extends StateNotifier<CreatePostState> {
   CreatePostNotifier(this._dio, this._networkApiService) : super(const CreatePostState());
@@ -76,7 +76,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
       });
 
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${AppUrls.addPost}',
+        url: '${AppUrls.baseUrl}${AppUrls.addPost}',
         body: formData,
       );
 

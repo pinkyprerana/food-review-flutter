@@ -12,6 +12,7 @@ import 'package:for_the_table/screens/profile/presentation/widgets/recent_activi
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_contianer2.dart';
 import 'package:for_the_table/widgets/app_button.dart';
+import 'package:intl/intl.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -127,7 +128,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       ),
                                       5.verticalSpace,
                                       Text(
-                                        'Joined May 23, 2024',
+                                        'Joined ${DateFormat('MMMM dd, yyyy').format(
+                                          DateTime.parse(
+                                              state.fetchedUser?.createdAt.toString() ?? ''),
+                                        )}',
                                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           fontSize: 10.sp,
                                           color: AppColors.colorText3,

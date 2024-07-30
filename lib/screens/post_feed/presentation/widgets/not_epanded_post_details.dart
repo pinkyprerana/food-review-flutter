@@ -7,7 +7,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
@@ -65,7 +65,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: name??"", //'Ahmad Gouse',
+                      peoplename: name ?? "", //'Ahmad Gouse',
                       peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
                       peopleId: peopleId??"",
                     isFollow: true,
@@ -91,7 +91,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     ),
                     8.horizontalSpace,
                     Text(
-                      name??"", //'Ahmad Gouse',
+                      name ?? "", //'Ahmad Gouse',
                       style: AppTextStyles.textStylePoppinsMedium
                           .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
@@ -136,7 +136,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         ),
                         child: Center(
                           child: Text(
-                            cuisine??"", //'Chinese Cuisine',
+                            cuisine ?? "", //'Chinese Cuisine',
                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: const Color(0xff6BCE7B).withOpacity(0.85),
                               fontSize: 10.sp,
@@ -183,8 +183,10 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               Column(
                 children: [
                   GestureDetector(
-                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId??""),
-                      child: (isLiked??false) ? Image.asset(Assets.redHeart) : Image.asset(Assets.like)),
+                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                      child: (isLiked ?? false)
+                          ? Image.asset(Assets.redHeart)
+                          : Image.asset(Assets.like)),
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(CommentsRoute(
@@ -207,8 +209,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId??""),
-                      child: (isSaved??false)
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      child: (isSaved ?? false)
                           ? Image.asset(
                               Assets.saved,
                               scale: 2,
@@ -223,7 +225,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              description??"", //'A memorable evening to be remembered.',
+              description ?? "", //'A memorable evening to be remembered.',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.textStylePoppinsMedium.copyWith(

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 
 import '../../screens/auth/presentation/forget_password_page.dart';

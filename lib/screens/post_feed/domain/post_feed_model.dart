@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'postFeed_model.freezed.dart';
-part 'postFeed_model.g.dart';
+part 'post_feed_model.freezed.dart';
+part 'post_feed_model.g.dart';
 
 @freezed
 class PostModel with _$PostModel {

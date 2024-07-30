@@ -1,4 +1,4 @@
-import 'package:for_the_table/screens/post_feed/domain/postFeed_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'post_feed_state.freezed.dart';

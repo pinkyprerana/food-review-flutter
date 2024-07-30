@@ -1,5 +1,5 @@
 class AppUrls {
-  static const BASE_URL = 'https://forthetable.dedicateddevelopers.us/api';
+  static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
   static const postImageLocation = 'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   static const signup = '/user/signup';
@@ -28,6 +28,12 @@ class AppUrls {
   static const acceptOrRejectRequest = '/user/follow/status/update';
   static const deleteAccount = '/user/delete';
   static const deactivateAccount = '/user/deactivate';
+
+  // Leaderboard
+  static const getLeaderboardList = '/user/leaderboard/list';
+
+  // Pic Locations
+  static const bannerLocation = 'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
 
   // Restaurant
   static const postListPerRestaurant = '/post/list';

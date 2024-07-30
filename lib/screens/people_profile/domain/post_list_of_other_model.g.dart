@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'postListOfOther_model.dart';
+part of 'post_list_of_other_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

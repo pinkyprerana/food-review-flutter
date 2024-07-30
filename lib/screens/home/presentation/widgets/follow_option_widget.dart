@@ -32,7 +32,7 @@ class FollowOptionWidget extends ConsumerStatefulWidget {
 
 class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
   void _handleFollowUnfollowButtonPressed(userId) {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
@@ -90,7 +90,7 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15).r,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: widget.isFollow ? AppColors.colorWhite: widget.isRequested ?AppColors.colorGrey2: AppColors.colorNavy,
+                color: widget.isFollowing ? AppColors.colorWhite: widget.isRequested ?AppColors.colorGrey2: AppColors.colorNavy,
                 border: Border.all(
                   color: AppColors.colorSmallProfileContainerBorder,
                   width: 1,
@@ -98,10 +98,10 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
               ),
               child: Center(
                 child: Text(
-                  widget.isFollow ? 'FOLLOWING': widget.isRequested ? 'REQUESTED' : 'FOLLOW',
+                  widget.isFollowing ? 'FOLLOWING': widget.isRequested ? 'REQUESTED' : 'FOLLOW',
                   style: AppTextStyles.textStylePoppinsBold.copyWith(
                     fontSize: 10.sp,
-                    color: widget.isFollow ? AppColors.colorBlack: widget.isRequested ?AppColors.colorBlack: AppColors.colorWhite,
+                    color: widget.isFollowing ? AppColors.colorBlack: widget.isRequested ?AppColors.colorBlack: AppColors.colorWhite,
                   ),
                 ),
               ),

@@ -25,12 +25,12 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
 
   const PeopleProfilePage(
       {super.key,
-      required this.peoplename,
-      required this.peopleimage,
-      required this.peopleId,
-      required this.isFollow,
-      required this.isRequested,
-      required this.isFollowing
+        required this.peoplename,
+        required this.peopleimage,
+        required this.peopleId,
+        required this.isFollow,
+        required this.isRequested,
+        required this.isFollowing
       });
 
   @override
@@ -42,38 +42,38 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final notifier = ref.read(FollowNotifierProvider.notifier);
+      final notifier = ref.read(followNotifierProvider.notifier);
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
   }
   void handleFollowButtonPressed(userId) {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     followNotifier.followUnfollow(() async {
-      final followNotifier = ref.read(FollowNotifierProvider.notifier);
+      final followNotifier = ref.read(followNotifierProvider.notifier);
       AppLog.log("Updated follow state: $followNotifier");
     }, userId);
     // setState(() {
-      AutoRouter.of(context).push(PeopleProfileRoute(
-          peoplename: widget.peoplename,
-          peopleimage: widget.peopleimage,
-          peopleId: widget.peopleId,
-          isFollow: widget.isFollow,
-          isRequested: widget.isRequested,
-          isFollowing: widget.isFollowing
-        )
-       );
+    AutoRouter.of(context).push(PeopleProfileRoute(
+        peoplename: widget.peoplename,
+        peopleimage: widget.peopleimage,
+        peopleId: widget.peopleId,
+        isFollow: widget.isFollow,
+        isRequested: widget.isRequested,
+        isFollowing: widget.isFollowing
+    )
+    );
     // });
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
   }
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(FollowNotifierProvider);
+    final state = ref.watch(followNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
     AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
-    final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
+    final isFollowing = ref.watch(followNotifierProvider.select((state) =>
     state.userFollowStatus[widget.peopleId] ?? widget.isFollowing));
-    final isRequested = ref.watch(FollowNotifierProvider.select((state) =>
+    final isRequested = ref.watch(followNotifierProvider.select((state) =>
     state.userFollowStatus[widget.peopleId] ?? widget.isRequested));
 
     return Scaffold(
@@ -194,8 +194,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   20.horizontalSpace,
                                   SmallProfileContainer(
                                       widget: Center(
-                                    child: Image.asset(Assets.share),
-                                  )),
+                                        child: Image.asset(Assets.share),
+                                      )),
                                 ],
                               ),
                               10.verticalSpace,
@@ -214,7 +214,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                                   Text(
                                                     '1.2M',
                                                     style:
-                                                        AppTextStyles.textStylePoppinsBold.copyWith(
+                                                    AppTextStyles.textStylePoppinsBold.copyWith(
                                                       fontSize: 14.sp,
                                                       color: AppColors.colorPrimary,
                                                     ),
@@ -254,7 +254,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                               Text(
                                                 'Following',
                                                 style:
-                                                    AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                AppTextStyles.textStylePoppinsRegular.copyWith(
                                                   fontSize: 10.sp,
                                                   color: AppColors.colorText3,
                                                 ),
@@ -271,61 +271,61 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                               10.verticalSpace,
                               isFollowing
                                   ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: SmallProfileContainer(
-                                            widget: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '300',
-                                                  style:
-                                                      AppTextStyles.textStylePoppinsBold.copyWith(
-                                                    fontSize: 14.sp,
-                                                    color: AppColors.colorPrimary,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Reviewed Restaurant',
-                                                  style: AppTextStyles.textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors.colorText3,
-                                                  ),
-                                                ),
-                                              ],
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: SmallProfileContainer(
+                                      widget: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '300',
+                                            style:
+                                            AppTextStyles.textStylePoppinsBold.copyWith(
+                                              fontSize: 14.sp,
+                                              color: AppColors.colorPrimary,
                                             ),
                                           ),
-                                        ),
-                                        10.horizontalSpace,
-                                        Expanded(
-                                          child: SmallProfileContainer(
-                                            widget: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '200',
-                                                  style:
-                                                      AppTextStyles.textStylePoppinsBold.copyWith(
-                                                    fontSize: 14.sp,
-                                                    color: AppColors.colorPrimary,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Saved Restaurant',
-                                                  style: AppTextStyles.textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors.colorText3,
-                                                  ),
-                                                ),
-                                              ],
+                                          Text(
+                                            'Reviewed Restaurant',
+                                            style: AppTextStyles.textStylePoppinsRegular
+                                                .copyWith(
+                                              fontSize: 10.sp,
+                                              color: AppColors.colorText3,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  10.horizontalSpace,
+                                  Expanded(
+                                    child: SmallProfileContainer(
+                                      widget: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '200',
+                                            style:
+                                            AppTextStyles.textStylePoppinsBold.copyWith(
+                                              fontSize: 14.sp,
+                                              color: AppColors.colorPrimary,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Saved Restaurant',
+                                            style: AppTextStyles.textStylePoppinsRegular
+                                                .copyWith(
+                                              fontSize: 10.sp,
+                                              color: AppColors.colorText3,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                                   : const SizedBox(),
                             ],
                           ),
@@ -344,8 +344,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: (widget.peopleimage !=
-                                                  'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/' &&
-                                              widget.peopleimage != '')
+                                          'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/' &&
+                                          widget.peopleimage != '')
                                           ? CachedNetworkImageProvider(widget.peopleimage)
                                           : const AssetImage(Assets.noProfileImage),
                                       fit: BoxFit.cover,
@@ -406,57 +406,57 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                 width: double.infinity,
                 child: isFollowing
                     ? postListOfOtherUser.isNotEmpty
-                        ? GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 3 / 3,
+                    ? GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 3 / 3,
+                  ),
+                  itemCount: postListOfOtherUser.length,
+                  itemBuilder: (context, index) {
+                    final postList = postListOfOtherUser[index];
+                    AppLog.log("postList:--->>> $postList");
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        margin: const EdgeInsets.all(2),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(
+                              '${AppUrls.postImageLocation}${postList.file}',
+                              fit: BoxFit.cover,
                             ),
-                            itemCount: postListOfOtherUser.length,
-                            itemBuilder: (context, index) {
-                              final postList = postListOfOtherUser[index];
-                              AppLog.log("postList:--->>> $postList");
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                  margin: const EdgeInsets.all(2),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      Image.network(
-                                        '${AppUrls.postImageLocation}${postList.file}',
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        top: 8,
-                                        right: 8,
-                                        child: Image.asset(Assets.save),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        : Align(
-                            alignment: Alignment.topCenter,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                GradientIcon(
-                                  icon: Icons.no_photography_outlined,
-                                  size: 50.h,
-                                ),
-                                Text(
-                                  'No post available',
-                                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                    fontSize: 12.sp,
-                                    color: AppColors.colorPrimaryAlpha,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Image.asset(Assets.save),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+                    : Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GradientIcon(
+                        icon: Icons.no_photography_outlined,
+                        size: 50.h,
+                      ),
+                      Text(
+                        'No post available',
+                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 12.sp,
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
                     : Image.asset(Assets.blurred),
               ),
               20.verticalSpace,

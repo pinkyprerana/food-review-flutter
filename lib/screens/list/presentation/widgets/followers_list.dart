@@ -23,7 +23,7 @@ class FollowersList extends ConsumerStatefulWidget {
 
 class _FollowersListState extends ConsumerState<FollowersList> {
   void handleFollowButtonPressed(userId) {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
@@ -111,9 +111,9 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                           final users = allUsersList[index];
                           final profileImage =
                               '${AppUrls.profilePicLocation}/${users.profileImage}';
-                          final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
+                          final isFollowing = ref.watch(followNotifierProvider.select((state) =>
                               state.userFollowStatus[users.id] ?? users.isFollowing));
-                          final isRequested = ref.watch(FollowNotifierProvider.select((state) =>
+                          final isRequested = ref.watch(followNotifierProvider.select((state) =>
                           state.userFollowStatus[users.id] ?? users.isFollowingRequest));
 
                           return GestureDetector(
