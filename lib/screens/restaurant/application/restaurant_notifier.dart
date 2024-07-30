@@ -295,7 +295,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   Future<void> saveRestaurant(String restaurantID) async {
     AppLog.log('restaurantID------------->>>> $restaurantID');
     try {
-      state = state.copyWith(isLoading: true);
+      state = state.copyWith(isLoadingSaveRestaurant: true);
 
       final data = {
         "restaurant_id": restaurantID,
@@ -320,18 +320,18 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
-        state = state.copyWith(isLoading: false);
+        state = state.copyWith(isLoadingSaveRestaurant: false);
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
-        state = state.copyWith(isLoading: false);
+        state = state.copyWith(isLoadingSaveRestaurant: false);
       }
     } on DioException catch (e) {
       final error = DioExceptions.fromDioError(e).message;
       showToastMessage(error, errorMessage: 'Failed to save/unsave restaurant');
 
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoadingSaveRestaurant: false);
     }
   }
 
@@ -367,8 +367,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         // AppLog.log(
         //     'Restaurant-details variable ------->>>${reastaurantDetials.toString()}');
 
-        final message = response.data?['message'] as String?;
-        showToastMessage(message ?? '');
+        // final message = response.data?['message'] as String?;
+        // showToastMessage(message ?? '');
 
         state = state.copyWith(isLoadingForRestaurantDetails: false);
       } else {

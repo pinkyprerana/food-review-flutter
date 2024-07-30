@@ -25,16 +25,25 @@ class _SaveIconState extends State<SaveIcon> {
     AppLog.log('_isSaved---------->> $_isSaved');
     AppLog.log('widget.isBookmarked---------->> ${widget.isBookmarked}');
     return GestureDetector(
-      onTap: () {
-        widget.onTap.call();
-        setState(() {
-          _isSaved = !_isSaved;
-        });
-      },
-      child: Image.asset(
-        Assets.bookmark,
-        color: (_isSaved) ? Colors.amber : AppColors.colorPrimary,
-      ),
-    );
+        onTap: () {
+          widget.onTap.call();
+          setState(() {
+            _isSaved = !_isSaved;
+          });
+        },
+        child: (_isSaved)
+            ? const Icon(
+                Icons.bookmark,
+                color: Colors.amber,
+              )
+            : const Icon(
+                Icons.bookmark_border_outlined,
+                color: AppColors.colorPrimary,
+              )
+        // : Image.asset(
+        //     Assets.bookmark,
+        //     color: AppColors.colorPrimary,
+        //   ),
+        );
   }
 }

@@ -24,6 +24,7 @@ class RestaurantState with _$RestaurantState {
     @Default(0) int totalPagesPosts,
     @Default(false) bool isLoadingForRestaurantDetails,
     @Default(0) int totalNumberOfRestaurants,
+    @Default(false) bool isLoadingSaveRestaurant,
   }) = _RestaurantState;
   const RestaurantState._();
 }
