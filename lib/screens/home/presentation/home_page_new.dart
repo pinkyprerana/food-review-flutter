@@ -34,10 +34,11 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      followNotifier.setAllUsersListToZero();
       Future.wait([
-       followNotifier.getAllUsersList(),
-       stateNotifier.getHomeRestaurants(),
-       postFeedNotifier.getPostFeed(),
+        followNotifier.getAllUsersList(),
+        stateNotifier.getHomeRestaurants(),
+        postFeedNotifier.getPostFeed(),
       ]);
     });
   }
@@ -148,22 +149,20 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               return GestureDetector(
                                 onTap: () {
                                   AutoRouter.of(context).push(PeopleProfileRoute(
-                                    peoplename: followers.fullName.toString(),
-                                    peopleimage: profileImage.toString(),
-                                    peopleId: followers.id ?? '',
-                                    isFollow: followers.isFollowerRequest ?? false,
-                                    isRequested: followers.isFollowingRequest ??false,
-                                    isFollowing: followers.isFollowing??false
-                                  ));
+                                      peoplename: followers.fullName.toString(),
+                                      peopleimage: profileImage.toString(),
+                                      peopleId: followers.id ?? '',
+                                      isFollow: followers.isFollowerRequest ?? false,
+                                      isRequested: followers.isFollowingRequest ?? false,
+                                      isFollowing: followers.isFollowing ?? false));
                                 },
                                 child: FollowOptionWidget(
-                                  followersId: followers.id ?? '',
-                                  imgpath: profileImage,
-                                  name: followers.fullName.toString(),
-                                  isFollow: followers.isFollowerRequest ?? false,
-                                  isRequested: followers.isFollowingRequest ??false,
-                                    isFollowing: followers.isFollowing??false
-                                ),
+                                    followersId: followers.id ?? '',
+                                    imgpath: profileImage,
+                                    name: followers.fullName.toString(),
+                                    isFollow: followers.isFollowerRequest ?? false,
+                                    isRequested: followers.isFollowingRequest ?? false,
+                                    isFollowing: followers.isFollowing ?? false),
                               );
                             })
                         : Center(
@@ -314,7 +313,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               padding: const EdgeInsets.all(0),
                               itemBuilder: (context, index) {
                                 final postList = postFeedList[index];
-                                final commentInfoList = postList.commentInfo??[];
+                                final commentInfoList = postList.commentInfo ?? [];
                                 return PostWidget(
                                     isSaving: postFeedState.isSavePost,
                                     postList: postList,

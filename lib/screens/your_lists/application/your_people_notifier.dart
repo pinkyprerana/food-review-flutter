@@ -80,6 +80,10 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     state = state.copyWith(selectedIndex: index);
   }
 
+  void setAllUsersListToZero() {
+    state = state.copyWith(allUsersListLength: 0);
+  }
+
   Future<void> getAllUsersList({bool isLoadMore = false, bool isFollowState = false}) async {
     try {
       state = state.copyWith(isLoading: !isLoadMore && !isFollowState);
