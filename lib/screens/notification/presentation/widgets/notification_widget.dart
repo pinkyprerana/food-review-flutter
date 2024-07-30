@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import '../../../../core/constants/assets.dart';
 
 class NotificationWidget extends StatelessWidget {
   const NotificationWidget(
@@ -22,15 +24,32 @@ class NotificationWidget extends StatelessWidget {
           side: const BorderSide(color: AppColors.colorGrey, width: 1),
           borderRadius: BorderRadius.circular(15),
         ),
-        leading: Container(
+        leading: SizedBox(
           width: 50.w,
           height: 47.h,
-          decoration: BoxDecoration(
+          child:  CachedNetworkImage(
+            imageUrl: imgpath,
+            placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary,),
+            errorWidget: (context, url, error) => ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: AssetImage(imgpath),
+              child: Image.asset(
+                Assets.avatar,
+                scale: 1,
                 fit: BoxFit.cover,
-              )),
+              ),
+            ),
+            imageBuilder: (context, imageProvider) => Container(
+              width: 50.w,
+              height: 47.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
         ),
         title: Text(
           title,
@@ -48,17 +67,6 @@ class NotificationWidget extends StatelessWidget {
             color: AppColors.colorPrimaryAlpha,
           ),
         ),
-        // trailing: Column(
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: [
-        //     Row(
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: [
-        //         Icon(Icons.construction),
-        //       ],
-        //     ),
-        //   ],
-        // ),
       ),
     );
   }

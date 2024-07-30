@@ -25,8 +25,8 @@ class _FollowersListState extends ConsumerState<FollowersList> {
   @override
   Widget build(BuildContext context) {
     final followState = ref.watch(yourPeopleNotifierProvider);
-    final followerList = followState.followerList;
-    final stateNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final allUsersList = followState.allUsersList;
+    final stateNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -45,13 +45,13 @@ class _FollowersListState extends ConsumerState<FollowersList> {
           height: 0.55.sh,
           child: SmartRefresher(
             controller: followState.selectedIndex == 0
-                ? stateNotifier.followersRefreshController
-                : stateNotifier.followingRefreshController,
+                ? stateNotifier.allUsersRefreshController
+                : stateNotifier.allUsersRefreshController,
             enablePullDown: false,
             enablePullUp: true,
             onLoading: followState.selectedIndex == 0
-                ? stateNotifier.loadMoreFollowers
-                : stateNotifier.loadMoreFollowings,
+                ? stateNotifier.loadMoreUsers
+                : stateNotifier.loadMoreUsers,
             footer: CustomFooter(
               builder: (BuildContext context, mode) {
                 Widget body;
@@ -81,124 +81,139 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                 );
               },
             ),
-            child: followState.isLoading || followerList.isEmpty
+            child: followState.isLoading
                 ? const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.colorPrimary,
-              ),
-            )
-                : followerList.isNotEmpty
-                ? GridView.builder(
-              physics: const ClampingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.w,
-                mainAxisSpacing: 10.h,
-                childAspectRatio: 1,
-              ),
-              itemCount: followerList.length, //6,
-              itemBuilder: (context, index) {
-                if (index < 0 || index >= followerList.length) {
-                  return const SizedBox.shrink();
-                }
-                final followers = followerList[index];
-                final profileImage = '${AppUrls.profilePicLocation}/${followers.profileImage}';
-                final isFollowing = ref.watch(FollowNotifierProvider.select((state) =>
-                    state.userFollowStatus[followers.id] ?? followers.isFollowingRequest));
+                    child: CircularProgressIndicator(
+                      color: AppColors.colorPrimary,
+                    ),
+                  )
+                : allUsersList.isNotEmpty
+                    ? GridView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.w,
+                          mainAxisSpacing: 10.h,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: allUsersList.length, //6,
+                        itemBuilder: (context, index) {
+                          if (index < 0 || index >= allUsersList.length) {
+                            return const SizedBox.shrink();
+                          }
+                          final users = allUsersList[index];
+                          final profileImage =
+                              '${AppUrls.profilePicLocation}/${users.profileImage}';
+                          final isFollowing = ref.watch(followNotifierProvider.select((state) =>
+                              state.userFollowStatus[users.id] ?? users.isFollowingRequest));
 
-                return GestureDetector(
-                  onTap: () => AutoRouter.of(context).push(
-                    PeopleProfileRoute(
-                      peoplename: followers.fullName.toString(),
-                      peopleimage: profileImage,
-                      peopleId: followers.id ?? '',
-                      isFollow: followers.isFollowingRequest ?? false,
-                    ),
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0).r,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: AppColors.colorGrey3),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 24.w,
-                          height: 24.h,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: CachedNetworkImage(
-                              imageUrl: profileImage,
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => Image.asset(
-                                Assets.avatar,
-                                scale: 1,
-                                fit: BoxFit.cover,
+                          return GestureDetector(
+                            onTap: () => AutoRouter.of(context).push(
+                              PeopleProfileRoute(
+                                peoplename: users.fullName.toString(),
+                                peopleimage: profileImage,
+                                peopleId: users.id ?? '',
+                                isFollow: users.isFollowingRequest ?? false,
                               ),
-                              imageBuilder: (context, imageProvider) => Container(
-                                width: 49.w,
-                                height: 49.h,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0).r,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(color: AppColors.colorGrey3),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 24.w,
+                                    height: 24.w,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: profileImage == '${AppUrls.profilePicLocation}/'
+                                          ? Container(
+                                              width: 49.w,
+                                              height: 49.w,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: AssetImage(Assets.noProfileImage),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl: profileImage,
+                                              placeholder: (context, url) =>
+                                                  const CircularProgressIndicator(),
+                                              errorWidget: (context, url, error) => Image.asset(
+                                                Assets.avatar,
+                                                scale: 1,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                width: 49.w,
+                                                height: 49.w,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(height: 10.h),
+                                  Text(
+                                    users.fullName.toString(),
+                                    //followers[index]['name']!,
+                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                      color: AppColors.colorPrimary,
+                                      fontSize: 13.sp,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    'Joined May 29, 2024',
+                                    style: AppTextStyles.textStylePoppinsLight.copyWith(
+                                      color: AppColors.colorPrimaryAlpha,
+                                      fontSize: 8.sp,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  10.verticalSpace,
+                                  AppButton(
+                                    height: 21.h,
+                                    width: 64.w,
+                                    radius: 8,
+                                    color: (isFollowing ?? false)
+                                        ? AppColors.colorGrey2
+                                        : AppColors.colorNavy,
+                                    child: Text(
+                                      // 'Follow',
+                                      (isFollowing ?? false) ? 'Requested' : 'Follow',
+                                      style: AppTextStyles.textStylePoppinsBold.copyWith(
+                                        color: (isFollowing ?? false)
+                                            ? AppColors.colorBlack
+                                            : AppColors.colorGrey2,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          'You have no follower.',
+                          style: AppTextStyles.textStylePoppins,
                         ),
-                        SizedBox(height: 10.h),
-                        Text(
-                          followers.fullName.toString(),
-                          //followers[index]['name']!,
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            color: AppColors.colorPrimary,
-                            fontSize: 13.sp,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          'Joined May 29, 2024',
-                          style: AppTextStyles.textStylePoppinsLight.copyWith(
-                            color: AppColors.colorPrimaryAlpha,
-                            fontSize: 8.sp,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        10.verticalSpace,
-                        AppButton(
-                          height: 21.h,
-                          width: 64.w,
-                          radius: 8,
-                          color:
-                              (isFollowing ?? false) ? AppColors.colorGrey2 : AppColors.colorNavy,
-                          child: Text(
-                            // 'Follow',
-                            (isFollowing ?? false) ? 'Unfollow' : 'Follow',
-                            style: AppTextStyles.textStylePoppinsBold.copyWith(
-                              color: (isFollowing ?? false)
-                                  ? AppColors.colorBlack
-                                  : AppColors.colorGrey2,
-                              fontSize: 10.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )
-            : Center(
-              child: Text(
-                'No follower found',
-                style: AppTextStyles.textStylePoppins,
-              ),
-            ),
+                      ),
           ),
         ),
       ],

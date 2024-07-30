@@ -27,8 +27,7 @@ class _FaqsPageState extends State<FaqsPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -37,8 +36,7 @@ class _FaqsPageState extends State<FaqsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -58,13 +56,13 @@ class _FaqsPageState extends State<FaqsPage> {
             children: [
               const CustomSearchField(),
               20.verticalSpace,
-              FaqOption(),
+              const FaqOption(),
               10.verticalSpace,
-              FaqOption(),
+              const FaqOption(),
               10.verticalSpace,
-              FaqOption(),
+              const FaqOption(),
               10.verticalSpace,
-              FaqOption(),
+              const FaqOption(),
             ],
           ),
         ),

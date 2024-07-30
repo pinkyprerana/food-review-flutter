@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/screens/profile/application/profile_notifier.dart';
+import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_notifier.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
 import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
@@ -46,150 +48,151 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _selectedIndex = ref.watch(yourPeopleNotifierProvider).selectedIndex;
+    final selectedIndex = ref.watch(yourPeopleNotifierProvider).selectedIndex;
     final stateNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final followState = ref.watch(yourPeopleNotifierProvider);
     final followList = followState.followingList;
     final followerList = followState.followerList;
     final requestList = followState.followRequestsList; //requestList
+    final profileNotifier = ref.watch(profileNotifierProvider.notifier);
 
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: false,
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          leading: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.colorPrimary.withOpacity(0.20),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  5.horizontalSpace, //this is for centering the icon
-                  Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
-                ],
-              ),
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: false,
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.colorPrimary.withOpacity(0.20),
             ),
-          ),
-          title: Text(
-            'Your Follow List',
-            style: AppTextStyles.textStylePoppinsBold.copyWith(
-              color: AppColors.colorPrimary,
-              fontSize: 16.sp,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                5.horizontalSpace, //this is for centering the icon
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
+              ],
             ),
           ),
         ),
-        body: SmartRefresher(
-          controller: followState.selectedIndex == 0
-              ? stateNotifier.followersRefreshController
-              : followState.selectedIndex == 1
-                  ? stateNotifier.followingRefreshController
-                  : stateNotifier.requestRefreshController,
-          enablePullDown: false,
-          enablePullUp: true,
-          onLoading: followState.selectedIndex == 0
-              ? stateNotifier.loadMoreFollowers
-              : followState.selectedIndex == 1
-                  ? stateNotifier.loadMoreFollowings
-                  : stateNotifier.loadMoreRequests,
-          footer: CustomFooter(
-            builder: (BuildContext context, mode) {
-              Widget body;
-              if (mode == LoadStatus.idle) {
-                body = const SizedBox.shrink();
-              } else if (mode == LoadStatus.loading) {
-                body = const CupertinoActivityIndicator();
-              } else if (mode == LoadStatus.failed) {
-                body = Text(
-                  "Load Failed! Click retry!",
-                  style: AppTextStyles.textStylePoppinsLight,
-                );
-              } else if (mode == LoadStatus.canLoading) {
-                body = Text(
-                  "release to load more",
-                  style: AppTextStyles.textStylePoppinsLight,
-                );
-              } else {
-                body = Text(
-                  "No more Data",
-                  style: AppTextStyles.textStylePoppinsLight,
-                );
-              }
-              return SizedBox(
-                height: 55.0,
-                child: Center(child: body),
-              );
-            },
+        title: Text(
+          'Your Follow List',
+          style: AppTextStyles.textStylePoppinsBold.copyWith(
+            color: AppColors.colorPrimary,
+            fontSize: 16.sp,
           ),
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomSearchField(
-                    hint: 'Search',
-                    controller: stateNotifier.searchController,
-                    onChanged: (_) => stateNotifier.searchUser(),
-                  ),
-                  16.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: List.generate(
-                      3,
-                      (index) => Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: FilterButton(
-                          text: index == 0
-                              ? 'Followers'
+        ),
+      ),
+      body: SmartRefresher(
+        controller: followState.selectedIndex == 0
+            ? stateNotifier.followersRefreshController
+            : followState.selectedIndex == 1
+                ? stateNotifier.followingRefreshController
+                : stateNotifier.requestRefreshController,
+        enablePullDown: false,
+        enablePullUp: true,
+        onLoading: followState.selectedIndex == 0
+            ? stateNotifier.loadMoreFollowers
+            : followState.selectedIndex == 1
+                ? stateNotifier.loadMoreFollowings
+                : stateNotifier.loadMoreRequests,
+        footer: CustomFooter(
+          builder: (BuildContext context, mode) {
+            Widget body;
+            if (mode == LoadStatus.idle) {
+              body = const SizedBox.shrink();
+            } else if (mode == LoadStatus.loading) {
+              body = const CupertinoActivityIndicator();
+            } else if (mode == LoadStatus.failed) {
+              body = Text(
+                "Load Failed! Click retry!",
+                style: AppTextStyles.textStylePoppinsLight,
+              );
+            } else if (mode == LoadStatus.canLoading) {
+              body = Text(
+                "release to load more",
+                style: AppTextStyles.textStylePoppinsLight,
+              );
+            } else {
+              body = Text(
+                "No more Data",
+                style: AppTextStyles.textStylePoppinsLight,
+              );
+            }
+            return SizedBox(
+              height: 55.0,
+              child: Center(child: body),
+            );
+          },
+        ),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomSearchField(
+                  hint: 'Search',
+                  controller: stateNotifier.searchController,
+                  onChanged: (_) => stateNotifier.searchUser(),
+                ),
+                16.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: List.generate(
+                    3,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: FilterButton(
+                        text: index == 0
+                            ? 'Followers'
+                            : index == 1
+                                ? 'Following'
+                                : 'Requests',
+                        isSelected: selectedIndex == index,
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          stateNotifier.clearSearch();
+                          stateNotifier.updateSelectedIndex(index);
+                          index == 0
+                              ? stateNotifier.getAllFollowerList()
                               : index == 1
-                                  ? 'Following'
-                                  : 'Requests',
-                          isSelected: _selectedIndex == index,
-                          onPressed: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            stateNotifier.clearSearch();
-                            stateNotifier.updateSelectedIndex(index);
-                            index == 0
-                                ? stateNotifier.getAllFollowerList()
-                                : index == 1
-                                    ? stateNotifier.getAllFollowingList()
-                                    : stateNotifier.getAllRequestList();
-                          },
-                        ),
+                                  ? stateNotifier.getAllFollowingList()
+                                  : stateNotifier.getAllRequestList();
+                        },
                       ),
-                    ).toList(),
-                  ),
-                  16.verticalSpace,
-                  _selectedIndex == 0
-                      ? _followersList(
-                          followerList,
-                          followState,
-                          stateNotifier,
-                        )
-                      : (_selectedIndex == 1
-                          ? _followingList(
-                              followList,
-                              followState,
-                              stateNotifier,
-                            )
-                          : _requestsList(
-                              requestList,
-                              followState,
-                              stateNotifier,
-                            )),
-                ],
-              ),
+                    ),
+                  ).toList(),
+                ),
+                16.verticalSpace,
+                selectedIndex == 0
+                    ? _followersList(
+                        followerList,
+                        followState,
+                        stateNotifier,
+                        profileNotifier,
+                      )
+                    : (selectedIndex == 1
+                        ? _followingList(
+                            followList,
+                            followState,
+                            stateNotifier,
+                            profileNotifier,
+                          )
+                        : _requestsList(
+                            requestList,
+                            followState,
+                            stateNotifier,
+                            profileNotifier,
+                          )),
+              ],
             ),
           ),
         ),
@@ -201,6 +204,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     List<Users> followerList,
     YourPeopleState followState,
     YourPeopleNotifier stateNotifier,
+    ProfileNotifier profileNotifier,
   ) {
     return followState.followerList.isEmpty
         ? Center(
@@ -254,8 +258,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                             text: (follower.isFollowingRequest ?? false)
                                 ? 'Requested'
                                 : 'Follow', // update here
-                            onPressed: () {
-                              stateNotifier.followFriend(follower.id ?? '');
+                            onPressed: () async {
+                              await stateNotifier.followFriend(follower.id ?? '');
+                              await profileNotifier.getUserDetails();
                             },
                             color: AppColors.colorCommentBoxBorder,
                           ),
@@ -270,6 +275,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     List<Users> followList,
     YourPeopleState followState,
     YourPeopleNotifier stateNotifier,
+    ProfileNotifier profileNotifier,
   ) {
     return followState.followingList.isEmpty
         ? Center(
@@ -321,6 +327,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       text: 'Unfollow',
                       onPressed: () async {
                         await stateNotifier.unfollowFriend(following.id ?? '');
+                        await profileNotifier.getUserDetails();
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),
@@ -335,6 +342,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     List<Users> requestList,
     YourPeopleState followState,
     YourPeopleNotifier stateNotifier,
+    ProfileNotifier profileNotifier,
   ) {
     return followState.followRequestsList.isEmpty
         ? Center(
@@ -386,6 +394,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       text: "Accept Request",
                       onPressed: () async {
                         await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
+                        await profileNotifier.getUserDetails();
                       },
                       color: AppColors.colorCommentBoxBorder,
                     ),

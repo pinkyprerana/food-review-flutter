@@ -9,10 +9,11 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
+import 'package:for_the_table/model/restaurant/restaurant_details_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../post_feed/domain/postFeed_model.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RestaurantNotifier(this._dio, this._hiveDataBase, this._networkApiService)
@@ -22,8 +23,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   final Dio _dio;
   final NetworkApiService _networkApiService;
 
-  int totalNumberOfRestaurants = 0;
-  Restaurant? reastaurantDetials;
+  RestaurantDetailsModel? reastaurantDetials;
 
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
@@ -83,7 +83,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.restaurantList}',
+        '${AppUrls.baseUrl}${AppUrls.restaurantList}',
         data: data,
       );
 
@@ -94,8 +94,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<Restaurant>? restaurantList =
             reastaurantListResponseModel.restaurantList;
 
-        totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
-
         state = state.copyWith(
           isLoading: false,
           restaurantList: [
@@ -103,6 +101,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
             ...restaurantList ?? []
           ],
           totalPages: reastaurantListResponseModel.pages ?? 0,
+          totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
         );
       } else {
         final message = response.data?['message'] as String?;
@@ -139,7 +138,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.restaurantList}',
+        '${AppUrls.baseUrl}${AppUrls.restaurantList}',
         data: data,
       );
 
@@ -150,16 +149,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<Restaurant>? restaurantList =
             reastaurantListResponseModel.restaurantList;
 
-        totalNumberOfRestaurants = reastaurantListResponseModel.total ?? 0;
-
         state = state.copyWith(
-          isLoading: false,
-          homeRestaurantList: restaurantList,
-          // restaurantList: [
-          //   ...state.restaurantList ?? [],
-          //   ...restaurantList ?? []
-          // ],
-        );
+            isLoading: false,
+            homeRestaurantList: restaurantList,
+            totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0
+            // restaurantList: [
+            //   ...state.restaurantList ?? [],
+            //   ...restaurantList ?? []
+            // ],
+            );
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -185,7 +183,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(
-              url: '${AppUrls.BASE_URL}${AppUrls.getPostFeed}',
+              url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
               body: {
             "lat": getLatitude,
             "lng": getLongitude,
@@ -260,7 +258,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.postListPerRestaurant}',
+        '${AppUrls.baseUrl}${AppUrls.postListPerRestaurant}',
         data: data,
       );
 
@@ -312,7 +310,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.saveRestaurant}',
+        '${AppUrls.baseUrl}${AppUrls.saveRestaurant}',
         data: data,
       );
 
@@ -355,7 +353,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       _dio.options.headers.addAll(headers);
 
       final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.BASE_URL}${AppUrls.restaurnatDetails}',
+        '${AppUrls.baseUrl}${AppUrls.restaurnatDetails}',
         data: data,
       );
       if (response.statusCode == 200 && response.data != null) {
@@ -363,7 +361,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         AppLog.log('response.data ======== ${response.data}');
 
-        // reastaurantDetials = Restaurant.fromJson(response.data ?? {});
+        reastaurantDetials =
+            RestaurantDetailsModel.fromJson(response.data ?? {});
 
         // AppLog.log(
         //     'Restaurant-details variable ------->>>${reastaurantDetials.toString()}');

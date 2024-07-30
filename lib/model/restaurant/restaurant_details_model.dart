@@ -10,7 +10,7 @@ class RestaurantDetailsModel with _$RestaurantDetailsModel {
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
     @JsonKey(name: "message") String? message,
-    @JsonKey(name: "data") Data? data,
+    @JsonKey(name: "data") RestaurantDataModel? restaurantDataModel,
   }) = _RestaurantDetailsModel;
 
   factory RestaurantDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -18,8 +18,8 @@ class RestaurantDetailsModel with _$RestaurantDetailsModel {
 }
 
 @freezed
-class Data with _$Data {
-  const factory Data({
+class RestaurantDataModel with _$RestaurantDataModel {
+  const factory RestaurantDataModel({
     @JsonKey(name: "_id") String? id,
     @JsonKey(name: "image") List<String>? image,
     @JsonKey(name: "name") String? name,
@@ -42,9 +42,10 @@ class Data with _$Data {
     @JsonKey(name: "status") String? status,
     @JsonKey(name: "createdAt") DateTime? createdAt,
     @JsonKey(name: "isSave") bool? isSave,
-  }) = _Data;
+  }) = _RestaurantDataModel;
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  factory RestaurantDataModel.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantDataModelFromJson(json);
 }
 
 @freezed

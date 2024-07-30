@@ -6,5 +6,5 @@ import '../application/post_feed_state.dart';
 final postFeedNotifierProvider =
     StateNotifierProvider.autoDispose<PostFeedNotifier, PostFeedState>(
   (ref) => PostFeedNotifier(
-      ref.watch(dioProvider), ref.watch(hiveProvider), ref.watch(networkService)),
+       ref.watch(hiveProvider), ref.watch(networkService)),
 );

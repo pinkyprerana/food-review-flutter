@@ -8,16 +8,14 @@ import '../../../core/utils/toast.dart';
 import '../domain/following_model.dart';
 import '../domain/follower_model.dart';
 
-
 class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
-  YourPeopleNotifier(this._networkApiService, this._hiveDatabase) : super(const YourPeopleState());
+  YourPeopleNotifier(this._networkApiService, this._hiveDatabase)
+      : super(const YourPeopleState());
 
   final NetworkApiService _networkApiService;
   final HiveDatabase _hiveDatabase;
 
-
-
-  updateSelectedIndex(int index){
+  updateSelectedIndex(int index) {
     state = state.copyWith(selectedIndex: index);
   }
 
@@ -26,24 +24,22 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
     try {
       var (response, dioException) =
-      await _networkApiService.postApiRequestWithToken(
-          url: "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}");
+          await _networkApiService.postApiRequestWithToken(
+              url: "${AppUrls.baseUrl}${AppUrls.getAllFollowing}");
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        FollowingModel followingModel =
-        FollowingModel.fromJson(response.data);
+        FollowingModel followingModel = FollowingModel.fromJson(response.data);
         DataOfFollowingModel dataOfFollowingModel =
-        DataOfFollowingModel.fromJson(response.data);
+            DataOfFollowingModel.fromJson(response.data);
         if (followingModel.status == 200) {
           state = state.copyWith(
-            isLoading: false,
-            followingList: followingModel.followingList,
-            userId: dataOfFollowingModel.id
-          );
+              isLoading: false,
+              followingList: followingModel.followingList,
+              userId: dataOfFollowingModel.id);
           AppLog.log("Updated Follow List: ${followingModel.followingList}");
         } else {
           showToastMessage(followingModel.message.toString());
@@ -60,19 +56,18 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
     try {
       var (response, dioException) =
-      await _networkApiService.postApiRequestWithToken(
-          url: "${AppUrls.BASE_URL}${AppUrls.getAllFollowers}");
+          await _networkApiService.postApiRequestWithToken(
+              url: "${AppUrls.baseUrl}${AppUrls.getAllFollowers}");
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        FollowerModel followerModel =
-        FollowerModel.fromJson(response.data);
+        FollowerModel followerModel = FollowerModel.fromJson(response.data);
         if (followerModel.status == 200) {
-          state = state.copyWith(isLoading: false,
-              followerList: followerModel.followerList);
+          state = state.copyWith(
+              isLoading: false, followerList: followerModel.followerList);
         } else {
           showToastMessage(followerModel.message.toString());
         }
@@ -83,5 +78,4 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
-
 }

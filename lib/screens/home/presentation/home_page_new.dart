@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
-import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/follow_option_widget.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_widget.dart';
@@ -19,7 +16,6 @@ import '../../../core/constants/app_urls.dart';
 import '../../base/shared/providers.dart';
 import '../../list/shared/provider.dart';
 import '../../post_feed/shared/provider.dart';
-import '../../profile/shared/providers.dart';
 import '../../restaurant/shared/provider.dart';
 
 @RoutePage()
@@ -39,32 +35,24 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       Future.wait([
-        followNotifier.getAllFollowerList(),
+        followNotifier.getAllUsersList(),
         stateNotifier.getHomeRestaurants(),
         postFeedNotifier.getPostFeed(),
       ]);
     });
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
-
   var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final followState = ref.watch(yourPeopleNotifierProvider);
-    final followerList = followState.followerList;
+    final allUsersList = followState.allUsersList;
     final stateNotifier = ref.watch(baseNotifierProvider.notifier);
     final stateNotifierOfListScreen = ref.watch(listProvider.notifier);
     final stateRestaurant = ref.watch(restaurantNotifierProvider);
-    AppLog.log(stateRestaurant.homeRestaurantList.toString());
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
-    final profileState = ref.watch(profileNotifierProvider);
-    final notificationList = profileState.notificationList;
 
     return Scaffold(
         extendBody: true,
@@ -82,26 +70,24 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
           ),
           actions: [
             GestureDetector(
-              onTap: () => AutoRouter.of(context)
-                  .push(NotificationRoute(notificationList: notificationList)),
+              // onTap: () => AutoRouter.of(context).push(SearchRoute()),
               child: Container(
                 height: 26.r,
                 width: 26.r,
-                margin: const EdgeInsets.only(right: 15).r,
+                margin: const EdgeInsets.only(right: 5).r,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.colorGrey2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                    child: Image.asset(
-                  Assets.search,
-                  color: AppColors.colorPrimary,
-                )),
+                  child: Image.asset(
+                    Assets.search,
+                    color: AppColors.colorPrimary,
+                  ),
+                ),
               ),
             ),
-            NotificationIcon(
-              notificationList: notificationList,
-            ),
+            const NotificationIcon(),
           ],
         ),
         body: SingleChildScrollView(
@@ -144,18 +130,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                           color: AppColors.colorPrimary,
                         ),
                       )
-                    : followerList.isNotEmpty
+                    : allUsersList.isNotEmpty
                         ? ListView.builder(
                             physics: const ClampingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            itemCount:
-                                followerList.length, //followOptions.length,
+                            itemCount: allUsersList.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              if (index < 0 || index >= followerList.length) {
+                              if (index < 0 || index >= allUsersList.length) {
                                 return const SizedBox.shrink();
                               }
-                              final followers = followerList[index];
+                              final followers = allUsersList[index];
                               final imgpath = followers.profileImage != ""
                                   ? followers.profileImage
                                   : "";
@@ -166,21 +151,17 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 onTap: () {
                                   AutoRouter.of(context)
                                       .push(PeopleProfileRoute(
-                                    peoplename: followers.fullName
-                                        .toString(), //'Ahmad Gouse',
+                                    peoplename: followers.fullName.toString(),
                                     peopleimage: profileImage.toString(),
                                     peopleId: followers.id ?? '',
                                     isFollow:
                                         followers.isFollowingRequest ?? false,
-                                    // 'assets/images/temp/follower-sample2.png',
                                   ));
                                 },
                                 child: FollowOptionWidget(
                                   followersId: followers.id ?? '',
-                                  imgpath:
-                                      profileImage, //followOptions[index]['image'],
-                                  name: followers.fullName
-                                      .toString(), //followOptions[index]['name'],
+                                  imgpath: profileImage,
+                                  name: followers.fullName.toString(),
                                   isFollow:
                                       followers.isFollowingRequest ?? false,
                                 ),
@@ -280,7 +261,6 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                         '',
                                   )),
                                   child: RestaurantWidget(
-                                    // imgpath: restaurantlist[index]['image'],
                                     imgpath:
                                         'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${stateRestaurant.homeRestaurantList?[index].image?[0]}',
                                     name: stateRestaurant
@@ -321,7 +301,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (postFeedState.postList.isNotEmpty) {
+                        if (postFeedState.postList!.isNotEmpty) {
                           stateNotifier.setBottomNavIndexToDefault();
                         } else {
                           showToastMessage("No post found");
@@ -342,14 +322,13 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                 ),
               ),
               5.verticalSpace,
-              //list of posts
               postFeedState.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
                         color: AppColors.colorPrimary,
                       ),
                     )
-                  : postFeedState.postList.isEmpty
+                  : postFeedState.postList!.isEmpty
                       ? Center(
                           child: Text(
                             'No post found',
@@ -359,7 +338,7 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: ListView.builder(
-                              itemCount: postFeedList.length > 3
+                              itemCount: postFeedList!.length > 3
                                   ? 3
                                   : postFeedList.length, //3
                               shrinkWrap: true,
@@ -367,10 +346,12 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                               padding: const EdgeInsets.all(0),
                               itemBuilder: (context, index) {
                                 final postList = postFeedList[index];
+                                final commentInfoList =
+                                    postList.commentInfo ?? [];
                                 return PostWidget(
-                                  isSaving: postFeedState.isSavePost,
-                                  postList: postList,
-                                );
+                                    isSaving: postFeedState.isSavePost,
+                                    postList: postList,
+                                    commentInfoList: commentInfoList);
                               }),
                         ),
               90.verticalSpace,

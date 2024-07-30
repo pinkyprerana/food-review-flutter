@@ -10,41 +10,39 @@ import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
-
-import '../../auth/shared/providers.dart';
+import '../shared/provider.dart';
 
 @RoutePage()
 class SelectPreferencePage extends ConsumerStatefulWidget {
   const SelectPreferencePage({super.key});
 
   @override
-  ConsumerState<SelectPreferencePage> createState() =>
-      _SelectPreferencePageState();
+  ConsumerState<SelectPreferencePage> createState() => _SelectPreferencePageState();
 }
 
 class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
   final emailFocusNode = FocusNode();
 
-  // multiple choice value
-  List<String> tags = [];
-
-  // list of string options
-  List<String> options = [
-    'Chinese Food',
-    'Mexican Food',
-    'Indian Cuisine',
-    'Thai Food',
-    'Continental',
-    'Vegan',
-    'Dairy Food',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
+      await preferenceNotifier.getAllPreference();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final isScreenSmall = size.height < 750;
-    final stateNotifier = ref.read(authNotifierProvider.notifier);
-    final state = ref.read(authNotifierProvider);
+    var preferenceState = ref.watch(preferenceNotifierProvider);
+    final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
+    var tags = ref.watch(preferenceNotifierProvider).tags;
+    final preferencesList = preferenceState.data??[];
+    final options = preferencesList
+        .map((preference) => preference.title ?? '')
+        .where((title) => title.isNotEmpty)
+        .toList();
+
     return Scaffold(
       backgroundColor: AppColors.colorBlack2,
       body: GestureDetector(
@@ -69,13 +67,11 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                       CustomRichText(
                         firstText: 'Enter Your',
                         secondText: 'Preferences',
-                        firstTextStyle:
-                            AppTextStyles.textStylePoppinsMedium.copyWith(
+                        firstTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                           color: AppColors.colorPrimary,
                           fontSize: 16.sp,
                         ),
-                        secondTextStyle:
-                            AppTextStyles.textStylePoppinsMedium.copyWith(
+                        secondTextStyle: AppTextStyles.textStylePoppinsMedium.copyWith(
                           color: AppColors.colorPrimaryAlpha,
                           fontSize: 16.sp,
                         ),
@@ -101,8 +97,7 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                         children: [
                           Text(
                             'Preferences',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 12.sp,
                             ),
@@ -119,7 +114,7 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                           child: ChipsChoice<String>.multiple(
                             value: tags,
                             padding: EdgeInsets.zero,
-                            onChanged: (val) => setState(() => tags = val),
+                            onChanged: (val) => preferenceState = preferenceState.copyWith(tags: val),
                             choiceItems: C2Choice.listFrom<String, String>(
                               source: options,
                               value: (i, v) => v,
@@ -142,19 +137,14 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                                           ? Icons.check_circle
                                           : Icons.add_circle_outline_sharp,
                                       size: 16,
-                                      color: isSelected
-                                          ? Colors.white
-                                          : AppColors.colorPrimaryAlpha,
+                                      color:
+                                          isSelected ? Colors.white : AppColors.colorPrimaryAlpha,
                                     ),
                                   ],
                                 ),
                                 selected: isSelected,
                                 onSelected: (_) {
-                                  setState(() {
-                                    isSelected
-                                        ? tags.remove(item.value)
-                                        : tags.add(item.value);
-                                  });
+                                  preferenceNotifier.toggleTag(item.value);
                                 },
                                 selectedColor: AppColors.colorBlack2,
                                 backgroundColor: AppColors.colorWhite,
@@ -163,13 +153,10 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                                   horizontal: 8,
                                 ).r,
                                 labelStyle: TextStyle(
-                                  color: isSelected
-                                      ? Colors.white
-                                      : AppColors.colorPrimaryAlpha,
+                                  color: isSelected ? Colors.white : AppColors.colorPrimaryAlpha,
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                      color: AppColors.colorGrey3),
+                                  side: const BorderSide(color: AppColors.colorGrey3),
                                   borderRadius: isSelected
                                       ? BorderRadius.circular(13)
                                       : BorderRadius.circular(10),
@@ -185,9 +172,9 @@ class _SelectPreferencePageState extends ConsumerState<SelectPreferencePage> {
                     text: 'Submit',
                     onPressed: () {
                       dismissKeyboard(context);
-                      // TODO: Handle forgot password logic here
-                      AutoRouter.of(context).pushAndPopUntil(const BaseRoute(),
-                          predicate: (_) => false);
+
+                      AutoRouter.of(context)
+                          .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
                     },
                   ),
                 ],

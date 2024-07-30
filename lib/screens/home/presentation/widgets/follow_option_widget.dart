@@ -7,7 +7,6 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import '../../../people_profile/shared/providers.dart';
-import '../../../your_lists/shared/provider.dart';
 
 class FollowOptionWidget extends ConsumerStatefulWidget {
   const FollowOptionWidget({
@@ -28,7 +27,7 @@ class FollowOptionWidget extends ConsumerStatefulWidget {
 
 class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
   void _handleFollowUnfollowButtonPressed(userId) {
-    final followNotifier = ref.read(FollowNotifierProvider.notifier);
+    final followNotifier = ref.read(followNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     // followNotifier.followUnfollow(() {}, userId).then((_) async {
     //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
@@ -38,7 +37,7 @@ class _FollowOptionWidgetState extends ConsumerState<FollowOptionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final isFollowing = ref.watch(FollowNotifierProvider.select(
+    // final isFollowing = ref.watch(followNotifierProvider.select(
     //     (state) => state.userFollowStatus[widget.followersId] ?? widget.isFollow));
 
     return Container(

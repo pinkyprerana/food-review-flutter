@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +7,20 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
-import '../../../post_feed/domain/postFeed_model.dart';
 import '../../../post_feed/shared/provider.dart';
 import '../../../profile/shared/providers.dart';
 
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   final bool isSaving;
+  final List<CommentInfo> commentInfoList;
 
-  const PostWidget({
-    super.key,
-    required this.postList,
-    required this.isSaving,
-  });
+  const PostWidget(
+      {super.key, required this.postList, required this.isSaving, required this.commentInfoList});
 
   @override
   ConsumerState<PostWidget> createState() => _PostWidgetState();
@@ -41,29 +38,26 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final String peopleId = widget.postList.userInfo.id;
-    final String name = widget.postList.userInfo.fullName;
+    final String? peopleId = widget.postList.userInfo?.id;
+    final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
-    final String title = widget.postList.title;
-    final String description = widget.postList.description;
-    final String restaurantName = widget.postList.restaurantInfo.name;
-    final String address = widget.postList.restaurantInfo.address;
-    final String cuisine = widget.postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount = widget.postList.commentCount;
-    double latitude = widget.postList.geoLoc.coordinates[0];
-    double longitude = widget.postList.geoLoc.coordinates[1];
-    final String postId = widget.postList.id;
-    final bool isSaved = widget.postList.isSave;
+    // final String title = widget.postList.title;
+    final String? description = widget.postList.description;
+    final String? restaurantName = widget.postList.restaurantInfo?.name;
+    final String? address = widget.postList.restaurantInfo?.address;
+    final String? cuisine = widget.postList.preferenceInfo?.title;
+    final int? commentCount = widget.postList.commentCount;
+    final String? postId = widget.postList.id;
+    final bool? isSaved = widget.postList.isSave;
+    final bool? isLiked = widget.postList.isMyLike;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
       width: double.infinity,
-      // height: mediaQuery.height * 0.45,
-      // height: 295.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
@@ -106,12 +100,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: name, //'Ahmad Gouse', //widget.postList.name,
+                            peoplename: name ?? "",
                             peopleimage: profileImage,
-                            peopleId: peopleId,
-                            isFollow: true
-                            // 'assets/images/temp/follower-sample2.png',
-                            ));
+                            peopleId: peopleId ?? "",
+                            isFollow: true));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -125,15 +117,12 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   image: NetworkImage(
                                     profileImage,
                                   ),
-                                  // image: AssetImage(
-                                  //   Assets.follow1,
-                                  // ),
                                   fit: BoxFit.cover,
                                 )),
                           ),
                           8.horizontalSpace,
                           Text(
-                            name, //'Ahmad Gouse',
+                            name ?? "", //'Ahmad Gouse',
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
@@ -175,7 +164,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cuisine, //'Chinese Cuisine',
+                                      cuisine ?? "No cuisine",
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
@@ -198,17 +187,16 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      restaurantName, //'Starbucks LA, California',
+                                      restaurantName ?? "Restaurant name not available",
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
                                       ),
                                     ),
                                     Text(
-                                      address.length > 40
+                                      address != null && address.length > 40
                                           ? '${address.substring(0, 40)}...'
-                                          : address,
-                                      //'Double road, Lorem City, LA',
+                                          : address ?? 'Restaurant address not available',
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
@@ -222,26 +210,37 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                         ),
                         Column(
                           children: [
-                            Image.asset(Assets.like),
+                            GestureDetector(
+                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                                child: (isLiked ?? false)
+                                    ? Image.asset(Assets.redHeart)
+                                    : Image.asset(Assets.like)),
                             15.verticalSpace,
-                            Column(
-                              children: [
-                                Image.asset(Assets.comments),
-                                Text(
-                                  commentCount.toString(), //'00',
-                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                    color: AppColors.colorWhite,
-                                    fontSize: 10.sp,
-                                  ),
-                                )
-                              ],
+                            GestureDetector(
+                              onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                                postInfoList: widget.postList,
+                              )),
+                              child: Column(
+                                children: [
+                                  Image.asset(Assets.comments),
+                                  Text(
+                                    (commentCount! > 9)
+                                        ? commentCount.toString()
+                                        : "0${commentCount.toString()}",
+                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      color: AppColors.colorWhite,
+                                      fontSize: 10.sp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
+                              onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
                               child: SaveButtonWidget(
                                 isSavePost: postFeedState.isSavePost,
-                                isSaved: isSaved,
+                                isSaved: isSaved ?? false,
                               ),
                             ),
                           ],
@@ -252,7 +251,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        description, //'A memorable evening to be remembered.',
+                        description ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(

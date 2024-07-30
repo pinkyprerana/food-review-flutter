@@ -1,5 +1,5 @@
-import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,10 +7,10 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
-import '../../domain/postFeed_model.dart';
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
@@ -32,26 +32,25 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
 
   @override
   Widget build(BuildContext context) {
-    final String peopleId = widget.postList.userInfo.id;
-    final String name = widget.postList.userInfo.fullName;
-    final String profileImage = "${AppUrls.profilePicLocation}/${widget.postList.userInfo.profileImage}";
-    final String postImage = widget.postList.file;
-    final String title = widget.postList.title;
-    final String description = widget.postList.description;
-    final String restaurantName = widget.postList.restaurantInfo.name;
-    final String address = widget.postList.restaurantInfo.address;
-    final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
-    final int commentCount= widget.postList.commentCount;
-    final String postId= widget.postList.id;
-    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final String? peopleId = widget.postList.userInfo?.id;
+    final String? name = widget.postList.userInfo?.fullName;
+    final String profileImage =
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
+    // final String postImage = widget.postList.file;
+    // final String title = widget.postList.title;
+    final String? description = widget.postList.description;
+    final String? restaurantName = widget.postList.restaurantInfo?.name;
+    final String? address = widget.postList.restaurantInfo?.address;
+    final String? cuisine = widget.postList.preferenceInfo?.title;
+    final int? commentCount = widget.postList.commentCount;
+    final String? postId = widget.postList.id;
+    // final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    // final isSaved = postFeedState.savedPosts[postId] ?? false;
-    final bool isSaved= widget.postList.isSave;
-
+    final bool? isSaved = widget.postList.isSave;
+    final bool? isLiked = widget.postList.isMyLike;
 
     return Container(
-      padding:
-          const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
+      padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
       width: double.infinity,
       child: Column(
         children: [
@@ -61,11 +60,10 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                    peoplename: name, //'Ahmad Gouse',
-                    peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                    peopleId: peopleId,
-                      isFollow: true
-                  ));
+                      peoplename: name ?? "", //'Ahmad Gouse',
+                      peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                      peopleId: peopleId ?? "",
+                      isFollow: true));
                 },
                 child: Row(
                   children: [
@@ -83,9 +81,9 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     ),
                     8.horizontalSpace,
                     Text(
-                      name, //'Ahmad Gouse',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorWhite),
+                      name ?? "", //'Ahmad Gouse',
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
                   ],
                 ),
@@ -124,14 +122,13 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(70),
-                          color: Color(0xffACE9B6).withOpacity(0.31),
+                          color: const Color(0xffACE9B6).withOpacity(0.31),
                         ),
                         child: Center(
                           child: Text(
-                            cuisine,//'Chinese Cuisine',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
-                              color: Color(0xff6BCE7B).withOpacity(0.85),
+                            cuisine ?? "", //'Chinese Cuisine',
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                              color: const Color(0xff6BCE7B).withOpacity(0.85),
                               fontSize: 10.sp,
                             ),
                           ),
@@ -152,18 +149,17 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            restaurantName, //'Starbucks LA, California',
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            restaurantName ?? "Restaurant name not available",
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
                               color: AppColors.colorWhite,
                             ),
                           ),
                           Text(
-                            address.length > 40 ? '${address.substring(0, 40)}...' : address,
-                            // 'Double road, Lorem City, LA',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            address != null && address.length > 40
+                                ? '${address.substring(0, 40)}...'
+                                : address ?? 'Restaurant address not available',
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -176,27 +172,40 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               ),
               Column(
                 children: [
-                  Image.asset(Assets.like),
+                  GestureDetector(
+                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                      child: (isLiked ?? false)
+                          ? Image.asset(Assets.redHeart)
+                          : Image.asset(Assets.like)),
                   15.verticalSpace,
-                  Column(
-                    children: [
-                      Image.asset(Assets.comments),
-                      Text(
-                        commentCount.toString(),//'00',
-                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          color: AppColors.colorWhite,
-                          fontSize: 10.sp,
-                        ),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                      postInfoList: widget.postList,
+                    )),
+                    child: Column(
+                      children: [
+                        Image.asset(Assets.comments),
+                        Text(
+                          (commentCount! > 9)
+                              ? commentCount.toString()
+                              : "0${commentCount.toString()}",
+                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            color: AppColors.colorWhite,
+                            fontSize: 10.sp,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId),
-                      child: isSaved
-                          ? Image.asset(Assets.saved, scale: 2,)
-                          : Image.asset(Assets.bookmark)
-                  ),
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      child: (isSaved ?? false)
+                          ? Image.asset(
+                              Assets.saved,
+                              scale: 2,
+                            )
+                          : Image.asset(Assets.bookmark)),
                 ],
               )
             ],
@@ -206,7 +215,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              description,//'A memorable evening to be remembered.',
+              description ?? "", //'A memorable evening to be remembered.',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.textStylePoppinsMedium.copyWith(

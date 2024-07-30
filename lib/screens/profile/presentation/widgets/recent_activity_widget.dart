@@ -53,9 +53,12 @@ class RecentActivityWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 )
-              : CachedNetworkImage(
-                  imageUrl: '${AppUrls.profilePicLocation}/$imgpath',
-                  fit: BoxFit.cover,
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: CachedNetworkImage(
+                    imageUrl: '${AppUrls.profilePicLocation}/$imgpath',
+                    fit: BoxFit.cover,
+                  ),
                 ),
         ),
         title: Text(

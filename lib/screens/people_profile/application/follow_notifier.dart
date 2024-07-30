@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
-import 'package:for_the_table/screens/profile/presentation/your_people_page.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
-import '../domain/postListOfOther_model.dart';
+import '../domain/post_list_of_other_model.dart';
 import 'follow_state.dart';
 
 class FollowNotifier extends StateNotifier<FollowState> {
@@ -23,7 +22,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${AppUrls.followUnfollow}',
+        url: '${AppUrls.baseUrl}${AppUrls.followUnfollow}',
         body: {
           "follow_user_id": userID,
         },
@@ -55,7 +54,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: "${AppUrls.BASE_URL}${AppUrls.getPostFeed}", body: {
+          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${AppUrls.getPostFeed}", body: {
         "lat": getLatitude,
         "lng": getLongitude,
         "user_id": userID,

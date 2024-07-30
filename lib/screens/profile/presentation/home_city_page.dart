@@ -24,8 +24,7 @@ class HomeCityPage extends StatelessWidget {
             // width: 20.w,
             // height: 20.h,
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -34,8 +33,7 @@ class HomeCityPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -48,8 +46,8 @@ class HomeCityPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 18.0),
         child: Center(
           child: CustomInputField(
             label: 'Your Home City',

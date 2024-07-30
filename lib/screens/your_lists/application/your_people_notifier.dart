@@ -17,6 +17,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
   final RefreshController followersRefreshController = RefreshController();
   final RefreshController followingRefreshController = RefreshController();
   final RefreshController requestRefreshController = RefreshController();
+  final RefreshController allUsersRefreshController = RefreshController();
   final TextEditingController searchController = TextEditingController();
 
   @override
@@ -25,6 +26,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     followingRefreshController.dispose();
     requestRefreshController.dispose();
     searchController.dispose();
+    allUsersRefreshController.dispose();
     super.dispose();
   }
 
@@ -63,8 +65,86 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     requestRefreshController.loadComplete();
   }
 
+  void loadMoreUsers() async {
+    if (state.allUsersCurrentPage > state.allUsersTotalPages) {
+      showToastMessage('No new profiles to display');
+      allUsersRefreshController.loadComplete();
+      return;
+    }
+
+    await getAllUsersList(isLoadMore: true);
+    allUsersRefreshController.loadComplete();
+  }
+
   updateSelectedIndex(int index) {
     state = state.copyWith(selectedIndex: index);
+  }
+
+  Future<void> getAllUsersList({bool isLoadMore = false}) async {
+    try {
+      state = state.copyWith(isLoading: !isLoadMore);
+
+      if (isLoadMore && (state.allUsersCurrentPage * 10 == state.allUsersList.length)) {
+        state = state.copyWith(allUsersCurrentPage: state.allUsersCurrentPage + 1);
+      } else {
+        state = state.copyWith(allUsersCurrentPage: 1);
+      }
+
+      final FormData formData = FormData.fromMap({
+        "perpage": 10,
+        "page": state.allUsersCurrentPage,
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+      var response = await _dio.post(
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        FollowTypeModel usersModel = FollowTypeModel.fromJson(response.data);
+        final users = usersModel.usersList;
+
+        if (isLoadMore) {
+          final currentFriendsIds = state.allUsersList.map((friend) => friend.id).toSet();
+
+          final uniqueNewFriends =
+              users?.where((friend) => !currentFriendsIds.contains(friend.id)).toList();
+
+          if ((uniqueNewFriends?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new profiles to display.');
+          }
+
+          state = state.copyWith(
+            isLoading: false,
+            allUsersList: [
+              ...state.allUsersList,
+              ...uniqueNewFriends ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          allUsersList: users ?? [],
+          allUsersTotalPages: usersModel.pages ?? 0,
+        );
+      } else {
+        showToastMessage(response.data["message"]);
+        state = state.copyWith(isLoading: false);
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showToastMessage('Something went wrong, please try again');
+    }
   }
 
   Future<void> getAllFollowerList({bool isLoadMore = false}) async {
@@ -92,7 +172,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -132,7 +212,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -161,7 +241,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
       _dio.options.headers.addAll(headers);
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -201,7 +281,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -231,7 +311,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.getAllFollowing}",
+        "${AppUrls.baseUrl}${AppUrls.getAllFollowing}",
         data: formData,
       );
 
@@ -271,7 +351,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -293,7 +373,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.acceptOrRejectRequest}",
+        "${AppUrls.baseUrl}${AppUrls.acceptOrRejectRequest}",
         data: formData,
       );
 
@@ -307,7 +387,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -328,7 +408,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.followUnfollow}",
+        "${AppUrls.baseUrl}${AppUrls.followUnfollow}",
         data: formData,
       );
 
@@ -342,7 +422,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 
@@ -363,7 +443,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       _dio.options.headers.addAll(headers);
 
       var response = await _dio.post(
-        "${AppUrls.BASE_URL}${AppUrls.followUnfollow}",
+        "${AppUrls.baseUrl}${AppUrls.followUnfollow}",
         data: formData,
       );
 
@@ -377,7 +457,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       }
     } catch (error) {
       state = state.copyWith(isLoading: false);
-      showToastMessage(error.toString());
+      showToastMessage('Something went wrong. Please try in some time.');
     }
   }
 

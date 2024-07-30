@@ -12,6 +12,7 @@ abstract class YourPeopleState with _$YourPeopleState {
     @Default("") String userId,
     @Default([]) List<Users> followingList,
     @Default([]) List<Users> followerList,
+    @Default([]) List<Users> allUsersList,
     @Default([]) List<Users> followRequestsList,
     @Default(1) int followerCurrentPage,
     @Default(1) int followerTotalPages,
@@ -19,6 +20,7 @@ abstract class YourPeopleState with _$YourPeopleState {
     @Default(1) int followingTotalPages,
     @Default(1) int requestCurrentPage,
     @Default(1) int requestTotalPages,
-    // @Default([]) List<DataOfFollowModel> requestList,
+    @Default(1) int allUsersCurrentPage,
+    @Default(1) int allUsersTotalPages,
   }) = _YourPeopleState;
 }

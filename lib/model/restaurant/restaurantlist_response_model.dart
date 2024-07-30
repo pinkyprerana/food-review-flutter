@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'restaurantlist_response_model.freezed.dart';
@@ -45,8 +47,7 @@ class Restaurant with _$Restaurant {
     @JsonKey(name: "isSave") bool? isSave,
   }) = _Restaurant;
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantFromJson(json);
+  factory Restaurant.fromJson(Map<String, dynamic> json) => _$RestaurantFromJson(json);
 }
 
 @freezed

@@ -44,7 +44,7 @@ class AppOutlineButton extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius),
             color: AppColors.colorWhite,
-            border: Border.all(width: 2, color: Color(0xffDDDFE6))),
+            border: Border.all(width: 2, color: const Color(0xffDDDFE6))),
         alignment: Alignment.center,
         child: loading
             ? loader()

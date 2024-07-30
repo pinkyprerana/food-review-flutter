@@ -114,7 +114,7 @@ class _RecentActivityPageState extends ConsumerState<RecentActivityPage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: RecentActivityWidget(
-                      imgpath: activitiesList?[index].imagePath ?? '',
+                      imgpath: activitiesList?[index].userInfo?.profileImage ?? '',
                       subtitle: activitiesList?[index].createdAt ?? DateTime.now(),
                       title: activitiesList?[index].title ?? '',
                     ),

@@ -28,7 +28,7 @@ class SettingsOptionWidget extends ConsumerWidget {
         if (title == 'Help') {
           AutoRouter.of(context).push(const HelpRoute());
         } else if (title == 'Notifications') {
-          // AutoRouter.of(context).push( NotificationRoute(notificationList: notificationList));
+          AutoRouter.of(context).push( const NotificationRoute());
         } else if (title == 'Deactivate My Account') {
           getModal(title, context, profileNotifier: profileNotifier);
         } else if (title == 'Manage Account') {

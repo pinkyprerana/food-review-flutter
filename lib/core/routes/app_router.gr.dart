@@ -39,7 +39,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: CommentsPage(
           key: args.key,
-          amount: args.amount,
+          postInfoList: args.postInfoList,
         ),
       );
     },
@@ -139,13 +139,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     NotificationRoute.name: (routeData) {
-      final args = routeData.argsAs<NotificationRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: NotificationPage(
-          notificationList: args.notificationList,
-          key: args.key,
-        ),
+        child: const NotificationPage(),
       );
     },
     PeopleProfileRoute.name: (routeData) {
@@ -263,12 +259,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    YourPeopleRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const YourPeoplePage(),
-      );
-    },
   };
 }
 
@@ -319,13 +309,13 @@ class BaseRoute extends PageRouteInfo<void> {
 class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
   CommentsRoute({
     Key? key,
-    required String amount,
+    required DataOfPostModel postInfoList,
     List<PageRouteInfo>? children,
   }) : super(
           CommentsRoute.name,
           args: CommentsRouteArgs(
             key: key,
-            amount: amount,
+            postInfoList: postInfoList,
           ),
           initialChildren: children,
         );
@@ -339,16 +329,16 @@ class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
 class CommentsRouteArgs {
   const CommentsRouteArgs({
     this.key,
-    required this.amount,
+    required this.postInfoList,
   });
 
   final Key? key;
 
-  final String amount;
+  final DataOfPostModel postInfoList;
 
   @override
   String toString() {
-    return 'CommentsRouteArgs{key: $key, amount: $amount}';
+    return 'CommentsRouteArgs{key: $key, postInfoList: $postInfoList}';
   }
 }
 
@@ -588,40 +578,16 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [NotificationPage]
-class NotificationRoute extends PageRouteInfo<NotificationRouteArgs> {
-  NotificationRoute({
-    required List<NotificationData> notificationList,
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
+class NotificationRoute extends PageRouteInfo<void> {
+  const NotificationRoute({List<PageRouteInfo>? children})
+      : super(
           NotificationRoute.name,
-          args: NotificationRouteArgs(
-            notificationList: notificationList,
-            key: key,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'NotificationRoute';
 
-  static const PageInfo<NotificationRouteArgs> page =
-      PageInfo<NotificationRouteArgs>(name);
-}
-
-class NotificationRouteArgs {
-  const NotificationRouteArgs({
-    required this.notificationList,
-    this.key,
-  });
-
-  final List<NotificationData> notificationList;
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'NotificationRouteArgs{notificationList: $notificationList, key: $key}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -964,18 +930,4 @@ class YourPeopleListRouteArgs {
   String toString() {
     return 'YourPeopleListRouteArgs{key: $key, tabIndex: $tabIndex}';
   }
-}
-
-/// generated route for
-/// [YourPeoplePage]
-class YourPeopleRoute extends PageRouteInfo<void> {
-  const YourPeopleRoute({List<PageRouteInfo>? children})
-      : super(
-          YourPeopleRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'YourPeopleRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }

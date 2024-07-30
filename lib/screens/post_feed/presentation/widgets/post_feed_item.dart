@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
-import '../../domain/postFeed_model.dart';
 import '../../shared/provider.dart';
 import 'expanded_post_details.dart';
 import 'not_epanded_post_details.dart';
@@ -52,8 +52,12 @@ class PostFeedItem extends ConsumerWidget {
             ),
             8.verticalSpace,
             (state.isExpanded)
-                ? ExpandedPostDetails(postList: postList,)
-                : NotExpandedPostDetails(postList: postList,),
+                ? ExpandedPostDetails(
+                    postList: postList,
+                  )
+                : NotExpandedPostDetails(
+                    postList: postList,
+                  ),
             (state.isExpanded)
                 ? Column(
                     children: [

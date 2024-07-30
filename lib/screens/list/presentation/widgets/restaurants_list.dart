@@ -11,7 +11,7 @@ import 'package:for_the_table/screens/list/presentation/widgets/restaurants_map_
 import '../../../restaurant/shared/provider.dart';
 
 class RestaurantsList extends ConsumerStatefulWidget {
-  RestaurantsList({
+  const RestaurantsList({
     super.key,
   });
 
@@ -128,7 +128,7 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
   @override
   Widget build(BuildContext context) {
     AppLog.log('this is called');
-    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    // final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     final state = ref.watch(restaurantNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -151,7 +151,7 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
                   ),
                 ),
                 Text(
-                  '${stateNotifier.totalNumberOfRestaurants} Restaurants',
+                  '${state.totalNumberOfRestaurants == 0 ? 'Loading' : state.totalNumberOfRestaurants} Restaurants',
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                     color: AppColors.colorPrimaryAlpha,
                     fontSize: 10.sp,

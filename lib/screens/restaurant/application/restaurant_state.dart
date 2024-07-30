@@ -2,9 +2,8 @@
 
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../post_feed/domain/postFeed_model.dart';
 
 part 'restaurant_state.freezed.dart';
 
@@ -18,12 +17,13 @@ class RestaurantState with _$RestaurantState {
     @Default(true) bool hasMore,
     @Default(0) int totalPages,
     @Default(true) isMoreDataFetchable,
-    @Default([]) List<DataOfPostModel> postList,
+    @Default([]) List<DataOfPostModel>? postList,
     @Default([]) List<Post>? postPerRestaurantList,
     @Default(1) int currentPageForPosts,
     @Default(false) bool isLoadingForPosts,
     @Default(0) int totalPagesPosts,
     @Default(false) bool isLoadingForRestaurantDetails,
+    @Default(0) int totalNumberOfRestaurants,
   }) = _RestaurantState;
   const RestaurantState._();
 }

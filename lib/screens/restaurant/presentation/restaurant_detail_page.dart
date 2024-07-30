@@ -25,9 +25,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../home/presentation/widgets/post_widget.dart';
-import '../../post_feed/domain/postFeed_model.dart';
-import '../../post_feed/shared/provider.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -64,7 +61,7 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
 class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
   final Completer<GoogleMapController> _controller = Completer();
   late CameraPosition _currentPosition;
-  List<Marker> _marker = [];
+  List<Marker> marker = [];
   // List<Marker> _list = [
   //   Marker(markerId: MarkerId('1'), position: )
   // ];
@@ -75,15 +72,15 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
       target: LatLng(double.parse(widget.lat), double.parse(widget.lng)),
       zoom: 12,
     );
-    List<Marker> _list = [
+    List<Marker> list = [
       Marker(
-          markerId: MarkerId('1'),
+          markerId: const MarkerId('1'),
           position: LatLng(double.parse(widget.lat), double.parse(widget.lng)),
           infoWindow: InfoWindow(
             title: widget.name,
           ))
     ];
-    _marker.addAll(_list);
+    marker.addAll(list);
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -207,7 +204,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                     children: [
                       Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: 175.h,
                             // color: Colors.red,
@@ -216,7 +213,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                               child: GoogleMap(
                                 myLocationButtonEnabled: false,
                                 initialCameraPosition: _currentPosition,
-                                markers: Set<Marker>.of(_marker),
+                                markers: Set<Marker>.of(marker),
                                 onMapCreated: (GoogleMapController controller) {
                                   _controller.complete(controller);
                                 },
@@ -714,7 +711,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                   Positioned(
                                     top: 10,
                                     left: (Platform.isIOS) ? 157 : 150,
-                                    child: Container(
+                                    child: SizedBox(
                                         width: mediaQuery.width * 0.5,
                                         //height: mediaQuery.height * 0.3,
                                         //color: Colors.red,
@@ -722,7 +719,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 140.w,
                                               child: Text(
                                                 widget.name,
@@ -742,7 +739,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                   color: AppColors.colorPrimary,
                                                 ),
                                                 3.horizontalSpace,
-                                                Container(
+                                                SizedBox(
                                                   width: 130.w,
                                                   child: Text(
                                                     widget.address,
@@ -777,10 +774,15 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                 stateNotifier
                                                         .reastaurantDetials ==
                                                     null)
-                                            ? Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: AppColors.colorPrimary,
+                                            ? const SizedBox(
+                                                height: 20,
+                                                width: 20,
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color:
+                                                        AppColors.colorPrimary,
+                                                  ),
                                                 ),
                                               )
                                             : SaveIcon(
@@ -788,7 +790,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                 //     widget.isBookmarked,
                                                 isBookmarked: stateNotifier
                                                         .reastaurantDetials!
-                                                        .isSave ??
+                                                        .restaurantDataModel
+                                                        ?.isSave ??
                                                     false,
                                                 onTap: () async {
                                                   await stateNotifier
