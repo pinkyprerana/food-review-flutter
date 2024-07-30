@@ -29,6 +29,7 @@ mixin _$YourPeopleState {
   int get followingTotalPages => throw _privateConstructorUsedError;
   int get requestCurrentPage => throw _privateConstructorUsedError;
   int get requestTotalPages => throw _privateConstructorUsedError;
+  int get allUsersListLength => throw _privateConstructorUsedError;
   int get allUsersCurrentPage => throw _privateConstructorUsedError;
   int get allUsersTotalPages => throw _privateConstructorUsedError;
 
@@ -57,6 +58,7 @@ abstract class $YourPeopleStateCopyWith<$Res> {
       int followingTotalPages,
       int requestCurrentPage,
       int requestTotalPages,
+      int allUsersListLength,
       int allUsersCurrentPage,
       int allUsersTotalPages});
 }
@@ -87,6 +89,7 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
     Object? followingTotalPages = null,
     Object? requestCurrentPage = null,
     Object? requestTotalPages = null,
+    Object? allUsersListLength = null,
     Object? allUsersCurrentPage = null,
     Object? allUsersTotalPages = null,
   }) {
@@ -143,6 +146,10 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
           ? _value.requestTotalPages
           : requestTotalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      allUsersListLength: null == allUsersListLength
+          ? _value.allUsersListLength
+          : allUsersListLength // ignore: cast_nullable_to_non_nullable
+              as int,
       allUsersCurrentPage: null == allUsersCurrentPage
           ? _value.allUsersCurrentPage
           : allUsersCurrentPage // ignore: cast_nullable_to_non_nullable
@@ -177,6 +184,7 @@ abstract class _$$YourPeopleStateImplCopyWith<$Res>
       int followingTotalPages,
       int requestCurrentPage,
       int requestTotalPages,
+      int allUsersListLength,
       int allUsersCurrentPage,
       int allUsersTotalPages});
 }
@@ -205,6 +213,7 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
     Object? followingTotalPages = null,
     Object? requestCurrentPage = null,
     Object? requestTotalPages = null,
+    Object? allUsersListLength = null,
     Object? allUsersCurrentPage = null,
     Object? allUsersTotalPages = null,
   }) {
@@ -261,6 +270,10 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
           ? _value.requestTotalPages
           : requestTotalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      allUsersListLength: null == allUsersListLength
+          ? _value.allUsersListLength
+          : allUsersListLength // ignore: cast_nullable_to_non_nullable
+              as int,
       allUsersCurrentPage: null == allUsersCurrentPage
           ? _value.allUsersCurrentPage
           : allUsersCurrentPage // ignore: cast_nullable_to_non_nullable
@@ -290,6 +303,7 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       this.followingTotalPages = 1,
       this.requestCurrentPage = 1,
       this.requestTotalPages = 1,
+      this.allUsersListLength = 0,
       this.allUsersCurrentPage = 1,
       this.allUsersTotalPages = 1})
       : _followingList = followingList,
@@ -363,6 +377,9 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
   final int requestTotalPages;
   @override
   @JsonKey()
+  final int allUsersListLength;
+  @override
+  @JsonKey()
   final int allUsersCurrentPage;
   @override
   @JsonKey()
@@ -370,7 +387,7 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
 
   @override
   String toString() {
-    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, followerList: $followerList, allUsersList: $allUsersList, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages, allUsersCurrentPage: $allUsersCurrentPage, allUsersTotalPages: $allUsersTotalPages)';
+    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, followerList: $followerList, allUsersList: $allUsersList, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages, allUsersListLength: $allUsersListLength, allUsersCurrentPage: $allUsersCurrentPage, allUsersTotalPages: $allUsersTotalPages)';
   }
 
   @override
@@ -403,6 +420,8 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
                 other.requestCurrentPage == requestCurrentPage) &&
             (identical(other.requestTotalPages, requestTotalPages) ||
                 other.requestTotalPages == requestTotalPages) &&
+            (identical(other.allUsersListLength, allUsersListLength) ||
+                other.allUsersListLength == allUsersListLength) &&
             (identical(other.allUsersCurrentPage, allUsersCurrentPage) ||
                 other.allUsersCurrentPage == allUsersCurrentPage) &&
             (identical(other.allUsersTotalPages, allUsersTotalPages) ||
@@ -425,6 +444,7 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       followingTotalPages,
       requestCurrentPage,
       requestTotalPages,
+      allUsersListLength,
       allUsersCurrentPage,
       allUsersTotalPages);
 
@@ -451,6 +471,7 @@ abstract class _YourPeopleState implements YourPeopleState {
       final int followingTotalPages,
       final int requestCurrentPage,
       final int requestTotalPages,
+      final int allUsersListLength,
       final int allUsersCurrentPage,
       final int allUsersTotalPages}) = _$YourPeopleStateImpl;
 
@@ -480,6 +501,8 @@ abstract class _YourPeopleState implements YourPeopleState {
   int get requestCurrentPage;
   @override
   int get requestTotalPages;
+  @override
+  int get allUsersListLength;
   @override
   int get allUsersCurrentPage;
   @override

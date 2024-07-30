@@ -7,7 +7,6 @@ import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/widgets/custom_background.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../../core/constants/assets.dart';
 
 @RoutePage()
@@ -50,8 +49,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
     final permission = await Geolocator.checkPermission();
     AppLog.log('permissionSplash ${permission.toString()}');
-    AppLog.log('permissionSplash ${await Permission.locationWhenInUse.status}');
-    print(isLocationFetched);
+
     if (mounted) {
       if (token != null && token.toString().isNotEmpty) {
         (permission == LocationPermission.denied ||

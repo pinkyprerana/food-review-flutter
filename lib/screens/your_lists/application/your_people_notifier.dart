@@ -82,9 +82,9 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
 
   Future<void> getAllUsersList({bool isLoadMore = false, bool isFollowState = false}) async {
     try {
-      state = state.copyWith(isLoading: !isLoadMore && !isFollowState );
+      state = state.copyWith(isLoading: !isLoadMore && !isFollowState);
 
-      if (isLoadMore && (state.allUsersCurrentPage * 10 == state.allUsersList.length)) {
+      if (isLoadMore && (state.allUsersCurrentPage * 10 == state.allUsersListLength)) {
         state = state.copyWith(allUsersCurrentPage: state.allUsersCurrentPage + 1);
       } else {
         state = state.copyWith(allUsersCurrentPage: 1);
@@ -110,6 +110,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
       if (response.statusCode == 200 && response.data != null) {
         FollowTypeModel usersModel = FollowTypeModel.fromJson(response.data);
         final users = usersModel.usersList;
+        final List<Users> filteredList = [];
 
         if (isLoadMore) {
           final currentFriendsIds = state.allUsersList.map((friend) => friend.id).toSet();
@@ -121,20 +122,36 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
             showToastMessage('No new profiles to display.');
           }
 
+          // filteredList.clear();
+
+          for (Users users in uniqueNewFriends ?? []) {
+            if (users.isFollowing == false) {
+              filteredList.add(users);
+            }
+          }
+
           state = state.copyWith(
             isLoading: false,
             allUsersList: [
               ...state.allUsersList,
-              ...uniqueNewFriends ?? [],
+              ...filteredList,
             ],
+            allUsersListLength: state.allUsersListLength + (users?.length ?? 0),
           );
 
           return;
         }
 
+        for (Users users in usersModel.usersList ?? []) {
+          if (users.isFollowing == false) {
+            filteredList.add(users);
+          }
+        }
+
         state = state.copyWith(
           isLoading: false,
-          allUsersList: users ?? [],
+          allUsersListLength: state.allUsersListLength + (users?.length ?? 0),
+          allUsersList: filteredList,
           allUsersTotalPages: usersModel.pages ?? 0,
         );
       } else {
