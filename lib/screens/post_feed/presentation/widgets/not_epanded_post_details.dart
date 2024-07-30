@@ -11,7 +11,7 @@ import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
-import '../../../your_lists/shared/provider.dart';
+
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
@@ -33,8 +33,6 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
 
   @override
   Widget build(BuildContext context) {
-    final followState = ref.watch(yourPeopleNotifierProvider);
-    final allUsersList = followState.allUsersList;
     final String? peopleId = widget.postList.userInfo?.id;
     final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =

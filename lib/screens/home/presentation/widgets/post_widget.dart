@@ -53,7 +53,6 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
     final bool? isFollowing = widget.postList.isFollowing;
-    final bool? isFollower = widget.postList.isFollower;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 

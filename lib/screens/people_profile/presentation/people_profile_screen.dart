@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
@@ -11,7 +10,6 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
-import '../../../core/utils/toast.dart';
 import '../../../widgets/save_button.dart';
 import '../../base/shared/providers.dart';
 import '../../post_feed/shared/provider.dart';
@@ -428,7 +426,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 top: 8,
                                 right: 8,
                                 child: GestureDetector(
-                                    onTap: () => postFeedNotifier.saveUnsavePost(() {}, postList.id ?? ""),
+                                    onTap: () => postFeedNotifier.saveUnsavePost(() {}, postList.id),
                                     child: SaveButtonWidget(
                                       isSavePost: postFeedState.isSavePost,
                                       isSaved: postList.isSave,
