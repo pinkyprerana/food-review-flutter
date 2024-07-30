@@ -107,7 +107,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (signupContactNumberTextController.text.isEmpty) {
       showToastMessage('Please enter your phone number');
       return false;
-    } else if (signupContactNumberTextController.text.isNotEmpty ||
+    } else if (signupContactNumberTextController.text.isEmpty ||
         signupContactNumberTextController.text.length < 10 ||
         !Validator.validatePhone(signupContactNumberTextController.text)) {
       showToastMessage('Please enter a valid phone number');
@@ -115,12 +115,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     } else if (signupPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter a password');
       return false;
-    } else if (signupConfirmPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter your confirm password');
-      return false;
     } else if (signupPasswordTextController.text.length < 8 ||
         signupPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
+      return false;
+    } else if (signupConfirmPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter your confirm password');
       return false;
     } else if (signupPasswordTextController.text != signupConfirmPasswordTextController.text) {
       showToastMessage('Password and confirm password are different');
