@@ -119,60 +119,6 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-// <<<<<<< HEAD
-//                               GestureDetector(
-//                                 onTap: () {
-//                                   AutoRouter.of(context).push(PeopleProfileRoute(
-//                                       peoplename: users[index]['name'],
-//                                       peopleimage: users[index]['image']!,
-//                                       peopleId: "",
-//                                       isFollow: true,
-//                                     isRequested: false,
-//                                     isFollowing: false,
-//                                   ));
-//                                 },
-//                                 child: ClipRRect(
-//                                   borderRadius: BorderRadius.circular(10.0).r,
-//                                   child: Image.asset(
-//                                     users[index]['image']!,
-//                                     width: 48.r,
-//                                     height: 48.r,
-//                                     fit: BoxFit.cover,
-//                                   ),
-//                                 ),
-//                               ),
-//                               10.horizontalSpace,
-//                               Expanded(
-//                                 child: Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Text(
-//                                       users[index]['name']!,
-//                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
-//                                         color: AppColors.colorPrimary,
-//                                         fontSize: 13.sp,
-//                                       ),
-//                                     ),
-//                                     SizedBox(height: 4.h),
-//                                     Row(
-//                                       children: [
-//                                         Image.asset(Assets.locationMarker),
-//                                         3.horizontalSpace,
-//                                         Text(
-//                                           users[index]['address']!,
-//                                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
-//                                             color: AppColors.colorPrimaryAlpha,
-//                                             fontSize: 10.sp,
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                               Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-// =======
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,12 +152,13 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   final user = state.leaderboardList[index];
+                                  final profileImage = '${AppUrls.profilePicLocation}/${user.profileImage}';
                                   return GestureDetector(
                                     onTap: () {
                                       AutoRouter.of(context).push(
                                         PeopleProfileRoute(
                                           peoplename: user.fullName ?? '',
-                                          peopleimage: user.profileImage ?? '',
+                                          peopleimage: profileImage ?? '',
                                           peopleId: "",
                                           isFollow: false,
                                           isRequested: false,
@@ -232,8 +179,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                             borderRadius: BorderRadius.circular(10.0).r,
                                             child: (user.profileImage?.isNotEmpty ?? false)
                                                 ? CachedNetworkImage(
-                                                    imageUrl:
-                                                        '${AppUrls.profilePicLocation}/${user.profileImage}',
+                                                    imageUrl:profileImage,
                                                     width: 48.r,
                                                     height: 48.r,
                                                     fit: BoxFit.cover,

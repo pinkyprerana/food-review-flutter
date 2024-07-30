@@ -48,31 +48,16 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
   }
-  void handleFollowButtonPressed(userId) {
+  Future<void> handleFollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    followNotifier.followUnfollow(() async {
-      final followNotifier = ref.read(followNotifierProvider.notifier);
-      AppLog.log("Updated follow state: $followNotifier");
-    }, userId);
-    // setState(() {
-    AutoRouter.of(context).push(PeopleProfileRoute(
-        peoplename: widget.peoplename,
-        peopleimage: widget.peopleimage,
-        peopleId: widget.peopleId,
-        isFollow: widget.isFollow,
-        isRequested: widget.isRequested,
-        isFollowing: widget.isFollowing
-    )
-    );
-    // });
+    followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
   }
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(followNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
-    AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
     final isFollowing = ref.watch(followNotifierProvider.select((state) =>
     state.userFollowStatus[widget.peopleId] ?? widget.isFollowing));
     final isRequested = ref.watch(followNotifierProvider.select((state) =>
