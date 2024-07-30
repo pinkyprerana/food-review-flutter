@@ -53,17 +53,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
       final followNotifier = ref.read(followNotifierProvider.notifier);
       AppLog.log("Updated follow state: $followNotifier");
     }, userId);
-    // setState(() {
-    AutoRouter.of(context).push(PeopleProfileRoute(
-        peoplename: widget.peoplename,
-        peopleimage: widget.peopleimage,
-        peopleId: widget.peopleId,
-        isFollow: widget.isFollow,
-        isRequested: widget.isRequested,
-        isFollowing: widget.isFollowing
-    )
-    );
-    // });
+
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
   }
   @override
