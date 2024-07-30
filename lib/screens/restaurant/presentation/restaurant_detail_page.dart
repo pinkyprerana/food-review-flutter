@@ -526,7 +526,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                   ),
                                   Positioned(
                                     top: 10,
-                                    left: (Platform.isIOS) ? 157 : 150,
+                                    left: (Platform.isIOS) ? 157 : 157,
                                     child: SizedBox(
                                         width: mediaQuery.width * 0.5,
                                         //height: mediaQuery.height * 0.3,

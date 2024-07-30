@@ -11,7 +11,9 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
+import '../../../core/utils/toast.dart';
 import '../../../widgets/save_button.dart';
+import '../../base/shared/providers.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../shared/providers.dart';
@@ -48,7 +50,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
   }
-  Future<void> handleFollowButtonPressed(userId) async {
+  void handleFollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
@@ -406,29 +408,35 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                   itemBuilder: (context, index) {
                     final postList = postListOfOtherUser[index];
                     AppLog.log("postList:--->>> $postList");
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        margin: const EdgeInsets.all(2),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.network(
-                              '${AppUrls.postImageLocation}${postList.file}',
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: GestureDetector(
-                                  onTap: () => postFeedNotifier.saveUnsavePost(() {}, postList.id ?? ""),
-                                  child: SaveButtonWidget(
-                                    isSavePost: postFeedState.isSavePost,
-                                    isSaved: postList.isSave,
-                                  ),
+                    return GestureDetector(
+                      onTap: (){
+                        final stateNotifier = ref.watch(baseNotifierProvider.notifier);
+                        stateNotifier.setBottomNavIndexToDefault();
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          margin: const EdgeInsets.all(2),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.network(
+                                '${AppUrls.postImageLocation}${postList.file}',
+                                fit: BoxFit.cover,
                               ),
-                            )
-                          ],
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: GestureDetector(
+                                    onTap: () => postFeedNotifier.saveUnsavePost(() {}, postList.id ?? ""),
+                                    child: SaveButtonWidget(
+                                      isSavePost: postFeedState.isSavePost,
+                                      isSaved: postList.isSave,
+                                    ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );
