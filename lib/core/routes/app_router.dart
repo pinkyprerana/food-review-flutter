@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 import 'package:for_the_table/screens/profile/presentation/saved_restaurants_page.dart';
+import 'package:for_the_table/screens/profile/presentation/your_people_page.dart';
 
 import '../../screens/auth/presentation/forget_password_page.dart';
 import '../../screens/auth/presentation/login_page.dart';

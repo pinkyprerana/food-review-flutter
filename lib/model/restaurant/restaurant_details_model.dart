@@ -1,5 +1,6 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'restaurant_details_model.freezed.dart';
 part 'restaurant_details_model.g.dart';

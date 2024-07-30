@@ -322,6 +322,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
+        await getSavedRestaurants();
+
         state = state.copyWith(isLoadingSaveRestaurant: false);
       } else {
         final message = response.data?['message'] as String?;
@@ -437,10 +439,23 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<SavedRestaurant>? savedRestaurantList =
             savedRestaurantsResponseModel.savedRestaurantList;
 
+        if (isLoadMore) {
+          state = state.copyWith(
+            isLoadingSaveRestaurantList: false,
+            savedRestaurantList: [
+              ...state.savedRestaurantList ?? [],
+              ...savedRestaurantList ?? [],
+            ],
+            totalPagesForSavedRestaurantList:
+                savedRestaurantsResponseModel.pages ?? 0,
+          );
+
+          return;
+        }
+
         state = state.copyWith(
           isLoadingSaveRestaurantList: false,
           savedRestaurantList: [
-            ...state.savedRestaurantList ?? [],
             ...savedRestaurantList ?? [],
           ],
           totalPagesForSavedRestaurantList:
