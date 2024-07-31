@@ -12,6 +12,7 @@ import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../profile/shared/providers.dart';
 
+
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   const NotExpandedPostDetails({super.key, required this.postList});
@@ -44,10 +45,12 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final String? cuisine = widget.postList.preferenceInfo?.title;
     final int? commentCount = widget.postList.commentCount;
     final String? postId = widget.postList.id;
-    // final postFeedState = ref.watch(postFeedNotifierProvider);
+    final bool? isFollowing = widget.postList.isFollowing;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
+    // final bool? isFollow = allUsersList.isFollowerRequest;
+    // final bool? isRequested = allUsersList.isFollowingRequest;
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -62,8 +65,13 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   AutoRouter.of(context).push(PeopleProfileRoute(
                       peoplename: name ?? "", //'Ahmad Gouse',
                       peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                      peopleId: peopleId ?? "",
-                      isFollow: true));
+                      peopleId: peopleId??"",
+                    isFollow: true,
+                    isRequested:false,
+                    isFollowing: false,
+
+                  )
+                  );
                 },
                 child: Row(
                   children: [
@@ -97,7 +105,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                 ),
                 child: Center(
                   child: Text(
-                    'Following',
+                    (isFollowing??false) ? 'Following': 'Follow',
                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                       color: AppColors.colorWhite,
                       fontSize: 10.sp,

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
@@ -86,7 +86,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
 
       var (response, dioException) =
           await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.BASE_URL}${AppUrls.addPost}',
+        url: '${AppUrls.baseUrl}${AppUrls.addPost}',
         body: formData,
       );
 
@@ -110,7 +110,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
         }
       }
     } catch (error) {
-      AppLog.log("_______${error}");
+      AppLog.log("_______$error");
       state = state.copyWith(isLoading: false);
       showConnectionWasInterruptedToastMessage();
     }
@@ -172,5 +172,4 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   void toggleIsPressedToFalse() {
     state = state.copyWith(isPressed: false);
   }
-
 }

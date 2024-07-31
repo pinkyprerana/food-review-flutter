@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'postListOfOther_model.freezed.dart';
 part 'postListOfOther_model.g.dart';
@@ -8,14 +10,16 @@ abstract class PostListOfOtherModel with _$PostListOfOtherModel {
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
     @JsonKey(name: "message") String? message,
-    @JsonKey(name: "data") required List<DataOfPostListOfOtherModel> postListOfOtherUser,
+    @JsonKey(name: "data")
+    required List<DataOfPostListOfOtherModel> postListOfOtherUser,
     @JsonKey(name: "total") int? total,
     @JsonKey(name: "page") int? page,
     @JsonKey(name: "pages") int? pages,
     @JsonKey(name: "limit") int? limit,
   }) = _PostListOfOtherModel;
 
-  factory PostListOfOtherModel.fromJson(Map<String, dynamic> json) => _$PostListOfOtherModelFromJson(json);
+  factory PostListOfOtherModel.fromJson(Map<String, dynamic> json) =>
+      _$PostListOfOtherModelFromJson(json);
 }
 
 @freezed
@@ -44,7 +48,8 @@ abstract class DataOfPostListOfOtherModel with _$DataOfPostListOfOtherModel {
     @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
   }) = _DataOfPostListOfOtherModel;
 
-  factory DataOfPostListOfOtherModel.fromJson(Map<String, dynamic> json) => _$DataOfPostListOfOtherModelFromJson(json);
+  factory DataOfPostListOfOtherModel.fromJson(Map<String, dynamic> json) =>
+      _$DataOfPostListOfOtherModelFromJson(json);
 }
 
 @freezed
@@ -66,7 +71,8 @@ abstract class UserInfo with _$UserInfo {
     @JsonKey(name: "profile_image") required String profileImage,
   }) = _UserInfo;
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(Map<String, dynamic> json) =>
+      _$UserInfoFromJson(json);
 }
 
 @freezed
@@ -76,7 +82,8 @@ abstract class PreferenceInfo with _$PreferenceInfo {
     @JsonKey(name: "title") required String title,
   }) = _PreferenceInfo;
 
-  factory PreferenceInfo.fromJson(Map<String, dynamic> json) => _$PreferenceInfoFromJson(json);
+  factory PreferenceInfo.fromJson(Map<String, dynamic> json) =>
+      _$PreferenceInfoFromJson(json);
 }
 
 @freezed
@@ -93,5 +100,6 @@ abstract class RestaurantInfo with _$RestaurantInfo {
     @JsonKey(name: "rating") required String rating,
   }) = _RestaurantInfo;
 
-  factory RestaurantInfo.fromJson(Map<String, dynamic> json) => _$RestaurantInfoFromJson(json);
+  factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantInfoFromJson(json);
 }

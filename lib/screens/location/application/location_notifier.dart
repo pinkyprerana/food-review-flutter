@@ -151,9 +151,9 @@ class LocationNotifier extends StateNotifier<LocationState> {
         // state = state.copyWith(isLoading: false);
 
         address = '${result[0].name}, ${result[0].locality}, ${result[0].administrativeArea}';
-        await _hiveDataBase.box.put(AppPreferenceKeys.isLocationFetched, 'true');
         await _hiveDataBase.box.put(AppPreferenceKeys.latitude, position.latitude.toString());
         await _hiveDataBase.box.put(AppPreferenceKeys.longitude, position.longitude.toString());
+        await _hiveDataBase.box.put(AppPreferenceKeys.isLocationFetched, 'true');
         await _hiveDataBase.box.put(AppPreferenceKeys.location,
             '${place.name}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}');
         if (!context.mounted) return;
@@ -165,7 +165,7 @@ class LocationNotifier extends StateNotifier<LocationState> {
             context);
       }
     } catch (e) {
-      showToastMessage('something went wrong');
+      showToastMessage('Location not saved.');
       state = state.copyWith(isLoading: false);
     }
   }

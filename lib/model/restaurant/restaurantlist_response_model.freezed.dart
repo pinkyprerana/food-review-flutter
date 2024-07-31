@@ -393,6 +393,8 @@ mixin _$Restaurant {
   String? get street => throw _privateConstructorUsedError;
   @JsonKey(name: "place_id")
   String? get placeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "isSave")
+  bool? get isSave => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -425,7 +427,8 @@ abstract class $RestaurantCopyWith<$Res> {
       @JsonKey(name: "rating") String? rating,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "street") String? street,
-      @JsonKey(name: "place_id") String? placeId});
+      @JsonKey(name: "place_id") String? placeId,
+      @JsonKey(name: "isSave") bool? isSave});
 
   $GeoLocCopyWith<$Res>? get geoLoc;
 }
@@ -462,6 +465,7 @@ class _$RestaurantCopyWithImpl<$Res, $Val extends Restaurant>
     Object? status = freezed,
     Object? street = freezed,
     Object? placeId = freezed,
+    Object? isSave = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -540,6 +544,10 @@ class _$RestaurantCopyWithImpl<$Res, $Val extends Restaurant>
           ? _value.placeId
           : placeId // ignore: cast_nullable_to_non_nullable
               as String?,
+      isSave: freezed == isSave
+          ? _value.isSave
+          : isSave // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -583,7 +591,8 @@ abstract class _$$RestaurantImplCopyWith<$Res>
       @JsonKey(name: "rating") String? rating,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "street") String? street,
-      @JsonKey(name: "place_id") String? placeId});
+      @JsonKey(name: "place_id") String? placeId,
+      @JsonKey(name: "isSave") bool? isSave});
 
   @override
   $GeoLocCopyWith<$Res>? get geoLoc;
@@ -619,6 +628,7 @@ class __$$RestaurantImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? street = freezed,
     Object? placeId = freezed,
+    Object? isSave = freezed,
   }) {
     return _then(_$RestaurantImpl(
       id: freezed == id
@@ -697,6 +707,10 @@ class __$$RestaurantImplCopyWithImpl<$Res>
           ? _value.placeId
           : placeId // ignore: cast_nullable_to_non_nullable
               as String?,
+      isSave: freezed == isSave
+          ? _value.isSave
+          : isSave // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -723,7 +737,8 @@ class _$RestaurantImpl implements _Restaurant {
       @JsonKey(name: "rating") this.rating,
       @JsonKey(name: "status") this.status,
       @JsonKey(name: "street") this.street,
-      @JsonKey(name: "place_id") this.placeId})
+      @JsonKey(name: "place_id") this.placeId,
+      @JsonKey(name: "isSave") this.isSave})
       : _image = image;
 
   factory _$RestaurantImpl.fromJson(Map<String, dynamic> json) =>
@@ -794,10 +809,13 @@ class _$RestaurantImpl implements _Restaurant {
   @override
   @JsonKey(name: "place_id")
   final String? placeId;
+  @override
+  @JsonKey(name: "isSave")
+  final bool? isSave;
 
   @override
   String toString() {
-    return 'Restaurant(id: $id, image: $image, name: $name, address: $address, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, userRatingsTotal: $userRatingsTotal, rating: $rating, status: $status, street: $street, placeId: $placeId)';
+    return 'Restaurant(id: $id, image: $image, name: $name, address: $address, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, userRatingsTotal: $userRatingsTotal, rating: $rating, status: $status, street: $street, placeId: $placeId, isSave: $isSave)';
   }
 
   @override
@@ -826,7 +844,8 @@ class _$RestaurantImpl implements _Restaurant {
             (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.street, street) || other.street == street) &&
-            (identical(other.placeId, placeId) || other.placeId == placeId));
+            (identical(other.placeId, placeId) || other.placeId == placeId) &&
+            (identical(other.isSave, isSave) || other.isSave == isSave));
   }
 
   @JsonKey(ignore: true)
@@ -851,7 +870,8 @@ class _$RestaurantImpl implements _Restaurant {
         rating,
         status,
         street,
-        placeId
+        placeId,
+        isSave
       ]);
 
   @JsonKey(ignore: true)
@@ -888,7 +908,8 @@ abstract class _Restaurant implements Restaurant {
       @JsonKey(name: "rating") final String? rating,
       @JsonKey(name: "status") final String? status,
       @JsonKey(name: "street") final String? street,
-      @JsonKey(name: "place_id") final String? placeId}) = _$RestaurantImpl;
+      @JsonKey(name: "place_id") final String? placeId,
+      @JsonKey(name: "isSave") final bool? isSave}) = _$RestaurantImpl;
 
   factory _Restaurant.fromJson(Map<String, dynamic> json) =
       _$RestaurantImpl.fromJson;
@@ -950,6 +971,9 @@ abstract class _Restaurant implements Restaurant {
   @override
   @JsonKey(name: "place_id")
   String? get placeId;
+  @override
+  @JsonKey(name: "isSave")
+  bool? get isSave;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantImplCopyWith<_$RestaurantImpl> get copyWith =>

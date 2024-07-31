@@ -49,6 +49,10 @@ _$ProfileDetailsImpl _$$ProfileDetailsImplFromJson(Map<String, dynamic> json) =>
       bio: json['bio'] as String?,
       city: json['city'] as String?,
       profileImage: json['profile_image'] as String? ?? '',
+      bannerImage: json['banner_image'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
       otp: json['otp'] as String?,
       isOtpVerified: json['isOtpVerified'] as bool? ?? false,
       isVerified: json['isVerified'] as bool?,
@@ -73,6 +77,8 @@ Map<String, dynamic> _$$ProfileDetailsImplToJson(
       'bio': instance.bio,
       'city': instance.city,
       'profile_image': instance.profileImage,
+      'banner_image': instance.bannerImage,
+      'createdAt': instance.createdAt?.toIso8601String(),
       'otp': instance.otp,
       'isOtpVerified': instance.isOtpVerified,
       'isVerified': instance.isVerified,

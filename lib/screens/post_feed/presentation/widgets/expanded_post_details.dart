@@ -44,7 +44,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     // final String cuisine= widget.postList.preferenceInfo?.title ?? "No cuisine";
     final int? commentCount = widget.postList.commentCount;
     final String? postId = widget.postList.id;
-    // final postFeedState = ref.watch(postFeedNotifierProvider);
+    final bool? isFollowing = widget.postList.isFollowing;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
@@ -65,8 +65,11 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                       AutoRouter.of(context).push(PeopleProfileRoute(
                           peoplename: name ?? "", //'Ahmad Gouse',
                           peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                          peopleId: peopleId ?? "",
-                          isFollow: true));
+                          peopleId: peopleId??"",
+                          isFollow: true,
+                        isRequested: false,
+                        isFollowing: false,
+                      ));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -99,7 +102,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                           ),
                           child: Center(
                             child: Text(
-                              'Following',
+                              (isFollowing??false) ? 'Following': 'Follow',
                               style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                 color: AppColors.colorWhite,
                                 fontSize: 10.sp,

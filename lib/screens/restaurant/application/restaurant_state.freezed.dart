@@ -24,7 +24,22 @@ mixin _$RestaurantState {
   bool get hasMore => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
   dynamic get isMoreDataFetchable => throw _privateConstructorUsedError;
-  List<DataOfPostModel> get postList => throw _privateConstructorUsedError;
+  List<DataOfPostModel>? get postList => throw _privateConstructorUsedError;
+  List<Post>? get postPerRestaurantList => throw _privateConstructorUsedError;
+  int get currentPageForPosts => throw _privateConstructorUsedError;
+  bool get isLoadingForPosts => throw _privateConstructorUsedError;
+  int get totalPagesPosts => throw _privateConstructorUsedError;
+  bool get isLoadingForRestaurantDetails => throw _privateConstructorUsedError;
+  int get totalNumberOfRestaurants => throw _privateConstructorUsedError;
+  bool get isLoadingSaveRestaurant => throw _privateConstructorUsedError;
+  bool get isLoadingSaveRestaurantList => throw _privateConstructorUsedError;
+  int get currentPageForSavedRestaurantList =>
+      throw _privateConstructorUsedError;
+  int get totalPagesForSavedRestaurantList =>
+      throw _privateConstructorUsedError;
+  List<SavedRestaurant>? get savedRestaurantList =>
+      throw _privateConstructorUsedError;
+  double get sliderValue => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RestaurantStateCopyWith<RestaurantState> get copyWith =>
@@ -45,7 +60,19 @@ abstract class $RestaurantStateCopyWith<$Res> {
       bool hasMore,
       int totalPages,
       dynamic isMoreDataFetchable,
-      List<DataOfPostModel> postList});
+      List<DataOfPostModel>? postList,
+      List<Post>? postPerRestaurantList,
+      int currentPageForPosts,
+      bool isLoadingForPosts,
+      int totalPagesPosts,
+      bool isLoadingForRestaurantDetails,
+      int totalNumberOfRestaurants,
+      bool isLoadingSaveRestaurant,
+      bool isLoadingSaveRestaurantList,
+      int currentPageForSavedRestaurantList,
+      int totalPagesForSavedRestaurantList,
+      List<SavedRestaurant>? savedRestaurantList,
+      double sliderValue});
 }
 
 /// @nodoc
@@ -68,7 +95,19 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
     Object? hasMore = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
-    Object? postList = null,
+    Object? postList = freezed,
+    Object? postPerRestaurantList = freezed,
+    Object? currentPageForPosts = null,
+    Object? isLoadingForPosts = null,
+    Object? totalPagesPosts = null,
+    Object? isLoadingForRestaurantDetails = null,
+    Object? totalNumberOfRestaurants = null,
+    Object? isLoadingSaveRestaurant = null,
+    Object? isLoadingSaveRestaurantList = null,
+    Object? currentPageForSavedRestaurantList = null,
+    Object? totalPagesForSavedRestaurantList = null,
+    Object? savedRestaurantList = freezed,
+    Object? sliderValue = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -99,10 +138,59 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.isMoreDataFetchable
           : isMoreDataFetchable // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      postList: null == postList
+      postList: freezed == postList
           ? _value.postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
+      postPerRestaurantList: freezed == postPerRestaurantList
+          ? _value.postPerRestaurantList
+          : postPerRestaurantList // ignore: cast_nullable_to_non_nullable
+              as List<Post>?,
+      currentPageForPosts: null == currentPageForPosts
+          ? _value.currentPageForPosts
+          : currentPageForPosts // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoadingForPosts: null == isLoadingForPosts
+          ? _value.isLoadingForPosts
+          : isLoadingForPosts // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totalPagesPosts: null == totalPagesPosts
+          ? _value.totalPagesPosts
+          : totalPagesPosts // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoadingForRestaurantDetails: null == isLoadingForRestaurantDetails
+          ? _value.isLoadingForRestaurantDetails
+          : isLoadingForRestaurantDetails // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totalNumberOfRestaurants: null == totalNumberOfRestaurants
+          ? _value.totalNumberOfRestaurants
+          : totalNumberOfRestaurants // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoadingSaveRestaurant: null == isLoadingSaveRestaurant
+          ? _value.isLoadingSaveRestaurant
+          : isLoadingSaveRestaurant // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingSaveRestaurantList: null == isLoadingSaveRestaurantList
+          ? _value.isLoadingSaveRestaurantList
+          : isLoadingSaveRestaurantList // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPageForSavedRestaurantList: null ==
+              currentPageForSavedRestaurantList
+          ? _value.currentPageForSavedRestaurantList
+          : currentPageForSavedRestaurantList // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPagesForSavedRestaurantList: null == totalPagesForSavedRestaurantList
+          ? _value.totalPagesForSavedRestaurantList
+          : totalPagesForSavedRestaurantList // ignore: cast_nullable_to_non_nullable
+              as int,
+      savedRestaurantList: freezed == savedRestaurantList
+          ? _value.savedRestaurantList
+          : savedRestaurantList // ignore: cast_nullable_to_non_nullable
+              as List<SavedRestaurant>?,
+      sliderValue: null == sliderValue
+          ? _value.sliderValue
+          : sliderValue // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -123,7 +211,19 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
       bool hasMore,
       int totalPages,
       dynamic isMoreDataFetchable,
-      List<DataOfPostModel> postList});
+      List<DataOfPostModel>? postList,
+      List<Post>? postPerRestaurantList,
+      int currentPageForPosts,
+      bool isLoadingForPosts,
+      int totalPagesPosts,
+      bool isLoadingForRestaurantDetails,
+      int totalNumberOfRestaurants,
+      bool isLoadingSaveRestaurant,
+      bool isLoadingSaveRestaurantList,
+      int currentPageForSavedRestaurantList,
+      int totalPagesForSavedRestaurantList,
+      List<SavedRestaurant>? savedRestaurantList,
+      double sliderValue});
 }
 
 /// @nodoc
@@ -144,7 +244,19 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
     Object? hasMore = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
-    Object? postList = null,
+    Object? postList = freezed,
+    Object? postPerRestaurantList = freezed,
+    Object? currentPageForPosts = null,
+    Object? isLoadingForPosts = null,
+    Object? totalPagesPosts = null,
+    Object? isLoadingForRestaurantDetails = null,
+    Object? totalNumberOfRestaurants = null,
+    Object? isLoadingSaveRestaurant = null,
+    Object? isLoadingSaveRestaurantList = null,
+    Object? currentPageForSavedRestaurantList = null,
+    Object? totalPagesForSavedRestaurantList = null,
+    Object? savedRestaurantList = freezed,
+    Object? sliderValue = null,
   }) {
     return _then(_$RestaurantStateImpl(
       isLoading: null == isLoading
@@ -174,10 +286,59 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
       isMoreDataFetchable: freezed == isMoreDataFetchable
           ? _value.isMoreDataFetchable!
           : isMoreDataFetchable,
-      postList: null == postList
+      postList: freezed == postList
           ? _value._postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<DataOfPostModel>,
+              as List<DataOfPostModel>?,
+      postPerRestaurantList: freezed == postPerRestaurantList
+          ? _value._postPerRestaurantList
+          : postPerRestaurantList // ignore: cast_nullable_to_non_nullable
+              as List<Post>?,
+      currentPageForPosts: null == currentPageForPosts
+          ? _value.currentPageForPosts
+          : currentPageForPosts // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoadingForPosts: null == isLoadingForPosts
+          ? _value.isLoadingForPosts
+          : isLoadingForPosts // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totalPagesPosts: null == totalPagesPosts
+          ? _value.totalPagesPosts
+          : totalPagesPosts // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoadingForRestaurantDetails: null == isLoadingForRestaurantDetails
+          ? _value.isLoadingForRestaurantDetails
+          : isLoadingForRestaurantDetails // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totalNumberOfRestaurants: null == totalNumberOfRestaurants
+          ? _value.totalNumberOfRestaurants
+          : totalNumberOfRestaurants // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoadingSaveRestaurant: null == isLoadingSaveRestaurant
+          ? _value.isLoadingSaveRestaurant
+          : isLoadingSaveRestaurant // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingSaveRestaurantList: null == isLoadingSaveRestaurantList
+          ? _value.isLoadingSaveRestaurantList
+          : isLoadingSaveRestaurantList // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPageForSavedRestaurantList: null ==
+              currentPageForSavedRestaurantList
+          ? _value.currentPageForSavedRestaurantList
+          : currentPageForSavedRestaurantList // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPagesForSavedRestaurantList: null == totalPagesForSavedRestaurantList
+          ? _value.totalPagesForSavedRestaurantList
+          : totalPagesForSavedRestaurantList // ignore: cast_nullable_to_non_nullable
+              as int,
+      savedRestaurantList: freezed == savedRestaurantList
+          ? _value._savedRestaurantList
+          : savedRestaurantList // ignore: cast_nullable_to_non_nullable
+              as List<SavedRestaurant>?,
+      sliderValue: null == sliderValue
+          ? _value.sliderValue
+          : sliderValue // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -193,10 +354,24 @@ class _$RestaurantStateImpl extends _RestaurantState {
       this.hasMore = true,
       this.totalPages = 0,
       this.isMoreDataFetchable = true,
-      final List<DataOfPostModel> postList = const []})
+      final List<DataOfPostModel>? postList = const [],
+      final List<Post>? postPerRestaurantList = const [],
+      this.currentPageForPosts = 1,
+      this.isLoadingForPosts = false,
+      this.totalPagesPosts = 0,
+      this.isLoadingForRestaurantDetails = false,
+      this.totalNumberOfRestaurants = 0,
+      this.isLoadingSaveRestaurant = false,
+      this.isLoadingSaveRestaurantList = false,
+      this.currentPageForSavedRestaurantList = 1,
+      this.totalPagesForSavedRestaurantList = 0,
+      final List<SavedRestaurant>? savedRestaurantList = const [],
+      this.sliderValue = 0})
       : _restaurantList = restaurantList,
         _homeRestaurantList = homeRestaurantList,
         _postList = postList,
+        _postPerRestaurantList = postPerRestaurantList,
+        _savedRestaurantList = savedRestaurantList,
         super._();
 
   @override
@@ -237,18 +412,75 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final dynamic isMoreDataFetchable;
-  final List<DataOfPostModel> _postList;
+  final List<DataOfPostModel>? _postList;
   @override
   @JsonKey()
-  List<DataOfPostModel> get postList {
+  List<DataOfPostModel>? get postList {
+    final value = _postList;
+    if (value == null) return null;
     if (_postList is EqualUnmodifiableListView) return _postList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_postList);
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<Post>? _postPerRestaurantList;
+  @override
+  @JsonKey()
+  List<Post>? get postPerRestaurantList {
+    final value = _postPerRestaurantList;
+    if (value == null) return null;
+    if (_postPerRestaurantList is EqualUnmodifiableListView)
+      return _postPerRestaurantList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
   }
 
   @override
+  @JsonKey()
+  final int currentPageForPosts;
+  @override
+  @JsonKey()
+  final bool isLoadingForPosts;
+  @override
+  @JsonKey()
+  final int totalPagesPosts;
+  @override
+  @JsonKey()
+  final bool isLoadingForRestaurantDetails;
+  @override
+  @JsonKey()
+  final int totalNumberOfRestaurants;
+  @override
+  @JsonKey()
+  final bool isLoadingSaveRestaurant;
+  @override
+  @JsonKey()
+  final bool isLoadingSaveRestaurantList;
+  @override
+  @JsonKey()
+  final int currentPageForSavedRestaurantList;
+  @override
+  @JsonKey()
+  final int totalPagesForSavedRestaurantList;
+  final List<SavedRestaurant>? _savedRestaurantList;
+  @override
+  @JsonKey()
+  List<SavedRestaurant>? get savedRestaurantList {
+    final value = _savedRestaurantList;
+    if (value == null) return null;
+    if (_savedRestaurantList is EqualUnmodifiableListView)
+      return _savedRestaurantList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey()
+  final double sliderValue;
+
+  @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList)';
+    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts, isLoadingForRestaurantDetails: $isLoadingForRestaurantDetails, totalNumberOfRestaurants: $totalNumberOfRestaurants, isLoadingSaveRestaurant: $isLoadingSaveRestaurant, isLoadingSaveRestaurantList: $isLoadingSaveRestaurantList, currentPageForSavedRestaurantList: $currentPageForSavedRestaurantList, totalPagesForSavedRestaurantList: $totalPagesForSavedRestaurantList, savedRestaurantList: $savedRestaurantList, sliderValue: $sliderValue)';
   }
 
   @override
@@ -269,20 +501,63 @@ class _$RestaurantStateImpl extends _RestaurantState {
                 other.totalPages == totalPages) &&
             const DeepCollectionEquality()
                 .equals(other.isMoreDataFetchable, isMoreDataFetchable) &&
-            const DeepCollectionEquality().equals(other._postList, _postList));
+            const DeepCollectionEquality().equals(other._postList, _postList) &&
+            const DeepCollectionEquality()
+                .equals(other._postPerRestaurantList, _postPerRestaurantList) &&
+            (identical(other.currentPageForPosts, currentPageForPosts) ||
+                other.currentPageForPosts == currentPageForPosts) &&
+            (identical(other.isLoadingForPosts, isLoadingForPosts) ||
+                other.isLoadingForPosts == isLoadingForPosts) &&
+            (identical(other.totalPagesPosts, totalPagesPosts) ||
+                other.totalPagesPosts == totalPagesPosts) &&
+            (identical(other.isLoadingForRestaurantDetails, isLoadingForRestaurantDetails) ||
+                other.isLoadingForRestaurantDetails ==
+                    isLoadingForRestaurantDetails) &&
+            (identical(other.totalNumberOfRestaurants, totalNumberOfRestaurants) ||
+                other.totalNumberOfRestaurants == totalNumberOfRestaurants) &&
+            (identical(other.isLoadingSaveRestaurant, isLoadingSaveRestaurant) ||
+                other.isLoadingSaveRestaurant == isLoadingSaveRestaurant) &&
+            (identical(other.isLoadingSaveRestaurantList, isLoadingSaveRestaurantList) ||
+                other.isLoadingSaveRestaurantList ==
+                    isLoadingSaveRestaurantList) &&
+            (identical(other.currentPageForSavedRestaurantList,
+                    currentPageForSavedRestaurantList) ||
+                other.currentPageForSavedRestaurantList ==
+                    currentPageForSavedRestaurantList) &&
+            (identical(other.totalPagesForSavedRestaurantList,
+                    totalPagesForSavedRestaurantList) ||
+                other.totalPagesForSavedRestaurantList ==
+                    totalPagesForSavedRestaurantList) &&
+            const DeepCollectionEquality()
+                .equals(other._savedRestaurantList, _savedRestaurantList) &&
+            (identical(other.sliderValue, sliderValue) ||
+                other.sliderValue == sliderValue));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      const DeepCollectionEquality().hash(_restaurantList),
-      const DeepCollectionEquality().hash(_homeRestaurantList),
-      currentPage,
-      hasMore,
-      totalPages,
-      const DeepCollectionEquality().hash(isMoreDataFetchable),
-      const DeepCollectionEquality().hash(_postList));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        isLoading,
+        const DeepCollectionEquality().hash(_restaurantList),
+        const DeepCollectionEquality().hash(_homeRestaurantList),
+        currentPage,
+        hasMore,
+        totalPages,
+        const DeepCollectionEquality().hash(isMoreDataFetchable),
+        const DeepCollectionEquality().hash(_postList),
+        const DeepCollectionEquality().hash(_postPerRestaurantList),
+        currentPageForPosts,
+        isLoadingForPosts,
+        totalPagesPosts,
+        isLoadingForRestaurantDetails,
+        totalNumberOfRestaurants,
+        isLoadingSaveRestaurant,
+        isLoadingSaveRestaurantList,
+        currentPageForSavedRestaurantList,
+        totalPagesForSavedRestaurantList,
+        const DeepCollectionEquality().hash(_savedRestaurantList),
+        sliderValue
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -301,7 +576,19 @@ abstract class _RestaurantState extends RestaurantState {
       final bool hasMore,
       final int totalPages,
       final dynamic isMoreDataFetchable,
-      final List<DataOfPostModel> postList}) = _$RestaurantStateImpl;
+      final List<DataOfPostModel>? postList,
+      final List<Post>? postPerRestaurantList,
+      final int currentPageForPosts,
+      final bool isLoadingForPosts,
+      final int totalPagesPosts,
+      final bool isLoadingForRestaurantDetails,
+      final int totalNumberOfRestaurants,
+      final bool isLoadingSaveRestaurant,
+      final bool isLoadingSaveRestaurantList,
+      final int currentPageForSavedRestaurantList,
+      final int totalPagesForSavedRestaurantList,
+      final List<SavedRestaurant>? savedRestaurantList,
+      final double sliderValue}) = _$RestaurantStateImpl;
   const _RestaurantState._() : super._();
 
   @override
@@ -319,7 +606,31 @@ abstract class _RestaurantState extends RestaurantState {
   @override
   dynamic get isMoreDataFetchable;
   @override
-  List<DataOfPostModel> get postList;
+  List<DataOfPostModel>? get postList;
+  @override
+  List<Post>? get postPerRestaurantList;
+  @override
+  int get currentPageForPosts;
+  @override
+  bool get isLoadingForPosts;
+  @override
+  int get totalPagesPosts;
+  @override
+  bool get isLoadingForRestaurantDetails;
+  @override
+  int get totalNumberOfRestaurants;
+  @override
+  bool get isLoadingSaveRestaurant;
+  @override
+  bool get isLoadingSaveRestaurantList;
+  @override
+  int get currentPageForSavedRestaurantList;
+  @override
+  int get totalPagesForSavedRestaurantList;
+  @override
+  List<SavedRestaurant>? get savedRestaurantList;
+  @override
+  double get sliderValue;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantStateImplCopyWith<_$RestaurantStateImpl> get copyWith =>

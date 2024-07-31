@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:ffi';
+
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/constants/assets.dart';
-import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
@@ -18,6 +16,7 @@ import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_item_widget.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
+import 'package:for_the_table/widgets/custom_slider.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
 import 'package:for_the_table/widgets/save_icon.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -109,6 +108,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     final mediaQuery = MediaQuery.sizeOf(context);
     final state = ref.watch(restaurantNotifierProvider);
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    AppLog.log(state.sliderValue.toString());
     AppLog.log(widget.image);
     return Scaffold(
       appBar: AppBar(
@@ -222,8 +222,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                 //       () => PanGestureRecognizer())),
                                 gestureRecognizers:
                                     <Factory<OneSequenceGestureRecognizer>>[
-                                  new Factory<OneSequenceGestureRecognizer>(
-                                    () => new EagerGestureRecognizer(),
+                                  Factory<OneSequenceGestureRecognizer>(
+                                    () => EagerGestureRecognizer(),
                                   ),
                                 ].toSet(),
                               ),
@@ -402,231 +402,289 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               GestureDetector(
-                                                onTap:
-                                                    () =>
-                                                        commonModal(context,
-                                                            onTap: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                            child: Stack(
+                                                onTap: () {
+                                                  stateNotifier
+                                                      .clearStateSliderValue();
+                                                  commonModal(
+                                                    context,
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Stack(children: [
+                                                      Column(
+                                                        children: [
+                                                          // Row(
+                                                          //   mainAxisAlignment:
+                                                          //       MainAxisAlignment
+                                                          //           .start,
+                                                          //   children: [
+                                                          //     Column(
+                                                          //       children: [
+                                                          //         Row(
+                                                          //           mainAxisAlignment:
+                                                          //               MainAxisAlignment
+                                                          //                   .start,
+                                                          //           children: [
+                                                          //             RatingBar
+                                                          //                 .builder(
+                                                          //               glow: false,
+                                                          //               initialRating:
+                                                          //                   0,
+                                                          //               minRating:
+                                                          //                   0.5,
+                                                          //               direction: Axis
+                                                          //                   .horizontal,
+                                                          //               allowHalfRating:
+                                                          //                   true,
+                                                          //               itemCount:
+                                                          //                   5,
+                                                          //               itemPadding: const EdgeInsets
+                                                          //                   .symmetric(
+                                                          //                   horizontal:
+                                                          //                       2.0),
+                                                          //               itemSize:
+                                                          //                   25.21,
+                                                          //               itemBuilder:
+                                                          //                   (context,
+                                                          //                           _) =>
+                                                          //                       const Icon(
+                                                          //                 Icons
+                                                          //                     .star_rounded,
+                                                          //                 color: Colors
+                                                          //                     .amber,
+                                                          //               ),
+                                                          //               onRatingUpdate:
+                                                          //                   (rating) {
+                                                          //                 print(
+                                                          //                     rating);
+                                                          //               },
+                                                          //             ),
+                                                          //           ],
+                                                          //         ),
+                                                          //         10.verticalSpace,
+                                                          //         Row(
+                                                          //             mainAxisAlignment:
+                                                          //                 MainAxisAlignment
+                                                          //                     .start,
+                                                          //             children: [
+                                                          //               Text(
+                                                          //                 'Add a Title',
+                                                          //                 style: AppTextStyles
+                                                          //                     .textStylePoppinsMedium
+                                                          //                     .copyWith(
+                                                          //                   fontSize:
+                                                          //                       13.sp,
+                                                          //                   color: AppColors
+                                                          //                       .colorPrimary,
+                                                          //                 ),
+                                                          //               )
+                                                          //             ]),
+                                                          //         5.verticalSpace,
+                                                          //         const CustomInputField(
+                                                          //           hint:
+                                                          //               'Write the title',
+                                                          //         ),
+                                                          //         20.verticalSpace,
+                                                          //         Row(
+                                                          //             mainAxisAlignment:
+                                                          //                 MainAxisAlignment
+                                                          //                     .start,
+                                                          //             children: [
+                                                          //               Text(
+                                                          //                 'Add a written review',
+                                                          //                 style: AppTextStyles
+                                                          //                     .textStylePoppinsMedium
+                                                          //                     .copyWith(
+                                                          //                   fontSize:
+                                                          //                       13.sp,
+                                                          //                   color: AppColors
+                                                          //                       .colorPrimary,
+                                                          //                 ),
+                                                          //               )
+                                                          //             ]),
+                                                          //         5.verticalSpace,
+                                                          //         SizedBox(
+                                                          //           height: 130.h,
+                                                          //           child:
+                                                          //               const ExpandedCommonTextField(
+                                                          //             maxLines:
+                                                          //                 null,
+                                                          //             expands: true,
+                                                          //             hint:
+                                                          //                 'Write review',
+                                                          //           ),
+                                                          //         ),
+                                                          //         20.verticalSpace,
+                                                          //         Row(
+                                                          //             mainAxisAlignment:
+                                                          //                 MainAxisAlignment
+                                                          //                     .start,
+                                                          //             children: [
+                                                          //               Text(
+                                                          //                 'Add a Photo or Video',
+                                                          //                 style: AppTextStyles
+                                                          //                     .textStylePoppinsMedium
+                                                          //                     .copyWith(
+                                                          //                   fontSize:
+                                                          //                       13.sp,
+                                                          //                   color: AppColors
+                                                          //                       .colorPrimary,
+                                                          //                 ),
+                                                          //               )
+                                                          //             ]),
+                                                          //         5.verticalSpace,
+                                                          //         DottedBorder(
+                                                          //             borderType:
+                                                          //                 BorderType
+                                                          //                     .RRect,
+                                                          //             radius: const Radius
+                                                          //                 .circular(
+                                                          //                 10),
+                                                          //             strokeWidth:
+                                                          //                 1,
+                                                          //             color: const Color(
+                                                          //                 0xffCED0D2),
+                                                          //             child:
+                                                          //                 ClipRRect(
+                                                          //               borderRadius:
+                                                          //                   BorderRadius.circular(
+                                                          //                       10),
+                                                          //               child:
+                                                          //                   SizedBox(
+                                                          //                 width:
+                                                          //                     344.w,
+                                                          //                 height:
+                                                          //                     148.h,
+                                                          //                 child:
+                                                          //                     Center(
+                                                          //                   child: Image.asset(
+                                                          //                       Assets.add),
+                                                          //                 ),
+                                                          //               ),
+                                                          //             )),
+                                                          //         10.verticalSpace,
+                                                          //         const AppButton(
+                                                          //           text: 'Submit',
+                                                          //         )
+                                                          //       ],
+                                                          //     ),
+                                                          //   ],
+                                                          // ),
+                                                          20.verticalSpace,
+                                                          CustomSlider(
+                                                            onChanged: (value) {
+                                                              stateNotifier
+                                                                  .sliderValueUpdate(
+                                                                      value);
+                                                            },
+                                                          ),
+
+                                                          10.verticalSpace,
+                                                          Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
                                                               children: [
-                                                                Column(
-                                                                  children: [
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              children: [
-                                                                                RatingBar.builder(
-                                                                                  glow: false,
-                                                                                  initialRating: 0,
-                                                                                  minRating: 0.5,
-                                                                                  direction: Axis.horizontal,
-                                                                                  allowHalfRating: true,
-                                                                                  itemCount: 5,
-                                                                                  itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                                                                                  itemSize: 25.21,
-                                                                                  itemBuilder: (context, _) => const Icon(
-                                                                                    Icons.star_rounded,
-                                                                                    color: Colors.amber,
-                                                                                  ),
-                                                                                  onRatingUpdate: (rating) {
-                                                                                    print(rating);
-                                                                                  },
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            // Row(
-                                                                            //   mainAxisAlignment:
-                                                                            //       MainAxisAlignment
-                                                                            //           .start,
-                                                                            //   children: [
-                                                                            //     Image.asset(
-                                                                            //         Assets.rate),
-                                                                            //     2.horizontalSpace,
-                                                                            //     Image.asset(
-                                                                            //         Assets.rate),
-                                                                            //     2.horizontalSpace,
-                                                                            //     Image.asset(
-                                                                            //         Assets.rate),
-                                                                            //     2.horizontalSpace,
-                                                                            //     Image.asset(
-                                                                            //         Assets.rate),
-                                                                            //     2.horizontalSpace,
-                                                                            //     Image.asset(
-                                                                            //         Assets.rate),
-                                                                            //   ],
-                                                                            // ),
-                                                                            10.verticalSpace,
-                                                                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                                              Text(
-                                                                                'Add a Title',
-                                                                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                                                                  fontSize: 13.sp,
-                                                                                  color: AppColors.colorPrimary,
-                                                                                ),
-                                                                              )
-                                                                            ]),
-                                                                            5.verticalSpace,
-                                                                            const CustomInputField(
-                                                                              hint: 'Write the title',
-                                                                            ),
-                                                                            20.verticalSpace,
-                                                                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                                              Text(
-                                                                                'Add a written review',
-                                                                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                                                                  fontSize: 13.sp,
-                                                                                  color: AppColors.colorPrimary,
-                                                                                ),
-                                                                              )
-                                                                            ]),
-                                                                            5.verticalSpace,
-                                                                            SizedBox(
-                                                                              height: 130.h,
-                                                                              child: const ExpandedCommonTextField(
-                                                                                maxLines: null,
-                                                                                expands: true,
-                                                                                hint: 'Write review',
-                                                                              ),
-                                                                            ),
-                                                                            20.verticalSpace,
-                                                                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                                                                              Text(
-                                                                                'Add a Photo or Video',
-                                                                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                                                                  fontSize: 13.sp,
-                                                                                  color: AppColors.colorPrimary,
-                                                                                ),
-                                                                              )
-                                                                            ]),
-                                                                            5.verticalSpace,
-                                                                            DottedBorder(
-                                                                                borderType: BorderType.RRect,
-                                                                                radius: const Radius.circular(10),
-                                                                                strokeWidth: 1,
-                                                                                color: const Color(0xffCED0D2),
-                                                                                child: ClipRRect(
-                                                                                  borderRadius: BorderRadius.circular(10),
-                                                                                  child: SizedBox(
-                                                                                    width: 344.w,
-                                                                                    height: 148.h,
-                                                                                    child: Center(
-                                                                                      child: Image.asset(Assets.add),
-                                                                                    ),
-                                                                                  ),
-                                                                                )),
-                                                                            10.verticalSpace,
-                                                                            const AppButton(
-                                                                              text: 'Submit',
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    10.verticalSpace,
-                                                                    Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Add a Title',
-                                                                            style:
-                                                                                AppTextStyles.textStylePoppinsMedium.copyWith(
-                                                                              fontSize: 13.sp,
-                                                                              color: AppColors.colorPrimary,
-                                                                            ),
-                                                                          )
-                                                                        ]),
-                                                                    5.verticalSpace,
-                                                                    const CustomInputField(
-                                                                      hint:
-                                                                          'Write the title',
-                                                                    ),
-                                                                    20.verticalSpace,
-                                                                    Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Add a written review',
-                                                                            style:
-                                                                                AppTextStyles.textStylePoppinsMedium.copyWith(
-                                                                              fontSize: 13.sp,
-                                                                              color: AppColors.colorPrimary,
-                                                                            ),
-                                                                          )
-                                                                        ]),
-                                                                    5.verticalSpace,
-                                                                    SizedBox(
-                                                                      height:
-                                                                          130.h,
-                                                                      child:
-                                                                          const ExpandedCommonTextField(
-                                                                        maxLines:
-                                                                            null,
-                                                                        expands:
-                                                                            true,
-                                                                        hint:
-                                                                            'Write review',
-                                                                      ),
-                                                                    ),
-                                                                    20.verticalSpace,
-                                                                    Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            'Add a Photo or Video',
-                                                                            style:
-                                                                                AppTextStyles.textStylePoppinsMedium.copyWith(
-                                                                              fontSize: 13.sp,
-                                                                              color: AppColors.colorPrimary,
-                                                                            ),
-                                                                          )
-                                                                        ]),
-                                                                    5.verticalSpace,
-                                                                    DottedBorder(
-                                                                        borderType:
-                                                                            BorderType
-                                                                                .RRect,
-                                                                        radius: const Radius
-                                                                            .circular(
+                                                                Text(
+                                                                  'Add a Title',
+                                                                  style: AppTextStyles
+                                                                      .textStylePoppinsMedium
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .colorPrimary,
+                                                                  ),
+                                                                )
+                                                              ]),
+                                                          5.verticalSpace,
+                                                          const CustomInputField(
+                                                            hint:
+                                                                'Write the title',
+                                                          ),
+                                                          20.verticalSpace,
+                                                          Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Add a written review',
+                                                                  style: AppTextStyles
+                                                                      .textStylePoppinsMedium
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .colorPrimary,
+                                                                  ),
+                                                                )
+                                                              ]),
+                                                          5.verticalSpace,
+                                                          SizedBox(
+                                                            height: 130.h,
+                                                            child:
+                                                                const ExpandedCommonTextField(
+                                                              maxLines: null,
+                                                              expands: true,
+                                                              hint:
+                                                                  'Write review',
+                                                            ),
+                                                          ),
+                                                          20.verticalSpace,
+                                                          Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  'Add a Photo or Video',
+                                                                  style: AppTextStyles
+                                                                      .textStylePoppinsMedium
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .colorPrimary,
+                                                                  ),
+                                                                )
+                                                              ]),
+                                                          5.verticalSpace,
+                                                          DottedBorder(
+                                                              borderType:
+                                                                  BorderType
+                                                                      .RRect,
+                                                              radius:
+                                                                  const Radius
+                                                                      .circular(
+                                                                      10),
+                                                              strokeWidth: 1,
+                                                              color: const Color(
+                                                                  0xffCED0D2),
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
                                                                             10),
-                                                                        strokeWidth:
-                                                                            1,
-                                                                        color: const Color(
-                                                                            0xffCED0D2),
-                                                                        child:
-                                                                            ClipRRect(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(10),
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                344.w,
-                                                                            height:
-                                                                                148.h,
-                                                                            child:
-                                                                                Center(
-                                                                              child: Image.asset(Assets.add),
-                                                                            ),
-                                                                          ),
-                                                                        )),
-                                                                    10.verticalSpace,
-                                                                    const AppButton(
-                                                                      text:
-                                                                          'Submit',
-                                                                    )
-                                                                  ],
+                                                                child: SizedBox(
+                                                                  width: 344.w,
+                                                                  height: 148.h,
+                                                                  child: Center(
+                                                                    child: Image
+                                                                        .asset(Assets
+                                                                            .add),
+                                                                  ),
                                                                 ),
-                                                              ],
-                                                            )),
+                                                              )),
+                                                          10.verticalSpace,
+                                                          const AppButton(
+                                                            text: 'Submit',
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ]),
+                                                  );
+                                                },
                                                 child: Text(
                                                   'Write A Review',
                                                   style: AppTextStyles

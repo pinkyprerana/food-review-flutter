@@ -58,6 +58,7 @@ _$RestaurantImpl _$$RestaurantImplFromJson(Map<String, dynamic> json) =>
       status: json['status'] as String?,
       street: json['street'] as String?,
       placeId: json['place_id'] as String?,
+      isSave: json['isSave'] as bool?,
     );
 
 Map<String, dynamic> _$$RestaurantImplToJson(_$RestaurantImpl instance) =>
@@ -81,6 +82,7 @@ Map<String, dynamic> _$$RestaurantImplToJson(_$RestaurantImpl instance) =>
       'status': instance.status,
       'street': instance.street,
       'place_id': instance.placeId,
+      'isSave': instance.isSave,
     };
 
 _$GeoLocImpl _$$GeoLocImplFromJson(Map<String, dynamic> json) => _$GeoLocImpl(

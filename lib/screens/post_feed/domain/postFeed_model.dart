@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'postFeed_model.freezed.dart';
 part 'postFeed_model.g.dart';
@@ -20,8 +22,8 @@ abstract class PostModel with _$PostModel {
 }
 
 @freezed
-abstract class DataOfPostModel with _$DataOfPostModel  {
-  const factory DataOfPostModel ({
+abstract class DataOfPostModel with _$DataOfPostModel {
+  const factory DataOfPostModel({
     @JsonKey(name: "_id") required String id,
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "description") required String description,
@@ -41,7 +43,8 @@ abstract class DataOfPostModel with _$DataOfPostModel  {
     @JsonKey(name: "restaurantInfo") required RestaurantInfo restaurantInfo,
   }) = _DataOfPostModel;
 
-  factory DataOfPostModel.fromJson(Map<String, dynamic> json) => _$DataOfPostModelFromJson(json);
+  factory DataOfPostModel.fromJson(Map<String, dynamic> json) =>
+      _$DataOfPostModelFromJson(json);
 }
 
 @freezed
@@ -51,8 +54,7 @@ abstract class GeoLoc with _$GeoLoc {
     @JsonKey(name: "coordinates") required List<double> coordinates,
   }) = _GeoLoc;
 
-  factory GeoLoc.fromJson(Map<String, dynamic> json) =>
-      _$GeoLocFromJson(json);
+  factory GeoLoc.fromJson(Map<String, dynamic> json) => _$GeoLocFromJson(json);
 }
 
 @freezed
@@ -96,4 +98,3 @@ abstract class RestaurantInfo with _$RestaurantInfo {
   factory RestaurantInfo.fromJson(Map<String, dynamic> json) =>
       _$RestaurantInfoFromJson(json);
 }
-

@@ -95,7 +95,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: () => stateNotifier.uploadProfileImage(context),
+                      // onTap: () => stateNotifier.uploadProfileImage(context),
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(

@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FollowState {
-  bool get isFollowing => throw _privateConstructorUsedError;
+  Map<String, bool> get userFollowStatus => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   List<DataOfPostListOfOtherModel> get postListOfOtherUser =>
       throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $FollowStateCopyWith<$Res> {
       _$FollowStateCopyWithImpl<$Res, FollowState>;
   @useResult
   $Res call(
-      {bool isFollowing,
+      {Map<String, bool> userFollowStatus,
       bool isLoading,
       List<DataOfPostListOfOtherModel> postListOfOtherUser,
       List<GeoLoc>? coordinateList,
@@ -61,7 +61,7 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isFollowing = null,
+    Object? userFollowStatus = null,
     Object? isLoading = null,
     Object? postListOfOtherUser = null,
     Object? coordinateList = freezed,
@@ -70,10 +70,10 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
     Object? restaurantInfoList = freezed,
   }) {
     return _then(_value.copyWith(
-      isFollowing: null == isFollowing
-          ? _value.isFollowing
-          : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
+      userFollowStatus: null == userFollowStatus
+          ? _value.userFollowStatus
+          : userFollowStatus // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -111,7 +111,7 @@ abstract class _$$FollowStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isFollowing,
+      {Map<String, bool> userFollowStatus,
       bool isLoading,
       List<DataOfPostListOfOtherModel> postListOfOtherUser,
       List<GeoLoc>? coordinateList,
@@ -131,7 +131,7 @@ class __$$FollowStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isFollowing = null,
+    Object? userFollowStatus = null,
     Object? isLoading = null,
     Object? postListOfOtherUser = null,
     Object? coordinateList = freezed,
@@ -140,10 +140,10 @@ class __$$FollowStateImplCopyWithImpl<$Res>
     Object? restaurantInfoList = freezed,
   }) {
     return _then(_$FollowStateImpl(
-      isFollowing: null == isFollowing
-          ? _value.isFollowing
-          : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
+      userFollowStatus: null == userFollowStatus
+          ? _value._userFollowStatus
+          : userFollowStatus // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -176,22 +176,29 @@ class __$$FollowStateImplCopyWithImpl<$Res>
 
 class _$FollowStateImpl implements _FollowState {
   const _$FollowStateImpl(
-      {this.isFollowing = false,
+      {final Map<String, bool> userFollowStatus = const {},
       this.isLoading = false,
       final List<DataOfPostListOfOtherModel> postListOfOtherUser = const [],
       final List<GeoLoc>? coordinateList = const [],
       final List<UserInfo>? userInfoList = const [],
       final List<PreferenceInfo>? preferenceInfoList = const [],
       final List<RestaurantInfo>? restaurantInfoList = const []})
-      : _postListOfOtherUser = postListOfOtherUser,
+      : _userFollowStatus = userFollowStatus,
+        _postListOfOtherUser = postListOfOtherUser,
         _coordinateList = coordinateList,
         _userInfoList = userInfoList,
         _preferenceInfoList = preferenceInfoList,
         _restaurantInfoList = restaurantInfoList;
 
+  final Map<String, bool> _userFollowStatus;
   @override
   @JsonKey()
-  final bool isFollowing;
+  Map<String, bool> get userFollowStatus {
+    if (_userFollowStatus is EqualUnmodifiableMapView) return _userFollowStatus;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_userFollowStatus);
+  }
+
   @override
   @JsonKey()
   final bool isLoading;
@@ -253,7 +260,7 @@ class _$FollowStateImpl implements _FollowState {
 
   @override
   String toString() {
-    return 'FollowState(isFollowing: $isFollowing, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'FollowState(userFollowStatus: $userFollowStatus, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
   }
 
   @override
@@ -261,8 +268,8 @@ class _$FollowStateImpl implements _FollowState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FollowStateImpl &&
-            (identical(other.isFollowing, isFollowing) ||
-                other.isFollowing == isFollowing) &&
+            const DeepCollectionEquality()
+                .equals(other._userFollowStatus, _userFollowStatus) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
@@ -280,7 +287,7 @@ class _$FollowStateImpl implements _FollowState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      isFollowing,
+      const DeepCollectionEquality().hash(_userFollowStatus),
       isLoading,
       const DeepCollectionEquality().hash(_postListOfOtherUser),
       const DeepCollectionEquality().hash(_coordinateList),
@@ -297,7 +304,7 @@ class _$FollowStateImpl implements _FollowState {
 
 abstract class _FollowState implements FollowState {
   const factory _FollowState(
-      {final bool isFollowing,
+      {final Map<String, bool> userFollowStatus,
       final bool isLoading,
       final List<DataOfPostListOfOtherModel> postListOfOtherUser,
       final List<GeoLoc>? coordinateList,
@@ -306,7 +313,7 @@ abstract class _FollowState implements FollowState {
       final List<RestaurantInfo>? restaurantInfoList}) = _$FollowStateImpl;
 
   @override
-  bool get isFollowing;
+  Map<String, bool> get userFollowStatus;
   @override
   bool get isLoading;
   @override

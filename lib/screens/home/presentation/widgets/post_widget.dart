@@ -52,6 +52,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final String? postId = widget.postList.id;
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
+    final bool? isFollowing = widget.postList.isFollowing;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
@@ -102,8 +103,11 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                         AutoRouter.of(context).push(PeopleProfileRoute(
                             peoplename: name ?? "",
                             peopleimage: profileImage,
-                            peopleId: peopleId ?? "",
-                            isFollow: true));
+                            peopleId: peopleId??"",
+                            isFollow:  false,
+                            isRequested: false,
+                            isFollowing: isFollowing??false
+                        ));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +139,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             ),
                             child: Center(
                               child: Text(
-                                'Following',
+                                (isFollowing??false) ? 'Following': 'Follow',
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,

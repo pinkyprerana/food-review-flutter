@@ -187,6 +187,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           profileImage: fileName,
         );
         await getUserDetails();
+        await fetchUserActivities();
       } else {
         showToastMessage('Please upload a media');
 

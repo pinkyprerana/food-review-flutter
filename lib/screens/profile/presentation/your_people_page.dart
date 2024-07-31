@@ -91,7 +91,7 @@ class _YourPeoplePageState extends ConsumerState<YourPeoplePage> {
   }
 
   Widget _FollowersList() {
-    return Container(
+    return SizedBox(
       height: 500,
       child: Column(
         children: [
@@ -136,7 +136,7 @@ class _YourPeoplePageState extends ConsumerState<YourPeoplePage> {
   }
 
   Widget _FollowingList() {
-    return Container(
+    return SizedBox(
       height: 500,
       child: Column(
         children: [
@@ -181,7 +181,7 @@ class _YourPeoplePageState extends ConsumerState<YourPeoplePage> {
   }
 
   Widget _RequestsList() {
-    return Container(
+    return SizedBox(
       height: 500,
       child: Column(
         children: [

@@ -30,6 +30,7 @@ class RestaurantState with _$RestaurantState {
     @Default(1) int currentPageForSavedRestaurantList,
     @Default(0) int totalPagesForSavedRestaurantList,
     @Default([]) List<SavedRestaurant>? savedRestaurantList,
+    @Default(0) double sliderValue,
   }) = _RestaurantState;
   const RestaurantState._();
 }

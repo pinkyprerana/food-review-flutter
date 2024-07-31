@@ -23,13 +23,14 @@ class _RecentActivityPageState extends ConsumerState<RecentActivityPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
       await stateNotifier.fetchUserActivities(perpage: 10);
+      await stateNotifier.getUserDetails();
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.read(profileNotifierProvider.notifier);
+    final stateNotifier = ref.watch(profileNotifierProvider.notifier);
     final state = ref.watch(profileNotifierProvider);
     return Scaffold(
       appBar: AppBar(

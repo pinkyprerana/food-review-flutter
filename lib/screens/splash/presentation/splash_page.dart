@@ -7,7 +7,6 @@ import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/widgets/custom_background.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../../core/constants/assets.dart';
 
 @RoutePage()
@@ -44,16 +43,18 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     final hive = ref.read(hiveProvider);
     final token = hive.box.get(AppPreferenceKeys.token);
     final getStartedDone = await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
-    // final isLocationFetched = await hive.box.get(AppPreferenceKeys.isLocationFetched);
+    final String? isLocationFetched =
+        await hive.box.get(AppPreferenceKeys.isLocationFetched) ?? 'false';
     // final id = await hive.box.get(AppPreferenceKeys.userId);
 
     final permission = await Geolocator.checkPermission();
     AppLog.log('permissionSplash ${permission.toString()}');
-    AppLog.log('permissionSplash ${await Permission.locationWhenInUse.status}');
 
     if (mounted) {
       if (token != null && token.toString().isNotEmpty) {
-        (permission == LocationPermission.denied)
+        (permission == LocationPermission.denied ||
+                isLocationFetched == null ||
+                isLocationFetched == 'false')
             ? AutoRouter.of(context).pushAndPopUntil(const LocationRoute(), predicate: (_) => false)
             : AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
       } else if (getStartedDone == 'true') {

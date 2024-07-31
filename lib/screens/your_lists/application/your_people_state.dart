@@ -20,6 +20,7 @@ abstract class YourPeopleState with _$YourPeopleState {
     @Default(1) int followingTotalPages,
     @Default(1) int requestCurrentPage,
     @Default(1) int requestTotalPages,
+    @Default(0) int allUsersListLength,
     @Default(1) int allUsersCurrentPage,
     @Default(1) int allUsersTotalPages,
   }) = _YourPeopleState;

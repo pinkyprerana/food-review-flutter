@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:for_the_table/screens/your_lists/application/your_people_state.d
 import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/app_button.dart';
@@ -67,7 +67,8 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin:
+                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -76,7 +77,8 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios,
+                    color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -244,26 +246,40 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     return const SizedBox.shrink();
                   }
                   final follower = followerList[index];
-                  final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
+                  final profileImage =
+                      '${AppUrls.profilePicLocation}/${follower.profileImage}';
 
-                  return CustomCard(
-                    name: follower.fullName ?? '',
-                    date: "Joined May 5, 2018",
-                    imagePath: profileImage,
-                    button: (follower.isFollowing ?? false)
-                        ? const SizedBox.shrink()
-                        : AppButton(
-                            height: 30,
-                            width: (follower.isFollowingRequest ?? false) ? 120 : 80,
-                            text: (follower.isFollowingRequest ?? false)
-                                ? 'Requested'
-                                : 'Follow', // update here
-                            onPressed: () async {
-                              await stateNotifier.followFriend(follower.id ?? '');
-                              await profileNotifier.getUserDetails();
-                            },
-                            color: AppColors.colorCommentBoxBorder,
-                          ),
+                  return GestureDetector(
+                    onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
+                      peoplename: follower.fullName.toString(),
+                      peopleimage: profileImage.toString(),
+                      peopleId: follower.id ?? '',
+                      isFollow: follower.isFollowerRequest ?? false,
+                      isRequested: follower.isFollowingRequest ?? false,
+                      isFollowing: follower.isFollowing ?? false,
+                    )),
+                    child: CustomCard(
+                      name: follower.fullName ?? '',
+                      date: "Joined May 5, 2018",
+                      imagePath: profileImage,
+                      button: (follower.isFollowing ?? false)
+                          ? const SizedBox.shrink()
+                          : AppButton(
+                              height: 30,
+                              width: (follower.isFollowingRequest ?? false)
+                                  ? 120
+                                  : 80,
+                              text: (follower.isFollowingRequest ?? false)
+                                  ? 'Requested'
+                                  : 'Follow', // update here
+                              onPressed: () async {
+                                await stateNotifier
+                                    .followFriend(follower.id ?? '');
+                                await profileNotifier.getUserDetails();
+                              },
+                              color: AppColors.colorCommentBoxBorder,
+                            ),
+                    ),
                   );
                 },
               ),
@@ -315,21 +331,33 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     return const SizedBox.shrink();
                   }
                   final following = followList[index];
-                  final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
+                  final profileImage =
+                      '${AppUrls.profilePicLocation}/${following.profileImage}';
 
-                  return CustomCard(
-                    name: following.fullName ?? '',
-                    date: "Joined May 5, 2024",
-                    imagePath: profileImage,
-                    button: AppButton(
-                      height: 30,
-                      width: 100,
-                      text: 'Unfollow',
-                      onPressed: () async {
-                        await stateNotifier.unfollowFriend(following.id ?? '');
-                        await profileNotifier.getUserDetails();
-                      },
-                      color: AppColors.colorCommentBoxBorder,
+                  return GestureDetector(
+                    onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
+                      peoplename: following.fullName.toString(),
+                      peopleimage: profileImage.toString(),
+                      peopleId: following.id ?? '',
+                      isFollow: following.isFollowerRequest ?? false,
+                      isRequested: following.isFollowingRequest ?? false,
+                      isFollowing: following.isFollowing ?? false,
+                    )),
+                    child: CustomCard(
+                      name: following.fullName ?? '',
+                      date: "Joined May 5, 2024",
+                      imagePath: profileImage,
+                      button: AppButton(
+                        height: 30,
+                        width: 100,
+                        text: 'Unfollow',
+                        onPressed: () async {
+                          await stateNotifier
+                              .unfollowFriend(following.id ?? '');
+                          await profileNotifier.getUserDetails();
+                        },
+                        color: AppColors.colorCommentBoxBorder,
+                      ),
                     ),
                   );
                 },
@@ -382,21 +410,33 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     return const SizedBox.shrink();
                   }
                   final requests = requestList[index];
-                  final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
+                  final profileImage =
+                      '${AppUrls.profilePicLocation}/${requests.profileImage}';
 
-                  return CustomCard(
-                    name: requests.fullName ?? '',
-                    date: "Joined May 5, 2018",
-                    imagePath: profileImage,
-                    button: AppButton(
-                      height: 30,
-                      width: 150,
-                      text: "Accept Request",
-                      onPressed: () async {
-                        await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
-                        await profileNotifier.getUserDetails();
-                      },
-                      color: AppColors.colorCommentBoxBorder,
+                  return GestureDetector(
+                    onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
+                      peoplename: requests.fullName.toString(),
+                      peopleimage: profileImage.toString(),
+                      peopleId: requests.id ?? '',
+                      isFollow: requests.isFollowerRequest ?? false,
+                      isRequested: requests.isFollowingRequest ?? false,
+                      isFollowing: requests.isFollowing ?? false,
+                    )),
+                    child: CustomCard(
+                      name: requests.fullName ?? '',
+                      date: "Joined May 5, 2018",
+                      imagePath: profileImage,
+                      button: AppButton(
+                        height: 30,
+                        width: 150,
+                        text: "Accept Request",
+                        onPressed: () async {
+                          await stateNotifier.acceptFriendRequest(
+                              requests.followerRequestId ?? '');
+                          await profileNotifier.getUserDetails();
+                        },
+                        color: AppColors.colorCommentBoxBorder,
+                      ),
                     ),
                   );
                 },

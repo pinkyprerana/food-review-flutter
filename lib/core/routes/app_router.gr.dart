@@ -154,6 +154,8 @@ abstract class _$AppRouter extends RootStackRouter {
           peopleimage: args.peopleimage,
           peopleId: args.peopleId,
           isFollow: args.isFollow,
+          isRequested: args.isRequested,
+          isFollowing: args.isFollowing,
         ),
       );
     },
@@ -611,6 +613,8 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
     required String peopleimage,
     required String peopleId,
     required bool isFollow,
+    required bool isRequested,
+    required bool isFollowing,
     List<PageRouteInfo>? children,
   }) : super(
           PeopleProfileRoute.name,
@@ -620,6 +624,8 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
             peopleimage: peopleimage,
             peopleId: peopleId,
             isFollow: isFollow,
+            isRequested: isRequested,
+            isFollowing: isFollowing,
           ),
           initialChildren: children,
         );
@@ -637,6 +643,8 @@ class PeopleProfileRouteArgs {
     required this.peopleimage,
     required this.peopleId,
     required this.isFollow,
+    required this.isRequested,
+    required this.isFollowing,
   });
 
   final Key? key;
@@ -649,9 +657,13 @@ class PeopleProfileRouteArgs {
 
   final bool isFollow;
 
+  final bool isRequested;
+
+  final bool isFollowing;
+
   @override
   String toString() {
-    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage, peopleId: $peopleId, isFollow: $isFollow}';
+    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage, peopleId: $peopleId, isFollow: $isFollow, isRequested: $isRequested, isFollowing: $isFollowing}';
   }
 }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'following_model.freezed.dart';
 part 'following_model.g.dart';
@@ -28,7 +30,8 @@ class DataOfFollowingModel with _$DataOfFollowingModel {
     @JsonKey(name: "fullName") String? fullName,
     @JsonKey(name: "email") required String email,
     @JsonKey(name: "profile_image") required String profileImage,
-    @JsonKey(name: "role_info") required RoleInfoOfFollowing roleInfoOfFollowing,
+    @JsonKey(name: "role_info")
+    required RoleInfoOfFollowing roleInfoOfFollowing,
     @JsonKey(name: "request_id") dynamic requestId,
     @JsonKey(name: "isRequest") required bool isRequest,
     @JsonKey(name: "isFollow") required bool isFollow,

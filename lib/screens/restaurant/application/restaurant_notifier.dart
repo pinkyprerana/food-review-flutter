@@ -49,7 +49,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   Future<void> loadMoreRestaurants(BuildContext context) async {
     AppLog.log('state.currentPage: ------->> ${state.currentPage}');
-    if (state.currentPage > state.totalPages) {
+    if (state.currentPage >= state.totalPages) {
       showToastMessage('No more restaurants');
       restaurantRefreshController.loadComplete();
       return;
@@ -96,12 +96,22 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<Restaurant>? restaurantList =
             reastaurantListResponseModel.restaurantList;
 
+        if (isLoadMore) {
+          state = state.copyWith(
+            isLoading: false,
+            restaurantList: [
+              ...state.restaurantList ?? [],
+              ...restaurantList ?? []
+            ],
+            totalPages: reastaurantListResponseModel.pages ?? 0,
+            totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
+          );
+          return;
+        }
+
         state = state.copyWith(
           isLoading: false,
-          restaurantList: [
-            ...state.restaurantList ?? [],
-            ...restaurantList ?? []
-          ],
+          restaurantList: [...restaurantList ?? []],
           totalPages: reastaurantListResponseModel.pages ?? 0,
           totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
         );
@@ -473,5 +483,14 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       state = state.copyWith(isLoadingSaveRestaurantList: false);
     }
+  }
+
+  void sliderValueUpdate(double value) {
+    state = state.copyWith(sliderValue: value);
+    AppLog.log('state.sliderValue -------->> ${state.sliderValue}');
+  }
+
+  void clearStateSliderValue() {
+    state = state.copyWith(sliderValue: 0);
   }
 }

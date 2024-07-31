@@ -19,6 +19,8 @@ mixin _$AuthState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoginLoading => throw _privateConstructorUsedError;
   String get userID => throw _privateConstructorUsedError;
+  int get remainingTime => throw _privateConstructorUsedError;
+  bool get canResendOtp => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -30,7 +32,12 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({bool isLoading, bool isLoginLoading, String userID});
+  $Res call(
+      {bool isLoading,
+      bool isLoginLoading,
+      String userID,
+      int remainingTime,
+      bool canResendOtp});
 }
 
 /// @nodoc
@@ -49,6 +56,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? isLoading = null,
     Object? isLoginLoading = null,
     Object? userID = null,
+    Object? remainingTime = null,
+    Object? canResendOtp = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -63,6 +72,14 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.userID
           : userID // ignore: cast_nullable_to_non_nullable
               as String,
+      remainingTime: null == remainingTime
+          ? _value.remainingTime
+          : remainingTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      canResendOtp: null == canResendOtp
+          ? _value.canResendOtp
+          : canResendOtp // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -75,7 +92,12 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, bool isLoginLoading, String userID});
+  $Res call(
+      {bool isLoading,
+      bool isLoginLoading,
+      String userID,
+      int remainingTime,
+      bool canResendOtp});
 }
 
 /// @nodoc
@@ -92,6 +114,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isLoginLoading = null,
     Object? userID = null,
+    Object? remainingTime = null,
+    Object? canResendOtp = null,
   }) {
     return _then(_$AuthStateImpl(
       isLoading: null == isLoading
@@ -106,6 +130,14 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.userID
           : userID // ignore: cast_nullable_to_non_nullable
               as String,
+      remainingTime: null == remainingTime
+          ? _value.remainingTime
+          : remainingTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      canResendOtp: null == canResendOtp
+          ? _value.canResendOtp
+          : canResendOtp // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -114,7 +146,11 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 
 class _$AuthStateImpl extends _AuthState {
   const _$AuthStateImpl(
-      {this.isLoading = false, this.isLoginLoading = false, this.userID = ""})
+      {this.isLoading = false,
+      this.isLoginLoading = false,
+      this.userID = "",
+      this.remainingTime = 30,
+      this.canResendOtp = false})
       : super._();
 
   @override
@@ -126,10 +162,16 @@ class _$AuthStateImpl extends _AuthState {
   @override
   @JsonKey()
   final String userID;
+  @override
+  @JsonKey()
+  final int remainingTime;
+  @override
+  @JsonKey()
+  final bool canResendOtp;
 
   @override
   String toString() {
-    return 'AuthState(isLoading: $isLoading, isLoginLoading: $isLoginLoading, userID: $userID)';
+    return 'AuthState(isLoading: $isLoading, isLoginLoading: $isLoginLoading, userID: $userID, remainingTime: $remainingTime, canResendOtp: $canResendOtp)';
   }
 
   @override
@@ -141,12 +183,16 @@ class _$AuthStateImpl extends _AuthState {
                 other.isLoading == isLoading) &&
             (identical(other.isLoginLoading, isLoginLoading) ||
                 other.isLoginLoading == isLoginLoading) &&
-            (identical(other.userID, userID) || other.userID == userID));
+            (identical(other.userID, userID) || other.userID == userID) &&
+            (identical(other.remainingTime, remainingTime) ||
+                other.remainingTime == remainingTime) &&
+            (identical(other.canResendOtp, canResendOtp) ||
+                other.canResendOtp == canResendOtp));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isLoading, isLoginLoading, userID);
+  int get hashCode => Object.hash(runtimeType, isLoading, isLoginLoading,
+      userID, remainingTime, canResendOtp);
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +205,9 @@ abstract class _AuthState extends AuthState {
   const factory _AuthState(
       {final bool isLoading,
       final bool isLoginLoading,
-      final String userID}) = _$AuthStateImpl;
+      final String userID,
+      final int remainingTime,
+      final bool canResendOtp}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
@@ -168,6 +216,10 @@ abstract class _AuthState extends AuthState {
   bool get isLoginLoading;
   @override
   String get userID;
+  @override
+  int get remainingTime;
+  @override
+  bool get canResendOtp;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>

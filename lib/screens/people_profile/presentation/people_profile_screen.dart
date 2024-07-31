@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
+import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
+import '../../../widgets/save_button.dart';
+import '../../base/shared/providers.dart';
+import '../../post_feed/shared/provider.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../shared/providers.dart';
 
@@ -18,13 +22,17 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
   final String peopleimage;
   final String peopleId;
   final bool isFollow;
+  final bool isRequested;
+  final bool isFollowing;
 
   const PeopleProfilePage(
       {super.key,
       required this.peoplename,
       required this.peopleimage,
       required this.peopleId,
-      required this.isFollow});
+      required this.isFollow,
+      required this.isRequested,
+      required this.isFollowing});
 
   @override
   ConsumerState<PeopleProfilePage> createState() => _PeopleProfilePageState();
@@ -35,24 +43,28 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final notifier = ref.watch(followNotifierProvider.notifier);
+      final notifier = ref.read(followNotifierProvider.notifier);
       await notifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
     });
+  }
+
+  void handleFollowButtonPressed(userId) {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    followNotifier.followUnfollow(() {}, userId);
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(followNotifierProvider);
     final postListOfOtherUser = state.postListOfOtherUser;
-    AppLog.log("postListOfOtherUser:--->>> $postListOfOtherUser");
-    void handleFollowButtonPressed(userId) {
-      final followNotifier = ref.read(followNotifierProvider.notifier);
-      followNotifier.followUnfollow(() {}, userId);
-      // followNotifier.followUnfollow(() {}, userId).then((_) async {
-      //   final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
-      //   await followNotifier.getAllFollowerList();
-      // });
-    }
+    final isFollowing = ref.watch(followNotifierProvider
+        .select((state) => state.userFollowStatus[widget.peopleId] ?? widget.isFollowing));
+    final isRequested = ref.watch(followNotifierProvider
+        .select((state) => state.userFollowStatus[widget.peopleId] ?? widget.isRequested));
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
     return Scaffold(
       extendBody: true,
@@ -153,21 +165,29 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(13),
-                                        color: widget.isFollow
-                                            ? AppColors.colorBackground
-                                            : AppColors.colorBlack,
+                                        color: isFollowing
+                                            ? AppColors.colorWhite
+                                            : isRequested
+                                                ? AppColors.colorGrey2
+                                                : AppColors.colorNavy,
                                         border: Border.all(
                                           color: AppColors.colorSmallProfileContainerBorder,
                                           width: 1,
                                         ),
                                       ),
                                       child: Text(
-                                        widget.isFollow ? 'Unfollow' : 'Follow',
+                                        isFollowing
+                                            ? 'Following'
+                                            : isRequested
+                                                ? 'Requested'
+                                                : 'Follow',
                                         style: AppTextStyles.textStylePoppinsBold.copyWith(
                                           fontSize: 15.sp,
-                                          color: widget.isFollow
+                                          color: isFollowing
                                               ? AppColors.colorBlack
-                                              : AppColors.colorBackground,
+                                              : isRequested
+                                                  ? AppColors.colorBlack
+                                                  : AppColors.colorWhite,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -251,7 +271,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 ],
                               ),
                               10.verticalSpace,
-                              widget.isFollow
+                              isFollowing
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -359,7 +379,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '01',
+                                        postListOfOtherUser.length > 9
+                                            ? postListOfOtherUser.length.toString()
+                                            : "0${postListOfOtherUser.length.toString()}",
                                         style: AppTextStyles.textStylePoppinsMedium
                                             .copyWith(fontSize: 13.sp, color: AppColors.colorText),
                                       ),
@@ -386,7 +408,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
-                child: widget.isFollow
+                child: isFollowing
                     ? postListOfOtherUser.isNotEmpty
                         ? GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -398,23 +420,36 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                             itemBuilder: (context, index) {
                               final postList = postListOfOtherUser[index];
                               AppLog.log("postList:--->>> $postList");
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                  margin: const EdgeInsets.all(2),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      Image.network(
-                                        '${AppUrls.postImageLocation}${postList.file}',
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        top: 8,
-                                        right: 8,
-                                        child: Image.asset(Assets.save),
-                                      )
-                                    ],
+                              return GestureDetector(
+                                onTap: () {
+                                  final stateNotifier = ref.watch(baseNotifierProvider.notifier);
+                                  stateNotifier.setBottomNavIndexToDefault();
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(2),
+                                    child: Stack(
+                                      fit: StackFit.expand,
+                                      children: [
+                                        Image.network(
+                                          '${AppUrls.postImageLocation}${postList.file}',
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Positioned(
+                                          top: 8,
+                                          right: 8,
+                                          child: GestureDetector(
+                                            onTap: () =>
+                                                postFeedNotifier.saveUnsavePost(() {}, postList.id),
+                                            child: SaveButtonWidget(
+                                              isSavePost: postFeedState.isSavePost,
+                                              isSaved: postList.isSave,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

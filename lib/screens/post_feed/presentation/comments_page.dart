@@ -263,12 +263,13 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                 ],
               ),
               18.verticalSpace,
-              postFeedState.isCommentLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                      color: AppColors.colorWhite,
-                    ))
-                  : comments!.isEmpty
+              // postFeedState.isCommentLoading
+              //     ? const Center(
+              //         child: CircularProgressIndicator(
+              //         color: AppColors.colorWhite,
+              //       ))
+              //     :
+              comments!.isEmpty
                       ? Center(
                           child: Text("Be the first to comment in this post.",
                               style: AppTextStyles.textStylePoppinsMedium.copyWith(

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 
 class CommentsIcon extends ConsumerStatefulWidget {
   const CommentsIcon({super.key, required this.commentCount});

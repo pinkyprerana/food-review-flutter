@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 
@@ -13,7 +12,7 @@ class SaveIcon extends StatefulWidget {
 }
 
 class _SaveIconState extends State<SaveIcon> {
-  var _isSaved;
+  var _isSaved = false;
   @override
   void initState() {
     _isSaved = widget.isBookmarked;

@@ -152,14 +152,17 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   final user = state.leaderboardList[index];
+                                  final profileImage = '${AppUrls.profilePicLocation}/${user.profileImage}';
                                   return GestureDetector(
                                     onTap: () {
                                       AutoRouter.of(context).push(
                                         PeopleProfileRoute(
                                           peoplename: user.fullName ?? '',
-                                          peopleimage: user.profileImage ?? '',
-                                          peopleId: "",
+                                          peopleimage: profileImage,
+                                          peopleId: user.id ?? '',
                                           isFollow: false,
+                                          isRequested: false,
+                                          isFollowing: false,
                                         ),
                                       );
                                     },
@@ -176,8 +179,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                             borderRadius: BorderRadius.circular(10.0).r,
                                             child: (user.profileImage?.isNotEmpty ?? false)
                                                 ? CachedNetworkImage(
-                                                    imageUrl:
-                                                        '${AppUrls.profilePicLocation}/${user.profileImage}',
+                                                    imageUrl:profileImage,
                                                     width: 48.r,
                                                     height: 48.r,
                                                     fit: BoxFit.cover,
