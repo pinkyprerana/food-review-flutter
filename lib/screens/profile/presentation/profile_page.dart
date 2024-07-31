@@ -106,47 +106,51 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ),
                       child: Stack(
                         children: [
-                          Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () => stateNotifier.uploadBannerImage(context),
-                                child: Container(
-                                  height: 110,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.colorCream,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                    ),
-                                  ),
-                                  child: (state.fetchedUser?.bannerImage?.isNotEmpty ?? false)
-                                      ? ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(15),
-                                            topRight: Radius.circular(15),
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                '${AppUrls.bannerLocation}/${state.fetchedUser?.bannerImage ?? ''}',
-                                            fit: BoxFit.cover,
-                                            width: double.maxFinite,
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
+                          GestureDetector(
+                            onTap: () => stateNotifier.uploadBannerImage(context),
+                            child: Container(
+                              height: 125,
+                              decoration: const BoxDecoration(
+                                color: AppColors.colorCream,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
                                 ),
                               ),
+                              child: (state.fetchedUser?.bannerImage?.isNotEmpty ?? false)
+                                  ? ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            '${AppUrls.bannerLocation}/${state.fetchedUser?.bannerImage ?? ''}',
+                                        fit: BoxFit.cover,
+                                        width: double.maxFinite,
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              90.verticalSpace,
                               Container(
-                                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 25).r,
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20, bottom: 25, top: 20)
+                                        .r,
                                 decoration: const BoxDecoration(
                                   color: AppColors.colorWhite,
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
+                                  // borderRadius: BorderRadius.only(
+                                  //   bottomLeft: Radius.circular(15),
+                                  //   bottomRight: Radius.circular(15),
+                                  // ),
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
                                 ),
                                 child: Column(
                                   children: [
-                                    50.verticalSpace,
+                                    deviceSize.height < 700 ? 70.verticalSpace : 40.verticalSpace,
                                     Text(
                                       state.fetchedUser?.fullName ?? '',
                                       style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
@@ -345,6 +349,29 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                          Positioned(
+                            // bottom: -12,
+                            top: 150,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(17),
+                                  color: AppColors.colorWhite,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '01',
+                                    style: AppTextStyles.textStylePoppinsMedium
+                                        .copyWith(fontSize: 13.sp, color: AppColors.colorText),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],
