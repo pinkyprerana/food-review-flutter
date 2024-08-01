@@ -94,7 +94,7 @@ class Assets {
   static const String cancel = 'assets/icons/cancel.png';
   static const String delete = 'assets/icons/delete.png';
   static const String close = 'assets/icons/close.png';
-  static const String coverPhoto = 'assets/images/coverPhoto.png';
+  static const String coverPhoto = 'assets/images/cover.png';
   static const String blurred = 'assets/images/blurred.png';
   static const String man = 'assets/images/man.png';
   static const String woman = 'assets/images/woman.png';
