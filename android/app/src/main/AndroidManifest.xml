@@ -11,8 +11,11 @@
     <application
         android:label="For The Table"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
-
+        android:icon="@mipmap/launcher_icon"
+        android:allowBackup="false"
+        android:fullBackupOnly="false"
+        >
+        
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDoHn9fLrBIKZ3bJ8LdJ1e0pcqTlDWpYxU"/>
 
