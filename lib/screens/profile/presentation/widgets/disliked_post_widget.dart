@@ -12,6 +12,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import '../../../post_feed/presentation/widgets/comments_icon.dart';
 
 class DislikedPostWidget extends StatelessWidget {
+  final String? userId;
   final String? userFullName;
   final String? userDisplayPicture;
   final String? postPicture;
@@ -21,6 +22,7 @@ class DislikedPostWidget extends StatelessWidget {
 
   const DislikedPostWidget({
     super.key,
+    this.userId,
     this.userFullName,
     this.userDisplayPicture,
     this.cuisine,
@@ -75,12 +77,7 @@ class DislikedPostWidget extends StatelessWidget {
                       onTap: () {
                         AutoRouter.of(context).push(
                           PeopleProfileRoute(
-                            // peoplename: userFullName ?? '',
-                            // peopleimage: userDisplayPicture ?? '',
-                            peopleId: '',
-                            // isFollow: true,
-                            // isRequested: false,
-                            // isFollowing: false,
+                            peopleId: userId??'',
                           ),
                         );
                       },

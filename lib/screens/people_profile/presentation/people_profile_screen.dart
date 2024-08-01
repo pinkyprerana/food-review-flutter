@@ -52,6 +52,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     getDetails = followNotifier.getUserById(widget.peopleId);
     final peoplename = getDetails?.fullName ?? '';
     final peopleimage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}' ;
+    final bannerImage = '${AppUrls.profilePicLocation}/${getDetails?.bannerImage ?? ''}' ;
     final isFollowing = getDetails?.isFollowing ?? false;
     final isRequested = getDetails?.isFollowingRequest ?? false;
     final joinedDate = getDetails?.createdAt.toString() ?? '';
@@ -123,8 +124,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: AppColors.colorCream,
-                  image: const DecorationImage(
-                    image: AssetImage(Assets.coverPhoto),
+                  image: DecorationImage(
+                    image: ( bannerImage != '')
+                      ? CachedNetworkImageProvider(bannerImage.toString())
+                      : const AssetImage(Assets.coverPhoto),
                     fit: BoxFit.fill,
                   ),
                   border: Border.all(width: 1, color: AppColors.colorBorder),

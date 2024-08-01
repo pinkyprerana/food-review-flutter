@@ -97,6 +97,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                               final likedPost = state.likedPostList[index];
 
                               return DislikedPostWidget(
+                                userId: likedPost.userInfo?.id,
                                 userFullName: likedPost.userInfo?.fullName,
                                 userDisplayPicture: likedPost.userInfo?.profileImage,
                                 postPicture: likedPost.file,
