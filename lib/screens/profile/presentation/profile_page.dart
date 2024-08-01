@@ -136,7 +136,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                           Column(
                             children: [
-                              90.verticalSpace,
+                              100.verticalSpace,
                               Container(
                                 padding:
                                     const EdgeInsets.only(left: 20, right: 20, bottom: 25, top: 20)
