@@ -131,7 +131,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         width: double.maxFinite,
                                       ),
                                     )
-                                  : const SizedBox.shrink(),
+                                  : const SizedBox.expand(),
                             ),
                           ),
                           Column(
@@ -367,7 +367,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '01',
+                                    stateNotifier.fetchedUser?.stats?.postCount.toString() ?? '0',
                                     style: AppTextStyles.textStylePoppinsMedium
                                         .copyWith(fontSize: 13.sp, color: AppColors.colorText),
                                   ),
