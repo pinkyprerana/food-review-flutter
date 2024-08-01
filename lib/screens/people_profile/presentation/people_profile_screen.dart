@@ -8,10 +8,10 @@ import 'package:for_the_table/widgets/custom_icon.dart';
 import 'package:intl/intl.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/save_button.dart';
-import '../../base/shared/providers.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../../your_lists/shared/provider.dart';
@@ -43,7 +43,6 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(followNotifierProvider);
@@ -63,8 +62,6 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
 
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-
-    print(isRequested);
 
     DateTime? joinedDateTime;
     String formattedDate = '';
@@ -434,11 +431,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                   itemCount: postListOfOtherUser.length,
                   itemBuilder: (context, index) {
                     final postList = postListOfOtherUser[index];
-                    AppLog.log("postList:--->>> $postList");
                     return GestureDetector(
                       onTap: () {
-                        final stateNotifier = ref.watch(baseNotifierProvider.notifier);
-                        stateNotifier.setBottomNavIndexToDefault();
+                        AutoRouter.of(context).push(PostDetailsRoute( postListOfUser: postList, creatorDetails: getDetails,));
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
@@ -456,7 +451,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 right: 8,
                                 child: GestureDetector(
                                   onTap: () =>
-                                      postFeedNotifier.saveUnsavePost(() {}, postList.id),
+                                      postFeedNotifier.saveUnsavePost(() {
+                                        followNotifier.getAllPostsOfOtherUserProfile((){}, widget.peopleId);
+                                      }, postList.id),
                                   child: SaveButtonWidget(
                                     isSavePost: postFeedState.isSavePost,
                                     isSaved: postList.isSave,

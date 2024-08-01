@@ -160,6 +160,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PhotoClickPage(),
       );
     },
+    PostDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<PostDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PostDetailsPage(
+          key: args.key,
+          postListOfUser: args.postListOfUser,
+          creatorDetails: args.creatorDetails,
+        ),
+      );
+    },
     PrivacyPolicyRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -636,6 +647,49 @@ class PhotoClickRoute extends PageRouteInfo<void> {
   static const String name = 'PhotoClickRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PostDetailsPage]
+class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
+  PostDetailsRoute({
+    Key? key,
+    required dynamic postListOfUser,
+    required dynamic creatorDetails,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PostDetailsRoute.name,
+          args: PostDetailsRouteArgs(
+            key: key,
+            postListOfUser: postListOfUser,
+            creatorDetails: creatorDetails,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PostDetailsRoute';
+
+  static const PageInfo<PostDetailsRouteArgs> page =
+      PageInfo<PostDetailsRouteArgs>(name);
+}
+
+class PostDetailsRouteArgs {
+  const PostDetailsRouteArgs({
+    this.key,
+    required this.postListOfUser,
+    required this.creatorDetails,
+  });
+
+  final Key? key;
+
+  final dynamic postListOfUser;
+
+  final dynamic creatorDetails;
+
+  @override
+  String toString() {
+    return 'PostDetailsRouteArgs{key: $key, postListOfUser: $postListOfUser, creatorDetails: $creatorDetails}';
+  }
 }
 
 /// generated route for

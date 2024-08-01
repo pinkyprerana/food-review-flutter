@@ -29,7 +29,6 @@ mixin _$FollowState {
   List<DataOfOtherPeople>? get getDetails => throw _privateConstructorUsedError;
   OtherPeopleProfileModel? get otherPeopleProfile =>
       throw _privateConstructorUsedError;
-  String get profileImgPath => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FollowStateCopyWith<FollowState> get copyWith =>
@@ -51,8 +50,7 @@ abstract class $FollowStateCopyWith<$Res> {
       List<PreferenceInfo>? preferenceInfoList,
       List<RestaurantInfo>? restaurantInfoList,
       List<DataOfOtherPeople>? getDetails,
-      OtherPeopleProfileModel? otherPeopleProfile,
-      String profileImgPath});
+      OtherPeopleProfileModel? otherPeopleProfile});
 
   $OtherPeopleProfileModelCopyWith<$Res>? get otherPeopleProfile;
 }
@@ -79,7 +77,6 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
     Object? restaurantInfoList = freezed,
     Object? getDetails = freezed,
     Object? otherPeopleProfile = freezed,
-    Object? profileImgPath = null,
   }) {
     return _then(_value.copyWith(
       userFollowStatus: null == userFollowStatus
@@ -118,10 +115,6 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
           ? _value.otherPeopleProfile
           : otherPeopleProfile // ignore: cast_nullable_to_non_nullable
               as OtherPeopleProfileModel?,
-      profileImgPath: null == profileImgPath
-          ? _value.profileImgPath
-          : profileImgPath // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 
@@ -156,8 +149,7 @@ abstract class _$$FollowStateImplCopyWith<$Res>
       List<PreferenceInfo>? preferenceInfoList,
       List<RestaurantInfo>? restaurantInfoList,
       List<DataOfOtherPeople>? getDetails,
-      OtherPeopleProfileModel? otherPeopleProfile,
-      String profileImgPath});
+      OtherPeopleProfileModel? otherPeopleProfile});
 
   @override
   $OtherPeopleProfileModelCopyWith<$Res>? get otherPeopleProfile;
@@ -183,7 +175,6 @@ class __$$FollowStateImplCopyWithImpl<$Res>
     Object? restaurantInfoList = freezed,
     Object? getDetails = freezed,
     Object? otherPeopleProfile = freezed,
-    Object? profileImgPath = null,
   }) {
     return _then(_$FollowStateImpl(
       userFollowStatus: null == userFollowStatus
@@ -222,10 +213,6 @@ class __$$FollowStateImplCopyWithImpl<$Res>
           ? _value.otherPeopleProfile
           : otherPeopleProfile // ignore: cast_nullable_to_non_nullable
               as OtherPeopleProfileModel?,
-      profileImgPath: null == profileImgPath
-          ? _value.profileImgPath
-          : profileImgPath // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -242,8 +229,7 @@ class _$FollowStateImpl implements _FollowState {
       final List<PreferenceInfo>? preferenceInfoList = const [],
       final List<RestaurantInfo>? restaurantInfoList = const [],
       final List<DataOfOtherPeople>? getDetails,
-      this.otherPeopleProfile,
-      this.profileImgPath = ''})
+      this.otherPeopleProfile})
       : _userFollowStatus = userFollowStatus,
         _postListOfOtherUser = postListOfOtherUser,
         _coordinateList = coordinateList,
@@ -332,13 +318,10 @@ class _$FollowStateImpl implements _FollowState {
 
   @override
   final OtherPeopleProfileModel? otherPeopleProfile;
-  @override
-  @JsonKey()
-  final String profileImgPath;
 
   @override
   String toString() {
-    return 'FollowState(userFollowStatus: $userFollowStatus, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, getDetails: $getDetails, otherPeopleProfile: $otherPeopleProfile, profileImgPath: $profileImgPath)';
+    return 'FollowState(userFollowStatus: $userFollowStatus, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, getDetails: $getDetails, otherPeopleProfile: $otherPeopleProfile)';
   }
 
   @override
@@ -363,9 +346,7 @@ class _$FollowStateImpl implements _FollowState {
             const DeepCollectionEquality()
                 .equals(other._getDetails, _getDetails) &&
             (identical(other.otherPeopleProfile, otherPeopleProfile) ||
-                other.otherPeopleProfile == otherPeopleProfile) &&
-            (identical(other.profileImgPath, profileImgPath) ||
-                other.profileImgPath == profileImgPath));
+                other.otherPeopleProfile == otherPeopleProfile));
   }
 
   @override
@@ -379,8 +360,7 @@ class _$FollowStateImpl implements _FollowState {
       const DeepCollectionEquality().hash(_preferenceInfoList),
       const DeepCollectionEquality().hash(_restaurantInfoList),
       const DeepCollectionEquality().hash(_getDetails),
-      otherPeopleProfile,
-      profileImgPath);
+      otherPeopleProfile);
 
   @JsonKey(ignore: true)
   @override
@@ -399,8 +379,7 @@ abstract class _FollowState implements FollowState {
       final List<PreferenceInfo>? preferenceInfoList,
       final List<RestaurantInfo>? restaurantInfoList,
       final List<DataOfOtherPeople>? getDetails,
-      final OtherPeopleProfileModel? otherPeopleProfile,
-      final String profileImgPath}) = _$FollowStateImpl;
+      final OtherPeopleProfileModel? otherPeopleProfile}) = _$FollowStateImpl;
 
   @override
   Map<String, bool> get userFollowStatus;
@@ -420,8 +399,6 @@ abstract class _FollowState implements FollowState {
   List<DataOfOtherPeople>? get getDetails;
   @override
   OtherPeopleProfileModel? get otherPeopleProfile;
-  @override
-  String get profileImgPath;
   @override
   @JsonKey(ignore: true)
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>
