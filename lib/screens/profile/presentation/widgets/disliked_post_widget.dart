@@ -75,12 +75,12 @@ class DislikedPostWidget extends StatelessWidget {
                       onTap: () {
                         AutoRouter.of(context).push(
                           PeopleProfileRoute(
-                            peoplename: userFullName ?? '',
-                            peopleimage: userDisplayPicture ?? '',
+                            // peoplename: userFullName ?? '',
+                            // peopleimage: userDisplayPicture ?? '',
                             peopleId: '',
-                            isFollow: true,
-                            isRequested: false,
-                            isFollowing: false,
+                            // isFollow: true,
+                            // isRequested: false,
+                            // isFollowing: false,
                           ),
                         );
                       },

@@ -147,24 +147,25 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                             final profileImage = '${AppUrls.profilePicLocation}/$imgpath';
 
                             return GestureDetector(
-                              onTap: () {
-                                AutoRouter.of(context).push(PeopleProfileRoute(
-                                    peoplename: followers.fullName.toString(),
-                                    peopleimage: profileImage.toString(),
+                                onTap: () {
+                                  AutoRouter.of(context).push(PeopleProfileRoute(
+                                    // peoplename: followers.fullName.toString(),
+                                    // peopleimage: profileImage.toString(),
                                     peopleId: followers.id ?? '',
+                                    // isFollow: followers.isFollowerRequest ?? false,
+                                    // isRequested: followers.isFollowingRequest ?? false,
+                                    // isFollowing: followers.isFollowing ?? false
+                                  ));
+                                },
+                                child: FollowOptionWidget(
+                                    followersId: followers.id ?? '',
+                                    imgpath: profileImage,
+                                    name: followers.fullName.toString(),
                                     isFollow: followers.isFollowerRequest ?? false,
                                     isRequested: followers.isFollowingRequest ?? false,
                                     isFollowing: followers.isFollowing ?? false));
-                              },
-                              child: FollowOptionWidget(
-                                  followersId: followers.id ?? '',
-                                  imgpath: profileImage,
-                                  name: followers.fullName.toString(),
-                                  isFollow: followers.isFollowerRequest ?? false,
-                                  isRequested: followers.isFollowingRequest ?? false,
-                                  isFollowing: followers.isFollowing ?? false),
-                            );
-                          })
+                          },
+                        )
                       : Center(
                           child: Text(
                             'You have no follower.',

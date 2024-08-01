@@ -157,12 +157,12 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                     onTap: () {
                                       AutoRouter.of(context).push(
                                         PeopleProfileRoute(
-                                          peoplename: user.fullName ?? '',
-                                          peopleimage: profileImage,
+                                          // peoplename: user.fullName ?? '',
+                                          // peopleimage: profileImage,
                                           peopleId: user.id ?? '',
-                                          isFollow: false,
-                                          isRequested: false,
-                                          isFollowing: false,
+                                          // isFollow: false,
+                                          // isRequested: false,
+                                          // isFollowing: false,
                                         ),
                                       );
                                     },

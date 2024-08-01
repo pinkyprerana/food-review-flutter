@@ -150,12 +150,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PeopleProfilePage(
           key: args.key,
-          peoplename: args.peoplename,
-          peopleimage: args.peopleimage,
           peopleId: args.peopleId,
-          isFollow: args.isFollow,
-          isRequested: args.isRequested,
-          isFollowing: args.isFollowing,
         ),
       );
     },
@@ -163,6 +158,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PhotoClickPage(),
+      );
+    },
+    PostDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<PostDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PostDetailsPage(
+          key: args.key,
+          postListOfUser: args.postListOfUser,
+          creatorDetails: args.creatorDetails,
+        ),
       );
     },
     PrivacyPolicyRoute.name: (routeData) {
@@ -603,23 +609,13 @@ class NotificationRoute extends PageRouteInfo<void> {
 class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
   PeopleProfileRoute({
     Key? key,
-    required String peoplename,
-    required String peopleimage,
     required String peopleId,
-    required bool isFollow,
-    required bool isRequested,
-    required bool isFollowing,
     List<PageRouteInfo>? children,
   }) : super(
           PeopleProfileRoute.name,
           args: PeopleProfileRouteArgs(
             key: key,
-            peoplename: peoplename,
-            peopleimage: peopleimage,
             peopleId: peopleId,
-            isFollow: isFollow,
-            isRequested: isRequested,
-            isFollowing: isFollowing,
           ),
           initialChildren: children,
         );
@@ -633,31 +629,16 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
 class PeopleProfileRouteArgs {
   const PeopleProfileRouteArgs({
     this.key,
-    required this.peoplename,
-    required this.peopleimage,
     required this.peopleId,
-    required this.isFollow,
-    required this.isRequested,
-    required this.isFollowing,
   });
 
   final Key? key;
 
-  final String peoplename;
-
-  final String peopleimage;
-
   final String peopleId;
-
-  final bool isFollow;
-
-  final bool isRequested;
-
-  final bool isFollowing;
 
   @override
   String toString() {
-    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage, peopleId: $peopleId, isFollow: $isFollow, isRequested: $isRequested, isFollowing: $isFollowing}';
+    return 'PeopleProfileRouteArgs{key: $key, peopleId: $peopleId}';
   }
 }
 
@@ -673,6 +654,49 @@ class PhotoClickRoute extends PageRouteInfo<void> {
   static const String name = 'PhotoClickRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PostDetailsPage]
+class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
+  PostDetailsRoute({
+    Key? key,
+    required dynamic postListOfUser,
+    required dynamic creatorDetails,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PostDetailsRoute.name,
+          args: PostDetailsRouteArgs(
+            key: key,
+            postListOfUser: postListOfUser,
+            creatorDetails: creatorDetails,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PostDetailsRoute';
+
+  static const PageInfo<PostDetailsRouteArgs> page =
+      PageInfo<PostDetailsRouteArgs>(name);
+}
+
+class PostDetailsRouteArgs {
+  const PostDetailsRouteArgs({
+    this.key,
+    required this.postListOfUser,
+    required this.creatorDetails,
+  });
+
+  final Key? key;
+
+  final dynamic postListOfUser;
+
+  final dynamic creatorDetails;
+
+  @override
+  String toString() {
+    return 'PostDetailsRouteArgs{key: $key, postListOfUser: $postListOfUser, creatorDetails: $creatorDetails}';
+  }
 }
 
 /// generated route for

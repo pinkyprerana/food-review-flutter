@@ -67,8 +67,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -77,8 +76,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -246,17 +244,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     return const SizedBox.shrink();
                   }
                   final follower = followerList[index];
-                  final profileImage =
-                      '${AppUrls.profilePicLocation}/${follower.profileImage}';
+                  final profileImage = '${AppUrls.profilePicLocation}/${follower.profileImage}';
 
                   return GestureDetector(
                     onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: follower.fullName.toString(),
-                      peopleimage: profileImage.toString(),
+                      // peoplename: follower.fullName.toString(),
+                      // peopleimage: profileImage.toString(),
                       peopleId: follower.id ?? '',
-                      isFollow: follower.isFollowerRequest ?? false,
-                      isRequested: follower.isFollowingRequest ?? false,
-                      isFollowing: follower.isFollowing ?? false,
+                      // isFollow: follower.isFollowerRequest ?? false,
+                      // isRequested: follower.isFollowingRequest ??false,
+                      // isFollowing: follower.isFollowing ??false,
                     )),
                     child: CustomCard(
                       name: follower.fullName ?? '',
@@ -266,15 +263,12 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                           ? const SizedBox.shrink()
                           : AppButton(
                               height: 30,
-                              width: (follower.isFollowingRequest ?? false)
-                                  ? 120
-                                  : 80,
+                              width: (follower.isFollowingRequest ?? false) ? 120 : 80,
                               text: (follower.isFollowingRequest ?? false)
                                   ? 'Requested'
                                   : 'Follow', // update here
                               onPressed: () async {
-                                await stateNotifier
-                                    .followFriend(follower.id ?? '');
+                                await stateNotifier.followFriend(follower.id ?? '');
                                 await profileNotifier.getUserDetails();
                               },
                               color: AppColors.colorCommentBoxBorder,
@@ -331,17 +325,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     return const SizedBox.shrink();
                   }
                   final following = followList[index];
-                  final profileImage =
-                      '${AppUrls.profilePicLocation}/${following.profileImage}';
+                  final profileImage = '${AppUrls.profilePicLocation}/${following.profileImage}';
 
                   return GestureDetector(
                     onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: following.fullName.toString(),
-                      peopleimage: profileImage.toString(),
+                      // peoplename: following.fullName.toString(),
+                      // peopleimage: profileImage.toString(),
                       peopleId: following.id ?? '',
-                      isFollow: following.isFollowerRequest ?? false,
-                      isRequested: following.isFollowingRequest ?? false,
-                      isFollowing: following.isFollowing ?? false,
+                      // isFollow: following.isFollowerRequest ?? false,
+                      // isRequested: following.isFollowingRequest ??false,
+                      // isFollowing: following.isFollowing ??false,
                     )),
                     child: CustomCard(
                       name: following.fullName ?? '',
@@ -352,8 +345,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                         width: 100,
                         text: 'Unfollow',
                         onPressed: () async {
-                          await stateNotifier
-                              .unfollowFriend(following.id ?? '');
+                          await stateNotifier.unfollowFriend(following.id ?? '');
                           await profileNotifier.getUserDetails();
                         },
                         color: AppColors.colorCommentBoxBorder,
@@ -410,17 +402,16 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                     return const SizedBox.shrink();
                   }
                   final requests = requestList[index];
-                  final profileImage =
-                      '${AppUrls.profilePicLocation}/${requests.profileImage}';
+                  final profileImage = '${AppUrls.profilePicLocation}/${requests.profileImage}';
 
                   return GestureDetector(
                     onTap: () => AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: requests.fullName.toString(),
-                      peopleimage: profileImage.toString(),
+                      // peoplename: requests.fullName.toString(),
+                      //  peopleimage: profileImage.toString(),
                       peopleId: requests.id ?? '',
-                      isFollow: requests.isFollowerRequest ?? false,
-                      isRequested: requests.isFollowingRequest ?? false,
-                      isFollowing: requests.isFollowing ?? false,
+                      // isFollow: requests.isFollowerRequest ?? false,
+                      // isRequested: requests.isFollowingRequest ??false,
+                      // isFollowing: requests.isFollowing ??false,
                     )),
                     child: CustomCard(
                       name: requests.fullName ?? '',
@@ -431,8 +422,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                         width: 150,
                         text: "Accept Request",
                         onPressed: () async {
-                          await stateNotifier.acceptFriendRequest(
-                              requests.followerRequestId ?? '');
+                          await stateNotifier.acceptFriendRequest(requests.followerRequestId ?? '');
                           await profileNotifier.getUserDetails();
                         },
                         color: AppColors.colorCommentBoxBorder,

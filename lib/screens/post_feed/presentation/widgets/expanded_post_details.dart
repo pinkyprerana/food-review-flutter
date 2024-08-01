@@ -63,12 +63,12 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   GestureDetector(
                     onTap: () {
                       AutoRouter.of(context).push(PeopleProfileRoute(
-                          peoplename: name ?? "", //'Ahmad Gouse',
-                          peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                          // peoplename: name ?? "", //'Ahmad Gouse',
+                          // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
                           peopleId: peopleId??"",
-                          isFollow: true,
-                        isRequested: false,
-                        isFollowing: false,
+                        //   isFollow: true,
+                        // isRequested: false,
+                        // isFollowing: false,
                       ));
                     },
                     child: Row(
@@ -102,7 +102,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                           ),
                           child: Center(
                             child: Text(
-                              (isFollowing??false) ? 'Following': 'Follow',
+                              (isFollowing??false) ? 'Unfollow': 'Follow',
                               style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                 color: AppColors.colorWhite,
                                 fontSize: 10.sp,
