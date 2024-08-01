@@ -210,8 +210,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state.userProfileResponseModel?.stats
-                                                              ?.followerCount
+                                                      state.userProfileResponseModel?.profileDetails
+                                                              ?.stats?.followerCount
                                                               .toString() ??
                                                           '',
                                                       style: AppTextStyles.textStylePoppinsBold
@@ -245,8 +245,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state.userProfileResponseModel?.stats
-                                                              ?.followingCount
+                                                      state.userProfileResponseModel?.profileDetails
+                                                              ?.stats?.followingCount
                                                               .toString() ??
                                                           '',
                                                       style: AppTextStyles.textStylePoppinsBold
@@ -280,8 +280,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state.userProfileResponseModel?.savePostStats
-                                                              ?.savePostCount
+                                                      state.userProfileResponseModel?.profileDetails
+                                                              ?.stats?.savePostCount
                                                               .toString() ??
                                                           '',
                                                       style: AppTextStyles.textStylePoppinsBold
@@ -339,7 +339,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         ],
                                         image: DecorationImage(
                                           image:
-                                              (state.fetchedUser?.profileImage.isNotEmpty ?? false)
+                                              (state.fetchedUser?.profileImage?.isNotEmpty ?? false)
                                                   ? CachedNetworkImageProvider(state.profileImgPath)
                                                       as ImageProvider
                                                   : const AssetImage(Assets.noProfileImage),

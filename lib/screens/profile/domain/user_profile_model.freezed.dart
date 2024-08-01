@@ -28,10 +28,8 @@ mixin _$UserProfileModel {
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
   ProfileDetails? get profileDetails => throw _privateConstructorUsedError;
-  @JsonKey(name: "stats")
-  Stats? get stats => throw _privateConstructorUsedError;
-  @JsonKey(name: "savePostStats")
-  SavePostStats? get savePostStats => throw _privateConstructorUsedError;
+  @JsonKey(name: "token")
+  String? get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,12 +48,9 @@ abstract class $UserProfileModelCopyWith<$Res> {
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
       @JsonKey(name: "data") ProfileDetails? profileDetails,
-      @JsonKey(name: "stats") Stats? stats,
-      @JsonKey(name: "savePostStats") SavePostStats? savePostStats});
+      @JsonKey(name: "token") String? token});
 
   $ProfileDetailsCopyWith<$Res>? get profileDetails;
-  $StatsCopyWith<$Res>? get stats;
-  $SavePostStatsCopyWith<$Res>? get savePostStats;
 }
 
 /// @nodoc
@@ -75,8 +70,7 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
     Object? type = freezed,
     Object? message = freezed,
     Object? profileDetails = freezed,
-    Object? stats = freezed,
-    Object? savePostStats = freezed,
+    Object? token = freezed,
   }) {
     return _then(_value.copyWith(
       status: freezed == status
@@ -95,14 +89,10 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
           ? _value.profileDetails
           : profileDetails // ignore: cast_nullable_to_non_nullable
               as ProfileDetails?,
-      stats: freezed == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as Stats?,
-      savePostStats: freezed == savePostStats
-          ? _value.savePostStats
-          : savePostStats // ignore: cast_nullable_to_non_nullable
-              as SavePostStats?,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -115,30 +105,6 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
 
     return $ProfileDetailsCopyWith<$Res>(_value.profileDetails!, (value) {
       return _then(_value.copyWith(profileDetails: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $StatsCopyWith<$Res>? get stats {
-    if (_value.stats == null) {
-      return null;
-    }
-
-    return $StatsCopyWith<$Res>(_value.stats!, (value) {
-      return _then(_value.copyWith(stats: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $SavePostStatsCopyWith<$Res>? get savePostStats {
-    if (_value.savePostStats == null) {
-      return null;
-    }
-
-    return $SavePostStatsCopyWith<$Res>(_value.savePostStats!, (value) {
-      return _then(_value.copyWith(savePostStats: value) as $Val);
     });
   }
 }
@@ -156,15 +122,10 @@ abstract class _$$UserProfileModelImplCopyWith<$Res>
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
       @JsonKey(name: "data") ProfileDetails? profileDetails,
-      @JsonKey(name: "stats") Stats? stats,
-      @JsonKey(name: "savePostStats") SavePostStats? savePostStats});
+      @JsonKey(name: "token") String? token});
 
   @override
   $ProfileDetailsCopyWith<$Res>? get profileDetails;
-  @override
-  $StatsCopyWith<$Res>? get stats;
-  @override
-  $SavePostStatsCopyWith<$Res>? get savePostStats;
 }
 
 /// @nodoc
@@ -182,8 +143,7 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
     Object? type = freezed,
     Object? message = freezed,
     Object? profileDetails = freezed,
-    Object? stats = freezed,
-    Object? savePostStats = freezed,
+    Object? token = freezed,
   }) {
     return _then(_$UserProfileModelImpl(
       status: freezed == status
@@ -202,14 +162,10 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
           ? _value.profileDetails
           : profileDetails // ignore: cast_nullable_to_non_nullable
               as ProfileDetails?,
-      stats: freezed == stats
-          ? _value.stats
-          : stats // ignore: cast_nullable_to_non_nullable
-              as Stats?,
-      savePostStats: freezed == savePostStats
-          ? _value.savePostStats
-          : savePostStats // ignore: cast_nullable_to_non_nullable
-              as SavePostStats?,
+      token: freezed == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -222,8 +178,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
       @JsonKey(name: "data") this.profileDetails,
-      @JsonKey(name: "stats") this.stats,
-      @JsonKey(name: "savePostStats") this.savePostStats});
+      @JsonKey(name: "token") this.token});
 
   factory _$UserProfileModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserProfileModelImplFromJson(json);
@@ -241,15 +196,12 @@ class _$UserProfileModelImpl implements _UserProfileModel {
   @JsonKey(name: "data")
   final ProfileDetails? profileDetails;
   @override
-  @JsonKey(name: "stats")
-  final Stats? stats;
-  @override
-  @JsonKey(name: "savePostStats")
-  final SavePostStats? savePostStats;
+  @JsonKey(name: "token")
+  final String? token;
 
   @override
   String toString() {
-    return 'UserProfileModel(status: $status, type: $type, message: $message, profileDetails: $profileDetails, stats: $stats, savePostStats: $savePostStats)';
+    return 'UserProfileModel(status: $status, type: $type, message: $message, profileDetails: $profileDetails, token: $token)';
   }
 
   @override
@@ -262,15 +214,13 @@ class _$UserProfileModelImpl implements _UserProfileModel {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.profileDetails, profileDetails) ||
                 other.profileDetails == profileDetails) &&
-            (identical(other.stats, stats) || other.stats == stats) &&
-            (identical(other.savePostStats, savePostStats) ||
-                other.savePostStats == savePostStats));
+            (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, type, message, profileDetails, stats, savePostStats);
+  int get hashCode =>
+      Object.hash(runtimeType, status, type, message, profileDetails, token);
 
   @JsonKey(ignore: true)
   @override
@@ -289,13 +239,11 @@ class _$UserProfileModelImpl implements _UserProfileModel {
 
 abstract class _UserProfileModel implements UserProfileModel {
   const factory _UserProfileModel(
-          {@JsonKey(name: "status") final int? status,
-          @JsonKey(name: "type") final String? type,
-          @JsonKey(name: "message") final String? message,
-          @JsonKey(name: "data") final ProfileDetails? profileDetails,
-          @JsonKey(name: "stats") final Stats? stats,
-          @JsonKey(name: "savePostStats") final SavePostStats? savePostStats}) =
-      _$UserProfileModelImpl;
+      {@JsonKey(name: "status") final int? status,
+      @JsonKey(name: "type") final String? type,
+      @JsonKey(name: "message") final String? message,
+      @JsonKey(name: "data") final ProfileDetails? profileDetails,
+      @JsonKey(name: "token") final String? token}) = _$UserProfileModelImpl;
 
   factory _UserProfileModel.fromJson(Map<String, dynamic> json) =
       _$UserProfileModelImpl.fromJson;
@@ -313,11 +261,8 @@ abstract class _UserProfileModel implements UserProfileModel {
   @JsonKey(name: "data")
   ProfileDetails? get profileDetails;
   @override
-  @JsonKey(name: "stats")
-  Stats? get stats;
-  @override
-  @JsonKey(name: "savePostStats")
-  SavePostStats? get savePostStats;
+  @JsonKey(name: "token")
+  String? get token;
   @override
   @JsonKey(ignore: true)
   _$$UserProfileModelImplCopyWith<_$UserProfileModelImpl> get copyWith =>
@@ -349,25 +294,43 @@ mixin _$ProfileDetails {
   @JsonKey(name: "city")
   String? get city => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_image")
-  String get profileImage => throw _privateConstructorUsedError;
-  @JsonKey(name: "banner_image")
-  String? get bannerImage => throw _privateConstructorUsedError;
-  @JsonKey(name: "createdAt")
-  DateTime? get createdAt => throw _privateConstructorUsedError;
+  String? get profileImage => throw _privateConstructorUsedError;
+  @JsonKey(name: "registerType")
+  String? get registerType => throw _privateConstructorUsedError;
   @JsonKey(name: "otp")
   String? get otp => throw _privateConstructorUsedError;
+  @JsonKey(name: "location")
+  String? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: "lng")
+  String? get lng => throw _privateConstructorUsedError;
+  @JsonKey(name: "lat")
+  String? get lat => throw _privateConstructorUsedError;
+  @JsonKey(name: "geo_loc")
+  GeoLoc? get geoLoc => throw _privateConstructorUsedError;
+  @JsonKey(name: "otpExpireTime")
+  dynamic get otpExpireTime => throw _privateConstructorUsedError;
   @JsonKey(name: "isOtpVerified")
-  bool get isOtpVerified => throw _privateConstructorUsedError;
+  bool? get isOtpVerified => throw _privateConstructorUsedError;
   @JsonKey(name: "isVerified")
   bool? get isVerified => throw _privateConstructorUsedError;
   @JsonKey(name: "isOnBoarding")
-  bool get isOnBoarding => throw _privateConstructorUsedError;
+  bool? get isOnBoarding => throw _privateConstructorUsedError;
   @JsonKey(name: "preference")
-  List<dynamic> get preference => throw _privateConstructorUsedError;
+  List<dynamic>? get preference => throw _privateConstructorUsedError;
   @JsonKey(name: "socialAccount")
-  List<dynamic> get socialAccount => throw _privateConstructorUsedError;
-  @JsonKey(name: "otpExpireTime")
-  DateTime? get otpExpireTime => throw _privateConstructorUsedError;
+  List<dynamic>? get socialAccount => throw _privateConstructorUsedError;
+  @JsonKey(name: "createdAt")
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "banner_image")
+  String? get bannerImage => throw _privateConstructorUsedError;
+  @JsonKey(name: "preferenceInfo")
+  List<dynamic>? get preferenceInfo => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowing")
+  bool? get isFollowing => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowingRequest")
+  bool? get isFollowingRequest => throw _privateConstructorUsedError;
+  @JsonKey(name: "stats")
+  Stats? get stats => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -391,18 +354,29 @@ abstract class $ProfileDetailsCopyWith<$Res> {
       @JsonKey(name: "email") String? email,
       @JsonKey(name: "bio") String? bio,
       @JsonKey(name: "city") String? city,
-      @JsonKey(name: "profile_image") String profileImage,
-      @JsonKey(name: "banner_image") String? bannerImage,
-      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "profile_image") String? profileImage,
+      @JsonKey(name: "registerType") String? registerType,
       @JsonKey(name: "otp") String? otp,
-      @JsonKey(name: "isOtpVerified") bool isOtpVerified,
+      @JsonKey(name: "location") String? location,
+      @JsonKey(name: "lng") String? lng,
+      @JsonKey(name: "lat") String? lat,
+      @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+      @JsonKey(name: "otpExpireTime") dynamic otpExpireTime,
+      @JsonKey(name: "isOtpVerified") bool? isOtpVerified,
       @JsonKey(name: "isVerified") bool? isVerified,
-      @JsonKey(name: "isOnBoarding") bool isOnBoarding,
-      @JsonKey(name: "preference") List<dynamic> preference,
-      @JsonKey(name: "socialAccount") List<dynamic> socialAccount,
-      @JsonKey(name: "otpExpireTime") DateTime? otpExpireTime});
+      @JsonKey(name: "isOnBoarding") bool? isOnBoarding,
+      @JsonKey(name: "preference") List<dynamic>? preference,
+      @JsonKey(name: "socialAccount") List<dynamic>? socialAccount,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "banner_image") String? bannerImage,
+      @JsonKey(name: "preferenceInfo") List<dynamic>? preferenceInfo,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
+      @JsonKey(name: "stats") Stats? stats});
 
   $RoleCopyWith<$Res>? get role;
+  $GeoLocCopyWith<$Res>? get geoLoc;
+  $StatsCopyWith<$Res>? get stats;
 }
 
 /// @nodoc
@@ -427,16 +401,25 @@ class _$ProfileDetailsCopyWithImpl<$Res, $Val extends ProfileDetails>
     Object? email = freezed,
     Object? bio = freezed,
     Object? city = freezed,
-    Object? profileImage = null,
-    Object? bannerImage = freezed,
-    Object? createdAt = freezed,
+    Object? profileImage = freezed,
+    Object? registerType = freezed,
     Object? otp = freezed,
-    Object? isOtpVerified = null,
-    Object? isVerified = freezed,
-    Object? isOnBoarding = null,
-    Object? preference = null,
-    Object? socialAccount = null,
+    Object? location = freezed,
+    Object? lng = freezed,
+    Object? lat = freezed,
+    Object? geoLoc = freezed,
     Object? otpExpireTime = freezed,
+    Object? isOtpVerified = freezed,
+    Object? isVerified = freezed,
+    Object? isOnBoarding = freezed,
+    Object? preference = freezed,
+    Object? socialAccount = freezed,
+    Object? createdAt = freezed,
+    Object? bannerImage = freezed,
+    Object? preferenceInfo = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollowingRequest = freezed,
+    Object? stats = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -475,46 +458,82 @@ class _$ProfileDetailsCopyWithImpl<$Res, $Val extends ProfileDetails>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImage: null == profileImage
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      bannerImage: freezed == bannerImage
-          ? _value.bannerImage
-          : bannerImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      registerType: freezed == registerType
+          ? _value.registerType
+          : registerType // ignore: cast_nullable_to_non_nullable
+              as String?,
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
               as String?,
-      isOtpVerified: null == isOtpVerified
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lng: freezed == lng
+          ? _value.lng
+          : lng // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as String?,
+      geoLoc: freezed == geoLoc
+          ? _value.geoLoc
+          : geoLoc // ignore: cast_nullable_to_non_nullable
+              as GeoLoc?,
+      otpExpireTime: freezed == otpExpireTime
+          ? _value.otpExpireTime
+          : otpExpireTime // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      isOtpVerified: freezed == isOtpVerified
           ? _value.isOtpVerified
           : isOtpVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isOnBoarding: null == isOnBoarding
+      isOnBoarding: freezed == isOnBoarding
           ? _value.isOnBoarding
           : isOnBoarding // ignore: cast_nullable_to_non_nullable
-              as bool,
-      preference: null == preference
+              as bool?,
+      preference: freezed == preference
           ? _value.preference
           : preference // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      socialAccount: null == socialAccount
+              as List<dynamic>?,
+      socialAccount: freezed == socialAccount
           ? _value.socialAccount
           : socialAccount // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      otpExpireTime: freezed == otpExpireTime
-          ? _value.otpExpireTime
-          : otpExpireTime // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      bannerImage: freezed == bannerImage
+          ? _value.bannerImage
+          : bannerImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      preferenceInfo: freezed == preferenceInfo
+          ? _value.preferenceInfo
+          : preferenceInfo // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowingRequest: freezed == isFollowingRequest
+          ? _value.isFollowingRequest
+          : isFollowingRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      stats: freezed == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Stats?,
     ) as $Val);
   }
 
@@ -527,6 +546,30 @@ class _$ProfileDetailsCopyWithImpl<$Res, $Val extends ProfileDetails>
 
     return $RoleCopyWith<$Res>(_value.role!, (value) {
       return _then(_value.copyWith(role: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $GeoLocCopyWith<$Res>? get geoLoc {
+    if (_value.geoLoc == null) {
+      return null;
+    }
+
+    return $GeoLocCopyWith<$Res>(_value.geoLoc!, (value) {
+      return _then(_value.copyWith(geoLoc: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $StatsCopyWith<$Res>? get stats {
+    if (_value.stats == null) {
+      return null;
+    }
+
+    return $StatsCopyWith<$Res>(_value.stats!, (value) {
+      return _then(_value.copyWith(stats: value) as $Val);
     });
   }
 }
@@ -549,19 +592,32 @@ abstract class _$$ProfileDetailsImplCopyWith<$Res>
       @JsonKey(name: "email") String? email,
       @JsonKey(name: "bio") String? bio,
       @JsonKey(name: "city") String? city,
-      @JsonKey(name: "profile_image") String profileImage,
-      @JsonKey(name: "banner_image") String? bannerImage,
-      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "profile_image") String? profileImage,
+      @JsonKey(name: "registerType") String? registerType,
       @JsonKey(name: "otp") String? otp,
-      @JsonKey(name: "isOtpVerified") bool isOtpVerified,
+      @JsonKey(name: "location") String? location,
+      @JsonKey(name: "lng") String? lng,
+      @JsonKey(name: "lat") String? lat,
+      @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+      @JsonKey(name: "otpExpireTime") dynamic otpExpireTime,
+      @JsonKey(name: "isOtpVerified") bool? isOtpVerified,
       @JsonKey(name: "isVerified") bool? isVerified,
-      @JsonKey(name: "isOnBoarding") bool isOnBoarding,
-      @JsonKey(name: "preference") List<dynamic> preference,
-      @JsonKey(name: "socialAccount") List<dynamic> socialAccount,
-      @JsonKey(name: "otpExpireTime") DateTime? otpExpireTime});
+      @JsonKey(name: "isOnBoarding") bool? isOnBoarding,
+      @JsonKey(name: "preference") List<dynamic>? preference,
+      @JsonKey(name: "socialAccount") List<dynamic>? socialAccount,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "banner_image") String? bannerImage,
+      @JsonKey(name: "preferenceInfo") List<dynamic>? preferenceInfo,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
+      @JsonKey(name: "stats") Stats? stats});
 
   @override
   $RoleCopyWith<$Res>? get role;
+  @override
+  $GeoLocCopyWith<$Res>? get geoLoc;
+  @override
+  $StatsCopyWith<$Res>? get stats;
 }
 
 /// @nodoc
@@ -584,16 +640,25 @@ class __$$ProfileDetailsImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? bio = freezed,
     Object? city = freezed,
-    Object? profileImage = null,
-    Object? bannerImage = freezed,
-    Object? createdAt = freezed,
+    Object? profileImage = freezed,
+    Object? registerType = freezed,
     Object? otp = freezed,
-    Object? isOtpVerified = null,
-    Object? isVerified = freezed,
-    Object? isOnBoarding = null,
-    Object? preference = null,
-    Object? socialAccount = null,
+    Object? location = freezed,
+    Object? lng = freezed,
+    Object? lat = freezed,
+    Object? geoLoc = freezed,
     Object? otpExpireTime = freezed,
+    Object? isOtpVerified = freezed,
+    Object? isVerified = freezed,
+    Object? isOnBoarding = freezed,
+    Object? preference = freezed,
+    Object? socialAccount = freezed,
+    Object? createdAt = freezed,
+    Object? bannerImage = freezed,
+    Object? preferenceInfo = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollowingRequest = freezed,
+    Object? stats = freezed,
   }) {
     return _then(_$ProfileDetailsImpl(
       id: freezed == id
@@ -632,46 +697,82 @@ class __$$ProfileDetailsImplCopyWithImpl<$Res>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String?,
-      profileImage: null == profileImage
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      bannerImage: freezed == bannerImage
-          ? _value.bannerImage
-          : bannerImage // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      registerType: freezed == registerType
+          ? _value.registerType
+          : registerType // ignore: cast_nullable_to_non_nullable
+              as String?,
       otp: freezed == otp
           ? _value.otp
           : otp // ignore: cast_nullable_to_non_nullable
               as String?,
-      isOtpVerified: null == isOtpVerified
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lng: freezed == lng
+          ? _value.lng
+          : lng // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as String?,
+      geoLoc: freezed == geoLoc
+          ? _value.geoLoc
+          : geoLoc // ignore: cast_nullable_to_non_nullable
+              as GeoLoc?,
+      otpExpireTime: freezed == otpExpireTime
+          ? _value.otpExpireTime
+          : otpExpireTime // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      isOtpVerified: freezed == isOtpVerified
           ? _value.isOtpVerified
           : isOtpVerified // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
               as bool?,
-      isOnBoarding: null == isOnBoarding
+      isOnBoarding: freezed == isOnBoarding
           ? _value.isOnBoarding
           : isOnBoarding // ignore: cast_nullable_to_non_nullable
-              as bool,
-      preference: null == preference
+              as bool?,
+      preference: freezed == preference
           ? _value._preference
           : preference // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      socialAccount: null == socialAccount
+              as List<dynamic>?,
+      socialAccount: freezed == socialAccount
           ? _value._socialAccount
           : socialAccount // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
-      otpExpireTime: freezed == otpExpireTime
-          ? _value.otpExpireTime
-          : otpExpireTime // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      bannerImage: freezed == bannerImage
+          ? _value.bannerImage
+          : bannerImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      preferenceInfo: freezed == preferenceInfo
+          ? _value._preferenceInfo
+          : preferenceInfo // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowingRequest: freezed == isFollowingRequest
+          ? _value.isFollowingRequest
+          : isFollowingRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      stats: freezed == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as Stats?,
     ));
   }
 }
@@ -689,19 +790,28 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
       @JsonKey(name: "email") this.email,
       @JsonKey(name: "bio") this.bio,
       @JsonKey(name: "city") this.city,
-      @JsonKey(name: "profile_image") this.profileImage = '',
-      @JsonKey(name: "banner_image") this.bannerImage,
-      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "profile_image") this.profileImage,
+      @JsonKey(name: "registerType") this.registerType,
       @JsonKey(name: "otp") this.otp,
-      @JsonKey(name: "isOtpVerified") this.isOtpVerified = false,
+      @JsonKey(name: "location") this.location,
+      @JsonKey(name: "lng") this.lng,
+      @JsonKey(name: "lat") this.lat,
+      @JsonKey(name: "geo_loc") this.geoLoc,
+      @JsonKey(name: "otpExpireTime") this.otpExpireTime,
+      @JsonKey(name: "isOtpVerified") this.isOtpVerified,
       @JsonKey(name: "isVerified") this.isVerified,
-      @JsonKey(name: "isOnBoarding") this.isOnBoarding = false,
-      @JsonKey(name: "preference") final List<dynamic> preference = const [],
-      @JsonKey(name: "socialAccount")
-      final List<dynamic> socialAccount = const [],
-      @JsonKey(name: "otpExpireTime") this.otpExpireTime})
+      @JsonKey(name: "isOnBoarding") this.isOnBoarding,
+      @JsonKey(name: "preference") final List<dynamic>? preference,
+      @JsonKey(name: "socialAccount") final List<dynamic>? socialAccount,
+      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "banner_image") this.bannerImage,
+      @JsonKey(name: "preferenceInfo") final List<dynamic>? preferenceInfo,
+      @JsonKey(name: "isFollowing") this.isFollowing,
+      @JsonKey(name: "isFollowingRequest") this.isFollowingRequest,
+      @JsonKey(name: "stats") this.stats})
       : _preference = preference,
-        _socialAccount = socialAccount;
+        _socialAccount = socialAccount,
+        _preferenceInfo = preferenceInfo;
 
   factory _$ProfileDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileDetailsImplFromJson(json);
@@ -735,50 +845,89 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
   final String? city;
   @override
   @JsonKey(name: "profile_image")
-  final String profileImage;
+  final String? profileImage;
   @override
-  @JsonKey(name: "banner_image")
-  final String? bannerImage;
-  @override
-  @JsonKey(name: "createdAt")
-  final DateTime? createdAt;
+  @JsonKey(name: "registerType")
+  final String? registerType;
   @override
   @JsonKey(name: "otp")
   final String? otp;
   @override
+  @JsonKey(name: "location")
+  final String? location;
+  @override
+  @JsonKey(name: "lng")
+  final String? lng;
+  @override
+  @JsonKey(name: "lat")
+  final String? lat;
+  @override
+  @JsonKey(name: "geo_loc")
+  final GeoLoc? geoLoc;
+  @override
+  @JsonKey(name: "otpExpireTime")
+  final dynamic otpExpireTime;
+  @override
   @JsonKey(name: "isOtpVerified")
-  final bool isOtpVerified;
+  final bool? isOtpVerified;
   @override
   @JsonKey(name: "isVerified")
   final bool? isVerified;
   @override
   @JsonKey(name: "isOnBoarding")
-  final bool isOnBoarding;
-  final List<dynamic> _preference;
+  final bool? isOnBoarding;
+  final List<dynamic>? _preference;
   @override
   @JsonKey(name: "preference")
-  List<dynamic> get preference {
+  List<dynamic>? get preference {
+    final value = _preference;
+    if (value == null) return null;
     if (_preference is EqualUnmodifiableListView) return _preference;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_preference);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<dynamic> _socialAccount;
+  final List<dynamic>? _socialAccount;
   @override
   @JsonKey(name: "socialAccount")
-  List<dynamic> get socialAccount {
+  List<dynamic>? get socialAccount {
+    final value = _socialAccount;
+    if (value == null) return null;
     if (_socialAccount is EqualUnmodifiableListView) return _socialAccount;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_socialAccount);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  @JsonKey(name: "otpExpireTime")
-  final DateTime? otpExpireTime;
+  @JsonKey(name: "createdAt")
+  final DateTime? createdAt;
+  @override
+  @JsonKey(name: "banner_image")
+  final String? bannerImage;
+  final List<dynamic>? _preferenceInfo;
+  @override
+  @JsonKey(name: "preferenceInfo")
+  List<dynamic>? get preferenceInfo {
+    final value = _preferenceInfo;
+    if (value == null) return null;
+    if (_preferenceInfo is EqualUnmodifiableListView) return _preferenceInfo;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey(name: "isFollowing")
+  final bool? isFollowing;
+  @override
+  @JsonKey(name: "isFollowingRequest")
+  final bool? isFollowingRequest;
+  @override
+  @JsonKey(name: "stats")
+  final Stats? stats;
 
   @override
   String toString() {
-    return 'ProfileDetails(id: $id, firstName: $firstName, lastName: $lastName, fullName: $fullName, role: $role, phone: $phone, email: $email, bio: $bio, city: $city, profileImage: $profileImage, bannerImage: $bannerImage, createdAt: $createdAt, otp: $otp, isOtpVerified: $isOtpVerified, isVerified: $isVerified, isOnBoarding: $isOnBoarding, preference: $preference, socialAccount: $socialAccount, otpExpireTime: $otpExpireTime)';
+    return 'ProfileDetails(id: $id, firstName: $firstName, lastName: $lastName, fullName: $fullName, role: $role, phone: $phone, email: $email, bio: $bio, city: $city, profileImage: $profileImage, registerType: $registerType, otp: $otp, location: $location, lng: $lng, lat: $lat, geoLoc: $geoLoc, otpExpireTime: $otpExpireTime, isOtpVerified: $isOtpVerified, isVerified: $isVerified, isOnBoarding: $isOnBoarding, preference: $preference, socialAccount: $socialAccount, createdAt: $createdAt, bannerImage: $bannerImage, preferenceInfo: $preferenceInfo, isFollowing: $isFollowing, isFollowingRequest: $isFollowingRequest, stats: $stats)';
   }
 
   @override
@@ -800,11 +949,16 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
             (identical(other.city, city) || other.city == city) &&
             (identical(other.profileImage, profileImage) ||
                 other.profileImage == profileImage) &&
-            (identical(other.bannerImage, bannerImage) ||
-                other.bannerImage == bannerImage) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
+            (identical(other.registerType, registerType) ||
+                other.registerType == registerType) &&
             (identical(other.otp, otp) || other.otp == otp) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.lng, lng) || other.lng == lng) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.geoLoc, geoLoc) || other.geoLoc == geoLoc) &&
+            const DeepCollectionEquality()
+                .equals(other.otpExpireTime, otpExpireTime) &&
             (identical(other.isOtpVerified, isOtpVerified) ||
                 other.isOtpVerified == isOtpVerified) &&
             (identical(other.isVerified, isVerified) ||
@@ -815,8 +969,17 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
                 .equals(other._preference, _preference) &&
             const DeepCollectionEquality()
                 .equals(other._socialAccount, _socialAccount) &&
-            (identical(other.otpExpireTime, otpExpireTime) ||
-                other.otpExpireTime == otpExpireTime));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.bannerImage, bannerImage) ||
+                other.bannerImage == bannerImage) &&
+            const DeepCollectionEquality()
+                .equals(other._preferenceInfo, _preferenceInfo) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing) &&
+            (identical(other.isFollowingRequest, isFollowingRequest) ||
+                other.isFollowingRequest == isFollowingRequest) &&
+            (identical(other.stats, stats) || other.stats == stats));
   }
 
   @JsonKey(ignore: true)
@@ -833,15 +996,24 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
         bio,
         city,
         profileImage,
-        bannerImage,
-        createdAt,
+        registerType,
         otp,
+        location,
+        lng,
+        lat,
+        geoLoc,
+        const DeepCollectionEquality().hash(otpExpireTime),
         isOtpVerified,
         isVerified,
         isOnBoarding,
         const DeepCollectionEquality().hash(_preference),
         const DeepCollectionEquality().hash(_socialAccount),
-        otpExpireTime
+        createdAt,
+        bannerImage,
+        const DeepCollectionEquality().hash(_preferenceInfo),
+        isFollowing,
+        isFollowingRequest,
+        stats
       ]);
 
   @JsonKey(ignore: true)
@@ -861,26 +1033,34 @@ class _$ProfileDetailsImpl implements _ProfileDetails {
 
 abstract class _ProfileDetails implements ProfileDetails {
   const factory _ProfileDetails(
-          {@JsonKey(name: "_id") final String? id,
-          @JsonKey(name: "first_name") final String? firstName,
-          @JsonKey(name: "last_name") final String? lastName,
-          @JsonKey(name: "fullName") final String? fullName,
-          @JsonKey(name: "role") final Role? role,
-          @JsonKey(name: "phone") final String? phone,
-          @JsonKey(name: "email") final String? email,
-          @JsonKey(name: "bio") final String? bio,
-          @JsonKey(name: "city") final String? city,
-          @JsonKey(name: "profile_image") final String profileImage,
-          @JsonKey(name: "banner_image") final String? bannerImage,
-          @JsonKey(name: "createdAt") final DateTime? createdAt,
-          @JsonKey(name: "otp") final String? otp,
-          @JsonKey(name: "isOtpVerified") final bool isOtpVerified,
-          @JsonKey(name: "isVerified") final bool? isVerified,
-          @JsonKey(name: "isOnBoarding") final bool isOnBoarding,
-          @JsonKey(name: "preference") final List<dynamic> preference,
-          @JsonKey(name: "socialAccount") final List<dynamic> socialAccount,
-          @JsonKey(name: "otpExpireTime") final DateTime? otpExpireTime}) =
-      _$ProfileDetailsImpl;
+      {@JsonKey(name: "_id") final String? id,
+      @JsonKey(name: "first_name") final String? firstName,
+      @JsonKey(name: "last_name") final String? lastName,
+      @JsonKey(name: "fullName") final String? fullName,
+      @JsonKey(name: "role") final Role? role,
+      @JsonKey(name: "phone") final String? phone,
+      @JsonKey(name: "email") final String? email,
+      @JsonKey(name: "bio") final String? bio,
+      @JsonKey(name: "city") final String? city,
+      @JsonKey(name: "profile_image") final String? profileImage,
+      @JsonKey(name: "registerType") final String? registerType,
+      @JsonKey(name: "otp") final String? otp,
+      @JsonKey(name: "location") final String? location,
+      @JsonKey(name: "lng") final String? lng,
+      @JsonKey(name: "lat") final String? lat,
+      @JsonKey(name: "geo_loc") final GeoLoc? geoLoc,
+      @JsonKey(name: "otpExpireTime") final dynamic otpExpireTime,
+      @JsonKey(name: "isOtpVerified") final bool? isOtpVerified,
+      @JsonKey(name: "isVerified") final bool? isVerified,
+      @JsonKey(name: "isOnBoarding") final bool? isOnBoarding,
+      @JsonKey(name: "preference") final List<dynamic>? preference,
+      @JsonKey(name: "socialAccount") final List<dynamic>? socialAccount,
+      @JsonKey(name: "createdAt") final DateTime? createdAt,
+      @JsonKey(name: "banner_image") final String? bannerImage,
+      @JsonKey(name: "preferenceInfo") final List<dynamic>? preferenceInfo,
+      @JsonKey(name: "isFollowing") final bool? isFollowing,
+      @JsonKey(name: "isFollowingRequest") final bool? isFollowingRequest,
+      @JsonKey(name: "stats") final Stats? stats}) = _$ProfileDetailsImpl;
 
   factory _ProfileDetails.fromJson(Map<String, dynamic> json) =
       _$ProfileDetailsImpl.fromJson;
@@ -914,37 +1094,237 @@ abstract class _ProfileDetails implements ProfileDetails {
   String? get city;
   @override
   @JsonKey(name: "profile_image")
-  String get profileImage;
+  String? get profileImage;
   @override
-  @JsonKey(name: "banner_image")
-  String? get bannerImage;
-  @override
-  @JsonKey(name: "createdAt")
-  DateTime? get createdAt;
+  @JsonKey(name: "registerType")
+  String? get registerType;
   @override
   @JsonKey(name: "otp")
   String? get otp;
   @override
+  @JsonKey(name: "location")
+  String? get location;
+  @override
+  @JsonKey(name: "lng")
+  String? get lng;
+  @override
+  @JsonKey(name: "lat")
+  String? get lat;
+  @override
+  @JsonKey(name: "geo_loc")
+  GeoLoc? get geoLoc;
+  @override
+  @JsonKey(name: "otpExpireTime")
+  dynamic get otpExpireTime;
+  @override
   @JsonKey(name: "isOtpVerified")
-  bool get isOtpVerified;
+  bool? get isOtpVerified;
   @override
   @JsonKey(name: "isVerified")
   bool? get isVerified;
   @override
   @JsonKey(name: "isOnBoarding")
-  bool get isOnBoarding;
+  bool? get isOnBoarding;
   @override
   @JsonKey(name: "preference")
-  List<dynamic> get preference;
+  List<dynamic>? get preference;
   @override
   @JsonKey(name: "socialAccount")
-  List<dynamic> get socialAccount;
+  List<dynamic>? get socialAccount;
   @override
-  @JsonKey(name: "otpExpireTime")
-  DateTime? get otpExpireTime;
+  @JsonKey(name: "createdAt")
+  DateTime? get createdAt;
+  @override
+  @JsonKey(name: "banner_image")
+  String? get bannerImage;
+  @override
+  @JsonKey(name: "preferenceInfo")
+  List<dynamic>? get preferenceInfo;
+  @override
+  @JsonKey(name: "isFollowing")
+  bool? get isFollowing;
+  @override
+  @JsonKey(name: "isFollowingRequest")
+  bool? get isFollowingRequest;
+  @override
+  @JsonKey(name: "stats")
+  Stats? get stats;
   @override
   @JsonKey(ignore: true)
   _$$ProfileDetailsImplCopyWith<_$ProfileDetailsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GeoLoc _$GeoLocFromJson(Map<String, dynamic> json) {
+  return _GeoLoc.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GeoLoc {
+  @JsonKey(name: "type")
+  String? get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "coordinates")
+  List<double>? get coordinates => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GeoLocCopyWith<GeoLoc> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GeoLocCopyWith<$Res> {
+  factory $GeoLocCopyWith(GeoLoc value, $Res Function(GeoLoc) then) =
+      _$GeoLocCopyWithImpl<$Res, GeoLoc>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "type") String? type,
+      @JsonKey(name: "coordinates") List<double>? coordinates});
+}
+
+/// @nodoc
+class _$GeoLocCopyWithImpl<$Res, $Val extends GeoLoc>
+    implements $GeoLocCopyWith<$Res> {
+  _$GeoLocCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? coordinates = freezed,
+  }) {
+    return _then(_value.copyWith(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      coordinates: freezed == coordinates
+          ? _value.coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GeoLocImplCopyWith<$Res> implements $GeoLocCopyWith<$Res> {
+  factory _$$GeoLocImplCopyWith(
+          _$GeoLocImpl value, $Res Function(_$GeoLocImpl) then) =
+      __$$GeoLocImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "type") String? type,
+      @JsonKey(name: "coordinates") List<double>? coordinates});
+}
+
+/// @nodoc
+class __$$GeoLocImplCopyWithImpl<$Res>
+    extends _$GeoLocCopyWithImpl<$Res, _$GeoLocImpl>
+    implements _$$GeoLocImplCopyWith<$Res> {
+  __$$GeoLocImplCopyWithImpl(
+      _$GeoLocImpl _value, $Res Function(_$GeoLocImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? type = freezed,
+    Object? coordinates = freezed,
+  }) {
+    return _then(_$GeoLocImpl(
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      coordinates: freezed == coordinates
+          ? _value._coordinates
+          : coordinates // ignore: cast_nullable_to_non_nullable
+              as List<double>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GeoLocImpl implements _GeoLoc {
+  const _$GeoLocImpl(
+      {@JsonKey(name: "type") this.type,
+      @JsonKey(name: "coordinates") final List<double>? coordinates})
+      : _coordinates = coordinates;
+
+  factory _$GeoLocImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GeoLocImplFromJson(json);
+
+  @override
+  @JsonKey(name: "type")
+  final String? type;
+  final List<double>? _coordinates;
+  @override
+  @JsonKey(name: "coordinates")
+  List<double>? get coordinates {
+    final value = _coordinates;
+    if (value == null) return null;
+    if (_coordinates is EqualUnmodifiableListView) return _coordinates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'GeoLoc(type: $type, coordinates: $coordinates)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GeoLocImpl &&
+            (identical(other.type, type) || other.type == type) &&
+            const DeepCollectionEquality()
+                .equals(other._coordinates, _coordinates));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, type, const DeepCollectionEquality().hash(_coordinates));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GeoLocImplCopyWith<_$GeoLocImpl> get copyWith =>
+      __$$GeoLocImplCopyWithImpl<_$GeoLocImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GeoLocImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GeoLoc implements GeoLoc {
+  const factory _GeoLoc(
+          {@JsonKey(name: "type") final String? type,
+          @JsonKey(name: "coordinates") final List<double>? coordinates}) =
+      _$GeoLocImpl;
+
+  factory _GeoLoc.fromJson(Map<String, dynamic> json) = _$GeoLocImpl.fromJson;
+
+  @override
+  @JsonKey(name: "type")
+  String? get type;
+  @override
+  @JsonKey(name: "coordinates")
+  List<double>? get coordinates;
+  @override
+  @JsonKey(ignore: true)
+  _$$GeoLocImplCopyWith<_$GeoLocImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1141,9 +1521,17 @@ Stats _$StatsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Stats {
   @JsonKey(name: "followingCount")
-  int get followingCount => throw _privateConstructorUsedError;
+  int? get followingCount => throw _privateConstructorUsedError;
   @JsonKey(name: "followerCount")
-  int get followerCount => throw _privateConstructorUsedError;
+  int? get followerCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "postCount")
+  int? get postCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "savePostCount")
+  int? get savePostCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "reviewedRestaurantsCount")
+  int? get reviewedRestaurantsCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "savedRestaurantsCount")
+  int? get savedRestaurantsCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1156,8 +1544,12 @@ abstract class $StatsCopyWith<$Res> {
       _$StatsCopyWithImpl<$Res, Stats>;
   @useResult
   $Res call(
-      {@JsonKey(name: "followingCount") int followingCount,
-      @JsonKey(name: "followerCount") int followerCount});
+      {@JsonKey(name: "followingCount") int? followingCount,
+      @JsonKey(name: "followerCount") int? followerCount,
+      @JsonKey(name: "postCount") int? postCount,
+      @JsonKey(name: "savePostCount") int? savePostCount,
+      @JsonKey(name: "reviewedRestaurantsCount") int? reviewedRestaurantsCount,
+      @JsonKey(name: "savedRestaurantsCount") int? savedRestaurantsCount});
 }
 
 /// @nodoc
@@ -1173,18 +1565,38 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? followingCount = null,
-    Object? followerCount = null,
+    Object? followingCount = freezed,
+    Object? followerCount = freezed,
+    Object? postCount = freezed,
+    Object? savePostCount = freezed,
+    Object? reviewedRestaurantsCount = freezed,
+    Object? savedRestaurantsCount = freezed,
   }) {
     return _then(_value.copyWith(
-      followingCount: null == followingCount
+      followingCount: freezed == followingCount
           ? _value.followingCount
           : followingCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      followerCount: null == followerCount
+              as int?,
+      followerCount: freezed == followerCount
           ? _value.followerCount
           : followerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      postCount: freezed == postCount
+          ? _value.postCount
+          : postCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      savePostCount: freezed == savePostCount
+          ? _value.savePostCount
+          : savePostCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      reviewedRestaurantsCount: freezed == reviewedRestaurantsCount
+          ? _value.reviewedRestaurantsCount
+          : reviewedRestaurantsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      savedRestaurantsCount: freezed == savedRestaurantsCount
+          ? _value.savedRestaurantsCount
+          : savedRestaurantsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -1197,8 +1609,12 @@ abstract class _$$StatsImplCopyWith<$Res> implements $StatsCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "followingCount") int followingCount,
-      @JsonKey(name: "followerCount") int followerCount});
+      {@JsonKey(name: "followingCount") int? followingCount,
+      @JsonKey(name: "followerCount") int? followerCount,
+      @JsonKey(name: "postCount") int? postCount,
+      @JsonKey(name: "savePostCount") int? savePostCount,
+      @JsonKey(name: "reviewedRestaurantsCount") int? reviewedRestaurantsCount,
+      @JsonKey(name: "savedRestaurantsCount") int? savedRestaurantsCount});
 }
 
 /// @nodoc
@@ -1212,18 +1628,38 @@ class __$$StatsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? followingCount = null,
-    Object? followerCount = null,
+    Object? followingCount = freezed,
+    Object? followerCount = freezed,
+    Object? postCount = freezed,
+    Object? savePostCount = freezed,
+    Object? reviewedRestaurantsCount = freezed,
+    Object? savedRestaurantsCount = freezed,
   }) {
     return _then(_$StatsImpl(
-      followingCount: null == followingCount
+      followingCount: freezed == followingCount
           ? _value.followingCount
           : followingCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      followerCount: null == followerCount
+              as int?,
+      followerCount: freezed == followerCount
           ? _value.followerCount
           : followerCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      postCount: freezed == postCount
+          ? _value.postCount
+          : postCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      savePostCount: freezed == savePostCount
+          ? _value.savePostCount
+          : savePostCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      reviewedRestaurantsCount: freezed == reviewedRestaurantsCount
+          ? _value.reviewedRestaurantsCount
+          : reviewedRestaurantsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      savedRestaurantsCount: freezed == savedRestaurantsCount
+          ? _value.savedRestaurantsCount
+          : savedRestaurantsCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1232,22 +1668,38 @@ class __$$StatsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StatsImpl implements _Stats {
   const _$StatsImpl(
-      {@JsonKey(name: "followingCount") this.followingCount = 0,
-      @JsonKey(name: "followerCount") this.followerCount = 0});
+      {@JsonKey(name: "followingCount") this.followingCount,
+      @JsonKey(name: "followerCount") this.followerCount,
+      @JsonKey(name: "postCount") this.postCount,
+      @JsonKey(name: "savePostCount") this.savePostCount,
+      @JsonKey(name: "reviewedRestaurantsCount") this.reviewedRestaurantsCount,
+      @JsonKey(name: "savedRestaurantsCount") this.savedRestaurantsCount});
 
   factory _$StatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$StatsImplFromJson(json);
 
   @override
   @JsonKey(name: "followingCount")
-  final int followingCount;
+  final int? followingCount;
   @override
   @JsonKey(name: "followerCount")
-  final int followerCount;
+  final int? followerCount;
+  @override
+  @JsonKey(name: "postCount")
+  final int? postCount;
+  @override
+  @JsonKey(name: "savePostCount")
+  final int? savePostCount;
+  @override
+  @JsonKey(name: "reviewedRestaurantsCount")
+  final int? reviewedRestaurantsCount;
+  @override
+  @JsonKey(name: "savedRestaurantsCount")
+  final int? savedRestaurantsCount;
 
   @override
   String toString() {
-    return 'Stats(followingCount: $followingCount, followerCount: $followerCount)';
+    return 'Stats(followingCount: $followingCount, followerCount: $followerCount, postCount: $postCount, savePostCount: $savePostCount, reviewedRestaurantsCount: $reviewedRestaurantsCount, savedRestaurantsCount: $savedRestaurantsCount)';
   }
 
   @override
@@ -1258,12 +1710,28 @@ class _$StatsImpl implements _Stats {
             (identical(other.followingCount, followingCount) ||
                 other.followingCount == followingCount) &&
             (identical(other.followerCount, followerCount) ||
-                other.followerCount == followerCount));
+                other.followerCount == followerCount) &&
+            (identical(other.postCount, postCount) ||
+                other.postCount == postCount) &&
+            (identical(other.savePostCount, savePostCount) ||
+                other.savePostCount == savePostCount) &&
+            (identical(
+                    other.reviewedRestaurantsCount, reviewedRestaurantsCount) ||
+                other.reviewedRestaurantsCount == reviewedRestaurantsCount) &&
+            (identical(other.savedRestaurantsCount, savedRestaurantsCount) ||
+                other.savedRestaurantsCount == savedRestaurantsCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, followingCount, followerCount);
+  int get hashCode => Object.hash(
+      runtimeType,
+      followingCount,
+      followerCount,
+      postCount,
+      savePostCount,
+      reviewedRestaurantsCount,
+      savedRestaurantsCount);
 
   @JsonKey(ignore: true)
   @override
@@ -1281,162 +1749,37 @@ class _$StatsImpl implements _Stats {
 
 abstract class _Stats implements Stats {
   const factory _Stats(
-      {@JsonKey(name: "followingCount") final int followingCount,
-      @JsonKey(name: "followerCount") final int followerCount}) = _$StatsImpl;
+      {@JsonKey(name: "followingCount") final int? followingCount,
+      @JsonKey(name: "followerCount") final int? followerCount,
+      @JsonKey(name: "postCount") final int? postCount,
+      @JsonKey(name: "savePostCount") final int? savePostCount,
+      @JsonKey(name: "reviewedRestaurantsCount")
+      final int? reviewedRestaurantsCount,
+      @JsonKey(name: "savedRestaurantsCount")
+      final int? savedRestaurantsCount}) = _$StatsImpl;
 
   factory _Stats.fromJson(Map<String, dynamic> json) = _$StatsImpl.fromJson;
 
   @override
   @JsonKey(name: "followingCount")
-  int get followingCount;
+  int? get followingCount;
   @override
   @JsonKey(name: "followerCount")
-  int get followerCount;
+  int? get followerCount;
+  @override
+  @JsonKey(name: "postCount")
+  int? get postCount;
+  @override
+  @JsonKey(name: "savePostCount")
+  int? get savePostCount;
+  @override
+  @JsonKey(name: "reviewedRestaurantsCount")
+  int? get reviewedRestaurantsCount;
+  @override
+  @JsonKey(name: "savedRestaurantsCount")
+  int? get savedRestaurantsCount;
   @override
   @JsonKey(ignore: true)
   _$$StatsImplCopyWith<_$StatsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-SavePostStats _$SavePostStatsFromJson(Map<String, dynamic> json) {
-  return _SavePostStats.fromJson(json);
-}
-
-/// @nodoc
-mixin _$SavePostStats {
-  @JsonKey(name: "savePostCount")
-  int get savePostCount => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $SavePostStatsCopyWith<SavePostStats> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SavePostStatsCopyWith<$Res> {
-  factory $SavePostStatsCopyWith(
-          SavePostStats value, $Res Function(SavePostStats) then) =
-      _$SavePostStatsCopyWithImpl<$Res, SavePostStats>;
-  @useResult
-  $Res call({@JsonKey(name: "savePostCount") int savePostCount});
-}
-
-/// @nodoc
-class _$SavePostStatsCopyWithImpl<$Res, $Val extends SavePostStats>
-    implements $SavePostStatsCopyWith<$Res> {
-  _$SavePostStatsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? savePostCount = null,
-  }) {
-    return _then(_value.copyWith(
-      savePostCount: null == savePostCount
-          ? _value.savePostCount
-          : savePostCount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$SavePostStatsImplCopyWith<$Res>
-    implements $SavePostStatsCopyWith<$Res> {
-  factory _$$SavePostStatsImplCopyWith(
-          _$SavePostStatsImpl value, $Res Function(_$SavePostStatsImpl) then) =
-      __$$SavePostStatsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({@JsonKey(name: "savePostCount") int savePostCount});
-}
-
-/// @nodoc
-class __$$SavePostStatsImplCopyWithImpl<$Res>
-    extends _$SavePostStatsCopyWithImpl<$Res, _$SavePostStatsImpl>
-    implements _$$SavePostStatsImplCopyWith<$Res> {
-  __$$SavePostStatsImplCopyWithImpl(
-      _$SavePostStatsImpl _value, $Res Function(_$SavePostStatsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? savePostCount = null,
-  }) {
-    return _then(_$SavePostStatsImpl(
-      savePostCount: null == savePostCount
-          ? _value.savePostCount
-          : savePostCount // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$SavePostStatsImpl implements _SavePostStats {
-  const _$SavePostStatsImpl(
-      {@JsonKey(name: "savePostCount") this.savePostCount = 0});
-
-  factory _$SavePostStatsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SavePostStatsImplFromJson(json);
-
-  @override
-  @JsonKey(name: "savePostCount")
-  final int savePostCount;
-
-  @override
-  String toString() {
-    return 'SavePostStats(savePostCount: $savePostCount)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SavePostStatsImpl &&
-            (identical(other.savePostCount, savePostCount) ||
-                other.savePostCount == savePostCount));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, savePostCount);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SavePostStatsImplCopyWith<_$SavePostStatsImpl> get copyWith =>
-      __$$SavePostStatsImplCopyWithImpl<_$SavePostStatsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SavePostStatsImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _SavePostStats implements SavePostStats {
-  const factory _SavePostStats(
-          {@JsonKey(name: "savePostCount") final int savePostCount}) =
-      _$SavePostStatsImpl;
-
-  factory _SavePostStats.fromJson(Map<String, dynamic> json) =
-      _$SavePostStatsImpl.fromJson;
-
-  @override
-  @JsonKey(name: "savePostCount")
-  int get savePostCount;
-  @override
-  @JsonKey(ignore: true)
-  _$$SavePostStatsImplCopyWith<_$SavePostStatsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

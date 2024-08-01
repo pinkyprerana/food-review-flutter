@@ -12,8 +12,7 @@ class UserProfileModel with _$UserProfileModel {
     @JsonKey(name: "type") String? type,
     @JsonKey(name: "message") String? message,
     @JsonKey(name: "data") ProfileDetails? profileDetails,
-    @JsonKey(name: "stats") Stats? stats,
-    @JsonKey(name: "savePostStats") SavePostStats? savePostStats,
+    @JsonKey(name: "token") String? token,
   }) = _UserProfileModel;
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) => _$UserProfileModelFromJson(json);
@@ -31,19 +30,38 @@ class ProfileDetails with _$ProfileDetails {
     @JsonKey(name: "email") String? email,
     @JsonKey(name: "bio") String? bio,
     @JsonKey(name: "city") String? city,
-    @JsonKey(name: "profile_image") @Default('') String profileImage,
-    @JsonKey(name: "banner_image") String? bannerImage,
-    @JsonKey(name: "createdAt") DateTime? createdAt,
+    @JsonKey(name: "profile_image") String? profileImage,
+    @JsonKey(name: "registerType") String? registerType,
     @JsonKey(name: "otp") String? otp,
-    @JsonKey(name: "isOtpVerified") @Default(false) bool isOtpVerified,
+    @JsonKey(name: "location") String? location,
+    @JsonKey(name: "lng") String? lng,
+    @JsonKey(name: "lat") String? lat,
+    @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+    @JsonKey(name: "otpExpireTime") dynamic otpExpireTime,
+    @JsonKey(name: "isOtpVerified") bool? isOtpVerified,
     @JsonKey(name: "isVerified") bool? isVerified,
-    @JsonKey(name: "isOnBoarding") @Default(false) bool isOnBoarding,
-    @JsonKey(name: "preference") @Default([]) List preference,
-    @JsonKey(name: "socialAccount") @Default([]) List socialAccount,
-    @JsonKey(name: "otpExpireTime") DateTime? otpExpireTime,
+    @JsonKey(name: "isOnBoarding") bool? isOnBoarding,
+    @JsonKey(name: "preference") List<dynamic>? preference,
+    @JsonKey(name: "socialAccount") List<dynamic>? socialAccount,
+    @JsonKey(name: "createdAt") DateTime? createdAt,
+    @JsonKey(name: "banner_image") String? bannerImage,
+    @JsonKey(name: "preferenceInfo") List<dynamic>? preferenceInfo,
+    @JsonKey(name: "isFollowing") bool? isFollowing,
+    @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
+    @JsonKey(name: "stats") Stats? stats,
   }) = _ProfileDetails;
 
   factory ProfileDetails.fromJson(Map<String, dynamic> json) => _$ProfileDetailsFromJson(json);
+}
+
+@freezed
+class GeoLoc with _$GeoLoc {
+  const factory GeoLoc({
+    @JsonKey(name: "type") String? type,
+    @JsonKey(name: "coordinates") List<double>? coordinates,
+  }) = _GeoLoc;
+
+  factory GeoLoc.fromJson(Map<String, dynamic> json) => _$GeoLocFromJson(json);
 }
 
 @freezed
@@ -60,18 +78,13 @@ class Role with _$Role {
 @freezed
 class Stats with _$Stats {
   const factory Stats({
-    @JsonKey(name: "followingCount") @Default(0) int followingCount,
-    @JsonKey(name: "followerCount") @Default(0) int followerCount,
+    @JsonKey(name: "followingCount") int? followingCount,
+    @JsonKey(name: "followerCount") int? followerCount,
+    @JsonKey(name: "postCount") int? postCount,
+    @JsonKey(name: "savePostCount") int? savePostCount,
+    @JsonKey(name: "reviewedRestaurantsCount") int? reviewedRestaurantsCount,
+    @JsonKey(name: "savedRestaurantsCount") int? savedRestaurantsCount,
   }) = _Stats;
 
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
-}
-
-@freezed
-class SavePostStats with _$SavePostStats {
-  const factory SavePostStats({
-    @JsonKey(name: "savePostCount") @Default(0) int savePostCount,
-  }) = _SavePostStats;
-
-  factory SavePostStats.fromJson(Map<String, dynamic> json) => _$SavePostStatsFromJson(json);
 }

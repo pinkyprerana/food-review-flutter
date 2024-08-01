@@ -15,13 +15,7 @@ _$UserProfileModelImpl _$$UserProfileModelImplFromJson(
       profileDetails: json['data'] == null
           ? null
           : ProfileDetails.fromJson(json['data'] as Map<String, dynamic>),
-      stats: json['stats'] == null
-          ? null
-          : Stats.fromJson(json['stats'] as Map<String, dynamic>),
-      savePostStats: json['savePostStats'] == null
-          ? null
-          : SavePostStats.fromJson(
-              json['savePostStats'] as Map<String, dynamic>),
+      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$$UserProfileModelImplToJson(
@@ -31,8 +25,7 @@ Map<String, dynamic> _$$UserProfileModelImplToJson(
       'type': instance.type,
       'message': instance.message,
       'data': instance.profileDetails,
-      'stats': instance.stats,
-      'savePostStats': instance.savePostStats,
+      'token': instance.token,
     };
 
 _$ProfileDetailsImpl _$$ProfileDetailsImplFromJson(Map<String, dynamic> json) =>
@@ -48,20 +41,31 @@ _$ProfileDetailsImpl _$$ProfileDetailsImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       bio: json['bio'] as String?,
       city: json['city'] as String?,
-      profileImage: json['profile_image'] as String? ?? '',
-      bannerImage: json['banner_image'] as String?,
+      profileImage: json['profile_image'] as String?,
+      registerType: json['registerType'] as String?,
+      otp: json['otp'] as String?,
+      location: json['location'] as String?,
+      lng: json['lng'] as String?,
+      lat: json['lat'] as String?,
+      geoLoc: json['geo_loc'] == null
+          ? null
+          : GeoLoc.fromJson(json['geo_loc'] as Map<String, dynamic>),
+      otpExpireTime: json['otpExpireTime'],
+      isOtpVerified: json['isOtpVerified'] as bool?,
+      isVerified: json['isVerified'] as bool?,
+      isOnBoarding: json['isOnBoarding'] as bool?,
+      preference: json['preference'] as List<dynamic>?,
+      socialAccount: json['socialAccount'] as List<dynamic>?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
-      otp: json['otp'] as String?,
-      isOtpVerified: json['isOtpVerified'] as bool? ?? false,
-      isVerified: json['isVerified'] as bool?,
-      isOnBoarding: json['isOnBoarding'] as bool? ?? false,
-      preference: json['preference'] as List<dynamic>? ?? const [],
-      socialAccount: json['socialAccount'] as List<dynamic>? ?? const [],
-      otpExpireTime: json['otpExpireTime'] == null
+      bannerImage: json['banner_image'] as String?,
+      preferenceInfo: json['preferenceInfo'] as List<dynamic>?,
+      isFollowing: json['isFollowing'] as bool?,
+      isFollowingRequest: json['isFollowingRequest'] as bool?,
+      stats: json['stats'] == null
           ? null
-          : DateTime.parse(json['otpExpireTime'] as String),
+          : Stats.fromJson(json['stats'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProfileDetailsImplToJson(
@@ -77,15 +81,37 @@ Map<String, dynamic> _$$ProfileDetailsImplToJson(
       'bio': instance.bio,
       'city': instance.city,
       'profile_image': instance.profileImage,
-      'banner_image': instance.bannerImage,
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'registerType': instance.registerType,
       'otp': instance.otp,
+      'location': instance.location,
+      'lng': instance.lng,
+      'lat': instance.lat,
+      'geo_loc': instance.geoLoc,
+      'otpExpireTime': instance.otpExpireTime,
       'isOtpVerified': instance.isOtpVerified,
       'isVerified': instance.isVerified,
       'isOnBoarding': instance.isOnBoarding,
       'preference': instance.preference,
       'socialAccount': instance.socialAccount,
-      'otpExpireTime': instance.otpExpireTime?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'banner_image': instance.bannerImage,
+      'preferenceInfo': instance.preferenceInfo,
+      'isFollowing': instance.isFollowing,
+      'isFollowingRequest': instance.isFollowingRequest,
+      'stats': instance.stats,
+    };
+
+_$GeoLocImpl _$$GeoLocImplFromJson(Map<String, dynamic> json) => _$GeoLocImpl(
+      type: json['type'] as String?,
+      coordinates: (json['coordinates'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList(),
+    );
+
+Map<String, dynamic> _$$GeoLocImplToJson(_$GeoLocImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'coordinates': instance.coordinates,
     };
 
 _$RoleImpl _$$RoleImplFromJson(Map<String, dynamic> json) => _$RoleImpl(
@@ -102,22 +128,21 @@ Map<String, dynamic> _$$RoleImplToJson(_$RoleImpl instance) =>
     };
 
 _$StatsImpl _$$StatsImplFromJson(Map<String, dynamic> json) => _$StatsImpl(
-      followingCount: (json['followingCount'] as num?)?.toInt() ?? 0,
-      followerCount: (json['followerCount'] as num?)?.toInt() ?? 0,
+      followingCount: (json['followingCount'] as num?)?.toInt(),
+      followerCount: (json['followerCount'] as num?)?.toInt(),
+      postCount: (json['postCount'] as num?)?.toInt(),
+      savePostCount: (json['savePostCount'] as num?)?.toInt(),
+      reviewedRestaurantsCount:
+          (json['reviewedRestaurantsCount'] as num?)?.toInt(),
+      savedRestaurantsCount: (json['savedRestaurantsCount'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$StatsImplToJson(_$StatsImpl instance) =>
     <String, dynamic>{
       'followingCount': instance.followingCount,
       'followerCount': instance.followerCount,
-    };
-
-_$SavePostStatsImpl _$$SavePostStatsImplFromJson(Map<String, dynamic> json) =>
-    _$SavePostStatsImpl(
-      savePostCount: (json['savePostCount'] as num?)?.toInt() ?? 0,
-    );
-
-Map<String, dynamic> _$$SavePostStatsImplToJson(_$SavePostStatsImpl instance) =>
-    <String, dynamic>{
+      'postCount': instance.postCount,
       'savePostCount': instance.savePostCount,
+      'reviewedRestaurantsCount': instance.reviewedRestaurantsCount,
+      'savedRestaurantsCount': instance.savedRestaurantsCount,
     };
