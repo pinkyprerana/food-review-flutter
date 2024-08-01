@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import 'package:for_the_table/screens/people_profile/domain/other_people_profile_model.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
@@ -38,6 +39,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
+          await updateUserData(userID);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -79,4 +81,50 @@ class FollowNotifier extends StateNotifier<FollowState> {
       showConnectionWasInterruptedToastMessage();
     }
   }
+
+  Future<void> getOtherPeopleDetails(VoidCallback voidCallback, String userID) async {
+    try {
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${'/user/other/profile'}",
+          body: {
+              "user_id": userID,
+            });
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else  if (response.statusCode == 200 && response.data != null) {
+        final otherPeopleProfileModel = OtherPeopleProfileModel.fromJson(response.data);
+        final List<DataOfOtherPeople> detailsList = [otherPeopleProfileModel.data!];
+
+        state = state.copyWith(
+          isLoading: false,
+          getDetails: detailsList,
+          otherPeopleProfile: otherPeopleProfileModel,
+        );
+      }else {
+        showToastMessage(response.data?['message'].toString() ?? 'Unexpected error');
+      }
+    } catch (error) {
+      AppLog.log(error.toString());
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  DataOfOtherPeople? getUserById(String userId) {
+    return state.getDetails?.firstWhere(
+          (user) => user.id == userId,
+      orElse: () =>  const DataOfOtherPeople(id: '', fullName: ''),
+    );
+  }
+
+  Future<void> updateUserData(String userID) async {
+    await getOtherPeopleDetails(() {}, userID);
+    if (state.getDetails?.any((user) => user.id == userID && user.isFollowing == true) ?? false) {
+      await getAllPostsOfOtherUserProfile(() {}, userID);
+    }
+  }
+
 }

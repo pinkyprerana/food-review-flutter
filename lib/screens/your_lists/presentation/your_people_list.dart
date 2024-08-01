@@ -249,12 +249,12 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
                   return GestureDetector(
                     onTap: ()=>AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: follower.fullName.toString(),
-                      peopleimage: profileImage.toString(),
+                      // peoplename: follower.fullName.toString(),
+                      // peopleimage: profileImage.toString(),
                       peopleId: follower.id ?? '',
-                      isFollow: follower.isFollowerRequest ?? false,
-                      isRequested: follower.isFollowingRequest ??false,
-                      isFollowing: follower.isFollowing ??false,
+                      // isFollow: follower.isFollowerRequest ?? false,
+                      // isRequested: follower.isFollowingRequest ??false,
+                      // isFollowing: follower.isFollowing ??false,
                     )),
                     child: CustomCard(
                       name: follower.fullName ?? '',
@@ -330,12 +330,12 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
                   return GestureDetector(
                     onTap: ()=>AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: following.fullName.toString(),
-                      peopleimage: profileImage.toString(),
+                      // peoplename: following.fullName.toString(),
+                      // peopleimage: profileImage.toString(),
                       peopleId: following.id ?? '',
-                      isFollow: following.isFollowerRequest ?? false,
-                      isRequested: following.isFollowingRequest ??false,
-                      isFollowing: following.isFollowing ??false,
+                      // isFollow: following.isFollowerRequest ?? false,
+                      // isRequested: following.isFollowingRequest ??false,
+                      // isFollowing: following.isFollowing ??false,
                     )),
                     child: CustomCard(
                       name: following.fullName ?? '',
@@ -407,12 +407,12 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
 
                   return GestureDetector(
                     onTap: ()=>AutoRouter.of(context).push(PeopleProfileRoute(
-                      peoplename: requests.fullName.toString(),
-                       peopleimage: profileImage.toString(),
+                      // peoplename: requests.fullName.toString(),
+                      //  peopleimage: profileImage.toString(),
                       peopleId: requests.id ?? '',
-                      isFollow: requests.isFollowerRequest ?? false,
-                      isRequested: requests.isFollowingRequest ??false,
-                      isFollowing: requests.isFollowing ??false,
+                      // isFollow: requests.isFollowerRequest ?? false,
+                      // isRequested: requests.isFollowingRequest ??false,
+                      // isFollowing: requests.isFollowing ??false,
                     )),
                     child: CustomCard(
                       name: requests.fullName ?? '',
