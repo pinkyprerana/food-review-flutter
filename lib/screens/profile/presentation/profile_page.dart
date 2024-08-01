@@ -177,7 +177,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        state.userProfileResponseModel?.stats
+                                                        state
+                                                                .userProfileResponseModel
+                                                                ?.profileDetails
+                                                                ?.stats
                                                                 ?.followerCount
                                                                 .toString() ??
                                                             '',
@@ -212,7 +215,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        state.userProfileResponseModel?.stats
+                                                        state
+                                                                .userProfileResponseModel
+                                                                ?.profileDetails
+                                                                ?.stats
                                                                 ?.followingCount
                                                                 .toString() ??
                                                             '',
@@ -247,8 +253,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        state.userProfileResponseModel
-                                                                ?.savePostStats?.savePostCount
+                                                        state
+                                                                .userProfileResponseModel
+                                                                ?.profileDetails
+                                                                ?.stats
+                                                                ?.savePostCount
                                                                 .toString() ??
                                                             '',
                                                         style: AppTextStyles.textStylePoppinsBold
@@ -305,7 +314,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                               ],
                                               image: DecorationImage(
                                                 image:
-                                                    (state.fetchedUser?.profileImage.isNotEmpty ??
+                                                    (state.fetchedUser?.profileImage?.isNotEmpty ??
                                                             false)
                                                         ? CachedNetworkImageProvider(
                                                             state.profileImgPath) as ImageProvider
@@ -330,7 +339,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                             ),
                                             child: Center(
                                               child: Text(
-                                                '01',
+                                                stateNotifier.fetchedUser?.stats?.postCount
+                                                        .toString() ??
+                                                    '0',
                                                 style: AppTextStyles.textStylePoppinsMedium
                                                     .copyWith(
                                                         fontSize: 13.sp,

@@ -10,7 +10,7 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
-import 'package:for_the_table/model/user_profile/user_profile_model.dart';
+import 'package:for_the_table/screens/profile/domain/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
 import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
@@ -120,12 +120,12 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       if (response.statusCode == 200 && response.data != null) {
         fetchedUser = ProfileDetails.fromJson(response.data!['data']);
-        final userProdileResponseModel = UserProfileModel.fromJson(response.data);
+        final userProfileResponseModel = UserProfileModel.fromJson(response.data);
 
         state = state.copyWith(
           isLoading: false,
           fetchedUser: fetchedUser,
-          userProfileResponseModel: userProdileResponseModel,
+          userProfileResponseModel: userProfileResponseModel,
           profileImgPath: '${AppUrls.profilePicLocation}/${fetchedUser?.profileImage}',
         );
       } else {

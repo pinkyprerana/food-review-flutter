@@ -1,4 +1,4 @@
-import 'package:for_the_table/model/user_profile/user_profile_model.dart';
+import 'package:for_the_table/screens/profile/domain/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,6 +16,7 @@ class ProfileState with _$ProfileState {
     @Default('') String profileImage,
     UserProfileModel? userProfileResponseModel,
     List<Activity>? userActivitiesList,
+    @Default(0) int postCount,
     @Default(1) int currentPage,
     @Default(1) int totalPages,
     @Default(true) isMoreDataFetchable,
