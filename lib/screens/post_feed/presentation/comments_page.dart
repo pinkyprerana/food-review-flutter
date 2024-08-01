@@ -79,9 +79,11 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                    profileImage,
-                                  ),
+                                  image: profileImage == '${AppUrls.profilePicLocation}/'
+                                      ? const AssetImage(Assets.noProfileImage)
+                                      : NetworkImage(
+                                          profileImage,
+                                        ),
                                   fit: BoxFit.cover,
                                 )),
                           ),
@@ -270,13 +272,13 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               //       ))
               //     :
               comments!.isEmpty
-                      ? Center(
-                          child: Text("Be the first to comment in this post.",
-                              style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                fontSize: 12.sp,
-                                color: AppColors.colorPrimaryAlpha,
-                              )))
-                      : CommentItem(commentInfoList: comments),
+                  ? Center(
+                      child: Text("Be the first to comment in this post.",
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            fontSize: 12.sp,
+                            color: AppColors.colorPrimaryAlpha,
+                          )))
+                  : CommentItem(commentInfoList: comments),
               20.verticalSpace,
               Container(
                 width: double.infinity,
