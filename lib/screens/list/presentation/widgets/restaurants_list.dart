@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list_view.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_map_view.dart';
 
@@ -115,19 +114,17 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
     },
   ];
 
-  @override
-  void initState() {
-    AppLog.log('initState is called');
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants();
-    });
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+  //     await stateNotifier.getRestaurants();
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    AppLog.log('this is called');
     // final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     final state = ref.watch(restaurantNotifierProvider);
     return Column(
