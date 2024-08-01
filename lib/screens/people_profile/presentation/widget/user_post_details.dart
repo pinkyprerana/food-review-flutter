@@ -9,6 +9,7 @@ import '../../../../core/constants/assets.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
+import '../../shared/providers.dart';
 
 @RoutePage()
 class PostDetailsPage extends ConsumerStatefulWidget {
@@ -30,7 +31,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
   Widget build(BuildContext context) {
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final String postImage = "${AppUrls.postImageLocation}${widget.postListOfUser.file}";
-
+    final followNotifier = ref.read(followNotifierProvider.notifier);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -182,7 +183,9 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                         Column(
                           children: [
                             GestureDetector(
-                                onTap: () => postFeedNotifier.likeUnlikePost(() {}, widget.postListOfUser.id ?? ""),
+                                onTap: () => postFeedNotifier.likeUnlikePost(() {
+                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser.id ?? "");
+                                }, widget.postListOfUser.id ?? ""),
                                 child: (widget.postListOfUser.isMyLike ?? false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
@@ -208,7 +211,9 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                                onTap: () => postFeedNotifier.saveUnsavePost(() {}, widget.postListOfUser.id ?? ""),
+                                onTap: () => postFeedNotifier.saveUnsavePost(() {
+                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser.id ?? "");
+                                }, widget.postListOfUser.id ?? ""),
                                 child: (widget.postListOfUser.isSave ?? false)
                                     ? Image.asset(
                                   Assets.saved,
