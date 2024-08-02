@@ -820,49 +820,39 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                   Positioned(
                                       left: 310,
                                       top: 10,
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          await stateNotifier.saveRestaurant(
-                                              widget.restaurantId);
-                                          // AutoRouter.of(context)
-                                          //     .push(const SavedRoute());
-                                        },
-                                        child: (state
-                                                    .isLoadingForRestaurantDetails ||
-                                                stateNotifier
-                                                        .reastaurantDetials ==
-                                                    null)
-                                            ? const SizedBox(
-                                                height: 20,
-                                                width: 20,
-                                                child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color:
-                                                        AppColors.colorPrimary,
+                                      child:
+                                          (state.isLoadingForRestaurantDetails ||
+                                                  stateNotifier
+                                                          .reastaurantDetials ==
+                                                      null)
+                                              ? const SizedBox(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: AppColors
+                                                          .colorPrimary,
+                                                    ),
                                                   ),
-                                                ),
-                                              )
-                                            : SaveIcon(
-                                                // isBookmarked:
-                                                //     widget.isBookmarked,
-                                                isBookmarked: stateNotifier
-                                                        .reastaurantDetials!
-                                                        .restaurantDataModel
-                                                        ?.isSave ??
-                                                    false,
-                                                onTap: () async {
-                                                  await stateNotifier
-                                                      .saveRestaurant(
-                                                          widget.restaurantId);
-                                                }),
-                                        // child: Image.asset(
-                                        //   Assets.bookmark,
-                                        //   color: (state.isSaved)
-                                        //       ? Colors.amber
-                                        //       : AppColors.colorPrimary,
-                                        // ),
-                                      ))
+                                                )
+                                              : SaveIcon(
+                                                  // isBookmarked:
+                                                  //     widget.isBookmarked,
+                                                  isBookmarked: stateNotifier
+                                                          .reastaurantDetials!
+                                                          .restaurantDataModel
+                                                          ?.isSave ??
+                                                      false,
+                                                  onTap: () async {
+                                                    await stateNotifier
+                                                        .saveRestaurant(widget
+                                                            .restaurantId);
+                                                    // AppLog.log(
+                                                    //     '------saved/unsaved-----');
+                                                    // stateNotifier
+                                                    //     .updateLocalSavedRestaurantList();
+                                                  }))
                                 ],
                               ),
                             ],

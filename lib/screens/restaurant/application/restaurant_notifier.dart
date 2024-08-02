@@ -30,6 +30,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RefreshController restaurantRefreshController2 = RefreshController();
   RefreshController savedRestaurantRefreshController = RefreshController();
 
+  List<SavedRestaurant>? localSavedRestaurantList = [];
+
   @override
   void dispose() {
     restaurantRefreshController.dispose();
@@ -41,8 +43,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     state = state.copyWith(currentPageForPosts: 1);
     state = state.copyWith(postPerRestaurantList: []);
     AppLog.log('state.totalPagesPosts ------>> ${state.totalPagesPosts}');
-    AppLog.log('state.currentPageForPosts ------>> ${state.currentPageForPosts}');
-    AppLog.log('state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
+    AppLog.log(
+        'state.currentPageForPosts ------>> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
   }
 
   Future<void> loadMoreRestaurants(BuildContext context) async {
@@ -90,9 +94,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final reastaurantListResponseModel = RestaurantlistResponseModel.fromJson(response.data!);
+        final reastaurantListResponseModel =
+            RestaurantlistResponseModel.fromJson(response.data!);
 
-        final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
+        final List<Restaurant>? restaurantList =
+            reastaurantListResponseModel.restaurantList;
 
         // if (isLoadMore) {
         //   state = state.copyWith(
@@ -132,19 +138,22 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   String? get userId => _hiveDataBase.box.get(AppPreferenceKeys.userId);
   String? get getLatitude => _hiveDataBase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude => _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+  String? get getLongitude =>
+      _hiveDataBase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> getPostListRelatedToRestaurant(
       VoidCallback voidCallback, String restaurantId) async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
-        "lat": getLatitude,
-        "lng": getLongitude,
-        'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
-        'user_id': userId
-      });
+          .postApiRequestWithToken(
+              url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
+              body: {
+            "lat": getLatitude,
+            "lng": getLongitude,
+            'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
+            'user_id': userId
+          });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -154,7 +163,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state = state.copyWith(isLoading: false, postList: postModel.postList);
+          state =
+              state.copyWith(isLoading: false, postList: postModel.postList);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -167,14 +177,16 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> loadMorePosts(BuildContext context, String? restaurantId) async {
-    AppLog.log('state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
     if (state.currentPageForPosts >= state.totalPagesPosts) {
       showToastMessage('No more posts');
       restaurantRefreshController2.loadComplete();
       return;
     }
 
-    await getPosts(context: context, restaurantId: restaurantId, isLoadMore: true);
+    await getPosts(
+        context: context, restaurantId: restaurantId, isLoadMore: true);
     restaurantRefreshController2.loadComplete();
   }
 
@@ -182,12 +194,14 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       {required BuildContext context,
       bool isLoadMore = false,
       required String? restaurantId}) async {
-    AppLog.log('state.currentPageForPosts ======== ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.currentPageForPosts ======== ${state.currentPageForPosts}');
     try {
       state = state.copyWith(isLoadingForPosts: !isLoadMore);
 
       if (isLoadMore) {
-        state = state.copyWith(currentPageForPosts: state.currentPageForPosts + 1);
+        state =
+            state.copyWith(currentPageForPosts: state.currentPageForPosts + 1);
       }
 
       final data = {
@@ -217,11 +231,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final postlistPerRestaurantResponseModel =
             PostlistPerRestaurantResponseModel.fromJson(response.data!);
 
-        final List<Post>? postList = postlistPerRestaurantResponseModel.postList;
+        final List<Post>? postList =
+            postlistPerRestaurantResponseModel.postList;
 
         state = state.copyWith(
           isLoadingForPosts: false,
-          postPerRestaurantList: [...state.postPerRestaurantList ?? [], ...postList ?? []],
+          postPerRestaurantList: [
+            ...state.postPerRestaurantList ?? [],
+            ...postList ?? []
+          ],
           totalPagesPosts: postlistPerRestaurantResponseModel.pages ?? 0,
         );
       } else {
@@ -261,12 +279,31 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response ----->> $response');
+        AppLog.log('save restaurant response ----->> $response');
 
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
-        await getSavedRestaurants();
+        // AppLog.log(localSavedRestaurantList![0].toString());
+
+        if (localSavedRestaurantList != null &&
+            (localSavedRestaurantList?.isNotEmpty ?? false)) {
+          for (int i = 0; i < localSavedRestaurantList!.length; i++) {
+            if (restaurantID == localSavedRestaurantList![i].id) {
+              localSavedRestaurantList![i] =
+                  localSavedRestaurantList![i].copyWith(isSaveLocally: false);
+            }
+          }
+        }
+
+        AppLog.log(
+            'localSavedRestaurantList +++++++++ $localSavedRestaurantList');
+
+        // await getSavedRestaurants();
+        if (localSavedRestaurantList != null &&
+            (localSavedRestaurantList?.isNotEmpty ?? false)) {
+          updateLocalSavedRestaurantList();
+        }
 
         state = state.copyWith(isLoadingSaveRestaurant: false);
       } else {
@@ -309,7 +346,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         AppLog.log('response.data ======== ${response.data}');
 
-        reastaurantDetials = RestaurantDetailsModel.fromJson(response.data ?? {});
+        reastaurantDetials =
+            RestaurantDetailsModel.fromJson(response.data ?? {});
 
         // AppLog.log(
         //     'Restaurant-details variable ------->>>${reastaurantDetials.toString()}');
@@ -333,7 +371,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> loadMoreSavedRestaurants() async {
-    if (state.currentPageForSavedRestaurantList >= state.totalPagesForSavedRestaurantList) {
+    if (state.currentPageForSavedRestaurantList >=
+        state.totalPagesForSavedRestaurantList) {
       showToastMessage('No more restaurants');
       savedRestaurantRefreshController.loadComplete();
       return;
@@ -350,7 +389,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       if (isLoadMore) {
         state = state.copyWith(
-            currentPageForSavedRestaurantList: state.currentPageForSavedRestaurantList + 1);
+            currentPageForSavedRestaurantList:
+                state.currentPageForSavedRestaurantList + 1);
       }
 
       final data = {
@@ -380,26 +420,33 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<SavedRestaurant>? savedRestaurantList =
             savedRestaurantsResponseModel.savedRestaurantList;
 
-        if (isLoadMore) {
-          state = state.copyWith(
-            isLoadingSaveRestaurantList: false,
-            savedRestaurantList: [
-              ...state.savedRestaurantList ?? [],
-              ...savedRestaurantList ?? [],
-            ],
-            totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
-          );
+        // if (isLoadMore) {
+        //   state = state.copyWith(
+        //     isLoadingSaveRestaurantList: false,
+        //     savedRestaurantList: [
+        //       ...state.savedRestaurantList ?? [],
+        //       ...savedRestaurantList ?? [],
+        //     ],
+        //     totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
+        //   );
 
-          return;
-        }
+        //   return;
+        // }
 
         state = state.copyWith(
           isLoadingSaveRestaurantList: false,
           savedRestaurantList: [
+            ...state.savedRestaurantList ?? [],
             ...savedRestaurantList ?? [],
           ],
-          totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
+          totalPagesForSavedRestaurantList:
+              savedRestaurantsResponseModel.pages ?? 0,
         );
+
+        localSavedRestaurantList = [...state.savedRestaurantList ?? []];
+
+        AppLog.log(
+            'localSavedRestaurantList------>> ${localSavedRestaurantList?.length}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -412,6 +459,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       state = state.copyWith(isLoadingSaveRestaurantList: false);
     }
+  }
+
+  void updateLocalSavedRestaurantList() {
+    AppLog.log(
+        'localSavedRestaurantList ------------- $localSavedRestaurantList');
+    localSavedRestaurantList?.retainWhere((item) => item.isSaveLocally == true);
+
+    state = state
+        .copyWith(savedRestaurantList: [...localSavedRestaurantList ?? []]);
   }
 
   void sliderValueUpdate(double value) {

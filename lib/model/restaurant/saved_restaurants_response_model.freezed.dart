@@ -403,6 +403,7 @@ mixin _$SavedRestaurant {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "isSave")
   bool? get isSave => throw _privateConstructorUsedError;
+  bool? get isSaveLocally => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -438,7 +439,8 @@ abstract class $SavedRestaurantCopyWith<$Res> {
       @JsonKey(name: "types") List<dynamic>? types,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "createdAt") DateTime? createdAt,
-      @JsonKey(name: "isSave") bool? isSave});
+      @JsonKey(name: "isSave") bool? isSave,
+      bool? isSaveLocally});
 
   $GeoLocCopyWith<$Res>? get geoLoc;
 }
@@ -478,6 +480,7 @@ class _$SavedRestaurantCopyWithImpl<$Res, $Val extends SavedRestaurant>
     Object? status = freezed,
     Object? createdAt = freezed,
     Object? isSave = freezed,
+    Object? isSaveLocally = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -568,6 +571,10 @@ class _$SavedRestaurantCopyWithImpl<$Res, $Val extends SavedRestaurant>
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isSaveLocally: freezed == isSaveLocally
+          ? _value.isSaveLocally
+          : isSaveLocally // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -614,7 +621,8 @@ abstract class _$$SavedRestaurantImplCopyWith<$Res>
       @JsonKey(name: "types") List<dynamic>? types,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "createdAt") DateTime? createdAt,
-      @JsonKey(name: "isSave") bool? isSave});
+      @JsonKey(name: "isSave") bool? isSave,
+      bool? isSaveLocally});
 
   @override
   $GeoLocCopyWith<$Res>? get geoLoc;
@@ -653,6 +661,7 @@ class __$$SavedRestaurantImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? createdAt = freezed,
     Object? isSave = freezed,
+    Object? isSaveLocally = freezed,
   }) {
     return _then(_$SavedRestaurantImpl(
       id: freezed == id
@@ -743,6 +752,10 @@ class __$$SavedRestaurantImplCopyWithImpl<$Res>
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isSaveLocally: freezed == isSaveLocally
+          ? _value.isSaveLocally
+          : isSaveLocally // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -772,7 +785,8 @@ class _$SavedRestaurantImpl implements _SavedRestaurant {
       @JsonKey(name: "types") final List<dynamic>? types,
       @JsonKey(name: "status") this.status,
       @JsonKey(name: "createdAt") this.createdAt,
-      @JsonKey(name: "isSave") this.isSave})
+      @JsonKey(name: "isSave") this.isSave,
+      this.isSaveLocally = true})
       : _image = image,
         _types = types;
 
@@ -861,10 +875,13 @@ class _$SavedRestaurantImpl implements _SavedRestaurant {
   @override
   @JsonKey(name: "isSave")
   final bool? isSave;
+  @override
+  @JsonKey()
+  final bool? isSaveLocally;
 
   @override
   String toString() {
-    return 'SavedRestaurant(id: $id, image: $image, name: $name, address: $address, street: $street, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, placeId: $placeId, rating: $rating, userRatingsTotal: $userRatingsTotal, types: $types, status: $status, createdAt: $createdAt, isSave: $isSave)';
+    return 'SavedRestaurant(id: $id, image: $image, name: $name, address: $address, street: $street, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, placeId: $placeId, rating: $rating, userRatingsTotal: $userRatingsTotal, types: $types, status: $status, createdAt: $createdAt, isSave: $isSave, isSaveLocally: $isSaveLocally)';
   }
 
   @override
@@ -897,7 +914,9 @@ class _$SavedRestaurantImpl implements _SavedRestaurant {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.isSave, isSave) || other.isSave == isSave));
+            (identical(other.isSave, isSave) || other.isSave == isSave) &&
+            (identical(other.isSaveLocally, isSaveLocally) ||
+                other.isSaveLocally == isSaveLocally));
   }
 
   @JsonKey(ignore: true)
@@ -925,7 +944,8 @@ class _$SavedRestaurantImpl implements _SavedRestaurant {
         const DeepCollectionEquality().hash(_types),
         status,
         createdAt,
-        isSave
+        isSave,
+        isSaveLocally
       ]);
 
   @JsonKey(ignore: true)
@@ -966,7 +986,8 @@ abstract class _SavedRestaurant implements SavedRestaurant {
       @JsonKey(name: "types") final List<dynamic>? types,
       @JsonKey(name: "status") final String? status,
       @JsonKey(name: "createdAt") final DateTime? createdAt,
-      @JsonKey(name: "isSave") final bool? isSave}) = _$SavedRestaurantImpl;
+      @JsonKey(name: "isSave") final bool? isSave,
+      final bool? isSaveLocally}) = _$SavedRestaurantImpl;
 
   factory _SavedRestaurant.fromJson(Map<String, dynamic> json) =
       _$SavedRestaurantImpl.fromJson;
@@ -1037,6 +1058,8 @@ abstract class _SavedRestaurant implements SavedRestaurant {
   @override
   @JsonKey(name: "isSave")
   bool? get isSave;
+  @override
+  bool? get isSaveLocally;
   @override
   @JsonKey(ignore: true)
   _$$SavedRestaurantImplCopyWith<_$SavedRestaurantImpl> get copyWith =>

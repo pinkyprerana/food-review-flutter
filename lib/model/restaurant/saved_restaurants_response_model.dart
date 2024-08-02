@@ -47,6 +47,7 @@ class SavedRestaurant with _$SavedRestaurant {
     @JsonKey(name: "status") String? status,
     @JsonKey(name: "createdAt") DateTime? createdAt,
     @JsonKey(name: "isSave") bool? isSave,
+    @Default(true) bool? isSaveLocally,
   }) = _SavedRestaurant;
 
   factory SavedRestaurant.fromJson(Map<String, dynamic> json) =>
