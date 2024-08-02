@@ -136,7 +136,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        (widget.creatorDetails.isFollowing ?? false) ? 'Unfollow': 'Follow',
+                                        (widget.creatorDetails.isFollowing ?? false) ? 'Unfollow': (widget.creatorDetails.isFollowingRequest ?? false) ? 'Requested' :'Follow',
                                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           color: AppColors.colorWhite,
                                           fontSize: 10.sp,
