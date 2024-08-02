@@ -20,9 +20,9 @@ class LikedPostsPage extends ConsumerStatefulWidget {
 class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
-      stateNotifier.fetchlikedPosts();
+      await stateNotifier.fetchlikedPosts();
     });
     super.initState();
   }
@@ -72,7 +72,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                 color: AppColors.colorPrimary,
               ),
             )
-          : state.dislikedPostsList.isEmpty
+          : state.likedPostList.isEmpty
               ? Center(
                   child: Text(
                     'Your liked posts will be listed here.',

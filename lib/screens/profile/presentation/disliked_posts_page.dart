@@ -20,9 +20,9 @@ class DislikedPostsPage extends ConsumerStatefulWidget {
 class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
-      stateNotifier.fetchDislikedPosts();
+      await stateNotifier.fetchDislikedPosts();
     });
     super.initState();
   }
