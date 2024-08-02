@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,9 +38,9 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(
-                      "${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}",
-                    ),
+                    image: "${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}" == '${AppUrls.profilePicLocation}/'
+                        ? const AssetImage(Assets.avatar)
+                        : CachedNetworkImageProvider("${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}"),
                     fit: BoxFit.cover,
                   ),
                 ),

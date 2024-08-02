@@ -36,6 +36,7 @@ class DataOfPostModel with _$DataOfPostModel {
     @JsonKey(name: "isOwn") bool? isOwn,
     @JsonKey(name: "isNear") bool? isNear,
     @JsonKey(name: "isFollowing") bool? isFollowing,
+    @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
     @JsonKey(name: "isFollower") bool? isFollower,
     @JsonKey(name: "isSave") bool? isSave,
     @JsonKey(name: "like_count") int? likeCount,

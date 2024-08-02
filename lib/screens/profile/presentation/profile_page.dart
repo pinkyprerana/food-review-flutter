@@ -48,6 +48,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final state = ref.watch(profileNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
     final deviceSize = MediaQuery.sizeOf(context);
+    int? postCount = stateNotifier.fetchedUser?.stats?.postCount;
+    String postCountString = (postCount != null && postCount > 9)
+        ? postCount.toString()
+        : postCount != null ? "0${postCount.toString()}" : "0";
+
 
     return Scaffold(
       extendBody: true,
@@ -367,7 +372,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    stateNotifier.fetchedUser?.stats?.postCount.toString() ?? '0',
+                                      postCountString,
                                     style: AppTextStyles.textStylePoppinsMedium
                                         .copyWith(fontSize: 13.sp, color: AppColors.colorText),
                                   ),

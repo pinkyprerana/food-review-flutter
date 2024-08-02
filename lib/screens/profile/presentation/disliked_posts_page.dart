@@ -135,6 +135,8 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
                                 cuisine: dislikedPost.preferenceInfo?.title,
                                 address: dislikedPost.location,
                                 comment: dislikedPost.howWasIt,
+                                isFollowing: dislikedPost.isFollowing,
+                                // isRequested: dislikedPost.isFollowingRequest,
                               );
                             },
                           ),

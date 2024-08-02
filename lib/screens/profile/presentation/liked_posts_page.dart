@@ -134,6 +134,8 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                                 cuisine: likedPost.preferenceInfo?.title,
                                 address: likedPost.location,
                                 comment: likedPost.howWasIt,
+                                isFollowing: likedPost.isFollowing,
+                                // isRequested: likedPost.isFollowingRequested,
                               );
                             },
                           ),

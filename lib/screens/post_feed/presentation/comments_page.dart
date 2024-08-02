@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,6 +54,8 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     const int amount = 100; //widget.postInfoList.commentCount;
     final bool? isSaved = widget.postInfoList.isSave;
     final bool? isLiked = widget.postInfoList.isMyLike;
+    final bool? isFollowing = widget.postInfoList.isFollowing;
+    final bool? isRequested = widget.postInfoList.isFollowingRequest;
     final comments =
         postFeedState.commentInfoList?.where((comment) => comment.postId == postId).toList();
 
@@ -80,10 +83,8 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   image: profileImage == '${AppUrls.profilePicLocation}/'
-                                      ? const AssetImage(Assets.noProfileImage)
-                                      : NetworkImage(
-                                          profileImage,
-                                        ),
+                                      ? const AssetImage(Assets.avatar)
+                                      : CachedNetworkImageProvider(profileImage),
                                   fit: BoxFit.cover,
                                 )),
                           ),
@@ -103,7 +104,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             ),
                             child: Center(
                               child: Text(
-                                'Following',
+                                (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,

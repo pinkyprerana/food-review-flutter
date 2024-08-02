@@ -369,6 +369,8 @@ mixin _$DataOfPostModel {
   bool? get isNear => throw _privateConstructorUsedError;
   @JsonKey(name: "isFollowing")
   bool? get isFollowing => throw _privateConstructorUsedError;
+  @JsonKey(name: "isFollowingRequest")
+  bool? get isFollowingRequest => throw _privateConstructorUsedError;
   @JsonKey(name: "isFollower")
   bool? get isFollower => throw _privateConstructorUsedError;
   @JsonKey(name: "isSave")
@@ -417,6 +419,7 @@ abstract class $DataOfPostModelCopyWith<$Res> {
       @JsonKey(name: "isOwn") bool? isOwn,
       @JsonKey(name: "isNear") bool? isNear,
       @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
       @JsonKey(name: "isFollower") bool? isFollower,
       @JsonKey(name: "isSave") bool? isSave,
       @JsonKey(name: "like_count") int? likeCount,
@@ -461,6 +464,7 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
     Object? isOwn = freezed,
     Object? isNear = freezed,
     Object? isFollowing = freezed,
+    Object? isFollowingRequest = freezed,
     Object? isFollower = freezed,
     Object? isSave = freezed,
     Object? likeCount = freezed,
@@ -528,6 +532,10 @@ class _$DataOfPostModelCopyWithImpl<$Res, $Val extends DataOfPostModel>
       isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowingRequest: freezed == isFollowingRequest
+          ? _value.isFollowingRequest
+          : isFollowingRequest // ignore: cast_nullable_to_non_nullable
               as bool?,
       isFollower: freezed == isFollower
           ? _value.isFollower
@@ -644,6 +652,7 @@ abstract class _$$DataOfPostModelImplCopyWith<$Res>
       @JsonKey(name: "isOwn") bool? isOwn,
       @JsonKey(name: "isNear") bool? isNear,
       @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollowingRequest") bool? isFollowingRequest,
       @JsonKey(name: "isFollower") bool? isFollower,
       @JsonKey(name: "isSave") bool? isSave,
       @JsonKey(name: "like_count") int? likeCount,
@@ -690,6 +699,7 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
     Object? isOwn = freezed,
     Object? isNear = freezed,
     Object? isFollowing = freezed,
+    Object? isFollowingRequest = freezed,
     Object? isFollower = freezed,
     Object? isSave = freezed,
     Object? likeCount = freezed,
@@ -758,6 +768,10 @@ class __$$DataOfPostModelImplCopyWithImpl<$Res>
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isFollowingRequest: freezed == isFollowingRequest
+          ? _value.isFollowingRequest
+          : isFollowingRequest // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isFollower: freezed == isFollower
           ? _value.isFollower
           : isFollower // ignore: cast_nullable_to_non_nullable
@@ -820,6 +834,7 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
       @JsonKey(name: "isOwn") this.isOwn,
       @JsonKey(name: "isNear") this.isNear,
       @JsonKey(name: "isFollowing") this.isFollowing,
+      @JsonKey(name: "isFollowingRequest") this.isFollowingRequest,
       @JsonKey(name: "isFollower") this.isFollower,
       @JsonKey(name: "isSave") this.isSave,
       @JsonKey(name: "like_count") this.likeCount,
@@ -878,6 +893,9 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
   @JsonKey(name: "isFollowing")
   final bool? isFollowing;
   @override
+  @JsonKey(name: "isFollowingRequest")
+  final bool? isFollowingRequest;
+  @override
   @JsonKey(name: "isFollower")
   final bool? isFollower;
   @override
@@ -918,7 +936,7 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
 
   @override
   String toString() {
-    return 'DataOfPostModel(id: $id, title: $title, description: $description, file: $file, mimetype: $mimetype, howWasIt: $howWasIt, location: $location, geoDistance: $geoDistance, geoLoc: $geoLoc, status: $status, createdAt: $createdAt, isOwn: $isOwn, isNear: $isNear, isFollowing: $isFollowing, isFollower: $isFollower, isSave: $isSave, likeCount: $likeCount, isMyLike: $isMyLike, isMyDisLike: $isMyDisLike, commentCount: $commentCount, userInfo: $userInfo, commentInfo: $commentInfo, restaurantInfo: $restaurantInfo, preferenceInfo: $preferenceInfo)';
+    return 'DataOfPostModel(id: $id, title: $title, description: $description, file: $file, mimetype: $mimetype, howWasIt: $howWasIt, location: $location, geoDistance: $geoDistance, geoLoc: $geoLoc, status: $status, createdAt: $createdAt, isOwn: $isOwn, isNear: $isNear, isFollowing: $isFollowing, isFollowingRequest: $isFollowingRequest, isFollower: $isFollower, isSave: $isSave, likeCount: $likeCount, isMyLike: $isMyLike, isMyDisLike: $isMyDisLike, commentCount: $commentCount, userInfo: $userInfo, commentInfo: $commentInfo, restaurantInfo: $restaurantInfo, preferenceInfo: $preferenceInfo)';
   }
 
   @override
@@ -947,6 +965,8 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
             (identical(other.isNear, isNear) || other.isNear == isNear) &&
             (identical(other.isFollowing, isFollowing) ||
                 other.isFollowing == isFollowing) &&
+            (identical(other.isFollowingRequest, isFollowingRequest) ||
+                other.isFollowingRequest == isFollowingRequest) &&
             (identical(other.isFollower, isFollower) ||
                 other.isFollower == isFollower) &&
             (identical(other.isSave, isSave) || other.isSave == isSave) &&
@@ -986,6 +1006,7 @@ class _$DataOfPostModelImpl implements _DataOfPostModel {
         isOwn,
         isNear,
         isFollowing,
+        isFollowingRequest,
         isFollower,
         isSave,
         likeCount,
@@ -1029,6 +1050,7 @@ abstract class _DataOfPostModel implements DataOfPostModel {
       @JsonKey(name: "isOwn") final bool? isOwn,
       @JsonKey(name: "isNear") final bool? isNear,
       @JsonKey(name: "isFollowing") final bool? isFollowing,
+      @JsonKey(name: "isFollowingRequest") final bool? isFollowingRequest,
       @JsonKey(name: "isFollower") final bool? isFollower,
       @JsonKey(name: "isSave") final bool? isSave,
       @JsonKey(name: "like_count") final int? likeCount,
@@ -1086,6 +1108,9 @@ abstract class _DataOfPostModel implements DataOfPostModel {
   @override
   @JsonKey(name: "isFollowing")
   bool? get isFollowing;
+  @override
+  @JsonKey(name: "isFollowingRequest")
+  bool? get isFollowingRequest;
   @override
   @JsonKey(name: "isFollower")
   bool? get isFollower;

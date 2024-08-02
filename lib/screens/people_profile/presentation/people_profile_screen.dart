@@ -52,7 +52,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     getDetails = followNotifier.getUserById(widget.peopleId);
     final peoplename = getDetails?.fullName ?? '';
     final peopleimage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}' ;
-    final bannerImage = '${AppUrls.profilePicLocation}/${getDetails?.bannerImage ?? ''}' ;
+    final bannerImage = '${AppUrls.bannerLocation}/${getDetails?.bannerImage ?? ''}' ;
     final isFollowing = getDetails?.isFollowing ?? false;
     final isRequested = getDetails?.isFollowingRequest ?? false;
     final joinedDate = getDetails?.createdAt.toString() ?? '';

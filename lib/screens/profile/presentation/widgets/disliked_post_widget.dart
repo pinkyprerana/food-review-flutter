@@ -19,6 +19,8 @@ class DislikedPostWidget extends StatelessWidget {
   final String? cuisine;
   final String? address;
   final String? comment;
+  final bool? isFollowing;
+  final bool? isRequested;
 
   const DislikedPostWidget({
     super.key,
@@ -29,6 +31,8 @@ class DislikedPostWidget extends StatelessWidget {
     this.address,
     this.comment,
     this.postPicture,
+    this.isFollowing,
+    this.isRequested
   });
 
   @override
@@ -113,7 +117,7 @@ class DislikedPostWidget extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                'Following',
+                                (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
@@ -142,7 +146,7 @@ class DislikedPostWidget extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cuisine ?? '',
+                                      cuisine ?? 'No Cuisine',
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,
