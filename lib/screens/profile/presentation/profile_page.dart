@@ -110,7 +110,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           GestureDetector(
                             onTap: () => stateNotifier.uploadBannerImage(context),
                             child: Container(
-                              height: 125,
+                              height: 135.r,
                               decoration: const BoxDecoration(
                                 color: AppColors.colorCream,
                                 borderRadius: BorderRadius.only(
