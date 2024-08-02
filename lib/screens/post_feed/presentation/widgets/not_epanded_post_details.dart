@@ -36,8 +36,10 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    postFeedNotifier.getPostFeed();
   }
 
   @override

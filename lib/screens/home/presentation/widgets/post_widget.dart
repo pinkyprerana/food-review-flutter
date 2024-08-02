@@ -41,8 +41,10 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    postFeedNotifier.getPostFeed();
   }
 
   @override
