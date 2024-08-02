@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,6 +84,35 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                   enablePullDown: false,
                   enablePullUp: true,
                   onLoading: stateNotifier.loadMorelikePosts,
+                  footer: CustomFooter(
+                    builder: (BuildContext context, mode) {
+                      Widget body;
+                      if (mode == LoadStatus.idle) {
+                        body = const SizedBox.shrink();
+                      } else if (mode == LoadStatus.loading) {
+                        body = const CupertinoActivityIndicator();
+                      } else if (mode == LoadStatus.failed) {
+                        body = Text(
+                          "Load Failed!Click retry!",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      } else if (mode == LoadStatus.canLoading) {
+                        body = Text(
+                          "release to load more",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      } else {
+                        body = Text(
+                          "No more Data",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      }
+                      return SizedBox(
+                        height: 55.0,
+                        child: Center(child: body),
+                      );
+                    },
+                  ),
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(18.0).r,
@@ -104,6 +134,8 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                                 cuisine: likedPost.preferenceInfo?.title,
                                 address: likedPost.location,
                                 comment: likedPost.howWasIt,
+                                isFollowing: likedPost.isFollowing,
+                                // isRequested: likedPost.isFollowingRequested,
                               );
                             },
                           ),

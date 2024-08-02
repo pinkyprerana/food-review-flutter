@@ -48,6 +48,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final state = ref.watch(profileNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
     final deviceSize = MediaQuery.sizeOf(context);
+    int? postCount = stateNotifier.fetchedUser?.stats?.postCount;
+    String postCountString = (postCount != null && postCount > 9)
+        ? postCount.toString()
+        : postCount != null ? "0${postCount.toString()}" : "0";
+
 
     return Scaffold(
       extendBody: true,
@@ -110,7 +115,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           GestureDetector(
                             onTap: () => stateNotifier.uploadBannerImage(context),
                             child: Container(
-                              height: 125,
+                              height: 135.r,
                               decoration: const BoxDecoration(
                                 color: AppColors.colorCream,
                                 borderRadius: BorderRadius.only(
@@ -136,7 +141,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                           Column(
                             children: [
-                              90.verticalSpace,
+                              100.verticalSpace,
                               Container(
                                 padding:
                                     const EdgeInsets.only(left: 20, right: 20, bottom: 25, top: 20)
@@ -367,7 +372,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    stateNotifier.fetchedUser?.stats?.postCount.toString() ?? '0',
+                                      postCountString,
                                     style: AppTextStyles.textStylePoppinsMedium
                                         .copyWith(fontSize: 13.sp, color: AppColors.colorText),
                                   ),
