@@ -52,7 +52,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     final int? commentCount = widget.postList.commentCount;
     final String? postId = widget.postList.id;
     final bool? isFollowing = widget.postList.isFollowing;
-    final bool? isRequested = widget.postList.isFollowing; //isFollowingRequested
+    final bool? isRequested = widget.postList.isFollowingRequest;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;

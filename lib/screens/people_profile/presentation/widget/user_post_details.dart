@@ -18,7 +18,7 @@ import '../../shared/providers.dart';
 @RoutePage()
 class PostDetailsPage extends ConsumerStatefulWidget {
   final DataOfPostListOfOtherModel postListOfUser;
-  final DataOfOtherPeople creatorDetails;
+  final DataOfOtherPeople? creatorDetails;
 
   const PostDetailsPage({
     super.key,
@@ -113,7 +113,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                             GestureDetector(
                               onTap: () {
                                 AutoRouter.of(context).push(PeopleProfileRoute(
-                                  peopleId: widget.creatorDetails.id ?? "",
+                                  peopleId: widget.creatorDetails?.id ?? "",
                                 ));
                               },
                               child: Row(
@@ -126,21 +126,21 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            '${AppUrls.profilePicLocation}/${widget.creatorDetails.profileImage ?? ''}',
+                                            '${AppUrls.profilePicLocation}/${widget.creatorDetails?.profileImage ?? ''}',
                                           ),
                                           fit: BoxFit.cover,
                                         )),
                                   ),
                                   8.horizontalSpace,
                                   Text(
-                                    widget.creatorDetails.fullName ?? "",
+                                    widget.creatorDetails?.fullName ?? "",
                                     style: AppTextStyles.textStylePoppinsMedium
                                         .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                                   ),
                                   8.horizontalSpace,
                                   GestureDetector(
                                     onTap: (){
-                                      _handleFollowUnfollowButtonPressed(widget.creatorDetails.id);
+                                      _handleFollowUnfollowButtonPressed(widget.creatorDetails?.id);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
@@ -151,7 +151,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          (widget.creatorDetails.isFollowing ?? false) ? 'Unfollow': (widget.creatorDetails.isFollowingRequest ?? false) ? 'Requested' :'Follow',
+                                          (widget.creatorDetails?.isFollowing ?? false) ? 'Unfollow': (widget.creatorDetails?.isFollowingRequest ?? false) ? 'Requested' :'Follow',
                                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                             color: AppColors.colorWhite,
                                             fontSize: 10.sp,

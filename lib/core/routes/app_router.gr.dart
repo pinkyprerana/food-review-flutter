@@ -661,8 +661,8 @@ class PhotoClickRoute extends PageRouteInfo<void> {
 class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
   PostDetailsRoute({
     Key? key,
-    required dynamic postListOfUser,
-    required dynamic creatorDetails,
+    required DataOfPostListOfOtherModel postListOfUser,
+    required DataOfOtherPeople? creatorDetails,
     List<PageRouteInfo>? children,
   }) : super(
           PostDetailsRoute.name,
@@ -689,9 +689,9 @@ class PostDetailsRouteArgs {
 
   final Key? key;
 
-  final dynamic postListOfUser;
+  final DataOfPostListOfOtherModel postListOfUser;
 
-  final dynamic creatorDetails;
+  final DataOfOtherPeople? creatorDetails;
 
   @override
   String toString() {

@@ -55,7 +55,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final bool? isSaved = widget.postInfoList.isSave;
     final bool? isLiked = widget.postInfoList.isMyLike;
     final bool? isFollowing = widget.postInfoList.isFollowing;
-    final bool? isRequested = widget.postInfoList.isFollowing; //isFollowingRequested
+    final bool? isRequested = widget.postInfoList.isFollowingRequest;
     final comments =
         postFeedState.commentInfoList?.where((comment) => comment.postId == postId).toList();
 
