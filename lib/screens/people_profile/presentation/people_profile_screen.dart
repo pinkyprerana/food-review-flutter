@@ -172,6 +172,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       followNotifier.followUnfollow((){
                                         final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
                                         followNotifier.getAllUsersList();
+                                        postFeedNotifier.getPostFeed();
                                       },widget.peopleId);
                                     },
                                     child: Container(
