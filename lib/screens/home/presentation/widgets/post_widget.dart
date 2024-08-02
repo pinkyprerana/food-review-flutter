@@ -44,7 +44,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    postFeedNotifier.getPostFeed();
+    postFeedNotifier.getPostFeed(isPostLoading: true);
   }
 
   @override
