@@ -83,11 +83,11 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                 ? Stack(
                     children: [
                       GoogleMap(
-                        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                           Factory<OneSequenceGestureRecognizer>(
                             () => EagerGestureRecognizer(),
                           ),
-                        ].toSet(),
+                        },
                         myLocationButtonEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target: LatLng(
@@ -104,7 +104,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                           _googleMapController = controller;
                           _googleMapController.getVisibleRegion();
 
-                          Set<Marker> markers = Set();
+                          Set<Marker> markers = {};
 
                           // _markers = Set.from(
                           //   markers,

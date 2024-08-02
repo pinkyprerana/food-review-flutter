@@ -60,15 +60,12 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   Future<void> getRestaurants({
     bool isLoadMore = false,
   }) async {
-    AppLog.log('state.currentPage 1 ======== ${state.currentPage}');
     try {
       state = state.copyWith(isLoading: !isLoadMore);
 
-      AppLog.log('state.currentPage 2 ======== ${state.currentPage}');
       if (isLoadMore) {
         state = state.copyWith(currentPage: state.currentPage + 1);
       }
-      AppLog.log('state.currentPage 3 ======== ${state.currentPage}');
 
       final data = {
         "perpage": 10,
