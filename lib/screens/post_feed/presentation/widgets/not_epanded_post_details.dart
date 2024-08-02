@@ -10,7 +10,9 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../people_profile/shared/providers.dart';
 import '../../../profile/shared/providers.dart';
+import '../../../your_lists/shared/provider.dart';
 
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
@@ -31,14 +33,19 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     });
   }
 
+  void _handleFollowUnfollowButtonPressed(userId) {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    followNotifier.followUnfollow(() {}, userId);
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     final String? peopleId = widget.postList.userInfo?.id;
     final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
-    // final String postImage = widget.postList.file;
-    // final String title = widget.postList.title;
     final String? description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
@@ -46,11 +53,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final int? commentCount = widget.postList.commentCount;
     final String? postId = widget.postList.id;
     final bool? isFollowing = widget.postList.isFollowing;
+    final bool? isRequested = widget.postList.isFollowing; //isFollowingRequested
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
-    // final bool? isFollow = allUsersList.isFollowerRequest;
-    // final bool? isRequested = allUsersList.isFollowingRequest;
+
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -97,18 +104,23 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                 ),
               ),
               8.horizontalSpace,
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(70),
-                  color: AppColors.colorWhite.withOpacity(0.20),
-                ),
-                child: Center(
-                  child: Text(
-                    (isFollowing??false) ? 'Unfollow': 'Follow',
-                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      color: AppColors.colorWhite,
-                      fontSize: 10.sp,
+              GestureDetector(
+                onTap: (){
+                  _handleFollowUnfollowButtonPressed(peopleId);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(70),
+                    color: AppColors.colorWhite.withOpacity(0.20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorWhite,
+                        fontSize: 10.sp,
+                      ),
                     ),
                   ),
                 ),

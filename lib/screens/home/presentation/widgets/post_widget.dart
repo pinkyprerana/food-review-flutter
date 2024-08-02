@@ -52,7 +52,6 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
-    // final String title = widget.postList.title;
     final String? description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
