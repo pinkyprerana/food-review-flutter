@@ -54,6 +54,14 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
 }
 
 class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      await postFeedNotifier.getPostFeed();
+    });
+  }
 
 
   void _handleFollowUnfollowButtonPressed(userId) {
@@ -234,15 +242,17 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                           ],
                         ),
                         GestureDetector(
-                          onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                            postInfoList: postInfo! ,
-                          )),
+                          onTap: () {
+                            postFeedState.isLoading
+                                ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,),)
+                                : AutoRouter.of(context).push(CommentsRoute(postInfoList: postInfo!,),);
+                          },
                           child: Column(
                             children: [
                               GestureDetector(
                                   onTap: () => postFeedNotifier.likeUnlikePost(() {
-                                    profileNotifier.fetchlikedPosts();
-                                    profileNotifier.fetchDislikedPosts();
+                                    profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                    profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
                                   }, widget.postId??""),
                                   child: (widget.isLiked??false)
                                       ? Image.asset(Assets.redHeart)

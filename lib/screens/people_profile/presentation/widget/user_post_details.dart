@@ -31,34 +31,57 @@ class PostDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
-  List<DataOfPostModel>? postList;
+  DataOfPostModel? postDetails;
+  DataOfOtherPeople? getDetails;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final postFeedState = ref.read(postFeedNotifierProvider);
-      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      await postFeedNotifier.getPostFeed();
-      postList = postFeedState.postList;
+      await _fetchPostDetails();
     });
   }
 
-  void _handleFollowUnfollowButtonPressed(userId) {
+  Future<void> _fetchPostDetails() async {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    await followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.creatorDetails?.id??"");
+    await followNotifier.getOtherPeopleDetails(() {}, widget.creatorDetails?.id??"");
+      getDetails = followNotifier.getUserById(widget.creatorDetails?.id??"");
+      print("getDetails: ${getDetails }");
+    postDetails = ref.read(postFeedNotifierProvider).postList?.firstWhere((post) => post.id == widget.postListOfUser?.id,
+          orElse: ()=>  const DataOfPostModel(id: '', file: '')
+      );
+      print("postList: ${postDetails }");
+  }
+
+  Future<void> _handleLikeUnlike(String postId) async {
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    await postFeedNotifier.likeUnlikePost(() async {
+      await _fetchPostDetails();
+    }, postId);
+  }
+
+  Future<void> _handleSaveUnsave(String postId) async {
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    await postFeedNotifier.saveUnsavePost(() async {
+      await _fetchPostDetails();
+    }, postId);
+  }
+
+  Future<void> _handleFollowUnfollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    await _fetchPostDetails();
   }
 
   @override
   Widget build(BuildContext context) {
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final postFeedState = ref.watch(postFeedNotifierProvider);
     final String postImage = "${AppUrls.postImageLocation}${widget.postListOfUser?.file}";
-    final followNotifier = ref.read(followNotifierProvider.notifier);
-
-    final DataOfPostModel? postInfo = postList?.firstWhere(
-          (post) => post.id == widget.postListOfUser?.id,
-      orElse: () => const DataOfPostModel(id: '', file: ''),
+    final DataOfPostModel? postInfo = postFeedState.postList?.firstWhere((post) => post.id == widget.postListOfUser?.id,
+        orElse: ()=>  const DataOfPostModel(id: '', file: '')
     );
 
     return Scaffold(
@@ -156,9 +179,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                   ),
                                   8.horizontalSpace,
                                   GestureDetector(
-                                    onTap: (){
-                                      _handleFollowUnfollowButtonPressed(widget.creatorDetails?.id);
-                                    },
+                                    onTap: () async => await _handleFollowUnfollowButtonPressed(widget.creatorDetails?.id),
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
@@ -216,17 +237,18 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                         Column(
                           children: [
                             GestureDetector(
-                                onTap: () => postFeedNotifier.likeUnlikePost(() {
-                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser?.id??"");
-                                }, widget.postListOfUser?.id??""),
+                              onTap: () async => await _handleLikeUnlike(widget.postListOfUser?.id ?? ""),
                                 child: (widget.postListOfUser?.isMyLike??false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
                             GestureDetector(
-                              onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                                postInfoList: postInfo!,
-                              )),
+                              onTap: () {
+                                print("postInfo : ----->>>> ${postInfo}");
+                                if(postInfo!=null){
+                                  AutoRouter.of(context).push(CommentsRoute(postInfoList: postInfo,),);
+                                }
+                                 },
                               child: Column(
                                 children: [
                                   Image.asset(Assets.comments),
@@ -244,9 +266,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                                onTap: () => postFeedNotifier.saveUnsavePost(() {
-                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser?.id??"");
-                                }, widget.postListOfUser?.id??""),
+                                onTap: () async => await _handleSaveUnsave(widget.postListOfUser?.id ?? ""),
                                 child: (widget.postListOfUser?.isSave??false)
                                     ? Image.asset(
                                   Assets.saved,
