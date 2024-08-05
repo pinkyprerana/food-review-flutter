@@ -8,7 +8,10 @@ import 'package:video_player/video_player.dart';
 class VideoWidget extends StatefulWidget {
   final File file;
 
-  const VideoWidget(this.file);
+  const VideoWidget({
+    super.key,
+    required this.file,
+  });
 
   @override
   VideoWidgetState createState() => VideoWidgetState();
@@ -48,6 +51,30 @@ class VideoWidgetState extends State<VideoWidget> {
   }
 
   @override
+  void didUpdateWidget(covariant VideoWidget oldWidget) {
+    if (oldWidget.file != widget.file) {
+      _controller = VideoPlayerController.file(widget.file)
+        ..addListener(() {
+          final bool isPlaying = _controller.value.isPlaying;
+          if (isPlaying != _isPlaying) {
+            setState(() {
+              _isPlaying = isPlaying;
+            });
+          }
+        })
+        ..initialize().then((_) {
+          Timer(Duration(milliseconds: 0), () {
+            if (!mounted) return;
+
+            setState(() {});
+            _controller.play();
+          });
+        });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -81,12 +108,10 @@ class VideoWidgetState extends State<VideoWidget> {
             return;
           }
           if (_controller.value.isPlaying) {
-            videoStatusAnimation =
-                FadeAnimation(child: const Icon(Icons.pause, size: 100.0));
+            videoStatusAnimation = FadeAnimation(child: const Icon(Icons.pause, size: 100.0));
             _controller.pause();
           } else {
-            videoStatusAnimation =
-                FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0));
+            videoStatusAnimation = FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0));
             _controller.play();
           }
         },
@@ -94,9 +119,7 @@ class VideoWidgetState extends State<VideoWidget> {
 }
 
 class FadeAnimation extends StatefulWidget {
-  const FadeAnimation(
-      {required this.child,
-      this.duration = const Duration(milliseconds: 1000)});
+  const FadeAnimation({required this.child, this.duration = const Duration(milliseconds: 1000)});
 
   final Widget child;
   final Duration duration;
@@ -105,15 +128,13 @@ class FadeAnimation extends StatefulWidget {
   _FadeAnimationState createState() => _FadeAnimationState();
 }
 
-class _FadeAnimationState extends State<FadeAnimation>
-    with SingleTickerProviderStateMixin {
+class _FadeAnimationState extends State<FadeAnimation> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(duration: widget.duration, vsync: this);
+    animationController = AnimationController(duration: widget.duration, vsync: this);
     animationController.addListener(() {
       if (mounted) {
         setState(() {});

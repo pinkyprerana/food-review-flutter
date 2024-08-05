@@ -36,7 +36,7 @@ class PhotoOrVideoBox extends ConsumerWidget {
                         child: Image.asset(Assets.add),
                       )
                     : state.isVideo
-                        ? VideoWidget(File(state.imageOrVideo!.path))
+                        ? VideoWidget(file: File(state.imageOrVideo!.path))
                         : Image.file(File(state.imageOrVideo!.path))
                 // child: (state.imageOrVideo != null)
                 //     ? Image.file(File(state.imageOrVideo!.path))
