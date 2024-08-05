@@ -11,6 +11,7 @@ import '../../../../core/constants/assets.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
+import '../../../../core/utils/app_log.dart';
 import '../../../your_lists/shared/provider.dart';
 import '../../domain/other_people_profile_model.dart';
 import '../../shared/providers.dart';
@@ -31,8 +32,7 @@ class PostDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
-  DataOfPostModel? postDetails;
-  DataOfOtherPeople? getDetails;
+  late DataOfPostModel postDetails;
 
   @override
   void initState() {
@@ -46,12 +46,15 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     await followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.creatorDetails?.id??"");
     await followNotifier.getOtherPeopleDetails(() {}, widget.creatorDetails?.id??"");
-      getDetails = followNotifier.getUserById(widget.creatorDetails?.id??"");
-      print("getDetails: ${getDetails }");
-    postDetails = ref.read(postFeedNotifierProvider).postList?.firstWhere((post) => post.id == widget.postListOfUser?.id,
-          orElse: ()=>  const DataOfPostModel(id: '', file: '')
+    final postFeedNotifier = ref.read(postFeedNotifierProvider);
+    AppLog.log("postFeedNotifier postList: ${postFeedNotifier.postList}");
+
+    if (postFeedNotifier.postList != null) {
+      postDetails = postFeedNotifier.postList!.firstWhere((post) => post.id == widget.postListOfUser?.id,
+          orElse: () => const DataOfPostModel(id: '', file: '')
       );
-      print("postList: ${postDetails }");
+      AppLog.log("postDetails: $postDetails");
+    }
   }
 
   Future<void> _handleLikeUnlike(String postId) async {
@@ -78,11 +81,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final postFeedState = ref.watch(postFeedNotifierProvider);
     final String postImage = "${AppUrls.postImageLocation}${widget.postListOfUser?.file}";
-    final DataOfPostModel? postInfo = postFeedState.postList?.firstWhere((post) => post.id == widget.postListOfUser?.id,
-        orElse: ()=>  const DataOfPostModel(id: '', file: '')
-    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -244,11 +243,8 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                             15.verticalSpace,
                             GestureDetector(
                               onTap: () {
-                                print("postInfo : ----->>>> ${postInfo}");
-                                if(postInfo!=null){
-                                  AutoRouter.of(context).push(CommentsRoute(postInfoList: postInfo,),);
-                                }
-                                 },
+                                AutoRouter.of(context).push(CommentsRoute(postInfoList: postDetails,),);
+                                },
                               child: Column(
                                 children: [
                                   Image.asset(Assets.comments),
