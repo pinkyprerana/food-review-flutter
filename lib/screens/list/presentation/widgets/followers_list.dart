@@ -119,12 +119,12 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                           return GestureDetector(
                             onTap: () => AutoRouter.of(context).push(
                               PeopleProfileRoute(
-                                peoplename: users.fullName.toString(),
-                                peopleimage: profileImage,
+                                // peoplename: users.fullName.toString(),
+                                // peopleimage: profileImage,
                                 peopleId: users.id ?? '',
-                                isFollow: users.isFollowerRequest ?? false,
-                                isRequested: users.isFollowingRequest ??false,
-                                isFollowing: users.isFollowing ??false,
+                                // isFollow: users.isFollowerRequest ?? false,
+                                // isRequested: users.isFollowingRequest ??false,
+                                // isFollowing: users.isFollowing ??false,
                               ),
                             ),
                             child: Container(

@@ -10,7 +10,7 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
-import 'package:for_the_table/model/user_profile/user_profile_model.dart';
+import 'package:for_the_table/screens/profile/domain/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
 import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
@@ -120,12 +120,12 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       if (response.statusCode == 200 && response.data != null) {
         fetchedUser = ProfileDetails.fromJson(response.data!['data']);
-        final userProdileResponseModel = UserProfileModel.fromJson(response.data);
+        final userProfileResponseModel = UserProfileModel.fromJson(response.data);
 
         state = state.copyWith(
           isLoading: false,
           fetchedUser: fetchedUser,
-          userProfileResponseModel: userProdileResponseModel,
+          userProfileResponseModel: userProfileResponseModel,
           profileImgPath: '${AppUrls.profilePicLocation}/${fetchedUser?.profileImage}',
         );
       } else {
@@ -669,21 +669,25 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       if (response.statusCode == 200 && response.data != null) {
         final dislikedPostsModel = PostsModel.fromJson(response.data ?? {});
-        final dislikedPosts = dislikedPostsModel.postsList;
+        final List<Posts> dislikedPosts = [];
+
+        for (var posts in dislikedPostsModel.postsList ?? []) {
+          dislikedPosts.add(posts);
+        }
 
         if (isLoadMore) {
           final postIds = state.dislikedPostsList.map((post) => post.id).toSet();
 
-          final uniquePosts = dislikedPosts?.where((post) => !(postIds.contains(post.id))).toList();
+          final uniquePosts = dislikedPosts.where((post) => !(postIds.contains(post.id))).toList();
 
-          if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
+          if ((uniquePosts.isEmpty) && isLoadMore) {
             showToastMessage('No new posts are available.');
           }
           state = state.copyWith(
             isLoading: false,
             dislikedPostsList: [
               ...state.dislikedPostsList,
-              ...uniquePosts ?? [],
+              ...uniquePosts,
             ],
           );
 
@@ -692,7 +696,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         state = state.copyWith(
           isLoading: false,
-          dislikedPostsList: dislikedPosts ?? [],
+          dislikedPostsList: dislikedPosts,
           totalPages: dislikedPostsModel.pages ?? 0,
         );
       } else {
@@ -738,21 +742,25 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
       if (response.statusCode == 200 && response.data != null) {
         final likedPostsModel = PostsModel.fromJson(response.data ?? {});
-        final likedPosts = likedPostsModel.postsList;
+        final List<Posts> likedPosts = [];
+
+        for (var posts in likedPostsModel.postsList ?? []) {
+          likedPosts.add(posts);
+        }
 
         if (isLoadMore) {
           final postIds = state.likedPostList.map((post) => post.id).toSet();
 
-          final uniquePosts = likedPosts?.where((post) => !(postIds.contains(post.id))).toList();
+          final uniquePosts = likedPosts.where((post) => !(postIds.contains(post.id))).toList();
 
-          if ((uniquePosts?.isEmpty ?? false) && isLoadMore) {
+          if ((uniquePosts.isEmpty) && isLoadMore) {
             showToastMessage('No new posts are available.');
           }
           state = state.copyWith(
             isLoading: false,
             likedPostList: [
               ...state.likedPostList,
-              ...uniquePosts ?? [],
+              ...uniquePosts,
             ],
           );
 
@@ -761,7 +769,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
         state = state.copyWith(
           isLoading: false,
-          likedPostList: likedPosts ?? [],
+          likedPostList: likedPosts,
           totalPages: likedPostsModel.pages ?? 0,
         );
       } else {

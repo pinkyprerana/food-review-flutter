@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,9 +20,9 @@ class LikedPostsPage extends ConsumerStatefulWidget {
 class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
-      stateNotifier.fetchlikedPosts();
+      await stateNotifier.fetchlikedPosts();
     });
     super.initState();
   }
@@ -71,7 +72,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                 color: AppColors.colorPrimary,
               ),
             )
-          : state.dislikedPostsList.isEmpty
+          : state.likedPostList.isEmpty
               ? Center(
                   child: Text(
                     'Your liked posts will be listed here.',
@@ -83,6 +84,35 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                   enablePullDown: false,
                   enablePullUp: true,
                   onLoading: stateNotifier.loadMorelikePosts,
+                  footer: CustomFooter(
+                    builder: (BuildContext context, mode) {
+                      Widget body;
+                      if (mode == LoadStatus.idle) {
+                        body = const SizedBox.shrink();
+                      } else if (mode == LoadStatus.loading) {
+                        body = const CupertinoActivityIndicator();
+                      } else if (mode == LoadStatus.failed) {
+                        body = Text(
+                          "Load Failed!Click retry!",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      } else if (mode == LoadStatus.canLoading) {
+                        body = Text(
+                          "release to load more",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      } else {
+                        body = Text(
+                          "No more Data",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      }
+                      return SizedBox(
+                        height: 55.0,
+                        child: Center(child: body),
+                      );
+                    },
+                  ),
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(18.0).r,
@@ -97,12 +127,15 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                               final likedPost = state.likedPostList[index];
 
                               return DislikedPostWidget(
+                                userId: likedPost.userInfo?.id,
                                 userFullName: likedPost.userInfo?.fullName,
                                 userDisplayPicture: likedPost.userInfo?.profileImage,
                                 postPicture: likedPost.file,
                                 cuisine: likedPost.preferenceInfo?.title,
                                 address: likedPost.location,
                                 comment: likedPost.howWasIt,
+                                isFollowing: likedPost.isFollowing,
+                                // isRequested: likedPost.isFollowingRequested,
                               );
                             },
                           ),

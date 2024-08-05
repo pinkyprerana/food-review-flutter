@@ -24,6 +24,7 @@ mixin _$ProfileState {
   UserProfileModel? get userProfileResponseModel =>
       throw _privateConstructorUsedError;
   List<Activity>? get userActivitiesList => throw _privateConstructorUsedError;
+  int get postCount => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
   dynamic get isMoreDataFetchable => throw _privateConstructorUsedError;
@@ -54,6 +55,7 @@ abstract class $ProfileStateCopyWith<$Res> {
       String profileImage,
       UserProfileModel? userProfileResponseModel,
       List<Activity>? userActivitiesList,
+      int postCount,
       int currentPage,
       int totalPages,
       dynamic isMoreDataFetchable,
@@ -87,6 +89,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? profileImage = null,
     Object? userProfileResponseModel = freezed,
     Object? userActivitiesList = freezed,
+    Object? postCount = null,
     Object? currentPage = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
@@ -125,6 +128,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.userActivitiesList
           : userActivitiesList // ignore: cast_nullable_to_non_nullable
               as List<Activity>?,
+      postCount: null == postCount
+          ? _value.postCount
+          : postCount // ignore: cast_nullable_to_non_nullable
+              as int,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -202,6 +209,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       String profileImage,
       UserProfileModel? userProfileResponseModel,
       List<Activity>? userActivitiesList,
+      int postCount,
       int currentPage,
       int totalPages,
       dynamic isMoreDataFetchable,
@@ -235,6 +243,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? profileImage = null,
     Object? userProfileResponseModel = freezed,
     Object? userActivitiesList = freezed,
+    Object? postCount = null,
     Object? currentPage = null,
     Object? totalPages = null,
     Object? isMoreDataFetchable = freezed,
@@ -273,6 +282,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value._userActivitiesList
           : userActivitiesList // ignore: cast_nullable_to_non_nullable
               as List<Activity>?,
+      postCount: null == postCount
+          ? _value.postCount
+          : postCount // ignore: cast_nullable_to_non_nullable
+              as int,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -319,6 +332,7 @@ class _$ProfileStateImpl extends _ProfileState {
       this.profileImage = '',
       this.userProfileResponseModel,
       final List<Activity>? userActivitiesList,
+      this.postCount = 0,
       this.currentPage = 1,
       this.totalPages = 1,
       this.isMoreDataFetchable = true,
@@ -361,6 +375,9 @@ class _$ProfileStateImpl extends _ProfileState {
     return EqualUnmodifiableListView(value);
   }
 
+  @override
+  @JsonKey()
+  final int postCount;
   @override
   @JsonKey()
   final int currentPage;
@@ -414,7 +431,7 @@ class _$ProfileStateImpl extends _ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, isExpanded: $isExpanded)';
+    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, isExpanded: $isExpanded)';
   }
 
   @override
@@ -437,6 +454,8 @@ class _$ProfileStateImpl extends _ProfileState {
                 other.userProfileResponseModel == userProfileResponseModel) &&
             const DeepCollectionEquality()
                 .equals(other._userActivitiesList, _userActivitiesList) &&
+            (identical(other.postCount, postCount) ||
+                other.postCount == postCount) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.totalPages, totalPages) ||
@@ -465,6 +484,7 @@ class _$ProfileStateImpl extends _ProfileState {
       profileImage,
       userProfileResponseModel,
       const DeepCollectionEquality().hash(_userActivitiesList),
+      postCount,
       currentPage,
       totalPages,
       const DeepCollectionEquality().hash(isMoreDataFetchable),
@@ -490,6 +510,7 @@ abstract class _ProfileState extends ProfileState {
       final String profileImage,
       final UserProfileModel? userProfileResponseModel,
       final List<Activity>? userActivitiesList,
+      final int postCount,
       final int currentPage,
       final int totalPages,
       final dynamic isMoreDataFetchable,
@@ -514,6 +535,8 @@ abstract class _ProfileState extends ProfileState {
   UserProfileModel? get userProfileResponseModel;
   @override
   List<Activity>? get userActivitiesList;
+  @override
+  int get postCount;
   @override
   int get currentPage;
   @override

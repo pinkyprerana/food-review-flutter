@@ -37,14 +37,12 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> getPostFeed({bool isPostLoading = false}) async {
-    AppLog.log("Latitude: $getLatitude");
-    AppLog.log("Longitude: $getLongitude");
     state = state.copyWith(isLoading: !isPostLoading);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         body: {
-          'view_type':'list'
+          "list_type": "list"
         }
       );
       state = state.copyWith(isLoading: false);
@@ -84,15 +82,12 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> getFollowingPostFeed(follow) async {
+  Future<void> getFollowingPostFeed() async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
-        "lat": getLatitude,
-        "lng": getLongitude,
-        "user_id": userId,
-        "view_type": follow,
+        "list_type": "follow"
       });
       state = state.copyWith(isLoading: false);
 

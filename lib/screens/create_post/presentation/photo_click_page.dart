@@ -31,7 +31,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
   @override
   void initState() {
-    super.initState();
     // WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((time) async {
       _initializeCamera().then((_) {
@@ -42,6 +41,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
       final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
       await preferenceNotifier.getAllPreference();
     });
+    super.initState();
   }
 
   // Future<void> _checkPermissions() async {

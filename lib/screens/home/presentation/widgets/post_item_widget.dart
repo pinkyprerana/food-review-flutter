@@ -122,7 +122,7 @@ class PostItemWidget2 extends StatelessWidget {
                             child: Center(
                               child: (isFollowing)
                                   ? Text(
-                                      'Following',
+                                      'Unfollow',
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         color: AppColors.colorWhite,
                                         fontSize: 10.sp,

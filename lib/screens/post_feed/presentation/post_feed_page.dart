@@ -73,6 +73,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final postFeedList = postFeedState.postList;
 
     return Scaffold(
+      backgroundColor: AppColors.colorPrimary,
       key: _scaffoldKey,
       body: Stack(
         children: [
@@ -91,7 +92,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           "You're all caught up",
                           style: AppTextStyles.textStylePoppinsMedium.copyWith(
                             fontSize: 12.sp,
-                            color: AppColors.colorBlack,
+                            color: AppColors.colorGrey,
                           ),
                         ),
                         Text(
@@ -170,7 +171,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                               if (index == 1) {
                                 final postFeedNotifier =
                                     ref.read(postFeedNotifierProvider.notifier);
-                                await postFeedNotifier.getFollowingPostFeed("follow");
+                                await postFeedNotifier.getFollowingPostFeed();
                               }
                             },
                             child: Container(

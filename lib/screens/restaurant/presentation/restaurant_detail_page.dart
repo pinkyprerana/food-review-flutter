@@ -220,12 +220,17 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                 // gestureRecognizers: Set()
                                 //   ..add(Factory<PanGestureRecognizer>(
                                 //       () => PanGestureRecognizer())),
-                                gestureRecognizers:
-                                    <Factory<OneSequenceGestureRecognizer>>[
+                                gestureRecognizers: <Factory<
+                                    OneSequenceGestureRecognizer>>{
                                   Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer(),
                                   ),
-                                ].toSet(),
+                                },
+                                // gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                                //   Factory<OneSequenceGestureRecognizer>(
+                                //     () => EagerGestureRecognizer(),
+                                //   ),
+                                // ].toSet(),
                               ),
                             ),
                           ),

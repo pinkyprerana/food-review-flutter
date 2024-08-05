@@ -26,6 +26,9 @@ mixin _$FollowState {
       throw _privateConstructorUsedError;
   List<RestaurantInfo>? get restaurantInfoList =>
       throw _privateConstructorUsedError;
+  List<DataOfOtherPeople>? get getDetails => throw _privateConstructorUsedError;
+  OtherPeopleProfileModel? get otherPeopleProfile =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FollowStateCopyWith<FollowState> get copyWith =>
@@ -45,7 +48,11 @@ abstract class $FollowStateCopyWith<$Res> {
       List<GeoLoc>? coordinateList,
       List<UserInfo>? userInfoList,
       List<PreferenceInfo>? preferenceInfoList,
-      List<RestaurantInfo>? restaurantInfoList});
+      List<RestaurantInfo>? restaurantInfoList,
+      List<DataOfOtherPeople>? getDetails,
+      OtherPeopleProfileModel? otherPeopleProfile});
+
+  $OtherPeopleProfileModelCopyWith<$Res>? get otherPeopleProfile;
 }
 
 /// @nodoc
@@ -68,6 +75,8 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
     Object? userInfoList = freezed,
     Object? preferenceInfoList = freezed,
     Object? restaurantInfoList = freezed,
+    Object? getDetails = freezed,
+    Object? otherPeopleProfile = freezed,
   }) {
     return _then(_value.copyWith(
       userFollowStatus: null == userFollowStatus
@@ -98,7 +107,28 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
           ? _value.restaurantInfoList
           : restaurantInfoList // ignore: cast_nullable_to_non_nullable
               as List<RestaurantInfo>?,
+      getDetails: freezed == getDetails
+          ? _value.getDetails
+          : getDetails // ignore: cast_nullable_to_non_nullable
+              as List<DataOfOtherPeople>?,
+      otherPeopleProfile: freezed == otherPeopleProfile
+          ? _value.otherPeopleProfile
+          : otherPeopleProfile // ignore: cast_nullable_to_non_nullable
+              as OtherPeopleProfileModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $OtherPeopleProfileModelCopyWith<$Res>? get otherPeopleProfile {
+    if (_value.otherPeopleProfile == null) {
+      return null;
+    }
+
+    return $OtherPeopleProfileModelCopyWith<$Res>(_value.otherPeopleProfile!,
+        (value) {
+      return _then(_value.copyWith(otherPeopleProfile: value) as $Val);
+    });
   }
 }
 
@@ -117,7 +147,12 @@ abstract class _$$FollowStateImplCopyWith<$Res>
       List<GeoLoc>? coordinateList,
       List<UserInfo>? userInfoList,
       List<PreferenceInfo>? preferenceInfoList,
-      List<RestaurantInfo>? restaurantInfoList});
+      List<RestaurantInfo>? restaurantInfoList,
+      List<DataOfOtherPeople>? getDetails,
+      OtherPeopleProfileModel? otherPeopleProfile});
+
+  @override
+  $OtherPeopleProfileModelCopyWith<$Res>? get otherPeopleProfile;
 }
 
 /// @nodoc
@@ -138,6 +173,8 @@ class __$$FollowStateImplCopyWithImpl<$Res>
     Object? userInfoList = freezed,
     Object? preferenceInfoList = freezed,
     Object? restaurantInfoList = freezed,
+    Object? getDetails = freezed,
+    Object? otherPeopleProfile = freezed,
   }) {
     return _then(_$FollowStateImpl(
       userFollowStatus: null == userFollowStatus
@@ -168,6 +205,14 @@ class __$$FollowStateImplCopyWithImpl<$Res>
           ? _value._restaurantInfoList
           : restaurantInfoList // ignore: cast_nullable_to_non_nullable
               as List<RestaurantInfo>?,
+      getDetails: freezed == getDetails
+          ? _value._getDetails
+          : getDetails // ignore: cast_nullable_to_non_nullable
+              as List<DataOfOtherPeople>?,
+      otherPeopleProfile: freezed == otherPeopleProfile
+          ? _value.otherPeopleProfile
+          : otherPeopleProfile // ignore: cast_nullable_to_non_nullable
+              as OtherPeopleProfileModel?,
     ));
   }
 }
@@ -182,13 +227,16 @@ class _$FollowStateImpl implements _FollowState {
       final List<GeoLoc>? coordinateList = const [],
       final List<UserInfo>? userInfoList = const [],
       final List<PreferenceInfo>? preferenceInfoList = const [],
-      final List<RestaurantInfo>? restaurantInfoList = const []})
+      final List<RestaurantInfo>? restaurantInfoList = const [],
+      final List<DataOfOtherPeople>? getDetails,
+      this.otherPeopleProfile})
       : _userFollowStatus = userFollowStatus,
         _postListOfOtherUser = postListOfOtherUser,
         _coordinateList = coordinateList,
         _userInfoList = userInfoList,
         _preferenceInfoList = preferenceInfoList,
-        _restaurantInfoList = restaurantInfoList;
+        _restaurantInfoList = restaurantInfoList,
+        _getDetails = getDetails;
 
   final Map<String, bool> _userFollowStatus;
   @override
@@ -258,9 +306,22 @@ class _$FollowStateImpl implements _FollowState {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<DataOfOtherPeople>? _getDetails;
+  @override
+  List<DataOfOtherPeople>? get getDetails {
+    final value = _getDetails;
+    if (value == null) return null;
+    if (_getDetails is EqualUnmodifiableListView) return _getDetails;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final OtherPeopleProfileModel? otherPeopleProfile;
+
   @override
   String toString() {
-    return 'FollowState(userFollowStatus: $userFollowStatus, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'FollowState(userFollowStatus: $userFollowStatus, isLoading: $isLoading, postListOfOtherUser: $postListOfOtherUser, coordinateList: $coordinateList, userInfoList: $userInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, getDetails: $getDetails, otherPeopleProfile: $otherPeopleProfile)';
   }
 
   @override
@@ -281,7 +342,11 @@ class _$FollowStateImpl implements _FollowState {
             const DeepCollectionEquality()
                 .equals(other._preferenceInfoList, _preferenceInfoList) &&
             const DeepCollectionEquality()
-                .equals(other._restaurantInfoList, _restaurantInfoList));
+                .equals(other._restaurantInfoList, _restaurantInfoList) &&
+            const DeepCollectionEquality()
+                .equals(other._getDetails, _getDetails) &&
+            (identical(other.otherPeopleProfile, otherPeopleProfile) ||
+                other.otherPeopleProfile == otherPeopleProfile));
   }
 
   @override
@@ -293,7 +358,9 @@ class _$FollowStateImpl implements _FollowState {
       const DeepCollectionEquality().hash(_coordinateList),
       const DeepCollectionEquality().hash(_userInfoList),
       const DeepCollectionEquality().hash(_preferenceInfoList),
-      const DeepCollectionEquality().hash(_restaurantInfoList));
+      const DeepCollectionEquality().hash(_restaurantInfoList),
+      const DeepCollectionEquality().hash(_getDetails),
+      otherPeopleProfile);
 
   @JsonKey(ignore: true)
   @override
@@ -310,7 +377,9 @@ abstract class _FollowState implements FollowState {
       final List<GeoLoc>? coordinateList,
       final List<UserInfo>? userInfoList,
       final List<PreferenceInfo>? preferenceInfoList,
-      final List<RestaurantInfo>? restaurantInfoList}) = _$FollowStateImpl;
+      final List<RestaurantInfo>? restaurantInfoList,
+      final List<DataOfOtherPeople>? getDetails,
+      final OtherPeopleProfileModel? otherPeopleProfile}) = _$FollowStateImpl;
 
   @override
   Map<String, bool> get userFollowStatus;
@@ -326,6 +395,10 @@ abstract class _FollowState implements FollowState {
   List<PreferenceInfo>? get preferenceInfoList;
   @override
   List<RestaurantInfo>? get restaurantInfoList;
+  @override
+  List<DataOfOtherPeople>? get getDetails;
+  @override
+  OtherPeopleProfileModel? get otherPeopleProfile;
   @override
   @JsonKey(ignore: true)
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>

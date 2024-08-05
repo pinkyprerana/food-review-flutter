@@ -49,7 +49,7 @@ class PostDetails extends StatelessWidget {
                         borderRadius: BorderRadius.circular(60),
                         color: AppColors.colorWhite.withOpacity(0.3)),
                     child: Text(
-                      'Following',
+                      'Unfollow',
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         color: AppColors.colorWhite,
                         fontSize: 10.sp,

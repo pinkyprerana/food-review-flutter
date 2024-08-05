@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,9 +20,9 @@ class DislikedPostsPage extends ConsumerStatefulWidget {
 class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(profileNotifierProvider.notifier);
-      stateNotifier.fetchDislikedPosts();
+      await stateNotifier.fetchDislikedPosts();
     });
     super.initState();
   }
@@ -83,6 +84,35 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
                   enablePullDown: false,
                   enablePullUp: true,
                   onLoading: stateNotifier.loadMoreDislikePosts,
+                  footer: CustomFooter(
+                    builder: (BuildContext context, mode) {
+                      Widget body;
+                      if (mode == LoadStatus.idle) {
+                        body = const SizedBox.shrink();
+                      } else if (mode == LoadStatus.loading) {
+                        body = const CupertinoActivityIndicator();
+                      } else if (mode == LoadStatus.failed) {
+                        body = Text(
+                          "Load Failed!Click retry!",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      } else if (mode == LoadStatus.canLoading) {
+                        body = Text(
+                          "release to load more",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      } else {
+                        body = Text(
+                          "No more Data",
+                          style: AppTextStyles.textStylePoppinsLight,
+                        );
+                      }
+                      return SizedBox(
+                        height: 55.0,
+                        child: Center(child: body),
+                      );
+                    },
+                  ),
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(18.0).r,
@@ -98,12 +128,15 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
                               final dislikedPost = state.dislikedPostsList[index];
 
                               return DislikedPostWidget(
+                                userId: dislikedPost.userInfo?.id,
                                 userFullName: dislikedPost.userInfo?.fullName,
                                 userDisplayPicture: dislikedPost.userInfo?.profileImage,
                                 postPicture: dislikedPost.file,
                                 cuisine: dislikedPost.preferenceInfo?.title,
                                 address: dislikedPost.location,
                                 comment: dislikedPost.howWasIt,
+                                isFollowing: dislikedPost.isFollowing,
+                                // isRequested: dislikedPost.isFollowingRequest,
                               );
                             },
                           ),

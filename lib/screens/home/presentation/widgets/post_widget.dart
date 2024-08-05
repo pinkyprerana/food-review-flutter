@@ -11,8 +11,10 @@ import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../people_profile/shared/providers.dart';
 import '../../../post_feed/shared/provider.dart';
 import '../../../profile/shared/providers.dart';
+import '../../../your_lists/shared/provider.dart';
 
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
@@ -36,6 +38,15 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     });
   }
 
+  void _handleFollowUnfollowButtonPressed(userId) {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    followNotifier.followUnfollow(() {}, userId);
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    postFeedNotifier.getPostFeed(isPostLoading: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     final String? peopleId = widget.postList.userInfo?.id;
@@ -43,7 +54,6 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
     final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
-    // final String title = widget.postList.title;
     final String? description = widget.postList.description;
     final String? restaurantName = widget.postList.restaurantInfo?.name;
     final String? address = widget.postList.restaurantInfo?.address;
@@ -53,6 +63,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
     final bool? isFollowing = widget.postList.isFollowing;
+    final bool? isRequested = widget.postList.isFollowingRequest;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
@@ -101,12 +112,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                            peoplename: name ?? "",
-                            peopleimage: profileImage,
                             peopleId: peopleId??"",
-                            isFollow:  false,
-                            isRequested: false,
-                            isFollowing: isFollowing??false
                         ));
                       },
                       child: Row(
@@ -118,9 +124,9 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                    profileImage,
-                                  ),
+                                  image: profileImage == '${AppUrls.profilePicLocation}/'
+                                      ? const AssetImage(Assets.avatar)
+                                      : CachedNetworkImageProvider(profileImage),
                                   fit: BoxFit.cover,
                                 )),
                           ),
@@ -131,18 +137,23 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                 .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(70),
-                              color: AppColors.colorWhite.withOpacity(0.20),
-                            ),
-                            child: Center(
-                              child: Text(
-                                (isFollowing??false) ? 'Following': 'Follow',
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                  color: AppColors.colorWhite,
-                                  fontSize: 10.sp,
+                          GestureDetector(
+                            onTap: (){
+                              _handleFollowUnfollowButtonPressed(peopleId);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(70),
+                                color: AppColors.colorWhite.withOpacity(0.20),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    color: AppColors.colorWhite,
+                                    fontSize: 10.sp,
+                                  ),
                                 ),
                               ),
                             ),
