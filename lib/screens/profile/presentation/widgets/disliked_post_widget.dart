@@ -31,6 +31,7 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
   final bool? isFollowing;
   final bool? isRequested;
   final bool? isSaved;
+  final bool? isLiked;
 
   const DislikedPostWidget({
     super.key,
@@ -45,7 +46,8 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
     this.postPicture,
     this.isFollowing,
     this.isRequested,
-    this.isSaved
+    this.isSaved,
+    this.isLiked
   });
  @override
   ConsumerState<DislikedPostWidget> createState()=>  _DislikedPostWidgetState();
@@ -66,7 +68,8 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
 
   @override
   Widget build(BuildContext context) {
-   final postFeedState = ref.watch(postFeedNotifierProvider);
+    final profileNotifier = ref.watch(profileNotifierProvider.notifier);
+    final postFeedState = ref.watch(postFeedNotifierProvider);
    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
    final DataOfPostModel? postInfo = postFeedState.postList?.firstWhere((post) => post.id == widget.postId,
        orElse: ()=>  const DataOfPostModel(id: '', file: '')
@@ -236,7 +239,14 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                           )),
                           child: Column(
                             children: [
-                              Image.asset(Assets.like),
+                              GestureDetector(
+                                  onTap: () => postFeedNotifier.likeUnlikePost(() {
+                                    profileNotifier.fetchlikedPosts();
+                                    profileNotifier.fetchDislikedPosts();
+                                  }, widget.postId??""),
+                                  child: (widget.isLiked??false)
+                                      ? Image.asset(Assets.redHeart)
+                                      : Image.asset(Assets.like)),
                               15.verticalSpace,
                                CommentsIcon(
                                 commentCount: widget.commentCount??0,

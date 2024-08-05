@@ -140,6 +140,7 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
                                 isFollowing: dislikedPost.isFollowing,
                                 isRequested: dislikedPost.isFollowingRequest,
                                 isSaved: dislikedPost.isSave,
+                                isLiked: dislikedPost.isMyLike,
                               );
                             },
                           ),

@@ -139,6 +139,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
                                 isFollowing: likedPost.isFollowing,
                                 isRequested: likedPost.isFollowingRequest,
                                 isSaved: likedPost.isSave,
+                                isLiked: likedPost.isMyLike,
                               );
                             },
                           ),
