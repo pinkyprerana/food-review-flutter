@@ -412,6 +412,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                 onTap: () {
                                                   stateNotifier
                                                       .clearStateSliderValue();
+                                                  stateNotifier
+                                                      .clearImageOrVideo();
                                                   commonModal(
                                                     context,
                                                     onTap: () {

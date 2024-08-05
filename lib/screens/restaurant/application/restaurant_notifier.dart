@@ -484,6 +484,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     state = state.copyWith(sliderValue: 0);
   }
 
+  void clearImageOrVideo() {
+    state = state.copyWith(imageOrVideo: null);
+  }
+
   void _showPermissionDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -572,7 +576,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
     final filePicked = File(pickedFile.path);
 
-    state = state.copyWith(imageOrVideo: pickedFile);
+    // AppLog.log('pickedFile-------- ${pickedFile.path}');
+
+    state = (photo)
+        ? state.copyWith(imageOrVideo: pickedFile, isVideo: false)
+        : state.copyWith(imageOrVideo: pickedFile, isVideo: true);
   }
 
   void showOptionDialog(BuildContext context) {

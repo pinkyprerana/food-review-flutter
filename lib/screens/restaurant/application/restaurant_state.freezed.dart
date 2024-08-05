@@ -42,6 +42,7 @@ mixin _$RestaurantState {
   double get sliderValue => throw _privateConstructorUsedError;
   XFile? get imageOrVideo => throw _privateConstructorUsedError;
   bool get isLoadingForImageUpload => throw _privateConstructorUsedError;
+  bool get isVideo => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RestaurantStateCopyWith<RestaurantState> get copyWith =>
@@ -76,7 +77,8 @@ abstract class $RestaurantStateCopyWith<$Res> {
       List<SavedRestaurant>? savedRestaurantList,
       double sliderValue,
       XFile? imageOrVideo,
-      bool isLoadingForImageUpload});
+      bool isLoadingForImageUpload,
+      bool isVideo});
 }
 
 /// @nodoc
@@ -114,6 +116,7 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
     Object? sliderValue = null,
     Object? imageOrVideo = freezed,
     Object? isLoadingForImageUpload = null,
+    Object? isVideo = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -205,6 +208,10 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.isLoadingForImageUpload
           : isLoadingForImageUpload // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVideo: null == isVideo
+          ? _value.isVideo
+          : isVideo // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -239,7 +246,8 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
       List<SavedRestaurant>? savedRestaurantList,
       double sliderValue,
       XFile? imageOrVideo,
-      bool isLoadingForImageUpload});
+      bool isLoadingForImageUpload,
+      bool isVideo});
 }
 
 /// @nodoc
@@ -275,6 +283,7 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
     Object? sliderValue = null,
     Object? imageOrVideo = freezed,
     Object? isLoadingForImageUpload = null,
+    Object? isVideo = null,
   }) {
     return _then(_$RestaurantStateImpl(
       isLoading: null == isLoading
@@ -365,6 +374,10 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
           ? _value.isLoadingForImageUpload
           : isLoadingForImageUpload // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVideo: null == isVideo
+          ? _value.isVideo
+          : isVideo // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -394,7 +407,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
       final List<SavedRestaurant>? savedRestaurantList = const [],
       this.sliderValue = 0,
       this.imageOrVideo,
-      this.isLoadingForImageUpload = false})
+      this.isLoadingForImageUpload = false,
+      this.isVideo = false})
       : _restaurantList = restaurantList,
         _homeRestaurantList = homeRestaurantList,
         _postList = postList,
@@ -510,10 +524,13 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final bool isLoadingForImageUpload;
+  @override
+  @JsonKey()
+  final bool isVideo;
 
   @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts, isLoadingForRestaurantDetails: $isLoadingForRestaurantDetails, totalNumberOfRestaurants: $totalNumberOfRestaurants, isLoadingSaveRestaurant: $isLoadingSaveRestaurant, isLoadingSaveRestaurantList: $isLoadingSaveRestaurantList, currentPageForSavedRestaurantList: $currentPageForSavedRestaurantList, totalPagesForSavedRestaurantList: $totalPagesForSavedRestaurantList, savedRestaurantList: $savedRestaurantList, sliderValue: $sliderValue, imageOrVideo: $imageOrVideo, isLoadingForImageUpload: $isLoadingForImageUpload)';
+    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts, isLoadingForRestaurantDetails: $isLoadingForRestaurantDetails, totalNumberOfRestaurants: $totalNumberOfRestaurants, isLoadingSaveRestaurant: $isLoadingSaveRestaurant, isLoadingSaveRestaurantList: $isLoadingSaveRestaurantList, currentPageForSavedRestaurantList: $currentPageForSavedRestaurantList, totalPagesForSavedRestaurantList: $totalPagesForSavedRestaurantList, savedRestaurantList: $savedRestaurantList, sliderValue: $sliderValue, imageOrVideo: $imageOrVideo, isLoadingForImageUpload: $isLoadingForImageUpload, isVideo: $isVideo)';
   }
 
   @override
@@ -567,7 +584,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
             (identical(other.imageOrVideo, imageOrVideo) ||
                 other.imageOrVideo == imageOrVideo) &&
             (identical(other.isLoadingForImageUpload, isLoadingForImageUpload) ||
-                other.isLoadingForImageUpload == isLoadingForImageUpload));
+                other.isLoadingForImageUpload == isLoadingForImageUpload) &&
+            (identical(other.isVideo, isVideo) || other.isVideo == isVideo));
   }
 
   @override
@@ -594,7 +612,8 @@ class _$RestaurantStateImpl extends _RestaurantState {
         const DeepCollectionEquality().hash(_savedRestaurantList),
         sliderValue,
         imageOrVideo,
-        isLoadingForImageUpload
+        isLoadingForImageUpload,
+        isVideo
       ]);
 
   @JsonKey(ignore: true)
@@ -628,7 +647,8 @@ abstract class _RestaurantState extends RestaurantState {
       final List<SavedRestaurant>? savedRestaurantList,
       final double sliderValue,
       final XFile? imageOrVideo,
-      final bool isLoadingForImageUpload}) = _$RestaurantStateImpl;
+      final bool isLoadingForImageUpload,
+      final bool isVideo}) = _$RestaurantStateImpl;
   const _RestaurantState._() : super._();
 
   @override
@@ -675,6 +695,8 @@ abstract class _RestaurantState extends RestaurantState {
   XFile? get imageOrVideo;
   @override
   bool get isLoadingForImageUpload;
+  @override
+  bool get isVideo;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantStateImplCopyWith<_$RestaurantStateImpl> get copyWith =>

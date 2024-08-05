@@ -34,6 +34,7 @@ class RestaurantState with _$RestaurantState {
     @Default(0) double sliderValue,
     XFile? imageOrVideo,
     @Default(false) bool isLoadingForImageUpload,
+    @Default(false) bool isVideo,
   }) = _RestaurantState;
   const RestaurantState._();
 }
