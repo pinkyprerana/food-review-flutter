@@ -661,7 +661,7 @@ class PhotoClickRoute extends PageRouteInfo<void> {
 class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
   PostDetailsRoute({
     Key? key,
-    required DataOfPostListOfOtherModel postListOfUser,
+    required DataOfPostListOfOtherModel? postListOfUser,
     required DataOfOtherPeople? creatorDetails,
     List<PageRouteInfo>? children,
   }) : super(
@@ -689,7 +689,7 @@ class PostDetailsRouteArgs {
 
   final Key? key;
 
-  final DataOfPostListOfOtherModel postListOfUser;
+  final DataOfPostListOfOtherModel? postListOfUser;
 
   final DataOfOtherPeople? creatorDetails;
 

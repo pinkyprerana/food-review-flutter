@@ -421,7 +421,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                   color: AppColors.colorPrimary,
                 ),
               ),
-              SizedBox(
+
+              state.isLoading
+                  ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,),)
+                  : SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: double.infinity,
                 child: isFollowing

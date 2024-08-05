@@ -43,14 +43,12 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final String name = widget.postInfoList.userInfo?.fullName ?? "";
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo?.profileImage}";
-    // final String postImage = "${AppUrls.postImageLocation}${widget.postInfoList.file}";
-    // final String title = widget.postInfoList.title;
     final String? description = widget.postInfoList.description;
     final String? restaurantName = widget.postInfoList.restaurantInfo?.name;
     final String? rating = widget.postInfoList.restaurantInfo?.rating;
     final String? address = widget.postInfoList.restaurantInfo?.address;
     final String? cuisine = widget.postInfoList.preferenceInfo?.title;
-    final int? commentCount = widget.postInfoList.commentCount;
+    final int commentCount = widget.postInfoList.commentCount??0;
     const int amount = 100; //widget.postInfoList.commentCount;
     final bool? isSaved = widget.postInfoList.isSave;
     final bool? isLiked = widget.postInfoList.isMyLike;
@@ -126,7 +124,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             ),
                             child: Center(
                               child: Text(
-                                cuisine ?? "",
+                                cuisine ?? "No Cuisine",
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
@@ -148,7 +146,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                       Column(children: [
                         Image.asset(Assets.comments),
                         Text(
-                          (commentCount! > 9)
+                          (commentCount > 9)
                               ? commentCount.toString()
                               : "0${commentCount.toString()}",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(

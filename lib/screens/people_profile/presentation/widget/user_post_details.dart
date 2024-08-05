@@ -17,7 +17,7 @@ import '../../shared/providers.dart';
 
 @RoutePage()
 class PostDetailsPage extends ConsumerStatefulWidget {
-  final DataOfPostListOfOtherModel postListOfUser;
+  final DataOfPostListOfOtherModel? postListOfUser;
   final DataOfOtherPeople? creatorDetails;
 
   const PostDetailsPage({
@@ -31,6 +31,18 @@ class PostDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
+  List<DataOfPostModel>? postList;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final postFeedState = ref.read(postFeedNotifierProvider);
+      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      await postFeedNotifier.getPostFeed();
+      postList = postFeedState.postList;
+    });
+  }
+
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
@@ -41,8 +53,13 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final String postImage = "${AppUrls.postImageLocation}${widget.postListOfUser.file}";
+    final String postImage = "${AppUrls.postImageLocation}${widget.postListOfUser?.file}";
     final followNotifier = ref.read(followNotifierProvider.notifier);
+
+    final DataOfPostModel? postInfo = postList?.firstWhere(
+          (post) => post.id == widget.postListOfUser?.id,
+      orElse: () => const DataOfPostModel(id: '', file: ''),
+    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -175,16 +192,16 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.postListOfUser.restaurantInfo.name,
+                                      widget.postListOfUser?.restaurantInfo.name??"",
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
                                       ),
                                     ),
                                     Text(
-                                      widget.postListOfUser.restaurantInfo.address.length > 40
-                                          ? '${widget.postListOfUser.restaurantInfo.address.substring(0, 40)}...'
-                                          : widget.postListOfUser.restaurantInfo.address,
+                                      widget.postListOfUser!.restaurantInfo.address.length > 40
+                                          ? '${widget.postListOfUser?.restaurantInfo.address.substring(0, 40)}...'
+                                          : widget.postListOfUser?.restaurantInfo.address??"",
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
@@ -200,23 +217,23 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                           children: [
                             GestureDetector(
                                 onTap: () => postFeedNotifier.likeUnlikePost(() {
-                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser.id);
-                                }, widget.postListOfUser.id),
-                                child: (widget.postListOfUser.isMyLike)
+                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser?.id??"");
+                                }, widget.postListOfUser?.id??""),
+                                child: (widget.postListOfUser?.isMyLike??false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
                             GestureDetector(
                               onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                                postInfoList: widget.postListOfUser as DataOfPostModel,
+                                postInfoList: postInfo!,
                               )),
                               child: Column(
                                 children: [
                                   Image.asset(Assets.comments),
                                   Text(
-                                    (widget.postListOfUser.commentCount > 9)
-                                        ? widget.postListOfUser.commentCount.toString()
-                                        : "0${widget.postListOfUser.commentCount.toString()}",
+                                    (widget.postListOfUser!.commentCount > 9)
+                                        ? widget.postListOfUser?.commentCount.toString()??""
+                                        : "0${widget.postListOfUser?.commentCount.toString()}",
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorWhite,
                                       fontSize: 10.sp,
@@ -228,9 +245,9 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                             10.verticalSpace,
                             GestureDetector(
                                 onTap: () => postFeedNotifier.saveUnsavePost(() {
-                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser.id);
-                                }, widget.postListOfUser.id),
-                                child: (widget.postListOfUser.isSave)
+                                  followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.postListOfUser?.id??"");
+                                }, widget.postListOfUser?.id??""),
+                                child: (widget.postListOfUser?.isSave??false)
                                     ? Image.asset(
                                   Assets.saved,
                                   scale: 2,
@@ -254,7 +271,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                         Image.asset(Assets.star),
                         5.horizontalSpace,
                         Text(
-                          widget.postListOfUser.restaurantInfo.rating,
+                          widget.postListOfUser?.restaurantInfo.rating??"",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             fontSize: 10.sp,
                             color: AppColors.colorWhite,
@@ -279,7 +296,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        widget.postListOfUser.title,
+                        widget.postListOfUser?.title??"",
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp,
                           color: AppColors.colorWhite,
@@ -290,7 +307,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        widget.postListOfUser.description,
+                        widget.postListOfUser?.description??"",
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           fontSize: 10.sp,
                           color: AppColors.colorWhite,
