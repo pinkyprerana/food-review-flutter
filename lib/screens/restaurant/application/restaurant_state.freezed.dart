@@ -40,6 +40,8 @@ mixin _$RestaurantState {
   List<SavedRestaurant>? get savedRestaurantList =>
       throw _privateConstructorUsedError;
   double get sliderValue => throw _privateConstructorUsedError;
+  XFile? get imageOrVideo => throw _privateConstructorUsedError;
+  bool get isLoadingForImageUpload => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RestaurantStateCopyWith<RestaurantState> get copyWith =>
@@ -72,7 +74,9 @@ abstract class $RestaurantStateCopyWith<$Res> {
       int currentPageForSavedRestaurantList,
       int totalPagesForSavedRestaurantList,
       List<SavedRestaurant>? savedRestaurantList,
-      double sliderValue});
+      double sliderValue,
+      XFile? imageOrVideo,
+      bool isLoadingForImageUpload});
 }
 
 /// @nodoc
@@ -108,6 +112,8 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
     Object? totalPagesForSavedRestaurantList = null,
     Object? savedRestaurantList = freezed,
     Object? sliderValue = null,
+    Object? imageOrVideo = freezed,
+    Object? isLoadingForImageUpload = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -191,6 +197,14 @@ class _$RestaurantStateCopyWithImpl<$Res, $Val extends RestaurantState>
           ? _value.sliderValue
           : sliderValue // ignore: cast_nullable_to_non_nullable
               as double,
+      imageOrVideo: freezed == imageOrVideo
+          ? _value.imageOrVideo
+          : imageOrVideo // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      isLoadingForImageUpload: null == isLoadingForImageUpload
+          ? _value.isLoadingForImageUpload
+          : isLoadingForImageUpload // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -223,7 +237,9 @@ abstract class _$$RestaurantStateImplCopyWith<$Res>
       int currentPageForSavedRestaurantList,
       int totalPagesForSavedRestaurantList,
       List<SavedRestaurant>? savedRestaurantList,
-      double sliderValue});
+      double sliderValue,
+      XFile? imageOrVideo,
+      bool isLoadingForImageUpload});
 }
 
 /// @nodoc
@@ -257,6 +273,8 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
     Object? totalPagesForSavedRestaurantList = null,
     Object? savedRestaurantList = freezed,
     Object? sliderValue = null,
+    Object? imageOrVideo = freezed,
+    Object? isLoadingForImageUpload = null,
   }) {
     return _then(_$RestaurantStateImpl(
       isLoading: null == isLoading
@@ -339,6 +357,14 @@ class __$$RestaurantStateImplCopyWithImpl<$Res>
           ? _value.sliderValue
           : sliderValue // ignore: cast_nullable_to_non_nullable
               as double,
+      imageOrVideo: freezed == imageOrVideo
+          ? _value.imageOrVideo
+          : imageOrVideo // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      isLoadingForImageUpload: null == isLoadingForImageUpload
+          ? _value.isLoadingForImageUpload
+          : isLoadingForImageUpload // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -366,7 +392,9 @@ class _$RestaurantStateImpl extends _RestaurantState {
       this.currentPageForSavedRestaurantList = 1,
       this.totalPagesForSavedRestaurantList = 0,
       final List<SavedRestaurant>? savedRestaurantList = const [],
-      this.sliderValue = 0})
+      this.sliderValue = 0,
+      this.imageOrVideo,
+      this.isLoadingForImageUpload = false})
       : _restaurantList = restaurantList,
         _homeRestaurantList = homeRestaurantList,
         _postList = postList,
@@ -477,10 +505,15 @@ class _$RestaurantStateImpl extends _RestaurantState {
   @override
   @JsonKey()
   final double sliderValue;
+  @override
+  final XFile? imageOrVideo;
+  @override
+  @JsonKey()
+  final bool isLoadingForImageUpload;
 
   @override
   String toString() {
-    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts, isLoadingForRestaurantDetails: $isLoadingForRestaurantDetails, totalNumberOfRestaurants: $totalNumberOfRestaurants, isLoadingSaveRestaurant: $isLoadingSaveRestaurant, isLoadingSaveRestaurantList: $isLoadingSaveRestaurantList, currentPageForSavedRestaurantList: $currentPageForSavedRestaurantList, totalPagesForSavedRestaurantList: $totalPagesForSavedRestaurantList, savedRestaurantList: $savedRestaurantList, sliderValue: $sliderValue)';
+    return 'RestaurantState(isLoading: $isLoading, restaurantList: $restaurantList, homeRestaurantList: $homeRestaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, postList: $postList, postPerRestaurantList: $postPerRestaurantList, currentPageForPosts: $currentPageForPosts, isLoadingForPosts: $isLoadingForPosts, totalPagesPosts: $totalPagesPosts, isLoadingForRestaurantDetails: $isLoadingForRestaurantDetails, totalNumberOfRestaurants: $totalNumberOfRestaurants, isLoadingSaveRestaurant: $isLoadingSaveRestaurant, isLoadingSaveRestaurantList: $isLoadingSaveRestaurantList, currentPageForSavedRestaurantList: $currentPageForSavedRestaurantList, totalPagesForSavedRestaurantList: $totalPagesForSavedRestaurantList, savedRestaurantList: $savedRestaurantList, sliderValue: $sliderValue, imageOrVideo: $imageOrVideo, isLoadingForImageUpload: $isLoadingForImageUpload)';
   }
 
   @override
@@ -524,14 +557,17 @@ class _$RestaurantStateImpl extends _RestaurantState {
                     currentPageForSavedRestaurantList) ||
                 other.currentPageForSavedRestaurantList ==
                     currentPageForSavedRestaurantList) &&
-            (identical(other.totalPagesForSavedRestaurantList,
-                    totalPagesForSavedRestaurantList) ||
+            (identical(other.totalPagesForSavedRestaurantList, totalPagesForSavedRestaurantList) ||
                 other.totalPagesForSavedRestaurantList ==
                     totalPagesForSavedRestaurantList) &&
             const DeepCollectionEquality()
                 .equals(other._savedRestaurantList, _savedRestaurantList) &&
             (identical(other.sliderValue, sliderValue) ||
-                other.sliderValue == sliderValue));
+                other.sliderValue == sliderValue) &&
+            (identical(other.imageOrVideo, imageOrVideo) ||
+                other.imageOrVideo == imageOrVideo) &&
+            (identical(other.isLoadingForImageUpload, isLoadingForImageUpload) ||
+                other.isLoadingForImageUpload == isLoadingForImageUpload));
   }
 
   @override
@@ -556,7 +592,9 @@ class _$RestaurantStateImpl extends _RestaurantState {
         currentPageForSavedRestaurantList,
         totalPagesForSavedRestaurantList,
         const DeepCollectionEquality().hash(_savedRestaurantList),
-        sliderValue
+        sliderValue,
+        imageOrVideo,
+        isLoadingForImageUpload
       ]);
 
   @JsonKey(ignore: true)
@@ -588,7 +626,9 @@ abstract class _RestaurantState extends RestaurantState {
       final int currentPageForSavedRestaurantList,
       final int totalPagesForSavedRestaurantList,
       final List<SavedRestaurant>? savedRestaurantList,
-      final double sliderValue}) = _$RestaurantStateImpl;
+      final double sliderValue,
+      final XFile? imageOrVideo,
+      final bool isLoadingForImageUpload}) = _$RestaurantStateImpl;
   const _RestaurantState._() : super._();
 
   @override
@@ -631,6 +671,10 @@ abstract class _RestaurantState extends RestaurantState {
   List<SavedRestaurant>? get savedRestaurantList;
   @override
   double get sliderValue;
+  @override
+  XFile? get imageOrVideo;
+  @override
+  bool get isLoadingForImageUpload;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantStateImplCopyWith<_$RestaurantStateImpl> get copyWith =>

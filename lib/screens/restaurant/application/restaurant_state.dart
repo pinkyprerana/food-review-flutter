@@ -5,6 +5,7 @@ import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dar
 import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'restaurant_state.freezed.dart';
 
@@ -31,6 +32,8 @@ class RestaurantState with _$RestaurantState {
     @Default(0) int totalPagesForSavedRestaurantList,
     @Default([]) List<SavedRestaurant>? savedRestaurantList,
     @Default(0) double sliderValue,
+    XFile? imageOrVideo,
+    @Default(false) bool isLoadingForImageUpload,
   }) = _RestaurantState;
   const RestaurantState._();
 }

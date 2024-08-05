@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
@@ -14,6 +19,9 @@ import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dar
 import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
+import 'package:for_the_table/widgets/app_button.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
@@ -474,5 +482,130 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   void clearStateSliderValue() {
     state = state.copyWith(sliderValue: 0);
+  }
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Photos/Videos Permission Required'),
+        content: const Text(
+            'This app needs gallery permission to work properly. Please grant the permission in settings.'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  final ImagePicker picker = ImagePicker();
+  XFile? image;
+
+  Future<void> checkPermissionForGallery(BuildContext context) async {
+    PermissionStatus permission = await Permission.photos.request();
+
+    switch (permission) {
+      case PermissionStatus.granted:
+        AppLog.log('permission granted');
+        if (!context.mounted) return;
+        showOptionDialog(context);
+        // pickImageOrVideo();
+        break;
+      case PermissionStatus.denied:
+        AppLog.log('permission denied');
+        final permissionAgain = await Permission.photos.request();
+        if (permissionAgain == PermissionStatus.denied) {
+          showToastMessage(
+              'Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
+          showToastMessage(
+              'Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.granted) {
+          AppLog.log('permission granted');
+          // pickImageOrVideo();
+          if (!context.mounted) return;
+          showOptionDialog(context);
+        }
+        break;
+      case PermissionStatus.limited:
+        AppLog.log('permission limited');
+        break;
+      case PermissionStatus.restricted:
+        AppLog.log('permission restricted');
+        break;
+      case PermissionStatus.provisional:
+        AppLog.log('permission provisional');
+        break;
+      default:
+    }
+  }
+
+  Future<void> pickImageOrVideo({photo = true}) async {
+    XFile? pickedFile = (photo)
+        ? await picker.pickImage(
+            source: ImageSource.gallery,
+            imageQuality: 50,
+          )
+        : await picker.pickVideo(
+            source: ImageSource.gallery,
+          );
+
+    if (pickedFile == null) {
+      return;
+    }
+
+    final filePicked = File(pickedFile.path);
+
+    state = state.copyWith(imageOrVideo: pickedFile);
+  }
+
+  void showOptionDialog(BuildContext context) {
+    showDialog(
+        context: (context),
+        builder: (ctx) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+              'Choose an option',
+              style: AppTextStyles.textStylePoppins.copyWith(fontSize: 17.sp),
+            )),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppButton(
+                  text: 'Pick Image',
+                  onPressed: () {
+                    pickImageOrVideo();
+                    Navigator.pop(context);
+                  },
+                ),
+                10.verticalSpace,
+                AppButton(
+                  text: 'Pick Video',
+                  onPressed: () {
+                    pickImageOrVideo(photo: false);
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          );
+        });
   }
 }
