@@ -46,6 +46,8 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     await followNotifier.getAllPostsOfOtherUserProfile(() {},widget.userId??"");
     await followNotifier.getOtherPeopleDetails(() {}, widget.userId??"");
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    await postFeedNotifier.getPostFeed();
     final followState = ref.watch(followNotifierProvider);
     final postListOfOtherUser = followState.postListOfOtherUser;
       postDetails = postListOfOtherUser.firstWhere((post) => post.id == widget.postId,

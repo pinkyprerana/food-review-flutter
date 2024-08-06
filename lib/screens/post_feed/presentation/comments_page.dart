@@ -9,8 +9,10 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/comment_item.dart';
+import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import '../../../core/constants/app_urls.dart';
+import '../../people_profile/shared/providers.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -40,6 +42,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final String? postId = widget.postInfoList.id;
+    final String peopleId = widget.postInfoList.userInfo?.id ?? "";
     final String name = widget.postInfoList.userInfo?.fullName ?? "";
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo?.profileImage}";
@@ -80,7 +83,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: profileImage == '${AppUrls.profilePicLocation}/'
+                                  image: profileImage == '${AppUrls.profilePicLocation}/null'
                                       ? const AssetImage(Assets.avatar)
                                       : CachedNetworkImageProvider(profileImage),
                                   fit: BoxFit.cover,
@@ -321,6 +324,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                         onPressed: () async {
                           await postFeedNotifier.postComment(() async {
                             dismissKeyboard(context);
+                            _fetchPostDetails();
                           }, postId ?? "");
                         },
                         text: 'Submit',
@@ -334,5 +338,15 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
         ),
       ),
     );
+  }
+  Future<void> _fetchPostDetails() async {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    await followNotifier.getAllPostsOfOtherUserProfile(() {},widget.postInfoList.userInfo?.id??"");
+    await followNotifier.getOtherPeopleDetails(() {},widget.postInfoList.userInfo?.id??"");
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    await postFeedNotifier.getPostFeed();
+    final profileNotifier = ref.read(profileNotifierProvider.notifier);
+    await profileNotifier.fetchlikedPosts();
+    await profileNotifier.fetchDislikedPosts();
   }
 }
