@@ -253,6 +253,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                   onTap: () => postFeedNotifier.likeUnlikePost(() {
                                     profileNotifier.fetchlikedPosts(isLoadingStatus: true);
                                     profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
+                                    profileNotifier.getUserDetails();
                                   }, widget.postId??""),
                                   child: (widget.isLiked??false)
                                       ? Image.asset(Assets.redHeart)
@@ -267,6 +268,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                   final profileNotifier = ref.read(profileNotifierProvider.notifier);
                                   profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
                                   profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                  profileNotifier.getUserDetails();
                                 }, widget.postId ?? ""),
                                 child: SaveButtonWidget(
                                   isSavePost: postFeedState.isSavePost,
