@@ -592,10 +592,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
-  File? filePicked;
+  XFile? pickedFile;
 
   Future<void> pickImageOrVideo({photo = true}) async {
-    XFile? pickedFile = (photo)
+    pickedFile = (photo)
         ? await picker.pickImage(
             source: ImageSource.gallery,
             imageQuality: 50,
@@ -608,7 +608,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       return;
     }
 
-    filePicked = File(pickedFile.path);
+    // filePicked = File(pickedFile.path);
 
     // AppLog.log('pickedFile-------- ${pickedFile.path}');
 
@@ -635,12 +635,13 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> submitReview() async {
+    final filePicked = File(pickedFile?.path ?? '');
     if (validateReviewFields()) {
       try {
         state = state.copyWith(isLoadingForReviewSubmit: true);
 
         final FormData formData = FormData.fromMap({
-          "review_file": await MultipartFile.fromFile(filePicked?.path ?? ''),
+          "review_file": await MultipartFile.fromFile(filePicked.path),
           "description": reviewTextController.text,
           "title": titleTextController.text,
           "rating": state.sliderValue.toString(),
