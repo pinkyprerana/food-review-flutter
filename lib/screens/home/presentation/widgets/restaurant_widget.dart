@@ -85,7 +85,7 @@ class RestaurantWidget extends StatelessWidget {
                 2.horizontalSpace,
                 (rating != '')
                     ? Text(
-                        rating,
+                        (double.parse(rating) * 2).toString(),
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           fontSize: 10.sp,
                           color: AppColors.colorPrimary,

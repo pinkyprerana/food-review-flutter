@@ -21,7 +21,7 @@ import 'package:for_the_table/widgets/custom_slider.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
 import 'package:for_the_table/widgets/save_icon.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:dotted_border/dotted_border.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -509,7 +509,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                 )
                                                               ]),
                                                           5.verticalSpace,
-                                                          PhotoOrVideoBox(),
+                                                          const PhotoOrVideoBox(),
                                                           10.verticalSpace,
                                                           AppButton(
                                                             loading: state

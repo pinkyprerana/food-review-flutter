@@ -230,8 +230,13 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                               ? Text(
                                                   // widget.restaurants[index]
                                                   //     ['rating']!,
-                                                  state.restaurantList?[index]
-                                                          .rating ??
+                                                  (double.parse(state
+                                                                      .restaurantList?[
+                                                                          index]
+                                                                      .rating ??
+                                                                  '0') *
+                                                              2)
+                                                          .toString() ??
                                                       'No rating',
                                                   style: AppTextStyles
                                                       .textStylePoppinsRegular
