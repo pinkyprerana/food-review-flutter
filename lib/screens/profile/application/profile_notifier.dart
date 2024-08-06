@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
@@ -15,6 +16,7 @@ import 'package:for_the_table/screens/profile/application/profile_state.dart';
 import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../model/notification_model/notification_model.dart';
@@ -138,6 +140,106 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       showToastMessage(error, errorMessage: 'Something went wrong, please try again');
 
       state = state.copyWith(isLoading: false);
+    }
+  }
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Photos/Videos Permission Required'),
+        content: const Text(
+            'This app needs gallery permission to work properly. Please grant the permission in settings.'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> checkPermissionForGallery({
+    required BuildContext context,
+    required String imageSource,
+  }) async {
+    PermissionStatus permission;
+
+    if (Platform.isAndroid) {
+      permission = await Permission.storage.request();
+    } else {
+      permission = await Permission.photos.request();
+    }
+
+    switch (permission) {
+      case PermissionStatus.granted:
+        if (imageSource == 'displayPicture') {
+          if (!context.mounted) return;
+          await uploadProfileImage(context);
+        } else {
+          if (!context.mounted) return;
+          await uploadBannerImage(context);
+        }
+      case PermissionStatus.denied:
+        PermissionStatus permissionStatus;
+
+        if (Platform.isAndroid) {
+          permissionStatus = await Permission.storage.request();
+        } else {
+          permissionStatus = await Permission.photos.request();
+        }
+
+        if (permissionStatus == PermissionStatus.denied ||
+            permissionStatus == PermissionStatus.permanentlyDenied) {
+          showToastMessage(
+              'Request Denied, please go to app settings and grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionStatus == PermissionStatus.granted) {
+          if (imageSource == 'displayPicture') {
+            if (!context.mounted) return;
+            await uploadProfileImage(context);
+          } else {
+            if (!context.mounted) return;
+            await uploadBannerImage(context);
+          }
+        }
+      case PermissionStatus.permanentlyDenied:
+        PermissionStatus permissionStatus;
+
+        if (Platform.isAndroid) {
+          permissionStatus = await Permission.storage.request();
+        } else {
+          permissionStatus = await Permission.photos.request();
+        }
+
+        if (permissionStatus == PermissionStatus.denied ||
+            permissionStatus == PermissionStatus.permanentlyDenied) {
+          showToastMessage(
+              'Request Denied, please go to app settings and grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionStatus == PermissionStatus.granted) {
+          if (imageSource == 'displayPicture') {
+            if (!context.mounted) return;
+            await uploadProfileImage(context);
+          } else {
+            if (!context.mounted) return;
+            await uploadBannerImage(context);
+          }
+        }
+
+      default:
     }
   }
 

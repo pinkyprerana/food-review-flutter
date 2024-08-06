@@ -51,8 +51,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     int? postCount = stateNotifier.fetchedUser?.stats?.postCount;
     String postCountString = (postCount != null && postCount > 9)
         ? postCount.toString()
-        : postCount != null ? "0${postCount.toString()}" : "0";
-
+        : postCount != null
+            ? "0${postCount.toString()}"
+            : "0";
 
     return Scaffold(
       extendBody: true,
@@ -113,7 +114,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       child: Stack(
                         children: [
                           GestureDetector(
-                            onTap: () => stateNotifier.uploadBannerImage(context),
+                            onTap: () => stateNotifier.checkPermissionForGallery(
+                                context: context, imageSource: 'bannerPicture'),
                             child: Container(
                               height: 135.r,
                               decoration: const BoxDecoration(
@@ -327,7 +329,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      stateNotifier.uploadProfileImage(context);
+                                      stateNotifier.checkPermissionForGallery(
+                                          context: context, imageSource: 'displayPicture');
                                     },
                                     child: Container(
                                       width: deviceSize.height < 700 ? 105.w : 110.w,
@@ -372,7 +375,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                      postCountString,
+                                    postCountString,
                                     style: AppTextStyles.textStylePoppinsMedium
                                         .copyWith(fontSize: 13.sp, color: AppColors.colorText),
                                   ),
