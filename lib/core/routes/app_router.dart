@@ -23,8 +23,6 @@ import '../../screens/list/presentation/list_page.dart';
 import '../../screens/location/presentation/location_page.dart';
 import '../../screens/notification/presentation/notification_page.dart';
 import '../../screens/onboarding/presentation/select_preferene_page.dart';
-import '../../screens/people_profile/domain/other_people_profile_model.dart';
-import '../../screens/people_profile/domain/post_list_of_other_model.dart';
 import '../../screens/people_profile/presentation/people_profile_screen.dart';
 import '../../screens/people_profile/presentation/widget/user_post_details.dart';
 import '../../screens/post_feed/presentation/comments_page.dart';

@@ -638,9 +638,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
-  Future<void> fetchDislikedPosts({bool isLoadMore = false}) async {
+  Future<void> fetchDislikedPosts({bool isLoadMore = false, bool isLoadingStatus = false}) async {
     try {
-      state = state.copyWith(isLoading: !isLoadMore);
+      state = state.copyWith(isLoading: !isLoadMore && !isLoadingStatus);
 
       if (isLoadMore && (state.currentPage * 10 == state.dislikedPostsList.length)) {
         state = state.copyWith(currentPage: state.currentPage + 1);
@@ -711,9 +711,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
-  Future<void> fetchlikedPosts({bool isLoadMore = false}) async {
+  Future<void> fetchlikedPosts({bool isLoadMore = false, bool isLoadingStatus = false}) async {
     try {
-      state = state.copyWith(isLoading: !isLoadMore);
+      state = state.copyWith(isLoading: !isLoadMore && !isLoadingStatus);
 
       if (isLoadMore && (state.currentPage * 10 == state.likedPostList.length)) {
         state = state.copyWith(currentPage: state.currentPage + 1);

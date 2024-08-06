@@ -166,8 +166,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PostDetailsPage(
           key: args.key,
-          postListOfUser: args.postListOfUser,
-          creatorDetails: args.creatorDetails,
+          postId: args.postId,
+          userId: args.userId,
         ),
       );
     },
@@ -667,15 +667,15 @@ class PhotoClickRoute extends PageRouteInfo<void> {
 class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
   PostDetailsRoute({
     Key? key,
-    required DataOfPostListOfOtherModel postListOfUser,
-    required DataOfOtherPeople? creatorDetails,
+    required String? postId,
+    required String? userId,
     List<PageRouteInfo>? children,
   }) : super(
           PostDetailsRoute.name,
           args: PostDetailsRouteArgs(
             key: key,
-            postListOfUser: postListOfUser,
-            creatorDetails: creatorDetails,
+            postId: postId,
+            userId: userId,
           ),
           initialChildren: children,
         );
@@ -689,19 +689,19 @@ class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
 class PostDetailsRouteArgs {
   const PostDetailsRouteArgs({
     this.key,
-    required this.postListOfUser,
-    required this.creatorDetails,
+    required this.postId,
+    required this.userId,
   });
 
   final Key? key;
 
-  final DataOfPostListOfOtherModel postListOfUser;
+  final String? postId;
 
-  final DataOfOtherPeople? creatorDetails;
+  final String? userId;
 
   @override
   String toString() {
-    return 'PostDetailsRouteArgs{key: $key, postListOfUser: $postListOfUser, creatorDetails: $creatorDetails}';
+    return 'PostDetailsRouteArgs{key: $key, postId: $postId, userId: $userId}';
   }
 }
 
