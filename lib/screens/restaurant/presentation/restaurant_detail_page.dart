@@ -517,7 +517,12 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                             text: 'Submit',
                                                             onPressed: () {
                                                               stateNotifier
-                                                                  .submitReview();
+                                                                  .submitReview(
+                                                                      onSuccess:
+                                                                          () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              });
                                                             },
                                                           )
                                                         ],
