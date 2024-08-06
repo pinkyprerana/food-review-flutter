@@ -440,7 +440,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                     final postList = postListOfOtherUser[index];
                     return GestureDetector(
                       onTap: () {
-                        AutoRouter.of(context).push(PostDetailsRoute( postListOfUser: postList, creatorDetails: getDetails,));
+                        AutoRouter.of(context).push(PostDetailsRoute( postId: postList.id, userId: getDetails?.id,));
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
@@ -460,10 +460,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   onTap: () =>
                                       postFeedNotifier.saveUnsavePost(() {
                                         followNotifier.getAllPostsOfOtherUserProfile((){}, widget.peopleId);
-                                      }, postList.id),
+                                      }, postList.id??''),
                                   child: SaveButtonWidget(
                                     isSavePost: postFeedState.isSavePost,
-                                    isSaved: postList.isSave,
+                                    isSaved: postList.isSave??false,
                                   ),
                                 ),
                               ),
