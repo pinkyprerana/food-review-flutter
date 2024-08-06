@@ -44,4 +44,5 @@ class AppUrls {
   static const saveRestaurant = '/restaurant/save';
   static const restaurnatDetails = '/restaurant/details';
   static const getSavedRestaurantList = '/restaurant/save/list';
+  static const reviewSubmit = '/restaurant/review/add';
 }

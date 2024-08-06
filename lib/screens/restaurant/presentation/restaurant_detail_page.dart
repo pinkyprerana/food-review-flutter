@@ -414,6 +414,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       .clearStateSliderValue();
                                                   stateNotifier
                                                       .clearImageOrVideo();
+                                                  stateNotifier
+                                                      .clearReviewFields();
                                                   commonModal(
                                                     context,
                                                     onTap: () {
@@ -449,7 +451,10 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                 )
                                                               ]),
                                                           5.verticalSpace,
-                                                          const CustomInputField(
+                                                          CustomInputField(
+                                                            controller:
+                                                                stateNotifier
+                                                                    .titleTextController,
                                                             hint:
                                                                 'Write the title',
                                                           ),
@@ -475,7 +480,10 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                           SizedBox(
                                                             height: 130.h,
                                                             child:
-                                                                const ExpandedCommonTextField(
+                                                                ExpandedCommonTextField(
+                                                              controller:
+                                                                  stateNotifier
+                                                                      .reviewTextController,
                                                               maxLines: null,
                                                               expands: true,
                                                               hint:
@@ -504,7 +512,13 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                           PhotoOrVideoBox(),
                                                           10.verticalSpace,
                                                           AppButton(
+                                                            loading: state
+                                                                .isLoadingForReviewSubmit,
                                                             text: 'Submit',
+                                                            onPressed: () {
+                                                              stateNotifier
+                                                                  .submitReview();
+                                                            },
                                                           )
                                                         ],
                                                       ),

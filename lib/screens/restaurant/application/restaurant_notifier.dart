@@ -38,6 +38,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RefreshController restaurantRefreshController2 = RefreshController();
   RefreshController savedRestaurantRefreshController = RefreshController();
 
+  TextEditingController titleTextController = TextEditingController();
+  TextEditingController reviewTextController = TextEditingController();
+
   List<SavedRestaurant>? localSavedRestaurantList = [];
 
   @override
@@ -51,8 +54,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     state = state.copyWith(currentPageForPosts: 1);
     state = state.copyWith(postPerRestaurantList: []);
     AppLog.log('state.totalPagesPosts ------>> ${state.totalPagesPosts}');
-    AppLog.log('state.currentPageForPosts ------>> ${state.currentPageForPosts}');
-    AppLog.log('state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
+    AppLog.log(
+        'state.currentPageForPosts ------>> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
   }
 
   Future<void> loadMoreRestaurants(BuildContext context) async {
@@ -97,9 +102,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final reastaurantListResponseModel = RestaurantlistResponseModel.fromJson(response.data!);
+        final reastaurantListResponseModel =
+            RestaurantlistResponseModel.fromJson(response.data!);
 
-        final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
+        final List<Restaurant>? restaurantList =
+            reastaurantListResponseModel.restaurantList;
 
         // if (isLoadMore) {
         //   state = state.copyWith(
@@ -139,19 +146,22 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   String? get userId => _hiveDataBase.box.get(AppPreferenceKeys.userId);
   String? get getLatitude => _hiveDataBase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude => _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+  String? get getLongitude =>
+      _hiveDataBase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> getPostListRelatedToRestaurant(
       VoidCallback voidCallback, String restaurantId) async {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
-        "lat": getLatitude,
-        "lng": getLongitude,
-        'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
-        'user_id': userId
-      });
+          .postApiRequestWithToken(
+              url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
+              body: {
+            "lat": getLatitude,
+            "lng": getLongitude,
+            'restaurant_id': restaurantId, //"668d35376a30ef22a21e2f06"
+            'user_id': userId
+          });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -161,7 +171,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state = state.copyWith(isLoading: false, postList: postModel.postList);
+          state =
+              state.copyWith(isLoading: false, postList: postModel.postList);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -174,14 +185,16 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> loadMorePosts(BuildContext context, String? restaurantId) async {
-    AppLog.log('state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
     if (state.currentPageForPosts >= state.totalPagesPosts) {
       showToastMessage('No more posts');
       restaurantRefreshController2.loadComplete();
       return;
     }
 
-    await getPosts(context: context, restaurantId: restaurantId, isLoadMore: true);
+    await getPosts(
+        context: context, restaurantId: restaurantId, isLoadMore: true);
     restaurantRefreshController2.loadComplete();
   }
 
@@ -189,12 +202,14 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       {required BuildContext context,
       bool isLoadMore = false,
       required String? restaurantId}) async {
-    AppLog.log('state.currentPageForPosts ======== ${state.currentPageForPosts}');
+    AppLog.log(
+        'state.currentPageForPosts ======== ${state.currentPageForPosts}');
     try {
       state = state.copyWith(isLoadingForPosts: !isLoadMore);
 
       if (isLoadMore) {
-        state = state.copyWith(currentPageForPosts: state.currentPageForPosts + 1);
+        state =
+            state.copyWith(currentPageForPosts: state.currentPageForPosts + 1);
       }
 
       final data = {
@@ -224,11 +239,15 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final postlistPerRestaurantResponseModel =
             PostlistPerRestaurantResponseModel.fromJson(response.data!);
 
-        final List<Post>? postList = postlistPerRestaurantResponseModel.postList;
+        final List<Post>? postList =
+            postlistPerRestaurantResponseModel.postList;
 
         state = state.copyWith(
           isLoadingForPosts: false,
-          postPerRestaurantList: [...state.postPerRestaurantList ?? [], ...postList ?? []],
+          postPerRestaurantList: [
+            ...state.postPerRestaurantList ?? [],
+            ...postList ?? []
+          ],
           totalPagesPosts: postlistPerRestaurantResponseModel.pages ?? 0,
         );
       } else {
@@ -275,7 +294,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         // AppLog.log(localSavedRestaurantList![0].toString());
 
-        if (localSavedRestaurantList != null && (localSavedRestaurantList?.isNotEmpty ?? false)) {
+        if (localSavedRestaurantList != null &&
+            (localSavedRestaurantList?.isNotEmpty ?? false)) {
           for (int i = 0; i < localSavedRestaurantList!.length; i++) {
             if (restaurantID == localSavedRestaurantList![i].id) {
               localSavedRestaurantList![i] =
@@ -284,10 +304,12 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
           }
         }
 
-        AppLog.log('localSavedRestaurantList +++++++++ $localSavedRestaurantList');
+        AppLog.log(
+            'localSavedRestaurantList +++++++++ $localSavedRestaurantList');
 
         // await getSavedRestaurants();
-        if (localSavedRestaurantList != null && (localSavedRestaurantList?.isNotEmpty ?? false)) {
+        if (localSavedRestaurantList != null &&
+            (localSavedRestaurantList?.isNotEmpty ?? false)) {
           updateLocalSavedRestaurantList();
         }
 
@@ -306,7 +328,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
+  String restaurant_ID = '';
+
   Future<void> restaurantDetails(String restaurantId) async {
+    restaurant_ID = restaurantId;
     AppLog.log('restaurantID------------->>>> $restaurantId');
     try {
       state = state.copyWith(isLoadingForRestaurantDetails: true);
@@ -332,7 +357,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         AppLog.log('response.data ======== ${response.data}');
 
-        reastaurantDetials = RestaurantDetailsModel.fromJson(response.data ?? {});
+        reastaurantDetials =
+            RestaurantDetailsModel.fromJson(response.data ?? {});
 
         // AppLog.log(
         //     'Restaurant-details variable ------->>>${reastaurantDetials.toString()}');
@@ -356,7 +382,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> loadMoreSavedRestaurants() async {
-    if (state.currentPageForSavedRestaurantList >= state.totalPagesForSavedRestaurantList) {
+    if (state.currentPageForSavedRestaurantList >=
+        state.totalPagesForSavedRestaurantList) {
       showToastMessage('No more restaurants');
       savedRestaurantRefreshController.loadComplete();
       return;
@@ -373,7 +400,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
       if (isLoadMore) {
         state = state.copyWith(
-            currentPageForSavedRestaurantList: state.currentPageForSavedRestaurantList + 1);
+            currentPageForSavedRestaurantList:
+                state.currentPageForSavedRestaurantList + 1);
       }
 
       final data = {
@@ -422,12 +450,14 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
             ...state.savedRestaurantList ?? [],
             ...savedRestaurantList ?? [],
           ],
-          totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
+          totalPagesForSavedRestaurantList:
+              savedRestaurantsResponseModel.pages ?? 0,
         );
 
         localSavedRestaurantList = [...state.savedRestaurantList ?? []];
 
-        AppLog.log('localSavedRestaurantList------>> ${localSavedRestaurantList?.length}');
+        AppLog.log(
+            'localSavedRestaurantList------>> ${localSavedRestaurantList?.length}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -443,10 +473,12 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   void updateLocalSavedRestaurantList() {
-    AppLog.log('localSavedRestaurantList ------------- $localSavedRestaurantList');
+    AppLog.log(
+        'localSavedRestaurantList ------------- $localSavedRestaurantList');
     localSavedRestaurantList?.retainWhere((item) => item.isSaveLocally == true);
 
-    state = state.copyWith(savedRestaurantList: [...localSavedRestaurantList ?? []]);
+    state = state
+        .copyWith(savedRestaurantList: [...localSavedRestaurantList ?? []]);
   }
 
   void sliderValueUpdate(double value) {
@@ -511,11 +543,33 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         AppLog.log('permission denied');
         final permissionAgain = await Permission.photos.request();
         if (permissionAgain == PermissionStatus.denied) {
-          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          showToastMessage(
+              'Request Denied, please go to app settings to grant gallery permission');
           if (!context.mounted) return;
           _showPermissionDialog(context);
         } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
-          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          showToastMessage(
+              'Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.granted) {
+          AppLog.log('permission granted');
+          // pickImageOrVideo();
+          if (!context.mounted) return;
+          showOptionDialog(context);
+        }
+        break;
+      case PermissionStatus.permanentlyDenied:
+        AppLog.log('permission denied');
+        final permissionAgain = await Permission.photos.request();
+        if (permissionAgain == PermissionStatus.denied) {
+          showToastMessage(
+              'Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
+          showToastMessage(
+              'Request Denied, please go to app settings to grant gallery permission');
           if (!context.mounted) return;
           _showPermissionDialog(context);
         } else if (permissionAgain == PermissionStatus.granted) {
@@ -538,6 +592,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
+  File? filePicked;
+
   Future<void> pickImageOrVideo({photo = true}) async {
     XFile? pickedFile = (photo)
         ? await picker.pickImage(
@@ -552,13 +608,76 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       return;
     }
 
-    final filePicked = File(pickedFile.path);
+    filePicked = File(pickedFile.path);
 
     // AppLog.log('pickedFile-------- ${pickedFile.path}');
 
     state = (photo)
         ? state.copyWith(imageOrVideo: pickedFile, isVideo: false)
         : state.copyWith(imageOrVideo: pickedFile, isVideo: true);
+  }
+
+  bool validateReviewFields() {
+    if (titleTextController.text.trim().isEmpty) {
+      showToastMessage('Please enter a title');
+      return false;
+    } else if (reviewTextController.text.trim().isEmpty) {
+      showToastMessage('Please enter a review');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void clearReviewFields() {
+    reviewTextController.text = '';
+    titleTextController.text = '';
+  }
+
+  Future<void> submitReview() async {
+    if (validateReviewFields()) {
+      try {
+        state = state.copyWith(isLoadingForReviewSubmit: true);
+
+        final FormData formData = FormData.fromMap({
+          "review_file": await MultipartFile.fromFile(filePicked?.path ?? ''),
+          "description": reviewTextController.text,
+          "title": titleTextController.text,
+          "rating": state.sliderValue.toString(),
+          "restaurant_id": restaurant_ID,
+        });
+
+        var headers = {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+        };
+
+        _dio.options.headers.addAll(headers);
+
+        final response = await _dio.post<Map<String, dynamic>>(
+          '${AppUrls.baseUrl}${AppUrls.reviewSubmit}',
+          data: formData,
+        );
+
+        if (response.statusCode == 200 && response.data != null) {
+          titleTextController.text = '';
+          reviewTextController.text = '';
+          // filePicked = null;
+          state = state.copyWith(
+              isLoadingForReviewSubmit: false,
+              sliderValue: 0,
+              imageOrVideo: null);
+          showToastMessage('Review Submitted');
+        } else {
+          showToastMessage('Review submission failed');
+          state = state.copyWith(isLoadingForReviewSubmit: false);
+        }
+      } catch (error) {
+        showToastMessage('Something, went wrong, please try again');
+        state = state.copyWith(isLoadingForReviewSubmit: false);
+      }
+    }
   }
 
   void showOptionDialog(BuildContext context) {
