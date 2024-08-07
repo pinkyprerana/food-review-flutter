@@ -104,7 +104,6 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
   Widget build(BuildContext context) {
     AppLog.log('restaurantID ----->> ${widget.restaurantId}');
     final mediaQuery = MediaQuery.sizeOf(context);
-    final keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
     final state = ref.watch(restaurantNotifierProvider);
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
 
@@ -477,23 +476,23 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                               });
                                                             },
                                                           ),
-                                                          keyboardHeight > 0
-                                                              ? 400.verticalSpace
-                                                              : 0.verticalSpace,
                                                         ],
                                                       ),
                                                     ),
                                                   );
                                                 },
-                                                child: Text(
-                                                  'Write A Review',
-                                                  style: AppTextStyles.textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors.colorPrimaryAlpha,
+                                                child: SizedBox(
+                                                  width: double.maxFinite,
+                                                  child: Text(
+                                                    'Write A Review',
+                                                    style: AppTextStyles.textStylePoppinsRegular
+                                                        .copyWith(
+                                                      fontSize: 10.sp,
+                                                      color: AppColors.colorPrimaryAlpha,
+                                                    ),
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
