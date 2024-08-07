@@ -418,7 +418,9 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                 stateNotifier.titleTextController,
                                                             hint: 'Write the title',
                                                           ),
-                                                          20.verticalSpace,
+                                                          mediaQuery.height < 700
+                                                              ? 15.verticalSpace
+                                                              : 20.verticalSpace,
                                                           Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment.start,
@@ -445,7 +447,9 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                               hint: 'Write review',
                                                             ),
                                                           ),
-                                                          20.verticalSpace,
+                                                          mediaQuery.height < 700
+                                                              ? 15.verticalSpace
+                                                              : 20.verticalSpace,
                                                           Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment.start,
