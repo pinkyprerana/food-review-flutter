@@ -11,7 +11,7 @@ class RestaurantDetailsModel with _$RestaurantDetailsModel {
     @JsonKey(name: "status") int? status,
     @JsonKey(name: "type") String? type,
     @JsonKey(name: "message") String? message,
-    @JsonKey(name: "data") RestaurantDataModel? restaurantDataModel,
+    @JsonKey(name: "data") RestaurantDetails? restaurantDetails,
   }) = _RestaurantDetailsModel;
 
   factory RestaurantDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -19,8 +19,8 @@ class RestaurantDetailsModel with _$RestaurantDetailsModel {
 }
 
 @freezed
-class RestaurantDataModel with _$RestaurantDataModel {
-  const factory RestaurantDataModel({
+class RestaurantDetails with _$RestaurantDetails {
+  const factory RestaurantDetails({
     @JsonKey(name: "_id") String? id,
     @JsonKey(name: "image") List<String>? image,
     @JsonKey(name: "name") String? name,
@@ -42,11 +42,17 @@ class RestaurantDataModel with _$RestaurantDataModel {
     @JsonKey(name: "types") List<dynamic>? types,
     @JsonKey(name: "status") String? status,
     @JsonKey(name: "createdAt") DateTime? createdAt,
+    @JsonKey(name: "google_rating") int? googleRating,
+    @JsonKey(name: "restaurant_user_count") int? restaurantUserCount,
+    @JsonKey(name: "restaurant_rating") double? restaurantRating,
+    @JsonKey(name: "isReview") bool? isReview,
     @JsonKey(name: "isSave") bool? isSave,
-  }) = _RestaurantDataModel;
+    @JsonKey(name: "total_user_count") int? totalUserCount,
+    @JsonKey(name: "total_rating") double? totalRating,
+  }) = _RestaurantDetails;
 
-  factory RestaurantDataModel.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantDataModelFromJson(json);
+  factory RestaurantDetails.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantDetailsFromJson(json);
 }
 
 @freezed

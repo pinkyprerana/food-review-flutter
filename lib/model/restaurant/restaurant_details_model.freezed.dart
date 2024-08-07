@@ -28,7 +28,7 @@ mixin _$RestaurantDetailsModel {
   @JsonKey(name: "message")
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
-  RestaurantDataModel? get restaurantDataModel =>
+  RestaurantDetails? get restaurantDetails =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,9 +47,9 @@ abstract class $RestaurantDetailsModelCopyWith<$Res> {
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") RestaurantDataModel? restaurantDataModel});
+      @JsonKey(name: "data") RestaurantDetails? restaurantDetails});
 
-  $RestaurantDataModelCopyWith<$Res>? get restaurantDataModel;
+  $RestaurantDetailsCopyWith<$Res>? get restaurantDetails;
 }
 
 /// @nodoc
@@ -69,7 +69,7 @@ class _$RestaurantDetailsModelCopyWithImpl<$Res,
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? restaurantDataModel = freezed,
+    Object? restaurantDetails = freezed,
   }) {
     return _then(_value.copyWith(
       status: freezed == status
@@ -84,23 +84,22 @@ class _$RestaurantDetailsModelCopyWithImpl<$Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      restaurantDataModel: freezed == restaurantDataModel
-          ? _value.restaurantDataModel
-          : restaurantDataModel // ignore: cast_nullable_to_non_nullable
-              as RestaurantDataModel?,
+      restaurantDetails: freezed == restaurantDetails
+          ? _value.restaurantDetails
+          : restaurantDetails // ignore: cast_nullable_to_non_nullable
+              as RestaurantDetails?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $RestaurantDataModelCopyWith<$Res>? get restaurantDataModel {
-    if (_value.restaurantDataModel == null) {
+  $RestaurantDetailsCopyWith<$Res>? get restaurantDetails {
+    if (_value.restaurantDetails == null) {
       return null;
     }
 
-    return $RestaurantDataModelCopyWith<$Res>(_value.restaurantDataModel!,
-        (value) {
-      return _then(_value.copyWith(restaurantDataModel: value) as $Val);
+    return $RestaurantDetailsCopyWith<$Res>(_value.restaurantDetails!, (value) {
+      return _then(_value.copyWith(restaurantDetails: value) as $Val);
     });
   }
 }
@@ -118,10 +117,10 @@ abstract class _$$RestaurantDetailsModelImplCopyWith<$Res>
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") RestaurantDataModel? restaurantDataModel});
+      @JsonKey(name: "data") RestaurantDetails? restaurantDetails});
 
   @override
-  $RestaurantDataModelCopyWith<$Res>? get restaurantDataModel;
+  $RestaurantDetailsCopyWith<$Res>? get restaurantDetails;
 }
 
 /// @nodoc
@@ -140,7 +139,7 @@ class __$$RestaurantDetailsModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? restaurantDataModel = freezed,
+    Object? restaurantDetails = freezed,
   }) {
     return _then(_$RestaurantDetailsModelImpl(
       status: freezed == status
@@ -155,10 +154,10 @@ class __$$RestaurantDetailsModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      restaurantDataModel: freezed == restaurantDataModel
-          ? _value.restaurantDataModel
-          : restaurantDataModel // ignore: cast_nullable_to_non_nullable
-              as RestaurantDataModel?,
+      restaurantDetails: freezed == restaurantDetails
+          ? _value.restaurantDetails
+          : restaurantDetails // ignore: cast_nullable_to_non_nullable
+              as RestaurantDetails?,
     ));
   }
 }
@@ -170,7 +169,7 @@ class _$RestaurantDetailsModelImpl implements _RestaurantDetailsModel {
       {@JsonKey(name: "status") this.status,
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
-      @JsonKey(name: "data") this.restaurantDataModel});
+      @JsonKey(name: "data") this.restaurantDetails});
 
   factory _$RestaurantDetailsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RestaurantDetailsModelImplFromJson(json);
@@ -186,11 +185,11 @@ class _$RestaurantDetailsModelImpl implements _RestaurantDetailsModel {
   final String? message;
   @override
   @JsonKey(name: "data")
-  final RestaurantDataModel? restaurantDataModel;
+  final RestaurantDetails? restaurantDetails;
 
   @override
   String toString() {
-    return 'RestaurantDetailsModel(status: $status, type: $type, message: $message, restaurantDataModel: $restaurantDataModel)';
+    return 'RestaurantDetailsModel(status: $status, type: $type, message: $message, restaurantDetails: $restaurantDetails)';
   }
 
   @override
@@ -201,14 +200,14 @@ class _$RestaurantDetailsModelImpl implements _RestaurantDetailsModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.restaurantDataModel, restaurantDataModel) ||
-                other.restaurantDataModel == restaurantDataModel));
+            (identical(other.restaurantDetails, restaurantDetails) ||
+                other.restaurantDetails == restaurantDetails));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, status, type, message, restaurantDataModel);
+      Object.hash(runtimeType, status, type, message, restaurantDetails);
 
   @JsonKey(ignore: true)
   @override
@@ -230,8 +229,7 @@ abstract class _RestaurantDetailsModel implements RestaurantDetailsModel {
           {@JsonKey(name: "status") final int? status,
           @JsonKey(name: "type") final String? type,
           @JsonKey(name: "message") final String? message,
-          @JsonKey(name: "data")
-          final RestaurantDataModel? restaurantDataModel}) =
+          @JsonKey(name: "data") final RestaurantDetails? restaurantDetails}) =
       _$RestaurantDetailsModelImpl;
 
   factory _RestaurantDetailsModel.fromJson(Map<String, dynamic> json) =
@@ -248,19 +246,19 @@ abstract class _RestaurantDetailsModel implements RestaurantDetailsModel {
   String? get message;
   @override
   @JsonKey(name: "data")
-  RestaurantDataModel? get restaurantDataModel;
+  RestaurantDetails? get restaurantDetails;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantDetailsModelImplCopyWith<_$RestaurantDetailsModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
-RestaurantDataModel _$RestaurantDataModelFromJson(Map<String, dynamic> json) {
-  return _RestaurantDataModel.fromJson(json);
+RestaurantDetails _$RestaurantDetailsFromJson(Map<String, dynamic> json) {
+  return _RestaurantDetails.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RestaurantDataModel {
+mixin _$RestaurantDetails {
   @JsonKey(name: "_id")
   String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "image")
@@ -303,20 +301,32 @@ mixin _$RestaurantDataModel {
   String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "google_rating")
+  int? get googleRating => throw _privateConstructorUsedError;
+  @JsonKey(name: "restaurant_user_count")
+  int? get restaurantUserCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "restaurant_rating")
+  double? get restaurantRating => throw _privateConstructorUsedError;
+  @JsonKey(name: "isReview")
+  bool? get isReview => throw _privateConstructorUsedError;
   @JsonKey(name: "isSave")
   bool? get isSave => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_user_count")
+  int? get totalUserCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_rating")
+  double? get totalRating => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RestaurantDataModelCopyWith<RestaurantDataModel> get copyWith =>
+  $RestaurantDetailsCopyWith<RestaurantDetails> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RestaurantDataModelCopyWith<$Res> {
-  factory $RestaurantDataModelCopyWith(
-          RestaurantDataModel value, $Res Function(RestaurantDataModel) then) =
-      _$RestaurantDataModelCopyWithImpl<$Res, RestaurantDataModel>;
+abstract class $RestaurantDetailsCopyWith<$Res> {
+  factory $RestaurantDetailsCopyWith(
+          RestaurantDetails value, $Res Function(RestaurantDetails) then) =
+      _$RestaurantDetailsCopyWithImpl<$Res, RestaurantDetails>;
   @useResult
   $Res call(
       {@JsonKey(name: "_id") String? id,
@@ -340,15 +350,21 @@ abstract class $RestaurantDataModelCopyWith<$Res> {
       @JsonKey(name: "types") List<dynamic>? types,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "createdAt") DateTime? createdAt,
-      @JsonKey(name: "isSave") bool? isSave});
+      @JsonKey(name: "google_rating") int? googleRating,
+      @JsonKey(name: "restaurant_user_count") int? restaurantUserCount,
+      @JsonKey(name: "restaurant_rating") double? restaurantRating,
+      @JsonKey(name: "isReview") bool? isReview,
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "total_user_count") int? totalUserCount,
+      @JsonKey(name: "total_rating") double? totalRating});
 
   $GeoLocCopyWith<$Res>? get geoLoc;
 }
 
 /// @nodoc
-class _$RestaurantDataModelCopyWithImpl<$Res, $Val extends RestaurantDataModel>
-    implements $RestaurantDataModelCopyWith<$Res> {
-  _$RestaurantDataModelCopyWithImpl(this._value, this._then);
+class _$RestaurantDetailsCopyWithImpl<$Res, $Val extends RestaurantDetails>
+    implements $RestaurantDetailsCopyWith<$Res> {
+  _$RestaurantDetailsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -379,7 +395,13 @@ class _$RestaurantDataModelCopyWithImpl<$Res, $Val extends RestaurantDataModel>
     Object? types = freezed,
     Object? status = freezed,
     Object? createdAt = freezed,
+    Object? googleRating = freezed,
+    Object? restaurantUserCount = freezed,
+    Object? restaurantRating = freezed,
+    Object? isReview = freezed,
     Object? isSave = freezed,
+    Object? totalUserCount = freezed,
+    Object? totalRating = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -466,10 +488,34 @@ class _$RestaurantDataModelCopyWithImpl<$Res, $Val extends RestaurantDataModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      googleRating: freezed == googleRating
+          ? _value.googleRating
+          : googleRating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      restaurantUserCount: freezed == restaurantUserCount
+          ? _value.restaurantUserCount
+          : restaurantUserCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      restaurantRating: freezed == restaurantRating
+          ? _value.restaurantRating
+          : restaurantRating // ignore: cast_nullable_to_non_nullable
+              as double?,
+      isReview: freezed == isReview
+          ? _value.isReview
+          : isReview // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isSave: freezed == isSave
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
               as bool?,
+      totalUserCount: freezed == totalUserCount
+          ? _value.totalUserCount
+          : totalUserCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalRating: freezed == totalRating
+          ? _value.totalRating
+          : totalRating // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 
@@ -487,11 +533,11 @@ class _$RestaurantDataModelCopyWithImpl<$Res, $Val extends RestaurantDataModel>
 }
 
 /// @nodoc
-abstract class _$$RestaurantDataModelImplCopyWith<$Res>
-    implements $RestaurantDataModelCopyWith<$Res> {
-  factory _$$RestaurantDataModelImplCopyWith(_$RestaurantDataModelImpl value,
-          $Res Function(_$RestaurantDataModelImpl) then) =
-      __$$RestaurantDataModelImplCopyWithImpl<$Res>;
+abstract class _$$RestaurantDetailsImplCopyWith<$Res>
+    implements $RestaurantDetailsCopyWith<$Res> {
+  factory _$$RestaurantDetailsImplCopyWith(_$RestaurantDetailsImpl value,
+          $Res Function(_$RestaurantDetailsImpl) then) =
+      __$$RestaurantDetailsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -516,18 +562,24 @@ abstract class _$$RestaurantDataModelImplCopyWith<$Res>
       @JsonKey(name: "types") List<dynamic>? types,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "createdAt") DateTime? createdAt,
-      @JsonKey(name: "isSave") bool? isSave});
+      @JsonKey(name: "google_rating") int? googleRating,
+      @JsonKey(name: "restaurant_user_count") int? restaurantUserCount,
+      @JsonKey(name: "restaurant_rating") double? restaurantRating,
+      @JsonKey(name: "isReview") bool? isReview,
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "total_user_count") int? totalUserCount,
+      @JsonKey(name: "total_rating") double? totalRating});
 
   @override
   $GeoLocCopyWith<$Res>? get geoLoc;
 }
 
 /// @nodoc
-class __$$RestaurantDataModelImplCopyWithImpl<$Res>
-    extends _$RestaurantDataModelCopyWithImpl<$Res, _$RestaurantDataModelImpl>
-    implements _$$RestaurantDataModelImplCopyWith<$Res> {
-  __$$RestaurantDataModelImplCopyWithImpl(_$RestaurantDataModelImpl _value,
-      $Res Function(_$RestaurantDataModelImpl) _then)
+class __$$RestaurantDetailsImplCopyWithImpl<$Res>
+    extends _$RestaurantDetailsCopyWithImpl<$Res, _$RestaurantDetailsImpl>
+    implements _$$RestaurantDetailsImplCopyWith<$Res> {
+  __$$RestaurantDetailsImplCopyWithImpl(_$RestaurantDetailsImpl _value,
+      $Res Function(_$RestaurantDetailsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -554,9 +606,15 @@ class __$$RestaurantDataModelImplCopyWithImpl<$Res>
     Object? types = freezed,
     Object? status = freezed,
     Object? createdAt = freezed,
+    Object? googleRating = freezed,
+    Object? restaurantUserCount = freezed,
+    Object? restaurantRating = freezed,
+    Object? isReview = freezed,
     Object? isSave = freezed,
+    Object? totalUserCount = freezed,
+    Object? totalRating = freezed,
   }) {
-    return _then(_$RestaurantDataModelImpl(
+    return _then(_$RestaurantDetailsImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -641,18 +699,42 @@ class __$$RestaurantDataModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      googleRating: freezed == googleRating
+          ? _value.googleRating
+          : googleRating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      restaurantUserCount: freezed == restaurantUserCount
+          ? _value.restaurantUserCount
+          : restaurantUserCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      restaurantRating: freezed == restaurantRating
+          ? _value.restaurantRating
+          : restaurantRating // ignore: cast_nullable_to_non_nullable
+              as double?,
+      isReview: freezed == isReview
+          ? _value.isReview
+          : isReview // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isSave: freezed == isSave
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
               as bool?,
+      totalUserCount: freezed == totalUserCount
+          ? _value.totalUserCount
+          : totalUserCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalRating: freezed == totalRating
+          ? _value.totalRating
+          : totalRating // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$RestaurantDataModelImpl implements _RestaurantDataModel {
-  const _$RestaurantDataModelImpl(
+class _$RestaurantDetailsImpl implements _RestaurantDetails {
+  const _$RestaurantDetailsImpl(
       {@JsonKey(name: "_id") this.id,
       @JsonKey(name: "image") final List<String>? image,
       @JsonKey(name: "name") this.name,
@@ -674,12 +756,18 @@ class _$RestaurantDataModelImpl implements _RestaurantDataModel {
       @JsonKey(name: "types") final List<dynamic>? types,
       @JsonKey(name: "status") this.status,
       @JsonKey(name: "createdAt") this.createdAt,
-      @JsonKey(name: "isSave") this.isSave})
+      @JsonKey(name: "google_rating") this.googleRating,
+      @JsonKey(name: "restaurant_user_count") this.restaurantUserCount,
+      @JsonKey(name: "restaurant_rating") this.restaurantRating,
+      @JsonKey(name: "isReview") this.isReview,
+      @JsonKey(name: "isSave") this.isSave,
+      @JsonKey(name: "total_user_count") this.totalUserCount,
+      @JsonKey(name: "total_rating") this.totalRating})
       : _image = image,
         _types = types;
 
-  factory _$RestaurantDataModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RestaurantDataModelImplFromJson(json);
+  factory _$RestaurantDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RestaurantDetailsImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
@@ -761,19 +849,37 @@ class _$RestaurantDataModelImpl implements _RestaurantDataModel {
   @JsonKey(name: "createdAt")
   final DateTime? createdAt;
   @override
+  @JsonKey(name: "google_rating")
+  final int? googleRating;
+  @override
+  @JsonKey(name: "restaurant_user_count")
+  final int? restaurantUserCount;
+  @override
+  @JsonKey(name: "restaurant_rating")
+  final double? restaurantRating;
+  @override
+  @JsonKey(name: "isReview")
+  final bool? isReview;
+  @override
   @JsonKey(name: "isSave")
   final bool? isSave;
+  @override
+  @JsonKey(name: "total_user_count")
+  final int? totalUserCount;
+  @override
+  @JsonKey(name: "total_rating")
+  final double? totalRating;
 
   @override
   String toString() {
-    return 'RestaurantDataModel(id: $id, image: $image, name: $name, address: $address, street: $street, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, placeId: $placeId, rating: $rating, userRatingsTotal: $userRatingsTotal, types: $types, status: $status, createdAt: $createdAt, isSave: $isSave)';
+    return 'RestaurantDetails(id: $id, image: $image, name: $name, address: $address, street: $street, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, placeId: $placeId, rating: $rating, userRatingsTotal: $userRatingsTotal, types: $types, status: $status, createdAt: $createdAt, googleRating: $googleRating, restaurantUserCount: $restaurantUserCount, restaurantRating: $restaurantRating, isReview: $isReview, isSave: $isSave, totalUserCount: $totalUserCount, totalRating: $totalRating)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RestaurantDataModelImpl &&
+            other is _$RestaurantDetailsImpl &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._image, _image) &&
             (identical(other.name, name) || other.name == name) &&
@@ -799,7 +905,19 @@ class _$RestaurantDataModelImpl implements _RestaurantDataModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.isSave, isSave) || other.isSave == isSave));
+            (identical(other.googleRating, googleRating) ||
+                other.googleRating == googleRating) &&
+            (identical(other.restaurantUserCount, restaurantUserCount) ||
+                other.restaurantUserCount == restaurantUserCount) &&
+            (identical(other.restaurantRating, restaurantRating) ||
+                other.restaurantRating == restaurantRating) &&
+            (identical(other.isReview, isReview) ||
+                other.isReview == isReview) &&
+            (identical(other.isSave, isSave) || other.isSave == isSave) &&
+            (identical(other.totalUserCount, totalUserCount) ||
+                other.totalUserCount == totalUserCount) &&
+            (identical(other.totalRating, totalRating) ||
+                other.totalRating == totalRating));
   }
 
   @JsonKey(ignore: true)
@@ -827,26 +945,32 @@ class _$RestaurantDataModelImpl implements _RestaurantDataModel {
         const DeepCollectionEquality().hash(_types),
         status,
         createdAt,
-        isSave
+        googleRating,
+        restaurantUserCount,
+        restaurantRating,
+        isReview,
+        isSave,
+        totalUserCount,
+        totalRating
       ]);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RestaurantDataModelImplCopyWith<_$RestaurantDataModelImpl> get copyWith =>
-      __$$RestaurantDataModelImplCopyWithImpl<_$RestaurantDataModelImpl>(
+  _$$RestaurantDetailsImplCopyWith<_$RestaurantDetailsImpl> get copyWith =>
+      __$$RestaurantDetailsImplCopyWithImpl<_$RestaurantDetailsImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RestaurantDataModelImplToJson(
+    return _$$RestaurantDetailsImplToJson(
       this,
     );
   }
 }
 
-abstract class _RestaurantDataModel implements RestaurantDataModel {
-  const factory _RestaurantDataModel(
+abstract class _RestaurantDetails implements RestaurantDetails {
+  const factory _RestaurantDetails(
       {@JsonKey(name: "_id") final String? id,
       @JsonKey(name: "image") final List<String>? image,
       @JsonKey(name: "name") final String? name,
@@ -868,10 +992,17 @@ abstract class _RestaurantDataModel implements RestaurantDataModel {
       @JsonKey(name: "types") final List<dynamic>? types,
       @JsonKey(name: "status") final String? status,
       @JsonKey(name: "createdAt") final DateTime? createdAt,
-      @JsonKey(name: "isSave") final bool? isSave}) = _$RestaurantDataModelImpl;
+      @JsonKey(name: "google_rating") final int? googleRating,
+      @JsonKey(name: "restaurant_user_count") final int? restaurantUserCount,
+      @JsonKey(name: "restaurant_rating") final double? restaurantRating,
+      @JsonKey(name: "isReview") final bool? isReview,
+      @JsonKey(name: "isSave") final bool? isSave,
+      @JsonKey(name: "total_user_count") final int? totalUserCount,
+      @JsonKey(name: "total_rating")
+      final double? totalRating}) = _$RestaurantDetailsImpl;
 
-  factory _RestaurantDataModel.fromJson(Map<String, dynamic> json) =
-      _$RestaurantDataModelImpl.fromJson;
+  factory _RestaurantDetails.fromJson(Map<String, dynamic> json) =
+      _$RestaurantDetailsImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
@@ -937,11 +1068,29 @@ abstract class _RestaurantDataModel implements RestaurantDataModel {
   @JsonKey(name: "createdAt")
   DateTime? get createdAt;
   @override
+  @JsonKey(name: "google_rating")
+  int? get googleRating;
+  @override
+  @JsonKey(name: "restaurant_user_count")
+  int? get restaurantUserCount;
+  @override
+  @JsonKey(name: "restaurant_rating")
+  double? get restaurantRating;
+  @override
+  @JsonKey(name: "isReview")
+  bool? get isReview;
+  @override
   @JsonKey(name: "isSave")
   bool? get isSave;
   @override
+  @JsonKey(name: "total_user_count")
+  int? get totalUserCount;
+  @override
+  @JsonKey(name: "total_rating")
+  double? get totalRating;
+  @override
   @JsonKey(ignore: true)
-  _$$RestaurantDataModelImplCopyWith<_$RestaurantDataModelImpl> get copyWith =>
+  _$$RestaurantDetailsImplCopyWith<_$RestaurantDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
