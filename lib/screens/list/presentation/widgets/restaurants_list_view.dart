@@ -93,13 +93,11 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
                             isBookmarked: state.restaurantList?[index].isSave ?? false,
                             restaurantId: state.restaurantList?[index].id ?? '',
-                            numberOfReviews: state.restaurantList?[index].userRatingsTotal ?? '',
                             address: state.restaurantList?[index].address ?? 'No name',
                             image: state.restaurantList?[index].image?[0] ?? '',
                             lat: state.restaurantList?[index].lat ?? '',
                             lng: state.restaurantList?[index].lng ?? '',
                             name: state.restaurantList?[index].name ?? '',
-                            rating: state.restaurantList?[index].rating ?? '',
                             description: state.restaurantList?[index].description ?? '',
                           ));
                         },

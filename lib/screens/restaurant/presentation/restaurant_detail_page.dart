@@ -13,6 +13,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
+import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_item_widget.dart';
 import 'package:for_the_table/screens/restaurant/presentation/widgets/photo_or_video_box.dart';
 import 'package:for_the_table/widgets/app_button.dart';
@@ -37,8 +38,8 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
     required this.lng,
     required this.name,
     required this.description,
-    required this.rating,
-    required this.numberOfReviews,
+    // required this.rating,
+    // required this.numberOfReviews,
     required this.restaurantId,
     required this.isBookmarked,
   });
@@ -47,9 +48,9 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
   final String name;
   final String address;
   final String image;
-  final String rating;
+  // final String rating;
   final String description;
-  final String numberOfReviews;
+  // final String numberOfReviews;
   final String restaurantId;
   final bool isBookmarked;
 
@@ -295,9 +296,17 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       width: 1,
                                                       color: AppColors.colorBorder,
                                                     )),
-                                                child: (widget.rating != '')
+                                                child: (stateNotifier.reastaurantDetials
+                                                            ?.restaurantDetails?.restaurantRating !=
+                                                        0.0)
                                                     ? Text(
-                                                        widget.rating,
+                                                        ((stateNotifier
+                                                                        .reastaurantDetials
+                                                                        ?.restaurantDetails
+                                                                        ?.restaurantRating ??
+                                                                    0.0) *
+                                                                2)
+                                                            .toString(),
                                                         style: AppTextStyles
                                                             .textStylePoppinsSemiBold
                                                             .copyWith(
@@ -336,9 +345,13 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       ),
                                                     ),
                                                     5.verticalSpace,
-                                                    (widget.numberOfReviews != '')
+                                                    (stateNotifier
+                                                                .reastaurantDetials
+                                                                ?.restaurantDetails
+                                                                ?.restaurantUserCount !=
+                                                            0.0)
                                                         ? Text(
-                                                            '${widget.numberOfReviews} reviews',
+                                                            '${stateNotifier.reastaurantDetials?.restaurantDetails?.restaurantUserCount} reviews',
                                                             style: AppTextStyles
                                                                 .textStylePoppinsRegular
                                                                 .copyWith(
@@ -379,6 +392,14 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                   stateNotifier.clearStateSliderValue();
                                                   stateNotifier.clearImageOrVideo();
                                                   stateNotifier.clearReviewFields();
+                                                  if (stateNotifier.reastaurantDetials
+                                                          ?.restaurantDetails?.isReview ??
+                                                      false) {
+                                                    showToastMessage(
+                                                        'Your review has already been added');
+                                                    return;
+                                                  }
+
                                                   commonModal(
                                                     context,
                                                     onTap: () {
@@ -608,8 +629,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                           : SaveIcon(
                                               // isBookmarked:
                                               //     widget.isBookmarked,
-                                              isBookmarked: stateNotifier.reastaurantDetials!
-                                                      .restaurantDetails?.isSave ??
+                                              isBookmarked: stateNotifier.reastaurantDetials
+                                                      ?.restaurantDetails?.isSave ??
                                                   false,
                                               onTap: () async {
                                                 await stateNotifier
