@@ -220,7 +220,7 @@ class _FollowersListState extends ConsumerState<FollowersList> {
                       )
                     : Center(
                         child: Text(
-                          'You have no follower.',
+                          'No user found.',
                           style: AppTextStyles.textStylePoppins,
                         ),
                       ),

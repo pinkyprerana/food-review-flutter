@@ -114,7 +114,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isSavePost: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${'/post-like/add'}', body: {"post_id": postID});
+          url: '${AppUrls.baseUrl}${AppUrls.likeUnlikePost}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -144,7 +144,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isSavePost: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${'/post-save/add'}', body: {"post_id": postID});
+          url: '${AppUrls.baseUrl}${AppUrls.saveUnsavePost}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -175,7 +175,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${'/post-like/swapped'}',
+          url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
           body: {"post_id": postID, "type": "like"});
       state = state.copyWith(isLoading: false);
 
@@ -205,7 +205,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${'/post-like/swapped'}',
+          url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
           body: {"post_id": postID, "type": "dislike"});
       state = state.copyWith(isLoading: false);
 
@@ -235,7 +235,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isCommentLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.baseUrl}/post-comment/add',
+        url: '${AppUrls.baseUrl}${AppUrls.addComment}',
         body: {
           "post_id": postID,
           "comment": commentController.text,
@@ -270,7 +270,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isCommentLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.baseUrl}/post-like/comment',
+        url: '${AppUrls.baseUrl}${AppUrls.likeUnlikeComment}',
         body: {
           "comment_id": commentID,
         },
