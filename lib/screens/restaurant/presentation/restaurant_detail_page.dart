@@ -400,151 +400,147 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                           thickness: 1,
                                           color: AppColors.colorBorder,
                                         ),
-                                        5.verticalSpace,
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  stateNotifier
-                                                      .clearStateSliderValue();
-                                                  stateNotifier
-                                                      .clearImageOrVideo();
-                                                  stateNotifier
-                                                      .clearReviewFields();
-                                                  commonModal(
-                                                    context,
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Stack(children: [
-                                                      Column(
+                                        // 5.verticalSpace,
+                                        GestureDetector(
+                                          onTap: () {
+                                            stateNotifier
+                                                .clearStateSliderValue();
+                                            stateNotifier.clearImageOrVideo();
+                                            stateNotifier.clearReviewFields();
+                                            commonModal(
+                                              context,
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Stack(children: [
+                                                Column(
+                                                  children: [
+                                                    20.verticalSpace,
+                                                    CustomSlider(
+                                                      onChanged: (value) {
+                                                        stateNotifier
+                                                            .sliderValueUpdate(
+                                                                value);
+                                                      },
+                                                    ),
+                                                    10.verticalSpace,
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          20.verticalSpace,
-                                                          CustomSlider(
-                                                            onChanged: (value) {
-                                                              stateNotifier
-                                                                  .sliderValueUpdate(
-                                                                      value);
-                                                            },
-                                                          ),
-                                                          10.verticalSpace,
-                                                          Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Add a Title',
-                                                                  style: AppTextStyles
-                                                                      .textStylePoppinsMedium
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    color: AppColors
-                                                                        .colorPrimary,
-                                                                  ),
-                                                                )
-                                                              ]),
-                                                          5.verticalSpace,
-                                                          CustomInputField(
-                                                            controller:
-                                                                stateNotifier
-                                                                    .titleTextController,
-                                                            hint:
-                                                                'Write the title',
-                                                          ),
-                                                          20.verticalSpace,
-                                                          Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Add a written review',
-                                                                  style: AppTextStyles
-                                                                      .textStylePoppinsMedium
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    color: AppColors
-                                                                        .colorPrimary,
-                                                                  ),
-                                                                )
-                                                              ]),
-                                                          5.verticalSpace,
-                                                          SizedBox(
-                                                            height: 130.h,
-                                                            child:
-                                                                ExpandedCommonTextField(
-                                                              controller:
-                                                                  stateNotifier
-                                                                      .reviewTextController,
-                                                              maxLines: null,
-                                                              expands: true,
-                                                              hint:
-                                                                  'Write review',
+                                                          Text(
+                                                            'Add a Title',
+                                                            style: AppTextStyles
+                                                                .textStylePoppinsMedium
+                                                                .copyWith(
+                                                              fontSize: 13.sp,
+                                                              color: AppColors
+                                                                  .colorPrimary,
                                                             ),
-                                                          ),
-                                                          20.verticalSpace,
-                                                          Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Add a Photo or Video',
-                                                                  style: AppTextStyles
-                                                                      .textStylePoppinsMedium
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    color: AppColors
-                                                                        .colorPrimary,
-                                                                  ),
-                                                                )
-                                                              ]),
-                                                          5.verticalSpace,
-                                                          const PhotoOrVideoBox(),
-                                                          10.verticalSpace,
-                                                          AppButton(
-                                                            loading: state
-                                                                .isLoadingForReviewSubmit,
-                                                            text: 'Submit',
-                                                            onPressed: () {
-                                                              stateNotifier
-                                                                  .submitReview(
-                                                                      onSuccess:
-                                                                          () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              });
-                                                            },
                                                           )
-                                                        ],
+                                                        ]),
+                                                    5.verticalSpace,
+                                                    CustomInputField(
+                                                      controller: stateNotifier
+                                                          .titleTextController,
+                                                      hint: 'Write the title',
+                                                    ),
+                                                    20.verticalSpace,
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Add a written review',
+                                                            style: AppTextStyles
+                                                                .textStylePoppinsMedium
+                                                                .copyWith(
+                                                              fontSize: 13.sp,
+                                                              color: AppColors
+                                                                  .colorPrimary,
+                                                            ),
+                                                          )
+                                                        ]),
+                                                    5.verticalSpace,
+                                                    SizedBox(
+                                                      height: 130.h,
+                                                      child:
+                                                          ExpandedCommonTextField(
+                                                        controller: stateNotifier
+                                                            .reviewTextController,
+                                                        maxLines: null,
+                                                        expands: true,
+                                                        hint: 'Write review',
                                                       ),
-                                                    ]),
-                                                  );
-                                                },
-                                                child: Text(
-                                                  'Write A Review',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors
-                                                        .colorPrimaryAlpha,
-                                                  ),
+                                                    ),
+                                                    20.verticalSpace,
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Add a Photo or Video',
+                                                            style: AppTextStyles
+                                                                .textStylePoppinsMedium
+                                                                .copyWith(
+                                                              fontSize: 13.sp,
+                                                              color: AppColors
+                                                                  .colorPrimary,
+                                                            ),
+                                                          )
+                                                        ]),
+                                                    5.verticalSpace,
+                                                    const PhotoOrVideoBox(),
+                                                    10.verticalSpace,
+                                                    AppButton(
+                                                      loading: state
+                                                          .isLoadingForReviewSubmit,
+                                                      text: 'Submit',
+                                                      onPressed: () {
+                                                        stateNotifier
+                                                            .submitReview(
+                                                                onSuccess: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+                                                      },
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
+                                              ]),
+                                            );
+                                          },
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                              left: 10,
+                                                              bottom: 5)
+                                                          .r,
+                                                  child: Text(
+                                                    'Write A Review',
+                                                    style: AppTextStyles
+                                                        .textStylePoppinsRegular
+                                                        .copyWith(
+                                                      fontSize: 10.sp,
+                                                      color: AppColors
+                                                          .colorPrimaryAlpha,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        10.verticalSpace,
+                                        // 10.verticalSpace,
                                       ],
                                     ),
                                   ),
