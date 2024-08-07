@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
@@ -14,6 +18,9 @@ import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dar
 import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
+import 'package:for_the_table/widgets/app_button.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
@@ -29,6 +36,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
   RefreshController savedRestaurantRefreshController = RefreshController();
+
+  TextEditingController titleTextController = TextEditingController();
+  TextEditingController reviewTextController = TextEditingController();
+
+  List<SavedRestaurant>? localSavedRestaurantList = [];
 
   @override
   void dispose() {
@@ -258,12 +270,28 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response ----->> $response');
+        AppLog.log('save restaurant response ----->> $response');
 
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
 
-        await getSavedRestaurants();
+        // AppLog.log(localSavedRestaurantList![0].toString());
+
+        if (localSavedRestaurantList != null && (localSavedRestaurantList?.isNotEmpty ?? false)) {
+          for (int i = 0; i < localSavedRestaurantList!.length; i++) {
+            if (restaurantID == localSavedRestaurantList![i].id) {
+              localSavedRestaurantList![i] =
+                  localSavedRestaurantList![i].copyWith(isSaveLocally: false);
+            }
+          }
+        }
+
+        AppLog.log('localSavedRestaurantList +++++++++ $localSavedRestaurantList');
+
+        // await getSavedRestaurants();
+        if (localSavedRestaurantList != null && (localSavedRestaurantList?.isNotEmpty ?? false)) {
+          updateLocalSavedRestaurantList();
+        }
 
         state = state.copyWith(isLoadingSaveRestaurant: false);
       } else {
@@ -280,7 +308,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
+  String restaurantId = '';
+
   Future<void> restaurantDetails(String restaurantId) async {
+    restaurantId = restaurantId;
     AppLog.log('restaurantID------------->>>> $restaurantId');
     try {
       state = state.copyWith(isLoadingForRestaurantDetails: true);
@@ -377,26 +408,31 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         final List<SavedRestaurant>? savedRestaurantList =
             savedRestaurantsResponseModel.savedRestaurantList;
 
-        if (isLoadMore) {
-          state = state.copyWith(
-            isLoadingSaveRestaurantList: false,
-            savedRestaurantList: [
-              ...state.savedRestaurantList ?? [],
-              ...savedRestaurantList ?? [],
-            ],
-            totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
-          );
+        // if (isLoadMore) {
+        //   state = state.copyWith(
+        //     isLoadingSaveRestaurantList: false,
+        //     savedRestaurantList: [
+        //       ...state.savedRestaurantList ?? [],
+        //       ...savedRestaurantList ?? [],
+        //     ],
+        //     totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
+        //   );
 
-          return;
-        }
+        //   return;
+        // }
 
         state = state.copyWith(
           isLoadingSaveRestaurantList: false,
           savedRestaurantList: [
+            ...state.savedRestaurantList ?? [],
             ...savedRestaurantList ?? [],
           ],
           totalPagesForSavedRestaurantList: savedRestaurantsResponseModel.pages ?? 0,
         );
+
+        localSavedRestaurantList = [...state.savedRestaurantList ?? []];
+
+        AppLog.log('localSavedRestaurantList------>> ${localSavedRestaurantList?.length}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -411,6 +447,13 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
+  void updateLocalSavedRestaurantList() {
+    AppLog.log('localSavedRestaurantList ------------- $localSavedRestaurantList');
+    localSavedRestaurantList?.retainWhere((item) => item.isSaveLocally == true);
+
+    state = state.copyWith(savedRestaurantList: [...localSavedRestaurantList ?? []]);
+  }
+
   void sliderValueUpdate(double value) {
     state = state.copyWith(sliderValue: value);
     AppLog.log('state.sliderValue -------->> ${state.sliderValue}');
@@ -418,5 +461,226 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   void clearStateSliderValue() {
     state = state.copyWith(sliderValue: 0);
+  }
+
+  void clearImageOrVideo() {
+    state = state.copyWith(imageOrVideo: null);
+  }
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Photos/Videos Permission Required'),
+        content: const Text(
+            'This app needs gallery permission to work properly. Please grant the permission in settings.'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  final ImagePicker picker = ImagePicker();
+  XFile? image;
+
+  Future<void> checkPermissionForGallery(BuildContext context) async {
+    PermissionStatus permission;
+
+    if (Platform.isAndroid) {
+      permission = await Permission.storage.request();
+    } else {
+      permission = await Permission.photos.request();
+    }
+
+    switch (permission) {
+      case PermissionStatus.granted:
+        AppLog.log('permission granted');
+        if (!context.mounted) return;
+        showOptionDialog(context);
+        // pickImageOrVideo();
+        break;
+      case PermissionStatus.denied:
+        AppLog.log('permission denied');
+        final permissionAgain = await Permission.photos.request();
+        if (permissionAgain == PermissionStatus.denied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.granted) {
+          AppLog.log('permission granted');
+          // pickImageOrVideo();
+          if (!context.mounted) return;
+          showOptionDialog(context);
+        }
+        break;
+      case PermissionStatus.permanentlyDenied:
+        AppLog.log('permission denied');
+        final permissionAgain = await Permission.photos.request();
+        if (permissionAgain == PermissionStatus.denied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.granted) {
+          AppLog.log('permission granted');
+          // pickImageOrVideo();
+          if (!context.mounted) return;
+          showOptionDialog(context);
+        }
+        break;
+      case PermissionStatus.limited:
+        AppLog.log('permission limited');
+        break;
+      case PermissionStatus.restricted:
+        AppLog.log('permission restricted');
+        break;
+      case PermissionStatus.provisional:
+        AppLog.log('permission provisional');
+        break;
+      default:
+    }
+  }
+
+  XFile? pickedFile;
+
+  Future<void> pickImageOrVideo({photo = true}) async {
+    pickedFile = (photo)
+        ? await picker.pickImage(
+            source: ImageSource.gallery,
+            imageQuality: 50,
+          )
+        : await picker.pickVideo(
+            source: ImageSource.gallery,
+          );
+
+    if (pickedFile == null) {
+      return;
+    }
+
+    // filePicked = File(pickedFile.path);
+
+    // AppLog.log('pickedFile-------- ${pickedFile.path}');
+
+    state = (photo)
+        ? state.copyWith(imageOrVideo: pickedFile, isVideo: false)
+        : state.copyWith(imageOrVideo: pickedFile, isVideo: true);
+  }
+
+  bool validateReviewFields() {
+    if (titleTextController.text.trim().isEmpty) {
+      showToastMessage('Please enter a title');
+      return false;
+    } else if (reviewTextController.text.trim().isEmpty) {
+      showToastMessage('Please enter a review');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void clearReviewFields() {
+    reviewTextController.text = '';
+    titleTextController.text = '';
+  }
+
+  Future<void> submitReview() async {
+    if (validateReviewFields()) {
+      final filePicked = File(pickedFile?.path ?? '');
+
+      state = state.copyWith(isLoadingForReviewSubmit: true);
+
+      final FormData formData = FormData.fromMap({
+        if (filePicked.path.isNotEmpty)
+          "review_file": await MultipartFile.fromFile(filePicked.path),
+        "description": reviewTextController.text,
+        "title": titleTextController.text,
+        "rating": state.sliderValue.toString(),
+        "restaurant_id": restaurantId,
+      });
+
+      var headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': await _hiveDataBase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      try {
+        final response = await _dio.post<Map<String, dynamic>>(
+          '${AppUrls.baseUrl}${AppUrls.reviewSubmit}',
+          data: formData,
+        );
+
+        if (response.statusCode == 200 && response.data != null) {
+          titleTextController.text = '';
+          reviewTextController.text = '';
+          // filePicked = null;
+          state =
+              state.copyWith(isLoadingForReviewSubmit: false, sliderValue: 0, imageOrVideo: null);
+          showToastMessage('Review Submitted');
+        } else {
+          showToastMessage('Review submission failed');
+          state = state.copyWith(isLoadingForReviewSubmit: false);
+        }
+      } catch (error) {
+        showToastMessage('Something went wrong, please try again');
+        state = state.copyWith(isLoadingForReviewSubmit: false);
+      }
+    }
+  }
+
+  void showOptionDialog(BuildContext context) {
+    showDialog(
+        context: (context),
+        builder: (ctx) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+              'Choose an option',
+              style: AppTextStyles.textStylePoppins.copyWith(fontSize: 17.sp),
+            )),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppButton(
+                  text: 'Pick Image',
+                  onPressed: () {
+                    pickImageOrVideo();
+                    Navigator.pop(context);
+                  },
+                ),
+                10.verticalSpace,
+                AppButton(
+                  text: 'Pick Video',
+                  onPressed: () {
+                    pickImageOrVideo(photo: false);
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          );
+        });
   }
 }

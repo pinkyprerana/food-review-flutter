@@ -44,8 +44,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                 color: AppColors.colorPrimary,
               ),
             )
-          : (state.restaurantList != null &&
-                  (state.restaurantList?.isNotEmpty ?? false))
+          : (state.restaurantList != null && (state.restaurantList?.isNotEmpty ?? false))
               ? SmartRefresher(
                   controller: stateNotifier.restaurantRefreshController,
                   enablePullUp: true,
@@ -92,26 +91,20 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
-                            isBookmarked:
-                                state.restaurantList?[index].isSave ?? false,
+                            isBookmarked: state.restaurantList?[index].isSave ?? false,
                             restaurantId: state.restaurantList?[index].id ?? '',
-                            numberOfReviews:
-                                state.restaurantList?[index].userRatingsTotal ??
-                                    '',
-                            address: state.restaurantList?[index].address ??
-                                'No name',
+                            numberOfReviews: state.restaurantList?[index].userRatingsTotal ?? '',
+                            address: state.restaurantList?[index].address ?? 'No name',
                             image: state.restaurantList?[index].image?[0] ?? '',
                             lat: state.restaurantList?[index].lat ?? '',
                             lng: state.restaurantList?[index].lng ?? '',
                             name: state.restaurantList?[index].name ?? '',
                             rating: state.restaurantList?[index].rating ?? '',
-                            description:
-                                state.restaurantList?[index].description ?? '',
+                            description: state.restaurantList?[index].description ?? '',
                           ));
                         },
                         child: Container(
-                          padding:
-                              const EdgeInsets.fromLTRB(9.0, 8.0, 18.0, 8.0).r,
+                          padding: const EdgeInsets.fromLTRB(9.0, 8.0, 18.0, 8.0).r,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(color: AppColors.colorGrey),
@@ -122,33 +115,32 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0).r,
                                 child: ((state.restaurantList?[index].image?[0].contains('jpg') ?? false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('png') ??
+                                        (state.restaurantList?[index].image?[0].contains('png') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('jpeg') ??
+                                        (state.restaurantList?[index].image?[0].contains('jpeg') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('gif') ??
+                                        (state.restaurantList?[index].image?[0].contains('gif') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('bmp') ??
+                                        (state.restaurantList?[index].image?[0].contains('bmp') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('tiff') ??
+                                        (state.restaurantList?[index].image?[0].contains('tiff') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('tif') ??
+                                        (state.restaurantList?[index].image?[0].contains('tif') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0]
-                                                .contains('webp') ??
+                                        (state.restaurantList?[index].image?[0].contains('webp') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('heic') ?? false) ||
-                                        (state.restaurantList?[index].image?[0].contains('heif') ?? false) ||
-                                        (state.restaurantList?[index].image?[0].contains('svg') ?? false) ||
-                                        (state.restaurantList?[index].image?[0].contains('raw') ?? false) ||
-                                        (state.restaurantList?[index].image?[0].contains('cr2') ?? false) ||
-                                        (state.restaurantList?[index].image?[0].contains('nef') ?? false))
+                                        (state.restaurantList?[index].image?[0].contains('heic') ??
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0].contains('heif') ??
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0].contains('svg') ??
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0].contains('raw') ??
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0].contains('cr2') ??
+                                            false) ||
+                                        (state.restaurantList?[index].image?[0].contains('nef') ??
+                                            false))
                                     ? CachedNetworkImage(
                                         imageUrl:
                                             'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.restaurantList?[index].image?[0]}',
@@ -176,11 +168,8 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                   children: [
                                     Text(
                                       // widget.restaurants[index]['name']!,
-                                      state.restaurantList?[index].name ??
-                                          'No name',
-                                      style: AppTextStyles
-                                          .textStylePoppinsMedium
-                                          .copyWith(
+                                      state.restaurantList?[index].name ?? 'No name',
+                                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         color: AppColors.colorPrimary,
                                         fontSize: 13.sp,
                                       ),
@@ -194,14 +183,10 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                           child: Text(
                                             // widget.restaurants[index]
                                             //     ['location']!,
-                                            state.restaurantList?[index]
-                                                    .address ??
+                                            state.restaurantList?[index].address ??
                                                 'No Address is given',
-                                            style: AppTextStyles
-                                                .textStylePoppinsRegular
-                                                .copyWith(
-                                              color:
-                                                  AppColors.colorPrimaryAlpha,
+                                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                              color: AppColors.colorPrimaryAlpha,
                                               fontSize: 10.sp,
                                             ),
                                           ),
@@ -221,23 +206,20 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Icon(Icons.star,
-                                              color: AppColors.colorRatingStar,
-                                              size: 14.r),
+                                              color: AppColors.colorRatingStar, size: 14.r),
                                           SizedBox(width: 4.w),
-                                          (state.restaurantList?[index]
-                                                      .rating !=
-                                                  '')
+                                          (state.restaurantList?[index].rating != '')
                                               ? Text(
                                                   // widget.restaurants[index]
                                                   //     ['rating']!,
-                                                  state.restaurantList?[index]
-                                                          .rating ??
-                                                      'No rating',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
+                                                  (double.parse(
+                                                              state.restaurantList?[index].rating ??
+                                                                  '0') *
+                                                          2)
+                                                      .toString(),
+                                                  style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
-                                                    color:
-                                                        AppColors.colorPrimary,
+                                                    color: AppColors.colorPrimary,
                                                     fontSize: 12.sp,
                                                   ),
                                                 )
@@ -246,28 +228,21 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                                   //     ['rating']!,
 
                                                   '0.0',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
+                                                  style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
-                                                    color:
-                                                        AppColors.colorPrimary,
+                                                    color: AppColors.colorPrimary,
                                                     fontSize: 12.sp,
                                                   ),
                                                 ),
                                         ],
                                       ),
                                       SizedBox(width: 8.w),
-                                      (state.restaurantList?[index]
-                                                  .userRatingsTotal !=
-                                              '')
+                                      (state.restaurantList?[index].userRatingsTotal != '')
                                           ? Text(
                                               //widget.restaurants[index]['reviews']!,
                                               '${state.restaurantList?[index].userRatingsTotal ?? 0} reviews',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                color:
-                                                    AppColors.colorPrimaryAlpha,
+                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                color: AppColors.colorPrimaryAlpha,
                                                 fontSize: 8.sp,
                                               ),
                                             )
@@ -276,11 +251,8 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                               //     ['reviews']!,
 
                                               '0 reviews',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                color:
-                                                    AppColors.colorPrimaryAlpha,
+                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                color: AppColors.colorPrimaryAlpha,
                                                 fontSize: 8.sp,
                                               ),
                                             ),
@@ -293,8 +265,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                         ),
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        5.verticalSpace,
+                    separatorBuilder: (BuildContext context, int index) => 5.verticalSpace,
                   ),
                 )
               : Center(

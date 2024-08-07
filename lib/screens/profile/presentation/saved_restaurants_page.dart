@@ -274,11 +274,13 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                                 ? Text(
                                                     // widget.restaurants[index]
                                                     //     ['rating']!,
-                                                    state
-                                                            .savedRestaurantList?[
-                                                                index]
-                                                            .rating ??
-                                                        'No rating',
+                                                    (double.parse(state
+                                                                        .savedRestaurantList?[
+                                                                            index]
+                                                                        .rating ??
+                                                                    '0') *
+                                                                2)
+                                                            .toString(),
                                                     style: AppTextStyles
                                                         .textStylePoppinsRegular
                                                         .copyWith(

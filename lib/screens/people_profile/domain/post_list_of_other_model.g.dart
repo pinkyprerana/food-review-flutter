@@ -38,31 +38,39 @@ Map<String, dynamic> _$$PostListOfOtherModelImplToJson(
 _$DataOfPostListOfOtherModelImpl _$$DataOfPostListOfOtherModelImplFromJson(
         Map<String, dynamic> json) =>
     _$DataOfPostListOfOtherModelImpl(
-      id: json['_id'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      file: json['file'] as String,
-      mimetype: json['mimetype'] as String,
-      howWasIt: json['how_was_it'] as String,
-      status: json['status'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      isOwn: json['isOwn'] as bool,
-      isNear: json['isNear'] as bool,
-      isFollowing: json['isFollowing'] as bool,
-      isFollower: json['isFollower'] as bool,
-      isSave: json['isSave'] as bool,
-      likeCount: (json['like_count'] as num).toInt(),
-      isMyLike: json['isMyLike'] as bool,
-      commentCount: (json['comment_count'] as num).toInt(),
-      geoDistance: (json['geo_distance'] as num).toDouble(),
-      geoLoc: GeoLoc.fromJson(json['geo_loc'] as Map<String, dynamic>),
-      userInfo: UserInfo.fromJson(json['userInfo'] as Map<String, dynamic>),
+      id: json['_id'] as String?,
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      file: json['file'] as String?,
+      mimetype: json['mimetype'] as String?,
+      howWasIt: json['how_was_it'] as String?,
+      status: json['status'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      isOwn: json['isOwn'] as bool?,
+      isNear: json['isNear'] as bool?,
+      isFollowing: json['isFollowing'] as bool?,
+      isFollower: json['isFollower'] as bool?,
+      isSave: json['isSave'] as bool?,
+      likeCount: (json['like_count'] as num?)?.toInt(),
+      isMyLike: json['isMyLike'] as bool?,
+      commentCount: (json['comment_count'] as num?)?.toInt(),
+      geoDistance: (json['geo_distance'] as num?)?.toDouble(),
+      geoLoc: json['geo_loc'] == null
+          ? null
+          : GeoLoc.fromJson(json['geo_loc'] as Map<String, dynamic>),
+      userInfo: json['userInfo'] == null
+          ? null
+          : UserInfo.fromJson(json['userInfo'] as Map<String, dynamic>),
       preferenceInfo: json['preferenceInfo'] == null
           ? null
           : PreferenceInfo.fromJson(
               json['preferenceInfo'] as Map<String, dynamic>),
-      restaurantInfo: RestaurantInfo.fromJson(
-          json['restaurantInfo'] as Map<String, dynamic>),
+      restaurantInfo: json['restaurantInfo'] == null
+          ? null
+          : RestaurantInfo.fromJson(
+              json['restaurantInfo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DataOfPostListOfOtherModelImplToJson(
@@ -75,7 +83,7 @@ Map<String, dynamic> _$$DataOfPostListOfOtherModelImplToJson(
       'mimetype': instance.mimetype,
       'how_was_it': instance.howWasIt,
       'status': instance.status,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
       'isOwn': instance.isOwn,
       'isNear': instance.isNear,
       'isFollowing': instance.isFollowing,

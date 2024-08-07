@@ -352,47 +352,47 @@ DataOfPostListOfOtherModel _$DataOfPostListOfOtherModelFromJson(
 /// @nodoc
 mixin _$DataOfPostListOfOtherModel {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: "description")
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "file")
-  String get file => throw _privateConstructorUsedError;
+  String? get file => throw _privateConstructorUsedError;
   @JsonKey(name: "mimetype")
-  String get mimetype => throw _privateConstructorUsedError;
+  String? get mimetype => throw _privateConstructorUsedError;
   @JsonKey(name: "how_was_it")
-  String get howWasIt => throw _privateConstructorUsedError;
+  String? get howWasIt => throw _privateConstructorUsedError;
   @JsonKey(name: "status")
-  String get status => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "isOwn")
-  bool get isOwn => throw _privateConstructorUsedError;
+  bool? get isOwn => throw _privateConstructorUsedError;
   @JsonKey(name: "isNear")
-  bool get isNear => throw _privateConstructorUsedError;
+  bool? get isNear => throw _privateConstructorUsedError;
   @JsonKey(name: "isFollowing")
-  bool get isFollowing => throw _privateConstructorUsedError;
+  bool? get isFollowing => throw _privateConstructorUsedError;
   @JsonKey(name: "isFollower")
-  bool get isFollower => throw _privateConstructorUsedError;
+  bool? get isFollower => throw _privateConstructorUsedError;
   @JsonKey(name: "isSave")
-  bool get isSave => throw _privateConstructorUsedError;
+  bool? get isSave => throw _privateConstructorUsedError;
   @JsonKey(name: "like_count")
-  int get likeCount => throw _privateConstructorUsedError;
+  int? get likeCount => throw _privateConstructorUsedError;
   @JsonKey(name: "isMyLike")
-  bool get isMyLike => throw _privateConstructorUsedError;
+  bool? get isMyLike => throw _privateConstructorUsedError;
   @JsonKey(name: "comment_count")
-  int get commentCount => throw _privateConstructorUsedError;
+  int? get commentCount => throw _privateConstructorUsedError;
   @JsonKey(name: "geo_distance")
-  double get geoDistance => throw _privateConstructorUsedError;
+  double? get geoDistance => throw _privateConstructorUsedError;
   @JsonKey(name: "geo_loc")
-  GeoLoc get geoLoc => throw _privateConstructorUsedError;
+  GeoLoc? get geoLoc => throw _privateConstructorUsedError;
   @JsonKey(name: "userInfo")
-  UserInfo get userInfo => throw _privateConstructorUsedError;
+  UserInfo? get userInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "preferenceInfo")
   PreferenceInfo? get preferenceInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "restaurantInfo")
-  RestaurantInfo get restaurantInfo => throw _privateConstructorUsedError;
+  RestaurantInfo? get restaurantInfo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -408,32 +408,32 @@ abstract class $DataOfPostListOfOtherModelCopyWith<$Res> {
           DataOfPostListOfOtherModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "file") String file,
-      @JsonKey(name: "mimetype") String mimetype,
-      @JsonKey(name: "how_was_it") String howWasIt,
-      @JsonKey(name: "status") String status,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "isOwn") bool isOwn,
-      @JsonKey(name: "isNear") bool isNear,
-      @JsonKey(name: "isFollowing") bool isFollowing,
-      @JsonKey(name: "isFollower") bool isFollower,
-      @JsonKey(name: "isSave") bool isSave,
-      @JsonKey(name: "like_count") int likeCount,
-      @JsonKey(name: "isMyLike") bool isMyLike,
-      @JsonKey(name: "comment_count") int commentCount,
-      @JsonKey(name: "geo_distance") double geoDistance,
-      @JsonKey(name: "geo_loc") GeoLoc geoLoc,
-      @JsonKey(name: "userInfo") UserInfo userInfo,
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title,
+      @JsonKey(name: "description") String? description,
+      @JsonKey(name: "file") String? file,
+      @JsonKey(name: "mimetype") String? mimetype,
+      @JsonKey(name: "how_was_it") String? howWasIt,
+      @JsonKey(name: "status") String? status,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "isOwn") bool? isOwn,
+      @JsonKey(name: "isNear") bool? isNear,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollower") bool? isFollower,
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "like_count") int? likeCount,
+      @JsonKey(name: "isMyLike") bool? isMyLike,
+      @JsonKey(name: "comment_count") int? commentCount,
+      @JsonKey(name: "geo_distance") double? geoDistance,
+      @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+      @JsonKey(name: "userInfo") UserInfo? userInfo,
       @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
-      @JsonKey(name: "restaurantInfo") RestaurantInfo restaurantInfo});
+      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
 
-  $GeoLocCopyWith<$Res> get geoLoc;
-  $UserInfoCopyWith<$Res> get userInfo;
+  $GeoLocCopyWith<$Res>? get geoLoc;
+  $UserInfoCopyWith<$Res>? get userInfo;
   $PreferenceInfoCopyWith<$Res>? get preferenceInfo;
-  $RestaurantInfoCopyWith<$Res> get restaurantInfo;
+  $RestaurantInfoCopyWith<$Res>? get restaurantInfo;
 }
 
 /// @nodoc
@@ -450,128 +450,136 @@ class _$DataOfPostListOfOtherModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? description = null,
-    Object? file = null,
-    Object? mimetype = null,
-    Object? howWasIt = null,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? isOwn = null,
-    Object? isNear = null,
-    Object? isFollowing = null,
-    Object? isFollower = null,
-    Object? isSave = null,
-    Object? likeCount = null,
-    Object? isMyLike = null,
-    Object? commentCount = null,
-    Object? geoDistance = null,
-    Object? geoLoc = null,
-    Object? userInfo = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? file = freezed,
+    Object? mimetype = freezed,
+    Object? howWasIt = freezed,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? isOwn = freezed,
+    Object? isNear = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollower = freezed,
+    Object? isSave = freezed,
+    Object? likeCount = freezed,
+    Object? isMyLike = freezed,
+    Object? commentCount = freezed,
+    Object? geoDistance = freezed,
+    Object? geoLoc = freezed,
+    Object? userInfo = freezed,
     Object? preferenceInfo = freezed,
-    Object? restaurantInfo = null,
+    Object? restaurantInfo = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      file: null == file
+              as String?,
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as String,
-      mimetype: null == mimetype
+              as String?,
+      mimetype: freezed == mimetype
           ? _value.mimetype
           : mimetype // ignore: cast_nullable_to_non_nullable
-              as String,
-      howWasIt: null == howWasIt
+              as String?,
+      howWasIt: freezed == howWasIt
           ? _value.howWasIt
           : howWasIt // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
+              as String?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isOwn: null == isOwn
+              as DateTime?,
+      isOwn: freezed == isOwn
           ? _value.isOwn
           : isOwn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isNear: null == isNear
+              as bool?,
+      isNear: freezed == isNear
           ? _value.isNear
           : isNear // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollowing: null == isFollowing
+              as bool?,
+      isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollower: null == isFollower
+              as bool?,
+      isFollower: freezed == isFollower
           ? _value.isFollower
           : isFollower // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSave: null == isSave
+              as bool?,
+      isSave: freezed == isSave
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
-              as bool,
-      likeCount: null == likeCount
+              as bool?,
+      likeCount: freezed == likeCount
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      isMyLike: null == isMyLike
+              as int?,
+      isMyLike: freezed == isMyLike
           ? _value.isMyLike
           : isMyLike // ignore: cast_nullable_to_non_nullable
-              as bool,
-      commentCount: null == commentCount
+              as bool?,
+      commentCount: freezed == commentCount
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      geoDistance: null == geoDistance
+              as int?,
+      geoDistance: freezed == geoDistance
           ? _value.geoDistance
           : geoDistance // ignore: cast_nullable_to_non_nullable
-              as double,
-      geoLoc: null == geoLoc
+              as double?,
+      geoLoc: freezed == geoLoc
           ? _value.geoLoc
           : geoLoc // ignore: cast_nullable_to_non_nullable
-              as GeoLoc,
-      userInfo: null == userInfo
+              as GeoLoc?,
+      userInfo: freezed == userInfo
           ? _value.userInfo
           : userInfo // ignore: cast_nullable_to_non_nullable
-              as UserInfo,
+              as UserInfo?,
       preferenceInfo: freezed == preferenceInfo
           ? _value.preferenceInfo
           : preferenceInfo // ignore: cast_nullable_to_non_nullable
               as PreferenceInfo?,
-      restaurantInfo: null == restaurantInfo
+      restaurantInfo: freezed == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
-              as RestaurantInfo,
+              as RestaurantInfo?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $GeoLocCopyWith<$Res> get geoLoc {
-    return $GeoLocCopyWith<$Res>(_value.geoLoc, (value) {
+  $GeoLocCopyWith<$Res>? get geoLoc {
+    if (_value.geoLoc == null) {
+      return null;
+    }
+
+    return $GeoLocCopyWith<$Res>(_value.geoLoc!, (value) {
       return _then(_value.copyWith(geoLoc: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserInfoCopyWith<$Res> get userInfo {
-    return $UserInfoCopyWith<$Res>(_value.userInfo, (value) {
+  $UserInfoCopyWith<$Res>? get userInfo {
+    if (_value.userInfo == null) {
+      return null;
+    }
+
+    return $UserInfoCopyWith<$Res>(_value.userInfo!, (value) {
       return _then(_value.copyWith(userInfo: value) as $Val);
     });
   }
@@ -590,8 +598,12 @@ class _$DataOfPostListOfOtherModelCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $RestaurantInfoCopyWith<$Res> get restaurantInfo {
-    return $RestaurantInfoCopyWith<$Res>(_value.restaurantInfo, (value) {
+  $RestaurantInfoCopyWith<$Res>? get restaurantInfo {
+    if (_value.restaurantInfo == null) {
+      return null;
+    }
+
+    return $RestaurantInfoCopyWith<$Res>(_value.restaurantInfo!, (value) {
       return _then(_value.copyWith(restaurantInfo: value) as $Val);
     });
   }
@@ -607,36 +619,36 @@ abstract class _$$DataOfPostListOfOtherModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "description") String description,
-      @JsonKey(name: "file") String file,
-      @JsonKey(name: "mimetype") String mimetype,
-      @JsonKey(name: "how_was_it") String howWasIt,
-      @JsonKey(name: "status") String status,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "isOwn") bool isOwn,
-      @JsonKey(name: "isNear") bool isNear,
-      @JsonKey(name: "isFollowing") bool isFollowing,
-      @JsonKey(name: "isFollower") bool isFollower,
-      @JsonKey(name: "isSave") bool isSave,
-      @JsonKey(name: "like_count") int likeCount,
-      @JsonKey(name: "isMyLike") bool isMyLike,
-      @JsonKey(name: "comment_count") int commentCount,
-      @JsonKey(name: "geo_distance") double geoDistance,
-      @JsonKey(name: "geo_loc") GeoLoc geoLoc,
-      @JsonKey(name: "userInfo") UserInfo userInfo,
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title,
+      @JsonKey(name: "description") String? description,
+      @JsonKey(name: "file") String? file,
+      @JsonKey(name: "mimetype") String? mimetype,
+      @JsonKey(name: "how_was_it") String? howWasIt,
+      @JsonKey(name: "status") String? status,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "isOwn") bool? isOwn,
+      @JsonKey(name: "isNear") bool? isNear,
+      @JsonKey(name: "isFollowing") bool? isFollowing,
+      @JsonKey(name: "isFollower") bool? isFollower,
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "like_count") int? likeCount,
+      @JsonKey(name: "isMyLike") bool? isMyLike,
+      @JsonKey(name: "comment_count") int? commentCount,
+      @JsonKey(name: "geo_distance") double? geoDistance,
+      @JsonKey(name: "geo_loc") GeoLoc? geoLoc,
+      @JsonKey(name: "userInfo") UserInfo? userInfo,
       @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
-      @JsonKey(name: "restaurantInfo") RestaurantInfo restaurantInfo});
+      @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
 
   @override
-  $GeoLocCopyWith<$Res> get geoLoc;
+  $GeoLocCopyWith<$Res>? get geoLoc;
   @override
-  $UserInfoCopyWith<$Res> get userInfo;
+  $UserInfoCopyWith<$Res>? get userInfo;
   @override
   $PreferenceInfoCopyWith<$Res>? get preferenceInfo;
   @override
-  $RestaurantInfoCopyWith<$Res> get restaurantInfo;
+  $RestaurantInfoCopyWith<$Res>? get restaurantInfo;
 }
 
 /// @nodoc
@@ -652,113 +664,113 @@ class __$$DataOfPostListOfOtherModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? description = null,
-    Object? file = null,
-    Object? mimetype = null,
-    Object? howWasIt = null,
-    Object? status = null,
-    Object? createdAt = null,
-    Object? isOwn = null,
-    Object? isNear = null,
-    Object? isFollowing = null,
-    Object? isFollower = null,
-    Object? isSave = null,
-    Object? likeCount = null,
-    Object? isMyLike = null,
-    Object? commentCount = null,
-    Object? geoDistance = null,
-    Object? geoLoc = null,
-    Object? userInfo = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? file = freezed,
+    Object? mimetype = freezed,
+    Object? howWasIt = freezed,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? isOwn = freezed,
+    Object? isNear = freezed,
+    Object? isFollowing = freezed,
+    Object? isFollower = freezed,
+    Object? isSave = freezed,
+    Object? likeCount = freezed,
+    Object? isMyLike = freezed,
+    Object? commentCount = freezed,
+    Object? geoDistance = freezed,
+    Object? geoLoc = freezed,
+    Object? userInfo = freezed,
     Object? preferenceInfo = freezed,
-    Object? restaurantInfo = null,
+    Object? restaurantInfo = freezed,
   }) {
     return _then(_$DataOfPostListOfOtherModelImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      file: null == file
+              as String?,
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as String,
-      mimetype: null == mimetype
+              as String?,
+      mimetype: freezed == mimetype
           ? _value.mimetype
           : mimetype // ignore: cast_nullable_to_non_nullable
-              as String,
-      howWasIt: null == howWasIt
+              as String?,
+      howWasIt: freezed == howWasIt
           ? _value.howWasIt
           : howWasIt // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
+              as String?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      isOwn: null == isOwn
+              as DateTime?,
+      isOwn: freezed == isOwn
           ? _value.isOwn
           : isOwn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isNear: null == isNear
+              as bool?,
+      isNear: freezed == isNear
           ? _value.isNear
           : isNear // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollowing: null == isFollowing
+              as bool?,
+      isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFollower: null == isFollower
+              as bool?,
+      isFollower: freezed == isFollower
           ? _value.isFollower
           : isFollower // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isSave: null == isSave
+              as bool?,
+      isSave: freezed == isSave
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
-              as bool,
-      likeCount: null == likeCount
+              as bool?,
+      likeCount: freezed == likeCount
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      isMyLike: null == isMyLike
+              as int?,
+      isMyLike: freezed == isMyLike
           ? _value.isMyLike
           : isMyLike // ignore: cast_nullable_to_non_nullable
-              as bool,
-      commentCount: null == commentCount
+              as bool?,
+      commentCount: freezed == commentCount
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      geoDistance: null == geoDistance
+              as int?,
+      geoDistance: freezed == geoDistance
           ? _value.geoDistance
           : geoDistance // ignore: cast_nullable_to_non_nullable
-              as double,
-      geoLoc: null == geoLoc
+              as double?,
+      geoLoc: freezed == geoLoc
           ? _value.geoLoc
           : geoLoc // ignore: cast_nullable_to_non_nullable
-              as GeoLoc,
-      userInfo: null == userInfo
+              as GeoLoc?,
+      userInfo: freezed == userInfo
           ? _value.userInfo
           : userInfo // ignore: cast_nullable_to_non_nullable
-              as UserInfo,
+              as UserInfo?,
       preferenceInfo: freezed == preferenceInfo
           ? _value.preferenceInfo
           : preferenceInfo // ignore: cast_nullable_to_non_nullable
               as PreferenceInfo?,
-      restaurantInfo: null == restaurantInfo
+      restaurantInfo: freezed == restaurantInfo
           ? _value.restaurantInfo
           : restaurantInfo // ignore: cast_nullable_to_non_nullable
-              as RestaurantInfo,
+              as RestaurantInfo?,
     ));
   }
 }
@@ -767,27 +779,27 @@ class __$$DataOfPostListOfOtherModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DataOfPostListOfOtherModelImpl implements _DataOfPostListOfOtherModel {
   const _$DataOfPostListOfOtherModelImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "description") required this.description,
-      @JsonKey(name: "file") required this.file,
-      @JsonKey(name: "mimetype") required this.mimetype,
-      @JsonKey(name: "how_was_it") required this.howWasIt,
-      @JsonKey(name: "status") required this.status,
-      @JsonKey(name: "createdAt") required this.createdAt,
-      @JsonKey(name: "isOwn") required this.isOwn,
-      @JsonKey(name: "isNear") required this.isNear,
-      @JsonKey(name: "isFollowing") required this.isFollowing,
-      @JsonKey(name: "isFollower") required this.isFollower,
-      @JsonKey(name: "isSave") required this.isSave,
-      @JsonKey(name: "like_count") required this.likeCount,
-      @JsonKey(name: "isMyLike") required this.isMyLike,
-      @JsonKey(name: "comment_count") required this.commentCount,
-      @JsonKey(name: "geo_distance") required this.geoDistance,
-      @JsonKey(name: "geo_loc") required this.geoLoc,
-      @JsonKey(name: "userInfo") required this.userInfo,
-      @JsonKey(name: "preferenceInfo") required this.preferenceInfo,
-      @JsonKey(name: "restaurantInfo") required this.restaurantInfo});
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "title") this.title,
+      @JsonKey(name: "description") this.description,
+      @JsonKey(name: "file") this.file,
+      @JsonKey(name: "mimetype") this.mimetype,
+      @JsonKey(name: "how_was_it") this.howWasIt,
+      @JsonKey(name: "status") this.status,
+      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "isOwn") this.isOwn,
+      @JsonKey(name: "isNear") this.isNear,
+      @JsonKey(name: "isFollowing") this.isFollowing,
+      @JsonKey(name: "isFollower") this.isFollower,
+      @JsonKey(name: "isSave") this.isSave,
+      @JsonKey(name: "like_count") this.likeCount,
+      @JsonKey(name: "isMyLike") this.isMyLike,
+      @JsonKey(name: "comment_count") this.commentCount,
+      @JsonKey(name: "geo_distance") this.geoDistance,
+      @JsonKey(name: "geo_loc") this.geoLoc,
+      @JsonKey(name: "userInfo") this.userInfo,
+      @JsonKey(name: "preferenceInfo") this.preferenceInfo,
+      @JsonKey(name: "restaurantInfo") this.restaurantInfo});
 
   factory _$DataOfPostListOfOtherModelImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -795,67 +807,67 @@ class _$DataOfPostListOfOtherModelImpl implements _DataOfPostListOfOtherModel {
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "title")
-  final String title;
+  final String? title;
   @override
   @JsonKey(name: "description")
-  final String description;
+  final String? description;
   @override
   @JsonKey(name: "file")
-  final String file;
+  final String? file;
   @override
   @JsonKey(name: "mimetype")
-  final String mimetype;
+  final String? mimetype;
   @override
   @JsonKey(name: "how_was_it")
-  final String howWasIt;
+  final String? howWasIt;
   @override
   @JsonKey(name: "status")
-  final String status;
+  final String? status;
   @override
   @JsonKey(name: "createdAt")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   @JsonKey(name: "isOwn")
-  final bool isOwn;
+  final bool? isOwn;
   @override
   @JsonKey(name: "isNear")
-  final bool isNear;
+  final bool? isNear;
   @override
   @JsonKey(name: "isFollowing")
-  final bool isFollowing;
+  final bool? isFollowing;
   @override
   @JsonKey(name: "isFollower")
-  final bool isFollower;
+  final bool? isFollower;
   @override
   @JsonKey(name: "isSave")
-  final bool isSave;
+  final bool? isSave;
   @override
   @JsonKey(name: "like_count")
-  final int likeCount;
+  final int? likeCount;
   @override
   @JsonKey(name: "isMyLike")
-  final bool isMyLike;
+  final bool? isMyLike;
   @override
   @JsonKey(name: "comment_count")
-  final int commentCount;
+  final int? commentCount;
   @override
   @JsonKey(name: "geo_distance")
-  final double geoDistance;
+  final double? geoDistance;
   @override
   @JsonKey(name: "geo_loc")
-  final GeoLoc geoLoc;
+  final GeoLoc? geoLoc;
   @override
   @JsonKey(name: "userInfo")
-  final UserInfo userInfo;
+  final UserInfo? userInfo;
   @override
   @JsonKey(name: "preferenceInfo")
   final PreferenceInfo? preferenceInfo;
   @override
   @JsonKey(name: "restaurantInfo")
-  final RestaurantInfo restaurantInfo;
+  final RestaurantInfo? restaurantInfo;
 
   @override
   String toString() {
@@ -948,97 +960,95 @@ class _$DataOfPostListOfOtherModelImpl implements _DataOfPostListOfOtherModel {
 abstract class _DataOfPostListOfOtherModel
     implements DataOfPostListOfOtherModel {
   const factory _DataOfPostListOfOtherModel(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "title") required final String title,
-          @JsonKey(name: "description") required final String description,
-          @JsonKey(name: "file") required final String file,
-          @JsonKey(name: "mimetype") required final String mimetype,
-          @JsonKey(name: "how_was_it") required final String howWasIt,
-          @JsonKey(name: "status") required final String status,
-          @JsonKey(name: "createdAt") required final DateTime createdAt,
-          @JsonKey(name: "isOwn") required final bool isOwn,
-          @JsonKey(name: "isNear") required final bool isNear,
-          @JsonKey(name: "isFollowing") required final bool isFollowing,
-          @JsonKey(name: "isFollower") required final bool isFollower,
-          @JsonKey(name: "isSave") required final bool isSave,
-          @JsonKey(name: "like_count") required final int likeCount,
-          @JsonKey(name: "isMyLike") required final bool isMyLike,
-          @JsonKey(name: "comment_count") required final int commentCount,
-          @JsonKey(name: "geo_distance") required final double geoDistance,
-          @JsonKey(name: "geo_loc") required final GeoLoc geoLoc,
-          @JsonKey(name: "userInfo") required final UserInfo userInfo,
-          @JsonKey(name: "preferenceInfo")
-          required final PreferenceInfo? preferenceInfo,
-          @JsonKey(name: "restaurantInfo")
-          required final RestaurantInfo restaurantInfo}) =
-      _$DataOfPostListOfOtherModelImpl;
+      {@JsonKey(name: "_id") final String? id,
+      @JsonKey(name: "title") final String? title,
+      @JsonKey(name: "description") final String? description,
+      @JsonKey(name: "file") final String? file,
+      @JsonKey(name: "mimetype") final String? mimetype,
+      @JsonKey(name: "how_was_it") final String? howWasIt,
+      @JsonKey(name: "status") final String? status,
+      @JsonKey(name: "createdAt") final DateTime? createdAt,
+      @JsonKey(name: "isOwn") final bool? isOwn,
+      @JsonKey(name: "isNear") final bool? isNear,
+      @JsonKey(name: "isFollowing") final bool? isFollowing,
+      @JsonKey(name: "isFollower") final bool? isFollower,
+      @JsonKey(name: "isSave") final bool? isSave,
+      @JsonKey(name: "like_count") final int? likeCount,
+      @JsonKey(name: "isMyLike") final bool? isMyLike,
+      @JsonKey(name: "comment_count") final int? commentCount,
+      @JsonKey(name: "geo_distance") final double? geoDistance,
+      @JsonKey(name: "geo_loc") final GeoLoc? geoLoc,
+      @JsonKey(name: "userInfo") final UserInfo? userInfo,
+      @JsonKey(name: "preferenceInfo") final PreferenceInfo? preferenceInfo,
+      @JsonKey(name: "restaurantInfo")
+      final RestaurantInfo? restaurantInfo}) = _$DataOfPostListOfOtherModelImpl;
 
   factory _DataOfPostListOfOtherModel.fromJson(Map<String, dynamic> json) =
       _$DataOfPostListOfOtherModelImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "title")
-  String get title;
+  String? get title;
   @override
   @JsonKey(name: "description")
-  String get description;
+  String? get description;
   @override
   @JsonKey(name: "file")
-  String get file;
+  String? get file;
   @override
   @JsonKey(name: "mimetype")
-  String get mimetype;
+  String? get mimetype;
   @override
   @JsonKey(name: "how_was_it")
-  String get howWasIt;
+  String? get howWasIt;
   @override
   @JsonKey(name: "status")
-  String get status;
+  String? get status;
   @override
   @JsonKey(name: "createdAt")
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(name: "isOwn")
-  bool get isOwn;
+  bool? get isOwn;
   @override
   @JsonKey(name: "isNear")
-  bool get isNear;
+  bool? get isNear;
   @override
   @JsonKey(name: "isFollowing")
-  bool get isFollowing;
+  bool? get isFollowing;
   @override
   @JsonKey(name: "isFollower")
-  bool get isFollower;
+  bool? get isFollower;
   @override
   @JsonKey(name: "isSave")
-  bool get isSave;
+  bool? get isSave;
   @override
   @JsonKey(name: "like_count")
-  int get likeCount;
+  int? get likeCount;
   @override
   @JsonKey(name: "isMyLike")
-  bool get isMyLike;
+  bool? get isMyLike;
   @override
   @JsonKey(name: "comment_count")
-  int get commentCount;
+  int? get commentCount;
   @override
   @JsonKey(name: "geo_distance")
-  double get geoDistance;
+  double? get geoDistance;
   @override
   @JsonKey(name: "geo_loc")
-  GeoLoc get geoLoc;
+  GeoLoc? get geoLoc;
   @override
   @JsonKey(name: "userInfo")
-  UserInfo get userInfo;
+  UserInfo? get userInfo;
   @override
   @JsonKey(name: "preferenceInfo")
   PreferenceInfo? get preferenceInfo;
   @override
   @JsonKey(name: "restaurantInfo")
-  RestaurantInfo get restaurantInfo;
+  RestaurantInfo? get restaurantInfo;
   @override
   @JsonKey(ignore: true)
   _$$DataOfPostListOfOtherModelImplCopyWith<_$DataOfPostListOfOtherModelImpl>

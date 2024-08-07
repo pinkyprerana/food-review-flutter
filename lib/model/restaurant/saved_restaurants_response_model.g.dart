@@ -64,6 +64,7 @@ _$SavedRestaurantImpl _$$SavedRestaurantImplFromJson(
           ? null
           : DateTime.parse(json['createdAt'] as String),
       isSave: json['isSave'] as bool?,
+      isSaveLocally: json['isSaveLocally'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$SavedRestaurantImplToJson(
@@ -91,6 +92,7 @@ Map<String, dynamic> _$$SavedRestaurantImplToJson(
       'status': instance.status,
       'createdAt': instance.createdAt?.toIso8601String(),
       'isSave': instance.isSave,
+      'isSaveLocally': instance.isSaveLocally,
     };
 
 _$GeoLocImpl _$$GeoLocImplFromJson(Map<String, dynamic> json) => _$GeoLocImpl(
