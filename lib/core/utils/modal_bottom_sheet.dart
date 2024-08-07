@@ -19,16 +19,19 @@ Future<void> commonModal(
           children: [
             Stack(
               children: [
-                Container(
-                  padding: const EdgeInsets.only(top: 25, bottom: 15, left: 10, right: 10).r,
-                  decoration: const BoxDecoration(
-                    color: AppColors.colorWhite,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+                GestureDetector(
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 25, bottom: 15, left: 10, right: 10).r,
+                    decoration: const BoxDecoration(
+                      color: AppColors.colorWhite,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
                     ),
+                    child: child,
                   ),
-                  child: child,
                 ),
                 Positioned(
                   right: -1,
