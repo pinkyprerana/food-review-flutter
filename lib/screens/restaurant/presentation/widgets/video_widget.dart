@@ -41,7 +41,7 @@ class VideoWidgetState extends State<VideoWidget> {
         }
       })
       ..initialize().then((_) {
-        Timer(Duration(milliseconds: 0), () {
+        Timer(const Duration(milliseconds: 0), () {
           if (!mounted) return;
 
           setState(() {});
@@ -63,7 +63,7 @@ class VideoWidgetState extends State<VideoWidget> {
           }
         })
         ..initialize().then((_) {
-          Timer(Duration(milliseconds: 0), () {
+          Timer(const Duration(milliseconds: 0), () {
             if (!mounted) return;
 
             setState(() {});
@@ -94,7 +94,7 @@ class VideoWidgetState extends State<VideoWidget> {
             child: VideoProgressIndicator(
               _controller,
               allowScrubbing: true,
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
             ),
           ),
           Center(child: videoStatusAnimation),
@@ -108,10 +108,10 @@ class VideoWidgetState extends State<VideoWidget> {
             return;
           }
           if (_controller.value.isPlaying) {
-            videoStatusAnimation = FadeAnimation(child: const Icon(Icons.pause, size: 100.0));
+            videoStatusAnimation = const FadeAnimation(child: Icon(Icons.pause, size: 100.0));
             _controller.pause();
           } else {
-            videoStatusAnimation = FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0));
+            videoStatusAnimation = const FadeAnimation(child: Icon(Icons.play_arrow, size: 100.0));
             _controller.play();
           }
         },
@@ -119,13 +119,14 @@ class VideoWidgetState extends State<VideoWidget> {
 }
 
 class FadeAnimation extends StatefulWidget {
-  const FadeAnimation({required this.child, this.duration = const Duration(milliseconds: 1000)});
+  const FadeAnimation(
+      {super.key, required this.child, this.duration = const Duration(milliseconds: 1000)});
 
   final Widget child;
   final Duration duration;
 
   @override
-  _FadeAnimationState createState() => _FadeAnimationState();
+  State createState() => _FadeAnimationState();
 }
 
 class _FadeAnimationState extends State<FadeAnimation> with SingleTickerProviderStateMixin {

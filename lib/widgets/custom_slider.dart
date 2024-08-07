@@ -12,6 +12,7 @@ class CustomSlider extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(restaurantNotifierProvider);
+    final deviceSize = MediaQuery.sizeOf(context);
 
     return SliderTheme(
       data: const SliderThemeData(
@@ -49,7 +50,7 @@ class CustomSlider extends ConsumerWidget {
               buildSideLabel(10),
             ],
           ),
-          10.verticalSpace,
+          deviceSize.height < 700 ? 0.verticalSpace : 10.verticalSpace,
           Text(
             'Your Rating-${state.sliderValue}',
             style: AppTextStyles.textStylePoppinsMedium.copyWith(

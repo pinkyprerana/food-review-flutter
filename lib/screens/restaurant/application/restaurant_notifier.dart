@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
@@ -328,10 +327,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
   }
 
-  String restaurant_ID = '';
+  String restaurantId = '';
 
   Future<void> restaurantDetails(String restaurantId) async {
-    restaurant_ID = restaurantId;
+    restaurantId = restaurantId;
     AppLog.log('restaurantID------------->>>> $restaurantId');
     try {
       state = state.copyWith(isLoadingForRestaurantDetails: true);
@@ -664,7 +663,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         "description": reviewTextController.text,
         "title": titleTextController.text,
         "rating": state.sliderValue.toString(),
-        "restaurant_id": restaurant_ID,
+        "restaurant_id": restaurantId,
       });
 
       var headers = {

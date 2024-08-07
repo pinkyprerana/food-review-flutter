@@ -42,7 +42,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final String? postId = widget.postInfoList.id;
-    final String peopleId = widget.postInfoList.userInfo?.id ?? "";
+    // final String peopleId = widget.postInfoList.userInfo?.id ?? "";
     final String name = widget.postInfoList.userInfo?.fullName ?? "";
     final String profileImage =
         "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo?.profileImage}";
@@ -51,7 +51,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
     final String? rating = widget.postInfoList.restaurantInfo?.rating;
     final String? address = widget.postInfoList.restaurantInfo?.address;
     final String? cuisine = widget.postInfoList.preferenceInfo?.title;
-    final int commentCount = widget.postInfoList.commentCount??0;
+    final int commentCount = widget.postInfoList.commentCount ?? 0;
     const int amount = 100; //widget.postInfoList.commentCount;
     final bool? isSaved = widget.postInfoList.isSave;
     final bool? isLiked = widget.postInfoList.isMyLike;
@@ -105,7 +105,11 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             ),
                             child: Center(
                               child: Text(
-                                (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                                (isFollowing ?? false)
+                                    ? 'Unfollow'
+                                    : (isRequested ?? false)
+                                        ? 'Requested'
+                                        : 'Follow',
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
@@ -339,10 +343,12 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
       ),
     );
   }
+
   Future<void> _fetchPostDetails() async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
-    await followNotifier.getAllPostsOfOtherUserProfile(() {},widget.postInfoList.userInfo?.id??"");
-    await followNotifier.getOtherPeopleDetails(() {},widget.postInfoList.userInfo?.id??"");
+    await followNotifier.getAllPostsOfOtherUserProfile(
+        () {}, widget.postInfoList.userInfo?.id ?? "");
+    await followNotifier.getOtherPeopleDetails(() {}, widget.postInfoList.userInfo?.id ?? "");
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
     final profileNotifier = ref.read(profileNotifierProvider.notifier);
