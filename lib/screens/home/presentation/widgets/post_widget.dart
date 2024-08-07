@@ -19,9 +19,10 @@ import '../../../your_lists/shared/provider.dart';
 class PostWidget extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   final bool isSaving;
+  final List<CommentInfo> commentInfoList;
 
   const PostWidget(
-      {super.key, required this.postList, required this.isSaving});
+      {super.key, required this.postList, required this.isSaving, required this.commentInfoList});
 
   @override
   ConsumerState<PostWidget> createState() => _PostWidgetState();
