@@ -699,7 +699,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                   //     widget.isBookmarked,
                                                   isBookmarked: stateNotifier
                                                           .reastaurantDetials!
-                                                          .restaurantDataModel
+                                                          .restaurantDetails
                                                           ?.isSave ??
                                                       false,
                                                   onTap: () async {
