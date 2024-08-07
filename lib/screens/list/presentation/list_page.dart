@@ -30,16 +30,8 @@ class _ListPageState extends ConsumerState<ListPage> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.read(listProvider.notifier);
     final state = ref.watch(listProvider);
-    final followState = ref.watch(yourPeopleNotifierProvider);
     final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    final restaurantNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    void searchUserRestaurant() async {
-      if (followState.selectedIndex == 0) {
-        await followNotifier.getAllUsersList();
-      } else{
-        await restaurantNotifier.getRestaurants();
-      }
-    }
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,

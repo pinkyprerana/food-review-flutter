@@ -1,40 +1,91 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-
-import 'package:for_the_table/screens/post_feed/presentation/widgets/comments_icon.dart';
+import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import '../../../../core/routes/app_router.dart';
+import '../../../../model/restaurant/postlist_per_restaurant_response_model.dart';
+import '../../../../widgets/save_button.dart';
+import '../../../people_profile/shared/providers.dart';
+import '../../../post_feed/shared/provider.dart';
+import '../../../your_lists/shared/provider.dart';
 
-class PostItemWidget2 extends StatelessWidget {
+class PostItemWidget2 extends ConsumerStatefulWidget {
   const PostItemWidget2({
     super.key,
+
+    required this.postList,
+    required this.userId,
     required this.userName,
     required this.userImage,
     required this.cuisine,
     required this.description,
     required this.image,
+    required this.restaurantId,
     required this.restaurantName,
     required this.title,
     required this.restaurantAddress,
     required this.commentCount,
     required this.isFollowing,
+    required this.isRequested,
   });
+
+  final Post postList;
+  final String userId;
   final String image;
   final String title;
   final String description;
   final String cuisine;
+  final String restaurantId;
   final String restaurantName;
   final String userName;
   final String userImage;
   final String restaurantAddress;
   final int commentCount;
   final bool isFollowing;
+  final bool isRequested;
+
+  @override
+  ConsumerState<PostItemWidget2> createState() => _PostItemWidget2State();
+}
+
+class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
+  void handleFollowUnfollowButtonPressed(userId) {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+    followNotifier.followUnfollow(() {}, userId);
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    restaurantNotifier.getPostListRelatedToRestaurant((){}, widget.restaurantId);
+  }
 
   @override
   Widget build(BuildContext context) {
+    // final String peopleId = widget.userId;
+    // final String name = widget.userName;
+    // final String profileImage =
+    //     "${AppUrls.profilePicLocation}/${widget.userImage}";
+    // final String postImage = "${AppUrls.postImageLocation}${widget.image}";
+    // final String description = widget.description;
+    // final String restaurantName = widget.restaurantName;
+    // final String address = widget.restaurantAddress;
+    // final String cuisine = widget.cuisine;
+    final int commentCount = widget.commentCount;
+    // final String? postId = widget.;
+    // final bool? isSaved = widget.postList.isSave;
+    // final bool? isLiked = widget.postList.isMyLike;
+    // final bool isFollowing = widget.isFollowing;
+    // final bool isRequested = widget.isRequested;
+    final postFeedState = ref.watch(postFeedNotifierProvider);
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
       width: double.infinity,
@@ -44,8 +95,8 @@ class PostItemWidget2 extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           // image: AssetImage(Assets.post2),
-          image: (image.contains('jpg') || image.contains('png') || image.contains('jpeg'))
-              ? CachedNetworkImageProvider(image)
+          image: (widget.image.contains('jpg') || widget.image.contains('png') || widget.image.contains('jpeg'))
+              ? CachedNetworkImageProvider(widget.image)
               : const AssetImage(Assets.noRestaurantImage),
           fit: BoxFit.cover,
         ),
@@ -97,44 +148,41 @@ class PostItemWidget2 extends StatelessWidget {
                                   // image: AssetImage(
                                   //   Assets.follow2,
                                   // ),
-                                  image: (userImage.contains('jpg') ||
-                                          userImage.contains('png') ||
-                                          userImage.contains('jpeg') ||
-                                          userImage.contains('gif'))
-                                      ? CachedNetworkImageProvider(userImage)
+                                  image: (widget.userImage.contains('jpg') ||
+                                      widget.userImage.contains('png') ||
+                                      widget.userImage.contains('jpeg') ||
+                                      widget.userImage.contains('gif'))
+                                      ? CachedNetworkImageProvider(widget.userImage)
                                       : const AssetImage(Assets.noProfileImage),
                                   fit: BoxFit.cover,
                                 )),
                           ),
                           8.horizontalSpace,
                           Text(
-                            userName,
+                            widget.userName,
                             style: AppTextStyles.textStylePoppinsMedium
                                 .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
-                          Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(70),
-                              color: AppColors.colorWhite.withOpacity(0.20),
-                            ),
-                            child: Center(
-                              child: (isFollowing)
-                                  ? Text(
-                                      'Unfollow',
-                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                        color: AppColors.colorWhite,
-                                        fontSize: 10.sp,
-                                      ),
-                                    )
-                                  : Text(
-                                      'Follow',
-                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                        color: AppColors.colorWhite,
-                                        fontSize: 10.sp,
-                                      ),
-                                    ),
+                          GestureDetector(
+                            onTap: (){
+                              handleFollowUnfollowButtonPressed(widget.userId);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(70),
+                                color: AppColors.colorWhite.withOpacity(0.20),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  widget.isFollowing ? 'Unfollow' : widget.isRequested ? 'Requested' : 'Follow',
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                          color: AppColors.colorWhite,
+                                          fontSize: 10.sp,
+                                        ),
+                                      )
+                              ),
                             ),
                           ),
                         ],
@@ -157,9 +205,9 @@ class PostItemWidget2 extends StatelessWidget {
                                     color: AppColors.colorGreen,
                                   ),
                                   child: Center(
-                                    child: (cuisine != '')
+                                    child: (widget.cuisine != '')
                                         ? Text(
-                                            cuisine,
+                                      widget.cuisine,
                                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                               color: AppColors.colorWhite,
                                               fontSize: 10.sp,
@@ -198,9 +246,9 @@ class PostItemWidget2 extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    (restaurantName != '')
+                                    (widget.restaurantName != '')
                                         ? Text(
-                                            restaurantName,
+                                      widget.restaurantName,
                                             style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                               fontSize: 13.sp,
                                               color: AppColors.colorWhite,
@@ -208,9 +256,9 @@ class PostItemWidget2 extends StatelessWidget {
                                           )
                                         : const SizedBox.shrink(),
                                     Text(
-                                      restaurantAddress.length > 40
-                                          ? '${restaurantAddress.substring(0, 35)}...'
-                                          : restaurantAddress,
+                                      widget.restaurantAddress.length > 40
+                                          ? '${widget.restaurantAddress.substring(0, 35)}...'
+                                          : widget.restaurantAddress,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -226,13 +274,43 @@ class PostItemWidget2 extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            Image.asset(Assets.like),
+                            GestureDetector(
+                                onTap: () => postFeedNotifier.likeUnlikePost(() {
+                                  restaurantNotifier.getPostListRelatedToRestaurant((){}, widget.restaurantId);
+                                }, widget.postList.id ?? ""),
+                                child: ( widget.postList.isMyLike ?? false)
+                                    ? Image.asset(Assets.redHeart)
+                                    : Image.asset(Assets.like)),
                             15.verticalSpace,
-                            CommentsIcon(
-                              commentCount: commentCount,
+                            GestureDetector(
+                              onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                                postInfoList: widget.postList as DataOfPostModel,
+                              )),
+                              child: Column(
+                                children: [
+                                  Image.asset(Assets.comments),
+                                  Text(
+                                    (commentCount > 9)
+                                        ? commentCount.toString()
+                                        : "0${commentCount.toString()}",
+                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      color: AppColors.colorWhite,
+                                      fontSize: 10.sp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             10.verticalSpace,
-                            Image.asset(Assets.bookmark),
+                            GestureDetector(
+                              onTap: () => postFeedNotifier.saveUnsavePost(() {
+                                restaurantNotifier.getPostListRelatedToRestaurant((){}, widget.restaurantId);
+                              }, widget.postList.id ?? ""),
+                              child: SaveButtonWidget(
+                                isSavePost: postFeedState.isSavePost,
+                                isSaved: widget.postList.isSave ?? false,
+                              ),
+                            ),
                           ],
                         )
                       ],
@@ -242,9 +320,9 @@ class PostItemWidget2 extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          description.length > 40
-                              ? '${description.substring(0, 40)}...'
-                              : description,
+                          widget.description.length > 40
+                              ? '${widget.description.substring(0, 40)}...'
+                              : widget.description,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextStyles.textStylePoppinsMedium.copyWith(
