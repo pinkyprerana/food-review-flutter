@@ -83,7 +83,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: profileImage == '${AppUrls.profilePicLocation}/null'
+                                  image: profileImage == '${AppUrls.profilePicLocation}/'
                                       ? const AssetImage(Assets.avatar)
                                       : CachedNetworkImageProvider(profileImage),
                                   fit: BoxFit.cover,

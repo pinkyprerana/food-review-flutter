@@ -373,12 +373,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (fpPasswordTextController.text.isEmpty) {
       showToastMessage('Please enter a new password');
       return false;
-    } else if (fpConfirmPasswordTextController.text.isEmpty) {
-      showToastMessage('Please enter your password again');
-      return false;
     } else if (fpPasswordTextController.text.length < 8 ||
         fpPasswordTextController.text.length > 15) {
       showToastMessage('Password must be between 8 to 15 characters');
+      return false;
+    } else if (fpConfirmPasswordTextController.text.isEmpty) {
+      showToastMessage('Please enter your password again');
       return false;
     } else if (fpPasswordTextController.text != fpConfirmPasswordTextController.text) {
       showToastMessage('Password and confirm password are different');

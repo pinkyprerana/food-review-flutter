@@ -75,8 +75,10 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     try {
       state = state.copyWith(isLoading: !isLoadMore);
 
-      if (isLoadMore) {
+      if (isLoadMore && (state.currentPage * 10 == state.restaurantList?.length)) {
         state = state.copyWith(currentPage: state.currentPage + 1);
+      } else {
+        state = state.copyWith(currentPage: 1);
       }
 
       final data = {
@@ -103,23 +105,31 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
 
-        // if (isLoadMore) {
-        //   state = state.copyWith(
-        //     isLoading: false,
-        //     restaurantList: [
-        //       ...state.restaurantList ?? [],
-        //       ...restaurantList ?? []
-        //     ],
-        //     totalPages: reastaurantListResponseModel.pages ?? 0,
-        //     totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
-        //   );
-        //   return;
-        // }
+        if (isLoadMore) {
+          final currentRestaurantIds = state.restaurantList?.map((friend) => friend.id).toSet();
+
+          final uniqueRestaurants = restaurantList
+              ?.where((friend) => !(currentRestaurantIds?.contains(friend.id) ?? false))
+              .toList();
+
+          if ((uniqueRestaurants?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new profiles to display.');
+          }
+
+          state = state.copyWith(
+            isLoading: false,
+            restaurantList: [
+              ...state.restaurantList ?? [],
+              ...uniqueRestaurants ?? [],
+            ],
+          );
+
+          return;
+        }
 
         state = state.copyWith(
           isLoading: false,
           restaurantList: [
-            ...state.restaurantList ?? [],
             ...restaurantList ?? [],
           ],
           totalPages: reastaurantListResponseModel.pages ?? 0,
