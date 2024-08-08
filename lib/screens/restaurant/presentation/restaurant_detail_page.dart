@@ -677,6 +677,15 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                             itemCount: state.postPerRestaurantList?.length ?? 0,
                             itemBuilder: (context, index) {
                               return PostItemWidget2(
+                                postList: state.postPerRestaurantList![index],
+                                restaurantId: state
+                                    .postPerRestaurantList?[index]
+                                    .restaurantInfo?.id ??'',
+                                userId: state.postPerRestaurantList?[index]
+                                    .userInfo?.id ??'',
+                                isRequested: state.postPerRestaurantList?[index]
+                                    .isFollowingRequest ??
+                                    false,
                                 isFollowing:
                                     state.postPerRestaurantList?[index].isFollowing ?? false,
                                 commentCount: state.postPerRestaurantList?[index].commentCount ?? 0,
