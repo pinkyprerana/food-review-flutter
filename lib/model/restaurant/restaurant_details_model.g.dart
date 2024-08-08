@@ -12,9 +12,9 @@ _$RestaurantDetailsModelImpl _$$RestaurantDetailsModelImplFromJson(
       status: (json['status'] as num?)?.toInt(),
       type: json['type'] as String?,
       message: json['message'] as String?,
-      restaurantDataModel: json['data'] == null
+      restaurantDetails: json['data'] == null
           ? null
-          : RestaurantDataModel.fromJson(json['data'] as Map<String, dynamic>),
+          : RestaurantDetails.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RestaurantDetailsModelImplToJson(
@@ -23,12 +23,12 @@ Map<String, dynamic> _$$RestaurantDetailsModelImplToJson(
       'status': instance.status,
       'type': instance.type,
       'message': instance.message,
-      'data': instance.restaurantDataModel,
+      'data': instance.restaurantDetails,
     };
 
-_$RestaurantDataModelImpl _$$RestaurantDataModelImplFromJson(
+_$RestaurantDetailsImpl _$$RestaurantDetailsImplFromJson(
         Map<String, dynamic> json) =>
-    _$RestaurantDataModelImpl(
+    _$RestaurantDetailsImpl(
       id: json['_id'] as String?,
       image:
           (json['image'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -55,11 +55,17 @@ _$RestaurantDataModelImpl _$$RestaurantDataModelImplFromJson(
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      googleRating: (json['google_rating'] as num?)?.toInt(),
+      restaurantUserCount: (json['restaurant_user_count'] as num?)?.toInt(),
+      restaurantRating: (json['restaurant_rating'] as num?)?.toDouble(),
+      isReview: json['isReview'] as bool?,
       isSave: json['isSave'] as bool?,
+      totalUserCount: (json['total_user_count'] as num?)?.toInt(),
+      totalRating: (json['total_rating'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$RestaurantDataModelImplToJson(
-        _$RestaurantDataModelImpl instance) =>
+Map<String, dynamic> _$$RestaurantDetailsImplToJson(
+        _$RestaurantDetailsImpl instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'image': instance.image,
@@ -82,7 +88,13 @@ Map<String, dynamic> _$$RestaurantDataModelImplToJson(
       'types': instance.types,
       'status': instance.status,
       'createdAt': instance.createdAt?.toIso8601String(),
+      'google_rating': instance.googleRating,
+      'restaurant_user_count': instance.restaurantUserCount,
+      'restaurant_rating': instance.restaurantRating,
+      'isReview': instance.isReview,
       'isSave': instance.isSave,
+      'total_user_count': instance.totalUserCount,
+      'total_rating': instance.totalRating,
     };
 
 _$GeoLocImpl _$$GeoLocImplFromJson(Map<String, dynamic> json) => _$GeoLocImpl(

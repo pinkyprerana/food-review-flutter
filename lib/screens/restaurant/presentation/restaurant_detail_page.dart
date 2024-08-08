@@ -13,6 +13,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
+import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_item_widget.dart';
 import 'package:for_the_table/screens/restaurant/presentation/widgets/photo_or_video_box.dart';
 import 'package:for_the_table/widgets/app_button.dart';
@@ -37,8 +38,8 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
     required this.lng,
     required this.name,
     required this.description,
-    required this.rating,
-    required this.numberOfReviews,
+    // required this.rating,
+    // required this.numberOfReviews,
     required this.restaurantId,
     required this.isBookmarked,
   });
@@ -47,15 +48,14 @@ class RestaurantDetailPage extends ConsumerStatefulWidget {
   final String name;
   final String address;
   final String image;
-  final String rating;
+  // final String rating;
   final String description;
-  final String numberOfReviews;
+  // final String numberOfReviews;
   final String restaurantId;
   final bool isBookmarked;
 
   @override
-  ConsumerState<RestaurantDetailPage> createState() =>
-      _RestaurantDetailPageState();
+  ConsumerState<RestaurantDetailPage> createState() => _RestaurantDetailPageState();
 }
 
 class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
@@ -84,12 +84,10 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final restaurantStateNotifier =
-          ref.read(restaurantNotifierProvider.notifier);
+      final restaurantStateNotifier = ref.read(restaurantNotifierProvider.notifier);
       restaurantStateNotifier.clearStateVariables();
       Future.wait([
-        restaurantStateNotifier.getPosts(
-            context: context, restaurantId: widget.restaurantId),
+        restaurantStateNotifier.getPosts(context: context, restaurantId: widget.restaurantId),
         restaurantStateNotifier.restaurantDetails(widget.restaurantId),
       ]);
       // await restaurantStateNotifier.getPosts(
@@ -124,8 +122,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
             // width: 20.w,
             // height: 20.h,
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -134,8 +131,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -222,8 +218,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                 // gestureRecognizers: Set()
                                 //   ..add(Factory<PanGestureRecognizer>(
                                 //       () => PanGestureRecognizer())),
-                                gestureRecognizers: <Factory<
-                                    OneSequenceGestureRecognizer>>{
+                                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                                   Factory<OneSequenceGestureRecognizer>(
                                     () => EagerGestureRecognizer(),
                                   ),
@@ -263,27 +258,22 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         ),
                                         5.verticalSpace,
                                         Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20.0),
+                                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                             child: (widget.description != '')
                                                 ? Text(
                                                     widget.description,
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
+                                                    style: AppTextStyles.textStylePoppinsRegular
                                                         .copyWith(
                                                       fontSize: 12.sp,
-                                                      color: AppColors
-                                                          .colorPrimaryAlpha,
+                                                      color: AppColors.colorPrimaryAlpha,
                                                     ),
                                                   )
                                                 : Text(
                                                     'There is No Description at the moment',
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
+                                                    style: AppTextStyles.textStylePoppinsRegular
                                                         .copyWith(
                                                       fontSize: 12.sp,
-                                                      color: AppColors
-                                                          .colorPrimaryAlpha,
+                                                      color: AppColors.colorPrimaryAlpha,
                                                     ),
                                                   )),
                                         5.verticalSpace,
@@ -293,35 +283,35 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         ),
                                         10.verticalSpace,
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
+                                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Container(
-                                                padding:
-                                                    const EdgeInsets.all(8).r,
+                                                padding: const EdgeInsets.all(8).r,
                                                 alignment: Alignment.center,
                                                 decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                                10)
-                                                            .r,
+                                                    borderRadius: BorderRadius.circular(10).r,
                                                     border: Border.all(
                                                       width: 1,
-                                                      color:
-                                                          AppColors.colorBorder,
+                                                      color: AppColors.colorBorder,
                                                     )),
-                                                child: (widget.rating != '')
+                                                child: (stateNotifier.reastaurantDetials
+                                                            ?.restaurantDetails?.restaurantRating !=
+                                                        0.0)
                                                     ? Text(
-                                                        widget.rating,
+                                                        ((stateNotifier
+                                                                        .reastaurantDetials
+                                                                        ?.restaurantDetails
+                                                                        ?.restaurantRating ??
+                                                                    0.0) *
+                                                                2)
+                                                            .toString(),
                                                         style: AppTextStyles
                                                             .textStylePoppinsSemiBold
                                                             .copyWith(
                                                           fontSize: 16.sp,
-                                                          color: AppColors
-                                                              .colorPrimary,
+                                                          color: AppColors.colorPrimary,
                                                         ),
                                                       )
                                                     : Text(
@@ -330,51 +320,45 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                             .textStylePoppinsSemiBold
                                                             .copyWith(
                                                           fontSize: 16.sp,
-                                                          color: AppColors
-                                                              .colorPrimary,
+                                                          color: AppColors.colorPrimary,
                                                         ),
                                                       ),
                                               ),
                                               5.horizontalSpace,
                                               Flexible(
                                                 child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
                                                       decoration: const BoxDecoration(
                                                           border: Border(
                                                               bottom: BorderSide(
-                                                                  color: AppColors
-                                                                      .colorBlack))),
+                                                                  color: AppColors.colorBlack))),
                                                       child: Text(
                                                         'Restaurant Score',
-                                                        style: AppTextStyles
-                                                            .textStyleUbuntuRegular
+                                                        style: AppTextStyles.textStyleUbuntuRegular
                                                             .copyWith(
                                                           fontSize: 10.sp,
-                                                          color: AppColors
-                                                              .colorPrimary,
+                                                          color: AppColors.colorPrimary,
                                                         ),
                                                       ),
                                                     ),
                                                     5.verticalSpace,
-                                                    (widget.numberOfReviews !=
-                                                            '')
+                                                    (stateNotifier
+                                                                .reastaurantDetials
+                                                                ?.restaurantDetails
+                                                                ?.restaurantUserCount !=
+                                                            0.0)
                                                         ? Text(
-                                                            '${widget.numberOfReviews} reviews',
+                                                            '${stateNotifier.reastaurantDetials?.restaurantDetails?.restaurantUserCount} reviews',
                                                             style: AppTextStyles
                                                                 .textStylePoppinsRegular
                                                                 .copyWith(
                                                               fontSize: 10.sp,
-                                                              color: AppColors
-                                                                  .colorPrimaryAlpha,
+                                                              color: AppColors.colorPrimaryAlpha,
                                                             ),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
+                                                            overflow: TextOverflow.clip,
                                                           )
                                                         : Text(
                                                             'reviews',
@@ -382,12 +366,9 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                 .textStylePoppinsRegular
                                                                 .copyWith(
                                                               fontSize: 10.sp,
-                                                              color: AppColors
-                                                                  .colorPrimaryAlpha,
+                                                              color: AppColors.colorPrimaryAlpha,
                                                             ),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
+                                                            overflow: TextOverflow.clip,
                                                           )
                                                   ],
                                                 ),
@@ -402,109 +383,104 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         ),
                                         5.verticalSpace,
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
+                                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
-                                                  stateNotifier
-                                                      .clearStateSliderValue();
-                                                  stateNotifier
-                                                      .clearImageOrVideo();
-                                                  stateNotifier
-                                                      .clearReviewFields();
+                                                  stateNotifier.clearStateSliderValue();
+                                                  stateNotifier.clearImageOrVideo();
+                                                  stateNotifier.clearReviewFields();
+                                                  if (stateNotifier.reastaurantDetials
+                                                          ?.restaurantDetails?.isReview ??
+                                                      false) {
+                                                    showToastMessage(
+                                                        'Your review has already been added');
+                                                    return;
+                                                  }
+
                                                   commonModal(
                                                     context,
                                                     onTap: () {
                                                       Navigator.pop(context);
                                                     },
-                                                    child: Stack(children: [
-                                                      Column(
+                                                    isReviewSource: true,
+                                                    child: SingleChildScrollView(
+                                                      child: Column(
                                                         children: [
                                                           20.verticalSpace,
                                                           CustomSlider(
                                                             onChanged: (value) {
                                                               stateNotifier
-                                                                  .sliderValueUpdate(
-                                                                      value);
+                                                                  .sliderValueUpdate(value);
                                                             },
                                                           ),
                                                           10.verticalSpace,
                                                           Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Add a Title',
-                                                                  style: AppTextStyles
-                                                                      .textStylePoppinsMedium
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    color: AppColors
-                                                                        .colorPrimary,
-                                                                  ),
-                                                                )
-                                                              ]),
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                'Add a Title',
+                                                                style: AppTextStyles
+                                                                    .textStylePoppinsMedium
+                                                                    .copyWith(
+                                                                  fontSize: 13.sp,
+                                                                  color: AppColors.colorPrimary,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                           5.verticalSpace,
                                                           CustomInputField(
                                                             controller:
-                                                                stateNotifier
-                                                                    .titleTextController,
-                                                            hint:
-                                                                'Write the title',
+                                                                stateNotifier.titleTextController,
+                                                            hint: 'Write the title',
                                                           ),
-                                                          20.verticalSpace,
+                                                          mediaQuery.height < 700
+                                                              ? 15.verticalSpace
+                                                              : 20.verticalSpace,
                                                           Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Add a written review',
-                                                                  style: AppTextStyles
-                                                                      .textStylePoppinsMedium
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    color: AppColors
-                                                                        .colorPrimary,
-                                                                  ),
-                                                                )
-                                                              ]),
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                'Add a written review',
+                                                                style: AppTextStyles
+                                                                    .textStylePoppinsMedium
+                                                                    .copyWith(
+                                                                  fontSize: 13.sp,
+                                                                  color: AppColors.colorPrimary,
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                           5.verticalSpace,
                                                           SizedBox(
                                                             height: 130.h,
-                                                            child:
-                                                                ExpandedCommonTextField(
-                                                              controller:
-                                                                  stateNotifier
-                                                                      .reviewTextController,
+                                                            child: ExpandedCommonTextField(
+                                                              controller: stateNotifier
+                                                                  .reviewTextController,
                                                               maxLines: null,
                                                               expands: true,
-                                                              hint:
-                                                                  'Write review',
+                                                              hint: 'Write review',
                                                             ),
                                                           ),
-                                                          20.verticalSpace,
+                                                          mediaQuery.height < 700
+                                                              ? 15.verticalSpace
+                                                              : 20.verticalSpace,
                                                           Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
+                                                                  MainAxisAlignment.start,
                                                               children: [
                                                                 Text(
                                                                   'Add a Photo or Video',
                                                                   style: AppTextStyles
                                                                       .textStylePoppinsMedium
                                                                       .copyWith(
-                                                                    fontSize:
-                                                                        13.sp,
-                                                                    color: AppColors
-                                                                        .colorPrimary,
+                                                                    fontSize: 13.sp,
+                                                                    color: AppColors.colorPrimary,
                                                                   ),
                                                                 )
                                                               ]),
@@ -512,35 +488,32 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                           const PhotoOrVideoBox(),
                                                           10.verticalSpace,
                                                           AppButton(
-                                                            loading: state
-                                                                .isLoadingForReviewSubmit,
+                                                            loading: state.isLoadingForReviewSubmit,
                                                             text: 'Submit',
                                                             onPressed: () {
-                                                              stateNotifier
-                                                                  .submitReview(
-                                                                      onSuccess:
-                                                                          () {
-                                                                Navigator.pop(
-                                                                    context);
+                                                              stateNotifier.submitReview(
+                                                                  onSuccess: () {
+                                                                Navigator.pop(context);
                                                               });
                                                             },
-                                                          )
+                                                          ),
                                                         ],
                                                       ),
-                                                    ]),
+                                                    ),
                                                   );
                                                 },
-                                                child: Text(
-                                                  'Write A Review',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors
-                                                        .colorPrimaryAlpha,
+                                                child: SizedBox(
+                                                  width: double.maxFinite,
+                                                  child: Text(
+                                                    'Write A Review',
+                                                    style: AppTextStyles.textStylePoppinsRegular
+                                                        .copyWith(
+                                                      fontSize: 10.sp,
+                                                      color: AppColors.colorPrimaryAlpha,
+                                                    ),
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -558,54 +531,35 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         height: 110.h,
                                         decoration: BoxDecoration(
                                             // shape: BoxShape.circle,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: AppColors.colorWhite,
-                                                width: 4),
+                                            borderRadius: BorderRadius.circular(10),
+                                            border:
+                                                Border.all(color: AppColors.colorWhite, width: 4),
                                             boxShadow: [
                                               BoxShadow(
-                                                  color: AppColors.colorShadow
-                                                      .withOpacity(0.1),
+                                                  color: AppColors.colorShadow.withOpacity(0.1),
                                                   offset: const Offset(0, 2),
                                                   blurRadius: 10,
                                                   spreadRadius: 0)
                                             ],
                                             image: DecorationImage(
-                                              image: (widget.image
-                                                          .contains('jpg') ||
-                                                      widget.image
-                                                          .contains('png') ||
-                                                      widget.image
-                                                          .contains('jpeg') ||
-                                                      widget.image
-                                                          .contains('gif') ||
-                                                      widget.image
-                                                          .contains('bmp') ||
-                                                      widget.image
-                                                          .contains('tiff') ||
-                                                      widget.image
-                                                          .contains('tif') ||
-                                                      widget.image
-                                                          .contains('webp') ||
-                                                      widget.image
-                                                          .contains('heic') ||
-                                                      widget.image
-                                                          .contains('heif') ||
-                                                      widget.image
-                                                          .contains('svg') ||
-                                                      widget.image
-                                                          .contains('raw') ||
-                                                      widget.image
-                                                          .contains('cr2') ||
-                                                      widget.image
-                                                          .contains('nef') ||
-                                                      widget.image
-                                                          .contains('arw'))
+                                              image: (widget.image.contains('jpg') ||
+                                                      widget.image.contains('png') ||
+                                                      widget.image.contains('jpeg') ||
+                                                      widget.image.contains('gif') ||
+                                                      widget.image.contains('bmp') ||
+                                                      widget.image.contains('tiff') ||
+                                                      widget.image.contains('tif') ||
+                                                      widget.image.contains('webp') ||
+                                                      widget.image.contains('heic') ||
+                                                      widget.image.contains('heif') ||
+                                                      widget.image.contains('svg') ||
+                                                      widget.image.contains('raw') ||
+                                                      widget.image.contains('cr2') ||
+                                                      widget.image.contains('nef') ||
+                                                      widget.image.contains('arw'))
                                                   ? CachedNetworkImageProvider(
                                                       'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${widget.image}')
-                                                  : const AssetImage(
-                                                      Assets.noRestaurantImage),
+                                                  : const AssetImage(Assets.noRestaurantImage),
                                               fit: BoxFit.cover,
                                             )),
                                       ),
@@ -619,16 +573,14 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         //height: mediaQuery.height * 0.3,
                                         //color: Colors.red,
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
                                               width: 140.w,
                                               child: Text(
                                                 widget.name,
-                                                style: AppTextStyles
-                                                    .textStylePoppinsMedium
-                                                    .copyWith(
+                                                style:
+                                                    AppTextStyles.textStylePoppinsMedium.copyWith(
                                                   fontSize: 11.sp,
                                                   color: AppColors.colorPrimary,
                                                 ),
@@ -648,12 +600,10 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                     widget.address,
                                                     // maxLines: 1,
                                                     // overflow: TextOverflow.ellipsis,
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
+                                                    style: AppTextStyles.textStylePoppinsRegular
                                                         .copyWith(
                                                       fontSize: 9.sp,
-                                                      color: AppColors
-                                                          .colorPrimaryAlpha,
+                                                      color: AppColors.colorPrimaryAlpha,
                                                     ),
                                                   ),
                                                 ),
@@ -665,39 +615,31 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                   Positioned(
                                       left: 310,
                                       top: 10,
-                                      child:
-                                          (state.isLoadingForRestaurantDetails ||
-                                                  stateNotifier
-                                                          .reastaurantDetials ==
-                                                      null)
-                                              ? const SizedBox(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child: Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: AppColors
-                                                          .colorPrimary,
-                                                    ),
-                                                  ),
-                                                )
-                                              : SaveIcon(
-                                                  // isBookmarked:
-                                                  //     widget.isBookmarked,
-                                                  isBookmarked: stateNotifier
-                                                          .reastaurantDetials!
-                                                          .restaurantDataModel
-                                                          ?.isSave ??
-                                                      false,
-                                                  onTap: () async {
-                                                    await stateNotifier
-                                                        .saveRestaurant(widget
-                                                            .restaurantId);
-                                                    // AppLog.log(
-                                                    //     '------saved/unsaved-----');
-                                                    // stateNotifier
-                                                    //     .updateLocalSavedRestaurantList();
-                                                  }))
+                                      child: (state.isLoadingForRestaurantDetails ||
+                                              stateNotifier.reastaurantDetials == null)
+                                          ? const SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: Center(
+                                                child: CircularProgressIndicator(
+                                                  color: AppColors.colorPrimary,
+                                                ),
+                                              ),
+                                            )
+                                          : SaveIcon(
+                                              // isBookmarked:
+                                              //     widget.isBookmarked,
+                                              isBookmarked: stateNotifier.reastaurantDetials
+                                                      ?.restaurantDetails?.isSave ??
+                                                  false,
+                                              onTap: () async {
+                                                await stateNotifier
+                                                    .saveRestaurant(widget.restaurantId);
+                                                // AppLog.log(
+                                                //     '------saved/unsaved-----');
+                                                // stateNotifier
+                                                //     .updateLocalSavedRestaurantList();
+                                              }))
                                 ],
                               ),
                             ],
@@ -713,8 +655,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                   children: [
                     Text(
                       'Post List',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 13.sp, color: AppColors.colorPrimary),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 13.sp, color: AppColors.colorPrimary),
                     ),
                   ],
                 ),
@@ -735,53 +677,27 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                             itemCount: state.postPerRestaurantList?.length ?? 0,
                             itemBuilder: (context, index) {
                               return PostItemWidget2(
-                                postList: state.postPerRestaurantList![index],
-                                restaurantId: state
-                                    .postPerRestaurantList?[index]
-                                    .restaurantInfo?.id ??'',
-                                userId: state.postPerRestaurantList?[index]
-                                    .userInfo?.id ??'',
-                                isRequested: state.postPerRestaurantList?[index]
-                                    .isFollowingRequest ??
-                                    false,
-                                isFollowing: state.postPerRestaurantList?[index]
-                                        .isFollowing ??
-                                    false,
-                                commentCount: state
-                                        .postPerRestaurantList?[index]
-                                        .commentCount ??
-                                    0,
-                                restaurantAddress: state
-                                        .postPerRestaurantList?[index]
-                                        .restaurantInfo
-                                        ?.address ??
-                                    '',
-                                userName: state.postPerRestaurantList?[index]
-                                        .userInfo?.fullName ??
-                                    '',
+                                isFollowing:
+                                    state.postPerRestaurantList?[index].isFollowing ?? false,
+                                commentCount: state.postPerRestaurantList?[index].commentCount ?? 0,
+                                restaurantAddress:
+                                    state.postPerRestaurantList?[index].restaurantInfo?.address ??
+                                        '',
+                                userName:
+                                    state.postPerRestaurantList?[index].userInfo?.fullName ?? '',
                                 userImage:
                                     '${AppUrls.profilePicLocation}/${state.postPerRestaurantList?[index].userInfo?.profileImage}',
-                                restaurantName: state
-                                        .postPerRestaurantList?[index]
-                                        .restaurantInfo
-                                        ?.name ??
-                                    '',
-                                cuisine: state.postPerRestaurantList?[index]
-                                        .preferenceInfo?.title ??
-                                    '',
-                                description: state.postPerRestaurantList?[index]
-                                        .description ??
-                                    '',
-                                title:
-                                    state.postPerRestaurantList?[index].title ??
-                                        '',
+                                restaurantName:
+                                    state.postPerRestaurantList?[index].restaurantInfo?.name ?? '',
+                                cuisine:
+                                    state.postPerRestaurantList?[index].preferenceInfo?.title ?? '',
+                                description: state.postPerRestaurantList?[index].description ?? '',
+                                title: state.postPerRestaurantList?[index].title ?? '',
                                 image:
                                     'https://forthetable.dedicateddevelopers.us/uploads/post/${state.postPerRestaurantList?[index].file}',
                               );
                             },
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    5.verticalSpace,
+                            separatorBuilder: (BuildContext context, int index) => 5.verticalSpace,
                           )
                         : Center(
                             child: Text(

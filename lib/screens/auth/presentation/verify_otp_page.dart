@@ -28,7 +28,7 @@ class _VerifyOtpPageState extends ConsumerState<VerifyOtpPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final authNotifier = ref.watch(authNotifierProvider.notifier);
+      final authNotifier = ref.read(authNotifierProvider.notifier);
       authNotifier.resetTimer();
     });
   }

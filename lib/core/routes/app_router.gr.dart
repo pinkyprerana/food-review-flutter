@@ -213,8 +213,6 @@ abstract class _$AppRouter extends RootStackRouter {
           lng: args.lng,
           name: args.name,
           description: args.description,
-          rating: args.rating,
-          numberOfReviews: args.numberOfReviews,
           restaurantId: args.restaurantId,
           isBookmarked: args.isBookmarked,
         ),
@@ -780,8 +778,6 @@ class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
     required String lng,
     required String name,
     required String description,
-    required String rating,
-    required String numberOfReviews,
     required String restaurantId,
     required bool isBookmarked,
     List<PageRouteInfo>? children,
@@ -795,8 +791,6 @@ class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
             lng: lng,
             name: name,
             description: description,
-            rating: rating,
-            numberOfReviews: numberOfReviews,
             restaurantId: restaurantId,
             isBookmarked: isBookmarked,
           ),
@@ -818,8 +812,6 @@ class RestaurantDetailRouteArgs {
     required this.lng,
     required this.name,
     required this.description,
-    required this.rating,
-    required this.numberOfReviews,
     required this.restaurantId,
     required this.isBookmarked,
   });
@@ -838,17 +830,13 @@ class RestaurantDetailRouteArgs {
 
   final String description;
 
-  final String rating;
-
-  final String numberOfReviews;
-
   final String restaurantId;
 
   final bool isBookmarked;
 
   @override
   String toString() {
-    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, rating: $rating, numberOfReviews: $numberOfReviews, restaurantId: $restaurantId, isBookmarked: $isBookmarked}';
+    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, restaurantId: $restaurantId, isBookmarked: $isBookmarked}';
   }
 }
 

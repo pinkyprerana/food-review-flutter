@@ -16,8 +16,7 @@ class SavedRestaurantsPage extends ConsumerStatefulWidget {
   const SavedRestaurantsPage({super.key});
 
   @override
-  ConsumerState<SavedRestaurantsPage> createState() =>
-      _SavedRestaurantsPageState();
+  ConsumerState<SavedRestaurantsPage> createState() => _SavedRestaurantsPageState();
 }
 
 class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
@@ -44,8 +43,7 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
           onTap: () => Navigator.pop(context),
           child: Container(
             alignment: Alignment.center,
-            margin:
-                const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.colorPrimary.withOpacity(0.20),
@@ -54,8 +52,7 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios,
-                    color: AppColors.colorPrimary, size: 15.h),
+                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
               ],
             ),
           ),
@@ -74,8 +71,7 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                 color: AppColors.colorPrimary,
               ),
             )
-          : (state.savedRestaurantList != null &&
-                  (state.savedRestaurantList?.isNotEmpty ?? false))
+          : (state.savedRestaurantList != null && (state.savedRestaurantList?.isNotEmpty ?? false))
               ? SmartRefresher(
                   controller: stateNotifier.savedRestaurantRefreshController,
                   enablePullUp: true,
@@ -122,36 +118,20 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
-                            isBookmarked:
-                                state.savedRestaurantList?[index].isSave ??
-                                    false,
-                            restaurantId:
-                                state.savedRestaurantList?[index].id ?? '',
-                            numberOfReviews: state.savedRestaurantList?[index]
-                                    .userRatingsTotal ??
-                                '',
-                            address:
-                                state.savedRestaurantList?[index].address ??
-                                    'No name',
-                            image:
-                                state.savedRestaurantList?[index].image?[0] ??
-                                    '',
+                            isBookmarked: state.savedRestaurantList?[index].isSave ?? false,
+                            restaurantId: state.savedRestaurantList?[index].id ?? '',
+                            address: state.savedRestaurantList?[index].address ?? 'No name',
+                            image: state.savedRestaurantList?[index].image?[0] ?? '',
                             lat: state.savedRestaurantList?[index].lat ?? '',
                             lng: state.savedRestaurantList?[index].lng ?? '',
                             name: state.savedRestaurantList?[index].name ?? '',
-                            rating:
-                                state.savedRestaurantList?[index].rating ?? '',
-                            description:
-                                state.savedRestaurantList?[index].description ??
-                                    '',
+                            description: state.savedRestaurantList?[index].description ?? '',
                           ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: Container(
-                            padding:
-                                const EdgeInsets.fromLTRB(9.0, 8.0, 18.0, 8.0)
-                                    .r,
+                            padding: const EdgeInsets.fromLTRB(9.0, 8.0, 18.0, 8.0).r,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(color: AppColors.colorGrey),
@@ -162,33 +142,34 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0).r,
                                   child: ((state.savedRestaurantList?[index].image?[0].contains('jpg') ?? false) ||
-                                          (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('png') ??
+                                          (state.savedRestaurantList?[index].image?[0].contains('png') ??
+                                              false) ||
+                                          (state.savedRestaurantList?[index].image?[0].contains('jpeg') ??
+                                              false) ||
+                                          (state.savedRestaurantList?[index].image?[0].contains('gif') ??
+                                              false) ||
+                                          (state.savedRestaurantList?[index].image?[0].contains('bmp') ??
+                                              false) ||
+                                          (state.savedRestaurantList?[index].image?[0].contains('tiff') ??
+                                              false) ||
+                                          (state.savedRestaurantList?[index].image?[0].contains('tif') ??
+                                              false) ||
+                                          (state.savedRestaurantList?[index].image?[0].contains('webp') ??
                                               false) ||
                                           (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('jpeg') ??
+                                                  .contains('heic') ??
                                               false) ||
                                           (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('gif') ??
+                                                  .contains('heif') ??
                                               false) ||
-                                          (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('bmp') ??
+                                          (state.savedRestaurantList?[index].image?[0].contains('svg') ??
                                               false) ||
-                                          (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('tiff') ??
+                                          (state.savedRestaurantList?[index].image?[0].contains('raw') ??
                                               false) ||
-                                          (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('tif') ??
+                                          (state.savedRestaurantList?[index].image?[0].contains('cr2') ??
                                               false) ||
-                                          (state.savedRestaurantList?[index].image?[0]
-                                                  .contains('webp') ??
-                                              false) ||
-                                          (state.savedRestaurantList?[index].image?[0].contains('heic') ?? false) ||
-                                          (state.savedRestaurantList?[index].image?[0].contains('heif') ?? false) ||
-                                          (state.savedRestaurantList?[index].image?[0].contains('svg') ?? false) ||
-                                          (state.savedRestaurantList?[index].image?[0].contains('raw') ?? false) ||
-                                          (state.savedRestaurantList?[index].image?[0].contains('cr2') ?? false) ||
-                                          (state.savedRestaurantList?[index].image?[0].contains('nef') ?? false))
+                                          (state.savedRestaurantList?[index].image?[0].contains('nef') ??
+                                              false))
                                       ? CachedNetworkImage(
                                           imageUrl:
                                               'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.savedRestaurantList?[index].image?[0]}',
@@ -212,17 +193,12 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                 10.horizontalSpace,
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         // widget.restaurants[index]['name']!,
-                                        state.savedRestaurantList?[index]
-                                                .name ??
-                                            'No name',
-                                        style: AppTextStyles
-                                            .textStylePoppinsMedium
-                                            .copyWith(
+                                        state.savedRestaurantList?[index].name ?? 'No name',
+                                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                           color: AppColors.colorPrimary,
                                           fontSize: 13.sp,
                                         ),
@@ -236,14 +212,10 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                             child: Text(
                                               // widget.restaurants[index]
                                               //     ['location']!,
-                                              state.savedRestaurantList?[index]
-                                                      .address ??
+                                              state.savedRestaurantList?[index].address ??
                                                   'No Address is given',
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
-                                                color:
-                                                    AppColors.colorPrimaryAlpha,
+                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                color: AppColors.colorPrimaryAlpha,
                                                 fontSize: 10.sp,
                                               ),
                                             ),
@@ -257,35 +229,26 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Icon(Icons.star,
-                                                color:
-                                                    AppColors.colorRatingStar,
-                                                size: 14.r),
+                                                color: AppColors.colorRatingStar, size: 14.r),
                                             SizedBox(width: 4.w),
-                                            (state.savedRestaurantList?[index]
-                                                        .rating !=
-                                                    '')
+                                            (state.savedRestaurantList?[index].rating != '')
                                                 ? Text(
                                                     // widget.restaurants[index]
                                                     //     ['rating']!,
-                                                    (double.parse(state
-                                                                        .savedRestaurantList?[
-                                                                            index]
-                                                                        .rating ??
-                                                                    '0') *
-                                                                2)
-                                                            .toString(),
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
+                                                    (double.parse(state.savedRestaurantList?[index]
+                                                                    .rating ??
+                                                                '0') *
+                                                            2)
+                                                        .toString(),
+                                                    style: AppTextStyles.textStylePoppinsRegular
                                                         .copyWith(
-                                                      color: AppColors
-                                                          .colorPrimary,
+                                                      color: AppColors.colorPrimary,
                                                       fontSize: 12.sp,
                                                     ),
                                                   )
@@ -294,28 +257,22 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                                     //     ['rating']!,
 
                                                     '0.0',
-                                                    style: AppTextStyles
-                                                        .textStylePoppinsRegular
+                                                    style: AppTextStyles.textStylePoppinsRegular
                                                         .copyWith(
-                                                      color: AppColors
-                                                          .colorPrimary,
+                                                      color: AppColors.colorPrimary,
                                                       fontSize: 12.sp,
                                                     ),
                                                   ),
                                           ],
                                         ),
                                         SizedBox(width: 8.w),
-                                        (state.savedRestaurantList?[index]
-                                                    .userRatingsTotal !=
-                                                '')
+                                        (state.savedRestaurantList?[index].userRatingsTotal != '')
                                             ? Text(
                                                 //widget.restaurants[index]['reviews']!,
                                                 '${state.savedRestaurantList?[index].userRatingsTotal ?? 0} reviews',
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
-                                                  color: AppColors
-                                                      .colorPrimaryAlpha,
+                                                style:
+                                                    AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                  color: AppColors.colorPrimaryAlpha,
                                                   fontSize: 8.sp,
                                                 ),
                                               )
@@ -324,11 +281,9 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                                 //     ['reviews']!,
 
                                                 '0 reviews',
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
-                                                  color: AppColors
-                                                      .colorPrimaryAlpha,
+                                                style:
+                                                    AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                  color: AppColors.colorPrimaryAlpha,
                                                   fontSize: 8.sp,
                                                 ),
                                               ),
@@ -342,8 +297,7 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                         ),
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        5.verticalSpace,
+                    separatorBuilder: (BuildContext context, int index) => 5.verticalSpace,
                   ),
                 )
               : Center(
