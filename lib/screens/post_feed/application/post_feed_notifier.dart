@@ -40,11 +40,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: !isPostLoading);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
-        body: {
-          "list_type": "list"
-        }
-      );
+          url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {"list_type": "list"});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -83,12 +79,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> getFollowingPostFeed() async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
-        "list_type": "follow"
-      });
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {"list_type": "follow"});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -172,7 +166,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> swipeRightToLikePost(VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
           url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
@@ -202,7 +196,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> swipeLeftToDislikePost(VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
           url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',

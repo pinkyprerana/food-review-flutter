@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_loader.dart';
-import '../../home/presentation/home_page_new.dart';
+// import '../../home/presentation/home_page_new.dart';
 import '../../leaderboard/presentation/standings_page.dart';
 import '../../list/presentation/list_page.dart';
 import '../../post_feed/presentation/post_feed_page.dart';
@@ -56,7 +56,7 @@ class BasePageState extends ConsumerState<BasePage> {
     switch (index) {
       case 0:
         // return const HomePage();
-        return const HomePageNew();
+        return const PostFeedPage();
       case 1:
         return const ListPage();
       case 2:

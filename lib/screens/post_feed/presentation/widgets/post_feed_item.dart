@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
@@ -24,13 +25,11 @@ class PostFeedItem extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-          image: NetworkImage(
-            CachedNetworkImage(
-              imageUrl: postImage,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ).imageUrl,
-          ),
+          image: (postImage == '${AppUrls.postImageLocation}/')
+              ? const AssetImage(Assets.noRestaurantImage)
+              : CachedNetworkImageProvider(
+                  postImage,
+                ),
           fit: BoxFit.cover,
         ),
       ),
