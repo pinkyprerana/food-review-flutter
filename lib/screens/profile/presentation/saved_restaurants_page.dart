@@ -280,8 +280,7 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                                                         .rating ??
                                                                     '0') *
                                                                 2)
-                                                            .toString() ??
-                                                        'No rating',
+                                                            .toString(),
                                                     style: AppTextStyles
                                                         .textStylePoppinsRegular
                                                         .copyWith(
