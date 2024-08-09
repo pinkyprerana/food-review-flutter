@@ -33,6 +33,7 @@ mixin _$PostFeedState {
       throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
+  bool get isHeartAnimating => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostFeedStateCopyWith<PostFeedState> get copyWith =>
@@ -60,7 +61,8 @@ abstract class $PostFeedStateCopyWith<$Res> {
       List<PreferenceInfo>? preferenceInfoList,
       List<RestaurantInfo>? restaurantInfoList,
       int currentPage,
-      int totalPages});
+      int totalPages,
+      bool isHeartAnimating});
 }
 
 /// @nodoc
@@ -91,6 +93,7 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? restaurantInfoList = freezed,
     Object? currentPage = null,
     Object? totalPages = null,
+    Object? isHeartAnimating = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -153,6 +156,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      isHeartAnimating: null == isHeartAnimating
+          ? _value.isHeartAnimating
+          : isHeartAnimating // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -180,7 +187,8 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       List<PreferenceInfo>? preferenceInfoList,
       List<RestaurantInfo>? restaurantInfoList,
       int currentPage,
-      int totalPages});
+      int totalPages,
+      bool isHeartAnimating});
 }
 
 /// @nodoc
@@ -209,6 +217,7 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? restaurantInfoList = freezed,
     Object? currentPage = null,
     Object? totalPages = null,
+    Object? isHeartAnimating = null,
   }) {
     return _then(_$PostFeedStateImpl(
       isLoading: null == isLoading
@@ -271,6 +280,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      isHeartAnimating: null == isHeartAnimating
+          ? _value.isHeartAnimating
+          : isHeartAnimating // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -293,7 +306,8 @@ class _$PostFeedStateImpl extends _PostFeedState {
       final List<PreferenceInfo>? preferenceInfoList = const [],
       final List<RestaurantInfo>? restaurantInfoList = const [],
       this.currentPage = 1,
-      this.totalPages = 1})
+      this.totalPages = 1,
+      this.isHeartAnimating = false})
       : _postTitles = postTitles,
         _postList = postList,
         _userInfoList = userInfoList,
@@ -395,10 +409,13 @@ class _$PostFeedStateImpl extends _PostFeedState {
   @override
   @JsonKey()
   final int totalPages;
+  @override
+  @JsonKey()
+  final bool isHeartAnimating;
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating)';
   }
 
   @override
@@ -433,7 +450,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages));
+                other.totalPages == totalPages) &&
+            (identical(other.isHeartAnimating, isHeartAnimating) ||
+                other.isHeartAnimating == isHeartAnimating));
   }
 
   @override
@@ -453,7 +472,8 @@ class _$PostFeedStateImpl extends _PostFeedState {
       const DeepCollectionEquality().hash(_preferenceInfoList),
       const DeepCollectionEquality().hash(_restaurantInfoList),
       currentPage,
-      totalPages);
+      totalPages,
+      isHeartAnimating);
 
   @JsonKey(ignore: true)
   @override
@@ -478,7 +498,8 @@ abstract class _PostFeedState extends PostFeedState {
       final List<PreferenceInfo>? preferenceInfoList,
       final List<RestaurantInfo>? restaurantInfoList,
       final int currentPage,
-      final int totalPages}) = _$PostFeedStateImpl;
+      final int totalPages,
+      final bool isHeartAnimating}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
 
   @override
@@ -511,6 +532,8 @@ abstract class _PostFeedState extends PostFeedState {
   int get currentPage;
   @override
   int get totalPages;
+  @override
+  bool get isHeartAnimating;
   @override
   @JsonKey(ignore: true)
   _$$PostFeedStateImplCopyWith<_$PostFeedStateImpl> get copyWith =>

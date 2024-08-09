@@ -34,13 +34,13 @@ class _NotExpandedPostDetailsState
     });
   }
 
-  void _handleFollowUnfollowButtonPressed(userId) {
+  void _handleFollowUnfollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, userId);
-    yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    postFeedNotifier.getPostFeed();
+    await followNotifier.followUnfollow(() {}, userId);
+    await yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    await postFeedNotifier.getPostFeed(isPostLoading: true);
   }
 
   @override

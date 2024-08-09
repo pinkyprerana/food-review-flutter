@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
@@ -7,6 +8,7 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
@@ -397,5 +399,37 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }
+  }
+
+  Future<void> showFavourite(BuildContext context) async {
+    state = state.copyWith(isHeartAnimating: true);
+
+    // OverlayState? overlayState = Overlay.of(context);
+    // OverlayEntry overlayEntry = OverlayEntry(
+    //   builder: (context) {
+    //     return Positioned(
+    //       top: MediaQuery.of(context).size.height / 2,
+    //       right: MediaQuery.of(context).size.width / 2 - 34,
+    //       child: HeartAnimationWidget(
+    //         isAnimating: state.isHeartAnimating,
+    //         child: const Icon(
+    //           Icons.favorite,
+    //           size: 70,
+    //           color: Colors.white,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
+
+    // overlayState?.insert(overlayEntry);
+
+    // await Future.delayed(const Duration(seconds: 2));
+
+    // overlayEntry.remove();
+  }
+
+  void setFvoriteToFalse() {
+    state = state.copyWith(isHeartAnimating: false);
   }
 }

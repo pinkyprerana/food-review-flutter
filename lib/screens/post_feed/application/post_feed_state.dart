@@ -21,6 +21,7 @@ class PostFeedState with _$PostFeedState {
     @Default([]) List<RestaurantInfo>? restaurantInfoList,
     @Default(1) int currentPage,
     @Default(1) int totalPages,
+    @Default(false) bool isHeartAnimating,
   }) = _PostFeedState;
   const PostFeedState._();
 }
