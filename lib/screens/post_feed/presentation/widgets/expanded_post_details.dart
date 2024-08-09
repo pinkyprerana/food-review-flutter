@@ -31,13 +31,13 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     });
   }
 
-  void _handleFollowUnfollowButtonPressed(userId) {
+  void _handleFollowUnfollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, userId);
-    yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    postFeedNotifier.getPostFeed();
+    await followNotifier.followUnfollow(() {}, userId);
+    await yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    await postFeedNotifier.getPostFeed(isPostLoading: true);
   }
 
   @override
@@ -73,9 +73,9 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   GestureDetector(
                     onTap: () {
                       AutoRouter.of(context).push(PeopleProfileRoute(
-                          // peoplename: name ?? "", //'Ahmad Gouse',
-                          // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                          peopleId: peopleId??"",
+                        // peoplename: name ?? "", //'Ahmad Gouse',
+                        // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                        peopleId: peopleId ?? "",
                         //   isFollow: true,
                         // isRequested: false,
                         // isFollowing: false,
@@ -104,7 +104,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         ),
                         8.horizontalSpace,
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             _handleFollowUnfollowButtonPressed(peopleId);
                           },
                           child: Container(
@@ -116,7 +116,11 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             ),
                             child: Center(
                               child: Text(
-                                (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                                (isFollowing ?? false)
+                                    ? 'Unfollow'
+                                    : (isRequested ?? false)
+                                        ? 'Requested'
+                                        : 'Follow',
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,

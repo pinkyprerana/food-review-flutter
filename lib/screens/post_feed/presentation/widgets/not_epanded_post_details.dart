@@ -14,7 +14,6 @@ import '../../../people_profile/shared/providers.dart';
 import '../../../profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
 
-
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel postList;
   const NotExpandedPostDetails({super.key, required this.postList});
@@ -33,13 +32,13 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     });
   }
 
-  void _handleFollowUnfollowButtonPressed(userId) {
+  void _handleFollowUnfollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, userId);
-    yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    postFeedNotifier.getPostFeed();
+    await followNotifier.followUnfollow(() {}, userId);
+    await yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    await postFeedNotifier.getPostFeed(isPostLoading: true);
   }
 
   @override
@@ -60,7 +59,6 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
 
-
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
       width: double.infinity,
@@ -72,15 +70,13 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                      // peoplename: name ?? "", //'Ahmad Gouse',
-                      // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                      peopleId: peopleId??"",
+                    // peoplename: name ?? "", //'Ahmad Gouse',
+                    // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                    peopleId: peopleId ?? "",
                     // isFollow: true,
                     // isRequested:false,
                     // isFollowing: false,
-
-                  )
-                  );
+                  ));
                 },
                 child: Row(
                   children: [
@@ -107,7 +103,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               ),
               8.horizontalSpace,
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   _handleFollowUnfollowButtonPressed(peopleId);
                 },
                 child: Container(
@@ -118,7 +114,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   child: Center(
                     child: Text(
-                      (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                      (isFollowing ?? false)
+                          ? 'Unfollow'
+                          : (isRequested ?? false)
+                              ? 'Requested'
+                              : 'Follow',
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         color: AppColors.colorWhite,
                         fontSize: 10.sp,
