@@ -39,16 +39,18 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
 
-    if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
-      for (int i = 0; i < postFeedList.length; i++) {
+    if (_swipeItems.isEmpty && (postFeedList?.isNotEmpty ?? false)) {
+      for (int i = 0; i < (postFeedList?.length ?? 0); i++) {
         final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
         _swipeItems.add(SwipeItem(
-            content: Content(text: postFeedList[i].toString()),
+            content: Content(text: postFeedList?[i].toString()),
             likeAction: () async {
-              await postFeedNotifier.swipeRightToLikePost(() {}, postFeedList[i].id??"");
+              await postFeedNotifier.swipeRightToLikePost(
+                  () {}, postFeedList?[i].id ?? "");
             },
             nopeAction: () async {
-              await postFeedNotifier.swipeLeftToDislikePost(() {}, postFeedList[i].id??"");
+              await postFeedNotifier.swipeLeftToDislikePost(
+                  () {}, postFeedList?[i].id ?? "");
             },
             // superlikeAction: () {
             //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -75,139 +77,161 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     return Scaffold(
       backgroundColor: AppColors.colorPrimary,
       key: _scaffoldKey,
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height - kToolbarHeight,
-            child: postFeedState.isStackFinished
-                ? Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        GradientIcon(
-                          icon: Icons.check_circle_outline_rounded,
-                          size: 100.h,
-                        ),
-                        Text(
-                          "You're all caught up",
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 12.sp,
-                            color: AppColors.colorGrey,
-                          ),
-                        ),
-                        Text(
-                          "You've seen all new posts !",
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                            fontSize: 11.sp,
-                            color: AppColors.colorPrimaryAlpha,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : SwipeCards(
-                    matchEngine: _matchEngine!,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index < 0 || index >= postFeedList!.length) {
-                        return const SizedBox.shrink();
-                      }
-                      final postList = postFeedList[index];
-                      return PostFeedItem(postList: postList);
-                    },
-                    onStackFinished: () {
-                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      //   content: Text("Post Finished"),
-                      //   duration: Duration(milliseconds: 500),
-                      // ));
-                      ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
-                    },
-                    itemChanged: (SwipeItem item, int index) {
-                      AppLog.log("item: ${item.content.text}, index: $index");
-                    },
-                    upSwipeAllowed: false,
-                    fillSpace: true,
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 50.0),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      stateNotifierForBase.resetBottomNavIndex(); // Added this
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 30.w,
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.colorWhite.withOpacity(0.10),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 15,
-                          color: AppColors.colorWhite,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 38.h,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: buttonTexts.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () async {
-                              stateNotifier.selectButton(index);
-                              if (index == 1) {
-                                final postFeedNotifier =
-                                    ref.read(postFeedNotifierProvider.notifier);
-                                await postFeedNotifier.getFollowingPostFeed();
-                              }
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 5),
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(horizontal: 15).r,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: (postFeedState.selectedIndex == index)
-                                    ? AppColors.colorWhite.withOpacity(0.5)
-                                    : AppColors.colorWhite.withOpacity(0.10),
+      body: (postFeedState.isLoading)
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: AppColors.colorPrimary,
+              ),
+            )
+          : Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - kToolbarHeight,
+                  child: postFeedState.isStackFinished
+                      ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GradientIcon(
+                                icon: Icons.check_circle_outline_rounded,
+                                size: 100.h,
                               ),
-                              child: Text(
-                                buttonTexts[index],
-                                style: AppTextStyles.textStylePoppinsSemiBold
-                                    .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                              Text(
+                                "You're all caught up",
+                                style: AppTextStyles.textStylePoppinsMedium
+                                    .copyWith(
+                                  fontSize: 12.sp,
+                                  color: AppColors.colorGrey,
+                                ),
+                              ),
+                              Text(
+                                "You've seen all new posts !",
+                                style: AppTextStyles.textStylePoppinsMedium
+                                    .copyWith(
+                                  fontSize: 11.sp,
+                                  color: AppColors.colorPrimaryAlpha,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SwipeCards(
+                          matchEngine: _matchEngine!,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index < 0 ||
+                                index >= (postFeedList?.length ?? 0)) {
+                              return const SizedBox.shrink();
+                            }
+                            final postItem = postFeedList?[index];
+                            return PostFeedItem(postList: postItem);
+                          },
+                          onStackFinished: () {
+                            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            //   content: Text("Post Finished"),
+                            //   duration: Duration(milliseconds: 500),
+                            // ));
+                            ref
+                                .read(postFeedNotifierProvider.notifier)
+                                .stackEmptyStatus();
+                          },
+                          itemChanged: (SwipeItem item, int index) {
+                            AppLog.log(
+                                "item: ${item.content.text}, index: $index");
+                          },
+                          upSwipeAllowed: false,
+                          fillSpace: true,
+                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            stateNotifierForBase
+                                .resetBottomNavIndex(); // Added this
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 30.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.colorWhite.withOpacity(0.10),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                size: 15,
+                                color: AppColors.colorWhite,
                               ),
                             ),
-                          );
-                        }),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 38.h,
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: buttonTexts.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    stateNotifier.selectButton(index);
+                                    if (index == 1) {
+                                      final postFeedNotifier = ref.read(
+                                          postFeedNotifierProvider.notifier);
+                                      await postFeedNotifier
+                                          .getFollowingPostFeed();
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 5),
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                            horizontal: 15)
+                                        .r,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color:
+                                          (postFeedState.selectedIndex == index)
+                                              ? AppColors.colorWhite
+                                                  .withOpacity(0.5)
+                                              : AppColors.colorWhite
+                                                  .withOpacity(0.10),
+                                    ),
+                                    child: Text(
+                                      buttonTexts[index],
+                                      style: AppTextStyles
+                                          .textStylePoppinsSemiBold
+                                          .copyWith(
+                                              fontSize: 16.sp,
+                                              color: AppColors.colorWhite),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                        Container(
+                            alignment: Alignment.center,
+                            width: 30.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.transparent,
+                            ),
+                            child: const SizedBox.shrink()),
+                      ],
+                    ),
                   ),
-                  Container(
-                      alignment: Alignment.center,
-                      width: 30.w,
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.transparent,
-                      ),
-                      child: const SizedBox.shrink()),
-                ],
-              ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 }

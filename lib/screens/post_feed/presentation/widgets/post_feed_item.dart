@@ -10,14 +10,14 @@ import 'expanded_post_details.dart';
 import 'not_epanded_post_details.dart';
 
 class PostFeedItem extends ConsumerWidget {
-  final DataOfPostModel postList;
+  final DataOfPostModel? postList;
   const PostFeedItem({super.key, required this.postList});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postFeedNotifierProvider);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final String postImage = "${AppUrls.postImageLocation}${postList.file}";
+    final String postImage = "${AppUrls.postImageLocation}${postList?.file}";
 
     return Container(
       height: MediaQuery.of(context).size.height,

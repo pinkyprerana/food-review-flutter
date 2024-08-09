@@ -19,6 +19,8 @@ class PostFeedState with _$PostFeedState {
     @Default([]) List<CommentInfo>? commentInfoList,
     @Default([]) List<PreferenceInfo>? preferenceInfoList,
     @Default([]) List<RestaurantInfo>? restaurantInfoList,
+    @Default(1) int currentPage,
+    @Default(1) int totalPages,
   }) = _PostFeedState;
   const PostFeedState._();
 }

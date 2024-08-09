@@ -31,6 +31,8 @@ mixin _$PostFeedState {
       throw _privateConstructorUsedError;
   List<RestaurantInfo>? get restaurantInfoList =>
       throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostFeedStateCopyWith<PostFeedState> get copyWith =>
@@ -56,7 +58,9 @@ abstract class $PostFeedStateCopyWith<$Res> {
       List<UserInfo>? userInfoList,
       List<CommentInfo>? commentInfoList,
       List<PreferenceInfo>? preferenceInfoList,
-      List<RestaurantInfo>? restaurantInfoList});
+      List<RestaurantInfo>? restaurantInfoList,
+      int currentPage,
+      int totalPages});
 }
 
 /// @nodoc
@@ -85,6 +89,8 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? commentInfoList = freezed,
     Object? preferenceInfoList = freezed,
     Object? restaurantInfoList = freezed,
+    Object? currentPage = null,
+    Object? totalPages = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -139,6 +145,14 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.restaurantInfoList
           : restaurantInfoList // ignore: cast_nullable_to_non_nullable
               as List<RestaurantInfo>?,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -164,7 +178,9 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       List<UserInfo>? userInfoList,
       List<CommentInfo>? commentInfoList,
       List<PreferenceInfo>? preferenceInfoList,
-      List<RestaurantInfo>? restaurantInfoList});
+      List<RestaurantInfo>? restaurantInfoList,
+      int currentPage,
+      int totalPages});
 }
 
 /// @nodoc
@@ -191,6 +207,8 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? commentInfoList = freezed,
     Object? preferenceInfoList = freezed,
     Object? restaurantInfoList = freezed,
+    Object? currentPage = null,
+    Object? totalPages = null,
   }) {
     return _then(_$PostFeedStateImpl(
       isLoading: null == isLoading
@@ -245,6 +263,14 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value._restaurantInfoList
           : restaurantInfoList // ignore: cast_nullable_to_non_nullable
               as List<RestaurantInfo>?,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -265,7 +291,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
       final List<UserInfo>? userInfoList = const [],
       final List<CommentInfo>? commentInfoList = const [],
       final List<PreferenceInfo>? preferenceInfoList = const [],
-      final List<RestaurantInfo>? restaurantInfoList = const []})
+      final List<RestaurantInfo>? restaurantInfoList = const [],
+      this.currentPage = 1,
+      this.totalPages = 1})
       : _postTitles = postTitles,
         _postList = postList,
         _userInfoList = userInfoList,
@@ -362,8 +390,15 @@ class _$PostFeedStateImpl extends _PostFeedState {
   }
 
   @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final int totalPages;
+
+  @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages)';
   }
 
   @override
@@ -394,7 +429,11 @@ class _$PostFeedStateImpl extends _PostFeedState {
             const DeepCollectionEquality()
                 .equals(other._preferenceInfoList, _preferenceInfoList) &&
             const DeepCollectionEquality()
-                .equals(other._restaurantInfoList, _restaurantInfoList));
+                .equals(other._restaurantInfoList, _restaurantInfoList) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages));
   }
 
   @override
@@ -412,7 +451,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
       const DeepCollectionEquality().hash(_userInfoList),
       const DeepCollectionEquality().hash(_commentInfoList),
       const DeepCollectionEquality().hash(_preferenceInfoList),
-      const DeepCollectionEquality().hash(_restaurantInfoList));
+      const DeepCollectionEquality().hash(_restaurantInfoList),
+      currentPage,
+      totalPages);
 
   @JsonKey(ignore: true)
   @override
@@ -435,7 +476,9 @@ abstract class _PostFeedState extends PostFeedState {
       final List<UserInfo>? userInfoList,
       final List<CommentInfo>? commentInfoList,
       final List<PreferenceInfo>? preferenceInfoList,
-      final List<RestaurantInfo>? restaurantInfoList}) = _$PostFeedStateImpl;
+      final List<RestaurantInfo>? restaurantInfoList,
+      final int currentPage,
+      final int totalPages}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
 
   @override
@@ -464,6 +507,10 @@ abstract class _PostFeedState extends PostFeedState {
   List<PreferenceInfo>? get preferenceInfoList;
   @override
   List<RestaurantInfo>? get restaurantInfoList;
+  @override
+  int get currentPage;
+  @override
+  int get totalPages;
   @override
   @JsonKey(ignore: true)
   _$$PostFeedStateImplCopyWith<_$PostFeedStateImpl> get copyWith =>

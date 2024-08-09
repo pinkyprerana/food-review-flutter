@@ -21,7 +21,7 @@ class CommentsPage extends ConsumerStatefulWidget {
     super.key,
     required this.postInfoList,
   });
-  final DataOfPostModel postInfoList;
+  final DataOfPostModel? postInfoList;
 
   @override
   ConsumerState<CommentsPage> createState() => _CommentsPageState();
@@ -41,24 +41,25 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
   Widget build(BuildContext context) {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final String? postId = widget.postInfoList.id;
+    final String? postId = widget.postInfoList?.id;
     // final String peopleId = widget.postInfoList.userInfo?.id ?? "";
-    final String name = widget.postInfoList.userInfo?.fullName ?? "";
+    final String name = widget.postInfoList?.userInfo?.fullName ?? "";
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo?.profileImage}";
-    final String? description = widget.postInfoList.description;
-    final String? restaurantName = widget.postInfoList.restaurantInfo?.name;
-    final String? rating = widget.postInfoList.restaurantInfo?.rating;
-    final String? address = widget.postInfoList.restaurantInfo?.address;
-    final String? cuisine = widget.postInfoList.preferenceInfo?.title;
-    final int commentCount = widget.postInfoList.commentCount ?? 0;
+        "${AppUrls.profilePicLocation}/${widget.postInfoList?.userInfo?.profileImage}";
+    final String? description = widget.postInfoList?.description;
+    final String? restaurantName = widget.postInfoList?.restaurantInfo?.name;
+    final String? rating = widget.postInfoList?.restaurantInfo?.rating;
+    final String? address = widget.postInfoList?.restaurantInfo?.address;
+    final String? cuisine = widget.postInfoList?.preferenceInfo?.title;
+    final int commentCount = widget.postInfoList?.commentCount ?? 0;
     const int amount = 100; //widget.postInfoList.commentCount;
-    final bool? isSaved = widget.postInfoList.isSave;
-    final bool? isLiked = widget.postInfoList.isMyLike;
-    final bool? isFollowing = widget.postInfoList.isFollowing;
-    final bool? isRequested = widget.postInfoList.isFollowingRequest;
-    final comments =
-        postFeedState.commentInfoList?.where((comment) => comment.postId == postId).toList();
+    final bool? isSaved = widget.postInfoList?.isSave;
+    final bool? isLiked = widget.postInfoList?.isMyLike;
+    final bool? isFollowing = widget.postInfoList?.isFollowing;
+    final bool? isRequested = widget.postInfoList?.isFollowingRequest;
+    final comments = postFeedState.commentInfoList
+        ?.where((comment) => comment.postId == postId)
+        .toList();
 
     return Scaffold(
       backgroundColor: AppColors.colorCommentPageBg,
@@ -83,9 +84,11 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: profileImage == '${AppUrls.profilePicLocation}/'
+                                  image: profileImage ==
+                                          '${AppUrls.profilePicLocation}/'
                                       ? const AssetImage(Assets.avatar)
-                                      : CachedNetworkImageProvider(profileImage),
+                                      : CachedNetworkImageProvider(
+                                          profileImage),
                                   fit: BoxFit.cover,
                                 )),
                           ),
@@ -93,14 +96,17 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                           Text(
                             name,
                             style: AppTextStyles.textStylePoppinsMedium
-                                .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                                .copyWith(
+                                    fontSize: 16.sp,
+                                    color: AppColors.colorWhite),
                           ),
                           8.horizontalSpace,
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
-                              border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
+                              border: Border.all(
+                                  width: 1, color: const Color(0xffDDDFE6)),
                               color: AppColors.colorWhite.withOpacity(0.10),
                             ),
                             child: Center(
@@ -110,7 +116,8 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                                     : (isRequested ?? false)
                                         ? 'Requested'
                                         : 'Follow',
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -132,7 +139,8 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             child: Center(
                               child: Text(
                                 cuisine ?? "No Cuisine",
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -148,7 +156,9 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       20.verticalSpace,
-                      (isLiked ?? false) ? Image.asset(Assets.redHeart) : Image.asset(Assets.like),
+                      (isLiked ?? false)
+                          ? Image.asset(Assets.redHeart)
+                          : Image.asset(Assets.like),
                       15.verticalSpace,
                       Column(children: [
                         Image.asset(Assets.comments),
@@ -315,7 +325,8 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Write a comment',
-                              hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                              hintStyle: AppTextStyles.textStylePoppinsRegular
+                                  .copyWith(
                                 fontSize: 13.sp,
                                 color: AppColors.colorWhite.withOpacity(0.70),
                               )),
@@ -347,8 +358,9 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
   Future<void> _fetchPostDetails() async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     await followNotifier.getAllPostsOfOtherUserProfile(
-        () {}, widget.postInfoList.userInfo?.id ?? "");
-    await followNotifier.getOtherPeopleDetails(() {}, widget.postInfoList.userInfo?.id ?? "");
+        () {}, widget.postInfoList?.userInfo?.id ?? "");
+    await followNotifier.getOtherPeopleDetails(
+        () {}, widget.postInfoList?.userInfo?.id ?? "");
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
     final profileNotifier = ref.read(profileNotifierProvider.notifier);

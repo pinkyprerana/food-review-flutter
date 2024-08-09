@@ -14,16 +14,17 @@ import '../../../people_profile/shared/providers.dart';
 import '../../../profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
 
-
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
-  final DataOfPostModel postList;
+  final DataOfPostModel? postList;
   const NotExpandedPostDetails({super.key, required this.postList});
 
   @override
-  ConsumerState<NotExpandedPostDetails> createState() => _NotExpandedPostDetailsState();
+  ConsumerState<NotExpandedPostDetails> createState() =>
+      _NotExpandedPostDetailsState();
 }
 
-class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails> {
+class _NotExpandedPostDetailsState
+    extends ConsumerState<NotExpandedPostDetails> {
   @override
   void initState() {
     super.initState();
@@ -44,25 +45,25 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
 
   @override
   Widget build(BuildContext context) {
-    final String? peopleId = widget.postList.userInfo?.id;
-    final String? name = widget.postList.userInfo?.fullName;
+    final String? peopleId = widget.postList?.userInfo?.id;
+    final String? name = widget.postList?.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
-    final String? description = widget.postList.description;
-    final String? restaurantName = widget.postList.restaurantInfo?.name;
-    final String? address = widget.postList.restaurantInfo?.address;
-    final String? cuisine = widget.postList.preferenceInfo?.title;
-    final int? commentCount = widget.postList.commentCount;
-    final String? postId = widget.postList.id;
-    final bool? isFollowing = widget.postList.isFollowing;
-    final bool? isRequested = widget.postList.isFollowingRequest;
+        "${AppUrls.profilePicLocation}/${widget.postList?.userInfo?.profileImage}";
+    final String? description = widget.postList?.description;
+    final String? restaurantName = widget.postList?.restaurantInfo?.name;
+    final String? address = widget.postList?.restaurantInfo?.address;
+    final String? cuisine = widget.postList?.preferenceInfo?.title;
+    final int? commentCount = widget.postList?.commentCount;
+    final String? postId = widget.postList?.id;
+    final bool? isFollowing = widget.postList?.isFollowing;
+    final bool? isRequested = widget.postList?.isFollowingRequest;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final bool? isSaved = widget.postList.isSave;
-    final bool? isLiked = widget.postList.isMyLike;
-
+    final bool? isSaved = widget.postList?.isSave;
+    final bool? isLiked = widget.postList?.isMyLike;
 
     return Container(
-      padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
+      padding:
+          const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
       width: double.infinity,
       child: Column(
         children: [
@@ -72,15 +73,13 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                      // peoplename: name ?? "", //'Ahmad Gouse',
-                      // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                      peopleId: peopleId??"",
+                    // peoplename: name ?? "", //'Ahmad Gouse',
+                    // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
+                    peopleId: peopleId ?? "",
                     // isFollow: true,
                     // isRequested:false,
                     // isFollowing: false,
-
-                  )
-                  );
+                  ));
                 },
                 child: Row(
                   children: [
@@ -99,15 +98,15 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     8.horizontalSpace,
                     Text(
                       name ?? "", //'Ahmad Gouse',
-                      style: AppTextStyles.textStylePoppinsMedium
-                          .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                          fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
                   ],
                 ),
               ),
               8.horizontalSpace,
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   _handleFollowUnfollowButtonPressed(peopleId);
                 },
                 child: Container(
@@ -118,7 +117,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   child: Center(
                     child: Text(
-                      (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                      (isFollowing ?? false)
+                          ? 'Unfollow'
+                          : (isRequested ?? false)
+                              ? 'Requested'
+                              : 'Follow',
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         color: AppColors.colorWhite,
                         fontSize: 10.sp,
@@ -149,7 +152,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         child: Center(
                           child: Text(
                             cuisine ?? "", //'Chinese Cuisine',
-                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: const Color(0xff6BCE7B).withOpacity(0.85),
                               fontSize: 10.sp,
                             ),
@@ -172,7 +176,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                         children: [
                           Text(
                             restaurantName ?? "Restaurant name not available",
-                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -181,7 +186,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                             address != null && address.length > 40
                                 ? '${address.substring(0, 40)}...'
                                 : address ?? 'Restaurant address not available',
-                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -195,7 +201,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               Column(
                 children: [
                   GestureDetector(
-                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                      onTap: () =>
+                          postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
                       child: (isLiked ?? false)
                           ? Image.asset(Assets.redHeart)
                           : Image.asset(Assets.like)),
@@ -221,7 +228,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      onTap: () =>
+                          postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
                       child: (isSaved ?? false)
                           ? Image.asset(
                               Assets.saved,
