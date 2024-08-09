@@ -403,30 +403,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   Future<void> showFavourite(BuildContext context) async {
     state = state.copyWith(isHeartAnimating: true);
-
-    // OverlayState? overlayState = Overlay.of(context);
-    // OverlayEntry overlayEntry = OverlayEntry(
-    //   builder: (context) {
-    //     return Positioned(
-    //       top: MediaQuery.of(context).size.height / 2,
-    //       right: MediaQuery.of(context).size.width / 2 - 34,
-    //       child: HeartAnimationWidget(
-    //         isAnimating: state.isHeartAnimating,
-    //         child: const Icon(
-    //           Icons.favorite,
-    //           size: 70,
-    //           color: Colors.white,
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-
-    // overlayState?.insert(overlayEntry);
-
-    // await Future.delayed(const Duration(seconds: 2));
-
-    // overlayEntry.remove();
   }
 
   void setFvoriteToFalse() {
