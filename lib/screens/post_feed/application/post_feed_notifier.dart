@@ -170,7 +170,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> getFollowingPostFeed() async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(
@@ -265,7 +265,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   Future<void> swipeRightToLikePost(
       VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(
@@ -297,7 +297,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   Future<void> swipeLeftToDislikePost(
       VoidCallback voidCallback, String postID) async {
-    state = state.copyWith(isLoading: true);
+    // state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(

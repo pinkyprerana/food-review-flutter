@@ -30,6 +30,35 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
+      final postFeedState = ref.read(postFeedNotifierProvider);
+      final postFeedList = postFeedState.postList;
+
+      if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
+        for (int i = 0; i < postFeedList.length; i++) {
+          final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+          _swipeItems.add(SwipeItem(
+              content: Content(text: postFeedList[i].toString()),
+              likeAction: () async {
+                await postFeedNotifier.swipeRightToLikePost(
+                    () {}, postFeedList[i].id ?? "");
+              },
+              nopeAction: () async {
+                await postFeedNotifier.swipeLeftToDislikePost(
+                    () {}, postFeedList[i].id ?? "");
+              },
+              // superlikeAction: () {
+              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //     content: Text("Superliked ${postFeedList[i].title}"),
+              //     duration: const Duration(milliseconds: 500),
+              //   ));
+              // },
+              onSlideUpdate: (SlideRegion? region) async {
+                AppLog.log("Region $region");
+              }));
+        }
+
+        _matchEngine = MatchEngine(swipeItems: _swipeItems);
+      }
     });
   }
 
@@ -75,9 +104,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final postFeedList = postFeedState.postList;
 
     return Scaffold(
-      backgroundColor: AppColors.colorPrimary,
+      // backgroundColor: AppColors.colorPrimary,
       key: _scaffoldKey,
-      body: (postFeedState.isLoading)
+      body: postFeedState.isLoading || _matchEngine == null
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
@@ -118,12 +147,11 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       : SwipeCards(
                           matchEngine: _matchEngine!,
                           itemBuilder: (BuildContext context, int index) {
-                            if (index < 0 ||
-                                index >= (postFeedList?.length ?? 0)) {
+                            if (index < 0 || index >= postFeedList!.length) {
                               return const SizedBox.shrink();
                             }
-                            final postItem = postFeedList?[index];
-                            return PostFeedItem(postList: postItem);
+                            final postList = postFeedList[index];
+                            return PostFeedItem(postList: postList);
                           },
                           onStackFinished: () {
                             // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -138,7 +166,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             AppLog.log(
                                 "item: ${item.content.text}, index: $index");
                           },
-                          upSwipeAllowed: false,
+                          upSwipeAllowed: true,
                           fillSpace: true,
                         ),
                 ),
