@@ -85,7 +85,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
   Future<void> getOtherPeopleDetails(VoidCallback voidCallback, String userID) async {
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${'/user/other/profile'}",
+          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${AppUrls.getOtherUserDetails}",
           body: {
               "user_id": userID,
             });

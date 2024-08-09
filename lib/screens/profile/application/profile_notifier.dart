@@ -1006,7 +1006,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${'/post-save/list'}', body: {
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.savedPostList}', body: {
         "lat": getLatitude,
         "lng": getLongitude,
       });
@@ -1034,7 +1034,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.baseUrl}${'/notification/list'}',
+        url: '${AppUrls.baseUrl}${AppUrls.getAllNotifications}',
       );
       state = state.copyWith(isLoading: false);
 

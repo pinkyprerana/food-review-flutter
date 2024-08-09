@@ -3,6 +3,7 @@ class AppUrls {
   static const postImageLocation =
       'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
+  //Authentication
   static const signup = '/user/signup';
   static const signin = '/user/signin';
   static const sendOTP = '/user/forgot-password';
@@ -12,7 +13,6 @@ class AppUrls {
   static const addPost = '/post/add';
   static const followUnfollow = '/user/follow';
   static const getAllPreference = '/preference/list';
-  static const getPostFeed = '/post/list';
   static const getAllFollowers = '/user/follower/list';
   static const getAllFollowing = '/user/follow/list';
   static const profile = '/user/profile';
@@ -20,7 +20,21 @@ class AppUrls {
   static const logout = '/user/logout';
   static const profilePicLocation =
       'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
-  static const restaurantList = '/restaurant/list';
+
+
+  //Post Feed
+  static const getPostFeed = '/post/list';
+  static const likeUnlikePost = '/post-like/add';
+  static const swipeToLikeDislikePost = '/post-like/swapped';
+  static const saveUnsavePost = '/post-save/add';
+  static const addComment = '/post-comment/add';
+  static const likeUnlikeComment = '/post-like/comment';
+
+  //Other User's
+  static const getOtherUserDetails = '/user/other/profile';
+
+  //Notification
+  static const getAllNotifications = '/notification/list';
 
   // Profile
   static const updatePassword = '/user/change-password';
@@ -29,6 +43,7 @@ class AppUrls {
   static const acceptOrRejectRequest = '/user/follow/status/update';
   static const deleteAccount = '/user/delete';
   static const deactivateAccount = '/user/deactivate';
+  static const savedPostList = '/post-save/list';
 
   // Leaderboard
   static const getLeaderboardList = '/user/leaderboard/list';
@@ -41,6 +56,7 @@ class AppUrls {
   static const postListPerRestaurant = '/post/list';
 
   //restaurant
+  static const restaurantList = '/restaurant/list';
   static const saveRestaurant = '/restaurant/save';
   static const restaurnatDetails = '/restaurant/details';
   static const getSavedRestaurantList = '/restaurant/save/list';

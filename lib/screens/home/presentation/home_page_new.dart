@@ -221,14 +221,11 @@ class _HomePageNewState extends ConsumerState<HomePageNew> {
                                 onTap: () => AutoRouter.of(context).push(RestaurantDetailRoute(
                                   isBookmarked: homeState.restaurantList?[index].isSave ?? false,
                                   restaurantId: homeState.restaurantList?[index].id ?? '',
-                                  numberOfReviews:
-                                      homeState.restaurantList?[index].userRatingsTotal ?? '',
                                   address: homeState.restaurantList?[index].address ?? 'No name',
                                   image: homeState.restaurantList?[index].image?[0] ?? '',
                                   lat: homeState.restaurantList?[index].lat ?? '',
                                   lng: homeState.restaurantList?[index].lng ?? '',
                                   name: homeState.restaurantList?[index].name ?? '',
-                                  rating: homeState.restaurantList?[index].rating ?? '',
                                   description: homeState.restaurantList?[index].description ?? '',
                                 )),
                                 child: RestaurantWidget(

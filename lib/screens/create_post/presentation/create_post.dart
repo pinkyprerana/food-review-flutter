@@ -49,178 +49,181 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.read(createPostNotifierProvider);
-    final createPostNotifier = ref.read(createPostNotifierProvider.notifier);
+    final state = ref.watch(createPostNotifierProvider);
+    final createPostNotifier = ref.watch(createPostNotifierProvider.notifier);
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(createPostNotifierProvider).currentPage;
     final imageFile = widget.imageFile;
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {
-            if (currentPage == 0) {
-              if (imageFile != null) {
-                Navigator.pop(context, null);
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          leading: GestureDetector(
+            onTap: () {
+              if (currentPage == 0) {
+                if (imageFile != null) {
+                  Navigator.pop(context, null);
+                } else {
+                  Navigator.pop(context);
+                }
               } else {
-                Navigator.pop(context);
+                createPostNotifier.pageController.jumpToPage(0);
+                createPostNotifier.clearRestaurantDetails();
               }
-            } else {
-              createPostNotifier.pageController.jumpToPage(0);
-              createPostNotifier.clearRestaurantDetails();
-            }
-            createPostNotifier.resetPage();
-          },
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.colorPrimary.withOpacity(0.20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                5.horizontalSpace, //this is for centering the icon
-                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
-              ],
-            ),
-          ),
-        ),
-        title: Text(
-          'Create Post',
-          style: AppTextStyles.textStylePoppinsBold.copyWith(
-            color: AppColors.colorPrimary,
-            fontSize: 16.sp,
-          ),
-        ),
-      ),
-      body: PopScope(
-        canPop: false,
-        onPopInvoked: (didPop) {
-          if (didPop) {
-            createPostNotifier.pageController.jumpToPage(0);
-            createPostNotifier.clearRestaurantDetails();
-            createPostNotifier.resetPage();
-          }
-          // else {
-          //   createPostNotifier.clearAllPostDetails();
-          //   Navigator.pop(context);
-          //   createPostNotifier.resetPage();
-          // }
-        },
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              10.verticalSpace,
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                height: MediaQuery.of(context).size.height * 0.37,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: imageFile == null
-                        ? const Text('No image selected.')
-                        : Image.file(
-                            File(imageFile.path),
-                            fit: BoxFit.fill,
-                            height: double.infinity,
-                            width: double.infinity,
-                          ),
-                  ),
-                ),
+              createPostNotifier.resetPage();
+            },
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.colorPrimary.withOpacity(0.20),
               ),
-              Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.38,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                    ),
-                    child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: pageController,
-                      children: [
-                        _createPostTitleDescription(),
-                        _selectRestaurantPage(allPreferences!)
-                      ],
-                    ),
-                  ),
-                  currentPage == 1
-                      ? Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AppButton(
-                                loading: state.isLoading,
-                                width: MediaQuery.of(context).size.width * 0.73,
-                                text: "Post",
-                                onPressed: () async {
-                                  dismissKeyboard(context);
-                                  if (imageFile != null) {
-                                    createPostNotifier.addPost(() {
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      createPostNotifier.onContinuePressed(context);
-                                      postFeedNotifier.getPostFeed();
-                                      createPostNotifier.clearRestaurantDetails();
-                                    }, imageFile);
-                                  } else {
-                                    showToastMessage("Click or select image");
-                                  }
-                                },
-                              ),
-                              AppButton(
-                                color: AppColors.colorPrimaryAlpha,
-                                width: MediaQuery.of(context).size.width * 0.13,
-                                onPressed: () {
-                                  createPostNotifier.resetPage();
-                                  createPostNotifier.clearAllPostDetails();
-                                  Navigator.pop(context);
-                                },
-                                child: Image.asset(
-                                  Assets.cancel,
-                                  color: AppColors.colorBackground,
-                                  scale: 2,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: AppButton(
-                              loading: state.isLoading,
-                              text: "Continue",
-                              onPressed: () {
-                                dismissKeyboard(context);
-                                if (createPostNotifier.postTitleTextController.text
-                                        .trim()
-                                        .isNotEmpty &&
-                                    createPostNotifier.postDescriptionTextController.text
-                                        .trim()
-                                        .isNotEmpty) {
-                                  createPostNotifier.onContinuePressed(context);
-                                } else {
-                                  showToastMessage("Post title and description are required");
-                                }
-                              }),
-                        ),
+                  5.horizontalSpace, //this is for centering the icon
+                  Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
                 ],
               ),
-            ],
+            ),
+          ),
+          title: Text(
+            'Create Post',
+            style: AppTextStyles.textStylePoppinsBold.copyWith(
+              color: AppColors.colorPrimary,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+        body: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {
+            if (didPop) {
+              createPostNotifier.pageController.jumpToPage(0);
+              createPostNotifier.clearRestaurantDetails();
+              createPostNotifier.resetPage();
+            }
+            // else {
+            //   createPostNotifier.clearAllPostDetails();
+            //   Navigator.pop(context);
+            //   createPostNotifier.resetPage();
+            // }
+          },
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              children: [
+                10.verticalSpace,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  height: MediaQuery.of(context).size.height * 0.37,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: imageFile == null
+                          ? const Text('No image selected.')
+                          : Image.file(
+                              File(imageFile.path),
+                              fit: BoxFit.fill,
+                              height: double.infinity,
+                              width: double.infinity,
+                            ),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.38,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: PageView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: pageController,
+                        children: [
+                          _createPostTitleDescription(),
+                          _selectRestaurantPage(allPreferences!)
+                        ],
+                      ),
+                    ),
+                    currentPage == 1
+                        ? Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AppButton(
+                                  loading: state.isLoading,
+                                  width: MediaQuery.of(context).size.width * 0.73,
+                                  text: "Post",
+                                  onPressed: () async {
+                                    dismissKeyboard(context);
+                                    if (imageFile != null) {
+                                      createPostNotifier.addPost(() {
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        createPostNotifier.onContinuePressed(context);
+                                        postFeedNotifier.getPostFeed();
+                                        createPostNotifier.clearRestaurantDetails();
+                                      }, imageFile);
+                                    } else {
+                                      showToastMessage("Click or select image");
+                                    }
+                                  },
+                                ),
+                                AppButton(
+                                  color: AppColors.colorPrimaryAlpha,
+                                  width: MediaQuery.of(context).size.width * 0.13,
+                                  onPressed: () {
+                                    createPostNotifier.resetPage();
+                                    createPostNotifier.clearAllPostDetails();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Image.asset(
+                                    Assets.cancel,
+                                    color: AppColors.colorBackground,
+                                    scale: 2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: AppButton(
+                                loading: state.isLoading,
+                                text: "Continue",
+                                onPressed: () {
+                                  dismissKeyboard(context);
+                                  if (createPostNotifier.postTitleTextController.text
+                                          .trim()
+                                          .isNotEmpty &&
+                                      createPostNotifier.postDescriptionTextController.text
+                                          .trim()
+                                          .isNotEmpty) {
+                                    createPostNotifier.onContinuePressed(context);
+                                  } else {
+                                    showToastMessage("Post title and description are required");
+                                  }
+                                }),
+                          ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

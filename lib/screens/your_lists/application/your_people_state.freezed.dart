@@ -32,6 +32,12 @@ mixin _$YourPeopleState {
   int get allUsersListLength => throw _privateConstructorUsedError;
   int get allUsersCurrentPage => throw _privateConstructorUsedError;
   int get allUsersTotalPages => throw _privateConstructorUsedError;
+  List<Restaurant>? get restaurantList => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  bool get hasMore => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
+  dynamic get isMoreDataFetchable => throw _privateConstructorUsedError;
+  int get totalNumberOfRestaurants => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $YourPeopleStateCopyWith<YourPeopleState> get copyWith =>
@@ -60,7 +66,13 @@ abstract class $YourPeopleStateCopyWith<$Res> {
       int requestTotalPages,
       int allUsersListLength,
       int allUsersCurrentPage,
-      int allUsersTotalPages});
+      int allUsersTotalPages,
+      List<Restaurant>? restaurantList,
+      int currentPage,
+      bool hasMore,
+      int totalPages,
+      dynamic isMoreDataFetchable,
+      int totalNumberOfRestaurants});
 }
 
 /// @nodoc
@@ -92,6 +104,12 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
     Object? allUsersListLength = null,
     Object? allUsersCurrentPage = null,
     Object? allUsersTotalPages = null,
+    Object? restaurantList = freezed,
+    Object? currentPage = null,
+    Object? hasMore = null,
+    Object? totalPages = null,
+    Object? isMoreDataFetchable = freezed,
+    Object? totalNumberOfRestaurants = null,
   }) {
     return _then(_value.copyWith(
       selectedIndex: null == selectedIndex
@@ -158,6 +176,30 @@ class _$YourPeopleStateCopyWithImpl<$Res, $Val extends YourPeopleState>
           ? _value.allUsersTotalPages
           : allUsersTotalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      restaurantList: freezed == restaurantList
+          ? _value.restaurantList
+          : restaurantList // ignore: cast_nullable_to_non_nullable
+              as List<Restaurant>?,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      isMoreDataFetchable: freezed == isMoreDataFetchable
+          ? _value.isMoreDataFetchable
+          : isMoreDataFetchable // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      totalNumberOfRestaurants: null == totalNumberOfRestaurants
+          ? _value.totalNumberOfRestaurants
+          : totalNumberOfRestaurants // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -186,7 +228,13 @@ abstract class _$$YourPeopleStateImplCopyWith<$Res>
       int requestTotalPages,
       int allUsersListLength,
       int allUsersCurrentPage,
-      int allUsersTotalPages});
+      int allUsersTotalPages,
+      List<Restaurant>? restaurantList,
+      int currentPage,
+      bool hasMore,
+      int totalPages,
+      dynamic isMoreDataFetchable,
+      int totalNumberOfRestaurants});
 }
 
 /// @nodoc
@@ -216,6 +264,12 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
     Object? allUsersListLength = null,
     Object? allUsersCurrentPage = null,
     Object? allUsersTotalPages = null,
+    Object? restaurantList = freezed,
+    Object? currentPage = null,
+    Object? hasMore = null,
+    Object? totalPages = null,
+    Object? isMoreDataFetchable = freezed,
+    Object? totalNumberOfRestaurants = null,
   }) {
     return _then(_$YourPeopleStateImpl(
       selectedIndex: null == selectedIndex
@@ -282,6 +336,29 @@ class __$$YourPeopleStateImplCopyWithImpl<$Res>
           ? _value.allUsersTotalPages
           : allUsersTotalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      restaurantList: freezed == restaurantList
+          ? _value._restaurantList
+          : restaurantList // ignore: cast_nullable_to_non_nullable
+              as List<Restaurant>?,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      isMoreDataFetchable: freezed == isMoreDataFetchable
+          ? _value.isMoreDataFetchable!
+          : isMoreDataFetchable,
+      totalNumberOfRestaurants: null == totalNumberOfRestaurants
+          ? _value.totalNumberOfRestaurants
+          : totalNumberOfRestaurants // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -305,11 +382,18 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
       this.requestTotalPages = 1,
       this.allUsersListLength = 0,
       this.allUsersCurrentPage = 1,
-      this.allUsersTotalPages = 1})
+      this.allUsersTotalPages = 1,
+      final List<Restaurant>? restaurantList = const [],
+      this.currentPage = 1,
+      this.hasMore = true,
+      this.totalPages = 0,
+      this.isMoreDataFetchable = true,
+      this.totalNumberOfRestaurants = 0})
       : _followingList = followingList,
         _followerList = followerList,
         _allUsersList = allUsersList,
-        _followRequestsList = followRequestsList;
+        _followRequestsList = followRequestsList,
+        _restaurantList = restaurantList;
 
   @override
   @JsonKey()
@@ -384,10 +468,36 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
   @override
   @JsonKey()
   final int allUsersTotalPages;
+  final List<Restaurant>? _restaurantList;
+  @override
+  @JsonKey()
+  List<Restaurant>? get restaurantList {
+    final value = _restaurantList;
+    if (value == null) return null;
+    if (_restaurantList is EqualUnmodifiableListView) return _restaurantList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final bool hasMore;
+  @override
+  @JsonKey()
+  final int totalPages;
+  @override
+  @JsonKey()
+  final dynamic isMoreDataFetchable;
+  @override
+  @JsonKey()
+  final int totalNumberOfRestaurants;
 
   @override
   String toString() {
-    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, followerList: $followerList, allUsersList: $allUsersList, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages, allUsersListLength: $allUsersListLength, allUsersCurrentPage: $allUsersCurrentPage, allUsersTotalPages: $allUsersTotalPages)';
+    return 'YourPeopleState(selectedIndex: $selectedIndex, isLoading: $isLoading, userId: $userId, followingList: $followingList, followerList: $followerList, allUsersList: $allUsersList, followRequestsList: $followRequestsList, followerCurrentPage: $followerCurrentPage, followerTotalPages: $followerTotalPages, followingCurrentPage: $followingCurrentPage, followingTotalPages: $followingTotalPages, requestCurrentPage: $requestCurrentPage, requestTotalPages: $requestTotalPages, allUsersListLength: $allUsersListLength, allUsersCurrentPage: $allUsersCurrentPage, allUsersTotalPages: $allUsersTotalPages, restaurantList: $restaurantList, currentPage: $currentPage, hasMore: $hasMore, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, totalNumberOfRestaurants: $totalNumberOfRestaurants)';
   }
 
   @override
@@ -425,28 +535,47 @@ class _$YourPeopleStateImpl implements _YourPeopleState {
             (identical(other.allUsersCurrentPage, allUsersCurrentPage) ||
                 other.allUsersCurrentPage == allUsersCurrentPage) &&
             (identical(other.allUsersTotalPages, allUsersTotalPages) ||
-                other.allUsersTotalPages == allUsersTotalPages));
+                other.allUsersTotalPages == allUsersTotalPages) &&
+            const DeepCollectionEquality()
+                .equals(other._restaurantList, _restaurantList) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            const DeepCollectionEquality()
+                .equals(other.isMoreDataFetchable, isMoreDataFetchable) &&
+            (identical(
+                    other.totalNumberOfRestaurants, totalNumberOfRestaurants) ||
+                other.totalNumberOfRestaurants == totalNumberOfRestaurants));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      selectedIndex,
-      isLoading,
-      userId,
-      const DeepCollectionEquality().hash(_followingList),
-      const DeepCollectionEquality().hash(_followerList),
-      const DeepCollectionEquality().hash(_allUsersList),
-      const DeepCollectionEquality().hash(_followRequestsList),
-      followerCurrentPage,
-      followerTotalPages,
-      followingCurrentPage,
-      followingTotalPages,
-      requestCurrentPage,
-      requestTotalPages,
-      allUsersListLength,
-      allUsersCurrentPage,
-      allUsersTotalPages);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        selectedIndex,
+        isLoading,
+        userId,
+        const DeepCollectionEquality().hash(_followingList),
+        const DeepCollectionEquality().hash(_followerList),
+        const DeepCollectionEquality().hash(_allUsersList),
+        const DeepCollectionEquality().hash(_followRequestsList),
+        followerCurrentPage,
+        followerTotalPages,
+        followingCurrentPage,
+        followingTotalPages,
+        requestCurrentPage,
+        requestTotalPages,
+        allUsersListLength,
+        allUsersCurrentPage,
+        allUsersTotalPages,
+        const DeepCollectionEquality().hash(_restaurantList),
+        currentPage,
+        hasMore,
+        totalPages,
+        const DeepCollectionEquality().hash(isMoreDataFetchable),
+        totalNumberOfRestaurants
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -473,7 +602,13 @@ abstract class _YourPeopleState implements YourPeopleState {
       final int requestTotalPages,
       final int allUsersListLength,
       final int allUsersCurrentPage,
-      final int allUsersTotalPages}) = _$YourPeopleStateImpl;
+      final int allUsersTotalPages,
+      final List<Restaurant>? restaurantList,
+      final int currentPage,
+      final bool hasMore,
+      final int totalPages,
+      final dynamic isMoreDataFetchable,
+      final int totalNumberOfRestaurants}) = _$YourPeopleStateImpl;
 
   @override
   int get selectedIndex;
@@ -507,6 +642,18 @@ abstract class _YourPeopleState implements YourPeopleState {
   int get allUsersCurrentPage;
   @override
   int get allUsersTotalPages;
+  @override
+  List<Restaurant>? get restaurantList;
+  @override
+  int get currentPage;
+  @override
+  bool get hasMore;
+  @override
+  int get totalPages;
+  @override
+  dynamic get isMoreDataFetchable;
+  @override
+  int get totalNumberOfRestaurants;
   @override
   @JsonKey(ignore: true)
   _$$YourPeopleStateImplCopyWith<_$YourPeopleStateImpl> get copyWith =>

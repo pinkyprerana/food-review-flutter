@@ -7,6 +7,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/followers_list.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list.dart';
+import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
 import '../shared/provider.dart';
@@ -29,10 +30,7 @@ class _ListPageState extends ConsumerState<ListPage> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.read(listProvider.notifier);
     final state = ref.watch(listProvider);
-    // final notificationState = ref.watch(notificationNotifierProvider);
-    // final todayNotifications = notificationState.todayNotifications;
-    // final yesterdayNotifications = notificationState.yesterdayNotifications;
-    // final olderNotifications = notificationState.olderNotifications;
+    final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
 
     return Scaffold(
       extendBody: true,
@@ -63,8 +61,10 @@ class _ListPageState extends ConsumerState<ListPage> {
             children: [
               CustomSearchField(
                 height: 50.r,
+                controller: followNotifier.searchController,
                 bgColor: AppColors.colorBackground,
                 isBorder: true,
+                onChanged: (_) => followNotifier.searchUserRestaurant(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0).r,
