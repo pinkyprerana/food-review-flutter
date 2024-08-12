@@ -22,6 +22,8 @@ class PostFeedState with _$PostFeedState {
     @Default(1) int currentPage,
     @Default(1) int totalPages,
     @Default(false) bool isHeartAnimating,
+    @Default(1) int currentPageAllPosts,
+    @Default(1) int totalPagesAllPosts,
   }) = _PostFeedState;
   const PostFeedState._();
 }

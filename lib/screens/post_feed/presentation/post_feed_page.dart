@@ -147,10 +147,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       : SwipeCards(
                           matchEngine: _matchEngine!,
                           itemBuilder: (BuildContext context, int index) {
-                            if (index < 0 || index >= postFeedList!.length) {
+                            if (index < 0 ||
+                                index >= (postFeedList?.length ?? 0)) {
                               return const SizedBox.shrink();
+                            } else if (index ==
+                                (postFeedList?.length ?? 0) - 2) {
+                              stateNotifier.loadMorePostFeed();
                             }
-                            final postList = postFeedList[index];
+                            final postList = postFeedList?[index];
                             return PostFeedItem(postList: postList);
                           },
                           onStackFinished: () {

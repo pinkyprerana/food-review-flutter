@@ -127,13 +127,42 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> getPostFeed({bool isPostLoading = false}) async {
+  Future<void> loadMorePostFeed() async {
+    AppLog.log(
+        '-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
+    if (state.currentPageAllPosts >= state.totalPagesAllPosts) {
+      showToastMessage('No more posts');
+      return;
+    }
+
+    await getPostFeed(isLoadMore: true);
+  }
+
+  Future<void> getPostFeed(
+      {bool isPostLoading = false, bool isLoadMore = false}) async {
     state = state.copyWith(isLoading: !isPostLoading);
+
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
-              body: {"list_type": "list"});
+      if (isLoadMore &&
+          (state.currentPageAllPosts * 10 == state.postList?.length)) {
+        state =
+            state.copyWith(currentPageAllPosts: state.currentPageAllPosts + 1);
+      } else {
+        state = state.copyWith(currentPageAllPosts: 1);
+      }
+
+      AppLog.log(
+          '-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
+
+      var (response, dioException) =
+          await _networkApiService.postApiRequestWithToken(
+        url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
+        body: {
+          "list_type": "list",
+          "perpage": 10,
+          "page": state.currentPageAllPosts,
+        },
+      );
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -143,6 +172,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         try {
           PostModel postModel = PostModel.fromJson(response.data);
+          AppLog.log('--postModel.status---:${postModel.status}');
           if (postModel.status == 200) {
             List<CommentInfo> allComments = [];
             for (var post in postModel.postList ?? []) {
@@ -150,11 +180,25 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                 allComments.addAll(post.commentInfo!);
               }
             }
+            if (isLoadMore) {
+              AppLog.log('new list------');
+              state = state.copyWith(
+                isLoading: false,
+                postList: [
+                  ...state.postList ?? [],
+                  ...postModel.postList ?? [],
+                ],
+                commentInfoList: allComments,
+              );
+
+              return;
+            }
 
             state = state.copyWith(
               isLoading: false,
               postList: postModel.postList,
               commentInfoList: allComments,
+              totalPagesAllPosts: postModel.pages ?? 0,
             );
           } else {
             showToastMessage(postModel.message.toString());
@@ -164,6 +208,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage("Error parsing response data");
         }
       }
+      AppLog.log('state.postList?.length +++++ ${state.postList?.length}');
     } catch (error) {
       AppLog.log("Error fetching post feed: $error");
       state = state.copyWith(isLoading: false);
