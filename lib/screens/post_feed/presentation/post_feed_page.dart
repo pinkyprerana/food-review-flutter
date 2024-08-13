@@ -67,29 +67,6 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     super.didChangeDependencies();
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
-
-    // final postFeedList = postFeedState.postList;
-
-    // if (_swipeItems.isEmpty && (postFeedList?.isNotEmpty ?? false)) {
-    //   for (int i = 0; i < (postFeedList?.length ?? 0); i++) {
-    //     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    //     _swipeItems.add(SwipeItem(
-    //         content: Content(text: postFeedList?[i].toString()),
-    //         likeAction: () async {
-    //           await postFeedNotifier.swipeRightToLikePost(
-    //               () {}, postFeedList?[i].id ?? "");
-    //         },
-    //         nopeAction: () async {
-    //           await postFeedNotifier.swipeLeftToDislikePost(
-    //               () {}, postFeedList?[i].id ?? "");
-    //         },
-    //         onSlideUpdate: (SlideRegion? region) async {
-    //           AppLog.log("Region $region");
-    //         }));
-    //   }
-
-    //   _matchEngine = MatchEngine(swipeItems: _swipeItems);
-    // }
   }
 
   @override
@@ -102,7 +79,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     return Scaffold(
       // backgroundColor: AppColors.colorPrimary,
       key: _scaffoldKey,
-      body: postFeedState.isLoading || postFeedState.matchEngine == null
+      body: postFeedState.isLoading || stateNotifier.matchEngine == null
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
@@ -142,26 +119,30 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                         )
                       : SwipeCards(
                           matchEngine:
-                              postFeedState.matchEngine ?? MatchEngine(),
+                              stateNotifier.matchEngine ?? MatchEngine(),
                           itemBuilder: (BuildContext context, int index) {
                             if (index < 0 ||
                                 index >= (postFeedList?.length ?? 0)) {
                               return const SizedBox.shrink();
                             }
-                            // final postList = postFeedList?[index];
-                            return postFeedState.swipeItems[index].content;
+
+                            return stateNotifier.swipeItems[index].content;
                           },
-                          onStackFinished: () {
-                            ref
-                                .read(postFeedNotifierProvider.notifier)
-                                .stackEmptyStatus();
+                          onStackFinished: () async {
+                            // ref
+                            //     .read(postFeedNotifierProvider.notifier)
+                            //     .stackEmptyStatus();
                           },
                           itemChanged: (SwipeItem item, int index) {
                             stateNotifier.count++;
+                            AppLog.log(
+                                '===== stateNotifier.count========= ${stateNotifier.count}');
+                            AppLog.log(
+                                '===== stateNotifier.swipeItems.length========= ${stateNotifier.swipeItems.length}');
                             if (stateNotifier.count ==
-                                postFeedState.swipeItems.length - 2)
-                              AppLog.log(
-                                  "item: ${item.content}, index: $index");
+                                stateNotifier.swipeItems.length - 5) {
+                              stateNotifier.loadMorePostFeed();
+                            }
                           },
                           upSwipeAllowed: true,
                           fillSpace: true,

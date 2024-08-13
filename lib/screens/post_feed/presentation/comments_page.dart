@@ -287,7 +287,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
               //         color: AppColors.colorWhite,
               //       ))
               //     :
-              comments!.isEmpty
+              ((comments ?? []).isEmpty)
                   ? Center(
                       child: Text("Be the first to comment in this post.",
                           style: AppTextStyles.textStylePoppinsMedium.copyWith(

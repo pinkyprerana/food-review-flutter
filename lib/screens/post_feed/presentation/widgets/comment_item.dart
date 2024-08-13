@@ -10,7 +10,7 @@ import '../../../../core/constants/app_urls.dart';
 import '../../shared/provider.dart';
 
 class CommentItem extends ConsumerStatefulWidget {
-  final List<CommentInfo> commentInfoList;
+  final List<CommentInfo>? commentInfoList;
 
   const CommentItem({
     super.key,
@@ -26,7 +26,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
   Widget build(BuildContext context) {
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     return Column(
-      children: widget.commentInfoList.map((commentInfo) {
+      children: (widget.commentInfoList ?? []).map((commentInfo) {
         return Container(
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: Row(
@@ -38,9 +38,11 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: "${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}" == '${AppUrls.profilePicLocation}/'
+                    image: "${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}" ==
+                            '${AppUrls.profilePicLocation}/'
                         ? const AssetImage(Assets.avatar)
-                        : CachedNetworkImageProvider("${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}"),
+                        : CachedNetworkImageProvider(
+                            "${AppUrls.profilePicLocation}/${commentInfo.commentedUserData?.profileImage}"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -77,8 +79,8 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: GestureDetector(
-                        onTap: () =>
-                            postFeedNotifier.postCommentLikeUnlike(() {}, commentInfo.id ?? ""),
+                        onTap: () => postFeedNotifier.postCommentLikeUnlike(
+                            () {}, commentInfo.id ?? ""),
                         child: (commentInfo.isCommentLiked ?? false)
                             ? Image.asset(Assets.redHeart)
                             : Image.asset(Assets.like),

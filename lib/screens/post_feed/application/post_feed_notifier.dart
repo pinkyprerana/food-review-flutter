@@ -26,6 +26,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   TextEditingController commentController = TextEditingController();
   List<SwipeItem> swipeItems = [];
   int count = 0;
+  MatchEngine? matchEngine;
 
   final refreshController = RefreshController();
 
@@ -133,20 +134,20 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> loadMorePostFeed() async {
-    AppLog.log(
-        '-----------state.currentPageAllPosts in loadmore: ------->> ${state.currentPageAllPosts}');
     if (state.currentPageAllPosts >= state.totalPagesAllPosts) {
       showToastMessage('No more posts');
       return;
     }
-
+    AppLog.log(
+        '-----------------------load more callled----------------------------');
     await getPostFeed(isLoadMore: true);
   }
 
   Future<void> getPostFeed(
       {bool isPostLoading = false, bool isLoadMore = false}) async {
-    state = state.copyWith(isLoading: !isPostLoading);
-    AppLog.log('state.currentPageAllPosts ------ ${state.currentPageAllPosts}');
+    if (isLoadMore == false) {
+      state = state.copyWith(isLoading: !isPostLoading);
+    }
 
     try {
       if (isLoadMore) {
@@ -185,19 +186,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                 allComments.addAll(post.commentInfo!);
               }
             }
-            // if (isLoadMore) {
-            //   AppLog.log('new list------');
-            //   state = state.copyWith(
-            //     isLoading: false,
-            //     postList: [
-            //       ...state.postList ?? [],
-            //       ...postModel.postList ?? [],
-            //     ],
-            //     commentInfoList: allComments,
-            //   );
-
-            //   return;
-            // }
 
             for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
               swipeItems.add(
@@ -215,29 +203,17 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
               );
             }
 
-            if (isLoadMore) {
-              AppLog.log('new list------');
-              state = state.copyWith(
-                isLoading: false,
-                postList: [
-                  ...state.postList ?? [],
-                  ...postModel.postList ?? [],
-                ],
-                commentInfoList: allComments,
-                swipeItems: [...swipeItems],
-                matchEngine: MatchEngine(swipeItems: [...swipeItems]),
-              );
+            matchEngine = MatchEngine(swipeItems: [...swipeItems]);
 
+            if (isLoadMore) {
               return;
             }
 
             state = state.copyWith(
               isLoading: false,
-              postList: postModel.postList,
-              commentInfoList: allComments,
+              postList: postModel.postList, // i think the problem is here
+              // commentInfoList: allComments,
               totalPagesAllPosts: postModel.pages ?? 0,
-              swipeItems: [...swipeItems],
-              matchEngine: MatchEngine(swipeItems: [...swipeItems]),
             );
           } else {
             showToastMessage(postModel.message.toString());
@@ -247,7 +223,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           showToastMessage("Error parsing response data");
         }
       }
-      AppLog.log('state.postList?.length +++++ ${state.postList?.length}');
     } catch (error) {
       AppLog.log("Error fetching post feed: $error");
       state = state.copyWith(isLoading: false);

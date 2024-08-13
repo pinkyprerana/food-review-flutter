@@ -215,7 +215,7 @@ class _NotExpandedPostDetailsState
                       children: [
                         Image.asset(Assets.comments),
                         Text(
-                          (commentCount! > 9)
+                          ((commentCount ?? 0) > 9)
                               ? commentCount.toString()
                               : "0${commentCount.toString()}",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
