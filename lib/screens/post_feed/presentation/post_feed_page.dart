@@ -152,19 +152,16 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             return postFeedState.swipeItems[index].content;
                           },
                           onStackFinished: () {
-                            //...looad more data...
-                            stateNotifier.loadMorePostFeed();
-                            // ref
-                            //     .read(postFeedNotifierProvider.notifier)
-                            //     .stackEmptyStatus();
+                            ref
+                                .read(postFeedNotifierProvider.notifier)
+                                .stackEmptyStatus();
                           },
                           itemChanged: (SwipeItem item, int index) {
-                            // stateNotifier.count++;
-                            // if (stateNotifier.count ==
-                            //     postFeedState.swipeItems.length - 2) {
-                            //   //load more data
-                            // }
-                            AppLog.log("item: ${item.content}, index: $index");
+                            stateNotifier.count++;
+                            if (stateNotifier.count ==
+                                postFeedState.swipeItems.length - 2)
+                              AppLog.log(
+                                  "item: ${item.content}, index: $index");
                           },
                           upSwipeAllowed: true,
                           fillSpace: true,
