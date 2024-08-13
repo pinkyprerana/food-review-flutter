@@ -36,6 +36,8 @@ mixin _$PostFeedState {
   bool get isHeartAnimating => throw _privateConstructorUsedError;
   int get currentPageAllPosts => throw _privateConstructorUsedError;
   int get totalPagesAllPosts => throw _privateConstructorUsedError;
+  List<SwipeItem> get swipeItems => throw _privateConstructorUsedError;
+  MatchEngine? get matchEngine => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostFeedStateCopyWith<PostFeedState> get copyWith =>
@@ -66,7 +68,9 @@ abstract class $PostFeedStateCopyWith<$Res> {
       int totalPages,
       bool isHeartAnimating,
       int currentPageAllPosts,
-      int totalPagesAllPosts});
+      int totalPagesAllPosts,
+      List<SwipeItem> swipeItems,
+      MatchEngine? matchEngine});
 }
 
 /// @nodoc
@@ -100,6 +104,8 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? isHeartAnimating = null,
     Object? currentPageAllPosts = null,
     Object? totalPagesAllPosts = null,
+    Object? swipeItems = null,
+    Object? matchEngine = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -174,6 +180,14 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.totalPagesAllPosts
           : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      swipeItems: null == swipeItems
+          ? _value.swipeItems
+          : swipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      matchEngine: freezed == matchEngine
+          ? _value.matchEngine
+          : matchEngine // ignore: cast_nullable_to_non_nullable
+              as MatchEngine?,
     ) as $Val);
   }
 }
@@ -204,7 +218,9 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       int totalPages,
       bool isHeartAnimating,
       int currentPageAllPosts,
-      int totalPagesAllPosts});
+      int totalPagesAllPosts,
+      List<SwipeItem> swipeItems,
+      MatchEngine? matchEngine});
 }
 
 /// @nodoc
@@ -236,6 +252,8 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? isHeartAnimating = null,
     Object? currentPageAllPosts = null,
     Object? totalPagesAllPosts = null,
+    Object? swipeItems = null,
+    Object? matchEngine = freezed,
   }) {
     return _then(_$PostFeedStateImpl(
       isLoading: null == isLoading
@@ -310,6 +328,14 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value.totalPagesAllPosts
           : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      swipeItems: null == swipeItems
+          ? _value._swipeItems
+          : swipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      matchEngine: freezed == matchEngine
+          ? _value.matchEngine
+          : matchEngine // ignore: cast_nullable_to_non_nullable
+              as MatchEngine?,
     ));
   }
 }
@@ -335,13 +361,16 @@ class _$PostFeedStateImpl extends _PostFeedState {
       this.totalPages = 1,
       this.isHeartAnimating = false,
       this.currentPageAllPosts = 1,
-      this.totalPagesAllPosts = 1})
+      this.totalPagesAllPosts = 1,
+      final List<SwipeItem> swipeItems = const [],
+      this.matchEngine})
       : _postTitles = postTitles,
         _postList = postList,
         _userInfoList = userInfoList,
         _commentInfoList = commentInfoList,
         _preferenceInfoList = preferenceInfoList,
         _restaurantInfoList = restaurantInfoList,
+        _swipeItems = swipeItems,
         super._();
 
   @override
@@ -446,10 +475,21 @@ class _$PostFeedStateImpl extends _PostFeedState {
   @override
   @JsonKey()
   final int totalPagesAllPosts;
+  final List<SwipeItem> _swipeItems;
+  @override
+  @JsonKey()
+  List<SwipeItem> get swipeItems {
+    if (_swipeItems is EqualUnmodifiableListView) return _swipeItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_swipeItems);
+  }
+
+  @override
+  final MatchEngine? matchEngine;
 
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating, currentPageAllPosts: $currentPageAllPosts, totalPagesAllPosts: $totalPagesAllPosts)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating, currentPageAllPosts: $currentPageAllPosts, totalPagesAllPosts: $totalPagesAllPosts, swipeItems: $swipeItems, matchEngine: $matchEngine)';
   }
 
   @override
@@ -490,30 +530,37 @@ class _$PostFeedStateImpl extends _PostFeedState {
             (identical(other.currentPageAllPosts, currentPageAllPosts) ||
                 other.currentPageAllPosts == currentPageAllPosts) &&
             (identical(other.totalPagesAllPosts, totalPagesAllPosts) ||
-                other.totalPagesAllPosts == totalPagesAllPosts));
+                other.totalPagesAllPosts == totalPagesAllPosts) &&
+            const DeepCollectionEquality()
+                .equals(other._swipeItems, _swipeItems) &&
+            (identical(other.matchEngine, matchEngine) ||
+                other.matchEngine == matchEngine));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isSavePost,
-      isCommentLoading,
-      isExpanded,
-      isLiked,
-      isStackFinished,
-      selectedIndex,
-      const DeepCollectionEquality().hash(_postTitles),
-      const DeepCollectionEquality().hash(_postList),
-      const DeepCollectionEquality().hash(_userInfoList),
-      const DeepCollectionEquality().hash(_commentInfoList),
-      const DeepCollectionEquality().hash(_preferenceInfoList),
-      const DeepCollectionEquality().hash(_restaurantInfoList),
-      currentPage,
-      totalPages,
-      isHeartAnimating,
-      currentPageAllPosts,
-      totalPagesAllPosts);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        isLoading,
+        isSavePost,
+        isCommentLoading,
+        isExpanded,
+        isLiked,
+        isStackFinished,
+        selectedIndex,
+        const DeepCollectionEquality().hash(_postTitles),
+        const DeepCollectionEquality().hash(_postList),
+        const DeepCollectionEquality().hash(_userInfoList),
+        const DeepCollectionEquality().hash(_commentInfoList),
+        const DeepCollectionEquality().hash(_preferenceInfoList),
+        const DeepCollectionEquality().hash(_restaurantInfoList),
+        currentPage,
+        totalPages,
+        isHeartAnimating,
+        currentPageAllPosts,
+        totalPagesAllPosts,
+        const DeepCollectionEquality().hash(_swipeItems),
+        matchEngine
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -541,7 +588,9 @@ abstract class _PostFeedState extends PostFeedState {
       final int totalPages,
       final bool isHeartAnimating,
       final int currentPageAllPosts,
-      final int totalPagesAllPosts}) = _$PostFeedStateImpl;
+      final int totalPagesAllPosts,
+      final List<SwipeItem> swipeItems,
+      final MatchEngine? matchEngine}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
 
   @override
@@ -580,6 +629,10 @@ abstract class _PostFeedState extends PostFeedState {
   int get currentPageAllPosts;
   @override
   int get totalPagesAllPosts;
+  @override
+  List<SwipeItem> get swipeItems;
+  @override
+  MatchEngine? get matchEngine;
   @override
   @JsonKey(ignore: true)
   _$$PostFeedStateImplCopyWith<_$PostFeedStateImpl> get copyWith =>

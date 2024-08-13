@@ -8,19 +8,24 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/post_feed/presentation/post_feed_page.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
+import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:swipe_cards/swipe_cards.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
   PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio)
-      : super(const PostFeedState());
+      : super(PostFeedState());
 
   final HiveDatabase _hiveDatabase;
   final Dio _dio;
   final NetworkApiService _networkApiService;
   TextEditingController commentController = TextEditingController();
+  List<SwipeItem> swipeItems = [];
+  int count = 0;
 
   final refreshController = RefreshController();
 
@@ -129,7 +134,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   Future<void> loadMorePostFeed() async {
     AppLog.log(
-        '-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
+        '-----------state.currentPageAllPosts in loadmore: ------->> ${state.currentPageAllPosts}');
     if (state.currentPageAllPosts >= state.totalPagesAllPosts) {
       showToastMessage('No more posts');
       return;
@@ -141,10 +146,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   Future<void> getPostFeed(
       {bool isPostLoading = false, bool isLoadMore = false}) async {
     state = state.copyWith(isLoading: !isPostLoading);
+    AppLog.log('state.currentPageAllPosts ------ ${state.currentPageAllPosts}');
 
     try {
-      if (isLoadMore &&
-          (state.currentPageAllPosts * 10 == state.postList?.length)) {
+      if (isLoadMore) {
         state =
             state.copyWith(currentPageAllPosts: state.currentPageAllPosts + 1);
       } else {
@@ -163,7 +168,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           "page": state.currentPageAllPosts,
         },
       );
-      state = state.copyWith(isLoading: false);
+      // state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
@@ -180,6 +185,36 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                 allComments.addAll(post.commentInfo!);
               }
             }
+            // if (isLoadMore) {
+            //   AppLog.log('new list------');
+            //   state = state.copyWith(
+            //     isLoading: false,
+            //     postList: [
+            //       ...state.postList ?? [],
+            //       ...postModel.postList ?? [],
+            //     ],
+            //     commentInfoList: allComments,
+            //   );
+
+            //   return;
+            // }
+
+            for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
+              swipeItems.add(
+                SwipeItem(
+                  content: PostFeedItem(postList: postModel.postList?[i]),
+                  likeAction: () async {
+                    await swipeRightToLikePost(
+                        () {}, postModel.postList?[i].id ?? "");
+                  },
+                  nopeAction: () async {
+                    await swipeLeftToDislikePost(
+                        () {}, postModel.postList?[i].id ?? "");
+                  },
+                ),
+              );
+            }
+
             if (isLoadMore) {
               AppLog.log('new list------');
               state = state.copyWith(
@@ -189,6 +224,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                   ...postModel.postList ?? [],
                 ],
                 commentInfoList: allComments,
+                swipeItems: [...swipeItems],
+                matchEngine: MatchEngine(swipeItems: [...swipeItems]),
               );
 
               return;
@@ -199,6 +236,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
               postList: postModel.postList,
               commentInfoList: allComments,
               totalPagesAllPosts: postModel.pages ?? 0,
+              swipeItems: [...swipeItems],
+              matchEngine: MatchEngine(swipeItems: [...swipeItems]),
             );
           } else {
             showToastMessage(postModel.message.toString());

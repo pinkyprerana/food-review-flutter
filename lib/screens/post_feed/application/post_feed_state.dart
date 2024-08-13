@@ -1,5 +1,6 @@
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:swipe_cards/swipe_cards.dart';
 
 part 'post_feed_state.freezed.dart';
 
@@ -24,6 +25,8 @@ class PostFeedState with _$PostFeedState {
     @Default(false) bool isHeartAnimating,
     @Default(1) int currentPageAllPosts,
     @Default(1) int totalPagesAllPosts,
+    @Default([]) List<SwipeItem> swipeItems,
+    MatchEngine? matchEngine,
   }) = _PostFeedState;
   const PostFeedState._();
 }

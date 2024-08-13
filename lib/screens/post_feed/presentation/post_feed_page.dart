@@ -20,8 +20,8 @@ class PostFeedPage extends ConsumerStatefulWidget {
 
 class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   List<String> buttonTexts = ['For The Table', 'Following'];
-  final List<SwipeItem> _swipeItems = <SwipeItem>[];
-  MatchEngine? _matchEngine;
+  // final List<SwipeItem> _swipeItems = <SwipeItem>[];
+  // MatchEngine? _matchEngine;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
@@ -30,70 +30,66 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
-      final postFeedState = ref.read(postFeedNotifierProvider);
-      final postFeedList = postFeedState.postList;
+      // final postFeedState = ref.read(postFeedNotifierProvider);
+      // final postFeedList = postFeedState.postList;
 
-      if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
-        for (int i = 0; i < postFeedList.length; i++) {
-          final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-          _swipeItems.add(SwipeItem(
-              content: Content(text: postFeedList[i].toString()),
-              likeAction: () async {
-                await postFeedNotifier.swipeRightToLikePost(
-                    () {}, postFeedList[i].id ?? "");
-              },
-              nopeAction: () async {
-                await postFeedNotifier.swipeLeftToDislikePost(
-                    () {}, postFeedList[i].id ?? "");
-              },
-              // superlikeAction: () {
-              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //     content: Text("Superliked ${postFeedList[i].title}"),
-              //     duration: const Duration(milliseconds: 500),
-              //   ));
-              // },
-              onSlideUpdate: (SlideRegion? region) async {
-                AppLog.log("Region $region");
-              }));
-        }
+      // if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
+      //   for (int i = 0; i < postFeedList.length; i++) {
+      //     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      //     _swipeItems.add(SwipeItem(
+      //         content: Content(text: postFeedList[i].toString()),
+      //         likeAction: () async {
+      //           await postFeedNotifier.swipeRightToLikePost(
+      //               () {}, postFeedList[i].id ?? "");
+      //         },
+      //         nopeAction: () async {
+      //           await postFeedNotifier.swipeLeftToDislikePost(
+      //               () {}, postFeedList[i].id ?? "");
+      //         },
+      //         // superlikeAction: () {
+      //         //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //         //     content: Text("Superliked ${postFeedList[i].title}"),
+      //         //     duration: const Duration(milliseconds: 500),
+      //         //   ));
+      //         // },
+      //         onSlideUpdate: (SlideRegion? region) async {
+      //           AppLog.log("Region $region");
+      //         }));
+      //   }
 
-        _matchEngine = MatchEngine(swipeItems: _swipeItems);
-      }
+      //   _matchEngine = MatchEngine(swipeItems: _swipeItems);
+      // }
     });
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
-    final postFeedState = ref.watch(postFeedNotifierProvider);
-    final postFeedList = postFeedState.postList;
+    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    await postFeedNotifier.getPostFeed();
 
-    if (_swipeItems.isEmpty && (postFeedList?.isNotEmpty ?? false)) {
-      for (int i = 0; i < (postFeedList?.length ?? 0); i++) {
-        final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-        _swipeItems.add(SwipeItem(
-            content: Content(text: postFeedList?[i].toString()),
-            likeAction: () async {
-              await postFeedNotifier.swipeRightToLikePost(
-                  () {}, postFeedList?[i].id ?? "");
-            },
-            nopeAction: () async {
-              await postFeedNotifier.swipeLeftToDislikePost(
-                  () {}, postFeedList?[i].id ?? "");
-            },
-            // superlikeAction: () {
-            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //     content: Text("Superliked ${postFeedList[i].title}"),
-            //     duration: const Duration(milliseconds: 500),
-            //   ));
-            // },
-            onSlideUpdate: (SlideRegion? region) async {
-              AppLog.log("Region $region");
-            }));
-      }
+    // final postFeedList = postFeedState.postList;
 
-      _matchEngine = MatchEngine(swipeItems: _swipeItems);
-    }
+    // if (_swipeItems.isEmpty && (postFeedList?.isNotEmpty ?? false)) {
+    //   for (int i = 0; i < (postFeedList?.length ?? 0); i++) {
+    //     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    //     _swipeItems.add(SwipeItem(
+    //         content: Content(text: postFeedList?[i].toString()),
+    //         likeAction: () async {
+    //           await postFeedNotifier.swipeRightToLikePost(
+    //               () {}, postFeedList?[i].id ?? "");
+    //         },
+    //         nopeAction: () async {
+    //           await postFeedNotifier.swipeLeftToDislikePost(
+    //               () {}, postFeedList?[i].id ?? "");
+    //         },
+    //         onSlideUpdate: (SlideRegion? region) async {
+    //           AppLog.log("Region $region");
+    //         }));
+    //   }
+
+    //   _matchEngine = MatchEngine(swipeItems: _swipeItems);
+    // }
   }
 
   @override
@@ -106,7 +102,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     return Scaffold(
       // backgroundColor: AppColors.colorPrimary,
       key: _scaffoldKey,
-      body: postFeedState.isLoading || _matchEngine == null
+      body: postFeedState.isLoading || postFeedState.matchEngine == null
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
@@ -145,30 +141,30 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           ),
                         )
                       : SwipeCards(
-                          matchEngine: _matchEngine!,
+                          matchEngine:
+                              postFeedState.matchEngine ?? MatchEngine(),
                           itemBuilder: (BuildContext context, int index) {
                             if (index < 0 ||
                                 index >= (postFeedList?.length ?? 0)) {
                               return const SizedBox.shrink();
-                            } else if (index ==
-                                (postFeedList?.length ?? 0) - 2) {
-                              stateNotifier.loadMorePostFeed();
                             }
-                            final postList = postFeedList?[index];
-                            return PostFeedItem(postList: postList);
+                            // final postList = postFeedList?[index];
+                            return postFeedState.swipeItems[index].content;
                           },
                           onStackFinished: () {
-                            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            //   content: Text("Post Finished"),
-                            //   duration: Duration(milliseconds: 500),
-                            // ));
-                            ref
-                                .read(postFeedNotifierProvider.notifier)
-                                .stackEmptyStatus();
+                            //...looad more data...
+                            stateNotifier.loadMorePostFeed();
+                            // ref
+                            //     .read(postFeedNotifierProvider.notifier)
+                            //     .stackEmptyStatus();
                           },
                           itemChanged: (SwipeItem item, int index) {
-                            AppLog.log(
-                                "item: ${item.content.text}, index: $index");
+                            // stateNotifier.count++;
+                            // if (stateNotifier.count ==
+                            //     postFeedState.swipeItems.length - 2) {
+                            //   //load more data
+                            // }
+                            AppLog.log("item: ${item.content}, index: $index");
                           },
                           upSwipeAllowed: true,
                           fillSpace: true,
