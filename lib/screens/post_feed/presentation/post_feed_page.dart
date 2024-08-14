@@ -201,6 +201,11 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 return GestureDetector(
                                   onTap: () async {
                                     stateNotifier.selectButton(index);
+                                    if (index == 0) {
+                                      final postFeedNotifier =
+                                          ref.read(postFeedNotifierProvider.notifier);
+                                      await postFeedNotifier.getPostFeed();
+                                    }
                                     if (index == 1) {
                                       final postFeedNotifier =
                                           ref.read(postFeedNotifierProvider.notifier);

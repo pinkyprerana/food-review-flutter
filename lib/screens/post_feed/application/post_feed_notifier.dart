@@ -1,19 +1,28 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
-  PostFeedNotifier(this._hiveDatabase, this._networkApiService) : super(const PostFeedState());
+  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio)
+      : super(const PostFeedState());
 
   final HiveDatabase _hiveDatabase;
+  final Dio _dio;
   final NetworkApiService _networkApiService;
   TextEditingController commentController = TextEditingController();
+
+  final refreshController = RefreshController();
 
   void setIsExpanded() {
     state = state.copyWith(isExpanded: !state.isExpanded);
@@ -36,11 +45,92 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
   String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
+  void loadMorePosts() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new posts to display');
+      refreshController.loadComplete();
+      return;
+    }
+
+    await fetchPosts(isLoadMore: true);
+    refreshController.loadComplete();
+  }
+
+  Future<void> fetchPosts({bool isLoadMore = false}) async {
+    state = state.copyWith(isLoading: !isLoadMore);
+
+    if (isLoadMore && (state.currentPage * 10 == state.postList?.length)) {
+      state = state.copyWith(currentPage: state.currentPage + 1);
+    } else {
+      state = state.copyWith(currentPage: 1);
+    }
+
+    final FormData formData = FormData.fromMap({
+      "perpage": 10,
+      "page": state.currentPage,
+      "list_type": "follow",
+    });
+
+    var headers = {
+      'Accept': '*/*',
+      'Content-Type': 'application/json',
+      'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+    };
+
+    _dio.options.headers.addAll(headers);
+
+    try {
+      var response = await _dio.post(
+        "/post/list",
+        data: formData,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        PostModel postModel = PostModel.fromJson(response.data);
+        final posts = postModel.postList;
+
+        if (isLoadMore) {
+          final currentPostsIds = state.postList?.map((post) => post.id).toSet();
+
+          final uniqueNewPosts =
+              posts?.where((post) => !(currentPostsIds?.contains(post.id) ?? false)).toList();
+
+          if ((uniqueNewPosts?.isEmpty ?? false) && isLoadMore) {
+            showToastMessage('No new posts to display.');
+          }
+
+          state = state.copyWith(
+            isLoading: false,
+            postList: [
+              ...state.postList ?? [],
+              ...uniqueNewPosts ?? [],
+            ],
+          );
+
+          return;
+        }
+
+        state = state.copyWith(
+          isLoading: false,
+          postList: posts ?? [],
+          totalPages: postModel.pages ?? 0,
+        );
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Something went wrong, please try again');
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
   Future<void> getPostFeed({bool isPostLoading = false}) async {
     state = state.copyWith(isLoading: !isPostLoading);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {"list_type": "list"});
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
+        "list_type": "list",
+        "perpage": 30,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -79,10 +169,13 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> getFollowingPostFeed() async {
-    // state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {"list_type": "follow"});
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
+        "list_type": "follow",
+        "perpage": 30,
+      });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -292,5 +385,13 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }
+  }
+
+  Future<void> showFavourite(BuildContext context) async {
+    state = state.copyWith(isHeartAnimating: true);
+  }
+
+  void setFvoriteToFalse() {
+    state = state.copyWith(isHeartAnimating: false);
   }
 }
