@@ -127,6 +127,8 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
   Widget build(BuildContext context) {
     // final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     final state = ref.watch(restaurantNotifierProvider);
+    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    // final state = ref.watch(restaurantNotifierProvider);
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -182,16 +184,22 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
                 },
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        isSelected[0] == true ? AppColors.colorBlack : AppColors.colorTransparent,
+                    backgroundColor: isSelected[0] == true
+                        ? AppColors.colorBlack
+                        : AppColors.colorTransparent,
                     child: Image.asset(
-                      isSelected[0] == true ? Assets.listingSelected : Assets.listing,
+                      isSelected[0] == true
+                          ? Assets.listingSelected
+                          : Assets.listing,
                     ),
                   ),
                   CircleAvatar(
-                    backgroundColor:
-                        isSelected[1] == true ? AppColors.colorBlack : AppColors.colorTransparent,
-                    child: Image.asset(isSelected[1] == true ? Assets.mapSelected : Assets.map),
+                    backgroundColor: isSelected[1] == true
+                        ? AppColors.colorBlack
+                        : AppColors.colorTransparent,
+                    child: Image.asset(isSelected[1] == true
+                        ? Assets.mapSelected
+                        : Assets.map),
                   ),
                 ],
               ),

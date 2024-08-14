@@ -13,7 +13,7 @@ import 'expanded_post_details.dart';
 import 'not_epanded_post_details.dart';
 
 class PostFeedItem extends ConsumerWidget {
-  final DataOfPostModel postList;
+  final DataOfPostModel? postList;
   const PostFeedItem({super.key, required this.postList});
 
   @override
@@ -26,7 +26,7 @@ class PostFeedItem extends ConsumerWidget {
     return GestureDetector(
       onDoubleTap: () {
         stateNotifier.showFavourite(context);
-        stateNotifier.likeUnlikePost(() {}, postList.id ?? '');
+        stateNotifier.likeUnlikePost(() {}, postList?.id ?? '');
       },
       child: Stack(
         alignment: Alignment.center,

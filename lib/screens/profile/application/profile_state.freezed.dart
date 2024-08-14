@@ -34,7 +34,7 @@ mixin _$ProfileState {
       throw _privateConstructorUsedError;
   List<Posts> get dislikedPostsList => throw _privateConstructorUsedError;
   List<Posts> get likedPostList => throw _privateConstructorUsedError;
-  bool get isExpanded => throw _privateConstructorUsedError;
+  List<DataOfFQA>? get faqList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -63,7 +63,7 @@ abstract class $ProfileStateCopyWith<$Res> {
       List<NotificationData> notificationList,
       List<Posts> dislikedPostsList,
       List<Posts> likedPostList,
-      bool isExpanded});
+      List<DataOfFQA>? faqList});
 
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
   $UserProfileModelCopyWith<$Res>? get userProfileResponseModel;
@@ -97,7 +97,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? notificationList = null,
     Object? dislikedPostsList = null,
     Object? likedPostList = null,
-    Object? isExpanded = null,
+    Object? faqList = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -160,10 +160,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.likedPostList
           : likedPostList // ignore: cast_nullable_to_non_nullable
               as List<Posts>,
-      isExpanded: null == isExpanded
-          ? _value.isExpanded
-          : isExpanded // ignore: cast_nullable_to_non_nullable
-              as bool,
+      faqList: freezed == faqList
+          ? _value.faqList
+          : faqList // ignore: cast_nullable_to_non_nullable
+              as List<DataOfFQA>?,
     ) as $Val);
   }
 
@@ -217,7 +217,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       List<NotificationData> notificationList,
       List<Posts> dislikedPostsList,
       List<Posts> likedPostList,
-      bool isExpanded});
+      List<DataOfFQA>? faqList});
 
   @override
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
@@ -251,7 +251,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? notificationList = null,
     Object? dislikedPostsList = null,
     Object? likedPostList = null,
-    Object? isExpanded = null,
+    Object? faqList = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -313,10 +313,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value._likedPostList
           : likedPostList // ignore: cast_nullable_to_non_nullable
               as List<Posts>,
-      isExpanded: null == isExpanded
-          ? _value.isExpanded
-          : isExpanded // ignore: cast_nullable_to_non_nullable
-              as bool,
+      faqList: freezed == faqList
+          ? _value._faqList
+          : faqList // ignore: cast_nullable_to_non_nullable
+              as List<DataOfFQA>?,
     ));
   }
 }
@@ -340,12 +340,13 @@ class _$ProfileStateImpl extends _ProfileState {
       final List<NotificationData> notificationList = const [],
       final List<Posts> dislikedPostsList = const [],
       final List<Posts> likedPostList = const [],
-      this.isExpanded = false})
+      final List<DataOfFQA>? faqList = const []})
       : _userActivitiesList = userActivitiesList,
         _savedList = savedList,
         _notificationList = notificationList,
         _dislikedPostsList = dislikedPostsList,
         _likedPostList = likedPostList,
+        _faqList = faqList,
         super._();
 
   @override
@@ -425,13 +426,20 @@ class _$ProfileStateImpl extends _ProfileState {
     return EqualUnmodifiableListView(_likedPostList);
   }
 
+  final List<DataOfFQA>? _faqList;
   @override
   @JsonKey()
-  final bool isExpanded;
+  List<DataOfFQA>? get faqList {
+    final value = _faqList;
+    if (value == null) return null;
+    if (_faqList is EqualUnmodifiableListView) return _faqList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, isExpanded: $isExpanded)';
+    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, faqList: $faqList)';
   }
 
   @override
@@ -470,8 +478,7 @@ class _$ProfileStateImpl extends _ProfileState {
                 .equals(other._dislikedPostsList, _dislikedPostsList) &&
             const DeepCollectionEquality()
                 .equals(other._likedPostList, _likedPostList) &&
-            (identical(other.isExpanded, isExpanded) ||
-                other.isExpanded == isExpanded));
+            const DeepCollectionEquality().equals(other._faqList, _faqList));
   }
 
   @override
@@ -492,7 +499,7 @@ class _$ProfileStateImpl extends _ProfileState {
       const DeepCollectionEquality().hash(_notificationList),
       const DeepCollectionEquality().hash(_dislikedPostsList),
       const DeepCollectionEquality().hash(_likedPostList),
-      isExpanded);
+      const DeepCollectionEquality().hash(_faqList));
 
   @JsonKey(ignore: true)
   @override
@@ -518,7 +525,7 @@ abstract class _ProfileState extends ProfileState {
       final List<NotificationData> notificationList,
       final List<Posts> dislikedPostsList,
       final List<Posts> likedPostList,
-      final bool isExpanded}) = _$ProfileStateImpl;
+      final List<DataOfFQA>? faqList}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
   @override
@@ -552,7 +559,7 @@ abstract class _ProfileState extends ProfileState {
   @override
   List<Posts> get likedPostList;
   @override
-  bool get isExpanded;
+  List<DataOfFQA>? get faqList;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

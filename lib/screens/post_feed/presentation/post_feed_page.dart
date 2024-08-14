@@ -39,10 +39,12 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
           _swipeItems.add(SwipeItem(
               content: Content(text: postFeedList[i].toString()),
               likeAction: () async {
-                await postFeedNotifier.swipeRightToLikePost(() {}, postFeedList[i].id ?? "");
+                await postFeedNotifier.swipeRightToLikePost(
+                    () {}, postFeedList[i].id ?? "");
               },
               nopeAction: () async {
-                await postFeedNotifier.swipeLeftToDislikePost(() {}, postFeedList[i].id ?? "");
+                await postFeedNotifier.swipeLeftToDislikePost(
+                    () {}, postFeedList[i].id ?? "");
               },
               // superlikeAction: () {
               //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -66,16 +68,18 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
 
-    if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
-      for (int i = 0; i < postFeedList.length; i++) {
+    if (_swipeItems.isEmpty && (postFeedList?.isNotEmpty ?? false)) {
+      for (int i = 0; i < (postFeedList?.length ?? 0); i++) {
         final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
         _swipeItems.add(SwipeItem(
-            content: Content(text: postFeedList[i].toString()),
+            content: Content(text: postFeedList?[i].toString()),
             likeAction: () async {
-              await postFeedNotifier.swipeRightToLikePost(() {}, postFeedList[i].id ?? "");
+              await postFeedNotifier.swipeRightToLikePost(
+                  () {}, postFeedList?[i].id ?? "");
             },
             nopeAction: () async {
-              await postFeedNotifier.swipeLeftToDislikePost(() {}, postFeedList[i].id ?? "");
+              await postFeedNotifier.swipeLeftToDislikePost(
+                  () {}, postFeedList?[i].id ?? "");
             },
             // superlikeAction: () {
             //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -123,14 +127,16 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                               ),
                               Text(
                                 "You're all caught up",
-                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                style: AppTextStyles.textStylePoppinsMedium
+                                    .copyWith(
                                   fontSize: 12.sp,
                                   color: AppColors.colorGrey,
                                 ),
                               ),
                               Text(
                                 "You've seen all new posts !",
-                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                style: AppTextStyles.textStylePoppinsMedium
+                                    .copyWith(
                                   fontSize: 11.sp,
                                   color: AppColors.colorPrimaryAlpha,
                                 ),
@@ -152,10 +158,13 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             //   content: Text("Post Finished"),
                             //   duration: Duration(milliseconds: 500),
                             // ));
-                            ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
+                            ref
+                                .read(postFeedNotifierProvider.notifier)
+                                .stackEmptyStatus();
                           },
                           itemChanged: (SwipeItem item, int index) {
-                            AppLog.log("item: ${item.content.text}, index: $index");
+                            AppLog.log(
+                                "item: ${item.content.text}, index: $index");
                           },
                           upSwipeAllowed: true,
                           fillSpace: true,
@@ -170,7 +179,8 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            stateNotifierForBase.resetBottomNavIndex(); // Added this
+                            stateNotifierForBase
+                                .resetBottomNavIndex(); // Added this
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -207,25 +217,34 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                       await postFeedNotifier.getPostFeed();
                                     }
                                     if (index == 1) {
-                                      final postFeedNotifier =
-                                          ref.read(postFeedNotifierProvider.notifier);
-                                      await postFeedNotifier.getFollowingPostFeed();
+                                      final postFeedNotifier = ref.read(
+                                          postFeedNotifierProvider.notifier);
+                                      await postFeedNotifier
+                                          .getFollowingPostFeed();
                                     }
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(right: 5),
                                     alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(horizontal: 15).r,
+                                    padding: const EdgeInsets.symmetric(
+                                            horizontal: 15)
+                                        .r,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: (postFeedState.selectedIndex == index)
-                                          ? AppColors.colorWhite.withOpacity(0.5)
-                                          : AppColors.colorWhite.withOpacity(0.10),
+                                      color:
+                                          (postFeedState.selectedIndex == index)
+                                              ? AppColors.colorWhite
+                                                  .withOpacity(0.5)
+                                              : AppColors.colorWhite
+                                                  .withOpacity(0.10),
                                     ),
                                     child: Text(
                                       buttonTexts[index],
-                                      style: AppTextStyles.textStylePoppinsSemiBold
-                                          .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                                      style: AppTextStyles
+                                          .textStylePoppinsSemiBold
+                                          .copyWith(
+                                              fontSize: 16.sp,
+                                              color: AppColors.colorWhite),
                                     ),
                                   ),
                                 );

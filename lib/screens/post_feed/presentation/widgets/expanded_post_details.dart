@@ -14,11 +14,12 @@ import '../../../your_lists/shared/provider.dart';
 import '../../shared/provider.dart';
 
 class ExpandedPostDetails extends ConsumerStatefulWidget {
-  final DataOfPostModel postList;
+  final DataOfPostModel? postList;
   const ExpandedPostDetails({super.key, required this.postList});
 
   @override
-  ConsumerState<ExpandedPostDetails> createState() => _ExpandedPostDetailsState();
+  ConsumerState<ExpandedPostDetails> createState() =>
+      _ExpandedPostDetailsState();
 }
 
 class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
@@ -42,22 +43,22 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final String? peopleId = widget.postList.userInfo?.id;
-    final String? name = widget.postList.userInfo?.fullName;
+    final String? peopleId = widget.postList?.userInfo?.id;
+    final String? name = widget.postList?.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
-    final String? title = widget.postList.title;
-    final String? description = widget.postList.description;
-    final String? restaurantName = widget.postList.restaurantInfo?.name;
-    final String? restaurantRating = widget.postList.restaurantInfo?.rating;
-    final String? address = widget.postList.restaurantInfo?.address;
-    final int? commentCount = widget.postList.commentCount;
-    final String? postId = widget.postList.id;
-    final bool? isFollowing = widget.postList.isFollowing;
-    final bool? isRequested = widget.postList.isFollowingRequest;
+        "${AppUrls.profilePicLocation}/${widget.postList?.userInfo?.profileImage}";
+    final String? title = widget.postList?.title;
+    final String? description = widget.postList?.description;
+    final String? restaurantName = widget.postList?.restaurantInfo?.name;
+    final String? restaurantRating = widget.postList?.restaurantInfo?.rating;
+    final String? address = widget.postList?.restaurantInfo?.address;
+    final int? commentCount = widget.postList?.commentCount;
+    final String? postId = widget.postList?.id;
+    final bool? isFollowing = widget.postList?.isFollowing;
+    final bool? isRequested = widget.postList?.isFollowingRequest;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final bool? isSaved = widget.postList.isSave;
-    final bool? isLiked = widget.postList.isMyLike;
+    final bool? isSaved = widget.postList?.isSave;
+    final bool? isLiked = widget.postList?.isMyLike;
 
     return Container(
       color: Colors.transparent,
@@ -99,8 +100,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         8.horizontalSpace,
                         Text(
                           name ?? "", //'Ahmad Gouse',
-                          style: AppTextStyles.textStylePoppinsMedium
-                              .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                              fontSize: 16.sp, color: AppColors.colorWhite),
                         ),
                         8.horizontalSpace,
                         GestureDetector(
@@ -111,7 +112,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
-                              border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
+                              border: Border.all(
+                                  width: 1, color: const Color(0xffDDDFE6)),
                               color: AppColors.colorWhite.withOpacity(0.20),
                             ),
                             child: Center(
@@ -121,7 +123,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                                     : (isRequested ?? false)
                                         ? 'Requested'
                                         : 'Follow',
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular
+                                    .copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -145,7 +148,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         children: [
                           Text(
                             restaurantName ?? "Restaurant name not available",
-                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -154,7 +158,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             address != null && address.length > 40
                                 ? '${address.substring(0, 40)}...'
                                 : address ?? 'Restaurant address not available',
-                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -168,7 +173,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
               Column(
                 children: [
                   GestureDetector(
-                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                      onTap: () =>
+                          postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
                       child: (isLiked ?? false)
                           ? Image.asset(Assets.redHeart)
                           : Image.asset(Assets.like)),
@@ -194,7 +200,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      onTap: () =>
+                          postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
                       child: (isSaved ?? false)
                           ? Image.asset(
                               Assets.saved,

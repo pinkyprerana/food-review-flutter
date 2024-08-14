@@ -3,25 +3,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/profile/shared/providers.dart';
 
 class FaqOption extends ConsumerStatefulWidget {
-  const FaqOption({super.key});
+  const FaqOption({
+    super.key,
+    this.faqId,
+    this.question,
+    this.answer
+  });
+   final String? faqId;
+   final String? question;
+   final String? answer;
 
   @override
   ConsumerState<FaqOption> createState() => _FaqOptionState();
 }
 
 class _FaqOptionState extends ConsumerState<FaqOption> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(profileNotifierProvider);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(width: 1, color: AppColors.colorGrey),
-        color: (state.isExpanded) ? AppColors.colorPrimary : AppColors.colorWhite,
+        color: (isExpanded) ? AppColors.colorPrimary : AppColors.colorWhite,
       ),
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -31,23 +38,19 @@ class _FaqOptionState extends ConsumerState<FaqOption> {
         child: ExpansionTile(
           tilePadding: const EdgeInsets.only(left: 8),
           title: Text(
-            'Lorem ipsum dolor sit amet?',
+            widget.question ?? 'Lorem ipsum dolor sit amet?',
             style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                fontSize: 13.sp,
-                color: (state.isExpanded) ? AppColors.colorWhite : AppColors.colorPrimary),
+              fontSize: 13.sp,
+              color: (isExpanded) ? AppColors.colorWhite : AppColors.colorPrimary,
+            ),
           ),
-          trailing: (state.isExpanded)
-              ? const Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: Icon(
-                    Icons.expand_less,
-                    color: AppColors.colorWhite,
-                  ),
-                )
-              : const Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: Icon(Icons.expand_more),
-                ),
+          trailing: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              isExpanded ? Icons.expand_less : Icons.expand_more,
+              color: isExpanded ? AppColors.colorWhite : AppColors.colorPrimary,
+            ),
+          ),
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -56,7 +59,7 @@ class _FaqOptionState extends ConsumerState<FaqOption> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8, right: 8, bottom: 30).r,
                     child: Text(
-                      'Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Comm odonisl suspendisse tincidunt.',
+                      widget.answer ?? 'Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Comm odonisl suspendisse tincidunt.',
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         fontSize: 11.sp,
                         color: AppColors.colorWhite,
@@ -68,7 +71,9 @@ class _FaqOptionState extends ConsumerState<FaqOption> {
             )
           ],
           onExpansionChanged: (bool value) {
-            ref.read(profileNotifierProvider.notifier).toggleExpansion();
+            setState(() {
+              isExpanded = value;
+            });
           },
         ),
       ),
