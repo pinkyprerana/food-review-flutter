@@ -11,6 +11,7 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
+import 'package:for_the_table/screens/profile/domain/faq_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
 import 'package:for_the_table/screens/profile/domain/posts_model.dart';
@@ -19,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../core/utils/app_log.dart';
 import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
 
@@ -620,10 +622,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     return true;
   }
 
-  void toggleExpansion() {
-    state = state.copyWith(isExpanded: !state.isExpanded);
-  }
-
   Future<void> requestHelp(BuildContext context) async {
     if (validateContactFields()) {
       try {
@@ -1001,6 +999,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   String? get getLatitude => _hiveDataBase.box.get(AppPreferenceKeys.latitude);
   String? get getLongitude => _hiveDataBase.box.get(AppPreferenceKeys.longitude);
+  final TextEditingController searchController = TextEditingController();
 
   Future<void> getSavedList() async {
     state = state.copyWith(isLoading: true);
@@ -1055,5 +1054,38 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       state = state.copyWith(isLoading: false);
       showConnectionWasInterruptedToastMessage();
     }
+  }
+
+  Future<void> getFAQList() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.faqList}',
+        body: {
+          if (searchController.text.isNotEmpty) "search": searchController.text,
+        }
+      );
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        FaqModel faqModel = FaqModel.fromJson(response.data);
+        if (faqModel.status == 200) {
+          state = state.copyWith(isLoading: false, faqList: faqModel.faqList);
+        } else {
+          showToastMessage(faqModel.message.toString());
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  void searchFAQ() async {
+    await getFAQList();
   }
 }
