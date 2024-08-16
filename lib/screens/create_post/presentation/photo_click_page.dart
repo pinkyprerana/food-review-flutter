@@ -37,7 +37,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
         setState(() {});
       });
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants();
+      await stateNotifier.getRestaurants(ref:  ref);
       final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
       await preferenceNotifier.getAllPreference();
     });

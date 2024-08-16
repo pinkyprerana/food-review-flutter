@@ -9,7 +9,6 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../../restaurant/shared/provider.dart';
 
 class RestaurantListView extends ConsumerStatefulWidget {
@@ -25,7 +24,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants();
+      await stateNotifier.getRestaurants(ref: ref);
     });
 
     super.initState();
@@ -35,6 +34,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     final state = ref.watch(restaurantNotifierProvider);
+    
     return Container(
       color: Colors.white,
       height: 0.54.sh,
@@ -51,7 +51,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                   enablePullDown: false,
                   onRefresh: () {},
                   onLoading: () {
-                    stateNotifier.loadMoreRestaurants(context);
+                    stateNotifier.loadMoreRestaurants(context, ref);
                   },
                   footer: CustomFooter(
                     builder: (BuildContext context, mode) {
