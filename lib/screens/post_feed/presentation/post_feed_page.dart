@@ -141,7 +141,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 '===== stateNotifier.swipeItems.length========= ${stateNotifier.swipeItems.length}');
                             if (stateNotifier.count ==
                                 stateNotifier.swipeItems.length - 5) {
-                              stateNotifier.loadMorePostFeed();
+                              stateNotifier.loadMorePosts();
                             }
                           },
                           upSwipeAllowed: true,
@@ -189,6 +189,11 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 return GestureDetector(
                                   onTap: () async {
                                     stateNotifier.selectButton(index);
+                                    if (index == 0) {
+                                      final postFeedNotifier = ref.read(
+                                          postFeedNotifierProvider.notifier);
+                                      await postFeedNotifier.getPostFeed();
+                                    }
                                     if (index == 1) {
                                       final postFeedNotifier = ref.read(
                                           postFeedNotifierProvider.notifier);

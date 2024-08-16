@@ -1,3 +1,4 @@
+import 'package:for_the_table/screens/profile/domain/faq_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
@@ -24,7 +25,7 @@ class ProfileState with _$ProfileState {
     @Default([]) List<NotificationData> notificationList,
     @Default([]) List<Posts> dislikedPostsList,
     @Default([]) List<Posts> likedPostList,
-    @Default(false) bool isExpanded,
+    @Default([]) List<DataOfFQA>? faqList,
   }) = _ProfileState;
   const ProfileState._();
 }

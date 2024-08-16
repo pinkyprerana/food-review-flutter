@@ -26,6 +26,7 @@ class PostFeedItem extends ConsumerWidget {
     return GestureDetector(
       onDoubleTap: () {
         stateNotifier.showFavourite(context);
+        stateNotifier.likePost(() {}, postList?.id ?? '');
       },
       child: Stack(
         alignment: Alignment.center,

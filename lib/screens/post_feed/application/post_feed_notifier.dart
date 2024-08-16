@@ -133,43 +133,95 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> loadMorePostFeed() async {
-    if (state.currentPageAllPosts >= state.totalPagesAllPosts) {
-      showToastMessage('No more posts');
-      return;
-    }
-    AppLog.log(
-        '-----------------------load more callled----------------------------');
-    await getPostFeed(isLoadMore: true);
-  }
+  // void loadMorePosts() async {
+  //   if (state.currentPage > state.totalPages) {
+  //     showToastMessage('No new posts to display');
+  //     refreshController.loadComplete();
+  //     return;
+  //   }
 
-  Future<void> getPostFeed(
-      {bool isPostLoading = false, bool isLoadMore = false}) async {
-    if (isLoadMore == false) {
-      state = state.copyWith(isLoading: !isPostLoading);
-    }
+  //   await fetchPosts(isLoadMore: true);
+  //   refreshController.loadComplete();
+  // }
 
+  // Future<void> fetchPosts({bool isLoadMore = false}) async {
+  //   state = state.copyWith(isLoading: !isLoadMore);
+
+  //   if (isLoadMore && (state.currentPage * 10 == state.postList?.length)) {
+  //     state = state.copyWith(currentPage: state.currentPage + 1);
+  //   } else {
+  //     state = state.copyWith(currentPage: 1);
+  //   }
+
+  //   final FormData formData = FormData.fromMap({
+  //     "perpage": 10,
+  //     "page": state.currentPage,
+  //     "list_type": "follow",
+  //   });
+
+  //   var headers = {
+  //     'Accept': '*/*',
+  //     'Content-Type': 'application/json',
+  //     'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
+  //   };
+
+  //   _dio.options.headers.addAll(headers);
+
+  //   try {
+  //     var response = await _dio.post(
+  //       "/post/list",
+  //       data: formData,
+  //     );
+
+  //     if (response.statusCode == 200 && response.data != null) {
+  //       PostModel postModel = PostModel.fromJson(response.data);
+  //       final posts = postModel.postList;
+
+  //       if (isLoadMore) {
+  //         final currentPostsIds = state.postList?.map((post) => post.id).toSet();
+
+  //         final uniqueNewPosts =
+  //             posts?.where((post) => !(currentPostsIds?.contains(post.id) ?? false)).toList();
+
+  //         if ((uniqueNewPosts?.isEmpty ?? false) && isLoadMore) {
+  //           showToastMessage('No new posts to display.');
+  //         }
+
+  //         state = state.copyWith(
+  //           isLoading: false,
+  //           postList: [
+  //             ...state.postList ?? [],
+  //             ...uniqueNewPosts ?? [],
+  //           ],
+  //         );
+
+  //         return;
+  //       }
+
+  //       state = state.copyWith(
+  //         isLoading: false,
+  //         postList: posts ?? [],
+  //         totalPages: postModel.pages ?? 0,
+  //       );
+  //     }
+  //   } on DioException catch (e) {
+  //     final error = DioExceptions.fromDioError(e).message;
+  //     showToastMessage(error, errorMessage: 'Something went wrong, please try again');
+  //     state = state.copyWith(isLoading: false);
+  //   }
+  // }
+
+  Future<void> getPostFeed({bool isPostLoading = false}) async {
+    state = state.copyWith(isLoading: !isPostLoading);
     try {
-      if (isLoadMore) {
-        state =
-            state.copyWith(currentPageAllPosts: state.currentPageAllPosts + 1);
-      } else {
-        state = state.copyWith(currentPageAllPosts: 1);
-      }
-
-      AppLog.log(
-          '-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
-
-      var (response, dioException) =
-          await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
-        body: {
-          "list_type": "list",
-          "perpage": 10,
-          "page": state.currentPageAllPosts,
-        },
-      );
-      // state = state.copyWith(isLoading: false);
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(
+              url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
+              body: {
+            "list_type": "list",
+            "perpage": 30,
+          });
+      state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
@@ -205,10 +257,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
             matchEngine = MatchEngine(swipeItems: [...swipeItems]);
 
-            if (isLoadMore) {
-              return;
-            }
-
             state = state.copyWith(
               isLoading: false,
               postList: postModel.postList, // i think the problem is here
@@ -231,12 +279,15 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   }
 
   Future<void> getFollowingPostFeed() async {
-    // state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(
               url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
-              body: {"list_type": "follow"});
+              body: {
+            "list_type": "follow",
+            "perpage": 30,
+          });
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -255,6 +306,38 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     } catch (error) {
       AppLog.log("Error fetching post feed: $error");
       state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> likePost(VoidCallback voidCallback, String postID) async {
+    state = state.copyWith(isSavePost: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(
+              url: '${AppUrls.baseUrl}/post-like/insert',
+              body: {"post_id": postID});
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        Map<String, dynamic> jsonData = response.data;
+
+        if (response.statusCode == 200) {
+          showToastMessage(jsonData['message']);
+          await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isLiked: false);
+          voidCallback.call();
+        } else {
+          showToastMessage(jsonData['message']);
+        }
+      }
+    } catch (error) {
+      AppLog.log("Error fetching post feed: $error");
+      state = state.copyWith(isSavePost: false);
       showConnectionWasInterruptedToastMessage();
     }
   }
