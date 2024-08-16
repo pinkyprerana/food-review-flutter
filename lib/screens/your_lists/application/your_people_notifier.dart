@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
 import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
-import '../../../core/infrastructure/dio_exceptions.dart';
 import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/utils/toast.dart';
-import '../../../model/restaurant/restaurantlist_response_model.dart';
 
 class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
   YourPeopleNotifier(this._dio, this._hiveDatabase) : super(const YourPeopleState());
@@ -495,70 +494,12 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     }
   }
 
-void searchUserRestaurant() async {
+void searchUserRestaurant(WidgetRef ref) async {
   if (state.selectedIndex == 0) {
     await getAllUsersList();
   } else{
-    await getRestaurants();
+    await ref.watch(restaurantNotifierProvider.notifier).getRestaurants(ref: ref);
   }
 }
-
-
-  Future<void> getRestaurants({bool isLoadMore = false,}) async {
-    try {
-      state = state.copyWith(isLoading: !isLoadMore);
-
-      if (isLoadMore) {
-        state = state.copyWith(currentPage: state.currentPage + 1);
-      }
-
-      final data = {
-        "perpage": 10,
-        "page": state.currentPage,
-        if (searchController.text.isNotEmpty) "search": searchController.text,
-      };
-
-      final headers = {
-        'Accept': '*/*',
-        'Content-Type': 'application/json',
-        'token': await _hiveDatabase.box.get(AppPreferenceKeys.token),
-      };
-
-      _dio.options.headers.addAll(headers);
-
-      final response = await _dio.post<Map<String, dynamic>>(
-        '${AppUrls.baseUrl}${AppUrls.restaurantList}',
-        data: data,
-      );
-
-      if (response.statusCode == 200 && response.data != null) {
-        final reastaurantListResponseModel =
-        RestaurantlistResponseModel.fromJson(response.data!);
-
-        final List<Restaurant>? restaurantList =
-            reastaurantListResponseModel.restaurantList;
-
-        state = state.copyWith(
-          isLoading: false,
-          restaurantList: [
-            ...state.restaurantList ?? [],
-            ...restaurantList ?? [],
-          ],
-          totalPages: reastaurantListResponseModel.pages ?? 0,
-          totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
-        );
-      } else {
-        final message = response.data?['message'] as String?;
-        showToastMessage(message ?? '');
-
-        state = state.copyWith(isLoading: false);
-      }
-    } on DioException catch (e) {
-      final error = DioExceptions.fromDioError(e).message;
-      showToastMessage(error, errorMessage: 'Failed to get restaurants');
-
-      state = state.copyWith(isLoading: false);
-    }
-  }
 
 }

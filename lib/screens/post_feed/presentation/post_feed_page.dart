@@ -30,44 +30,15 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
-      // final postFeedState = ref.read(postFeedNotifierProvider);
-      // final postFeedList = postFeedState.postList;
-
-      // if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
-      //   for (int i = 0; i < postFeedList.length; i++) {
-      //     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      //     _swipeItems.add(SwipeItem(
-      //         content: Content(text: postFeedList[i].toString()),
-      //         likeAction: () async {
-      //           await postFeedNotifier.swipeRightToLikePost(
-      //               () {}, postFeedList[i].id ?? "");
-      //         },
-      //         nopeAction: () async {
-      //           await postFeedNotifier.swipeLeftToDislikePost(
-      //               () {}, postFeedList[i].id ?? "");
-      //         },
-      //         // superlikeAction: () {
-      //         //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //         //     content: Text("Superliked ${postFeedList[i].title}"),
-      //         //     duration: const Duration(milliseconds: 500),
-      //         //   ));
-      //         // },
-      //         onSlideUpdate: (SlideRegion? region) async {
-      //           AppLog.log("Region $region");
-      //         }));
-      //   }
-
-      //   _matchEngine = MatchEngine(swipeItems: _swipeItems);
-      // }
     });
   }
 
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    await postFeedNotifier.getPostFeed();
-  }
+  // @override
+  // void didChangeDependencies() async {
+  //   super.didChangeDependencies();
+  //   final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+  //   await postFeedNotifier.getPostFeed();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -132,16 +103,22 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             // ref
                             //     .read(postFeedNotifierProvider.notifier)
                             //     .stackEmptyStatus();
+                            // stateNotifier.matchEngine = MatchEngine(
+                            //     swipeItems: stateNotifier.swipeItems);
+                            stateNotifier.count = 0;
+                            // await stateNotifier.loadMorePostFeed();
+                            stateNotifier.matchEngine = MatchEngine(
+                                swipeItems: [...postFeedState.swipeItems]);
                           },
                           itemChanged: (SwipeItem item, int index) {
                             stateNotifier.count++;
                             AppLog.log(
                                 '===== stateNotifier.count========= ${stateNotifier.count}');
                             AppLog.log(
-                                '===== stateNotifier.swipeItems.length========= ${stateNotifier.swipeItems.length}');
-                            if (stateNotifier.count ==
-                                stateNotifier.swipeItems.length - 5) {
-                              stateNotifier.loadMorePosts();
+                                '===== stateNotifier.swipeItems.length========= ${postFeedState.swipeItems.length}');
+                            // print('length: ${postFeedState.swipeItems.length}');
+                            if (postFeedState.swipeItems.length == 5) {
+                              stateNotifier.loadMorePostFeed();
                             }
                           },
                           upSwipeAllowed: true,
