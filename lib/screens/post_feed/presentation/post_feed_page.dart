@@ -30,44 +30,15 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
-      // final postFeedState = ref.read(postFeedNotifierProvider);
-      // final postFeedList = postFeedState.postList;
-
-      // if (_swipeItems.isEmpty && postFeedList!.isNotEmpty) {
-      //   for (int i = 0; i < postFeedList.length; i++) {
-      //     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-      //     _swipeItems.add(SwipeItem(
-      //         content: Content(text: postFeedList[i].toString()),
-      //         likeAction: () async {
-      //           await postFeedNotifier.swipeRightToLikePost(
-      //               () {}, postFeedList[i].id ?? "");
-      //         },
-      //         nopeAction: () async {
-      //           await postFeedNotifier.swipeLeftToDislikePost(
-      //               () {}, postFeedList[i].id ?? "");
-      //         },
-      //         // superlikeAction: () {
-      //         //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //         //     content: Text("Superliked ${postFeedList[i].title}"),
-      //         //     duration: const Duration(milliseconds: 500),
-      //         //   ));
-      //         // },
-      //         onSlideUpdate: (SlideRegion? region) async {
-      //           AppLog.log("Region $region");
-      //         }));
-      //   }
-
-      //   _matchEngine = MatchEngine(swipeItems: _swipeItems);
-      // }
     });
   }
 
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    await postFeedNotifier.getPostFeed();
-  }
+  // @override
+  // void didChangeDependencies() async {
+  //   super.didChangeDependencies();
+  //   final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+  //   await postFeedNotifier.getPostFeed();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,16 +71,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                               ),
                               Text(
                                 "You're all caught up",
-                                style: AppTextStyles.textStylePoppinsMedium
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                   fontSize: 12.sp,
                                   color: AppColors.colorGrey,
                                 ),
                               ),
                               Text(
                                 "You've seen all new posts !",
-                                style: AppTextStyles.textStylePoppinsMedium
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                   fontSize: 11.sp,
                                   color: AppColors.colorPrimaryAlpha,
                                 ),
@@ -118,11 +87,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           ),
                         )
                       : SwipeCards(
-                          matchEngine:
-                              stateNotifier.matchEngine ?? MatchEngine(),
+                          matchEngine: stateNotifier.matchEngine ?? MatchEngine(),
                           itemBuilder: (BuildContext context, int index) {
-                            if (index < 0 ||
-                                index >= (postFeedList?.length ?? 0)) {
+                            if (index < 0 || index >= (postFeedList?.length ?? 0)) {
                               return const SizedBox.shrink();
                             }
 
@@ -132,15 +99,16 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             // ref
                             //     .read(postFeedNotifierProvider.notifier)
                             //     .stackEmptyStatus();
+                            stateNotifier.matchEngine =
+                                MatchEngine(swipeItems: stateNotifier.swipeItems);
+                            stateNotifier.count = 0;
                           },
                           itemChanged: (SwipeItem item, int index) {
                             stateNotifier.count++;
-                            AppLog.log(
-                                '===== stateNotifier.count========= ${stateNotifier.count}');
+                            AppLog.log('===== stateNotifier.count========= ${stateNotifier.count}');
                             AppLog.log(
                                 '===== stateNotifier.swipeItems.length========= ${stateNotifier.swipeItems.length}');
-                            if (stateNotifier.count ==
-                                stateNotifier.swipeItems.length - 5) {
+                            if (stateNotifier.count == stateNotifier.swipeItems.length - 5) {
                               stateNotifier.loadMorePostFeed();
                             }
                           },
@@ -157,8 +125,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            stateNotifierForBase
-                                .resetBottomNavIndex(); // Added this
+                            stateNotifierForBase.resetBottomNavIndex(); // Added this
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -190,34 +157,25 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                   onTap: () async {
                                     stateNotifier.selectButton(index);
                                     if (index == 1) {
-                                      final postFeedNotifier = ref.read(
-                                          postFeedNotifierProvider.notifier);
-                                      await postFeedNotifier
-                                          .getFollowingPostFeed();
+                                      final postFeedNotifier =
+                                          ref.read(postFeedNotifierProvider.notifier);
+                                      await postFeedNotifier.getFollowingPostFeed();
                                     }
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(right: 5),
                                     alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                            horizontal: 15)
-                                        .r,
+                                    padding: const EdgeInsets.symmetric(horizontal: 15).r,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color:
-                                          (postFeedState.selectedIndex == index)
-                                              ? AppColors.colorWhite
-                                                  .withOpacity(0.5)
-                                              : AppColors.colorWhite
-                                                  .withOpacity(0.10),
+                                      color: (postFeedState.selectedIndex == index)
+                                          ? AppColors.colorWhite.withOpacity(0.5)
+                                          : AppColors.colorWhite.withOpacity(0.10),
                                     ),
                                     child: Text(
                                       buttonTexts[index],
-                                      style: AppTextStyles
-                                          .textStylePoppinsSemiBold
-                                          .copyWith(
-                                              fontSize: 16.sp,
-                                              color: AppColors.colorWhite),
+                                      style: AppTextStyles.textStylePoppinsSemiBold
+                                          .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                                     ),
                                   ),
                                 );
