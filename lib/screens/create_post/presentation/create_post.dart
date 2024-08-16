@@ -357,7 +357,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 enablePullDown: false,
                 onRefresh: () {},
                 onLoading: () {
-                  stateNotifier.loadMoreRestaurantsForCreatePost(context);
+                  stateNotifier.loadMoreRestaurantsForCreatePost(context, ref);
                 },
                 footer: CustomFooter(
                   builder: (BuildContext context, mode) {

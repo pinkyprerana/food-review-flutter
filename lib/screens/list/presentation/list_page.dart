@@ -7,6 +7,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/followers_list.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list.dart';
+import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 import 'package:for_the_table/widgets/notification_icon.dart';
@@ -27,10 +28,22 @@ class _ListPageState extends ConsumerState<ListPage> {
   ];
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+      final userNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+      await restaurantNotifier.getRestaurants(ref: ref);
+      await userNotifier.getAllUsersList();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.read(listProvider.notifier);
+    final stateNotifier = ref.watch(listProvider.notifier);
     final state = ref.watch(listProvider);
-    final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
+    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
 
     return Scaffold(
       extendBody: true,
@@ -64,7 +77,10 @@ class _ListPageState extends ConsumerState<ListPage> {
                 controller: followNotifier.searchController,
                 bgColor: AppColors.colorBackground,
                 isBorder: true,
-                onChanged: (_) => followNotifier.searchUserRestaurant(),
+                onChanged: (_) async {
+                  followNotifier.searchUserRestaurant(ref);
+                  await restaurantNotifier.getRestaurants(ref: ref);
+                }
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0).r,

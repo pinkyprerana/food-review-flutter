@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/all_restaurants_model.dart';
@@ -20,21 +18,22 @@ import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dar
 import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
+import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:label_marker/label_marker.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:uuid/uuid.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
-  RestaurantNotifier(this._dio, this._hiveDataBase, this._networkApiService)
+  RestaurantNotifier(this._dio, this._hiveDataBase, this._networkApiService, )
       : super(const RestaurantState());
 
   final HiveDatabase _hiveDataBase;
   final Dio _dio;
   final NetworkApiService _networkApiService;
+
 
   int totalNumberOfRestaurants = 0;
 
@@ -71,7 +70,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     AppLog.log('state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
   }
 
-  Future<void> loadMoreRestaurants(BuildContext context) async {
+  Future<void> loadMoreRestaurants(BuildContext context,  WidgetRef ref) async {
     AppLog.log('state.currentPage: ------->> ${state.currentPage}');
     if (state.currentPage >= state.totalPages) {
       showToastMessage('No more restaurants');
@@ -79,24 +78,26 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       return;
     }
 
-    await getRestaurants(isLoadMore: true);
+    await getRestaurants(isLoadMore: true, ref: ref);
     restaurantRefreshController.loadComplete();
   }
 
-  Future<void> loadMoreRestaurantsForCreatePost(BuildContext context) async {
+  Future<void> loadMoreRestaurantsForCreatePost(BuildContext context, WidgetRef ref) async {
     if (state.currentPage >= state.totalPages) {
       showToastMessage('No more restaurants');
       createPostRestaurantRefreshController.loadComplete();
       return;
     }
 
-    await getRestaurants(isLoadMore: true);
+    await getRestaurants(isLoadMore: true, ref: ref);
     createPostRestaurantRefreshController.loadComplete();
   }
 
   Future<void> getRestaurants({
     bool isLoadMore = false,
+    required WidgetRef ref,
   }) async {
+    final search = ref.watch(yourPeopleNotifierProvider.notifier).searchController;
     try {
       state = state.copyWith(isLoading: !isLoadMore);
 
@@ -109,7 +110,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       final data = {
         "perpage": 10,
         "page": state.currentPage,
-        "search": "",
+        if (search.text.isNotEmpty) "search": search.text,
       };
 
       final headers = {
