@@ -43,6 +43,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RefreshController restaurantRefreshController = RefreshController();
   RefreshController restaurantRefreshController2 = RefreshController();
   RefreshController savedRestaurantRefreshController = RefreshController();
+  RefreshController createPostRestaurantRefreshController = RefreshController();
 
   TextEditingController titleTextController = TextEditingController();
   TextEditingController reviewTextController = TextEditingController();
@@ -80,6 +81,17 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
     await getRestaurants(isLoadMore: true);
     restaurantRefreshController.loadComplete();
+  }
+
+  Future<void> loadMoreRestaurantsForCreatePost(BuildContext context) async {
+    if (state.currentPage >= state.totalPages) {
+      showToastMessage('No more restaurants');
+      createPostRestaurantRefreshController.loadComplete();
+      return;
+    }
+
+    await getRestaurants(isLoadMore: true);
+    createPostRestaurantRefreshController.loadComplete();
   }
 
   Future<void> getRestaurants({

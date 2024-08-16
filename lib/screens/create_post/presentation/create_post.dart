@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/toast.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
@@ -291,6 +293,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
   Widget _selectRestaurantPage(allPreferences) {
     final createPostNotifier = ref.read(createPostNotifierProvider.notifier);
     final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
+    final state = ref.watch(restaurantNotifierProvider);
+    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
     List<dynamic> cuisineList = allPreferences;
 
     return Padding(
@@ -347,76 +351,117 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16).r,
               decoration: BoxDecoration(
                   color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
-              child: CupertinoTypeAheadField<Restaurant>(
-                controller: createPostNotifier.restaurantNameTextController,
-                builder: (context, TextEditingController controller, FocusNode focusNode) {
-                  return TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      hintText: "Select Restaurant",
-                      hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                        color: AppColors.colorPrimaryAlpha,
+              child: SmartRefresher(
+                controller: stateNotifier.createPostRestaurantRefreshController,
+                enablePullUp: true,
+                enablePullDown: false,
+                onRefresh: () {},
+                onLoading: () {
+                  stateNotifier.loadMoreRestaurantsForCreatePost(context);
+                },
+                footer: CustomFooter(
+                  builder: (BuildContext context, mode) {
+                    if (!state.isMoreDataFetchable) {
+                      mode = LoadStatus.noMore;
+                    }
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = const SizedBox.shrink();
+                    } else if (mode == LoadStatus.loading) {
+                      body = const CupertinoActivityIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body = Text(
+                        "Load Failed!Click retry!",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = Text(
+                        "release to load more",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    } else {
+                      body = Text(
+                        "No more Data",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    }
+                    return SizedBox(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
+                ),
+                child: CupertinoTypeAheadField<Restaurant>(
+                  controller: createPostNotifier.restaurantNameTextController,
+                  builder: (context, TextEditingController controller, FocusNode focusNode) {
+                    return TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: "Select Restaurant",
+                        hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
+                        focusedBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                       ),
-                      focusedBorder: InputBorder.none,
-                      border: InputBorder.none,
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                  );
-                },
-                suggestionsCallback: (pattern) {
-                  return restaurantList
-                          ?.where((restaurant) =>
-                              restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
-                          .toList() ??
-                      [];
-                },
-                itemBuilder: (context, suggestion) {
-                  return ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            suggestion.name!,
-                            style: AppTextStyles.textStylePoppinsLight
-                                .copyWith(color: AppColors.colorBlack, fontSize: 10),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: AppColors.colorBlack,
-                                size: 10.h,
-                              ),
-                              Text(
-                                suggestion.address!.length > 40
-                                    ? '${suggestion.address!.substring(0, 40)}...'
-                                    : suggestion.address ?? "",
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
-                              )
-                            ],
-                          ),
-                        ],
+                    );
+                  },
+                  suggestionsCallback: (pattern) {
+                    return restaurantList
+                            ?.where((restaurant) =>
+                                restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
+                            .toList() ??
+                        [];
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              suggestion.name!,
+                              style: AppTextStyles.textStylePoppinsLight
+                                  .copyWith(color: AppColors.colorBlack, fontSize: 10),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: AppColors.colorBlack,
+                                  size: 10.h,
+                                ),
+                                Text(
+                                  suggestion.address!.length > 40
+                                      ? '${suggestion.address!.substring(0, 40)}...'
+                                      : suggestion.address ?? "",
+                                  style: AppTextStyles.textStylePoppinsRegular
+                                      .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-                onSelected: (Restaurant selection) {
-                  selectedRestaurantName = selection.name!;
-                  selectedRestaurantId = selection.id!;
-                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                  dismissKeyboard(context);
-                  createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                  createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                  createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                },
+                    );
+                  },
+                  onSelected: (Restaurant selection) {
+                    selectedRestaurantName = selection.name!;
+                    selectedRestaurantId = selection.id!;
+                    createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                    createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                    createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                    dismissKeyboard(context);
+                    createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                    createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                    createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                  },
+                ),
               ),
             ),
             // Container(
