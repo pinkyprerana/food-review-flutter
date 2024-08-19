@@ -8,8 +8,6 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
-import 'package:for_the_table/screens/post_feed/presentation/post_feed_page.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -33,12 +31,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   void setIsExpanded() {
     state = state.copyWith(isExpanded: !state.isExpanded);
-    AppLog.log('state.isExpanded===== ${state.isExpanded}');
   }
 
   void selectButton(int index) {
     state = state.copyWith(selectedIndex: index);
-    AppLog.log('selectedIndex ----------- ${state.selectedIndex}');
   }
 
   void stackEmptyStatus() {
@@ -494,7 +490,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         Map<String, dynamic> jsonData = response.data;
 
         if (response.statusCode == 200) {
-          showToastMessage('dislike');
+          showToastMessage(jsonData['message']);
           // state = state.copyWith(isLiked: !state.isLiked);
           voidCallback.call();
         } else {
