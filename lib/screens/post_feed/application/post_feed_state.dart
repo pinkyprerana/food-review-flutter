@@ -24,8 +24,10 @@ class PostFeedState with _$PostFeedState {
     @Default(1) int totalPages,
     @Default(false) bool isHeartAnimating,
     @Default(1) int currentPageAllPosts,
+    @Default(1) int currentPageAllPosts2,
     @Default(1) int totalPagesAllPosts,
     @Default([]) List<SwipeItem> swipeItems,
+    @Default([]) List<SwipeItem> swipeItems2,
   }) = _PostFeedState;
   const PostFeedState._();
 }

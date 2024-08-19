@@ -107,8 +107,13 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             //     swipeItems: stateNotifier.swipeItems);
                             stateNotifier.count = 0;
                             // await stateNotifier.loadMorePostFeed();
-                            stateNotifier.matchEngine = MatchEngine(
-                                swipeItems: [...postFeedState.swipeItems]);
+                            stateNotifier.matchEngine = (postFeedState
+                                        .selectedIndex ==
+                                    0)
+                                ? MatchEngine(
+                                    swipeItems: [...postFeedState.swipeItems])
+                                : MatchEngine(
+                                    swipeItems: [...postFeedState.swipeItems2]);
                           },
                           itemChanged: (SwipeItem item, int index) {
                             stateNotifier.count++;
@@ -117,8 +122,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             AppLog.log(
                                 '===== stateNotifier.swipeItems.length========= ${postFeedState.swipeItems.length}');
                             // print('length: ${postFeedState.swipeItems.length}');
-                            if (postFeedState.swipeItems.length == 5) {
-                              stateNotifier.loadMorePostFeed();
+                            if (postFeedState.selectedIndex == 0) {
+                              if (postFeedState.swipeItems.length == 5) {
+                                stateNotifier.loadMorePostFeed();
+                              }
+                            } else {
+                              if (postFeedState.swipeItems2.length == 5) {
+                                stateNotifier.loadMoreFollowingPostFeed();
+                              }
                             }
                           },
                           upSwipeAllowed: true,

@@ -35,8 +35,10 @@ mixin _$PostFeedState {
   int get totalPages => throw _privateConstructorUsedError;
   bool get isHeartAnimating => throw _privateConstructorUsedError;
   int get currentPageAllPosts => throw _privateConstructorUsedError;
+  int get currentPageAllPosts2 => throw _privateConstructorUsedError;
   int get totalPagesAllPosts => throw _privateConstructorUsedError;
   List<SwipeItem> get swipeItems => throw _privateConstructorUsedError;
+  List<SwipeItem> get swipeItems2 => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostFeedStateCopyWith<PostFeedState> get copyWith =>
@@ -67,8 +69,10 @@ abstract class $PostFeedStateCopyWith<$Res> {
       int totalPages,
       bool isHeartAnimating,
       int currentPageAllPosts,
+      int currentPageAllPosts2,
       int totalPagesAllPosts,
-      List<SwipeItem> swipeItems});
+      List<SwipeItem> swipeItems,
+      List<SwipeItem> swipeItems2});
 }
 
 /// @nodoc
@@ -101,8 +105,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? totalPages = null,
     Object? isHeartAnimating = null,
     Object? currentPageAllPosts = null,
+    Object? currentPageAllPosts2 = null,
     Object? totalPagesAllPosts = null,
     Object? swipeItems = null,
+    Object? swipeItems2 = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -173,6 +179,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.currentPageAllPosts
           : currentPageAllPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      currentPageAllPosts2: null == currentPageAllPosts2
+          ? _value.currentPageAllPosts2
+          : currentPageAllPosts2 // ignore: cast_nullable_to_non_nullable
+              as int,
       totalPagesAllPosts: null == totalPagesAllPosts
           ? _value.totalPagesAllPosts
           : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
@@ -180,6 +190,10 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
       swipeItems: null == swipeItems
           ? _value.swipeItems
           : swipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      swipeItems2: null == swipeItems2
+          ? _value.swipeItems2
+          : swipeItems2 // ignore: cast_nullable_to_non_nullable
               as List<SwipeItem>,
     ) as $Val);
   }
@@ -211,8 +225,10 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       int totalPages,
       bool isHeartAnimating,
       int currentPageAllPosts,
+      int currentPageAllPosts2,
       int totalPagesAllPosts,
-      List<SwipeItem> swipeItems});
+      List<SwipeItem> swipeItems,
+      List<SwipeItem> swipeItems2});
 }
 
 /// @nodoc
@@ -243,8 +259,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? totalPages = null,
     Object? isHeartAnimating = null,
     Object? currentPageAllPosts = null,
+    Object? currentPageAllPosts2 = null,
     Object? totalPagesAllPosts = null,
     Object? swipeItems = null,
+    Object? swipeItems2 = null,
   }) {
     return _then(_$PostFeedStateImpl(
       isLoading: null == isLoading
@@ -315,6 +333,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value.currentPageAllPosts
           : currentPageAllPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      currentPageAllPosts2: null == currentPageAllPosts2
+          ? _value.currentPageAllPosts2
+          : currentPageAllPosts2 // ignore: cast_nullable_to_non_nullable
+              as int,
       totalPagesAllPosts: null == totalPagesAllPosts
           ? _value.totalPagesAllPosts
           : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
@@ -322,6 +344,10 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
       swipeItems: null == swipeItems
           ? _value._swipeItems
           : swipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      swipeItems2: null == swipeItems2
+          ? _value._swipeItems2
+          : swipeItems2 // ignore: cast_nullable_to_non_nullable
               as List<SwipeItem>,
     ));
   }
@@ -348,8 +374,10 @@ class _$PostFeedStateImpl extends _PostFeedState {
       this.totalPages = 1,
       this.isHeartAnimating = false,
       this.currentPageAllPosts = 1,
+      this.currentPageAllPosts2 = 1,
       this.totalPagesAllPosts = 1,
-      final List<SwipeItem> swipeItems = const []})
+      final List<SwipeItem> swipeItems = const [],
+      final List<SwipeItem> swipeItems2 = const []})
       : _postTitles = postTitles,
         _postList = postList,
         _userInfoList = userInfoList,
@@ -357,6 +385,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
         _preferenceInfoList = preferenceInfoList,
         _restaurantInfoList = restaurantInfoList,
         _swipeItems = swipeItems,
+        _swipeItems2 = swipeItems2,
         super._();
 
   @override
@@ -460,6 +489,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
   final int currentPageAllPosts;
   @override
   @JsonKey()
+  final int currentPageAllPosts2;
+  @override
+  @JsonKey()
   final int totalPagesAllPosts;
   final List<SwipeItem> _swipeItems;
   @override
@@ -470,9 +502,18 @@ class _$PostFeedStateImpl extends _PostFeedState {
     return EqualUnmodifiableListView(_swipeItems);
   }
 
+  final List<SwipeItem> _swipeItems2;
+  @override
+  @JsonKey()
+  List<SwipeItem> get swipeItems2 {
+    if (_swipeItems2 is EqualUnmodifiableListView) return _swipeItems2;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_swipeItems2);
+  }
+
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating, currentPageAllPosts: $currentPageAllPosts, totalPagesAllPosts: $totalPagesAllPosts, swipeItems: $swipeItems)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts, swipeItems: $swipeItems, swipeItems2: $swipeItems2)';
   }
 
   @override
@@ -512,10 +553,14 @@ class _$PostFeedStateImpl extends _PostFeedState {
                 other.isHeartAnimating == isHeartAnimating) &&
             (identical(other.currentPageAllPosts, currentPageAllPosts) ||
                 other.currentPageAllPosts == currentPageAllPosts) &&
+            (identical(other.currentPageAllPosts2, currentPageAllPosts2) ||
+                other.currentPageAllPosts2 == currentPageAllPosts2) &&
             (identical(other.totalPagesAllPosts, totalPagesAllPosts) ||
                 other.totalPagesAllPosts == totalPagesAllPosts) &&
             const DeepCollectionEquality()
-                .equals(other._swipeItems, _swipeItems));
+                .equals(other._swipeItems, _swipeItems) &&
+            const DeepCollectionEquality()
+                .equals(other._swipeItems2, _swipeItems2));
   }
 
   @override
@@ -538,8 +583,10 @@ class _$PostFeedStateImpl extends _PostFeedState {
         totalPages,
         isHeartAnimating,
         currentPageAllPosts,
+        currentPageAllPosts2,
         totalPagesAllPosts,
-        const DeepCollectionEquality().hash(_swipeItems)
+        const DeepCollectionEquality().hash(_swipeItems),
+        const DeepCollectionEquality().hash(_swipeItems2)
       ]);
 
   @JsonKey(ignore: true)
@@ -568,8 +615,10 @@ abstract class _PostFeedState extends PostFeedState {
       final int totalPages,
       final bool isHeartAnimating,
       final int currentPageAllPosts,
+      final int currentPageAllPosts2,
       final int totalPagesAllPosts,
-      final List<SwipeItem> swipeItems}) = _$PostFeedStateImpl;
+      final List<SwipeItem> swipeItems,
+      final List<SwipeItem> swipeItems2}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
 
   @override
@@ -607,9 +656,13 @@ abstract class _PostFeedState extends PostFeedState {
   @override
   int get currentPageAllPosts;
   @override
+  int get currentPageAllPosts2;
+  @override
   int get totalPagesAllPosts;
   @override
   List<SwipeItem> get swipeItems;
+  @override
+  List<SwipeItem> get swipeItems2;
   @override
   @JsonKey(ignore: true)
   _$$PostFeedStateImplCopyWith<_$PostFeedStateImpl> get copyWith =>

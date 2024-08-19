@@ -25,6 +25,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   final NetworkApiService _networkApiService;
   TextEditingController commentController = TextEditingController();
   List<SwipeItem> swipeItems = [];
+  List<SwipeItem> swipeItems2 = [];
   int count = 0;
   MatchEngine? matchEngine;
 
@@ -245,17 +246,35 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> getFollowingPostFeed() async {
+  Future<void> loadMoreFollowingPostFeed() async {
+    if (state.currentPageAllPosts2 >= state.totalPagesAllPosts) {
+      stackEmptyStatus();
+      showToastMessage('No more posts');
+      return;
+    }
+    AppLog.log(
+        '-----------------------load more callled----------------------------');
+    await getFollowingPostFeed(isLoadMore: true);
+  }
+
+  Future<void> getFollowingPostFeed({bool isLoadMore = false}) async {
     state = state.copyWith(isLoading: true);
     try {
+      if (isLoadMore) {
+        state = state.copyWith(
+            currentPageAllPosts2: state.currentPageAllPosts2 + 1);
+      } else {
+        state = state.copyWith(currentPageAllPosts2: 1);
+      }
+
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(
               url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
               body: {
             "list_type": "follow",
-            "perpage": 30,
+            "perpage": 10,
+            "page": state.currentPageAllPosts2,
           });
-      state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
@@ -264,8 +283,56 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
         if (postModel.status == 200) {
-          state =
-              state.copyWith(isLoading: false, postList: postModel.postList);
+          List<CommentInfo> allComments = [];
+          for (var post in postModel.postList ?? []) {
+            if (post.commentInfo != null) {
+              allComments.addAll(post.commentInfo!);
+            }
+          }
+
+          if (isLoadMore) {
+            swipeItems2.clear();
+          }
+
+          for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
+            swipeItems2.add(
+              SwipeItem(
+                content: PostFeedItem(postList: postModel.postList?[i]),
+                likeAction: () async {
+                  await swipeRightToLikePost(() {
+                    final updatedList = List.from(state.swipeItems2);
+                    updatedList.removeAt(0);
+                    state = state.copyWith(swipeItems2: [...updatedList]);
+                  }, postModel.postList?[i].id ?? "");
+                },
+                nopeAction: () async {
+                  await swipeLeftToDislikePost(() {
+                    final updatedList = List.from(state.swipeItems2);
+                    updatedList.removeAt(0);
+                    state = state.copyWith(swipeItems2: [...updatedList]);
+                  }, postModel.postList?[i].id ?? "");
+                },
+              ),
+            );
+          }
+
+          if (isLoadMore) {
+            state = state.copyWith(
+                isLoading: false,
+                swipeItems2: [...state.swipeItems2, ...swipeItems2]);
+            matchEngine = MatchEngine(swipeItems: [...state.swipeItems2]);
+            return;
+          }
+
+          state = state.copyWith(
+            isLoading: false,
+            postList: postModel.postList, // i think the problem is here
+            // commentInfoList: allComments,
+            swipeItems2: [...swipeItems2],
+            totalPagesAllPosts: postModel.pages ?? 0,
+          );
+
+          matchEngine = MatchEngine(swipeItems: [...state.swipeItems2]);
         } else {
           showToastMessage(postModel.message.toString());
         }
