@@ -17,8 +17,7 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
-  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio)
-      : super(PostFeedState());
+  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio) : super(PostFeedState());
 
   final HiveDatabase _hiveDatabase;
   final Dio _dio;
@@ -28,6 +27,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   List<SwipeItem> swipeItems2 = [];
   int count = 0;
   MatchEngine? matchEngine;
+  MatchEngine? matchEngineFollowing;
 
   final refreshController = RefreshController();
 
@@ -50,8 +50,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   String? get userId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
   String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude =>
-      _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
   void loadMorePosts() async {
     if (state.currentPage > state.totalPages) {
@@ -98,12 +97,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         final posts = postModel.postList;
 
         if (isLoadMore) {
-          final currentPostsIds =
-              state.postList?.map((post) => post.id).toSet();
+          final currentPostsIds = state.postList?.map((post) => post.id).toSet();
 
-          final uniqueNewPosts = posts
-              ?.where((post) => !(currentPostsIds?.contains(post.id) ?? false))
-              .toList();
+          final uniqueNewPosts =
+              posts?.where((post) => !(currentPostsIds?.contains(post.id) ?? false)).toList();
 
           if ((uniqueNewPosts?.isEmpty ?? false) && isLoadMore) {
             showToastMessage('No new posts to display.');
@@ -128,8 +125,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       }
     } on DioException catch (e) {
       final error = DioExceptions.fromDioError(e).message;
-      showToastMessage(error,
-          errorMessage: 'Something went wrong, please try again');
+      showToastMessage(error, errorMessage: 'Something went wrong, please try again');
       state = state.copyWith(isLoading: false);
     }
   }
@@ -140,28 +136,23 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showToastMessage('No more posts');
       return;
     }
-    AppLog.log(
-        '-----------------------load more callled----------------------------');
+    AppLog.log('-----------------------load more callled----------------------------');
     await getPostFeed(isLoadMore: true);
   }
 
-  Future<void> getPostFeed(
-      {bool isPostLoading = false, bool isLoadMore = false}) async {
-    state = state.copyWith(isLoading: !isPostLoading);
+  Future<void> getPostFeed({bool isPostLoading = false, bool isLoadMore = false}) async {
+    state = state.copyWith(isLoading: !isPostLoading && !isLoadMore);
 
     try {
       if (isLoadMore) {
-        state =
-            state.copyWith(currentPageAllPosts: state.currentPageAllPosts + 1);
+        state = state.copyWith(currentPageAllPosts: state.currentPageAllPosts + 1);
       } else {
         state = state.copyWith(currentPageAllPosts: 1);
       }
 
-      AppLog.log(
-          '-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
+      AppLog.log('-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
 
-      var (response, dioException) =
-          await _networkApiService.postApiRequestWithToken(
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         body: {
           "list_type": "list",
@@ -194,9 +185,19 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
               swipeItems.add(
                 SwipeItem(
-                  content: PostFeedItem(postList: postModel.postList?[i]),
+                  content: PostFeedItem(
+                    postList: postModel.postList?[i],
+                    index: i,
+                  ),
+                  superlikeAction: () {
+                    final updatedList = List.from(state.swipeItems);
+                    updatedList.removeAt(0);
+                    state = state.copyWith(swipeItems: [...updatedList]);
+                  },
                   likeAction: () async {
                     await swipeRightToLikePost(() {
+                      print('state.swipeItems.length: ${state.swipeItems.length}');
+
                       final updatedList = List.from(state.swipeItems);
                       updatedList.removeAt(0);
                       state = state.copyWith(swipeItems: [...updatedList]);
@@ -204,10 +205,11 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                   },
                   nopeAction: () async {
                     await swipeLeftToDislikePost(() {
+                      print('state.swipeItems.length: ${state.swipeItems.length}');
+
                       final updatedList = List.from(state.swipeItems);
                       updatedList.removeAt(0);
                       state = state.copyWith(swipeItems: [...updatedList]);
-                      print('length: ${state.swipeItems.length}');
                     }, postModel.postList?[i].id ?? "");
                   },
                 ),
@@ -215,12 +217,14 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             }
 
             if (isLoadMore) {
-              state = state.copyWith(
-                  isLoading: false,
-                  swipeItems: [...state.swipeItems, ...swipeItems]);
+              state = state
+                  .copyWith(isLoading: false, swipeItems: [...state.swipeItems, ...swipeItems]);
+              print('state.swipeItems.length: ${state.swipeItems.length}');
               matchEngine = MatchEngine(swipeItems: [...state.swipeItems]);
               return;
             }
+
+            final doubleTapList = List.generate(swipeItems.length, (index) => false);
 
             state = state.copyWith(
               isLoading: false,
@@ -228,6 +232,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
               // commentInfoList: allComments,
               swipeItems: [...swipeItems],
               totalPagesAllPosts: postModel.pages ?? 0,
+              doubleTapList: doubleTapList,
             );
 
             matchEngine = MatchEngine(swipeItems: [...state.swipeItems]);
@@ -252,8 +257,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showToastMessage('No more posts');
       return;
     }
-    AppLog.log(
-        '-----------------------load more callled----------------------------');
+    AppLog.log('-----------------------load more callled----------------------------');
     await getFollowingPostFeed(isLoadMore: true);
   }
 
@@ -261,20 +265,17 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     state = state.copyWith(isLoading: true);
     try {
       if (isLoadMore) {
-        state = state.copyWith(
-            currentPageAllPosts2: state.currentPageAllPosts2 + 1);
+        state = state.copyWith(currentPageAllPosts2: state.currentPageAllPosts2 + 1);
       } else {
         state = state.copyWith(currentPageAllPosts2: 1);
       }
 
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
-              body: {
-            "list_type": "follow",
-            "perpage": 10,
-            "page": state.currentPageAllPosts2,
-          });
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
+        "list_type": "follow",
+        "perpage": 10,
+        "page": state.currentPageAllPosts2,
+      });
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
@@ -297,7 +298,15 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
             swipeItems2.add(
               SwipeItem(
-                content: PostFeedItem(postList: postModel.postList?[i]),
+                content: PostFeedItem(
+                  postList: postModel.postList?[i],
+                  index: i,
+                ),
+                superlikeAction: () {
+                  final updatedList = List.from(state.swipeItems);
+                  updatedList.removeAt(0);
+                  state = state.copyWith(swipeItems: [...updatedList]);
+                },
                 likeAction: () async {
                   await swipeRightToLikePost(() {
                     final updatedList = List.from(state.swipeItems2);
@@ -317,10 +326,9 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           }
 
           if (isLoadMore) {
-            state = state.copyWith(
-                isLoading: false,
-                swipeItems2: [...state.swipeItems2, ...swipeItems2]);
-            matchEngine = MatchEngine(swipeItems: [...state.swipeItems2]);
+            state = state
+                .copyWith(isLoading: false, swipeItems2: [...state.swipeItems2, ...swipeItems2]);
+            matchEngineFollowing = MatchEngine(swipeItems: [...state.swipeItems2]);
             return;
           }
 
@@ -332,7 +340,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             totalPagesAllPosts: postModel.pages ?? 0,
           );
 
-          matchEngine = MatchEngine(swipeItems: [...state.swipeItems2]);
+          matchEngineFollowing = MatchEngine(swipeItems: [...state.swipeItems2]);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -344,13 +352,16 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
+  void updateIsDoubleTappedStatus() {
+    state = state.copyWith(isDoubleTapped: true);
+  }
+
   Future<void> likePost(VoidCallback voidCallback, String postID) async {
     state = state.copyWith(isSavePost: true);
+
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}/post-like/insert',
-              body: {"post_id": postID});
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.baseUrl}/post-like/insert', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -362,8 +373,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
-          state = state.copyWith(isLiked: false);
+          // await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isLiked: false, isDoubleTapped: true);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -379,10 +390,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   Future<void> likeUnlikePost(VoidCallback voidCallback, String postID) async {
     state = state.copyWith(isSavePost: true);
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}${AppUrls.likeUnlikePost}',
-              body: {"post_id": postID});
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.baseUrl}${AppUrls.likeUnlikePost}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -394,8 +403,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
-          state = state.copyWith(isLiked: false);
+          // await getPostFeed(isPostLoading: true);
+          state = state.copyWith(isLiked: false, isDoubleTapped: false);
           voidCallback.call();
         } else {
           showToastMessage(jsonData['message']);
@@ -411,10 +420,8 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   Future<void> saveUnsavePost(VoidCallback voidCallback, String postID) async {
     state = state.copyWith(isSavePost: true);
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}${AppUrls.saveUnsavePost}',
-              body: {"post_id": postID});
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.baseUrl}${AppUrls.saveUnsavePost}', body: {"post_id": postID});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -441,14 +448,12 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> swipeRightToLikePost(
-      VoidCallback voidCallback, String postID) async {
+  Future<void> swipeRightToLikePost(VoidCallback voidCallback, String postID) async {
     // state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
-              body: {"post_id": postID, "type": "like"});
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
+          body: {"post_id": postID, "type": "like"});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -473,14 +478,12 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> swipeLeftToDislikePost(
-      VoidCallback voidCallback, String postID) async {
+  Future<void> swipeLeftToDislikePost(VoidCallback voidCallback, String postID) async {
     // state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
-              body: {"post_id": postID, "type": "dislike"});
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
+          url: '${AppUrls.baseUrl}${AppUrls.swipeToLikeDislikePost}',
+          body: {"post_id": postID, "type": "dislike"});
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -508,8 +511,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
   Future<void> postComment(VoidCallback voidCallback, String postID) async {
     state = state.copyWith(isCommentLoading: true);
     try {
-      var (response, dioException) =
-          await _networkApiService.postApiRequestWithToken(
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.addComment}',
         body: {
           "post_id": postID,
@@ -541,12 +543,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     }
   }
 
-  Future<void> postCommentLikeUnlike(
-      VoidCallback voidCallback, String commentID) async {
+  Future<void> postCommentLikeUnlike(VoidCallback voidCallback, String commentID) async {
     state = state.copyWith(isCommentLoading: true);
     try {
-      var (response, dioException) =
-          await _networkApiService.postApiRequestWithToken(
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.likeUnlikeComment}',
         body: {
           "comment_id": commentID,

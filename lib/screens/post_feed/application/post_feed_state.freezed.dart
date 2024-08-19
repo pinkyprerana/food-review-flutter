@@ -39,6 +39,8 @@ mixin _$PostFeedState {
   int get totalPagesAllPosts => throw _privateConstructorUsedError;
   List<SwipeItem> get swipeItems => throw _privateConstructorUsedError;
   List<SwipeItem> get swipeItems2 => throw _privateConstructorUsedError;
+  List<bool> get doubleTapList => throw _privateConstructorUsedError;
+  bool get isDoubleTapped => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PostFeedStateCopyWith<PostFeedState> get copyWith =>
@@ -72,7 +74,9 @@ abstract class $PostFeedStateCopyWith<$Res> {
       int currentPageAllPosts2,
       int totalPagesAllPosts,
       List<SwipeItem> swipeItems,
-      List<SwipeItem> swipeItems2});
+      List<SwipeItem> swipeItems2,
+      List<bool> doubleTapList,
+      bool isDoubleTapped});
 }
 
 /// @nodoc
@@ -109,6 +113,8 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
     Object? totalPagesAllPosts = null,
     Object? swipeItems = null,
     Object? swipeItems2 = null,
+    Object? doubleTapList = null,
+    Object? isDoubleTapped = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -195,6 +201,14 @@ class _$PostFeedStateCopyWithImpl<$Res, $Val extends PostFeedState>
           ? _value.swipeItems2
           : swipeItems2 // ignore: cast_nullable_to_non_nullable
               as List<SwipeItem>,
+      doubleTapList: null == doubleTapList
+          ? _value.doubleTapList
+          : doubleTapList // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
+      isDoubleTapped: null == isDoubleTapped
+          ? _value.isDoubleTapped
+          : isDoubleTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -228,7 +242,9 @@ abstract class _$$PostFeedStateImplCopyWith<$Res>
       int currentPageAllPosts2,
       int totalPagesAllPosts,
       List<SwipeItem> swipeItems,
-      List<SwipeItem> swipeItems2});
+      List<SwipeItem> swipeItems2,
+      List<bool> doubleTapList,
+      bool isDoubleTapped});
 }
 
 /// @nodoc
@@ -263,6 +279,8 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
     Object? totalPagesAllPosts = null,
     Object? swipeItems = null,
     Object? swipeItems2 = null,
+    Object? doubleTapList = null,
+    Object? isDoubleTapped = null,
   }) {
     return _then(_$PostFeedStateImpl(
       isLoading: null == isLoading
@@ -349,6 +367,14 @@ class __$$PostFeedStateImplCopyWithImpl<$Res>
           ? _value._swipeItems2
           : swipeItems2 // ignore: cast_nullable_to_non_nullable
               as List<SwipeItem>,
+      doubleTapList: null == doubleTapList
+          ? _value._doubleTapList
+          : doubleTapList // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
+      isDoubleTapped: null == isDoubleTapped
+          ? _value.isDoubleTapped
+          : isDoubleTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -377,7 +403,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
       this.currentPageAllPosts2 = 1,
       this.totalPagesAllPosts = 1,
       final List<SwipeItem> swipeItems = const [],
-      final List<SwipeItem> swipeItems2 = const []})
+      final List<SwipeItem> swipeItems2 = const [],
+      final List<bool> doubleTapList = const [],
+      this.isDoubleTapped = false})
       : _postTitles = postTitles,
         _postList = postList,
         _userInfoList = userInfoList,
@@ -386,6 +414,7 @@ class _$PostFeedStateImpl extends _PostFeedState {
         _restaurantInfoList = restaurantInfoList,
         _swipeItems = swipeItems,
         _swipeItems2 = swipeItems2,
+        _doubleTapList = doubleTapList,
         super._();
 
   @override
@@ -511,9 +540,22 @@ class _$PostFeedStateImpl extends _PostFeedState {
     return EqualUnmodifiableListView(_swipeItems2);
   }
 
+  final List<bool> _doubleTapList;
+  @override
+  @JsonKey()
+  List<bool> get doubleTapList {
+    if (_doubleTapList is EqualUnmodifiableListView) return _doubleTapList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_doubleTapList);
+  }
+
+  @override
+  @JsonKey()
+  final bool isDoubleTapped;
+
   @override
   String toString() {
-    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts, swipeItems: $swipeItems, swipeItems2: $swipeItems2)';
+    return 'PostFeedState(isLoading: $isLoading, isSavePost: $isSavePost, isCommentLoading: $isCommentLoading, isExpanded: $isExpanded, isLiked: $isLiked, isStackFinished: $isStackFinished, selectedIndex: $selectedIndex, postTitles: $postTitles, postList: $postList, userInfoList: $userInfoList, commentInfoList: $commentInfoList, preferenceInfoList: $preferenceInfoList, restaurantInfoList: $restaurantInfoList, currentPage: $currentPage, totalPages: $totalPages, isHeartAnimating: $isHeartAnimating, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts, swipeItems: $swipeItems, swipeItems2: $swipeItems2, doubleTapList: $doubleTapList, isDoubleTapped: $isDoubleTapped)';
   }
 
   @override
@@ -560,7 +602,11 @@ class _$PostFeedStateImpl extends _PostFeedState {
             const DeepCollectionEquality()
                 .equals(other._swipeItems, _swipeItems) &&
             const DeepCollectionEquality()
-                .equals(other._swipeItems2, _swipeItems2));
+                .equals(other._swipeItems2, _swipeItems2) &&
+            const DeepCollectionEquality()
+                .equals(other._doubleTapList, _doubleTapList) &&
+            (identical(other.isDoubleTapped, isDoubleTapped) ||
+                other.isDoubleTapped == isDoubleTapped));
   }
 
   @override
@@ -586,7 +632,9 @@ class _$PostFeedStateImpl extends _PostFeedState {
         currentPageAllPosts2,
         totalPagesAllPosts,
         const DeepCollectionEquality().hash(_swipeItems),
-        const DeepCollectionEquality().hash(_swipeItems2)
+        const DeepCollectionEquality().hash(_swipeItems2),
+        const DeepCollectionEquality().hash(_doubleTapList),
+        isDoubleTapped
       ]);
 
   @JsonKey(ignore: true)
@@ -618,7 +666,9 @@ abstract class _PostFeedState extends PostFeedState {
       final int currentPageAllPosts2,
       final int totalPagesAllPosts,
       final List<SwipeItem> swipeItems,
-      final List<SwipeItem> swipeItems2}) = _$PostFeedStateImpl;
+      final List<SwipeItem> swipeItems2,
+      final List<bool> doubleTapList,
+      final bool isDoubleTapped}) = _$PostFeedStateImpl;
   const _PostFeedState._() : super._();
 
   @override
@@ -663,6 +713,10 @@ abstract class _PostFeedState extends PostFeedState {
   List<SwipeItem> get swipeItems;
   @override
   List<SwipeItem> get swipeItems2;
+  @override
+  List<bool> get doubleTapList;
+  @override
+  bool get isDoubleTapped;
   @override
   @JsonKey(ignore: true)
   _$$PostFeedStateImplCopyWith<_$PostFeedStateImpl> get copyWith =>

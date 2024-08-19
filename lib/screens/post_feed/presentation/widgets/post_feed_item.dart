@@ -14,7 +14,13 @@ import 'not_epanded_post_details.dart';
 
 class PostFeedItem extends ConsumerWidget {
   final DataOfPostModel? postList;
-  const PostFeedItem({super.key, required this.postList});
+  final int index;
+
+  const PostFeedItem({
+    super.key,
+    required this.postList,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +31,9 @@ class PostFeedItem extends ConsumerWidget {
 
     return GestureDetector(
       onDoubleTap: () {
+        stateNotifier.updateIsDoubleTappedStatus();
         stateNotifier.showFavourite(context);
+
         stateNotifier.likePost(() {}, postList?.id ?? '');
       },
       child: Stack(
@@ -67,6 +75,7 @@ class PostFeedItem extends ConsumerWidget {
                         )
                       : NotExpandedPostDetails(
                           postList: postList,
+                          index: index,
                         ),
                   (state.isExpanded)
                       ? Column(

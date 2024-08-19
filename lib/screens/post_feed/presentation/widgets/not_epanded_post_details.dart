@@ -8,6 +8,7 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
@@ -16,15 +17,15 @@ import '../../../your_lists/shared/provider.dart';
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel? postList;
-  const NotExpandedPostDetails({super.key, required this.postList});
+  final int index;
+
+  const NotExpandedPostDetails({super.key, required this.postList, required this.index});
 
   @override
-  ConsumerState<NotExpandedPostDetails> createState() =>
-      _NotExpandedPostDetailsState();
+  ConsumerState<NotExpandedPostDetails> createState() => _NotExpandedPostDetailsState();
 }
 
-class _NotExpandedPostDetailsState
-    extends ConsumerState<NotExpandedPostDetails> {
+class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails> {
   @override
   void initState() {
     super.initState();
@@ -61,9 +62,10 @@ class _NotExpandedPostDetailsState
     final bool? isSaved = widget.postList?.isSave;
     final bool? isLiked = widget.postList?.isMyLike;
 
+    final state = ref.watch(postFeedNotifierProvider);
+
     return Container(
-      padding:
-          const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
+      padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
       width: double.infinity,
       child: Column(
         children: [
@@ -98,8 +100,8 @@ class _NotExpandedPostDetailsState
                     8.horizontalSpace,
                     Text(
                       name ?? "", //'Ahmad Gouse',
-                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 16.sp, color: AppColors.colorWhite),
+                      style: AppTextStyles.textStylePoppinsMedium
+                          .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
                   ],
                 ),
@@ -152,8 +154,7 @@ class _NotExpandedPostDetailsState
                         child: Center(
                           child: Text(
                             cuisine ?? "", //'Chinese Cuisine',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: const Color(0xff6BCE7B).withOpacity(0.85),
                               fontSize: 10.sp,
                             ),
@@ -176,8 +177,7 @@ class _NotExpandedPostDetailsState
                         children: [
                           Text(
                             restaurantName ?? "Restaurant name not available",
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -186,8 +186,7 @@ class _NotExpandedPostDetailsState
                             address != null && address.length > 40
                                 ? '${address.substring(0, 40)}...'
                                 : address ?? 'Restaurant address not available',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -200,12 +199,15 @@ class _NotExpandedPostDetailsState
               ),
               Column(
                 children: [
-                  GestureDetector(
-                      onTap: () =>
-                          postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
-                      child: (isLiked ?? false)
-                          ? Image.asset(Assets.redHeart)
-                          : Image.asset(Assets.like)),
+                  // GestureDetector(
+                  //     onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                  //     child: ((isLiked ?? false) || state.isDoubleTapped)
+                  //         ? Image.asset(Assets.redHeart)
+                  //         : Image.asset(Assets.like)),
+                  LikeIcon(
+                    isLiked: isLiked ?? false,
+                    onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                  ),
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(CommentsRoute(
@@ -228,8 +230,7 @@ class _NotExpandedPostDetailsState
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () =>
-                          postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
                       child: (isSaved ?? false)
                           ? Image.asset(
                               Assets.saved,

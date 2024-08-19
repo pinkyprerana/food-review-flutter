@@ -6,6 +6,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
@@ -18,8 +19,7 @@ class ExpandedPostDetails extends ConsumerStatefulWidget {
   const ExpandedPostDetails({super.key, required this.postList});
 
   @override
-  ConsumerState<ExpandedPostDetails> createState() =>
-      _ExpandedPostDetailsState();
+  ConsumerState<ExpandedPostDetails> createState() => _ExpandedPostDetailsState();
 }
 
 class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
@@ -59,6 +59,11 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final bool? isSaved = widget.postList?.isSave;
     final bool? isLiked = widget.postList?.isMyLike;
+
+    final state = ref.watch(postFeedNotifierProvider);
+
+    AppLog.log(
+        '------ state.isDoubleTapped in expanded post details ----- ${state.isDoubleTapped}');
 
     return Container(
       color: Colors.transparent,
@@ -100,8 +105,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         8.horizontalSpace,
                         Text(
                           name ?? "", //'Ahmad Gouse',
-                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              fontSize: 16.sp, color: AppColors.colorWhite),
+                          style: AppTextStyles.textStylePoppinsMedium
+                              .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                         ),
                         8.horizontalSpace,
                         GestureDetector(
@@ -112,8 +117,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(70),
-                              border: Border.all(
-                                  width: 1, color: const Color(0xffDDDFE6)),
+                              border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
                               color: AppColors.colorWhite.withOpacity(0.20),
                             ),
                             child: Center(
@@ -123,8 +127,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                                     : (isRequested ?? false)
                                         ? 'Requested'
                                         : 'Follow',
-                                style: AppTextStyles.textStylePoppinsRegular
-                                    .copyWith(
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   color: AppColors.colorWhite,
                                   fontSize: 10.sp,
                                 ),
@@ -148,8 +151,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                         children: [
                           Text(
                             restaurantName ?? "Restaurant name not available",
-                            style:
-                                AppTextStyles.textStylePoppinsMedium.copyWith(
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               fontSize: 13.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -158,8 +160,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             address != null && address.length > 40
                                 ? '${address.substring(0, 40)}...'
                                 : address ?? 'Restaurant address not available',
-                            style:
-                                AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorWhite,
                             ),
@@ -173,9 +174,8 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
               Column(
                 children: [
                   GestureDetector(
-                      onTap: () =>
-                          postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
-                      child: (isLiked ?? false)
+                      onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                      child: ((isLiked ?? false) || state.isDoubleTapped)
                           ? Image.asset(Assets.redHeart)
                           : Image.asset(Assets.like)),
                   15.verticalSpace,
@@ -200,8 +200,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   ),
                   10.verticalSpace,
                   GestureDetector(
-                      onTap: () =>
-                          postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
                       child: (isSaved ?? false)
                           ? Image.asset(
                               Assets.saved,

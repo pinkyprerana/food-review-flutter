@@ -28,6 +28,8 @@ class PostFeedState with _$PostFeedState {
     @Default(1) int totalPagesAllPosts,
     @Default([]) List<SwipeItem> swipeItems,
     @Default([]) List<SwipeItem> swipeItems2,
+    @Default([]) List<bool> doubleTapList,
+    @Default(false) bool isDoubleTapped,
   }) = _PostFeedState;
   const PostFeedState._();
 }
