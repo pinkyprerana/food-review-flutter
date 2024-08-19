@@ -494,7 +494,7 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     }
   }
 
-void searchUserRestaurant(WidgetRef ref) async {
+Future<void> searchUserRestaurant(WidgetRef ref) async {
   if (state.selectedIndex == 0) {
     await getAllUsersList();
   } else{

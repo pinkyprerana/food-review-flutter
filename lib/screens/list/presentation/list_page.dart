@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/followers_list.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
@@ -43,7 +44,6 @@ class _ListPageState extends ConsumerState<ListPage> {
     final stateNotifier = ref.watch(listProvider.notifier);
     final state = ref.watch(listProvider);
     final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
-    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
 
     return Scaffold(
       extendBody: true,
@@ -78,8 +78,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                 bgColor: AppColors.colorBackground,
                 isBorder: true,
                 onChanged: (_) async {
-                  followNotifier.searchUserRestaurant(ref);
-                  await restaurantNotifier.getRestaurants(ref: ref);
+                  await followNotifier.searchUserRestaurant(ref);
                 }
               ),
               Padding(
@@ -87,7 +86,10 @@ class _ListPageState extends ConsumerState<ListPage> {
                 child: ChipsChoice<int>.single(
                   value: state.listIndex,
                   padding: EdgeInsets.zero,
-                  onChanged: (val) => stateNotifier.setListIndex(val),
+                  onChanged: (val) {
+                    stateNotifier.setListIndex(val);
+                    dismissKeyboard(context);
+                  },
                   choiceItems: C2Choice.listFrom<int, String>(
                     source: options,
                     value: (i, v) => i,
@@ -110,6 +112,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                         selected: isSelected == i,
                         onSelected: (_) {
                           stateNotifier.setListIndex(i);
+                          dismissKeyboard(context);
                         },
                         selectedColor: AppColors.colorBlack2,
                         backgroundColor: AppColors.colorWhite,
