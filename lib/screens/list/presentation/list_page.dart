@@ -45,6 +45,17 @@ class _ListPageState extends ConsumerState<ListPage> {
     super.dispose();
   }
 
+  int selectedIndex = 0;
+  Future<void> searchUserRestaurant() async {
+    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    final userNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
+    if (selectedIndex == 0) {
+      await userNotifier.getAllUsersList();
+    } else{
+      await restaurantNotifier.getRestaurants(ref: ref);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(listProvider.notifier);
@@ -84,7 +95,9 @@ class _ListPageState extends ConsumerState<ListPage> {
                 bgColor: AppColors.colorBackground,
                 isBorder: true,
                 onChanged: (_) async {
-                  await followNotifier.searchUserRestaurant(ref);
+                  // await followNotifier.searchUserRestaurant(ref);
+                  await searchUserRestaurant();
+                  await ref.watch(restaurantNotifierProvider.notifier).getRestaurants(ref: ref);
                 }
               ),
               Padding(

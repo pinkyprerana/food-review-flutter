@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:for_the_table/screens/your_lists/application/your_people_state.dart';
 import 'package:for_the_table/screens/your_lists/domain/follow_type_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -494,13 +493,13 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
     }
   }
 
-Future<void> searchUserRestaurant(WidgetRef ref) async {
-  final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
-  if (state.selectedIndex == 0) {
-    await getAllUsersList();
-  } else{
-    await restaurantNotifier.getRestaurants(ref: ref);
-  }
-}
+// Future<void> searchUserRestaurant(WidgetRef ref) async {
+//   final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+//   if (state.selectedIndex == 0) {
+//     await getAllUsersList();
+//   } else{
+//     await restaurantNotifier.getRestaurants(ref: ref);
+//   }
+// }
 
 }

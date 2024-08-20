@@ -97,7 +97,7 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     bool isLoadMore = false,
     required WidgetRef ref,
   }) async {
-    final search = ref.watch(yourPeopleNotifierProvider.notifier).searchController;
+    final search = ref.read(yourPeopleNotifierProvider.notifier).searchController;
     try {
       state = state.copyWith(isLoading: !isLoadMore);
 
