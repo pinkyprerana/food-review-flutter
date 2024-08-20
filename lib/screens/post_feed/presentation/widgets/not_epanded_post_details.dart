@@ -63,7 +63,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final bool? isSaved = widget.postList?.isSave;
     final bool? isLiked = widget.postList?.isMyLike;
 
-    final state = ref.watch(postFeedNotifierProvider);
+    // final state = ref.watch(postFeedNotifierProvider);
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -92,9 +92,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: NetworkImage(
-                              profileImage,
-                            ),
+                            image: profileImage == '${AppUrls.profilePicLocation}/'
+                                ? const AssetImage(Assets.noProfileImage)
+                                : NetworkImage(
+                                    profileImage,
+                                  ),
                             fit: BoxFit.cover,
                           )),
                     ),

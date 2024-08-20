@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
 import '../../../../core/constants/app_urls.dart';
@@ -26,14 +25,12 @@ class PostFeedItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postFeedNotifierProvider);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    AppLog.log('state.isHeartAnimating ---- ${state.isHeartAnimating}');
     final String postImage = "${AppUrls.postImageLocation}${postList?.file}";
 
     return GestureDetector(
       onDoubleTap: () {
         stateNotifier.updateIsDoubleTappedStatus();
         stateNotifier.showFavourite(context);
-
         stateNotifier.likePost(() {}, postList?.id ?? '');
       },
       child: Stack(

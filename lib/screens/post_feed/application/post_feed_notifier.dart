@@ -15,7 +15,8 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
-  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio) : super(PostFeedState());
+  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio)
+      : super(const PostFeedState());
 
   final HiveDatabase _hiveDatabase;
   final Dio _dio;
@@ -146,8 +147,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         state = state.copyWith(currentPageAllPosts: 1);
       }
 
-      AppLog.log('-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
-
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         body: {
@@ -165,10 +164,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         try {
           PostModel postModel = PostModel.fromJson(response.data);
-          AppLog.log('--postModel.status---:${postModel.status}');
           if (postModel.status == 200) {
             List<CommentInfo> allComments = [];
-            for (var post in postModel.postList ?? []) {
+
+            for (DataOfPostModel post in postModel.postList ?? []) {
               if (post.commentInfo != null) {
                 allComments.addAll(post.commentInfo!);
               }
@@ -192,8 +191,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                   },
                   likeAction: () async {
                     await swipeRightToLikePost(() {
-                      print('state.swipeItems.length: ${state.swipeItems.length}');
-
                       final updatedList = List.from(state.swipeItems);
                       updatedList.removeAt(0);
                       state = state.copyWith(swipeItems: [...updatedList]);
@@ -201,8 +198,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                   },
                   nopeAction: () async {
                     await swipeLeftToDislikePost(() {
-                      print('state.swipeItems.length: ${state.swipeItems.length}');
-
                       final updatedList = List.from(state.swipeItems);
                       updatedList.removeAt(0);
                       state = state.copyWith(swipeItems: [...updatedList]);
@@ -215,7 +210,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             if (isLoadMore) {
               state = state
                   .copyWith(isLoading: false, swipeItems: [...state.swipeItems, ...swipeItems]);
-              print('state.swipeItems.length: ${state.swipeItems.length}');
               matchEngine = MatchEngine(swipeItems: [...state.swipeItems]);
               return;
             }
@@ -225,7 +219,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             state = state.copyWith(
               isLoading: false,
               postList: postModel.postList, // i think the problem is here
-              // commentInfoList: allComments,
+              commentInfoList: allComments,
               swipeItems: [...swipeItems],
               totalPagesAllPosts: postModel.pages ?? 0,
               doubleTapList: doubleTapList,
@@ -429,7 +423,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLoading: true);
           state = state.copyWith(isSavePost: false);
           voidCallback.call();
         } else {
@@ -525,7 +519,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLoading: true);
           state = state.copyWith(isCommentLoading: false);
           commentController.clear();
           voidCallback.call();
@@ -559,7 +553,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLoading: true);
           state = state.copyWith(isCommentLoading: false);
           commentController.clear();
           voidCallback.call();
