@@ -31,7 +31,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final postFeedState = ref.watch(postFeedNotifierProvider);
-    // final postFeedList = postFeedState.postList;
+    final postFeedList = postFeedState.postList;
 
     return Scaffold(
       // key: _scaffoldKey,
@@ -75,17 +75,19 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           ? SwipeCards(
                               matchEngine: stateNotifier.matchEngine ?? MatchEngine(),
                               itemBuilder: (BuildContext context, int index) {
-                                // if (index < 0 || index >= (postFeedList?.length ?? 0)) {
-                                //   return const SizedBox.shrink();
-                                // }
+                                if (index < 0 || index >= (postFeedList?.length ?? 0)) {
+                                  return const SizedBox.shrink();
+                                }
 
                                 return stateNotifier.swipeItems[index].content;
                               },
                               onStackFinished: () async {
-                                ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
-
-                                // stateNotifier.matchEngine =
-                                //     MatchEngine(swipeItems: [...postFeedState.swipeItems]);
+                                if (postFeedState.swipeItems.isEmpty) {
+                                  ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
+                                } else {
+                                  stateNotifier.matchEngine =
+                                      MatchEngine(swipeItems: [...postFeedState.swipeItems]);
+                                }
                               },
                               itemChanged: (SwipeItem item, int index) {
                                 if (postFeedState.swipeItems.length - 1 == 5) {
@@ -98,9 +100,9 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           : SwipeCards(
                               matchEngine: stateNotifier.matchEngineFollowing ?? MatchEngine(),
                               itemBuilder: (BuildContext context, int index) {
-                                // if (index < 0 || index >= (postFeedList?.length ?? 0)) {
-                                //   return const SizedBox.shrink();
-                                // }
+                                if (index < 0 || index >= (postFeedList?.length ?? 0)) {
+                                  return const SizedBox.shrink();
+                                }
 
                                 return stateNotifier.swipeItems2[index].content;
                               },

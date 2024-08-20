@@ -27,7 +27,7 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
       validateStatus: (status) {
         return true;
       },
-      baseUrl: 'https://forthetable.dedicateddevelopers.us/api',
+      baseUrl: '',
     )
     ..interceptors;
 

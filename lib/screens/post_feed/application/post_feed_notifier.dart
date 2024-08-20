@@ -133,7 +133,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showToastMessage('No more posts');
       return;
     }
-    AppLog.log('-----------------------load more callled----------------------------');
+
     await getPostFeed(isLoadMore: true);
   }
 
