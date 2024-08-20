@@ -27,22 +27,50 @@ class NotExpandedPostDetails extends ConsumerStatefulWidget {
 }
 
 class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails> {
+  String followStatus = '';
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final profileNotifier = ref.read(profileNotifierProvider.notifier);
-      await profileNotifier.getSavedList();
+      // final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      // await profileNotifier.getSavedList();
+      if (widget.postList?.isFollowing ?? false) {
+        setState(() {
+          followStatus = 'Following';
+        });
+      } else if (widget.postList?.isFollowingRequest ?? false) {
+        setState(() {
+          followStatus = 'Requested';
+        });
+      } else {
+        setState(() {
+          followStatus = 'Follow';
+        });
+      }
     });
   }
 
   void _handleFollowUnfollowButtonPressed(userId) async {
+    if (followStatus == 'Following') {
+      setState(() {
+        followStatus = 'Follow';
+      });
+    } else if (followStatus == 'Requested') {
+      setState(() {
+        followStatus = 'Follow';
+      });
+    } else {
+      setState(() {
+        followStatus = 'Requested';
+      });
+    }
     final followNotifier = ref.read(followNotifierProvider.notifier);
-    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    // final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    // final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await followNotifier.followUnfollow(() {}, userId);
-    await yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    await postFeedNotifier.getPostFeed(isPostLoading: true);
+    // await yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    // await postFeedNotifier.getPostFeed(isPostLoading: true);
   }
 
   @override
@@ -122,11 +150,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   child: Center(
                     child: Text(
-                      (isFollowing ?? false)
-                          ? 'Unfollow'
-                          : (isRequested ?? false)
-                              ? 'Requested'
-                              : 'Follow',
+                      followStatus,
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         color: AppColors.colorWhite,
                         fontSize: 10.sp,
