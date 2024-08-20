@@ -9,6 +9,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
+import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
@@ -62,7 +63,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final bool? isSaved = widget.postList?.isSave;
     final bool? isLiked = widget.postList?.isMyLike;
 
-    final state = ref.watch(postFeedNotifierProvider);
+    // final state = ref.watch(postFeedNotifierProvider);
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -91,9 +92,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: NetworkImage(
-                              profileImage,
-                            ),
+                            image: profileImage == '${AppUrls.profilePicLocation}/'
+                                ? const AssetImage(Assets.noProfileImage)
+                                : NetworkImage(
+                                    profileImage,
+                                  ),
                             fit: BoxFit.cover,
                           )),
                     ),
@@ -229,14 +232,10 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     ),
                   ),
                   10.verticalSpace,
-                  GestureDetector(
-                      onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
-                      child: (isSaved ?? false)
-                          ? Image.asset(
-                              Assets.saved,
-                              scale: 2,
-                            )
-                          : Image.asset(Assets.bookmark)),
+                  SaveIcon(
+                    isSaved: isSaved ?? false,
+                    onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                  ),
                 ],
               )
             ],

@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../core/constants/app_urls.dart';

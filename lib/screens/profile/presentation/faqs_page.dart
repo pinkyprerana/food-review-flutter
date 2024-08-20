@@ -8,7 +8,7 @@ import 'package:for_the_table/screens/profile/presentation/widgets/faq_option.da
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
 
-import '../../../core/utils/app_log.dart';
+// import '../../../core/utils/app_log.dart';
 
 @RoutePage()
 class FaqsPage extends ConsumerStatefulWidget {
@@ -26,7 +26,6 @@ class _FaqsPageState extends ConsumerState<FaqsPage> {
       await ref.read(profileNotifierProvider.notifier).getFAQList();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +69,9 @@ class _FaqsPageState extends ConsumerState<FaqsPage> {
           padding: const EdgeInsets.all(18.0).r,
           child: Column(
             children: [
-               CustomSearchField(
+              CustomSearchField(
                 controller: profileNotifier.searchController,
-                 onChanged: (_)=> profileNotifier.searchFAQ(),
+                onChanged: (_) => profileNotifier.searchFAQ(),
               ),
               20.verticalSpace,
               ListView.builder(

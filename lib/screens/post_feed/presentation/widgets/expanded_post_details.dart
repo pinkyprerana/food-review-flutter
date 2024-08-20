@@ -6,7 +6,6 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
@@ -62,9 +61,6 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
 
     final state = ref.watch(postFeedNotifierProvider);
 
-    AppLog.log(
-        '------ state.isDoubleTapped in expanded post details ----- ${state.isDoubleTapped}');
-
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 10).r,
@@ -96,9 +92,11 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: NetworkImage(
-                                  profileImage,
-                                ),
+                                image: profileImage == '${AppUrls.profilePicLocation}/'
+                                    ? const AssetImage(Assets.noProfileImage)
+                                    : NetworkImage(
+                                        profileImage,
+                                      ),
                                 fit: BoxFit.cover,
                               )),
                         ),

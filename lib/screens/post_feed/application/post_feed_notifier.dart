@@ -8,8 +8,6 @@ import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/screens/post_feed/application/post_feed_state.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
-import 'package:for_the_table/screens/post_feed/presentation/post_feed_page.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -17,7 +15,8 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 
 class PostFeedNotifier extends StateNotifier<PostFeedState> {
-  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio) : super(PostFeedState());
+  PostFeedNotifier(this._hiveDatabase, this._networkApiService, this._dio)
+      : super(const PostFeedState());
 
   final HiveDatabase _hiveDatabase;
   final Dio _dio;
@@ -33,12 +32,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
   void setIsExpanded() {
     state = state.copyWith(isExpanded: !state.isExpanded);
-    AppLog.log('state.isExpanded===== ${state.isExpanded}');
   }
 
   void selectButton(int index) {
     state = state.copyWith(selectedIndex: index);
-    AppLog.log('selectedIndex ----------- ${state.selectedIndex}');
   }
 
   void stackEmptyStatus() {
@@ -136,7 +133,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       showToastMessage('No more posts');
       return;
     }
-    AppLog.log('-----------------------load more callled----------------------------');
+
     await getPostFeed(isLoadMore: true);
   }
 
@@ -149,8 +146,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         state = state.copyWith(currentPageAllPosts: 1);
       }
-
-      AppLog.log('-----------state.currentPageAllPosts: ------->> ${state.currentPageAllPosts}');
 
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
@@ -169,10 +164,10 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
       } else {
         try {
           PostModel postModel = PostModel.fromJson(response.data);
-          AppLog.log('--postModel.status---:${postModel.status}');
           if (postModel.status == 200) {
             List<CommentInfo> allComments = [];
-            for (var post in postModel.postList ?? []) {
+
+            for (DataOfPostModel post in postModel.postList ?? []) {
               if (post.commentInfo != null) {
                 allComments.addAll(post.commentInfo!);
               }
@@ -196,8 +191,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                   },
                   likeAction: () async {
                     await swipeRightToLikePost(() {
-                      print('state.swipeItems.length: ${state.swipeItems.length}');
-
                       final updatedList = List.from(state.swipeItems);
                       updatedList.removeAt(0);
                       state = state.copyWith(swipeItems: [...updatedList]);
@@ -205,8 +198,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                   },
                   nopeAction: () async {
                     await swipeLeftToDislikePost(() {
-                      print('state.swipeItems.length: ${state.swipeItems.length}');
-
                       final updatedList = List.from(state.swipeItems);
                       updatedList.removeAt(0);
                       state = state.copyWith(swipeItems: [...updatedList]);
@@ -219,7 +210,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             if (isLoadMore) {
               state = state
                   .copyWith(isLoading: false, swipeItems: [...state.swipeItems, ...swipeItems]);
-              print('state.swipeItems.length: ${state.swipeItems.length}');
               matchEngine = MatchEngine(swipeItems: [...state.swipeItems]);
               return;
             }
@@ -229,7 +219,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
             state = state.copyWith(
               isLoading: false,
               postList: postModel.postList, // i think the problem is here
-              // commentInfoList: allComments,
+              commentInfoList: allComments,
               swipeItems: [...swipeItems],
               totalPagesAllPosts: postModel.pages ?? 0,
               doubleTapList: doubleTapList,
@@ -433,7 +423,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLoading: true);
           state = state.copyWith(isSavePost: false);
           voidCallback.call();
         } else {
@@ -494,7 +484,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
         Map<String, dynamic> jsonData = response.data;
 
         if (response.statusCode == 200) {
-          showToastMessage('dislike');
+          showToastMessage(jsonData['message']);
           // state = state.copyWith(isLiked: !state.isLiked);
           voidCallback.call();
         } else {
@@ -529,7 +519,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLoading: true);
           state = state.copyWith(isCommentLoading: false);
           commentController.clear();
           voidCallback.call();
@@ -563,7 +553,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLoading: true);
           state = state.copyWith(isCommentLoading: false);
           commentController.clear();
           voidCallback.call();

@@ -3,12 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/post_feed_item.dart';
-import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 import '../../../widgets/custom_icon.dart';
-import '../../base/shared/providers.dart';
 import '../shared/provider.dart';
 
 class PostFeedPage extends ConsumerStatefulWidget {
@@ -20,9 +16,7 @@ class PostFeedPage extends ConsumerStatefulWidget {
 
 class _PostFeedPageState extends ConsumerState<PostFeedPage> {
   List<String> buttonTexts = ['For The Table', 'Following'];
-  // final List<SwipeItem> _swipeItems = <SwipeItem>[];
-  // MatchEngine? _matchEngine;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -33,23 +27,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
     });
   }
 
-  // @override
-  // void didChangeDependencies() async {
-  //   super.didChangeDependencies();
-  //   final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-  //   await postFeedNotifier.getPostFeed();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final stateNotifierForBase = ref.watch(baseNotifierProvider.notifier);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedList = postFeedState.postList;
 
     return Scaffold(
-      // backgroundColor: AppColors.colorPrimary,
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       body: postFeedState.isLoading || stateNotifier.matchEngine == null
           ? const Center(
               child: CircularProgressIndicator(
@@ -97,24 +82,14 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 return stateNotifier.swipeItems[index].content;
                               },
                               onStackFinished: () async {
-                                // ref
-                                //     .read(postFeedNotifierProvider.notifier)
-                                //     .stackEmptyStatus();
-                                // stateNotifier.matchEngine = MatchEngine(
-                                //     swipeItems: stateNotifier.swipeItems);
-                                stateNotifier.count = 0;
-                                // await stateNotifier.loadMorePostFeed();
-                                stateNotifier.matchEngine =
-                                    MatchEngine(swipeItems: [...postFeedState.swipeItems]);
+                                if (postFeedState.swipeItems.isEmpty) {
+                                  ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
+                                } else {
+                                  stateNotifier.matchEngine =
+                                      MatchEngine(swipeItems: [...postFeedState.swipeItems]);
+                                }
                               },
                               itemChanged: (SwipeItem item, int index) {
-                                stateNotifier.count++;
-                                AppLog.log(
-                                    '===== stateNotifier.count========= ${stateNotifier.count}');
-                                AppLog.log(
-                                    '===== stateNotifier.swipeItems.length========= ${postFeedState.swipeItems.length}');
-                                // print('length: ${postFeedState.swipeItems.length}');
-
                                 if (postFeedState.swipeItems.length - 1 == 5) {
                                   stateNotifier.loadMorePostFeed();
                                 }
@@ -132,24 +107,13 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 return stateNotifier.swipeItems2[index].content;
                               },
                               onStackFinished: () async {
-                                // ref
-                                //     .read(postFeedNotifierProvider.notifier)
-                                //     .stackEmptyStatus();
-                                // stateNotifier.matchEngine = MatchEngine(
-                                //     swipeItems: stateNotifier.swipeItems);
-                                stateNotifier.count = 0;
-                                // await stateNotifier.loadMorePostFeed();
-                                stateNotifier.matchEngineFollowing = MatchEngine(
-                                  swipeItems: [...postFeedState.swipeItems2],
-                                );
+                                ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
+
+                                // stateNotifier.matchEngineFollowing = MatchEngine(
+                                //   swipeItems: [...postFeedState.swipeItems2],
+                                // );
                               },
                               itemChanged: (SwipeItem item, int index) {
-                                stateNotifier.count++;
-                                AppLog.log(
-                                    '===== stateNotifier.count========= ${stateNotifier.count}');
-                                AppLog.log(
-                                    '===== stateNotifier.swipeItems.length========= ${postFeedState.swipeItems.length}');
-                                // print('length: ${postFeedState.swipeItems.length}');
                                 if (postFeedState.swipeItems2.length == 5) {
                                   stateNotifier.loadMoreFollowingPostFeed();
                                 }
@@ -159,86 +123,60 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                             ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            stateNotifierForBase.resetBottomNavIndex(); // Added this
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.colorWhite.withOpacity(0.10),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                size: 15,
-                                color: AppColors.colorWhite,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 38.h,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: buttonTexts.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () async {
-                                    stateNotifier.selectButton(index);
-                                    if (index == 0) {
-                                      final postFeedNotifier =
-                                          ref.read(postFeedNotifierProvider.notifier);
-                                      await postFeedNotifier.getPostFeed();
+                  padding: const EdgeInsets.only(top: 60.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 38.h,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: buttonTexts.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  stateNotifier.selectButton(index);
+                                  if (index == 0) {
+                                    if (postFeedState.selectedIndex == 0) {
+                                      return;
                                     }
-                                    if (index == 1) {
-                                      final postFeedNotifier =
-                                          ref.read(postFeedNotifierProvider.notifier);
-                                      await postFeedNotifier.getFollowingPostFeed();
+                                    final postFeedNotifier =
+                                        ref.read(postFeedNotifierProvider.notifier);
+                                    await postFeedNotifier.getPostFeed();
+                                  }
+                                  if (index == 1) {
+                                    if (postFeedState.selectedIndex == 1) {
+                                      return;
                                     }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(right: 5),
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(horizontal: 15).r,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: (postFeedState.selectedIndex == index)
-                                          ? AppColors.colorWhite.withOpacity(0.5)
-                                          : AppColors.colorWhite.withOpacity(0.10),
-                                    ),
-                                    child: Text(
-                                      buttonTexts[index],
-                                      style: AppTextStyles.textStylePoppinsSemiBold
-                                          .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
-                                    ),
+                                    final postFeedNotifier =
+                                        ref.read(postFeedNotifierProvider.notifier);
+                                    await postFeedNotifier.getFollowingPostFeed();
+                                  }
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(horizontal: 15).r,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: postFeedState.isLoading
+                                        ? AppColors.colorPrimary
+                                        : (postFeedState.selectedIndex == index)
+                                            ? AppColors.colorWhite.withOpacity(0.5)
+                                            : AppColors.colorWhite.withOpacity(0.10),
                                   ),
-                                );
-                              }),
-                        ),
-                        Container(
-                            alignment: Alignment.center,
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.transparent,
-                            ),
-                            child: const SizedBox.shrink()),
-                      ],
-                    ),
+                                  child: Text(
+                                    buttonTexts[index],
+                                    style: AppTextStyles.textStylePoppinsSemiBold
+                                        .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
                   ),
                 )
               ],
