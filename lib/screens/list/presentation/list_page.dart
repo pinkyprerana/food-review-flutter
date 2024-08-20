@@ -40,6 +40,12 @@ class _ListPageState extends ConsumerState<ListPage> {
   }
 
   @override
+  void dispose() {
+    dismissKeyboard(context);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(listProvider.notifier);
     final state = ref.watch(listProvider);

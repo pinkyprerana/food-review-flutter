@@ -495,10 +495,11 @@ class YourPeopleNotifier extends StateNotifier<YourPeopleState> {
   }
 
 Future<void> searchUserRestaurant(WidgetRef ref) async {
+  final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
   if (state.selectedIndex == 0) {
     await getAllUsersList();
   } else{
-    await ref.watch(restaurantNotifierProvider.notifier).getRestaurants(ref: ref);
+    await restaurantNotifier.getRestaurants(ref: ref);
   }
 }
 

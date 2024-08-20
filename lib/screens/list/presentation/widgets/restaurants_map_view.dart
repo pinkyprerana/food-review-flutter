@@ -7,16 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../../../restaurant/shared/provider.dart';
 
 class RestaurantMapView extends ConsumerStatefulWidget {
   const RestaurantMapView({
     super.key,
-    required this.restaurants,
   });
 
-  final List<Map<String, dynamic>> restaurants;
 
   @override
   ConsumerState<RestaurantMapView> createState() => _RestaurantMapViewState();

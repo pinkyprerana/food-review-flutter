@@ -6,7 +6,6 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list_view.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_map_view.dart';
-
 import '../../../restaurant/shared/provider.dart';
 
 class RestaurantsList extends ConsumerStatefulWidget {
@@ -21,114 +20,19 @@ class RestaurantsList extends ConsumerStatefulWidget {
 class _RestaurantsListState extends ConsumerState<RestaurantsList> {
   List<bool> isSelected = [true, false];
 
-  final List<Map<String, dynamic>> restaurants = [
-    {
-      'name': 'Joe\'s Pizza',
-      'location': 'New York, NY',
-      'lat': 40.730610,
-      'lng': -73.935242,
-      'image': 'assets/images/temp/restaurant-sample1.png',
-      'rating': '4.8',
-      'reviews': '450 Reviews'
-    },
-    {
-      'name': 'Katz\'s Delicatessen',
-      'location': 'New York, NY',
-      'lat': 40.722233,
-      'lng': -73.987389,
-      'image': 'assets/images/temp/restaurant-sample2.png',
-      'rating': '4.7',
-      'reviews': '980 Reviews'
-    },
-    {
-      'name': 'Le Bernardin',
-      'location': 'New York, NY',
-      'lat': 40.761620,
-      'lng': -73.981726,
-      'image': 'assets/images/temp/restaurant-sample1.png',
-      'rating': '4.9',
-      'reviews': '1300 Reviews'
-    },
-    {
-      'name': 'Lombardi\'s Pizza',
-      'location': 'New York, NY',
-      'lat': 40.721618,
-      'lng': -73.995500,
-      'image': 'assets/images/temp/restaurant-sample2.png',
-      'rating': '4.6',
-      'reviews': '670 Reviews'
-    },
-    {
-      'name': 'Per Se',
-      'location': 'New York, NY',
-      'lat': 40.768578,
-      'lng': -73.981722,
-      'image': 'assets/images/temp/restaurant-sample1.png',
-      'rating': '4.8',
-      'reviews': '950 Reviews'
-    },
-    {
-      'name': 'Shake Shack',
-      'location': 'New York, NY',
-      'lat': 40.741112,
-      'lng': -73.989723,
-      'image': 'assets/images/temp/restaurant-sample2.png',
-      'rating': '4.5',
-      'reviews': '1500 Reviews'
-    },
-    {
-      'name': 'The Modern',
-      'location': 'New York, NY',
-      'lat': 40.761503,
-      'lng': -73.977351,
-      'image': 'assets/images/temp/restaurant-sample1.png',
-      'rating': '4.7',
-      'reviews': '890 Reviews'
-    },
-    {
-      'name': 'Eleven Madison Park',
-      'location': 'New York, NY',
-      'lat': 40.741635,
-      'lng': -73.987462,
-      'image': 'assets/images/temp/restaurant-sample2.png',
-      'rating': '4.9',
-      'reviews': '1200 Reviews'
-    },
-    {
-      'name': 'Peter Luger Steak House',
-      'location': 'Brooklyn, NY',
-      'lat': 40.709622,
-      'lng': -73.962015,
-      'image': 'assets/images/temp/restaurant-sample1.png',
-      'rating': '4.8',
-      'reviews': '800 Reviews'
-    },
-    {
-      'name': 'Russ & Daughters Cafe',
-      'location': 'New York, NY',
-      'lat': 40.722238,
-      'lng': -73.988076,
-      'image': 'assets/images/temp/restaurant-sample2.png',
-      'rating': '4.6',
-      'reviews': '500 Reviews'
-    },
-  ];
-
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-  //     final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-  //     await stateNotifier.getRestaurants();
-  //   });
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await stateNotifier.getRestaurants(ref: ref);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    final state = ref.watch(restaurantNotifierProvider);
-    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    // final state = ref.watch(restaurantNotifierProvider);
+    final restaurantState = ref.watch(restaurantNotifierProvider);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -150,7 +54,7 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
                   ),
                 ),
                 Text(
-                  '${state.totalNumberOfRestaurants == 0 ? 'Loading' : state.totalNumberOfRestaurants} Restaurants',
+                  '${restaurantState.totalNumberOfRestaurants == 0 ? 'Loading' : restaurantState.totalNumberOfRestaurants} Restaurants',
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                     color: AppColors.colorPrimaryAlpha,
                     fontSize: 10.sp,
@@ -208,10 +112,8 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
         ),
         16.verticalSpace,
         isSelected[0] == true
-            ? RestaurantListView(
-                restaurants: restaurants,
-              )
-            : RestaurantMapView(restaurants: restaurants),
+            ? const RestaurantListView()
+            : const RestaurantMapView(),
       ],
     );
   }
