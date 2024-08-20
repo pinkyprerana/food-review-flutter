@@ -11,6 +11,7 @@ import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
+import '../../../core/utils/app_log.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -28,6 +29,9 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   int selectedCameraIndex = 0;
   bool isIOS = Platform.isIOS;
   // Timer? _timer;
+  bool isVideoMode = false;
+  XFile? videoFile;
+
 
   @override
   void initState() {
@@ -115,7 +119,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     _controller = CameraController(
       cameras![selectedCameraIndex],
       ResolutionPreset.high,
-      enableAudio: false,
+      enableAudio: isVideoMode,
     );
 
     await _controller!.initialize().then((_) {
@@ -156,6 +160,37 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     });
   }
 
+  // Future<void> _recordVideo() async {
+  //   if (_controller != null && _controller!.value.isInitialized) {
+  //     if (_controller!.value.isRecordingVideo) {
+  //       try {
+  //         final video = await _controller!.stopVideoRecording();
+  //         setState(() {
+  //           videoFile = video;
+  //         });
+  //         if (!mounted) return;
+  //         AutoRouter.of(context).push(CreatePostRoute(imageFile: videoFile));
+  //       } catch (e) {
+  //         AppLog.log('Error stopping video recording: $e');
+  //       }
+  //     } else {
+  //       try {
+  //         await _controller!.startVideoRecording();
+  //       } catch (e) {
+  //         AppLog.log('Error starting video recording: $e');
+  //       }
+  //     }
+  //   } else {
+  //     AppLog.log('Camera controller is not initialized or not ready');
+  //   }
+  // }
+
+  void _toggleMode() {
+    setState(() {
+      isVideoMode = !isVideoMode;
+    });
+  }
+
   @override
   void dispose() {
     // WidgetsBinding.instance.removeObserver(this);
@@ -187,6 +222,17 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          actions: [
+            IconButton(
+              icon: Icon(
+                isVideoMode ? Icons.videocam : Icons.camera_alt,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: _toggleMode,
+            ),
+            const SizedBox(width: 20),
+          ],
           leading: GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
@@ -253,21 +299,58 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(width: 4, color: Colors.white),
                         borderRadius: BorderRadius.circular(100)),
+                    // onPressed: state.isPressed
+                    //     ? null
+                    //     : () async {
+                    //         stateNotifier.toggleIsPressedToTrue();
+                    //         final image = await _controller?.takePicture();
+                    //         setState(() {
+                    //           imageFile = image;
+                    //         });
+                    //         if (!context.mounted) return;
+                    //         AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
+                    //       },
+
                     onPressed: state.isPressed
                         ? null
                         : () async {
-                            // (Platform.isIOS)
-                            //     ?
-                            // createPostState.checkPermissionForIOS(context)
-                            //     : createPostState.checkPermission(context);
-                            stateNotifier.toggleIsPressedToTrue();
-                            final image = await _controller?.takePicture();
+                      if (isVideoMode) {
+                        if (_controller!.value.isRecordingVideo) {
+                          // Stop recording
+                          try {
+                            final video = await _controller?.stopVideoRecording();
                             setState(() {
-                              imageFile = image;
+                              videoFile = video;
                             });
                             if (!context.mounted) return;
-                            AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
-                          },
+                            AutoRouter.of(context).push(CreatePostRoute(imageFile: videoFile));
+                          } catch (e) {
+                            AppLog.log('Error stopping video recording: $e');
+                          }
+                        } else {
+                          // Start recording
+                          try {
+                            await _controller?.startVideoRecording();
+                          } catch (e) {
+                            AppLog.log('Error starting video recording: $e');
+                          }
+                        }
+                      } else {
+                        // Handle photo capture
+                        stateNotifier.toggleIsPressedToTrue();
+                        try {
+                          final image = await _controller?.takePicture();
+                          setState(() {
+                            imageFile = image;
+                          });
+                          if (!context.mounted) return;
+                          AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
+                        } finally {
+                          stateNotifier.toggleIsPressedToFalse();
+                        }
+                      }
+                    },
+
                   ),
                 ),
               ),
