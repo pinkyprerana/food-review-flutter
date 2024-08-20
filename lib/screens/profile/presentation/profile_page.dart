@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,12 +10,17 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/people_profile/shared/providers.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/other_options_widget.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_container.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_contianer2.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:uni_links/uni_links.dart';
+import '../../../core/utils/app_log.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -40,7 +47,41 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       await stateNotifier.getUserDetails();
       await stateNotifier.fetchUserActivities();
     });
+
+    uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        final userId = uri.pathSegments.last;
+        ref.read(followNotifierProvider.notifier).getUserById(userId);
+      }
+    });
     super.initState();
+  }
+
+  Future<XFile?> downloadImage(String imageUrl) async {
+    try {
+      final response = await Dio().get(imageUrl, options: Options(responseType: ResponseType.stream));
+      final directory = await getTemporaryDirectory();
+      final filePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final file = File(filePath);
+      await response.data.pipe(file.openWrite());
+      return XFile(filePath);
+    } catch (e) {
+      AppLog.log('Error downloading image: $e');
+      return null;
+    }
+  }
+
+  void shareProfileWithImage(String profileUrl, String imageUrl) async {
+    final imageFile = await downloadImage(imageUrl);
+    if (imageFile != null) {
+      Share.shareXFiles([imageFile], text: 'Check out this profile: $profileUrl');
+    } else {
+      Share.share('Check out this profile: $profileUrl');
+    }
+  }
+
+  void shareProfile(String profileUrl) {
+    Share.share('Check out this profile: $profileUrl');
   }
 
   @override
@@ -198,9 +239,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         ),
                                         // 8.horizontalSpace,
                                         SmallProfileContainer2(
-                                            widget: Center(
-                                          child: Image.asset(Assets.share),
-                                        )),
+                                            widget: GestureDetector(
+                                              onTap: (){
+                                                AppLog.log("ProfileURL: ${'${AppUrls.baseUrl}${AppUrls.profile}'}");
+
+                                                String profileUrl = '${AppUrls.baseUrl}${AppUrls.profile}';
+                                                String imageUrl = state.profileImgPath;
+                                                shareProfileWithImage(profileUrl, imageUrl);
+                                              },
+                                              child: Center(
+                                               child: Image.asset(Assets.share),
+                                                      ),
+                                                    )
+                                        ),
                                       ],
                                     ),
                                     10.verticalSpace,

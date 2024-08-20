@@ -12,8 +12,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../restaurant/shared/provider.dart';
 
 class RestaurantListView extends ConsumerStatefulWidget {
-  const RestaurantListView({super.key, required this.restaurants});
-  final List<Map<String, dynamic>> restaurants;
+  const RestaurantListView({super.key});
 
   @override
   ConsumerState<RestaurantListView> createState() => _RestaurantListViewState();
@@ -32,30 +31,32 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
 
   @override
   Widget build(BuildContext context) {
-    final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    final state = ref.watch(restaurantNotifierProvider);
-    
+    final restaurantState = ref.watch(restaurantNotifierProvider);
+    final allRestaurantList = restaurantState.restaurantList;
+    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+
+
     return Container(
       color: Colors.white,
       height: 0.54.sh,
-      child: (state.isLoading)
+      child: (restaurantState.isLoading)
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
               ),
             )
-          : (state.restaurantList != null && (state.restaurantList?.isNotEmpty ?? false))
+          : (allRestaurantList != null && (allRestaurantList.isNotEmpty))
               ? SmartRefresher(
-                  controller: stateNotifier.restaurantRefreshController,
+                  controller: restaurantNotifier.restaurantRefreshController,
                   enablePullUp: true,
                   enablePullDown: false,
                   onRefresh: () {},
                   onLoading: () {
-                    stateNotifier.loadMoreRestaurants(context, ref);
+                    restaurantNotifier.loadMoreRestaurants(context, ref);
                   },
                   footer: CustomFooter(
                     builder: (BuildContext context, mode) {
-                      if (!state.isMoreDataFetchable) {
+                      if (!restaurantState.isMoreDataFetchable) {
                         mode = LoadStatus.noMore;
                       }
                       Widget body;
@@ -86,19 +87,19 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                     },
                   ),
                   child: ListView.separated(
-                    itemCount: state.restaurantList?.length ?? 0,
+                    itemCount: allRestaurantList.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
                           AutoRouter.of(context).push(RestaurantDetailRoute(
-                            isBookmarked: state.restaurantList?[index].isSave ?? false,
-                            restaurantId: state.restaurantList?[index].id ?? '',
-                            address: state.restaurantList?[index].address ?? 'No name',
-                            image: state.restaurantList?[index].image?[0] ?? '',
-                            lat: state.restaurantList?[index].lat ?? '',
-                            lng: state.restaurantList?[index].lng ?? '',
-                            name: state.restaurantList?[index].name ?? '',
-                            description: state.restaurantList?[index].description ?? '',
+                            isBookmarked: allRestaurantList[index].isSave ?? false,
+                            restaurantId: allRestaurantList[index].id ?? '',
+                            address: allRestaurantList[index].address ?? 'No name',
+                            image: allRestaurantList[index].image?[0] ?? '',
+                            lat: allRestaurantList[index].lat ?? '',
+                            lng: allRestaurantList[index].lng ?? '',
+                            name: allRestaurantList[index].name ?? '',
+                            description: allRestaurantList[index].description ?? '',
                           ));
                         },
                         child: Container(
@@ -112,36 +113,36 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0).r,
-                                child: ((state.restaurantList?[index].image?[0].contains('jpg') ?? false) ||
-                                        (state.restaurantList?[index].image?[0].contains('png') ??
+                                child: ((allRestaurantList[index].image?[0].contains('jpg') ?? false) ||
+                                        (allRestaurantList[index].image?[0].contains('png') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('jpeg') ??
+                                        (allRestaurantList[index].image?[0].contains('jpeg') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('gif') ??
+                                        (allRestaurantList[index].image?[0].contains('gif') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('bmp') ??
+                                        (allRestaurantList[index].image?[0].contains('bmp') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('tiff') ??
+                                        (allRestaurantList[index].image?[0].contains('tiff') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('tif') ??
+                                        (allRestaurantList[index].image?[0].contains('tif') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('webp') ??
+                                        (allRestaurantList[index].image?[0].contains('webp') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('heic') ??
+                                        (allRestaurantList[index].image?[0].contains('heic') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('heif') ??
+                                        (allRestaurantList[index].image?[0].contains('heif') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('svg') ??
+                                        (allRestaurantList[index].image?[0].contains('svg') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('raw') ??
+                                        (allRestaurantList[index].image?[0].contains('raw') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('cr2') ??
+                                        (allRestaurantList[index].image?[0].contains('cr2') ??
                                             false) ||
-                                        (state.restaurantList?[index].image?[0].contains('nef') ??
+                                        (allRestaurantList[index].image?[0].contains('nef') ??
                                             false))
                                     ? CachedNetworkImage(
                                         imageUrl:
-                                            'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.restaurantList?[index].image?[0]}',
+                                            'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${allRestaurantList[index].image?[0]}',
                                         width: 48.r,
                                         height: 48.r,
                                         fit: BoxFit.cover,
@@ -166,7 +167,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                   children: [
                                     Text(
                                       // widget.restaurants[index]['name']!,
-                                      state.restaurantList?[index].name ?? 'No name',
+                                      allRestaurantList[index].name ?? 'No name',
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         color: AppColors.colorPrimary,
                                         fontSize: 13.sp,
@@ -181,7 +182,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                           child: Text(
                                             // widget.restaurants[index]
                                             //     ['location']!,
-                                            state.restaurantList?[index].address ??
+                                            allRestaurantList[index].address ??
                                                 'No Address is given',
                                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                               color: AppColors.colorPrimaryAlpha,
@@ -206,12 +207,12 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                           Icon(Icons.star,
                                               color: AppColors.colorRatingStar, size: 14.r),
                                           SizedBox(width: 4.w),
-                                          (state.restaurantList?[index].rating != '')
+                                          (allRestaurantList[index].rating != '')
                                               ? Text(
                                                   // widget.restaurants[index]
                                                   //     ['rating']!,
                                                   (double.parse(
-                                                              state.restaurantList?[index].rating ??
+                                                              allRestaurantList[index].rating ??
                                                                   '0') *
                                                           2)
                                                       .toString(),
@@ -235,10 +236,10 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                         ],
                                       ),
                                       SizedBox(width: 8.w),
-                                      (state.restaurantList?[index].userRatingsTotal != '')
+                                      (allRestaurantList[index].userRatingsTotal != '')
                                           ? Text(
                                               //widget.restaurants[index]['reviews']!,
-                                              '${state.restaurantList?[index].userRatingsTotal ?? 0} reviews',
+                                              '${allRestaurantList[index].userRatingsTotal ?? 0} reviews',
                                               style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                                 color: AppColors.colorPrimaryAlpha,
                                                 fontSize: 8.sp,

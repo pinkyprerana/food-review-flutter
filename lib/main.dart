@@ -12,7 +12,8 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(ProviderScope(child: MainApp()));
   });
 }
@@ -27,7 +28,7 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
       validateStatus: (status) {
         return true;
       },
-      baseUrl: '',
+      baseUrl: 'Demo',
     )
     ..interceptors;
 
