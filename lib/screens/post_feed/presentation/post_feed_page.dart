@@ -168,7 +168,13 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 return stateNotifier.swipeItems2[index].content;
                               },
                               onStackFinished: () async {
-                                ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
+                                if (postFeedState.swipeItems.isEmpty) {
+                                  ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
+                                } else {
+                                  stateNotifier.matchEngine =
+                                      MatchEngine(swipeItems: [...postFeedState.swipeItems2]);
+                                }
+                                // ref.read(postFeedNotifierProvider.notifier).stackEmptyStatus();
 
                                 // stateNotifier.matchEngineFollowing = MatchEngine(
                                 //   swipeItems: [...postFeedState.swipeItems2],

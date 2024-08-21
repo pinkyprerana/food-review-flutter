@@ -17,7 +17,25 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   bool get isLoading => throw _privateConstructorUsedError;
-  List<Restaurant>? get restaurantList => throw _privateConstructorUsedError;
+  bool get isCommentLoading => throw _privateConstructorUsedError;
+  bool get isHeartAnimating => throw _privateConstructorUsedError;
+  bool get isAllPostStackFinished => throw _privateConstructorUsedError;
+  bool get isFollowingPostStackFinished => throw _privateConstructorUsedError;
+  bool get isSavePost => throw _privateConstructorUsedError;
+  bool get isLiked => throw _privateConstructorUsedError;
+  bool get isDoubleTapped => throw _privateConstructorUsedError;
+  bool get isExpanded => throw _privateConstructorUsedError;
+  int get selectedIndex => throw _privateConstructorUsedError;
+  List<SwipeItem> get allSwipeItems => throw _privateConstructorUsedError;
+  List<SwipeItem> get followingSwipeItems => throw _privateConstructorUsedError;
+  List<Comment>? get commentsList => throw _privateConstructorUsedError;
+  List<Post>? get postList => throw _privateConstructorUsedError;
+  List<bool> get doubleTapList => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
+  int get currentPageAllPosts => throw _privateConstructorUsedError;
+  int get currentPageAllPosts2 => throw _privateConstructorUsedError;
+  int get totalPagesAllPosts => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -29,7 +47,27 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({bool isLoading, List<Restaurant>? restaurantList});
+  $Res call(
+      {bool isLoading,
+      bool isCommentLoading,
+      bool isHeartAnimating,
+      bool isAllPostStackFinished,
+      bool isFollowingPostStackFinished,
+      bool isSavePost,
+      bool isLiked,
+      bool isDoubleTapped,
+      bool isExpanded,
+      int selectedIndex,
+      List<SwipeItem> allSwipeItems,
+      List<SwipeItem> followingSwipeItems,
+      List<Comment>? commentsList,
+      List<Post>? postList,
+      List<bool> doubleTapList,
+      int currentPage,
+      int totalPages,
+      int currentPageAllPosts,
+      int currentPageAllPosts2,
+      int totalPagesAllPosts});
 }
 
 /// @nodoc
@@ -46,17 +84,107 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? restaurantList = freezed,
+    Object? isCommentLoading = null,
+    Object? isHeartAnimating = null,
+    Object? isAllPostStackFinished = null,
+    Object? isFollowingPostStackFinished = null,
+    Object? isSavePost = null,
+    Object? isLiked = null,
+    Object? isDoubleTapped = null,
+    Object? isExpanded = null,
+    Object? selectedIndex = null,
+    Object? allSwipeItems = null,
+    Object? followingSwipeItems = null,
+    Object? commentsList = freezed,
+    Object? postList = freezed,
+    Object? doubleTapList = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? currentPageAllPosts = null,
+    Object? currentPageAllPosts2 = null,
+    Object? totalPagesAllPosts = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      restaurantList: freezed == restaurantList
-          ? _value.restaurantList
-          : restaurantList // ignore: cast_nullable_to_non_nullable
-              as List<Restaurant>?,
+      isCommentLoading: null == isCommentLoading
+          ? _value.isCommentLoading
+          : isCommentLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isHeartAnimating: null == isHeartAnimating
+          ? _value.isHeartAnimating
+          : isHeartAnimating // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAllPostStackFinished: null == isAllPostStackFinished
+          ? _value.isAllPostStackFinished
+          : isAllPostStackFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFollowingPostStackFinished: null == isFollowingPostStackFinished
+          ? _value.isFollowingPostStackFinished
+          : isFollowingPostStackFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSavePost: null == isSavePost
+          ? _value.isSavePost
+          : isSavePost // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDoubleTapped: null == isDoubleTapped
+          ? _value.isDoubleTapped
+          : isDoubleTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExpanded: null == isExpanded
+          ? _value.isExpanded
+          : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      allSwipeItems: null == allSwipeItems
+          ? _value.allSwipeItems
+          : allSwipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      followingSwipeItems: null == followingSwipeItems
+          ? _value.followingSwipeItems
+          : followingSwipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      commentsList: freezed == commentsList
+          ? _value.commentsList
+          : commentsList // ignore: cast_nullable_to_non_nullable
+              as List<Comment>?,
+      postList: freezed == postList
+          ? _value.postList
+          : postList // ignore: cast_nullable_to_non_nullable
+              as List<Post>?,
+      doubleTapList: null == doubleTapList
+          ? _value.doubleTapList
+          : doubleTapList // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPageAllPosts: null == currentPageAllPosts
+          ? _value.currentPageAllPosts
+          : currentPageAllPosts // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPageAllPosts2: null == currentPageAllPosts2
+          ? _value.currentPageAllPosts2
+          : currentPageAllPosts2 // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPagesAllPosts: null == totalPagesAllPosts
+          ? _value.totalPagesAllPosts
+          : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -69,7 +197,27 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, List<Restaurant>? restaurantList});
+  $Res call(
+      {bool isLoading,
+      bool isCommentLoading,
+      bool isHeartAnimating,
+      bool isAllPostStackFinished,
+      bool isFollowingPostStackFinished,
+      bool isSavePost,
+      bool isLiked,
+      bool isDoubleTapped,
+      bool isExpanded,
+      int selectedIndex,
+      List<SwipeItem> allSwipeItems,
+      List<SwipeItem> followingSwipeItems,
+      List<Comment>? commentsList,
+      List<Post>? postList,
+      List<bool> doubleTapList,
+      int currentPage,
+      int totalPages,
+      int currentPageAllPosts,
+      int currentPageAllPosts2,
+      int totalPagesAllPosts});
 }
 
 /// @nodoc
@@ -84,17 +232,107 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
-    Object? restaurantList = freezed,
+    Object? isCommentLoading = null,
+    Object? isHeartAnimating = null,
+    Object? isAllPostStackFinished = null,
+    Object? isFollowingPostStackFinished = null,
+    Object? isSavePost = null,
+    Object? isLiked = null,
+    Object? isDoubleTapped = null,
+    Object? isExpanded = null,
+    Object? selectedIndex = null,
+    Object? allSwipeItems = null,
+    Object? followingSwipeItems = null,
+    Object? commentsList = freezed,
+    Object? postList = freezed,
+    Object? doubleTapList = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? currentPageAllPosts = null,
+    Object? currentPageAllPosts2 = null,
+    Object? totalPagesAllPosts = null,
   }) {
     return _then(_$HomeStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      restaurantList: freezed == restaurantList
-          ? _value._restaurantList
-          : restaurantList // ignore: cast_nullable_to_non_nullable
-              as List<Restaurant>?,
+      isCommentLoading: null == isCommentLoading
+          ? _value.isCommentLoading
+          : isCommentLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isHeartAnimating: null == isHeartAnimating
+          ? _value.isHeartAnimating
+          : isHeartAnimating // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAllPostStackFinished: null == isAllPostStackFinished
+          ? _value.isAllPostStackFinished
+          : isAllPostStackFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFollowingPostStackFinished: null == isFollowingPostStackFinished
+          ? _value.isFollowingPostStackFinished
+          : isFollowingPostStackFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSavePost: null == isSavePost
+          ? _value.isSavePost
+          : isSavePost // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isDoubleTapped: null == isDoubleTapped
+          ? _value.isDoubleTapped
+          : isDoubleTapped // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isExpanded: null == isExpanded
+          ? _value.isExpanded
+          : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      allSwipeItems: null == allSwipeItems
+          ? _value._allSwipeItems
+          : allSwipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      followingSwipeItems: null == followingSwipeItems
+          ? _value._followingSwipeItems
+          : followingSwipeItems // ignore: cast_nullable_to_non_nullable
+              as List<SwipeItem>,
+      commentsList: freezed == commentsList
+          ? _value._commentsList
+          : commentsList // ignore: cast_nullable_to_non_nullable
+              as List<Comment>?,
+      postList: freezed == postList
+          ? _value._postList
+          : postList // ignore: cast_nullable_to_non_nullable
+              as List<Post>?,
+      doubleTapList: null == doubleTapList
+          ? _value._doubleTapList
+          : doubleTapList // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPageAllPosts: null == currentPageAllPosts
+          ? _value.currentPageAllPosts
+          : currentPageAllPosts // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPageAllPosts2: null == currentPageAllPosts2
+          ? _value.currentPageAllPosts2
+          : currentPageAllPosts2 // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPagesAllPosts: null == totalPagesAllPosts
+          ? _value.totalPagesAllPosts
+          : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -104,27 +342,131 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 class _$HomeStateImpl extends _HomeState {
   const _$HomeStateImpl(
       {this.isLoading = false,
-      final List<Restaurant>? restaurantList = const []})
-      : _restaurantList = restaurantList,
+      this.isCommentLoading = false,
+      this.isHeartAnimating = false,
+      this.isAllPostStackFinished = false,
+      this.isFollowingPostStackFinished = false,
+      this.isSavePost = false,
+      this.isLiked = false,
+      this.isDoubleTapped = false,
+      this.isExpanded = false,
+      this.selectedIndex = 0,
+      final List<SwipeItem> allSwipeItems = const [],
+      final List<SwipeItem> followingSwipeItems = const [],
+      final List<Comment>? commentsList = const [],
+      final List<Post>? postList = const [],
+      final List<bool> doubleTapList = const [],
+      this.currentPage = 1,
+      this.totalPages = 1,
+      this.currentPageAllPosts = 1,
+      this.currentPageAllPosts2 = 1,
+      this.totalPagesAllPosts = 1})
+      : _allSwipeItems = allSwipeItems,
+        _followingSwipeItems = followingSwipeItems,
+        _commentsList = commentsList,
+        _postList = postList,
+        _doubleTapList = doubleTapList,
         super._();
 
   @override
   @JsonKey()
   final bool isLoading;
-  final List<Restaurant>? _restaurantList;
   @override
   @JsonKey()
-  List<Restaurant>? get restaurantList {
-    final value = _restaurantList;
+  final bool isCommentLoading;
+  @override
+  @JsonKey()
+  final bool isHeartAnimating;
+  @override
+  @JsonKey()
+  final bool isAllPostStackFinished;
+  @override
+  @JsonKey()
+  final bool isFollowingPostStackFinished;
+  @override
+  @JsonKey()
+  final bool isSavePost;
+  @override
+  @JsonKey()
+  final bool isLiked;
+  @override
+  @JsonKey()
+  final bool isDoubleTapped;
+  @override
+  @JsonKey()
+  final bool isExpanded;
+  @override
+  @JsonKey()
+  final int selectedIndex;
+  final List<SwipeItem> _allSwipeItems;
+  @override
+  @JsonKey()
+  List<SwipeItem> get allSwipeItems {
+    if (_allSwipeItems is EqualUnmodifiableListView) return _allSwipeItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allSwipeItems);
+  }
+
+  final List<SwipeItem> _followingSwipeItems;
+  @override
+  @JsonKey()
+  List<SwipeItem> get followingSwipeItems {
+    if (_followingSwipeItems is EqualUnmodifiableListView)
+      return _followingSwipeItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_followingSwipeItems);
+  }
+
+  final List<Comment>? _commentsList;
+  @override
+  @JsonKey()
+  List<Comment>? get commentsList {
+    final value = _commentsList;
     if (value == null) return null;
-    if (_restaurantList is EqualUnmodifiableListView) return _restaurantList;
+    if (_commentsList is EqualUnmodifiableListView) return _commentsList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
+  final List<Post>? _postList;
+  @override
+  @JsonKey()
+  List<Post>? get postList {
+    final value = _postList;
+    if (value == null) return null;
+    if (_postList is EqualUnmodifiableListView) return _postList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<bool> _doubleTapList;
+  @override
+  @JsonKey()
+  List<bool> get doubleTapList {
+    if (_doubleTapList is EqualUnmodifiableListView) return _doubleTapList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_doubleTapList);
+  }
+
+  @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final int totalPages;
+  @override
+  @JsonKey()
+  final int currentPageAllPosts;
+  @override
+  @JsonKey()
+  final int currentPageAllPosts2;
+  @override
+  @JsonKey()
+  final int totalPagesAllPosts;
+
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, restaurantList: $restaurantList)';
+    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, selectedIndex: $selectedIndex, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts)';
   }
 
   @override
@@ -134,13 +476,70 @@ class _$HomeStateImpl extends _HomeState {
             other is _$HomeStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isCommentLoading, isCommentLoading) ||
+                other.isCommentLoading == isCommentLoading) &&
+            (identical(other.isHeartAnimating, isHeartAnimating) ||
+                other.isHeartAnimating == isHeartAnimating) &&
+            (identical(other.isAllPostStackFinished, isAllPostStackFinished) ||
+                other.isAllPostStackFinished == isAllPostStackFinished) &&
+            (identical(other.isFollowingPostStackFinished,
+                    isFollowingPostStackFinished) ||
+                other.isFollowingPostStackFinished ==
+                    isFollowingPostStackFinished) &&
+            (identical(other.isSavePost, isSavePost) ||
+                other.isSavePost == isSavePost) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
+            (identical(other.isDoubleTapped, isDoubleTapped) ||
+                other.isDoubleTapped == isDoubleTapped) &&
+            (identical(other.isExpanded, isExpanded) ||
+                other.isExpanded == isExpanded) &&
+            (identical(other.selectedIndex, selectedIndex) ||
+                other.selectedIndex == selectedIndex) &&
             const DeepCollectionEquality()
-                .equals(other._restaurantList, _restaurantList));
+                .equals(other._allSwipeItems, _allSwipeItems) &&
+            const DeepCollectionEquality()
+                .equals(other._followingSwipeItems, _followingSwipeItems) &&
+            const DeepCollectionEquality()
+                .equals(other._commentsList, _commentsList) &&
+            const DeepCollectionEquality().equals(other._postList, _postList) &&
+            const DeepCollectionEquality()
+                .equals(other._doubleTapList, _doubleTapList) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            (identical(other.currentPageAllPosts, currentPageAllPosts) ||
+                other.currentPageAllPosts == currentPageAllPosts) &&
+            (identical(other.currentPageAllPosts2, currentPageAllPosts2) ||
+                other.currentPageAllPosts2 == currentPageAllPosts2) &&
+            (identical(other.totalPagesAllPosts, totalPagesAllPosts) ||
+                other.totalPagesAllPosts == totalPagesAllPosts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading,
-      const DeepCollectionEquality().hash(_restaurantList));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        isLoading,
+        isCommentLoading,
+        isHeartAnimating,
+        isAllPostStackFinished,
+        isFollowingPostStackFinished,
+        isSavePost,
+        isLiked,
+        isDoubleTapped,
+        isExpanded,
+        selectedIndex,
+        const DeepCollectionEquality().hash(_allSwipeItems),
+        const DeepCollectionEquality().hash(_followingSwipeItems),
+        const DeepCollectionEquality().hash(_commentsList),
+        const DeepCollectionEquality().hash(_postList),
+        const DeepCollectionEquality().hash(_doubleTapList),
+        currentPage,
+        totalPages,
+        currentPageAllPosts,
+        currentPageAllPosts2,
+        totalPagesAllPosts
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -152,13 +551,67 @@ class _$HomeStateImpl extends _HomeState {
 abstract class _HomeState extends HomeState {
   const factory _HomeState(
       {final bool isLoading,
-      final List<Restaurant>? restaurantList}) = _$HomeStateImpl;
+      final bool isCommentLoading,
+      final bool isHeartAnimating,
+      final bool isAllPostStackFinished,
+      final bool isFollowingPostStackFinished,
+      final bool isSavePost,
+      final bool isLiked,
+      final bool isDoubleTapped,
+      final bool isExpanded,
+      final int selectedIndex,
+      final List<SwipeItem> allSwipeItems,
+      final List<SwipeItem> followingSwipeItems,
+      final List<Comment>? commentsList,
+      final List<Post>? postList,
+      final List<bool> doubleTapList,
+      final int currentPage,
+      final int totalPages,
+      final int currentPageAllPosts,
+      final int currentPageAllPosts2,
+      final int totalPagesAllPosts}) = _$HomeStateImpl;
   const _HomeState._() : super._();
 
   @override
   bool get isLoading;
   @override
-  List<Restaurant>? get restaurantList;
+  bool get isCommentLoading;
+  @override
+  bool get isHeartAnimating;
+  @override
+  bool get isAllPostStackFinished;
+  @override
+  bool get isFollowingPostStackFinished;
+  @override
+  bool get isSavePost;
+  @override
+  bool get isLiked;
+  @override
+  bool get isDoubleTapped;
+  @override
+  bool get isExpanded;
+  @override
+  int get selectedIndex;
+  @override
+  List<SwipeItem> get allSwipeItems;
+  @override
+  List<SwipeItem> get followingSwipeItems;
+  @override
+  List<Comment>? get commentsList;
+  @override
+  List<Post>? get postList;
+  @override
+  List<bool> get doubleTapList;
+  @override
+  int get currentPage;
+  @override
+  int get totalPages;
+  @override
+  int get currentPageAllPosts;
+  @override
+  int get currentPageAllPosts2;
+  @override
+  int get totalPagesAllPosts;
   @override
   @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>

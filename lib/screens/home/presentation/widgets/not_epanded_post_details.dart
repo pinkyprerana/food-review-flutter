@@ -7,7 +7,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
 import 'package:for_the_table/screens/post_feed/shared/provider.dart';
@@ -15,7 +15,7 @@ import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
-  final DataOfPostModel? postList;
+  final Post postList;
   final int index;
 
   const NotExpandedPostDetails({super.key, required this.postList, required this.index});
@@ -33,11 +33,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       // final profileNotifier = ref.read(profileNotifierProvider.notifier);
       // await profileNotifier.getSavedList();
-      if (widget.postList?.isFollowing ?? false) {
+      if (widget.postList.isFollowing ?? false) {
         setState(() {
           followStatus = 'Following';
         });
-      } else if (widget.postList?.isFollowingRequest ?? false) {
+      } else if (widget.postList.isFollowingRequest ?? false) {
         setState(() {
           followStatus = 'Requested';
         });
@@ -73,21 +73,21 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
 
   @override
   Widget build(BuildContext context) {
-    final String? peopleId = widget.postList?.userInfo?.id;
-    final String? name = widget.postList?.userInfo?.fullName;
+    final String? peopleId = widget.postList.userInfo?.id;
+    final String? name = widget.postList.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList?.userInfo?.profileImage}";
-    final String? description = widget.postList?.description;
-    final String? restaurantName = widget.postList?.restaurantInfo?.name;
-    final String? address = widget.postList?.restaurantInfo?.address;
-    final String? cuisine = widget.postList?.preferenceInfo?.title;
-    final int? commentCount = widget.postList?.commentCount;
-    final String? postId = widget.postList?.id;
-    // final bool? isFollowing = widget.postList?.isFollowing;
-    // final bool? isRequested = widget.postList?.isFollowingRequest;
+        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
+    final String? description = widget.postList.description;
+    final String? restaurantName = widget.postList.restaurantInfo?.name;
+    final String? address = widget.postList.restaurantInfo?.address;
+    final String? cuisine = widget.postList.preferenceInfo?.title;
+    final int? commentCount = widget.postList.commentCount;
+    final String? postId = widget.postList.id;
+    // final bool? isFollowing = widget.postList.isFollowing;
+    // final bool? isRequested = widget.postList.isFollowingRequest;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final bool? isSaved = widget.postList?.isSave;
-    final bool? isLiked = widget.postList?.isMyLike;
+    final bool? isSaved = widget.postList.isSave;
+    final bool? isLiked = widget.postList.isMyLike;
 
     // final state = ref.watch(postFeedNotifierProvider);
 
@@ -235,7 +235,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   15.verticalSpace,
                   GestureDetector(
-                    onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                    onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
                       postInfoList: widget.postList,
                     )),
                     child: Column(

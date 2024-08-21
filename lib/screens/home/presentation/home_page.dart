@@ -1,14 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/home/presentation/widgets/home_post_widget.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
+import 'package:for_the_table/widgets/custom_icon.dart';
+import 'package:swipe_cards/swipe_cards.dart';
 
-@RoutePage()
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -17,86 +15,211 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  List<Widget> cards = [
-    const HomePostWidget(
-      img: 'assets/images/temp/post-img.png',
-      userName: 'Ahmad Gouse',
-    ),
-    const HomePostWidget(
-      img: 'assets/images/temp/post-img3.jpeg',
-      userName: 'King Khan',
-    ),
-    const HomePostWidget(
-      img: 'assets/images/temp/post-img2.png',
-      userName: 'Someone Else',
-    )
-  ];
+  List<String> buttonTexts = ['For The Table', 'Following'];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(homeNotifierProvider.notifier);
+      await stateNotifier.getPostFeed();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final stateNotifier = ref.watch(homeNotifierProvider.notifier);
+    final state = ref.watch(homeNotifierProvider);
+
     return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: false,
-        leadingWidth: 0,
-        title: Text(
-          'For The Table',
-          style: AppTextStyles.textStylePoppinsBold.copyWith(
-            color: AppColors.colorPrimary,
-          ),
-        ),
-        actions: [
-          GestureDetector(
-            // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
-            child: Container(
-              height: 26.r,
-              width: 26.r,
-              margin: const EdgeInsets.only(right: 15).r,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.colorGrey2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                  child: Image.asset(
-                Assets.search,
+      // key: _scaffoldKey,
+      body: state.isLoading || stateNotifier.matchEngine == null
+          ? const Center(
+              child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
-              )),
-            ),
-          ),
-          GestureDetector(
-            // onTap: () => AutoRouter.of(context).push(const NotificationRoute()),
-            child: Container(
-              height: 26.r,
-              width: 26.r,
-              margin: const EdgeInsets.only(right: 16).r,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.colorGrey2),
-                borderRadius: BorderRadius.circular(8),
               ),
-              child: Center(
-                  child: Image.asset(
-                Assets.bell,
-                color: AppColors.colorPrimary,
-              )),
+            )
+          : Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - kToolbarHeight,
+                  width: MediaQuery.of(context).size.width,
+                  child: state.selectedIndex == 0
+                      ? state.isAllPostStackFinished
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GradientIcon(
+                                  icon: Icons.check_circle_outline_rounded,
+                                  size: 100.h,
+                                ),
+                                Text(
+                                  "You're all caught up",
+                                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                    fontSize: 12.sp,
+                                    color: AppColors.colorGrey,
+                                  ),
+                                ),
+                                Text(
+                                  "You've seen all new posts !",
+                                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                    fontSize: 11.sp,
+                                    color: AppColors.colorPrimaryAlpha,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SwipeCards(
+                              matchEngine: stateNotifier.matchEngine ?? MatchEngine(),
+                              itemBuilder: (BuildContext context, int index) {
+                                if (index < 0 || index >= (state.postList?.length ?? 0)) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(color: AppColors.colorPrimary),
+                                  );
+                                }
+
+                                return stateNotifier.swipeItems[index].content;
+                              },
+                              onStackFinished: () async {
+                                ref.read(homeNotifierProvider.notifier).emptyAllPosts();
+                                // if (state.allSwipeItems.isEmpty) {
+                                // } else {
+                                //   stateNotifier.matchEngine =
+                                //       MatchEngine(swipeItems: [...state.allSwipeItems]);
+                                // }
+                              },
+                              itemChanged: (SwipeItem item, int index) {
+                                if (state.allSwipeItems.length == 8) {
+                                  stateNotifier.loadMorePostFeed();
+                                }
+                              },
+                              upSwipeAllowed: true,
+                              fillSpace: true,
+                            )
+                      : state.isFollowingPostStackFinished
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GradientIcon(
+                                  icon: Icons.check_circle_outline_rounded,
+                                  size: 100.h,
+                                ),
+                                Text(
+                                  "You're all caught up",
+                                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                    fontSize: 12.sp,
+                                    color: AppColors.colorGrey,
+                                  ),
+                                ),
+                                Text(
+                                  "You've seen all new posts !",
+                                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                    fontSize: 11.sp,
+                                    color: AppColors.colorPrimaryAlpha,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SwipeCards(
+                              matchEngine: stateNotifier.matchEngineFollowing ?? MatchEngine(),
+                              itemBuilder: (BuildContext context, int index) {
+                                if (index < 0 || index >= (state.postList?.length ?? 0)) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(color: AppColors.colorPrimary),
+                                  );
+                                }
+
+                                return stateNotifier.swipeItems2[index].content;
+                              },
+                              onStackFinished: () async {
+                                if (state.allSwipeItems.isEmpty) {
+                                  ref.read(homeNotifierProvider.notifier).emptyFollowingPosts();
+                                } else {
+                                  stateNotifier.matchEngine =
+                                      MatchEngine(swipeItems: [...state.followingSwipeItems]);
+                                }
+                                // ref.read(homeNotifierProvider.notifier).stackEmptyStatus();
+
+                                // stateNotifier.matchEngineFollowing = MatchEngine(
+                                //   swipeItems: [...state.followingSwipeItems],
+                                // );
+                              },
+                              itemChanged: (SwipeItem item, int index) {
+                                if (state.followingSwipeItems.length == 8) {
+                                  stateNotifier.loadMoreFollowingPostFeed();
+                                }
+                              },
+                              upSwipeAllowed: true,
+                              fillSpace: true,
+                            ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 60.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 38.h,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: buttonTexts.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  stateNotifier.selectButton(index);
+                                  if (index == 0) {
+                                    if (state.selectedIndex == 0) {
+                                      return;
+                                    }
+                                    final stateNotifier = ref.read(homeNotifierProvider.notifier);
+                                    await stateNotifier.getPostFeed();
+                                  }
+                                  if (index == 1) {
+                                    if (state.selectedIndex == 1) {
+                                      return;
+                                    }
+                                    final stateNotifier = ref.read(homeNotifierProvider.notifier);
+                                    await stateNotifier.getFollowingPostFeed();
+                                  }
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(horizontal: 15).r,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: (state.selectedIndex == index)
+                                        ? state.isAllPostStackFinished ||
+                                                state.isFollowingPostStackFinished
+                                            ? AppColors.colorPrimary.withOpacity(0.4)
+                                            : AppColors.colorWhite.withOpacity(0.5)
+                                        : state.isAllPostStackFinished ||
+                                                state.isFollowingPostStackFinished
+                                            ? AppColors.colorPrimary.withOpacity(0.2)
+                                            : AppColors.colorWhite.withOpacity(0.10),
+                                  ),
+                                  child: Text(
+                                    buttonTexts[index],
+                                    style: AppTextStyles.textStylePoppinsSemiBold
+                                        .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          ),
-        ],
-      ),
-      body: MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        removeBottom: true,
-        removeLeft: true,
-        removeRight: true,
-        child: CardSwiper(
-          padding: EdgeInsets.zero,
-          cardsCount: cards.length,
-          cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
-              cards[index],
-        ),
-      ),
     );
   }
+}
+
+class Content {
+  final String? text;
+
+  Content({this.text});
 }

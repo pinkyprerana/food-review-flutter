@@ -17,7 +17,6 @@ import '../../../people_profile/shared/providers.dart';
 import '../../../post_feed/presentation/widgets/comments_icon.dart';
 import '../../../your_lists/shared/provider.dart';
 
-
 class DislikedPostWidget extends ConsumerStatefulWidget {
   final String? userId;
   final String? userFullName;
@@ -33,24 +32,23 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
   final bool? isSaved;
   final bool? isLiked;
 
-  const DislikedPostWidget({
-    super.key,
-    this.userId,
-    this.userFullName,
-    this.userDisplayPicture,
-    this.cuisine,
-    this.address,
-    this.comment,
-    this.commentCount,
-    this.postId,
-    this.postPicture,
-    this.isFollowing,
-    this.isRequested,
-    this.isSaved,
-    this.isLiked
-  });
- @override
-  ConsumerState<DislikedPostWidget> createState()=>  _DislikedPostWidgetState();
+  const DislikedPostWidget(
+      {super.key,
+      this.userId,
+      this.userFullName,
+      this.userDisplayPicture,
+      this.cuisine,
+      this.address,
+      this.comment,
+      this.commentCount,
+      this.postId,
+      this.postPicture,
+      this.isFollowing,
+      this.isRequested,
+      this.isSaved,
+      this.isLiked});
+  @override
+  ConsumerState<DislikedPostWidget> createState() => _DislikedPostWidgetState();
 }
 
 class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
@@ -62,7 +60,6 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
       await postFeedNotifier.getPostFeed();
     });
   }
-
 
   void _handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
@@ -78,10 +75,10 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
   Widget build(BuildContext context) {
     final profileNotifier = ref.watch(profileNotifierProvider.notifier);
     final postFeedState = ref.watch(postFeedNotifierProvider);
-   final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-   final DataOfPostModel? postInfo = postFeedState.postList?.firstWhere((post) => post.id == widget.postId,
-       orElse: ()=>  const DataOfPostModel(id: '', file: '')
-   );
+    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final DataOfPostModel? postInfo = postFeedState.postList?.firstWhere(
+        (post) => post.id == widget.postId,
+        orElse: () => const DataOfPostModel(id: '', file: ''));
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
@@ -127,7 +124,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                       onTap: () {
                         AutoRouter.of(context).push(
                           PeopleProfileRoute(
-                            peopleId: widget.userId??'',
+                            peopleId: widget.userId ?? '',
                           ),
                         );
                       },
@@ -156,7 +153,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                           ),
                           8.horizontalSpace,
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               _handleFollowUnfollowButtonPressed(widget.userId);
                             },
                             child: Container(
@@ -167,7 +164,11 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                               ),
                               child: Center(
                                 child: Text(
-                                  (widget.isFollowing??false) ? 'Unfollow': (widget.isRequested ?? false) ? 'Requested' :'Follow',
+                                  (widget.isFollowing ?? false)
+                                      ? 'Unfollow'
+                                      : (widget.isRequested ?? false)
+                                          ? 'Requested'
+                                          : 'Follow',
                                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                     color: AppColors.colorWhite,
                                     fontSize: 10.sp,
@@ -244,28 +245,37 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                         GestureDetector(
                           onTap: () {
                             postFeedState.isLoading
-                                ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,),)
-                                : AutoRouter.of(context).push(CommentsRoute(postInfoList: postInfo!,),);
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.colorPrimary,
+                                    ),
+                                  )
+                                : AutoRouter.of(context).push(
+                                    CommentsRoute(
+                                      postInfoList: postInfo!,
+                                    ),
+                                  );
                           },
                           child: Column(
                             children: [
                               GestureDetector(
                                   onTap: () => postFeedNotifier.likeUnlikePost(() {
-                                    profileNotifier.fetchlikedPosts(isLoadingStatus: true);
-                                    profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
-                                    profileNotifier.getUserDetails();
-                                  }, widget.postId??""),
-                                  child: (widget.isLiked??false)
+                                        profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                        profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
+                                        profileNotifier.getUserDetails();
+                                      }, widget.postId ?? ""),
+                                  child: (widget.isLiked ?? false)
                                       ? Image.asset(Assets.redHeart)
                                       : Image.asset(Assets.like)),
                               15.verticalSpace,
-                               CommentsIcon(
-                                commentCount: widget.commentCount??0,
+                              CommentsIcon(
+                                commentCount: widget.commentCount ?? 0,
                               ),
                               10.verticalSpace,
                               GestureDetector(
                                 onTap: () => postFeedNotifier.saveUnsavePost(() {
-                                  final profileNotifier = ref.read(profileNotifierProvider.notifier);
+                                  final profileNotifier =
+                                      ref.read(profileNotifierProvider.notifier);
                                   profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
                                   profileNotifier.fetchlikedPosts(isLoadingStatus: true);
                                   profileNotifier.getUserDetails();

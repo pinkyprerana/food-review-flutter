@@ -90,18 +90,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeCityPage(),
       );
     },
-    HomeRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const HomePage(),
-      );
-    },
-    HomeRouteNew.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const HomePageNew(),
-      );
-    },
     LandingGetStartedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -158,6 +146,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PhotoClickPage(),
+      );
+    },
+    PostCommentsRoute.name: (routeData) {
+      final args = routeData.argsAs<PostCommentsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PostCommentsPage(
+          key: args.key,
+          postInfoList: args.postInfoList,
+        ),
       );
     },
     PostDetailsRoute.name: (routeData) {
@@ -477,34 +475,6 @@ class HomeCityRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [HomePage]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [HomePageNew]
-class HomeRouteNew extends PageRouteInfo<void> {
-  const HomeRouteNew({List<PageRouteInfo>? children})
-      : super(
-          HomeRouteNew.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRouteNew';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [LandingGetStartedPage]
 class LandingGetStartedRoute extends PageRouteInfo<void> {
   const LandingGetStartedRoute({List<PageRouteInfo>? children})
@@ -652,6 +622,44 @@ class PhotoClickRoute extends PageRouteInfo<void> {
   static const String name = 'PhotoClickRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PostCommentsPage]
+class PostCommentsRoute extends PageRouteInfo<PostCommentsRouteArgs> {
+  PostCommentsRoute({
+    Key? key,
+    required Post postInfoList,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PostCommentsRoute.name,
+          args: PostCommentsRouteArgs(
+            key: key,
+            postInfoList: postInfoList,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PostCommentsRoute';
+
+  static const PageInfo<PostCommentsRouteArgs> page =
+      PageInfo<PostCommentsRouteArgs>(name);
+}
+
+class PostCommentsRouteArgs {
+  const PostCommentsRouteArgs({
+    this.key,
+    required this.postInfoList,
+  });
+
+  final Key? key;
+
+  final Post postInfoList;
+
+  @override
+  String toString() {
+    return 'PostCommentsRouteArgs{key: $key, postInfoList: $postInfoList}';
+  }
 }
 
 /// generated route for

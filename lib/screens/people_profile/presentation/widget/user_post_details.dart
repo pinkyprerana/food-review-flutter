@@ -31,8 +31,8 @@ class PostDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
-   DataOfPostListOfOtherModel? postDetails;
-    DataOfOtherPeople? creatorDetails;
+  DataOfPostListOfOtherModel? postDetails;
+  DataOfOtherPeople? creatorDetails;
 
   @override
   void initState() {
@@ -44,15 +44,14 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
 
   Future<void> _fetchPostDetails() async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
-    await followNotifier.getAllPostsOfOtherUserProfile(() {},widget.userId??"");
-    await followNotifier.getOtherPeopleDetails(() {}, widget.userId??"");
+    await followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.userId ?? "");
+    await followNotifier.getOtherPeopleDetails(() {}, widget.userId ?? "");
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
     final followState = ref.watch(followNotifierProvider);
     final postListOfOtherUser = followState.postListOfOtherUser;
-      postDetails = postListOfOtherUser.firstWhere((post) => post.id == widget.postId,
-          orElse: () => const DataOfPostListOfOtherModel(id: '')
-      );
+    postDetails = postListOfOtherUser.firstWhere((post) => post.id == widget.postId,
+        orElse: () => const DataOfPostListOfOtherModel(id: ''));
   }
 
   Future<void> _handleLikeUnlike(String postId) async {
@@ -83,15 +82,15 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     final followNotifier = ref.watch(followNotifierProvider.notifier);
     final postListOfOtherUser = state.postListOfOtherUser;
     postDetails = postListOfOtherUser.firstWhere(
-          (post) => post.id == widget.postId,
+      (post) => post.id == widget.postId,
       orElse: () => const DataOfPostListOfOtherModel(id: ''),
     );
-    creatorDetails = followNotifier.getUserById(widget.userId??'');
+    creatorDetails = followNotifier.getUserById(widget.userId ?? '');
 
     final String postImage = "${AppUrls.postImageLocation}${postDetails?.file}";
     final postFeedState = ref.watch(postFeedNotifierProvider);
     DataOfPostModel? postDetailsList = postFeedState.postList?.firstWhere(
-          (post) => post.id == widget.postId,
+      (post) => post.id == widget.postId,
       orElse: () => const DataOfPostModel(id: ''),
     );
 
@@ -179,17 +178,23 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                   ),
                                   8.horizontalSpace,
                                   GestureDetector(
-                                    onTap: () async => await _handleFollowUnfollowButtonPressed(creatorDetails?.id),
+                                    onTap: () async => await _handleFollowUnfollowButtonPressed(
+                                        creatorDetails?.id),
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(70),
-                                        border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
+                                        border:
+                                            Border.all(width: 1, color: const Color(0xffDDDFE6)),
                                         color: AppColors.colorWhite.withOpacity(0.20),
                                       ),
                                       child: Center(
                                         child: Text(
-                                          (creatorDetails?.isFollowing ?? false) ? 'Unfollow': (creatorDetails?.isFollowingRequest ?? false) ? 'Requested' :'Follow',
+                                          (creatorDetails?.isFollowing ?? false)
+                                              ? 'Unfollow'
+                                              : (creatorDetails?.isFollowingRequest ?? false)
+                                                  ? 'Requested'
+                                                  : 'Follow',
                                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                             color: AppColors.colorWhite,
                                             fontSize: 10.sp,
@@ -213,7 +218,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      postDetails?.restaurantInfo?.name??"",
+                                      postDetails?.restaurantInfo?.name ?? "",
                                       style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                         fontSize: 13.sp,
                                         color: AppColors.colorWhite,
@@ -222,7 +227,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                     Text(
                                       postDetails!.restaurantInfo!.address.length > 40
                                           ? '${postDetails?.restaurantInfo?.address.substring(0, 40)}...'
-                                          : postDetails?.restaurantInfo?.address??"",
+                                          : postDetails?.restaurantInfo?.address ?? "",
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorWhite,
@@ -238,20 +243,22 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                           children: [
                             GestureDetector(
                                 onTap: () async => await _handleLikeUnlike(postDetails?.id ?? ""),
-                                child: (postDetails?.isMyLike??false)
+                                child: (postDetails?.isMyLike ?? false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
                             GestureDetector(
                               onTap: () {
-                                AutoRouter.of(context).push(CommentsRoute(postInfoList: postDetailsList!),);
+                                AutoRouter.of(context).push(
+                                  CommentsRoute(postInfoList: postDetailsList!),
+                                );
                               },
                               child: Column(
                                 children: [
                                   Image.asset(Assets.comments),
                                   Text(
                                     (postDetails!.commentCount! > 9)
-                                        ? postDetails?.commentCount.toString()??""
+                                        ? postDetails?.commentCount.toString() ?? ""
                                         : "0${postDetails?.commentCount.toString()}",
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorWhite,
@@ -264,11 +271,11 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                             10.verticalSpace,
                             GestureDetector(
                                 onTap: () async => await _handleSaveUnsave(widget.postId ?? ""),
-                                child: (postDetails?.isSave??false)
+                                child: (postDetails?.isSave ?? false)
                                     ? Image.asset(
-                                  Assets.saved,
-                                  scale: 2,
-                                )
+                                        Assets.saved,
+                                        scale: 2,
+                                      )
                                     : Image.asset(Assets.bookmark)),
                           ],
                         )
@@ -288,7 +295,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                         Image.asset(Assets.star),
                         5.horizontalSpace,
                         Text(
-                          postDetails?.restaurantInfo?.rating??"",
+                          postDetails?.restaurantInfo?.rating ?? "",
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             fontSize: 10.sp,
                             color: AppColors.colorWhite,
@@ -313,7 +320,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        postDetails?.title??"",
+                        postDetails?.title ?? "",
                         style: AppTextStyles.textStylePoppinsMedium.copyWith(
                           fontSize: 13.sp,
                           color: AppColors.colorWhite,
@@ -324,7 +331,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        postDetails?.description??"",
+                        postDetails?.description ?? "",
                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                           fontSize: 10.sp,
                           color: AppColors.colorWhite,
@@ -342,4 +349,3 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     );
   }
 }
-
