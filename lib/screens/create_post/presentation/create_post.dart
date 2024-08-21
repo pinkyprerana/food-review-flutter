@@ -14,6 +14,7 @@ import '../../../core/utils/common_util.dart';
 import '../../../model/restaurant/restaurantlist_response_model.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/custom_input_field.dart';
+import '../../../widgets/video_preview.dart';
 import '../../onboarding/shared/provider.dart';
 import '../../post_feed/shared/provider.dart';
 import '../../restaurant/shared/provider.dart';
@@ -22,8 +23,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 @RoutePage()
 class CreatePostPage extends ConsumerStatefulWidget {
-  final XFile? imageFile;
-  const CreatePostPage({super.key, this.imageFile});
+  final XFile? file;
+  const CreatePostPage({super.key, this.file});
 
   @override
   ConsumerState<CreatePostPage> createState() => _CreatePostPageState();
@@ -55,7 +56,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final createPostNotifier = ref.watch(createPostNotifierProvider.notifier);
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(createPostNotifierProvider).currentPage;
-    final imageFile = widget.imageFile;
+    final File? media = widget.file != null ? File(widget.file!.path) : null;
+
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
@@ -69,7 +71,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
           leading: GestureDetector(
             onTap: () {
               if (currentPage == 0) {
-                if (imageFile != null) {
+                if (media != null) {
                   Navigator.pop(context, null);
                 } else {
                   Navigator.pop(context);
@@ -90,7 +92,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  5.horizontalSpace, //this is for centering the icon
+                  5.horizontalSpace,
                   Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
                 ],
               ),
@@ -131,14 +133,16 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   child: Center(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: imageFile == null
-                          ? const Text('No image selected.')
+                      child: media == null
+                          ? const Text('No media selected.')
+                          : media.path.endsWith('.mp4')
+                          ? VideoPreviewWidget(file: media)
                           : Image.file(
-                              File(imageFile.path),
-                              fit: BoxFit.fill,
-                              height: double.infinity,
-                              width: double.infinity,
-                            ),
+                        File(media.path),
+                        fit: BoxFit.fill,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ), // Display image
                     ),
                   ),
                 ),
@@ -174,13 +178,13 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                                   text: "Post",
                                   onPressed: () async {
                                     dismissKeyboard(context);
-                                    if (imageFile != null) {
+                                    if (media != null) {
                                       createPostNotifier.addPost(() {
                                         FocusManager.instance.primaryFocus?.unfocus();
                                         createPostNotifier.onContinuePressed(context);
                                         postFeedNotifier.getPostFeed();
                                         createPostNotifier.clearRestaurantDetails();
-                                      }, imageFile);
+                                      }, media);
                                     } else {
                                       showToastMessage("Click or select image");
                                     }

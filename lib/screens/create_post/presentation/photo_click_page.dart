@@ -31,6 +31,9 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   // Timer? _timer;
   bool isVideoMode = false;
   XFile? videoFile;
+  Timer? _timer;
+  double _progress = 0.0;
+  bool _isRecording = false;
 
 
   @override
@@ -149,7 +152,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
     if (pickedFile != null) {
       if (!mounted) return;
-      AutoRouter.of(context).push(CreatePostRoute(imageFile: pickedFile));
+      AutoRouter.of(context).push(CreatePostRoute(file: pickedFile));
     }
   }
 
@@ -191,10 +194,59 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     });
   }
 
+  void _startRecording() async {
+    setState(() {
+      _progress = 0.0;
+      _isRecording = true;
+    });
+
+    // Start the video recording
+    try {
+      await _controller?.startVideoRecording();
+    } catch (e) {
+      AppLog.log('Error starting video recording: $e');
+      setState(() {
+        _isRecording = false;
+      });
+      return;
+    }
+
+    // Start the timer for progress indicator
+    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      setState(() {
+        _progress += 0.0066667; // Progress increase for 15 seconds duration
+      });
+
+      if (_progress >= 1.0) {
+        _stopRecording();
+      }
+    });
+  }
+
+  // Function to stop recording and the timer
+  void _stopRecording() async {
+    _timer?.cancel();
+    setState(() {
+      _isRecording = false;
+      _progress = 0.0;
+    });
+
+    try {
+      final video = await _controller?.stopVideoRecording();
+      setState(() {
+        videoFile = video;
+      });
+      if (!context.mounted) return;
+      AutoRouter.of(context).push(CreatePostRoute(file: videoFile));
+    } catch (e) {
+      AppLog.log('Error stopping video recording: $e');
+    }
+  }
+
   @override
   void dispose() {
-    // WidgetsBinding.instance.removeObserver(this);
     _controller?.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -251,6 +303,114 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
               ),
             ),
           )),
+      // body: Stack(
+      //   fit: StackFit.expand,
+      //   children: [
+      //     if (_controller != null) ...[
+      //       CameraPreview(_controller!),
+      //       Positioned(
+      //         bottom: 40,
+      //         left: 20,
+      //         child: ClipRRect(
+      //             borderRadius: BorderRadius.circular(8.0),
+      //             child: imageFile == null
+      //                 ? InkWell(
+      //                     onTap: () async {
+      //                       await _pickImageFromGallery();
+      //                     },
+      //                     child: Container(width: 40, height: 40, color: Colors.grey))
+      //                 : InkWell(
+      //                     onTap: () async {
+      //                       await _pickImageFromGallery();
+      //                     },
+      //                     child: Image.file(File(imageFile!.path),
+      //                         width: 40, height: 40, fit: BoxFit.cover),
+      //                   )),
+      //       ),
+      //       Positioned(
+      //         bottom: 40,
+      //         right: 20,
+      //         child: IconButton(
+      //           icon: Image.asset(
+      //             height: 40,
+      //             width: 40,
+      //             Assets.rotateCamera,
+      //           ),
+      //           onPressed: _switchCamera,
+      //         ),
+      //       ),
+      //       Positioned(
+      //         bottom: 30,
+      //         left: 0,
+      //         right: 0,
+      //         child: SizedBox(
+      //           height: 80,
+      //           child: FittedBox(
+      //             child: FloatingActionButton(
+      //               backgroundColor: const Color(0xFFDE4349),
+      //               shape: RoundedRectangleBorder(
+      //                   side: const BorderSide(width: 4, color: Colors.white),
+      //                   borderRadius: BorderRadius.circular(100)),
+      //               // onPressed: state.isPressed
+      //               //     ? null
+      //               //     : () async {
+      //               //         stateNotifier.toggleIsPressedToTrue();
+      //               //         final image = await _controller?.takePicture();
+      //               //         setState(() {
+      //               //           imageFile = image;
+      //               //         });
+      //               //         if (!context.mounted) return;
+      //               //         AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
+      //               //       },
+      //
+      //               onPressed: state.isPressed
+      //                   ? null
+      //                   : () async {
+      //                 if (isVideoMode) {
+      //                   if (_controller!.value.isRecordingVideo) {
+      //                     // Stop recording
+      //                     try {
+      //                       final video = await _controller?.stopVideoRecording();
+      //                       setState(() {
+      //                         videoFile = video;
+      //                       });
+      //                       if (!context.mounted) return;
+      //                       AutoRouter.of(context).push(CreatePostRoute(imageFile: videoFile));
+      //                     } catch (e) {
+      //                       AppLog.log('Error stopping video recording: $e');
+      //                     }
+      //                   } else {
+      //                     // Start recording
+      //                     try {
+      //                       await _controller?.startVideoRecording();
+      //                     } catch (e) {
+      //                       AppLog.log('Error starting video recording: $e');
+      //                     }
+      //                   }
+      //                 } else {
+      //                   // Handle photo capture
+      //                   stateNotifier.toggleIsPressedToTrue();
+      //                   try {
+      //                     final image = await _controller?.takePicture();
+      //                     setState(() {
+      //                       imageFile = image;
+      //                     });
+      //                     if (!context.mounted) return;
+      //                     AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
+      //                   } finally {
+      //                     stateNotifier.toggleIsPressedToFalse();
+      //                   }
+      //                 }
+      //               },
+      //
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ],
+      // ),
+
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -260,20 +420,21 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
               bottom: 40,
               left: 20,
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: imageFile == null
-                      ? InkWell(
-                          onTap: () async {
-                            await _pickImageFromGallery();
-                          },
-                          child: Container(width: 40, height: 40, color: Colors.grey))
-                      : InkWell(
-                          onTap: () async {
-                            await _pickImageFromGallery();
-                          },
-                          child: Image.file(File(imageFile!.path),
-                              width: 40, height: 40, fit: BoxFit.cover),
-                        )),
+                borderRadius: BorderRadius.circular(8.0),
+                child: imageFile == null
+                    ? InkWell(
+                    onTap: () async {
+                      await _pickImageFromGallery();
+                    },
+                    child: Container(width: 40, height: 40, color: Colors.grey))
+                    : InkWell(
+                  onTap: () async {
+                    await _pickImageFromGallery();
+                  },
+                  child: Image.file(File(imageFile!.path),
+                      width: 40, height: 40, fit: BoxFit.cover),
+                ),
+              ),
             ),
             Positioned(
               bottom: 40,
@@ -294,63 +455,48 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
               child: SizedBox(
                 height: 80,
                 child: FittedBox(
-                  child: FloatingActionButton(
-                    backgroundColor: const Color(0xFFDE4349),
-                    shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 4, color: Colors.white),
-                        borderRadius: BorderRadius.circular(100)),
-                    // onPressed: state.isPressed
-                    //     ? null
-                    //     : () async {
-                    //         stateNotifier.toggleIsPressedToTrue();
-                    //         final image = await _controller?.takePicture();
-                    //         setState(() {
-                    //           imageFile = image;
-                    //         });
-                    //         if (!context.mounted) return;
-                    //         AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
-                    //       },
-
-                    onPressed: state.isPressed
-                        ? null
-                        : () async {
-                      if (isVideoMode) {
-                        if (_controller!.value.isRecordingVideo) {
-                          // Stop recording
-                          try {
-                            final video = await _controller?.stopVideoRecording();
-                            setState(() {
-                              videoFile = video;
-                            });
-                            if (!context.mounted) return;
-                            AutoRouter.of(context).push(CreatePostRoute(imageFile: videoFile));
-                          } catch (e) {
-                            AppLog.log('Error stopping video recording: $e');
-                          }
-                        } else {
-                          // Start recording
-                          try {
-                            await _controller?.startVideoRecording();
-                          } catch (e) {
-                            AppLog.log('Error starting video recording: $e');
-                          }
-                        }
-                      } else {
-                        // Handle photo capture
-                        stateNotifier.toggleIsPressedToTrue();
-                        try {
-                          final image = await _controller?.takePicture();
-                          setState(() {
-                            imageFile = image;
-                          });
-                          if (!context.mounted) return;
-                          AutoRouter.of(context).push(CreatePostRoute(imageFile: imageFile));
-                        } finally {
-                          stateNotifier.toggleIsPressedToFalse();
-                        }
+                  child: GestureDetector(
+                    onLongPress: () {
+                      if (isVideoMode && !_isRecording) {
+                        _startRecording();
                       }
                     },
-
+                    onLongPressUp: () {
+                      if (isVideoMode && _isRecording) {
+                        _stopRecording();
+                      }
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          value: _isRecording ? _progress : 0.0,
+                          backgroundColor: Colors.white,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                        FloatingActionButton(
+                          backgroundColor: const Color(0xFFDE4349),
+                          shape: RoundedRectangleBorder(
+                              side: const BorderSide(width: 4, color: Colors.white),
+                              borderRadius: BorderRadius.circular(100)),
+                          onPressed: !isVideoMode && !state.isPressed
+                              ? () async {
+                            stateNotifier.toggleIsPressedToTrue();
+                            try {
+                              final image = await _controller?.takePicture();
+                              setState(() {
+                                imageFile = image;
+                              });
+                              if (!context.mounted) return;
+                              AutoRouter.of(context).push(CreatePostRoute(file: imageFile));
+                            } finally {
+                              stateNotifier.toggleIsPressedToFalse();
+                            }
+                          }
+                              : null,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -358,6 +504,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
           ],
         ],
       ),
+
     );
   }
 }

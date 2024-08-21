@@ -50,7 +50,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: CreatePostPage(
           key: args.key,
-          imageFile: args.imageFile,
+          file: args.file,
         ),
       );
     },
@@ -359,13 +359,13 @@ class CommentsRouteArgs {
 class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
   CreatePostRoute({
     Key? key,
-    XFile? imageFile,
+    XFile? file,
     List<PageRouteInfo>? children,
   }) : super(
           CreatePostRoute.name,
           args: CreatePostRouteArgs(
             key: key,
-            imageFile: imageFile,
+            file: file,
           ),
           initialChildren: children,
         );
@@ -379,16 +379,16 @@ class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
 class CreatePostRouteArgs {
   const CreatePostRouteArgs({
     this.key,
-    this.imageFile,
+    this.file,
   });
 
   final Key? key;
 
-  final XFile? imageFile;
+  final XFile? file;
 
   @override
   String toString() {
-    return 'CreatePostRouteArgs{key: $key, imageFile: $imageFile}';
+    return 'CreatePostRouteArgs{key: $key, file: $file}';
   }
 }
 
