@@ -137,8 +137,12 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
     await getPostFeed(isLoadMore: true);
   }
 
-  Future<void> getPostFeed({bool isPostLoading = false, bool isLoadMore = false}) async {
-    state = state.copyWith(isLoading: !isPostLoading && !isLoadMore);
+  Future<void> getPostFeed({
+    bool isPostLoading = false,
+    bool isLoadMore = false,
+    bool isPostLikeUnlike = false,
+  }) async {
+    state = state.copyWith(isLoading: !isPostLoading && !isLoadMore && !isPostLikeUnlike);
 
     try {
       if (isLoadMore) {
@@ -177,6 +181,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
               swipeItems.clear();
             }
 
+            // if (!isPostLikeUnlike) {
             for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
               swipeItems.add(
                 SwipeItem(
@@ -206,6 +211,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
                 ),
               );
             }
+            // }
 
             if (isLoadMore) {
               state = state
@@ -393,7 +399,7 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
 
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
-          // await getPostFeed(isPostLoading: true);
+          // await getPostFeed(isPostLikeUnlike: true);
           state = state.copyWith(isLiked: false, isDoubleTapped: false);
           voidCallback.call();
         } else {

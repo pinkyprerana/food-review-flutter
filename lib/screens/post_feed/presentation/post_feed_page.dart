@@ -50,6 +50,67 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 60.0),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       SizedBox(
+                              //         height: 38.h,
+                              //         child: ListView.builder(
+                              //             shrinkWrap: true,
+                              //             physics: const NeverScrollableScrollPhysics(),
+                              //             scrollDirection: Axis.horizontal,
+                              //             itemCount: buttonTexts.length,
+                              //             itemBuilder: (context, index) {
+                              //               return GestureDetector(
+                              //                 onTap: () async {
+                              //                   stateNotifier.selectButton(index);
+                              //                   if (index == 0) {
+                              //                     if (postFeedState.selectedIndex == 0) {
+                              //                       return;
+                              //                     }
+                              //                     final postFeedNotifier =
+                              //                         ref.read(postFeedNotifierProvider.notifier);
+                              //                     await postFeedNotifier.getPostFeed();
+                              //                   }
+                              //                   if (index == 1) {
+                              //                     if (postFeedState.selectedIndex == 1) {
+                              //                       return;
+                              //                     }
+                              //                     final postFeedNotifier =
+                              //                         ref.read(postFeedNotifierProvider.notifier);
+                              //                     await postFeedNotifier.getFollowingPostFeed();
+                              //                   }
+                              //                 },
+                              //                 child: Container(
+                              //                   margin: const EdgeInsets.only(right: 5),
+                              //                   alignment: Alignment.center,
+                              //                   padding:
+                              //                       const EdgeInsets.symmetric(horizontal: 15).r,
+                              //                   decoration: BoxDecoration(
+                              //                     borderRadius: BorderRadius.circular(10),
+                              //                     color: postFeedState.isLoading
+                              //                         ? AppColors.colorPrimary
+                              //                         : (postFeedState.selectedIndex == index)
+                              //                             ? AppColors.colorPrimary.withOpacity(0.5)
+                              //                             : AppColors.colorPrimary
+                              //                                 .withOpacity(0.10),
+                              //                   ),
+                              //                   child: Text(
+                              //                     buttonTexts[index],
+                              //                     style: AppTextStyles.textStylePoppinsSemiBold
+                              //                         .copyWith(
+                              //                             fontSize: 16.sp,
+                              //                             color: AppColors.colorWhite),
+                              //                   ),
+                              //                 ),
+                              //               );
+                              //             }),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               GradientIcon(
                                 icon: Icons.check_circle_outline_rounded,
                                 size: 100.h,
@@ -90,7 +151,7 @@ class _PostFeedPageState extends ConsumerState<PostFeedPage> {
                                 }
                               },
                               itemChanged: (SwipeItem item, int index) {
-                                if (postFeedState.swipeItems.length - 1 == 5) {
+                                if (postFeedState.swipeItems.length - 1 == 8) {
                                   stateNotifier.loadMorePostFeed();
                                 }
                               },

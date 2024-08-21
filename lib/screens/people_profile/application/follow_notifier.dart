@@ -85,16 +85,15 @@ class FollowNotifier extends StateNotifier<FollowState> {
   Future<void> getOtherPeopleDetails(VoidCallback voidCallback, String userID) async {
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${AppUrls.getOtherUserDetails}",
-          body: {
-              "user_id": userID,
-            });
+          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${AppUrls.getOtherUserDetails}", body: {
+        "user_id": userID,
+      });
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
-      } else  if (response.statusCode == 200 && response.data != null) {
+      } else if (response.statusCode == 200 && response.data != null) {
         final otherPeopleProfileModel = OtherPeopleProfileModel.fromJson(response.data);
         final List<DataOfOtherPeople> detailsList = [otherPeopleProfileModel.data!];
 
@@ -103,7 +102,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
           getDetails: detailsList,
           otherPeopleProfile: otherPeopleProfileModel,
         );
-      }else {
+      } else {
         showToastMessage(response.data?['message'].toString() ?? 'Unexpected error');
       }
     } catch (error) {
@@ -115,8 +114,8 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
   DataOfOtherPeople? getUserById(String userId) {
     return state.getDetails?.firstWhere(
-          (user) => user.id == userId,
-      orElse: () =>  const DataOfOtherPeople(id: '', fullName: ''),
+      (user) => user.id == userId,
+      orElse: () => const DataOfOtherPeople(id: '', fullName: ''),
     );
   }
 
@@ -126,5 +125,4 @@ class FollowNotifier extends StateNotifier<FollowState> {
       await getAllPostsOfOtherUserProfile(() {}, userID);
     }
   }
-
 }
