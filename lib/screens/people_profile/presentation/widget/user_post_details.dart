@@ -87,7 +87,10 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     );
     creatorDetails = followNotifier.getUserById(widget.userId ?? '');
 
-    final String postImage = "${AppUrls.postImageLocation}${postDetails?.file}";
+    final String mediaUrl = "${AppUrls.postImageLocation}${postDetails?.file}";
+    bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
+        mediaUrl.toLowerCase().endsWith('.mov') ||
+        mediaUrl.toLowerCase().endsWith('.avi');
     final postFeedState = ref.watch(postFeedNotifierProvider);
     DataOfPostModel? postDetailsList = postFeedState.postList?.firstWhere(
       (post) => post.id == widget.postId,
@@ -124,7 +127,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
           image: DecorationImage(
             image: NetworkImage(
               CachedNetworkImage(
-                imageUrl: postImage,
+                imageUrl: mediaUrl,
                 placeholder: (context, url) => const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ).imageUrl,

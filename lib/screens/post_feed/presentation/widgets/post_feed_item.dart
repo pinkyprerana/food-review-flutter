@@ -7,6 +7,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../../widgets/show_video_post.dart';
 import '../../shared/provider.dart';
 import 'expanded_post_details.dart';
 import 'not_epanded_post_details.dart';
@@ -25,7 +26,11 @@ class PostFeedItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(postFeedNotifierProvider);
     final stateNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final String postImage = "${AppUrls.postImageLocation}${postList?.file}";
+    final String mediaUrl = "${AppUrls.postImageLocation}${postList?.file}";
+    bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
+        mediaUrl.toLowerCase().endsWith('.mov') ||
+        mediaUrl.toLowerCase().endsWith('.avi');
+
 
     return GestureDetector(
       onDoubleTap: () {
@@ -36,63 +41,67 @@ class PostFeedItem extends ConsumerWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: (postImage == '${AppUrls.postImageLocation}/')
-                    ? const AssetImage(Assets.noRestaurantImage)
-                    : CachedNetworkImageProvider(
-                        postImage,
-                      ),
-                fit: BoxFit.cover,
+          Positioned.fill(
+            child: isVideo
+                ? ShowVideoWidget(videoUrl: mediaUrl)
+                : Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: (mediaUrl == '${AppUrls.postImageLocation}/')
+                      ? const AssetImage(Assets.noRestaurantImage)
+                      : CachedNetworkImageProvider(mediaUrl),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0).r,
-              child: Column(
-                children: [
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      stateNotifier.setIsExpanded();
-                    },
-                    child: (state.isExpanded)
-                        ? const SizedBox.shrink()
-                        : const Icon(
-                            Icons.expand_less,
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0).r,
+                child: Column(
+                  children: [
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        stateNotifier.setIsExpanded();
+                      },
+                      child: (state.isExpanded)
+                          ? const SizedBox.shrink()
+                          : const Icon(
+                        Icons.expand_less,
+                        color: AppColors.colorWhite,
+                      ),
+                    ),
+                    8.verticalSpace,
+                    (state.isExpanded)
+                        ? ExpandedPostDetails(postList: postList)
+                        : NotExpandedPostDetails(
+                      postList: postList,
+                      index: index,
+                    ),
+                    (state.isExpanded)
+                        ? Column(
+                      children: [
+                        8.verticalSpace,
+                        GestureDetector(
+                          onTap: () {
+                            stateNotifier.setIsExpanded();
+                          },
+                          child: const Icon(
+                            Icons.expand_more,
                             color: AppColors.colorWhite,
                           ),
-                  ),
-                  8.verticalSpace,
-                  (state.isExpanded)
-                      ? ExpandedPostDetails(
-                          postList: postList,
-                        )
-                      : NotExpandedPostDetails(
-                          postList: postList,
-                          index: index,
                         ),
-                  (state.isExpanded)
-                      ? Column(
-                          children: [
-                            8.verticalSpace,
-                            GestureDetector(
-                              onTap: () {
-                                stateNotifier.setIsExpanded();
-                              },
-                              child: const Icon(
-                                Icons.expand_more,
-                                color: AppColors.colorWhite,
-                              ),
-                            ),
-                            8.verticalSpace,
-                          ],
-                        )
-                      : const SizedBox.shrink(),
-                  20.verticalSpace,
-                ],
+                        8.verticalSpace,
+                      ],
+                    )
+                        : const SizedBox.shrink(),
+                    20.verticalSpace,
+                  ],
+                ),
               ),
             ),
           ),

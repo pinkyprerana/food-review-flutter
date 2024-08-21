@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
@@ -61,7 +63,7 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
   final TextEditingController postCuisineIdTextController = TextEditingController();
   final TextEditingController postHowWasItTextController = TextEditingController();
 
-  Future<void> addPost(VoidCallback voidCallback, XFile? imageFile) async {
+  Future<void> addPost(VoidCallback voidCallback, File? imageFile) async {
     state = state.copyWith(isLoading: true);
     AppLog.log('imageFile --------->> $imageFile');
 
