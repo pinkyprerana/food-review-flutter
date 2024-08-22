@@ -54,11 +54,36 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
     }
 
     return _isVideoLoaded
-          ? AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
+        ? LayoutBuilder(
+        builder: (context, constraints) {
+        final videoAspectRatio = _controller.value.aspectRatio;
+        final screenAspectRatio = constraints.maxWidth / constraints.maxHeight;
+
+        return Center(
+          child: Container(
+            width: videoAspectRatio > screenAspectRatio
+                ? constraints.maxWidth
+                : constraints.maxHeight * videoAspectRatio,
+            height: videoAspectRatio > screenAspectRatio
+                ? constraints.maxWidth / videoAspectRatio
+                : constraints.maxHeight,
+            decoration: BoxDecoration(
+              color: Colors.black,
+            ),
             child: VideoPlayer(_controller),
-          )
-        : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
+          ),
+        );
+      },
+    )
+        : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
+
+  //   return _isVideoLoaded
+  //         ? AspectRatio(
+  //           aspectRatio: _controller.value.aspectRatio,
+  //           child: VideoPlayer(_controller),
+  //         )
+  //       : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
+
   }
 
   @override

@@ -38,89 +38,92 @@ class PostFeedItem extends ConsumerWidget {
         stateNotifier.showFavourite(context);
         stateNotifier.likePost(() {}, postList?.id ?? '');
       },
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned.fill(
-            child: isVideo
-                ? ShowVideoWidget(videoUrl: mediaUrl)
-                : Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: (mediaUrl == '${AppUrls.postImageLocation}/')
-                      ? const AssetImage(Assets.noRestaurantImage)
-                      : CachedNetworkImageProvider(mediaUrl),
-                  fit: BoxFit.cover,
+      child: Container(
+        color: AppColors.colorPrimary,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned.fill(
+              child: isVideo
+                  ? ShowVideoWidget(videoUrl: mediaUrl)
+                  : Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: (mediaUrl == '${AppUrls.postImageLocation}/')
+                        ? const AssetImage(Assets.noRestaurantImage)
+                        : CachedNetworkImageProvider(mediaUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0).r,
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        stateNotifier.setIsExpanded();
-                      },
-                      child: (state.isExpanded)
-                          ? const SizedBox.shrink()
-                          : const Icon(
-                        Icons.expand_less,
-                        color: AppColors.colorWhite,
-                      ),
-                    ),
-                    8.verticalSpace,
-                    (state.isExpanded)
-                        ? ExpandedPostDetails(postList: postList)
-                        : NotExpandedPostDetails(
-                      postList: postList,
-                      index: index,
-                    ),
-                    (state.isExpanded)
-                        ? Column(
-                      children: [
-                        8.verticalSpace,
-                        GestureDetector(
-                          onTap: () {
-                            stateNotifier.setIsExpanded();
-                          },
-                          child: const Icon(
-                            Icons.expand_more,
-                            color: AppColors.colorWhite,
-                          ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0).r,
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          stateNotifier.setIsExpanded();
+                        },
+                        child: (state.isExpanded)
+                            ? const SizedBox.shrink()
+                            : const Icon(
+                          Icons.expand_less,
+                          color: AppColors.colorWhite,
                         ),
-                        8.verticalSpace,
-                      ],
-                    )
-                        : const SizedBox.shrink(),
-                    20.verticalSpace,
-                  ],
+                      ),
+                      8.verticalSpace,
+                      (state.isExpanded)
+                          ? ExpandedPostDetails(postList: postList)
+                          : NotExpandedPostDetails(
+                        postList: postList,
+                        index: index,
+                      ),
+                      (state.isExpanded)
+                          ? Column(
+                        children: [
+                          8.verticalSpace,
+                          GestureDetector(
+                            onTap: () {
+                              stateNotifier.setIsExpanded();
+                            },
+                            child: const Icon(
+                              Icons.expand_more,
+                              color: AppColors.colorWhite,
+                            ),
+                          ),
+                          8.verticalSpace,
+                        ],
+                      )
+                          : const SizedBox.shrink(),
+                      20.verticalSpace,
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Opacity(
-            opacity: state.isHeartAnimating ? 1 : 0,
-            child: HeartAnimationWidget(
-              isAnimating: state.isHeartAnimating,
-              duration: const Duration(milliseconds: 900),
-              onEnd: () {
-                stateNotifier.setFvoriteToFalse();
-              },
-              child: const Icon(
-                Icons.favorite,
-                size: 85,
-                color: Colors.white,
+            Opacity(
+              opacity: state.isHeartAnimating ? 1 : 0,
+              child: HeartAnimationWidget(
+                isAnimating: state.isHeartAnimating,
+                duration: const Duration(milliseconds: 900),
+                onEnd: () {
+                  stateNotifier.setFvoriteToFalse();
+                },
+                child: const Icon(
+                  Icons.favorite,
+                  size: 85,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
