@@ -56,9 +56,9 @@ class BasePageState extends ConsumerState<BasePage> {
   Widget widgetView(int index) {
     switch (index) {
       case 0:
-        // return const HomePage();
+        return const HomePage();
       // return const HomePageNew();
-      return const PostFeedPage();
+      // return const PostFeedPage();
       case 1:
         return const ListPage();
       case 2:

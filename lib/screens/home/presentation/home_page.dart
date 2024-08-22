@@ -72,7 +72,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           : SwipeCards(
                               matchEngine: stateNotifier.matchEngine ?? MatchEngine(),
                               itemBuilder: (BuildContext context, int index) {
-                                if (index < 0 || index >= (state.postList?.length ?? 0)) {
+                                if ((state.postList?.length ?? 0) == 0) {
                                   return const Center(
                                     child: CircularProgressIndicator(color: AppColors.colorPrimary),
                                   );
@@ -81,15 +81,20 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 return stateNotifier.swipeItems[index].content;
                               },
                               onStackFinished: () async {
-                                ref.read(homeNotifierProvider.notifier).emptyAllPosts();
-                                // if (state.allSwipeItems.isEmpty) {
-                                // } else {
+                                // currently, this function is not working. the last empty page
+                                // is triggered from itemChanged()
+                                if (state.allSwipeItems.isEmpty) {
+                                  ref.read(homeNotifierProvider.notifier).emptyAllPosts();
+                                }
+                                //else {
                                 //   stateNotifier.matchEngine =
                                 //       MatchEngine(swipeItems: [...state.allSwipeItems]);
                                 // }
                               },
                               itemChanged: (SwipeItem item, int index) {
-                                if (state.allSwipeItems.length == 8) {
+                                if (state.allSwipeItems.length == 2) {
+                                  stateNotifier.emptyAllPosts();
+                                } else if (state.allSwipeItems.length == 8) {
                                   stateNotifier.loadMorePostFeed();
                                 }
                               },
@@ -123,7 +128,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           : SwipeCards(
                               matchEngine: stateNotifier.matchEngineFollowing ?? MatchEngine(),
                               itemBuilder: (BuildContext context, int index) {
-                                if (index < 0 || index >= (state.postList?.length ?? 0)) {
+                                if ((state.postList?.length ?? 0) == 0) {
                                   return const Center(
                                     child: CircularProgressIndicator(color: AppColors.colorPrimary),
                                   );
@@ -132,12 +137,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 return stateNotifier.swipeItems2[index].content;
                               },
                               onStackFinished: () async {
-                                if (state.allSwipeItems.isEmpty) {
-                                  ref.read(homeNotifierProvider.notifier).emptyFollowingPosts();
-                                } else {
-                                  stateNotifier.matchEngine =
-                                      MatchEngine(swipeItems: [...state.followingSwipeItems]);
+                                if (state.followingSwipeItems.isEmpty) {
+                                  stateNotifier.emptyFollowingPosts();
                                 }
+                                // else {
+                                //   stateNotifier.matchEngine =
+                                //       MatchEngine(swipeItems: [...state.followingSwipeItems]);
+                                // }
                                 // ref.read(homeNotifierProvider.notifier).stackEmptyStatus();
 
                                 // stateNotifier.matchEngineFollowing = MatchEngine(
@@ -145,7 +151,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 // );
                               },
                               itemChanged: (SwipeItem item, int index) {
-                                if (state.followingSwipeItems.length == 8) {
+                                if (state.followingSwipeItems.length == 2) {
+                                  stateNotifier.emptyFollowingPosts();
+                                } else if (state.followingSwipeItems.length == 8) {
                                   stateNotifier.loadMoreFollowingPostFeed();
                                 }
                               },

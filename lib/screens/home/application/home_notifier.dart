@@ -127,7 +127,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
   Future<void> loadMorePostFeed() async {
     if (state.currentPageAllPosts >= state.totalPagesAllPosts) {
-      emptyAllPosts();
+      // emptyAllPosts();
       showToastMessage('No more posts');
       return;
     }
@@ -242,7 +242,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
   Future<void> loadMoreFollowingPostFeed() async {
     if (state.currentPageAllPosts2 >= state.totalPagesAllPosts) {
-      emptyFollowingPosts();
+      // emptyFollowingPosts();
       showToastMessage('No more posts');
       return;
     }
@@ -295,7 +295,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
                 index: i,
               ),
               superlikeAction: () {
-                final updatedList = List.from(state.allSwipeItems);
+                final updatedList = List.from(state.followingSwipeItems);
                 updatedList.removeAt(0);
                 state = state.copyWith(followingSwipeItems: [...updatedList]);
               },

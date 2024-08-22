@@ -8,9 +8,9 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
-import 'package:for_the_table/screens/post_feed/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
 
@@ -83,9 +83,11 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final String? cuisine = widget.postList.preferenceInfo?.title;
     final int? commentCount = widget.postList.commentCount;
     final String? postId = widget.postList.id;
+    final String? restaurantRating = widget.postList.restaurantInfo?.rating;
     // final bool? isFollowing = widget.postList.isFollowing;
     // final bool? isRequested = widget.postList.isFollowingRequest;
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final stateNotifier = ref.watch(homeNotifierProvider.notifier);
+    final state = ref.watch(homeNotifierProvider);
     final bool? isSaved = widget.postList.isSave;
     final bool? isLiked = widget.postList.isMyLike;
 
@@ -102,12 +104,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               GestureDetector(
                 onTap: () {
                   AutoRouter.of(context).push(PeopleProfileRoute(
-                    // peoplename: name ?? "", //'Ahmad Gouse',
-                    // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
                     peopleId: peopleId ?? "",
-                    // isFollow: true,
-                    // isRequested:false,
-                    // isFollowing: false,
                   ));
                 },
                 child: Row(
@@ -128,7 +125,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                     ),
                     8.horizontalSpace,
                     Text(
-                      name ?? "", //'Ahmad Gouse',
+                      name ?? "",
                       style: AppTextStyles.textStylePoppinsMedium
                           .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
@@ -224,14 +221,9 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               ),
               Column(
                 children: [
-                  // GestureDetector(
-                  //     onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
-                  //     child: ((isLiked ?? false) || state.isDoubleTapped)
-                  //         ? Image.asset(Assets.redHeart)
-                  //         : Image.asset(Assets.like)),
                   LikeIcon(
                     isLiked: isLiked ?? false,
-                    onTap: () => postFeedNotifier.likeUnlikePost(() {}, postId ?? ""),
+                    onTap: () => stateNotifier.likeUnlikePost(() {}, postId ?? ""),
                   ),
                   15.verticalSpace,
                   GestureDetector(
@@ -256,13 +248,48 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   10.verticalSpace,
                   SaveIcon(
                     isSaved: isSaved ?? false,
-                    onTap: () => postFeedNotifier.saveUnsavePost(() {}, postId ?? ""),
+                    onTap: () => stateNotifier.saveUnsavePost(() {}, postId ?? ""),
                   ),
                 ],
               )
             ],
           ),
-
+          if (state.isExpanded) ...[
+            Row(
+              children: [
+                Image.asset(Assets.star),
+                2.horizontalSpace,
+                Image.asset(Assets.star),
+                2.horizontalSpace,
+                Image.asset(Assets.star),
+                2.horizontalSpace,
+                Image.asset(Assets.star),
+                2.horizontalSpace,
+                Image.asset(Assets.star),
+                5.horizontalSpace,
+                Text(
+                  restaurantRating ?? "",
+                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    fontSize: 10.sp,
+                    color: AppColors.colorWhite,
+                  ),
+                ),
+                15.horizontalSpace,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: Image.asset(Assets.price),
+                ),
+                8.horizontalSpace,
+                Text(
+                  '\$100 For 2',
+                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    fontSize: 10.sp,
+                    color: AppColors.colorWhite,
+                  ),
+                )
+              ],
+            ),
+          ],
           15.verticalSpace,
           Align(
             alignment: Alignment.topLeft,

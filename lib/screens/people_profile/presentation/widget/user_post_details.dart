@@ -88,9 +88,10 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     creatorDetails = followNotifier.getUserById(widget.userId ?? '');
 
     final String mediaUrl = "${AppUrls.postImageLocation}${postDetails?.file}";
-    bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
-        mediaUrl.toLowerCase().endsWith('.mov') ||
-        mediaUrl.toLowerCase().endsWith('.avi');
+
+    // bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
+    //     mediaUrl.toLowerCase().endsWith('.mov') ||
+    //     mediaUrl.toLowerCase().endsWith('.avi');
     final postFeedState = ref.watch(postFeedNotifierProvider);
     DataOfPostModel? postDetailsList = postFeedState.postList?.firstWhere(
       (post) => post.id == widget.postId,

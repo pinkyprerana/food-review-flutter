@@ -10,7 +10,7 @@ class ShowVideoWidget extends ConsumerStatefulWidget {
   const ShowVideoWidget({super.key, required this.videoUrl});
 
   @override
-  _ShowVideoWidgetState createState() => _ShowVideoWidgetState();
+  ConsumerState createState() => _ShowVideoWidgetState();
 }
 
 class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
@@ -55,35 +55,34 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
 
     return _isVideoLoaded
         ? LayoutBuilder(
-        builder: (context, constraints) {
-        final videoAspectRatio = _controller.value.aspectRatio;
-        final screenAspectRatio = constraints.maxWidth / constraints.maxHeight;
+            builder: (context, constraints) {
+              final videoAspectRatio = _controller.value.aspectRatio;
+              final screenAspectRatio = constraints.maxWidth / constraints.maxHeight;
 
-        return Center(
-          child: Container(
-            width: videoAspectRatio > screenAspectRatio
-                ? constraints.maxWidth
-                : constraints.maxHeight * videoAspectRatio,
-            height: videoAspectRatio > screenAspectRatio
-                ? constraints.maxWidth / videoAspectRatio
-                : constraints.maxHeight,
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
-            child: VideoPlayer(_controller),
-          ),
-        );
-      },
-    )
+              return Center(
+                child: Container(
+                  width: videoAspectRatio > screenAspectRatio
+                      ? constraints.maxWidth
+                      : constraints.maxHeight * videoAspectRatio,
+                  height: videoAspectRatio > screenAspectRatio
+                      ? constraints.maxWidth / videoAspectRatio
+                      : constraints.maxHeight,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                  ),
+                  child: VideoPlayer(_controller),
+                ),
+              );
+            },
+          )
         : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
 
-  //   return _isVideoLoaded
-  //         ? AspectRatio(
-  //           aspectRatio: _controller.value.aspectRatio,
-  //           child: VideoPlayer(_controller),
-  //         )
-  //       : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
-
+    //   return _isVideoLoaded
+    //         ? AspectRatio(
+    //           aspectRatio: _controller.value.aspectRatio,
+    //           child: VideoPlayer(_controller),
+    //         )
+    //       : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
   }
 
   @override
