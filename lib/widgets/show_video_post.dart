@@ -31,7 +31,10 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
           if (_controller.value.hasError) {
             setState(() {
               _isError = true;
-            });
+            });//To replay video automatically
+          } else if (_controller.value.position == _controller.value.duration) {
+            _controller.seekTo(Duration.zero);
+            _controller.play();
           }
         })
         ..initialize().then((_) {
