@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:for_the_table/screens/home/domain/post_model.dart';
+import 'package:for_the_table/screens/home/presentation/post_comments_page.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 import 'package:for_the_table/screens/profile/presentation/saved_restaurants_page.dart';
@@ -13,8 +15,6 @@ import '../../screens/auth/presentation/verify_otp_page.dart';
 import '../../screens/base/presentation/base_screen.dart';
 import '../../screens/create_post/presentation/create_post.dart';
 import '../../screens/create_post/presentation/photo_click_page.dart';
-import '../../screens/home/presentation/home_page.dart';
-import '../../screens/home/presentation/home_page_new.dart';
 import '../../screens/landing/presentation/landing_get_started_page.dart';
 import '../../screens/landing/presentation/landing_intro_page.dart';
 import '../../screens/leaderboard/presentation/standings_page.dart';
@@ -88,14 +88,6 @@ class AppRouter extends _$AppRouter {
           path: '/onboarding',
         ),
         AutoRoute(
-          page: HomeRouteNew.page,
-          path: '/homeNew',
-        ),
-        AutoRoute(
-          page: HomeRoute.page,
-          path: '/home',
-        ),
-        AutoRoute(
           page: ListRoute.page,
           path: '/list',
         ),
@@ -122,6 +114,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: CommentsRoute.page,
           path: '/commentsRoute',
+        ),
+        AutoRoute(
+          page: PostCommentsRoute.page,
+          path: '/postComments',
         ),
         AutoRoute(
           page: RestaurantDetailRoute.page,

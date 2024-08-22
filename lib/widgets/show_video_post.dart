@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
 
+import '../core/styles/app_colors.dart';
+
 class ShowVideoWidget extends ConsumerStatefulWidget {
   final String videoUrl;
 
@@ -13,7 +15,7 @@ class ShowVideoWidget extends ConsumerStatefulWidget {
 
 class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
   late VideoPlayerController _controller;
-  // bool _isVideoLoaded = false;
+  bool _isVideoLoaded = false;
   bool _isError = false;
 
   @override
@@ -33,9 +35,9 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
           }
         })
         ..initialize().then((_) {
-          // setState(() {
-          //   _isVideoLoaded = true;
-          // });
+          setState(() {
+            _isVideoLoaded = true;
+          });
           _controller.play();
         });
     } catch (e) {
@@ -51,14 +53,12 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
       return const Center(child: Text('Error loading video.'));
     }
 
-    return
-      // _isVideoLoaded
-      // ?
-      AspectRatio(
+    return _isVideoLoaded
+          ? AspectRatio(
             aspectRatio: _controller.value.aspectRatio,
             child: VideoPlayer(_controller),
-          );
-        // : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
+          )
+        : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
   }
 
   @override

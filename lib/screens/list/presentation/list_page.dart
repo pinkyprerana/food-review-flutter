@@ -51,7 +51,7 @@ class _ListPageState extends ConsumerState<ListPage> {
     final userNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
     if (selectedIndex == 0) {
       await userNotifier.getAllUsersList();
-    } else{
+    } else {
       await restaurantNotifier.getRestaurants(ref: ref);
     }
   }
@@ -62,97 +62,99 @@ class _ListPageState extends ConsumerState<ListPage> {
     final state = ref.watch(listProvider);
     final followNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
 
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        centerTitle: false,
-        leadingWidth: 0,
-        title: Text(
-          'Your Lists',
-          style: AppTextStyles.textStylePoppinsBold.copyWith(
-            color: AppColors.colorPrimary,
-            fontSize: 16.sp,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          centerTitle: false,
+          leadingWidth: 0,
+          title: Text(
+            'Your Lists',
+            style: AppTextStyles.textStylePoppinsBold.copyWith(
+              color: AppColors.colorPrimary,
+              fontSize: 16.sp,
+            ),
           ),
+          actions: const [NotificationIcon()],
         ),
-        actions: const [NotificationIcon()],
-      ),
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: Container(
-          color: AppColors.colorWhite,
-          //margin: const EdgeInsets.only(top: 0).r,
-          padding: const EdgeInsets.symmetric(horizontal: 16).r,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomSearchField(
-                height: 50.r,
-                controller: followNotifier.searchController,
-                bgColor: AppColors.colorBackground,
-                isBorder: true,
-                onChanged: (_) async {
-                  // await followNotifier.searchUserRestaurant(ref);
-                  await searchUserRestaurant();
-                  await ref.watch(restaurantNotifierProvider.notifier).getRestaurants(ref: ref);
-                }
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0).r,
-                child: ChipsChoice<int>.single(
-                  value: state.listIndex,
-                  padding: EdgeInsets.zero,
-                  onChanged: (val) {
-                    stateNotifier.setListIndex(val);
-                    dismissKeyboard(context);
-                  },
-                  choiceItems: C2Choice.listFrom<int, String>(
-                    source: options,
-                    value: (i, v) => i,
-                    label: (i, v) => v,
-                    tooltip: (i, v) => v,
-                  ),
-                  choiceBuilder: (item, i) {
-                    final isSelected = state.listIndex;
+        body: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+            color: AppColors.colorWhite,
+            //margin: const EdgeInsets.only(top: 0).r,
+            padding: const EdgeInsets.symmetric(horizontal: 16).r,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomSearchField(
+                    height: 50.r,
+                    controller: followNotifier.searchController,
+                    bgColor: AppColors.colorBackground,
+                    isBorder: true,
+                    onChanged: (_) async {
+                      // await followNotifier.searchUserRestaurant(ref);
+                      await searchUserRestaurant();
+                      await ref.watch(restaurantNotifierProvider.notifier).getRestaurants(ref: ref);
+                    }),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0).r,
+                  child: ChipsChoice<int>.single(
+                    value: state.listIndex,
+                    padding: EdgeInsets.zero,
+                    onChanged: (val) {
+                      stateNotifier.setListIndex(val);
+                      dismissKeyboard(context);
+                    },
+                    choiceItems: C2Choice.listFrom<int, String>(
+                      source: options,
+                      value: (i, v) => i,
+                      label: (i, v) => v,
+                      tooltip: (i, v) => v,
+                    ),
+                    choiceBuilder: (item, i) {
+                      final isSelected = state.listIndex;
 
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 5.0).r,
-                      child: ChoiceChip(
-                        showCheckmark: false,
-                        label: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(item.label),
-                          ],
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 5.0).r,
+                        child: ChoiceChip(
+                          showCheckmark: false,
+                          label: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(item.label),
+                            ],
+                          ),
+                          selected: isSelected == i,
+                          onSelected: (_) {
+                            stateNotifier.setListIndex(i);
+                            dismissKeyboard(context);
+                          },
+                          selectedColor: AppColors.colorBlack2,
+                          backgroundColor: AppColors.colorWhite,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 8,
+                          ).r,
+                          labelStyle: TextStyle(
+                            color: isSelected == i ? Colors.white : AppColors.colorPrimaryAlpha,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: AppColors.colorGrey3),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
                         ),
-                        selected: isSelected == i,
-                        onSelected: (_) {
-                          stateNotifier.setListIndex(i);
-                          dismissKeyboard(context);
-                        },
-                        selectedColor: AppColors.colorBlack2,
-                        backgroundColor: AppColors.colorWhite,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 8,
-                        ).r,
-                        labelStyle: TextStyle(
-                          color: isSelected == i ? Colors.white : AppColors.colorPrimaryAlpha,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: AppColors.colorGrey3),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              state.listIndex == 0 ? const FollowersList() : const RestaurantsList(),
-            ],
+                state.listIndex == 0 ? const FollowersList() : const RestaurantsList(),
+              ],
+            ),
           ),
         ),
       ),

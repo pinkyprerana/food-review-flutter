@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import '../../../../core/routes/app_router.dart';
-import '../../../../model/restaurant/postlist_per_restaurant_response_model.dart';
 import '../../../../widgets/save_button.dart';
 import '../../../people_profile/shared/providers.dart';
 import '../../../post_feed/shared/provider.dart';
@@ -19,7 +18,6 @@ import '../../../your_lists/shared/provider.dart';
 class PostItemWidget2 extends ConsumerStatefulWidget {
   const PostItemWidget2({
     super.key,
-
     required this.postList,
     required this.userId,
     required this.userName,
@@ -55,14 +53,14 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
   ConsumerState<PostItemWidget2> createState() => _PostItemWidget2State();
 }
 
-class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
+class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
   void handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    restaurantNotifier.getPostListRelatedToRestaurant((){}, widget.restaurantId);
+    restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
   }
 
   @override
@@ -95,7 +93,9 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           // image: AssetImage(Assets.post2),
-          image: (widget.image.contains('jpg') || widget.image.contains('png') || widget.image.contains('jpeg'))
+          image: (widget.image.contains('jpg') ||
+                  widget.image.contains('png') ||
+                  widget.image.contains('jpeg'))
               ? CachedNetworkImageProvider(widget.image)
               : const AssetImage(Assets.noRestaurantImage),
           fit: BoxFit.cover,
@@ -149,9 +149,9 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                                   //   Assets.follow2,
                                   // ),
                                   image: (widget.userImage.contains('jpg') ||
-                                      widget.userImage.contains('png') ||
-                                      widget.userImage.contains('jpeg') ||
-                                      widget.userImage.contains('gif'))
+                                          widget.userImage.contains('png') ||
+                                          widget.userImage.contains('jpeg') ||
+                                          widget.userImage.contains('gif'))
                                       ? CachedNetworkImageProvider(widget.userImage)
                                       : const AssetImage(Assets.noProfileImage),
                                   fit: BoxFit.cover,
@@ -165,7 +165,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                           ),
                           8.horizontalSpace,
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               handleFollowUnfollowButtonPressed(widget.userId);
                             },
                             child: Container(
@@ -175,14 +175,17 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                                 color: AppColors.colorWhite.withOpacity(0.20),
                               ),
                               child: Center(
-                                child: Text(
-                                  widget.isFollowing ? 'Unfollow' : widget.isRequested ? 'Requested' : 'Follow',
-                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                          color: AppColors.colorWhite,
-                                          fontSize: 10.sp,
-                                        ),
-                                      )
-                              ),
+                                  child: Text(
+                                widget.isFollowing
+                                    ? 'Unfollow'
+                                    : widget.isRequested
+                                        ? 'Requested'
+                                        : 'Follow',
+                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                  color: AppColors.colorWhite,
+                                  fontSize: 10.sp,
+                                ),
+                              )),
                             ),
                           ),
                         ],
@@ -207,7 +210,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                                   child: Center(
                                     child: (widget.cuisine != '')
                                         ? Text(
-                                      widget.cuisine,
+                                            widget.cuisine,
                                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                               color: AppColors.colorWhite,
                                               fontSize: 10.sp,
@@ -248,7 +251,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                                   children: [
                                     (widget.restaurantName != '')
                                         ? Text(
-                                      widget.restaurantName,
+                                            widget.restaurantName,
                                             style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                               fontSize: 13.sp,
                                               color: AppColors.colorWhite,
@@ -276,15 +279,16 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                           children: [
                             GestureDetector(
                                 onTap: () => postFeedNotifier.likeUnlikePost(() {
-                                  restaurantNotifier.getPostListRelatedToRestaurant((){}, widget.restaurantId);
-                                }, widget.postList.id ?? ""),
-                                child: ( widget.postList.isMyLike ?? false)
+                                      restaurantNotifier.getPostListRelatedToRestaurant(
+                                          () {}, widget.restaurantId);
+                                    }, widget.postList.id ?? ""),
+                                child: (widget.postList.isMyLike ?? false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
                             GestureDetector(
-                              onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                                postInfoList: widget.postList as DataOfPostModel,
+                              onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
+                                postInfoList: widget.postList,
                               )),
                               child: Column(
                                 children: [
@@ -304,7 +308,8 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2>{
                             10.verticalSpace,
                             GestureDetector(
                               onTap: () => postFeedNotifier.saveUnsavePost(() {
-                                restaurantNotifier.getPostListRelatedToRestaurant((){}, widget.restaurantId);
+                                restaurantNotifier.getPostListRelatedToRestaurant(
+                                    () {}, widget.restaurantId);
                               }, widget.postList.id ?? ""),
                               child: SaveButtonWidget(
                                 isSavePost: postFeedState.isSavePost,

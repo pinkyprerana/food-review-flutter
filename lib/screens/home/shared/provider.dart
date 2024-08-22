@@ -7,5 +7,6 @@ final homeNotifierProvider = StateNotifierProvider<HomeNotifier, HomeState>((ref
   return HomeNotifier(
     ref.watch(dioProvider),
     ref.watch(hiveProvider),
+    ref.watch(networkService),
   );
 });

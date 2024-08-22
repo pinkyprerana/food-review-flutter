@@ -7,6 +7,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
+import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/widgets/save_button.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -17,12 +18,12 @@ import '../../../profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
 
 class PostWidget extends ConsumerStatefulWidget {
-  final DataOfPostModel postList;
+  final Post post;
   final bool isSaving;
   final List<CommentInfo> commentInfoList;
 
   const PostWidget(
-      {super.key, required this.postList, required this.isSaving, required this.commentInfoList});
+      {super.key, required this.post, required this.isSaving, required this.commentInfoList});
 
   @override
   ConsumerState<PostWidget> createState() => _PostWidgetState();
@@ -49,21 +50,21 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final String? peopleId = widget.postList.userInfo?.id;
-    final String? name = widget.postList.userInfo?.fullName;
+    final String? peopleId = widget.post.userInfo?.id;
+    final String? name = widget.post.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
-    final String postImage = "${AppUrls.postImageLocation}${widget.postList.file}";
-    final String? description = widget.postList.description;
-    final String? restaurantName = widget.postList.restaurantInfo?.name;
-    final String? address = widget.postList.restaurantInfo?.address;
-    final String? cuisine = widget.postList.preferenceInfo?.title;
-    final int? commentCount = widget.postList.commentCount;
-    final String? postId = widget.postList.id;
-    final bool? isSaved = widget.postList.isSave;
-    final bool? isLiked = widget.postList.isMyLike;
-    final bool? isFollowing = widget.postList.isFollowing;
-    final bool? isRequested = widget.postList.isFollowingRequest;
+        "${AppUrls.profilePicLocation}/${widget.post.userInfo?.profileImage}";
+    final String postImage = "${AppUrls.postImageLocation}${widget.post.file}";
+    final String? description = widget.post.description;
+    final String? restaurantName = widget.post.restaurantInfo?.name;
+    final String? address = widget.post.restaurantInfo?.address;
+    final String? cuisine = widget.post.preferenceInfo?.title;
+    final int? commentCount = widget.post.commentCount;
+    final String? postId = widget.post.id;
+    final bool? isSaved = widget.post.isSave;
+    final bool? isLiked = widget.post.isMyLike;
+    final bool? isFollowing = widget.post.isFollowing;
+    final bool? isRequested = widget.post.isFollowingRequest;
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
@@ -112,7 +113,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                     GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PeopleProfileRoute(
-                            peopleId: peopleId??"",
+                          peopleId: peopleId ?? "",
                         ));
                       },
                       child: Row(
@@ -138,7 +139,7 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                           ),
                           8.horizontalSpace,
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               _handleFollowUnfollowButtonPressed(peopleId);
                             },
                             child: Container(
@@ -149,7 +150,11 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                               ),
                               child: Center(
                                 child: Text(
-                                  (isFollowing??false) ? 'Unfollow': (isRequested ?? false) ? 'Requested' :'Follow',
+                                  (isFollowing ?? false)
+                                      ? 'Unfollow'
+                                      : (isRequested ?? false)
+                                          ? 'Requested'
+                                          : 'Follow',
                                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                     color: AppColors.colorWhite,
                                     fontSize: 10.sp,
@@ -232,8 +237,8 @@ class _PostWidgetState extends ConsumerState<PostWidget> {
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
                             GestureDetector(
-                              onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                                postInfoList: widget.postList,
+                              onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
+                                postInfoList: widget.post,
                               )),
                               child: Column(
                                 children: [
