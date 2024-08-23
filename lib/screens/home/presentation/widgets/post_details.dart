@@ -12,86 +12,50 @@ import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
 import '../../../../core/constants/app_urls.dart';
-import '../../../people_profile/shared/providers.dart';
 
-class NotExpandedPostDetails extends ConsumerStatefulWidget {
-  final Post postList;
-  final int index;
+class PostDetails extends ConsumerStatefulWidget {
+  final Post post;
 
-  const NotExpandedPostDetails({super.key, required this.postList, required this.index});
+  const PostDetails({
+    super.key,
+    required this.post,
+  });
 
   @override
-  ConsumerState<NotExpandedPostDetails> createState() => _NotExpandedPostDetailsState();
+  ConsumerState<PostDetails> createState() => _PostDetailsState();
 }
 
-class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails> {
-  String followStatus = '';
-
+class _PostDetailsState extends ConsumerState<PostDetails> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      // final profileNotifier = ref.read(profileNotifierProvider.notifier);
-      // await profileNotifier.getSavedList();
-      if (widget.postList.isFollowing ?? false) {
-        setState(() {
-          followStatus = 'Following';
-        });
-      } else if (widget.postList.isFollowingRequest ?? false) {
-        setState(() {
-          followStatus = 'Requested';
-        });
-      } else {
-        setState(() {
-          followStatus = 'Follow';
-        });
-      }
-    });
-  }
+      final stateNotifier = ref.read(homeNotifierProvider.notifier);
 
-  void _handleFollowUnfollowButtonPressed(userId) async {
-    if (followStatus == 'Following') {
-      setState(() {
-        followStatus = 'Follow';
-      });
-    } else if (followStatus == 'Requested') {
-      setState(() {
-        followStatus = 'Follow';
-      });
-    } else {
-      setState(() {
-        followStatus = 'Requested';
-      });
-    }
-    final followNotifier = ref.read(followNotifierProvider.notifier);
-    // final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    // final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
-    await followNotifier.followUnfollow(() {}, userId);
-    // await yourPeopleNotifier.getAllUsersList(isFollowState: true);
-    // await postFeedNotifier.getPostFeed(isPostLoading: true);
+      stateNotifier.assignFollowStatus(
+        widget.post.isFollowing ?? false,
+        widget.post.isFollowingRequest ?? false,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final String? peopleId = widget.postList.userInfo?.id;
-    final String? name = widget.postList.userInfo?.fullName;
+    final String? peopleId = widget.post.userInfo?.id;
+    final String? name = widget.post.userInfo?.fullName;
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postList.userInfo?.profileImage}";
-    final String? description = widget.postList.description;
-    final String? restaurantName = widget.postList.restaurantInfo?.name;
-    final String? address = widget.postList.restaurantInfo?.address;
-    final String? cuisine = widget.postList.preferenceInfo?.title;
-    final int? commentCount = widget.postList.commentCount;
-    final String? postId = widget.postList.id;
-    final String? restaurantRating = widget.postList.restaurantInfo?.rating;
-    // final bool? isFollowing = widget.postList.isFollowing;
-    // final bool? isRequested = widget.postList.isFollowingRequest;
+        "${AppUrls.profilePicLocation}/${widget.post.userInfo?.profileImage}";
+    final String? description = widget.post.description;
+    final String? restaurantName = widget.post.restaurantInfo?.name;
+    final String? address = widget.post.restaurantInfo?.address;
+    final String? cuisine = widget.post.preferenceInfo?.title;
+    final int? commentCount = widget.post.commentCount;
+    final String? postId = widget.post.id;
+    final String? restaurantRating = widget.post.restaurantInfo?.rating;
     final stateNotifier = ref.watch(homeNotifierProvider.notifier);
     final state = ref.watch(homeNotifierProvider);
-    final bool? isSaved = widget.postList.isSave;
-    final bool? isLiked = widget.postList.isMyLike;
-
-    // final state = ref.watch(postFeedNotifierProvider);
+    final bool? isSaved = widget.post.isSave;
+    final bool? isLiked = widget.post.isMyLike;
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -134,8 +98,8 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
               ),
               8.horizontalSpace,
               GestureDetector(
-                onTap: () {
-                  _handleFollowUnfollowButtonPressed(peopleId);
+                onTap: () async {
+                  await stateNotifier.onFollowUnfollowButtonPressed(peopleId ?? '');
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -145,7 +109,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   child: Center(
                     child: Text(
-                      followStatus,
+                      state.followStatus,
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         color: AppColors.colorWhite,
                         fontSize: 10.sp,
@@ -228,7 +192,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
-                      postInfoList: widget.postList,
+                      post: widget.post,
                     )),
                     child: Column(
                       children: [

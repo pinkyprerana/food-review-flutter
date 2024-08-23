@@ -154,7 +154,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PostCommentsPage(
           key: args.key,
-          postInfoList: args.postInfoList,
+          post: args.post,
         ),
       );
     },
@@ -629,13 +629,13 @@ class PhotoClickRoute extends PageRouteInfo<void> {
 class PostCommentsRoute extends PageRouteInfo<PostCommentsRouteArgs> {
   PostCommentsRoute({
     Key? key,
-    required Post postInfoList,
+    required Post post,
     List<PageRouteInfo>? children,
   }) : super(
           PostCommentsRoute.name,
           args: PostCommentsRouteArgs(
             key: key,
-            postInfoList: postInfoList,
+            post: post,
           ),
           initialChildren: children,
         );
@@ -649,16 +649,16 @@ class PostCommentsRoute extends PageRouteInfo<PostCommentsRouteArgs> {
 class PostCommentsRouteArgs {
   const PostCommentsRouteArgs({
     this.key,
-    required this.postInfoList,
+    required this.post,
   });
 
   final Key? key;
 
-  final Post postInfoList;
+  final Post post;
 
   @override
   String toString() {
-    return 'PostCommentsRouteArgs{key: $key, postInfoList: $postInfoList}';
+    return 'PostCommentsRouteArgs{key: $key, post: $post}';
   }
 }
 

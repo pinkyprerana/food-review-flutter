@@ -288,7 +288,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                             15.verticalSpace,
                             GestureDetector(
                               onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
-                                postInfoList: widget.postList,
+                                post: widget.postList,
                               )),
                               child: Column(
                                 children: [

@@ -25,12 +25,13 @@ mixin _$HomeState {
   bool get isLiked => throw _privateConstructorUsedError;
   bool get isDoubleTapped => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
-  int get selectedIndex => throw _privateConstructorUsedError;
+  String get followStatus => throw _privateConstructorUsedError;
   List<SwipeItem> get allSwipeItems => throw _privateConstructorUsedError;
   List<SwipeItem> get followingSwipeItems => throw _privateConstructorUsedError;
   List<Comment>? get commentsList => throw _privateConstructorUsedError;
   List<Post>? get postList => throw _privateConstructorUsedError;
   List<bool> get doubleTapList => throw _privateConstructorUsedError;
+  int get selectedIndex => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
   int get currentPageAllPosts => throw _privateConstructorUsedError;
@@ -57,12 +58,13 @@ abstract class $HomeStateCopyWith<$Res> {
       bool isLiked,
       bool isDoubleTapped,
       bool isExpanded,
-      int selectedIndex,
+      String followStatus,
       List<SwipeItem> allSwipeItems,
       List<SwipeItem> followingSwipeItems,
       List<Comment>? commentsList,
       List<Post>? postList,
       List<bool> doubleTapList,
+      int selectedIndex,
       int currentPage,
       int totalPages,
       int currentPageAllPosts,
@@ -92,12 +94,13 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? isLiked = null,
     Object? isDoubleTapped = null,
     Object? isExpanded = null,
-    Object? selectedIndex = null,
+    Object? followStatus = null,
     Object? allSwipeItems = null,
     Object? followingSwipeItems = null,
     Object? commentsList = freezed,
     Object? postList = freezed,
     Object? doubleTapList = null,
+    Object? selectedIndex = null,
     Object? currentPage = null,
     Object? totalPages = null,
     Object? currentPageAllPosts = null,
@@ -141,10 +144,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
               as bool,
-      selectedIndex: null == selectedIndex
-          ? _value.selectedIndex
-          : selectedIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      followStatus: null == followStatus
+          ? _value.followStatus
+          : followStatus // ignore: cast_nullable_to_non_nullable
+              as String,
       allSwipeItems: null == allSwipeItems
           ? _value.allSwipeItems
           : allSwipeItems // ignore: cast_nullable_to_non_nullable
@@ -165,6 +168,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.doubleTapList
           : doubleTapList // ignore: cast_nullable_to_non_nullable
               as List<bool>,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -207,12 +214,13 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       bool isLiked,
       bool isDoubleTapped,
       bool isExpanded,
-      int selectedIndex,
+      String followStatus,
       List<SwipeItem> allSwipeItems,
       List<SwipeItem> followingSwipeItems,
       List<Comment>? commentsList,
       List<Post>? postList,
       List<bool> doubleTapList,
+      int selectedIndex,
       int currentPage,
       int totalPages,
       int currentPageAllPosts,
@@ -240,12 +248,13 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? isLiked = null,
     Object? isDoubleTapped = null,
     Object? isExpanded = null,
-    Object? selectedIndex = null,
+    Object? followStatus = null,
     Object? allSwipeItems = null,
     Object? followingSwipeItems = null,
     Object? commentsList = freezed,
     Object? postList = freezed,
     Object? doubleTapList = null,
+    Object? selectedIndex = null,
     Object? currentPage = null,
     Object? totalPages = null,
     Object? currentPageAllPosts = null,
@@ -289,10 +298,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
               as bool,
-      selectedIndex: null == selectedIndex
-          ? _value.selectedIndex
-          : selectedIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+      followStatus: null == followStatus
+          ? _value.followStatus
+          : followStatus // ignore: cast_nullable_to_non_nullable
+              as String,
       allSwipeItems: null == allSwipeItems
           ? _value._allSwipeItems
           : allSwipeItems // ignore: cast_nullable_to_non_nullable
@@ -313,6 +322,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._doubleTapList
           : doubleTapList // ignore: cast_nullable_to_non_nullable
               as List<bool>,
+      selectedIndex: null == selectedIndex
+          ? _value.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -350,12 +363,13 @@ class _$HomeStateImpl extends _HomeState {
       this.isLiked = false,
       this.isDoubleTapped = false,
       this.isExpanded = false,
-      this.selectedIndex = 0,
+      this.followStatus = '',
       final List<SwipeItem> allSwipeItems = const [],
       final List<SwipeItem> followingSwipeItems = const [],
       final List<Comment>? commentsList = const [],
       final List<Post>? postList = const [],
       final List<bool> doubleTapList = const [],
+      this.selectedIndex = 0,
       this.currentPage = 1,
       this.totalPages = 1,
       this.currentPageAllPosts = 1,
@@ -397,7 +411,7 @@ class _$HomeStateImpl extends _HomeState {
   final bool isExpanded;
   @override
   @JsonKey()
-  final int selectedIndex;
+  final String followStatus;
   final List<SwipeItem> _allSwipeItems;
   @override
   @JsonKey()
@@ -450,6 +464,9 @@ class _$HomeStateImpl extends _HomeState {
 
   @override
   @JsonKey()
+  final int selectedIndex;
+  @override
+  @JsonKey()
   final int currentPage;
   @override
   @JsonKey()
@@ -466,7 +483,7 @@ class _$HomeStateImpl extends _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, selectedIndex: $selectedIndex, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts)';
+    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, followStatus: $followStatus, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, selectedIndex: $selectedIndex, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts)';
   }
 
   @override
@@ -493,8 +510,8 @@ class _$HomeStateImpl extends _HomeState {
                 other.isDoubleTapped == isDoubleTapped) &&
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
-            (identical(other.selectedIndex, selectedIndex) ||
-                other.selectedIndex == selectedIndex) &&
+            (identical(other.followStatus, followStatus) ||
+                other.followStatus == followStatus) &&
             const DeepCollectionEquality()
                 .equals(other._allSwipeItems, _allSwipeItems) &&
             const DeepCollectionEquality()
@@ -504,6 +521,8 @@ class _$HomeStateImpl extends _HomeState {
             const DeepCollectionEquality().equals(other._postList, _postList) &&
             const DeepCollectionEquality()
                 .equals(other._doubleTapList, _doubleTapList) &&
+            (identical(other.selectedIndex, selectedIndex) ||
+                other.selectedIndex == selectedIndex) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.totalPages, totalPages) ||
@@ -528,12 +547,13 @@ class _$HomeStateImpl extends _HomeState {
         isLiked,
         isDoubleTapped,
         isExpanded,
-        selectedIndex,
+        followStatus,
         const DeepCollectionEquality().hash(_allSwipeItems),
         const DeepCollectionEquality().hash(_followingSwipeItems),
         const DeepCollectionEquality().hash(_commentsList),
         const DeepCollectionEquality().hash(_postList),
         const DeepCollectionEquality().hash(_doubleTapList),
+        selectedIndex,
         currentPage,
         totalPages,
         currentPageAllPosts,
@@ -559,12 +579,13 @@ abstract class _HomeState extends HomeState {
       final bool isLiked,
       final bool isDoubleTapped,
       final bool isExpanded,
-      final int selectedIndex,
+      final String followStatus,
       final List<SwipeItem> allSwipeItems,
       final List<SwipeItem> followingSwipeItems,
       final List<Comment>? commentsList,
       final List<Post>? postList,
       final List<bool> doubleTapList,
+      final int selectedIndex,
       final int currentPage,
       final int totalPages,
       final int currentPageAllPosts,
@@ -591,7 +612,7 @@ abstract class _HomeState extends HomeState {
   @override
   bool get isExpanded;
   @override
-  int get selectedIndex;
+  String get followStatus;
   @override
   List<SwipeItem> get allSwipeItems;
   @override
@@ -602,6 +623,8 @@ abstract class _HomeState extends HomeState {
   List<Post>? get postList;
   @override
   List<bool> get doubleTapList;
+  @override
+  int get selectedIndex;
   @override
   int get currentPage;
   @override

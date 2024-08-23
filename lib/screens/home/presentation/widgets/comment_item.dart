@@ -6,15 +6,16 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
+import 'package:for_the_table/screens/home/presentation/widgets/like_icon_widget.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../shared/provider.dart';
 
 class CommentItem extends ConsumerStatefulWidget {
-  final List<Comment> commentInfoList;
+  final List<Comment> commentsList;
 
   const CommentItem({
     super.key,
-    required this.commentInfoList,
+    required this.commentsList,
   });
 
   @override
@@ -24,9 +25,10 @@ class CommentItem extends ConsumerStatefulWidget {
 class _CommentItemState extends ConsumerState<CommentItem> {
   @override
   Widget build(BuildContext context) {
-    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
+    final stateNotifier = ref.watch(homeNotifierProvider.notifier);
+
     return Column(
-      children: (widget.commentInfoList).map((commentInfo) {
+      children: (widget.commentsList).map((commentInfo) {
         return Container(
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: Row(
@@ -34,7 +36,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
             children: [
               Container(
                 width: 24.w,
-                height: 24.h,
+                height: 24.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -61,7 +63,7 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     ),
                     4.verticalSpace,
                     Text(
-                      _formatDate(commentInfo.createdAt ?? DateTime.now()),
+                      stateNotifier.formatDate(commentInfo.createdAt ?? DateTime.now()),
                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
                         fontSize: 10.sp,
                         color: AppColors.colorWhite.withOpacity(0.70),
@@ -78,12 +80,10 @@ class _CommentItemState extends ConsumerState<CommentItem> {
                     10.verticalSpace,
                     Align(
                       alignment: Alignment.topLeft,
-                      child: GestureDetector(
+                      child: LikeIconWidget(
+                        isLiked: commentInfo.isCommentLiked ?? false,
                         onTap: () =>
-                            postFeedNotifier.postCommentLikeUnlike(() {}, commentInfo.id ?? ""),
-                        child: (commentInfo.isCommentLiked ?? false)
-                            ? Image.asset(Assets.redHeart)
-                            : Image.asset(Assets.like),
+                            stateNotifier.postCommentLikeUnlike(() {}, commentInfo.id ?? ""),
                       ),
                     ),
                   ],
@@ -94,22 +94,5 @@ class _CommentItemState extends ConsumerState<CommentItem> {
         );
       }).toList(),
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inDays > 7) {
-      return '${date.day}/${date.month}/${date.year}';
-    } else if (difference.inDays > 1) {
-      return '${difference.inDays} days ago';
-    } else if (difference.inHours > 1) {
-      return '${difference.inHours} hours ago';
-    } else if (difference.inMinutes > 1) {
-      return '${difference.inMinutes} minutes ago';
-    } else {
-      return 'Just now';
-    }
   }
 }

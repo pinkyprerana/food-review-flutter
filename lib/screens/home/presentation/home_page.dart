@@ -15,12 +15,12 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  List<String> buttonTexts = ['For The Table', 'Following'];
+  final List<String> buttonTexts = ['For The Table', 'Following'];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(homeNotifierProvider.notifier);
       await stateNotifier.getPostFeed();
     });
@@ -32,7 +32,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     final state = ref.watch(homeNotifierProvider);
 
     return Scaffold(
-      // key: _scaffoldKey,
       body: state.isLoading || stateNotifier.matchEngine == null
           ? const Center(
               child: CircularProgressIndicator(
@@ -134,7 +133,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   );
                                 }
 
-                                return stateNotifier.swipeItems2[index].content;
+                                return stateNotifier.swipeItemsFollowing[index].content;
                               },
                               onStackFinished: () async {
                                 if (state.followingSwipeItems.isEmpty) {

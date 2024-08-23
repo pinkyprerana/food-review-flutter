@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
-import 'package:for_the_table/screens/home/presentation/widgets/not_epanded_post_details.dart';
+import 'package:for_the_table/screens/home/presentation/widgets/post_details.dart';
 // import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
 import 'package:for_the_table/widgets/show_video_post.dart';
 import '../../../../core/constants/app_urls.dart';
@@ -68,7 +68,7 @@ class PostFeedItem extends ConsumerWidget {
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
-                        stateNotifier.setIsExpanded();
+                        stateNotifier.toggleIsExpanded();
                       },
                       child: (state.isExpanded)
                           ? const SizedBox.shrink()
@@ -78,21 +78,14 @@ class PostFeedItem extends ConsumerWidget {
                             ),
                     ),
                     8.verticalSpace,
-                    // (state.isExpanded)
-                    //     ? ExpandedPostDetails(
-                    //         postList: postList,
-                    //       )
-                    NotExpandedPostDetails(
-                      postList: post,
-                      index: index,
-                    ),
+                    PostDetails(post: post),
                     (state.isExpanded)
                         ? Column(
                             children: [
                               8.verticalSpace,
                               GestureDetector(
                                 onTap: () {
-                                  stateNotifier.setIsExpanded();
+                                  stateNotifier.toggleIsExpanded();
                                 },
                                 child: const Icon(
                                   Icons.expand_more,

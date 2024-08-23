@@ -9,55 +9,39 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/comment_item.dart';
-import 'package:for_the_table/screens/profile/shared/providers.dart';
+import 'package:for_the_table/screens/home/presentation/widgets/like_icon_widget.dart';
+import 'package:for_the_table/screens/home/presentation/widgets/save_icon_widget.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import '../../../core/constants/app_urls.dart';
-import '../../people_profile/shared/providers.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
-class PostCommentsPage extends ConsumerStatefulWidget {
+class PostCommentsPage extends ConsumerWidget {
+  final Post post;
+
   const PostCommentsPage({
     super.key,
-    required this.postInfoList,
+    required this.post,
   });
-  final Post postInfoList;
 
   @override
-  ConsumerState<PostCommentsPage> createState() => _CommentsPageState();
-}
-
-class _CommentsPageState extends ConsumerState<PostCommentsPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final stateNotifier = ref.read(homeNotifierProvider.notifier);
-      await stateNotifier.getPostFeed();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeNotifierProvider);
     final stateNotifier = ref.watch(homeNotifierProvider.notifier);
 
-    final String? postId = widget.postInfoList.id;
-    // final String peopleId = widget.postInfoList.userInfo?.id ?? "";
-    final String name = widget.postInfoList.userInfo?.fullName ?? "";
-    final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postInfoList.userInfo?.profileImage}";
-    final String? description = widget.postInfoList.description;
-    final String? restaurantName = widget.postInfoList.restaurantInfo?.name;
-    final String? rating = widget.postInfoList.restaurantInfo?.rating;
-    final String? address = widget.postInfoList.restaurantInfo?.address;
-    final String? cuisine = widget.postInfoList.preferenceInfo?.title;
-    final int commentCount = widget.postInfoList.commentCount ?? 0;
-    const int amount = 100; //widget.postInfoList.commentCount;
-    final bool? isSaved = widget.postInfoList.isSave;
-    final bool? isLiked = widget.postInfoList.isMyLike;
-    final bool? isFollowing = widget.postInfoList.isFollowing;
-    final bool? isRequested = widget.postInfoList.isFollowingRequest;
+    final String? postId = post.id;
+    final String userId = post.userInfo?.id ?? "";
+    final String name = post.userInfo?.fullName ?? "";
+    final String profileImage = "${AppUrls.profilePicLocation}/${post.userInfo?.profileImage}";
+    final String? description = post.description;
+    final String? restaurantName = post.restaurantInfo?.name;
+    final String? rating = post.restaurantInfo?.rating;
+    final String? address = post.restaurantInfo?.address;
+    final String? cuisine = post.preferenceInfo?.title;
+    final int commentCount = post.commentCount ?? 0;
+    const int amount = 100; //post.commentCount;
+    final bool? isSaved = post.isSave;
+    final bool? isLiked = post.isMyLike;
     final comments = state.commentsList?.where((comment) => comment.postId == postId).toList();
 
     return GestureDetector(
@@ -98,23 +82,22 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
                                   .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                             ),
                             8.horizontalSpace,
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(70),
-                                border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
-                                color: AppColors.colorWhite.withOpacity(0.10),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  (isFollowing ?? false)
-                                      ? 'Unfollow'
-                                      : (isRequested ?? false)
-                                          ? 'Requested'
-                                          : 'Follow',
-                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                    color: AppColors.colorWhite,
-                                    fontSize: 10.sp,
+                            GestureDetector(
+                              onTap: () => stateNotifier.onFollowUnfollowButtonPressed(userId),
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(70),
+                                  border: Border.all(width: 1, color: const Color(0xffDDDFE6)),
+                                  color: AppColors.colorWhite.withOpacity(0.10),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    state.followStatus,
+                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      color: AppColors.colorWhite,
+                                      fontSize: 10.sp,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -150,9 +133,10 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         20.verticalSpace,
-                        (isLiked ?? false)
-                            ? Image.asset(Assets.redHeart)
-                            : Image.asset(Assets.like),
+                        LikeIconWidget(
+                          isLiked: isLiked ?? false,
+                          onTap: () => stateNotifier.likeUnlikePost(() {}, postId ?? ""),
+                        ),
                         15.verticalSpace,
                         Column(children: [
                           Image.asset(Assets.comments),
@@ -167,12 +151,10 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
                           )
                         ]),
                         10.verticalSpace,
-                        (isSaved ?? false)
-                            ? Image.asset(
-                                Assets.saved,
-                                scale: 2,
-                              )
-                            : Image.asset(Assets.bookmark),
+                        SaveIconWidget(
+                          isSaved: isSaved ?? false,
+                          onTap: () => stateNotifier.saveUnsavePost(() {}, postId ?? ""),
+                        ),
                       ],
                     )
                   ],
@@ -275,12 +257,6 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
                   ],
                 ),
                 18.verticalSpace,
-                // state.isCommentLoading
-                //     ? const Center(
-                //         child: CircularProgressIndicator(
-                //         color: AppColors.colorWhite,
-                //       ))
-                //     :
                 comments!.isEmpty
                     ? Center(
                         child: Text("Be the first to comment in this post.",
@@ -288,7 +264,7 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
                               fontSize: 12.sp,
                               color: AppColors.colorPrimaryAlpha,
                             )))
-                    : CommentItem(commentInfoList: comments),
+                    : CommentItem(commentsList: comments),
                 20.verticalSpace,
                 Container(
                   width: double.infinity,
@@ -332,7 +308,7 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
                           onPressed: () async {
                             await stateNotifier.postComment(() async {
                               dismissKeyboard(context);
-                              _fetchPostDetails();
+                              await stateNotifier.getPostFeed();
                             }, postId ?? "");
                           },
                           text: 'Submit',
@@ -347,17 +323,5 @@ class _CommentsPageState extends ConsumerState<PostCommentsPage> {
         ),
       ),
     );
-  }
-
-  Future<void> _fetchPostDetails() async {
-    final followNotifier = ref.read(followNotifierProvider.notifier);
-    await followNotifier.getAllPostsOfOtherUserProfile(
-        () {}, widget.postInfoList.userInfo?.id ?? "");
-    await followNotifier.getOtherPeopleDetails(() {}, widget.postInfoList.userInfo?.id ?? "");
-    final stateNotifier = ref.read(homeNotifierProvider.notifier);
-    await stateNotifier.getPostFeed();
-    final profileNotifier = ref.read(profileNotifierProvider.notifier);
-    await profileNotifier.fetchlikedPosts();
-    await profileNotifier.fetchDislikedPosts();
   }
 }

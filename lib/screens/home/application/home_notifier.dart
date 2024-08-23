@@ -9,25 +9,33 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/application/home_state.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_feed_item.dart';
+import 'package:for_the_table/screens/people_profile/application/follow_notifier.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class HomeNotifier extends StateNotifier<HomeState> {
-  HomeNotifier(this._dio, this._hiveDatabase, this._networkApiService) : super(const HomeState());
+  HomeNotifier(this._dio, this._hiveDatabase, this._networkApiService, this.followNotifier)
+      : super(const HomeState());
 
   // ignore: unused_field
   final Dio _dio;
+  // ignore: unused_field
   final HiveDatabase _hiveDatabase;
   final NetworkApiService _networkApiService;
 
+  FollowNotifier followNotifier;
   TextEditingController commentController = TextEditingController();
   List<SwipeItem> swipeItems = [];
-  List<SwipeItem> swipeItems2 = [];
+  List<SwipeItem> swipeItemsFollowing = [];
   int count = 0;
   MatchEngine? matchEngine;
   MatchEngine? matchEngineFollowing;
 
-  void setIsExpanded() {
+  void toggleIsExpanded() {
     state = state.copyWith(isExpanded: !state.isExpanded);
+  }
+
+  void toggleLikeStatus() {
+    state = state.copyWith(isLiked: !state.isLiked);
   }
 
   void selectButton(int index) {
@@ -42,12 +50,44 @@ class HomeNotifier extends StateNotifier<HomeState> {
     state = state.copyWith(isFollowingPostStackFinished: true);
   }
 
-  final TextEditingController searchTextController = TextEditingController();
-  int totalNumberOfPosts = 0;
+  void assignFollowStatus(bool isFollowing, bool isRequested) {
+    if (isFollowing) {
+      state = state.copyWith(followStatus: 'Unfollow');
+    } else if (isRequested) {
+      state = state.copyWith(followStatus: 'Requested');
+    } else {
+      state = state.copyWith(followStatus: 'Follow');
+    }
+  }
 
-  String? get userId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
-  String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
-  String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  Future<void> onFollowUnfollowButtonPressed(String userId) async {
+    if (state.followStatus == 'Unfollow') {
+      state = state.copyWith(followStatus: 'Follow');
+    } else if (state.followStatus == 'Requested') {
+      state = state.copyWith(followStatus: 'Follow');
+    } else {
+      state = state.copyWith(followStatus: 'Requested');
+    }
+
+    await followNotifier.followUnfollow(() {}, userId);
+  }
+
+  String formatDate(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays > 7) {
+      return '${date.day}/${date.month}/${date.year}';
+    } else if (difference.inDays > 1) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inHours > 1) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inMinutes > 1) {
+      return '${difference.inMinutes} minutes ago';
+    } else {
+      return 'Just now';
+    }
+  }
 
   // void loadMorePosts() async {
   //   if (state.currentPage > state.totalPages) {
@@ -219,6 +259,8 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
           final doubleTapList = List.generate(swipeItems.length, (index) => false);
 
+          matchEngine = MatchEngine(swipeItems: [...swipeItems]);
+
           state = state.copyWith(
             isLoading: false,
             postList: postModel.postList, // i think the problem is here
@@ -227,8 +269,6 @@ class HomeNotifier extends StateNotifier<HomeState> {
             totalPagesAllPosts: postModel.pages ?? 0,
             doubleTapList: doubleTapList,
           );
-
-          matchEngine = MatchEngine(swipeItems: [...state.allSwipeItems]);
         } else {
           showToastMessage(postModel.message.toString());
         }
@@ -257,7 +297,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
       state = state.copyWith(currentPageAllPosts2: state.currentPageAllPosts2 + 1);
     } else {
       state = state.copyWith(currentPageAllPosts2: 1, followingSwipeItems: []);
-      swipeItems2 = [];
+      swipeItemsFollowing = [];
     }
 
     try {
@@ -284,11 +324,11 @@ class HomeNotifier extends StateNotifier<HomeState> {
         }
 
         if (isLoadMore) {
-          swipeItems2.clear();
+          swipeItemsFollowing.clear();
         }
 
         for (int i = 0; i < (postModel.postList?.length ?? 0); i++) {
-          swipeItems2.add(
+          swipeItemsFollowing.add(
             SwipeItem(
               content: PostFeedItem(
                 post: postModel.postList?[i] ?? const Post(),
@@ -318,25 +358,25 @@ class HomeNotifier extends StateNotifier<HomeState> {
         }
 
         if (isLoadMore) {
-          final newSwipeItems = [...state.followingSwipeItems, ...swipeItems2];
+          final newSwipeItems = [...state.followingSwipeItems, ...swipeItemsFollowing];
           state = state.copyWith(isLoading: false, followingSwipeItems: [...newSwipeItems]);
 
-          swipeItems2.clear();
-          swipeItems2.addAll(newSwipeItems);
+          swipeItemsFollowing.clear();
+          swipeItemsFollowing.addAll(newSwipeItems);
 
-          matchEngineFollowing = MatchEngine(swipeItems: [...swipeItems2]);
+          matchEngineFollowing = MatchEngine(swipeItems: [...swipeItemsFollowing]);
           return;
         }
+
+        matchEngineFollowing = MatchEngine(swipeItems: [...swipeItemsFollowing]);
 
         state = state.copyWith(
           isLoading: false,
           postList: postModel.postList, // i think the problem is here
           commentsList: allComments,
-          followingSwipeItems: [...swipeItems2],
+          followingSwipeItems: [...swipeItemsFollowing],
           totalPagesAllPosts: postModel.pages ?? 0,
         );
-
-        matchEngineFollowing = MatchEngine(swipeItems: [...state.followingSwipeItems]);
       }
     } catch (error) {
       AppLog.log("Error fetching post feed: $error");
