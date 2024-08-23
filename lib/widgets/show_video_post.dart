@@ -20,20 +20,20 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
 
   @override
   void initState() {
-    super.initState();
     _initializeVideoPlayer();
+    super.initState();
   }
 
-  Future<void> _initializeVideoPlayer() async {
+  void _initializeVideoPlayer() {
     try {
       _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
         ..addListener(() {
           if (_controller.value.hasError) {
             setState(() {
               _isError = true;
-            });//To replay video automatically
-          } else if (_controller.value.position == _controller.value.duration) {
-            _controller.seekTo(Duration.zero);
+            }); //To replay video automatically
+          } else {
+            // _controller.seekTo(Duration.zero);
             _controller.play();
           }
         })
@@ -78,7 +78,7 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
               );
             },
           )
-        : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
+        : const Center(child: CircularProgressIndicator(color: AppColors.colorCream));
 
     //   return _isVideoLoaded
     //         ? AspectRatio(
