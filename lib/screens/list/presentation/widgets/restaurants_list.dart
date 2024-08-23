@@ -117,4 +117,10 @@ class _RestaurantsListState extends ConsumerState<RestaurantsList> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    ref.read(restaurantNotifierProvider.notifier).dispose();
+    super.dispose();
+  }
 }
