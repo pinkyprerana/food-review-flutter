@@ -108,7 +108,8 @@ class _ListPageState extends ConsumerState<ListPage> {
                     padding: EdgeInsets.zero,
                     onChanged: (val) {
                       stateNotifier.setListIndex(val);
-                      dismissKeyboard(context);
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      followNotifier.clearSearch();
                     },
                     choiceItems: C2Choice.listFrom<int, String>(
                       source: options,
@@ -132,7 +133,8 @@ class _ListPageState extends ConsumerState<ListPage> {
                           selected: isSelected == i,
                           onSelected: (_) {
                             stateNotifier.setListIndex(i);
-                            dismissKeyboard(context);
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            followNotifier.clearSearch();
                           },
                           selectedColor: AppColors.colorBlack2,
                           backgroundColor: AppColors.colorWhite,
