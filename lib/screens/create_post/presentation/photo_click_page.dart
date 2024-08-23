@@ -160,12 +160,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     });
   }
 
-  Future<void> _pickMediaFromGallery() async {
+  Future<void> _pickMediaFromGallery(currentContext) async {
     final picker = ImagePicker();
 
     final pickedType = await showDialog<ImageSource>(
-      context: context,
-      builder: (BuildContext context) {
+      context: currentContext,
+      builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: Text(
             'Select Media Type',
@@ -179,12 +179,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
             children: <Widget>[
               AppButton(
                 text: 'Image',
-                onPressed: () => Navigator.pop(context, ImageSource.gallery),
+                onPressed: () => Navigator.pop(dialogContext, ImageSource.gallery),
               ),
               10.verticalSpace,
               AppButton(
                 text: 'Video',
-                onPressed: () => Navigator.pop(context, ImageSource.gallery),
+                onPressed: () => Navigator.pop(dialogContext, ImageSource.gallery),
               ),
             ],
           ),
@@ -197,8 +197,8 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     XFile? pickedFile;
     if (pickedType == ImageSource.gallery) {
       final isImage = await showDialog<bool>(
-        context: context,
-        builder: (BuildContext context) {
+        context: currentContext,
+        builder: (BuildContext dialogContext) {
           return AlertDialog(
             title: Text(
               'Select Media Type',
@@ -212,12 +212,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
               children: <Widget>[
                 AppButton(
                   text: 'Image',
-                  onPressed: () => Navigator.pop(context, true),
+                  onPressed: () => Navigator.pop(dialogContext, true),
                 ),
                 10.verticalSpace,
                 AppButton(
                   text: 'Video',
-                  onPressed: () => Navigator.pop(context, false),
+                  onPressed: () => Navigator.pop(dialogContext, false),
                 ),
               ],
             ),
@@ -240,12 +240,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
         setState(() {
           videoFile = pickedFile;
         });
-        AutoRouter.of(context).push(CreatePostRoute(file: videoFile));
+        AutoRouter.of(currentContext).push(CreatePostRoute(file: videoFile));
       } else {
         setState(() {
           imageFile = pickedFile;
         });
-        AutoRouter.of(context).push(CreatePostRoute(file: imageFile));
+        AutoRouter.of(currentContext).push(CreatePostRoute(file: imageFile));
       }
     }
   }
@@ -275,12 +275,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
       });
 
       if (_progress >= 1.0) {
-        _stopRecording();
+        _stopRecording(context);
       }
     });
   }
 
-  void _stopRecording() async {
+  void _stopRecording(context) async {
     _timer?.cancel();
     setState(() {
       _isRecording = false;
@@ -367,7 +367,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                 borderRadius: BorderRadius.circular(8.0),
                 child: InkWell(
                   onTap: () async {
-                    await _pickMediaFromGallery();
+                    await _pickMediaFromGallery(context);
                   },
                   child: imageFile == null
                       ? Container(width: 40, height: 40, color: Colors.grey)
@@ -396,7 +396,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                 child: FittedBox(
                   child: GestureDetector(
                     onLongPress: () => _startRecording(),
-                    onLongPressUp: () => _stopRecording(),
+                    onLongPressUp: () => _stopRecording(context),
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
