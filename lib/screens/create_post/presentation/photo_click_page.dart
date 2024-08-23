@@ -35,7 +35,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   double _progress = 0.0;
   bool _isRecording = false;
 
-
   @override
   void initState() {
     // WidgetsBinding.instance.addObserver(this);
@@ -44,7 +43,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
         setState(() {});
       });
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
-      await stateNotifier.getRestaurants(ref:  ref);
+      await stateNotifier.getRestaurants(ref: ref);
       final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
       await preferenceNotifier.getAllPreference();
     });
@@ -271,7 +270,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     // Start the timer for progress indicator
     _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       setState(() {
-        _progress += 0.0066667; // Adjust this increment if needed
+        _progress += 0.0012067; // Adjust this increment if needed
         AppLog.log('Current progress: $_progress');
       });
 
@@ -330,9 +329,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
           elevation: 0.0,
           actions: [
             _isRecording
-            ?Text("${(_progress * 100).toInt().toString()}s",
-                style: AppTextStyles.textStylePoppinsMedium.copyWith(fontSize: 14.sp, color: AppColors.colorWhite,))
-            :const SizedBox(),
+                ? Text("${(_progress * 100).toInt().toString()}s",
+                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                      fontSize: 14.sp,
+                      color: AppColors.colorWhite,
+                    ))
+                : const SizedBox(),
             20.horizontalSpace
           ],
           leading: GestureDetector(
@@ -419,18 +421,18 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
                               borderRadius: BorderRadius.circular(100)),
                           onPressed: !state.isPressed
                               ? () async {
-                            stateNotifier.toggleIsPressedToTrue();
-                            try {
-                              final image = await _controller?.takePicture();
-                              setState(() {
-                                imageFile = image;
-                              });
-                              if (!context.mounted) return;
-                              AutoRouter.of(context).push(CreatePostRoute(file: imageFile));
-                            } finally {
-                              stateNotifier.toggleIsPressedToFalse();
-                            }
-                          }
+                                  stateNotifier.toggleIsPressedToTrue();
+                                  try {
+                                    final image = await _controller?.takePicture();
+                                    setState(() {
+                                      imageFile = image;
+                                    });
+                                    if (!context.mounted) return;
+                                    AutoRouter.of(context).push(CreatePostRoute(file: imageFile));
+                                  } finally {
+                                    stateNotifier.toggleIsPressedToFalse();
+                                  }
+                                }
                               : null,
                         ),
                       ],
@@ -442,7 +444,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
           ],
         ],
       ),
-
     );
   }
 }

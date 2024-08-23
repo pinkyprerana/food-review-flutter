@@ -10,7 +10,7 @@ class VideoPreviewWidget extends ConsumerStatefulWidget {
   const VideoPreviewWidget({super.key, required this.file});
 
   @override
-  _VideoPreviewWidgetState createState() => _VideoPreviewWidgetState();
+  ConsumerState createState() => _VideoPreviewWidgetState();
 }
 
 class _VideoPreviewWidgetState extends ConsumerState<VideoPreviewWidget> {
@@ -39,18 +39,18 @@ class _VideoPreviewWidgetState extends ConsumerState<VideoPreviewWidget> {
         Positioned.fill(
           child: _controller.value.isInitialized
               ? FittedBox(
-            fit: BoxFit.cover, // Ensure the video covers the container
-            child: SizedBox(
-              width: _controller.value.size.width,
-              height: _controller.value.size.height,
-              child: VideoPlayer(_controller),
-            ),
-          )
+                  fit: BoxFit.cover, // Ensure the video covers the container
+                  child: SizedBox(
+                    width: _controller.value.size.width,
+                    height: _controller.value.size.height,
+                    child: VideoPlayer(_controller),
+                  ),
+                )
               : const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.colorPrimary,
-            ),
-          ),
+                  child: CircularProgressIndicator(
+                    color: AppColors.colorPrimary,
+                  ),
+                ),
         ),
       ],
     );

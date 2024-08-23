@@ -57,6 +57,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final pageController = createPostNotifier.pageController;
     var currentPage = ref.watch(createPostNotifierProvider).currentPage;
     final File? media = widget.file != null ? File(widget.file!.path) : null;
+    bool isVideo = (media?.path.toLowerCase().endsWith('.mp4') ?? false) ||
+        (media?.path.toLowerCase().endsWith('.mov') ?? false) ||
+        (media?.path.toLowerCase().endsWith('.avi') ?? false);
 
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
@@ -135,14 +138,14 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       borderRadius: BorderRadius.circular(15),
                       child: media == null
                           ? const Text('No media selected.')
-                          : media.path.endsWith('.mp4')
-                          ? VideoPreviewWidget(file: media)
-                          : Image.file(
-                        File(media.path),
-                        fit: BoxFit.fill,
-                        height: double.infinity,
-                        width: double.infinity,
-                      ), // Display image
+                          : isVideo
+                              ? VideoPreviewWidget(file: media)
+                              : Image.file(
+                                  File(media.path),
+                                  fit: BoxFit.fill,
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                ), // Display image
                     ),
                   ),
                 ),
