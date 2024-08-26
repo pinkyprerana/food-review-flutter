@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/followers_list.dart';
 import 'package:for_the_table/screens/list/presentation/widgets/restaurants_list.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
@@ -37,12 +36,6 @@ class _ListPageState extends ConsumerState<ListPage> {
       await userNotifier.getAllUsersList();
     });
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    dismissKeyboard(context);
-    super.dispose();
   }
 
   int selectedIndex = 0;
