@@ -4,7 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
+import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
+import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
@@ -56,6 +58,9 @@ class _PostDetailsState extends ConsumerState<PostDetails> {
     final state = ref.watch(homeNotifierProvider);
     final bool? isSaved = widget.post.isSave;
     final bool? isLiked = widget.post.isMyLike;
+    final hive = ref.read(hiveProvider);
+    final loggedInUserId = hive.box.get(AppPreferenceKeys.userId);
+    // final deviceSize = MediaQuery.sizeOf(context);
 
     return Container(
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
@@ -75,7 +80,7 @@ class _PostDetailsState extends ConsumerState<PostDetails> {
                   children: [
                     Container(
                       width: 20.w,
-                      height: 20.h,
+                      height: 20.w,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -89,7 +94,8 @@ class _PostDetailsState extends ConsumerState<PostDetails> {
                     ),
                     8.horizontalSpace,
                     Text(
-                      name ?? "",
+                      name != null && name.length > 15 ? '${name.substring(0, 15)}...' : name ?? "",
+                      overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.textStylePoppinsMedium
                           .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                     ),
@@ -97,27 +103,29 @@ class _PostDetailsState extends ConsumerState<PostDetails> {
                 ),
               ),
               8.horizontalSpace,
-              GestureDetector(
-                onTap: () async {
-                  await stateNotifier.onFollowUnfollowButtonPressed(peopleId ?? '');
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(70),
-                    color: AppColors.colorWhite.withOpacity(0.20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      state.followStatus,
-                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                        color: AppColors.colorWhite,
-                        fontSize: 10.sp,
+              if (loggedInUserId != peopleId) ...[
+                GestureDetector(
+                  onTap: () async {
+                    await stateNotifier.onFollowUnfollowButtonPressed(peopleId ?? '');
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(70),
+                      color: AppColors.colorWhite.withOpacity(0.20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        state.followStatus,
+                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorWhite,
+                          fontSize: 10.sp,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )
+              ],
             ],
           ),
           // 15.verticalSpace,

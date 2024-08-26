@@ -247,7 +247,12 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
           if (isLoadMore) {
             final newSwipeItems = [...state.allSwipeItems, ...swipeItems];
-            state = state.copyWith(isLoading: false, allSwipeItems: [...newSwipeItems]);
+            state = state.copyWith(
+              isLoading: false,
+              allSwipeItems: [...newSwipeItems],
+              commentsList: [...state.commentsList ?? [], ...allComments],
+              postList: postModel.postList,
+            );
 
             swipeItems.clear();
             swipeItems.addAll(newSwipeItems);
