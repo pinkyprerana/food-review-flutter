@@ -196,17 +196,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.symmetric(horizontal: 15).r,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: (state.selectedIndex == index)
-                                        ? state.isAllPostStackFinished ||
-                                                state.isFollowingPostStackFinished
-                                            ? AppColors.colorPrimary.withOpacity(0.4)
-                                            : AppColors.colorWhite.withOpacity(0.5)
-                                        : state.isAllPostStackFinished ||
-                                                state.isFollowingPostStackFinished
-                                            ? AppColors.colorPrimary.withOpacity(0.2)
-                                            : AppColors.colorWhite.withOpacity(0.10),
-                                  ),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: (state.selectedIndex == 0
+                                          ? (state.isAllPostStackFinished
+                                              ? AppColors.colorPrimary.withOpacity(0.4)
+                                              : AppColors.colorWhite.withOpacity(0.5))
+                                          : (state.isFollowingPostStackFinished
+                                              ? AppColors.colorPrimary.withOpacity(0.4)
+                                              : AppColors.colorWhite.withOpacity(0.5)))),
                                   child: Text(
                                     buttonTexts[index],
                                     style: AppTextStyles.textStylePoppinsSemiBold
