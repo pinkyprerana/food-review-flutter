@@ -28,6 +28,7 @@ class PostCommentsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeNotifierProvider);
     final stateNotifier = ref.watch(homeNotifierProvider.notifier);
+    final deviceHeight = MediaQuery.sizeOf(context).height;
 
     final String? postId = post.id;
     final String userId = post.userInfo?.id ?? "";
@@ -49,7 +50,7 @@ class PostCommentsPage extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: AppColors.colorCommentPageBg,
         body: SizedBox(
-          height: MediaQuery.sizeOf(context).height,
+          height: deviceHeight,
           child: Stack(
             children: [
               SingleChildScrollView(
@@ -281,7 +282,7 @@ class PostCommentsPage extends ConsumerWidget {
                 right: 0,
                 left: 0,
                 child: Container(
-                  height: 160.h,
+                  height: deviceHeight < 700 ? 173.h : 160.h,
                   width: double.maxFinite,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

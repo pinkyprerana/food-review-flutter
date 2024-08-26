@@ -548,7 +548,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
         url: '${AppUrls.baseUrl}${AppUrls.addComment}',
         body: {
           "post_id": postID,
-          "comment": commentController.text,
+          "comment": commentController.text.trim(),
         },
       );
       state = state.copyWith(isLoading: false);

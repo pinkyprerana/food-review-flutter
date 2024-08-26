@@ -27,6 +27,70 @@ class _CommentItemState extends ConsumerState<CommentItem> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(homeNotifierProvider.notifier);
 
+    // return ListView.builder(
+    //   itemCount: widget.commentsList.length,
+    //   itemBuilder: (context, index) {
+    //     return Row(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Container(
+    //           width: 24.w,
+    //           height: 24.w,
+    //           decoration: BoxDecoration(
+    //             shape: BoxShape.circle,
+    //             image: DecorationImage(
+    //               image: "${AppUrls.profilePicLocation}/${widget.commentsList[index].commentedUserData?.profileImage}" ==
+    //                       '${AppUrls.profilePicLocation}/'
+    //                   ? const AssetImage(Assets.avatar)
+    //                   : CachedNetworkImageProvider(
+    //                       "${AppUrls.profilePicLocation}/${widget.commentsList[index].commentedUserData?.profileImage}"),
+    //               fit: BoxFit.cover,
+    //             ),
+    //           ),
+    //         ),
+    //         5.horizontalSpace,
+    //         Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Text(
+    //               widget.commentsList[index].commentedUserData?.fullName ?? "",
+    //               style: AppTextStyles.textStylePoppinsMedium.copyWith(
+    //                 fontSize: 12.sp,
+    //                 color: AppColors.colorWhite,
+    //               ),
+    //             ),
+    //             4.verticalSpace,
+    //             Text(
+    //               stateNotifier.formatDate(widget.commentsList[index].createdAt ?? DateTime.now()),
+    //               style: AppTextStyles.textStylePoppinsRegular.copyWith(
+    //                 fontSize: 10.sp,
+    //                 color: AppColors.colorWhite.withOpacity(0.70),
+    //               ),
+    //             ),
+    //             8.verticalSpace,
+    //             Text(
+    //               widget.commentsList[index].comment ?? "",
+    //               style: AppTextStyles.textStylePoppinsRegular.copyWith(
+    //                 fontSize: 11.sp,
+    //                 color: AppColors.colorWhite.withOpacity(0.70),
+    //               ),
+    //             ),
+    //             10.verticalSpace,
+    //             Align(
+    //               alignment: Alignment.topLeft,
+    //               child: LikeIconWidget(
+    //                 isLiked: widget.commentsList[index].isCommentLiked ?? false,
+    //                 onTap: () => stateNotifier.postCommentLikeUnlike(
+    //                     () {}, widget.commentsList[index].id ?? ""),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
+
     return Column(
       children: (widget.commentsList).map((commentInfo) {
         return Container(
