@@ -20,11 +20,11 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
 
   @override
   void initState() {
-    _initializeVideoPlayer();
     super.initState();
+    _initializeVideoPlayer();
   }
 
-  void _initializeVideoPlayer() {
+  Future<void> _initializeVideoPlayer() async {
     try {
       _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
         ..addListener(() {
@@ -32,8 +32,8 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
             setState(() {
               _isError = true;
             }); //To replay video automatically
-          } else {
-            // _controller.seekTo(Duration.zero);
+          } else if (_controller.value.position == _controller.value.duration) {
+            _controller.seekTo(Duration.zero);
             _controller.play();
           }
         })
@@ -55,37 +55,26 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
     if (_isError) {
       return const Center(child: Text('Error loading video.'));
     }
+    final videoAspectRatio = _controller.value.aspectRatio;
+    final deviceSize = MediaQuery.sizeOf(context);
+    final screenAspectRatio = deviceSize.width / deviceSize.height;
 
     return _isVideoLoaded
-        ? LayoutBuilder(
-            builder: (context, constraints) {
-              final videoAspectRatio = _controller.value.aspectRatio;
-              final screenAspectRatio = constraints.maxWidth / constraints.maxHeight;
-
-              return Center(
-                child: Container(
-                  width: videoAspectRatio > screenAspectRatio
-                      ? constraints.maxWidth
-                      : constraints.maxHeight * videoAspectRatio,
-                  height: videoAspectRatio > screenAspectRatio
-                      ? constraints.maxWidth / videoAspectRatio
-                      : constraints.maxHeight,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: VideoPlayer(_controller),
-                ),
-              );
-            },
+        ? Center(
+            child: Container(
+              width: videoAspectRatio > screenAspectRatio
+                  ? deviceSize.width
+                  : deviceSize.height * videoAspectRatio,
+              height: videoAspectRatio > screenAspectRatio
+                  ? deviceSize.width / videoAspectRatio
+                  : deviceSize.height,
+              decoration: const BoxDecoration(
+                color: AppColors.colorPrimary,
+              ),
+              child: VideoPlayer(_controller),
+            ),
           )
-        : const Center(child: CircularProgressIndicator(color: AppColors.colorCream));
-
-    //   return _isVideoLoaded
-    //         ? AspectRatio(
-    //           aspectRatio: _controller.value.aspectRatio,
-    //           child: VideoPlayer(_controller),
-    //         )
-    //       : const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,));
+        : const Center(child: CircularProgressIndicator(color: AppColors.colorWhite));
   }
 
   @override
