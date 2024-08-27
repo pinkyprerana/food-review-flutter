@@ -139,20 +139,6 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     }
   }
 
-  // Future<void> _pickImageFromGallery() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //   setState(() {
-  //     imageFile = pickedFile;
-  //   });
-  //
-  //   if (pickedFile != null) {
-  //     if (!mounted) return;
-  //     AutoRouter.of(context).push(CreatePostRoute(file: pickedFile));
-  //   }
-  // }
-
   void _switchCamera() {
     selectedCameraIndex = selectedCameraIndex == 0 ? 1 : 0;
     _initializeCamera().then((_) {
@@ -163,7 +149,9 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
   Future<void> _pickMediaFromGallery(currentContext) async {
     final picker = ImagePicker();
 
-    final pickedType = await showDialog<ImageSource>(
+    XFile? pickedFile;
+
+    final isImage = await showDialog<bool>(
       context: currentContext,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
@@ -179,12 +167,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
             children: <Widget>[
               AppButton(
                 text: 'Image',
-                onPressed: () => Navigator.pop(dialogContext, ImageSource.gallery),
+                onPressed: () => Navigator.pop(dialogContext, true),
               ),
               10.verticalSpace,
               AppButton(
                 text: 'Video',
-                onPressed: () => Navigator.pop(dialogContext, ImageSource.gallery),
+                onPressed: () => Navigator.pop(dialogContext, false),
               ),
             ],
           ),
@@ -192,46 +180,12 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
       },
     );
 
-    if (pickedType == null) return;
+    if (isImage == null) return;
 
-    XFile? pickedFile;
-    if (pickedType == ImageSource.gallery) {
-      final isImage = await showDialog<bool>(
-        context: currentContext,
-        builder: (BuildContext dialogContext) {
-          return AlertDialog(
-            title: Text(
-              'Select Media Type',
-              style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                fontSize: 16.sp,
-                color: AppColors.colorBlack,
-              ),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                AppButton(
-                  text: 'Image',
-                  onPressed: () => Navigator.pop(dialogContext, true),
-                ),
-                10.verticalSpace,
-                AppButton(
-                  text: 'Video',
-                  onPressed: () => Navigator.pop(dialogContext, false),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-
-      if (isImage == null) return;
-
-      if (isImage) {
-        pickedFile = await picker.pickImage(source: pickedType);
-      } else {
-        pickedFile = await picker.pickVideo(source: pickedType);
-      }
+    if (isImage) {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    } else {
+      pickedFile = await picker.pickVideo(source: ImageSource.gallery);
     }
 
     if (pickedFile != null) {

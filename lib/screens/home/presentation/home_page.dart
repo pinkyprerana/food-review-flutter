@@ -56,11 +56,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   "You're all caught up",
                                   style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                     fontSize: 12.sp,
-                                    color: AppColors.colorGrey,
+                                    color: AppColors.colorPrimaryAlpha,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  "You've seen all new posts !",
+                                  "You've seen all new posts!",
                                   style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                     fontSize: 11.sp,
                                     color: AppColors.colorPrimaryAlpha,
@@ -73,7 +74,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               itemBuilder: (BuildContext context, int index) {
                                 if ((state.postList?.length ?? 0) == 0) {
                                   return const Center(
-                                    child: CircularProgressIndicator(color: AppColors.colorPrimary),
+                                    child: CircularProgressIndicator(color: AppColors.colorWhite),
                                   );
                                 }
 
@@ -112,7 +113,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   "You're all caught up",
                                   style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                     fontSize: 12.sp,
-                                    color: AppColors.colorGrey,
+                                    color: AppColors.colorPrimaryAlpha,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
@@ -129,7 +131,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               itemBuilder: (BuildContext context, int index) {
                                 if ((state.postList?.length ?? 0) == 0) {
                                   return const Center(
-                                    child: CircularProgressIndicator(color: AppColors.colorPrimary),
+                                    child: CircularProgressIndicator(color: AppColors.colorWhite),
                                   );
                                 }
 
