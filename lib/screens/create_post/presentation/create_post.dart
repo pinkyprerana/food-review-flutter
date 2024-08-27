@@ -306,417 +306,376 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
     final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
     List<dynamic> cuisineList = allPreferences;
 
-    return SmartRefresher(
-      controller: restaurantNotifier.restaurantRefreshController,
-      enablePullUp: true,
-      enablePullDown: false,
-      onRefresh: () {},
-      onLoading: () {
-        restaurantNotifier.loadMoreRestaurants(context, ref);
-      },
-      footer: CustomFooter(
-        builder: (BuildContext context, mode) {
-          if (!restaurantState.isMoreDataFetchable) {
-            mode = LoadStatus.noMore;
-          }
-          Widget body;
-          if (mode == LoadStatus.idle) {
-            body = const SizedBox.shrink();
-          } else if (mode == LoadStatus.loading) {
-            body = const CupertinoActivityIndicator();
-          } else if (mode == LoadStatus.failed) {
-            body = Text(
-              "Load Failed!Click retry!",
-              style: AppTextStyles.textStylePoppinsLight,
-            );
-          } else if (mode == LoadStatus.canLoading) {
-            body = Text(
-              "release to load more",
-              style: AppTextStyles.textStylePoppinsLight,
-            );
-          } else {
-            body = Text(
-              "No more Data",
-              style: AppTextStyles.textStylePoppinsLight,
-            );
-          }
-          return SizedBox(
-            height: 55.0,
-            child: Center(child: body),
-          );
-        },
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              10.verticalSpace,
-              Row(
-                children: [
-                  Text(
-                    'Post details',
-                    style: AppTextStyles.textStylePoppinsMedium
-                        .copyWith(fontSize: 14.sp, color: AppColors.colorBlack),
-                  ),
-                ],
-              ),
-              10.verticalSpace,
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  createPostNotifier.postTitleTextController.text,
-                  // "Lorem ipsum is a dummy title",
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            10.verticalSpace,
+            Row(
+              children: [
+                Text(
+                  'Post details',
                   style: AppTextStyles.textStylePoppinsMedium
-                      .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
+                      .copyWith(fontSize: 14.sp, color: AppColors.colorBlack),
                 ),
+              ],
+            ),
+            10.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                createPostNotifier.postTitleTextController.text,
+                // "Lorem ipsum is a dummy title",
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
-              10.verticalSpace,
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  createPostNotifier.postDescriptionTextController.text,
-                  // "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
-                  style: AppTextStyles.textStylePoppinsLight
-                      .copyWith(fontSize: 10.sp, color: AppColors.colorBlack2, letterSpacing: 0),
-                ),
+            ),
+            10.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                createPostNotifier.postDescriptionTextController.text,
+                // "Lorem ipsum dolor sit amet consectetur. Turpis ipsum ut eu vestibulum sit. Vitae pulvinar nullam lorem posuere. Commodo nisl suspendisse tincidunt dignissim fames augue metus est. Volutpat risus tristique sed lobortis volutpat dignissim donec. Aliquet.",
+                style: AppTextStyles.textStylePoppinsLight
+                    .copyWith(fontSize: 10.sp, color: AppColors.colorBlack2, letterSpacing: 0),
               ),
-              20.verticalSpace,
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Restaurant Details",
-                  style: AppTextStyles.textStylePoppinsMedium
-                      .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
-                ),
+            ),
+            20.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Restaurant Details",
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
               ),
-              10.verticalSpace,
-              Container(
-                height: 60.r,
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 16).r,
-                decoration: BoxDecoration(
-                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
-                // child: SmartRefresher(
-                //   controller: restaurantNotifier.restaurantRefreshController,
-                //   enablePullUp: true,
-                //   enablePullDown: false,
-                //   onRefresh: () {},
-                //   onLoading: () {
-                //     restaurantNotifier.loadMoreRestaurants(context, ref);
-                //   },
-                //   footer: CustomFooter(
-                //     builder: (BuildContext context, mode) {
-                //       if (!restaurantState.isMoreDataFetchable) {
-                //         mode = LoadStatus.noMore;
-                //       }
-                //       Widget body;
-                //       if (mode == LoadStatus.idle) {
-                //         body = const SizedBox.shrink();
-                //       } else if (mode == LoadStatus.loading) {
-                //         body = const CupertinoActivityIndicator();
-                //       } else if (mode == LoadStatus.failed) {
-                //         body = Text(
-                //           "Load Failed!Click retry!",
-                //           style: AppTextStyles.textStylePoppinsLight,
-                //         );
-                //       } else if (mode == LoadStatus.canLoading) {
-                //         body = Text(
-                //           "release to load more",
-                //           style: AppTextStyles.textStylePoppinsLight,
-                //         );
-                //       } else {
-                //         body = Text(
-                //           "No more Data",
-                //           style: AppTextStyles.textStylePoppinsLight,
-                //         );
-                //       }
-                //       return SizedBox(
-                //         height: 55.0,
-                //         child: Center(child: body),
-                //       );
-                //     },
-                //   ),
-                  child: CupertinoTypeAheadField<Restaurant>(
-                    hideWithKeyboard: false,
-                    controller: createPostNotifier.restaurantNameTextController,
-                    builder: (context, TextEditingController controller, FocusNode focusNode) {
-                      return TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          hintText: "Select Restaurant",
-                          hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                            color: AppColors.colorPrimaryAlpha,
-                          ),
-                          focusedBorder: InputBorder.none,
-                          border: InputBorder.none,
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                        ),
+            ),
+            10.verticalSpace,
+            Container(
+              height: 60.r,
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
+              decoration: BoxDecoration(
+                  color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+              child: SmartRefresher(
+                controller: restaurantNotifier.restaurantRefreshController,
+                enablePullUp: true,
+                enablePullDown: false,
+                onRefresh: () {},
+                onLoading: () async {
+                  await restaurantNotifier.loadMoreRestaurants(context, ref);
+                },
+                footer: CustomFooter(
+                  builder: (BuildContext context, mode) {
+                    if (!restaurantState.isMoreDataFetchable) {
+                      mode = LoadStatus.noMore;
+                    }
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = const SizedBox.shrink();
+                    } else if (mode == LoadStatus.loading) {
+                      body = const CupertinoActivityIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body = Text(
+                        "Load Failed!Click retry!",
+                        style: AppTextStyles.textStylePoppinsLight,
                       );
-                    },
-                    suggestionsCallback: (pattern) {
-                      return restaurantList
-                              ?.where((restaurant) =>
-                                  restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
-                              .toList() ??
-                          [];
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        title: Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                suggestion.name!,
-                                style: AppTextStyles.textStylePoppinsLight
-                                    .copyWith(color: AppColors.colorBlack, fontSize: 10),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    color: AppColors.colorBlack,
-                                    size: 10.h,
-                                  ),
-                                  Text(
-                                    suggestion.address!.length > 40
-                                        ? '${suggestion.address!.substring(0, 40)}...'
-                                        : suggestion.address ?? "",
-                                    style: AppTextStyles.textStylePoppinsRegular
-                                        .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = Text(
+                        "release to load more",
+                        style: AppTextStyles.textStylePoppinsLight,
                       );
-                    },
-                    onSelected: (Restaurant selection) {
-                      selectedRestaurantName = selection.name!;
-                      selectedRestaurantId = selection.id!;
-                      createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                      createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                      createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                      dismissKeyboard(context);
-                      createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                      createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                      createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                      if (createPostNotifier.restaurantNameTextController.text.isEmpty) {
-                        createPostNotifier.restaurantAddressTextController.text = '';
-                      }
-                    },
-                  ),
-                // ),
-              ),
-              10.verticalSpace,
-              Container(
-                height: 60.r,
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 16).r,
-                decoration: BoxDecoration(
-                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
-                child: TextFormField(
-                  enabled: false,
-                  controller: createPostNotifier.restaurantAddressTextController,
-                  // focusNode: ,
-                  // maxLength: ,
-                  decoration: InputDecoration(
-                    counterText: '',
-                    hintText: 'Location',
-                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      color: createPostNotifier.restaurantAddressTextController.text.isEmpty
-                          ? AppColors.colorPrimaryAlpha
-                          : AppColors.colorBlack,
-                    ),
-                    border: InputBorder.none,
-                    // focusedBorder: OutlineInputBorder(
-                    //   borderRadius: BorderRadius.circular(10),
-                    //   borderSide: const BorderSide(color: AppColors.colorPrimary),
-                    // ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  style: AppTextStyles.textStylePoppinsRegular
-                      .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
+                    } else {
+                      body = Text(
+                        "No more Data",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    }
+                    return SizedBox(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
                 ),
-              ),
-              15.verticalSpace,
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Cuisine Details",
-                  style: AppTextStyles.textStylePoppinsMedium
-                      .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
-                ),
-              ),
-              10.verticalSpace,
-
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.all(16).r,
-                height: 56.r,
-                child: DropdownButtonFormField<String>(
-                  dropdownColor: AppColors.colorGrey,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    hintText: "Select Cuisine",
-                    hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      color: AppColors.colorPrimaryAlpha,
-                    ),
-                    focusedBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                  icon: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: AppColors.colorGrey3,
-                  ),
-                  //   items: cuisineName
-                  //       .map((cuisine) => DropdownMenuItem<String>(
-                  //             value: cuisine,
-                  //             child: Text(
-                  //               cuisine,
-                  //               style: AppTextStyles.textStylePoppinsLight.copyWith(
-                  //                   color: AppColors.colorBlack, fontSize: 14),
-                  //             ),
-                  //           ))
-                  //       .toList(),
-                  //   onChanged: (value) {
-                  //     if (value != null) {
-                  //       final selectedCuisine = value;
-                  //       createPostNotifier.postCuisineIdTextController.text =
-                  //           selectedCuisine;
-                  //     }
-                  //   },
-                  // ),
-
-                  items: cuisineList
-                      .map((cuisine) => DropdownMenuItem<String>(
-                            value: cuisine.id,
-                            child: Text(
-                              cuisine.title,
+                child: CupertinoTypeAheadField<Restaurant>(
+                  hideWithKeyboard: false,
+                  controller: createPostNotifier.restaurantNameTextController,
+                  builder: (context, TextEditingController controller, FocusNode focusNode) {
+                    return TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: "Select Restaurant",
+                        hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorPrimaryAlpha,
+                        ),
+                        focusedBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                    );
+                  },
+                  suggestionsCallback: (pattern) {
+                    return restaurantList
+                            ?.where((restaurant) =>
+                                restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
+                            .toList() ??
+                        [];
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              suggestion.name!,
                               style: AppTextStyles.textStylePoppinsLight
-                                  .copyWith(color: AppColors.colorBlack, fontSize: 14),
+                                  .copyWith(color: AppColors.colorBlack, fontSize: 10),
                             ),
-                          ))
-                      .toList(),
-                  onChanged: (String? value) {
-                    if (value != null) {
-                      final selectedCuisine = cuisineList.firstWhere((c) => c.id == value);
-                      createPostNotifier.postCuisineIdTextController.text = selectedCuisine.id;
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: AppColors.colorBlack,
+                                  size: 10.h,
+                                ),
+                                Text(
+                                  suggestion.address!.length > 40
+                                      ? '${suggestion.address!.substring(0, 40)}...'
+                                      : suggestion.address ?? "",
+                                  style: AppTextStyles.textStylePoppinsRegular
+                                      .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  onSelected: (Restaurant selection) {
+                    selectedRestaurantName = selection.name!;
+                    selectedRestaurantId = selection.id!;
+                    createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                    createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                    createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                    dismissKeyboard(context);
+                    createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+                    createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+                    createPostNotifier.restaurantAddressTextController.text = selection.address!;
+                    if (createPostNotifier.restaurantNameTextController.text.isEmpty) {
+                      createPostNotifier.restaurantAddressTextController.text = '';
                     }
                   },
                 ),
               ),
-
-              // Container(
-              //   alignment: Alignment.center,
-              //   decoration: BoxDecoration(
-              //       color: AppColors.colorGrey,
-              //       borderRadius: BorderRadius.circular(10)),
-              //   padding: const EdgeInsets.all(16).r,
-              //   height: 56.r,
-              //   child: DropdownButtonHideUnderline(
-              //     child: DropdownButton2<String>(
-              //     items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
-              //           value: cuisine,
-              //           child: Text(
-              //             cuisine,
-              //             style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
-              //           ),
-              //         )).toList(),
-              //       onChanged: (value) {
-              //             if (value != null) {
-              //               final selectedCuisine = value;
-              //               createPostNotifier.postCuisineTextController.text = selectedCuisine;
-              //             }
-              //           },
-              //     ),
-              //   ),
-              // ),
-
-              20.verticalSpace,
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    'How Was It?',
-                    style: AppTextStyles.textStylePoppinsRegular
-                        .copyWith(fontSize: 10.sp, color: AppColors.colorPrimaryAlpha),
+            ),
+            10.verticalSpace,
+            Container(
+              height: 60.r,
+              width: double.infinity,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 16).r,
+              decoration: BoxDecoration(
+                  color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+              child: TextFormField(
+                enabled: false,
+                controller: createPostNotifier.restaurantAddressTextController,
+                // focusNode: ,
+                // maxLength: ,
+                decoration: InputDecoration(
+                  counterText: '',
+                  hintText: 'Location',
+                  hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    color: createPostNotifier.restaurantAddressTextController.text.isEmpty
+                        ? AppColors.colorPrimaryAlpha
+                        : AppColors.colorBlack,
                   ),
+                  border: InputBorder.none,
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   borderSide: const BorderSide(color: AppColors.colorPrimary),
+                  // ),
+                ),
+                keyboardType: TextInputType.text,
+                style: AppTextStyles.textStylePoppinsRegular
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
+              ),
+            ),
+            15.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Cuisine Details",
+                style: AppTextStyles.textStylePoppinsMedium
+                    .copyWith(fontSize: 12.sp, color: AppColors.colorBlack),
+              ),
+            ),
+            10.verticalSpace,
+
+            Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.all(16).r,
+              height: 56.r,
+              child: DropdownButtonFormField<String>(
+                dropdownColor: AppColors.colorGrey,
+                decoration: InputDecoration(
+                  isDense: true,
+                  hintText: "Select Cuisine",
+                  hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                    color: AppColors.colorPrimaryAlpha,
+                  ),
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: AppColors.colorGrey3,
+                ),
+                //   items: cuisineName
+                //       .map((cuisine) => DropdownMenuItem<String>(
+                //             value: cuisine,
+                //             child: Text(
+                //               cuisine,
+                //               style: AppTextStyles.textStylePoppinsLight.copyWith(
+                //                   color: AppColors.colorBlack, fontSize: 14),
+                //             ),
+                //           ))
+                //       .toList(),
+                //   onChanged: (value) {
+                //     if (value != null) {
+                //       final selectedCuisine = value;
+                //       createPostNotifier.postCuisineIdTextController.text =
+                //           selectedCuisine;
+                //     }
+                //   },
+                // ),
+
+                items: cuisineList
+                    .map((cuisine) => DropdownMenuItem<String>(
+                          value: cuisine.id,
+                          child: Text(
+                            cuisine.title,
+                            style: AppTextStyles.textStylePoppinsLight
+                                .copyWith(color: AppColors.colorBlack, fontSize: 14),
+                          ),
+                        ))
+                    .toList(),
+                onChanged: (String? value) {
+                  if (value != null) {
+                    final selectedCuisine = cuisineList.firstWhere((c) => c.id == value);
+                    createPostNotifier.postCuisineIdTextController.text = selectedCuisine.id;
+                  }
+                },
+              ),
+            ),
+
+            // Container(
+            //   alignment: Alignment.center,
+            //   decoration: BoxDecoration(
+            //       color: AppColors.colorGrey,
+            //       borderRadius: BorderRadius.circular(10)),
+            //   padding: const EdgeInsets.all(16).r,
+            //   height: 56.r,
+            //   child: DropdownButtonHideUnderline(
+            //     child: DropdownButton2<String>(
+            //     items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
+            //           value: cuisine,
+            //           child: Text(
+            //             cuisine,
+            //             style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
+            //           ),
+            //         )).toList(),
+            //       onChanged: (value) {
+            //             if (value != null) {
+            //               final selectedCuisine = value;
+            //               createPostNotifier.postCuisineTextController.text = selectedCuisine;
+            //             }
+            //           },
+            //     ),
+            //   ),
+            // ),
+
+            20.verticalSpace,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  'How Was It?',
+                  style: AppTextStyles.textStylePoppinsRegular
+                      .copyWith(fontSize: 10.sp, color: AppColors.colorPrimaryAlpha),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  TextButton.icon(
-                    onPressed: () => createPostNotifier.selectedReview("like"),
-                    label: Text(
-                      'Liked it',
-                      style: AppTextStyles.textStylePoppins.copyWith(
-                          fontSize: 12.sp,
-                          color: createPostNotifier.postHowWasItTextController.text == "like"
-                              ? AppColors.colorGreen
-                              : AppColors.colorPrimaryAlpha),
-                    ),
-                    icon: Image.asset(Assets.likedIt,
-                        height: 20,
-                        width: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextButton.icon(
+                  onPressed: () => createPostNotifier.selectedReview("like"),
+                  label: Text(
+                    'Liked it',
+                    style: AppTextStyles.textStylePoppins.copyWith(
+                        fontSize: 12.sp,
                         color: createPostNotifier.postHowWasItTextController.text == "like"
                             ? AppColors.colorGreen
-                            : AppColors.colorBlack),
+                            : AppColors.colorPrimaryAlpha),
                   ),
-                  TextButton.icon(
-                    onPressed: () => createPostNotifier.selectedReview("fine"),
-                    label: Text(
-                      'Fine',
-                      style: AppTextStyles.textStylePoppins.copyWith(
-                          fontSize: 12.sp,
-                          color: createPostNotifier.postHowWasItTextController.text == "fine"
-                              ? AppColors.colorRatingStar
-                              : AppColors.colorPrimaryAlpha),
-                    ),
-                    icon: Image.asset(Assets.fine,
-                        height: 20,
-                        width: 20,
+                  icon: Image.asset(Assets.likedIt,
+                      height: 20,
+                      width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "like"
+                          ? AppColors.colorGreen
+                          : AppColors.colorBlack),
+                ),
+                TextButton.icon(
+                  onPressed: () => createPostNotifier.selectedReview("fine"),
+                  label: Text(
+                    'Fine',
+                    style: AppTextStyles.textStylePoppins.copyWith(
+                        fontSize: 12.sp,
                         color: createPostNotifier.postHowWasItTextController.text == "fine"
                             ? AppColors.colorRatingStar
-                            : AppColors.colorBlack),
+                            : AppColors.colorPrimaryAlpha),
                   ),
-                  TextButton.icon(
-                    onPressed: () => createPostNotifier.selectedReview("not_like"),
-                    label: Text(
-                      'Didn\'t Like',
-                      style: AppTextStyles.textStylePoppins.copyWith(
-                          fontSize: 12.sp,
-                          color: createPostNotifier.postHowWasItTextController.text == "not_like"
-                              ? AppColors.colorRed
-                              : AppColors.colorPrimaryAlpha),
-                    ),
-                    icon: Image.asset(Assets.didnotLike,
-                        height: 20,
-                        width: 20,
+                  icon: Image.asset(Assets.fine,
+                      height: 20,
+                      width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "fine"
+                          ? AppColors.colorRatingStar
+                          : AppColors.colorBlack),
+                ),
+                TextButton.icon(
+                  onPressed: () => createPostNotifier.selectedReview("not_like"),
+                  label: Text(
+                    'Didn\'t Like',
+                    style: AppTextStyles.textStylePoppins.copyWith(
+                        fontSize: 12.sp,
                         color: createPostNotifier.postHowWasItTextController.text == "not_like"
                             ? AppColors.colorRed
-                            : AppColors.colorBlack),
+                            : AppColors.colorPrimaryAlpha),
                   ),
-                ],
-              ),
-              20.verticalSpace
-            ],
-          ),
+                  icon: Image.asset(Assets.didnotLike,
+                      height: 20,
+                      width: 20,
+                      color: createPostNotifier.postHowWasItTextController.text == "not_like"
+                          ? AppColors.colorRed
+                          : AppColors.colorBlack),
+                ),
+              ],
+            ),
+            20.verticalSpace
+          ],
         ),
       ),
     );

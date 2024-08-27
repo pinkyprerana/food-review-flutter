@@ -17,8 +17,9 @@ class BottomNavigation extends ConsumerStatefulWidget {
 class _BottomNavigationState extends ConsumerState<BottomNavigation> {
   Future<void> _checkPermissions({required VoidCallback onSuccess}) async {
     final cameraStatus = await Permission.camera.request();
+    final micStatus = await Permission.microphone.request();
 
-    if (cameraStatus.isGranted) {
+    if (cameraStatus.isGranted && micStatus.isGranted) {
       onSuccess();
     } else {
       _showPermissionDialog();
@@ -29,9 +30,9 @@ class _BottomNavigationState extends ConsumerState<BottomNavigation> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Camera Permission'),
+        title: const Text('Camera and audio Permission'),
         content: const Text(
-          'Camera and files access are required to use this feature. Please enable them in the app settings.',
+          'Camera, files access and audio permissions are required to use this feature. Please enable them in the app settings.',
         ),
         actions: [
           TextButton(

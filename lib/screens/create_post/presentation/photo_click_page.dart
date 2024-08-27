@@ -37,11 +37,14 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
 
   @override
   void initState() {
+    _initializeCamera().then((_) {
+      setState(() {});
+    });
     // WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((time) async {
-      _initializeCamera().then((_) {
-        setState(() {});
-      });
+      // _initializeCamera().then((_) {
+      //   setState(() {});
+      // });
       final stateNotifier = ref.read(restaurantNotifierProvider.notifier);
       await stateNotifier.getRestaurants(ref: ref);
       final preferenceNotifier = ref.read(preferenceNotifierProvider.notifier);
@@ -277,6 +280,7 @@ class _PhotoClickPageState extends ConsumerState<PhotoClickPage> {
     final stateNotifier = ref.watch(createPostNotifierProvider.notifier);
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
