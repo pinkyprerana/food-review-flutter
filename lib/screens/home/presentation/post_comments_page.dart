@@ -278,7 +278,7 @@ class PostCommentsPage extends ConsumerWidget {
                 ),
               ),
               Positioned(
-                bottom: 0,
+                bottom: 10,
                 right: 0,
                 left: 0,
                 child: Container(

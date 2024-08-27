@@ -84,7 +84,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 // currently, this function is not working. the last empty page
                                 // is triggered from itemChanged()
                                 if (state.allSwipeItems.isEmpty) {
-                                  ref.read(homeNotifierProvider.notifier).emptyAllPosts();
+                                  stateNotifier.emptyAllPosts();
                                 }
                                 //else {
                                 //   stateNotifier.matchEngine =
@@ -92,6 +92,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 // }
                               },
                               itemChanged: (SwipeItem item, int index) {
+                                print('allSwipeItems: ${state.allSwipeItems.length}');
                                 if (state.allSwipeItems.length == 2) {
                                   stateNotifier.emptyAllPosts();
                                 } else if (state.allSwipeItems.length == 8) {

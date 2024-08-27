@@ -190,6 +190,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
         url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}',
         body: {
           "list_type": "list",
+          "view_type": "list",
           "perpage": 10,
           "page": state.currentPageAllPosts,
         },
@@ -203,6 +204,12 @@ class HomeNotifier extends StateNotifier<HomeState> {
         state = state.copyWith(isLoading: false);
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
+
+        if (postModel.postList?.isEmpty ?? false) {
+          emptyAllPosts();
+          state = state.copyWith(isLoading: false);
+          return;
+        }
 
         if (postModel.status == 200) {
           List<Comment> allComments = [];
@@ -319,6 +326,12 @@ class HomeNotifier extends StateNotifier<HomeState> {
         showDioError(dioException);
       } else {
         PostModel postModel = PostModel.fromJson(response.data);
+
+        if (postModel.postList?.isEmpty ?? false) {
+          emptyFollowingPosts();
+          state = state.copyWith(isLoading: false);
+          return;
+        }
 
         List<Comment> allComments = [];
 
