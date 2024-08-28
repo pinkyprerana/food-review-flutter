@@ -28,6 +28,7 @@ class HomeState with _$HomeState {
     @Default(1) int currentPageAllPosts,
     @Default(1) int currentPageAllPosts2,
     @Default(1) int totalPagesAllPosts,
+    @Default(false) bool postDetailsIsLoading,
   }) = _HomeState;
 
   const HomeState._();

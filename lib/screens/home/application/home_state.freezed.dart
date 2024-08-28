@@ -37,6 +37,7 @@ mixin _$HomeState {
   int get currentPageAllPosts => throw _privateConstructorUsedError;
   int get currentPageAllPosts2 => throw _privateConstructorUsedError;
   int get totalPagesAllPosts => throw _privateConstructorUsedError;
+  bool get postDetailsIsLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -69,7 +70,8 @@ abstract class $HomeStateCopyWith<$Res> {
       int totalPages,
       int currentPageAllPosts,
       int currentPageAllPosts2,
-      int totalPagesAllPosts});
+      int totalPagesAllPosts,
+      bool postDetailsIsLoading});
 }
 
 /// @nodoc
@@ -106,6 +108,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? currentPageAllPosts = null,
     Object? currentPageAllPosts2 = null,
     Object? totalPagesAllPosts = null,
+    Object? postDetailsIsLoading = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -192,6 +195,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.totalPagesAllPosts
           : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      postDetailsIsLoading: null == postDetailsIsLoading
+          ? _value.postDetailsIsLoading
+          : postDetailsIsLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -225,7 +232,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       int totalPages,
       int currentPageAllPosts,
       int currentPageAllPosts2,
-      int totalPagesAllPosts});
+      int totalPagesAllPosts,
+      bool postDetailsIsLoading});
 }
 
 /// @nodoc
@@ -260,6 +268,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? currentPageAllPosts = null,
     Object? currentPageAllPosts2 = null,
     Object? totalPagesAllPosts = null,
+    Object? postDetailsIsLoading = null,
   }) {
     return _then(_$HomeStateImpl(
       isLoading: null == isLoading
@@ -346,6 +355,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.totalPagesAllPosts
           : totalPagesAllPosts // ignore: cast_nullable_to_non_nullable
               as int,
+      postDetailsIsLoading: null == postDetailsIsLoading
+          ? _value.postDetailsIsLoading
+          : postDetailsIsLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -374,7 +387,8 @@ class _$HomeStateImpl extends _HomeState {
       this.totalPages = 1,
       this.currentPageAllPosts = 1,
       this.currentPageAllPosts2 = 1,
-      this.totalPagesAllPosts = 1})
+      this.totalPagesAllPosts = 1,
+      this.postDetailsIsLoading = false})
       : _allSwipeItems = allSwipeItems,
         _followingSwipeItems = followingSwipeItems,
         _commentsList = commentsList,
@@ -480,10 +494,13 @@ class _$HomeStateImpl extends _HomeState {
   @override
   @JsonKey()
   final int totalPagesAllPosts;
+  @override
+  @JsonKey()
+  final bool postDetailsIsLoading;
 
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, followStatus: $followStatus, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, selectedIndex: $selectedIndex, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts)';
+    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, followStatus: $followStatus, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, selectedIndex: $selectedIndex, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts, postDetailsIsLoading: $postDetailsIsLoading)';
   }
 
   @override
@@ -532,7 +549,9 @@ class _$HomeStateImpl extends _HomeState {
             (identical(other.currentPageAllPosts2, currentPageAllPosts2) ||
                 other.currentPageAllPosts2 == currentPageAllPosts2) &&
             (identical(other.totalPagesAllPosts, totalPagesAllPosts) ||
-                other.totalPagesAllPosts == totalPagesAllPosts));
+                other.totalPagesAllPosts == totalPagesAllPosts) &&
+            (identical(other.postDetailsIsLoading, postDetailsIsLoading) ||
+                other.postDetailsIsLoading == postDetailsIsLoading));
   }
 
   @override
@@ -558,7 +577,8 @@ class _$HomeStateImpl extends _HomeState {
         totalPages,
         currentPageAllPosts,
         currentPageAllPosts2,
-        totalPagesAllPosts
+        totalPagesAllPosts,
+        postDetailsIsLoading
       ]);
 
   @JsonKey(ignore: true)
@@ -590,7 +610,8 @@ abstract class _HomeState extends HomeState {
       final int totalPages,
       final int currentPageAllPosts,
       final int currentPageAllPosts2,
-      final int totalPagesAllPosts}) = _$HomeStateImpl;
+      final int totalPagesAllPosts,
+      final bool postDetailsIsLoading}) = _$HomeStateImpl;
   const _HomeState._() : super._();
 
   @override
@@ -635,6 +656,8 @@ abstract class _HomeState extends HomeState {
   int get currentPageAllPosts2;
   @override
   int get totalPagesAllPosts;
+  @override
+  bool get postDetailsIsLoading;
   @override
   @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
