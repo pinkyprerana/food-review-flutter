@@ -40,8 +40,12 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
-      _isLike = await postFeedNotifier.getPostDetails(widget.post.id ?? '');
+      final stateNotifier = ref.read(homeNotifierProvider.notifier);
+      stateNotifier.assignFollowStatus(
+        widget.post.isFollowing ?? false,
+        widget.post.isFollowingRequest ?? false,
+      );
+      _isLike = await stateNotifier.getPostDetails(widget.post.id ?? '');
     });
     super.initState();
   }
@@ -74,7 +78,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
     final String? postId = widget.post.id;
     final bool? isFollowing = widget.post.isFollowing;
     final bool? isRequested = widget.post.isFollowingRequest;
-    // final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    // final stateNotifier = ref.watch(stateNotifierProvider.notifier);
     final bool? isSaved = widget.post.isSave;
     final bool? isLiked = widget.post.isMyLike;
     final String? restaurantRating = widget.post.restaurantInfo?.rating;
@@ -140,9 +144,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                     // PostDetails(post: widget.post),
                     (state.isExpanded)
                         ? Container(
-                            padding: const EdgeInsets.only(
-                                    top: 15, left: 15, right: 15, bottom: 10)
-                                .r,
+                            padding:
+                                const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
                             width: double.infinity,
                             child: Column(
                               children: [
@@ -151,8 +154,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        AutoRouter.of(context)
-                                            .push(PeopleProfileRoute(
+                                        AutoRouter.of(context).push(PeopleProfileRoute(
                                           peopleId: peopleId ?? "",
                                         ));
                                       },
@@ -166,8 +168,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 image: DecorationImage(
                                                   image: profileImage ==
                                                           '${AppUrls.profilePicLocation}/'
-                                                      ? const AssetImage(
-                                                          Assets.noProfileImage)
+                                                      ? const AssetImage(Assets.noProfileImage)
                                                       : NetworkImage(
                                                           profileImage,
                                                         ),
@@ -180,12 +181,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 ? '${name.substring(0, 15)}...'
                                                 : name ?? "",
                                             overflow: TextOverflow.ellipsis,
-                                            style: AppTextStyles
-                                                .textStylePoppinsMedium
-                                                .copyWith(
-                                                    fontSize: 16.sp,
-                                                    color:
-                                                        AppColors.colorWhite),
+                                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                                fontSize: 16.sp, color: AppColors.colorWhite),
                                           ),
                                         ],
                                       ),
@@ -195,23 +192,18 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                       GestureDetector(
                                         onTap: () async {
                                           await stateNotifier
-                                              .onFollowUnfollowButtonPressed(
-                                                  peopleId ?? '');
+                                              .onFollowUnfollowButtonPressed(peopleId ?? '');
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(70),
-                                            color: AppColors.colorWhite
-                                                .withOpacity(0.20),
+                                            borderRadius: BorderRadius.circular(70),
+                                            color: AppColors.colorWhite.withOpacity(0.20),
                                           ),
                                           child: Center(
                                             child: Text(
                                               state.followStatus,
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
+                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                                 color: AppColors.colorWhite,
                                                 fontSize: 10.sp,
                                               ),
@@ -224,36 +216,28 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                 ),
                                 // 15.verticalSpace,
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         15.verticalSpace,
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Container(
                                               padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(70),
-                                                color: const Color(0xffACE9B6)
-                                                    .withOpacity(0.31),
+                                                borderRadius: BorderRadius.circular(70),
+                                                color: const Color(0xffACE9B6).withOpacity(0.31),
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  cuisine ??
-                                                      "", //'Chinese Cuisine',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
+                                                  cuisine ?? "", //'Chinese Cuisine',
+                                                  style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     color:
-                                                        const Color(0xff6BCE7B)
-                                                            .withOpacity(0.85),
+                                                        const Color(0xff6BCE7B).withOpacity(0.85),
                                                     fontSize: 10.sp,
                                                   ),
                                                 ),
@@ -264,35 +248,29 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                         ),
                                         8.verticalSpace,
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Image.asset(
                                               Assets.location2,
                                             ),
                                             8.horizontalSpace,
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  restaurantName ??
-                                                      "Restaurant name not available",
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsMedium
-                                                      .copyWith(
+                                                  restaurantName ?? "Restaurant name not available",
+                                                  style:
+                                                      AppTextStyles.textStylePoppinsMedium.copyWith(
                                                     fontSize: 13.sp,
                                                     color: AppColors.colorWhite,
                                                   ),
                                                 ),
                                                 Text(
-                                                  address != null &&
-                                                          address.length > 40
+                                                  address != null && address.length > 40
                                                       ? '${address.substring(0, 40)}...'
                                                       : address ??
                                                           'Restaurant address not available',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
+                                                  style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     fontSize: 10.sp,
                                                     color: AppColors.colorWhite,
@@ -318,16 +296,15 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                   _isLike = !_isLike;
                                                 });
                                               }
-                                              stateNotifier.likeUnlikePost(
-                                                  () {}, postId ?? "");
+                                              stateNotifier.likeUnlikePost(() {}, postId ?? "");
                                             },
                                             child: (_isLike || _isFavorite)
                                                 ? Image.asset(Assets.redHeart)
                                                 : Image.asset(Assets.like)),
                                         15.verticalSpace,
                                         GestureDetector(
-                                          onTap: () => AutoRouter.of(context)
-                                              .push(PostCommentsRoute(
+                                          onTap: () =>
+                                              AutoRouter.of(context).push(PostCommentsRoute(
                                             post: widget.post,
                                           )),
                                           child: Column(
@@ -337,9 +314,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 ((commentCount ?? 0) > 9)
                                                     ? commentCount.toString()
                                                     : "0${commentCount.toString()}",
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
+                                                style:
+                                                    AppTextStyles.textStylePoppinsRegular.copyWith(
                                                   color: AppColors.colorWhite,
                                                   fontSize: 10.sp,
                                                 ),
@@ -351,8 +327,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                         SaveIcon(
                                           isSaved: isSaved ?? false,
                                           onTap: () =>
-                                              stateNotifier.saveUnsavePost(
-                                                  () {}, postId ?? ""),
+                                              stateNotifier.saveUnsavePost(() {}, postId ?? ""),
                                         ),
                                       ],
                                     )
@@ -373,25 +348,20 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                       5.horizontalSpace,
                                       Text(
                                         restaurantRating ?? "",
-                                        style: AppTextStyles
-                                            .textStylePoppinsRegular
-                                            .copyWith(
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           fontSize: 10.sp,
                                           color: AppColors.colorWhite,
                                         ),
                                       ),
                                       15.horizontalSpace,
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5.0),
+                                        padding: const EdgeInsets.only(bottom: 5.0),
                                         child: Image.asset(Assets.price),
                                       ),
                                       8.horizontalSpace,
                                       Text(
                                         '\$100 For 2',
-                                        style: AppTextStyles
-                                            .textStylePoppinsRegular
-                                            .copyWith(
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           fontSize: 10.sp,
                                           color: AppColors.colorWhite,
                                         ),
@@ -403,12 +373,10 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    description ??
-                                        "", //'A memorable evening to be remembered.',
+                                    description ?? "", //'A memorable evening to be remembered.',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(
+                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                       fontSize: 13.sp,
                                       color: AppColors.colorWhite,
                                     ),
@@ -418,9 +386,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                             ),
                           )
                         : Container(
-                            padding: const EdgeInsets.only(
-                                    top: 15, left: 15, right: 15, bottom: 10)
-                                .r,
+                            padding:
+                                const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10).r,
                             width: double.infinity,
                             child: Column(
                               children: [
@@ -429,8 +396,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        AutoRouter.of(context)
-                                            .push(PeopleProfileRoute(
+                                        AutoRouter.of(context).push(PeopleProfileRoute(
                                           peopleId: peopleId ?? "",
                                         ));
                                       },
@@ -444,8 +410,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 image: DecorationImage(
                                                   image: profileImage ==
                                                           '${AppUrls.profilePicLocation}/'
-                                                      ? const AssetImage(
-                                                          Assets.noProfileImage)
+                                                      ? const AssetImage(Assets.noProfileImage)
                                                       : NetworkImage(
                                                           profileImage,
                                                         ),
@@ -458,12 +423,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 ? '${name.substring(0, 15)}...'
                                                 : name ?? "",
                                             overflow: TextOverflow.ellipsis,
-                                            style: AppTextStyles
-                                                .textStylePoppinsMedium
-                                                .copyWith(
-                                                    fontSize: 16.sp,
-                                                    color:
-                                                        AppColors.colorWhite),
+                                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                                fontSize: 16.sp, color: AppColors.colorWhite),
                                           ),
                                         ],
                                       ),
@@ -473,23 +434,18 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                       GestureDetector(
                                         onTap: () async {
                                           await stateNotifier
-                                              .onFollowUnfollowButtonPressed(
-                                                  peopleId ?? '');
+                                              .onFollowUnfollowButtonPressed(peopleId ?? '');
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(70),
-                                            color: AppColors.colorWhite
-                                                .withOpacity(0.20),
+                                            borderRadius: BorderRadius.circular(70),
+                                            color: AppColors.colorWhite.withOpacity(0.20),
                                           ),
                                           child: Center(
                                             child: Text(
                                               state.followStatus,
-                                              style: AppTextStyles
-                                                  .textStylePoppinsRegular
-                                                  .copyWith(
+                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                                 color: AppColors.colorWhite,
                                                 fontSize: 10.sp,
                                               ),
@@ -502,36 +458,28 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                 ),
                                 // 15.verticalSpace,
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         15.verticalSpace,
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Container(
                                               padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(70),
-                                                color: const Color(0xffACE9B6)
-                                                    .withOpacity(0.31),
+                                                borderRadius: BorderRadius.circular(70),
+                                                color: const Color(0xffACE9B6).withOpacity(0.31),
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  cuisine ??
-                                                      "", //'Chinese Cuisine',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
+                                                  cuisine ?? "", //'Chinese Cuisine',
+                                                  style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     color:
-                                                        const Color(0xff6BCE7B)
-                                                            .withOpacity(0.85),
+                                                        const Color(0xff6BCE7B).withOpacity(0.85),
                                                     fontSize: 10.sp,
                                                   ),
                                                 ),
@@ -542,35 +490,29 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                         ),
                                         8.verticalSpace,
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Image.asset(
                                               Assets.location2,
                                             ),
                                             8.horizontalSpace,
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  restaurantName ??
-                                                      "Restaurant name not available",
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsMedium
-                                                      .copyWith(
+                                                  restaurantName ?? "Restaurant name not available",
+                                                  style:
+                                                      AppTextStyles.textStylePoppinsMedium.copyWith(
                                                     fontSize: 13.sp,
                                                     color: AppColors.colorWhite,
                                                   ),
                                                 ),
                                                 Text(
-                                                  address != null &&
-                                                          address.length > 40
+                                                  address != null && address.length > 40
                                                       ? '${address.substring(0, 40)}...'
                                                       : address ??
                                                           'Restaurant address not available',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
+                                                  style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     fontSize: 10.sp,
                                                     color: AppColors.colorWhite,
@@ -596,16 +538,15 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                   _isLike = !_isLike;
                                                 });
                                               }
-                                              stateNotifier.likeUnlikePost(
-                                                  () {}, postId ?? "");
+                                              stateNotifier.likeUnlikePost(() {}, postId ?? "");
                                             },
                                             child: (_isLike || _isFavorite)
                                                 ? Image.asset(Assets.redHeart)
                                                 : Image.asset(Assets.like)),
                                         15.verticalSpace,
                                         GestureDetector(
-                                          onTap: () => AutoRouter.of(context)
-                                              .push(PostCommentsRoute(
+                                          onTap: () =>
+                                              AutoRouter.of(context).push(PostCommentsRoute(
                                             post: widget.post,
                                           )),
                                           child: Column(
@@ -615,9 +556,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 ((commentCount ?? 0) > 9)
                                                     ? commentCount.toString()
                                                     : "0${commentCount.toString()}",
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
+                                                style:
+                                                    AppTextStyles.textStylePoppinsRegular.copyWith(
                                                   color: AppColors.colorWhite,
                                                   fontSize: 10.sp,
                                                 ),
@@ -629,8 +569,7 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                         SaveIcon(
                                           isSaved: isSaved ?? false,
                                           onTap: () =>
-                                              stateNotifier.saveUnsavePost(
-                                                  () {}, postId ?? ""),
+                                              stateNotifier.saveUnsavePost(() {}, postId ?? ""),
                                         ),
                                       ],
                                     )
@@ -651,25 +590,20 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                       5.horizontalSpace,
                                       Text(
                                         restaurantRating ?? "",
-                                        style: AppTextStyles
-                                            .textStylePoppinsRegular
-                                            .copyWith(
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           fontSize: 10.sp,
                                           color: AppColors.colorWhite,
                                         ),
                                       ),
                                       15.horizontalSpace,
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5.0),
+                                        padding: const EdgeInsets.only(bottom: 5.0),
                                         child: Image.asset(Assets.price),
                                       ),
                                       8.horizontalSpace,
                                       Text(
                                         '\$100 For 2',
-                                        style: AppTextStyles
-                                            .textStylePoppinsRegular
-                                            .copyWith(
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           fontSize: 10.sp,
                                           color: AppColors.colorWhite,
                                         ),
@@ -681,12 +615,10 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    description ??
-                                        "", //'A memorable evening to be remembered.',
+                                    description ?? "", //'A memorable evening to be remembered.',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(
+                                    style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                       fontSize: 13.sp,
                                       color: AppColors.colorWhite,
                                     ),
