@@ -79,6 +79,8 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
     final bool? isLiked = widget.post.isMyLike;
     final String? restaurantRating = widget.post.restaurantInfo?.rating;
     final String? title = widget.post.title;
+    final hive = ref.read(hiveProvider);
+    final loggedInUserId = hive.box.get(AppPreferenceKeys.userId);
 
     final String mediaUrl = "${AppUrls.postImageLocation}${widget.post.file}";
 
@@ -138,272 +140,6 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                     // PostDetails(post: widget.post),
                     (state.isExpanded)
                         ? Container(
-                            color: Colors.transparent,
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10).r,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            AutoRouter.of(context)
-                                                .push(PeopleProfileRoute(
-                                              // peoplename: name ?? "", //'Ahmad Gouse',
-                                              // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
-                                              peopleId: peopleId ?? "",
-                                              //   isFollow: true,
-                                              // isRequested: false,
-                                              // isFollowing: false,
-                                            ));
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: 20.w,
-                                                height: 20.h,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                      image: profileImage ==
-                                                              '${AppUrls.profilePicLocation}/'
-                                                          ? const AssetImage(
-                                                              Assets
-                                                                  .noProfileImage)
-                                                          : NetworkImage(
-                                                              profileImage,
-                                                            ),
-                                                      fit: BoxFit.cover,
-                                                    )),
-                                              ),
-                                              8.horizontalSpace,
-                                              Text(
-                                                name ?? "", //'Ahmad Gouse',
-                                                style: AppTextStyles
-                                                    .textStylePoppinsMedium
-                                                    .copyWith(
-                                                        fontSize: 16.sp,
-                                                        color: AppColors
-                                                            .colorWhite),
-                                              ),
-                                              8.horizontalSpace,
-                                              GestureDetector(
-                                                onTap: () {
-                                                  _handleFollowUnfollowButtonPressed(
-                                                      peopleId);
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            70),
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: const Color(
-                                                            0xffDDDFE6)),
-                                                    color: AppColors.colorWhite
-                                                        .withOpacity(0.20),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      (isFollowing ?? false)
-                                                          ? 'Unfollow'
-                                                          : (isRequested ??
-                                                                  false)
-                                                              ? 'Requested'
-                                                              : 'Follow',
-                                                      style: AppTextStyles
-                                                          .textStylePoppinsRegular
-                                                          .copyWith(
-                                                        color: AppColors
-                                                            .colorWhite,
-                                                        fontSize: 10.sp,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        20.verticalSpace,
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              Assets.location2,
-                                            ),
-                                            8.horizontalSpace,
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  restaurantName ??
-                                                      "Restaurant name not available",
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsMedium
-                                                      .copyWith(
-                                                    fontSize: 13.sp,
-                                                    color: AppColors.colorWhite,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  address != null &&
-                                                          address.length > 40
-                                                      ? '${address.substring(0, 40)}...'
-                                                      : address ??
-                                                          'Restaurant address not available',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors.colorWhite,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              if (_isFavorite) {
-                                                setState(() {
-                                                  _isFavorite = false;
-                                                  _isLike = false;
-                                                });
-                                              } else {
-                                                setState(() {
-                                                  _isLike = !_isLike;
-                                                });
-                                              }
-                                              stateNotifier.likeUnlikePost(
-                                                  () {}, postId ?? "");
-                                            },
-                                            child: (_isLike || _isFavorite)
-                                                ? Image.asset(Assets.redHeart)
-                                                : Image.asset(Assets.like)),
-                                        15.verticalSpace,
-                                        GestureDetector(
-                                          onTap: () => AutoRouter.of(context)
-                                              .push(PostCommentsRoute(
-                                            post: widget.post,
-                                          )),
-                                          child: Column(
-                                            children: [
-                                              Image.asset(Assets.comments),
-                                              Text(
-                                                ((commentCount ?? 0) > 9)
-                                                    ? commentCount.toString()
-                                                    : "0${commentCount.toString()}",
-                                                style: AppTextStyles
-                                                    .textStylePoppinsRegular
-                                                    .copyWith(
-                                                  color: AppColors.colorWhite,
-                                                  fontSize: 10.sp,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        10.verticalSpace,
-                                        GestureDetector(
-                                            onTap: () =>
-                                                stateNotifier.saveUnsavePost(
-                                                    () {}, postId ?? ""),
-                                            child: (isSaved ?? false)
-                                                ? Image.asset(
-                                                    Assets.saved,
-                                                    scale: 2,
-                                                  )
-                                                : Image.asset(Assets.bookmark)),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                10.verticalSpace,
-                                Row(
-                                  children: [
-                                    Image.asset(Assets.star),
-                                    2.horizontalSpace,
-                                    Image.asset(Assets.star),
-                                    2.horizontalSpace,
-                                    Image.asset(Assets.star),
-                                    2.horizontalSpace,
-                                    Image.asset(Assets.star),
-                                    2.horizontalSpace,
-                                    Image.asset(Assets.star),
-                                    5.horizontalSpace,
-                                    Text(
-                                      restaurantRating ?? "",
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.colorWhite,
-                                      ),
-                                    ),
-                                    15.horizontalSpace,
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 5.0),
-                                      child: Image.asset(Assets.price),
-                                    ),
-                                    8.horizontalSpace,
-                                    Text(
-                                      '\$100 For 2',
-                                      style: AppTextStyles
-                                          .textStylePoppinsRegular
-                                          .copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.colorWhite,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                20.verticalSpace,
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    title ?? "",
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(
-                                      fontSize: 13.sp,
-                                      color: AppColors.colorWhite,
-                                    ),
-                                  ),
-                                ),
-                                15.verticalSpace,
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    description ?? "",
-                                    style: AppTextStyles.textStylePoppinsRegular
-                                        .copyWith(
-                                      fontSize: 10.sp,
-                                      color: AppColors.colorWhite,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        : Container(
                             padding: const EdgeInsets.only(
                                     top: 15, left: 15, right: 15, bottom: 10)
                                 .r,
@@ -417,19 +153,14 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                       onTap: () {
                                         AutoRouter.of(context)
                                             .push(PeopleProfileRoute(
-                                          // peoplename: name ?? "", //'Ahmad Gouse',
-                                          // peopleimage: profileImage, //'assets/images/temp/follower-sample2.png',
                                           peopleId: peopleId ?? "",
-                                          // isFollow: true,
-                                          // isRequested:false,
-                                          // isFollowing: false,
                                         ));
                                       },
                                       child: Row(
                                         children: [
                                           Container(
                                             width: 20.w,
-                                            height: 20.h,
+                                            height: 20.w,
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
@@ -445,7 +176,10 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                           ),
                                           8.horizontalSpace,
                                           Text(
-                                            name ?? "", //'Ahmad Gouse',
+                                            name != null && name.length > 15
+                                                ? '${name.substring(0, 15)}...'
+                                                : name ?? "",
+                                            overflow: TextOverflow.ellipsis,
                                             style: AppTextStyles
                                                 .textStylePoppinsMedium
                                                 .copyWith(
@@ -457,36 +191,35 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                       ),
                                     ),
                                     8.horizontalSpace,
-                                    GestureDetector(
-                                      onTap: () {
-                                        _handleFollowUnfollowButtonPressed(
-                                            peopleId);
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(70),
-                                          color: AppColors.colorWhite
-                                              .withOpacity(0.20),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            (isFollowing ?? false)
-                                                ? 'Unfollow'
-                                                : (isRequested ?? false)
-                                                    ? 'Requested'
-                                                    : 'Follow',
-                                            style: AppTextStyles
-                                                .textStylePoppinsRegular
-                                                .copyWith(
-                                              color: AppColors.colorWhite,
-                                              fontSize: 10.sp,
+                                    if (loggedInUserId != peopleId) ...[
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await stateNotifier
+                                              .onFollowUnfollowButtonPressed(
+                                                  peopleId ?? '');
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(70),
+                                            color: AppColors.colorWhite
+                                                .withOpacity(0.20),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              state.followStatus,
+                                              style: AppTextStyles
+                                                  .textStylePoppinsRegular
+                                                  .copyWith(
+                                                color: AppColors.colorWhite,
+                                                fontSize: 10.sp,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ],
                                   ],
                                 ),
                                 // 15.verticalSpace,
@@ -585,14 +318,10 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                   _isLike = !_isLike;
                                                 });
                                               }
-
-                                              print(
-                                                  '_isFavorite --- :$_isFavorite');
-                                              print('_isLike --- :$_isLike');
                                               stateNotifier.likeUnlikePost(
                                                   () {}, postId ?? "");
                                             },
-                                            child: ((_isLike) || _isFavorite)
+                                            child: (_isLike || _isFavorite)
                                                 ? Image.asset(Assets.redHeart)
                                                 : Image.asset(Assets.like)),
                                         15.verticalSpace,
@@ -629,7 +358,325 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                     )
                                   ],
                                 ),
-
+                                if (state.isExpanded) ...[
+                                  Row(
+                                    children: [
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      5.horizontalSpace,
+                                      Text(
+                                        restaurantRating ?? "",
+                                        style: AppTextStyles
+                                            .textStylePoppinsRegular
+                                            .copyWith(
+                                          fontSize: 10.sp,
+                                          color: AppColors.colorWhite,
+                                        ),
+                                      ),
+                                      15.horizontalSpace,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5.0),
+                                        child: Image.asset(Assets.price),
+                                      ),
+                                      8.horizontalSpace,
+                                      Text(
+                                        '\$100 For 2',
+                                        style: AppTextStyles
+                                            .textStylePoppinsRegular
+                                            .copyWith(
+                                          fontSize: 10.sp,
+                                          color: AppColors.colorWhite,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                                15.verticalSpace,
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    description ??
+                                        "", //'A memorable evening to be remembered.',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.textStylePoppinsMedium
+                                        .copyWith(
+                                      fontSize: 13.sp,
+                                      color: AppColors.colorWhite,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.only(
+                                    top: 15, left: 15, right: 15, bottom: 10)
+                                .r,
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        AutoRouter.of(context)
+                                            .push(PeopleProfileRoute(
+                                          peopleId: peopleId ?? "",
+                                        ));
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 20.w,
+                                            height: 20.w,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: profileImage ==
+                                                          '${AppUrls.profilePicLocation}/'
+                                                      ? const AssetImage(
+                                                          Assets.noProfileImage)
+                                                      : NetworkImage(
+                                                          profileImage,
+                                                        ),
+                                                  fit: BoxFit.cover,
+                                                )),
+                                          ),
+                                          8.horizontalSpace,
+                                          Text(
+                                            name != null && name.length > 15
+                                                ? '${name.substring(0, 15)}...'
+                                                : name ?? "",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppTextStyles
+                                                .textStylePoppinsMedium
+                                                .copyWith(
+                                                    fontSize: 16.sp,
+                                                    color:
+                                                        AppColors.colorWhite),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    8.horizontalSpace,
+                                    if (loggedInUserId != peopleId) ...[
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await stateNotifier
+                                              .onFollowUnfollowButtonPressed(
+                                                  peopleId ?? '');
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(70),
+                                            color: AppColors.colorWhite
+                                                .withOpacity(0.20),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              state.followStatus,
+                                              style: AppTextStyles
+                                                  .textStylePoppinsRegular
+                                                  .copyWith(
+                                                color: AppColors.colorWhite,
+                                                fontSize: 10.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                                // 15.verticalSpace,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        15.verticalSpace,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(70),
+                                                color: const Color(0xffACE9B6)
+                                                    .withOpacity(0.31),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  cuisine ??
+                                                      "", //'Chinese Cuisine',
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    color:
+                                                        const Color(0xff6BCE7B)
+                                                            .withOpacity(0.85),
+                                                    fontSize: 10.sp,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            13.horizontalSpace,
+                                          ],
+                                        ),
+                                        8.verticalSpace,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              Assets.location2,
+                                            ),
+                                            8.horizontalSpace,
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  restaurantName ??
+                                                      "Restaurant name not available",
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsMedium
+                                                      .copyWith(
+                                                    fontSize: 13.sp,
+                                                    color: AppColors.colorWhite,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  address != null &&
+                                                          address.length > 40
+                                                      ? '${address.substring(0, 40)}...'
+                                                      : address ??
+                                                          'Restaurant address not available',
+                                                  style: AppTextStyles
+                                                      .textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 10.sp,
+                                                    color: AppColors.colorWhite,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              if (_isFavorite) {
+                                                setState(() {
+                                                  _isFavorite = false;
+                                                  _isLike = false;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  _isLike = !_isLike;
+                                                });
+                                              }
+                                              stateNotifier.likeUnlikePost(
+                                                  () {}, postId ?? "");
+                                            },
+                                            child: (_isLike || _isFavorite)
+                                                ? Image.asset(Assets.redHeart)
+                                                : Image.asset(Assets.like)),
+                                        15.verticalSpace,
+                                        GestureDetector(
+                                          onTap: () => AutoRouter.of(context)
+                                              .push(PostCommentsRoute(
+                                            post: widget.post,
+                                          )),
+                                          child: Column(
+                                            children: [
+                                              Image.asset(Assets.comments),
+                                              Text(
+                                                ((commentCount ?? 0) > 9)
+                                                    ? commentCount.toString()
+                                                    : "0${commentCount.toString()}",
+                                                style: AppTextStyles
+                                                    .textStylePoppinsRegular
+                                                    .copyWith(
+                                                  color: AppColors.colorWhite,
+                                                  fontSize: 10.sp,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        10.verticalSpace,
+                                        SaveIcon(
+                                          isSaved: isSaved ?? false,
+                                          onTap: () =>
+                                              stateNotifier.saveUnsavePost(
+                                                  () {}, postId ?? ""),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                if (state.isExpanded) ...[
+                                  Row(
+                                    children: [
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      2.horizontalSpace,
+                                      Image.asset(Assets.star),
+                                      5.horizontalSpace,
+                                      Text(
+                                        restaurantRating ?? "",
+                                        style: AppTextStyles
+                                            .textStylePoppinsRegular
+                                            .copyWith(
+                                          fontSize: 10.sp,
+                                          color: AppColors.colorWhite,
+                                        ),
+                                      ),
+                                      15.horizontalSpace,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5.0),
+                                        child: Image.asset(Assets.price),
+                                      ),
+                                      8.horizontalSpace,
+                                      Text(
+                                        '\$100 For 2',
+                                        style: AppTextStyles
+                                            .textStylePoppinsRegular
+                                            .copyWith(
+                                          fontSize: 10.sp,
+                                          color: AppColors.colorWhite,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
                                 15.verticalSpace,
                                 Align(
                                   alignment: Alignment.topLeft,
