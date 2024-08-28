@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../infrastructure/hive_database.dart';
 import '../infrastructure/network_api_services.dart';
-import '../utils/app_log.dart';
 
 final hiveProvider = Provider(
       (ref) => HiveDatabase(),
