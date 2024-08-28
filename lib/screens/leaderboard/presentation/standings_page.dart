@@ -27,6 +27,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final stateNotifier = ref.read(leaderboardProvider.notifier);
+      stateNotifier.clearSearch();
       await stateNotifier.fetchLeaderboardList();
     });
     super.initState();
@@ -112,6 +113,8 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                             height: 50.r,
                             bgColor: AppColors.colorBackground,
                             isBorder: true,
+                            controller: stateNotifier.searchController,
+                            onChanged: (_) => stateNotifier.searchStandings(),
                           ),
                           16.verticalSpace,
                           Column(
@@ -152,18 +155,12 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   final user = state.leaderboardList[index];
-                                  final profileImage = '${AppUrls.profilePicLocation}/${user.profileImage}';
+                                  final profileImage =
+                                      '${AppUrls.profilePicLocation}/${user.profileImage}';
                                   return GestureDetector(
                                     onTap: () {
                                       AutoRouter.of(context).push(
-                                        PeopleProfileRoute(
-                                          // peoplename: user.fullName ?? '',
-                                          // peopleimage: profileImage,
-                                          peopleId: user.id ?? '',
-                                          // isFollow: false,
-                                          // isRequested: false,
-                                          // isFollowing: false,
-                                        ),
+                                        PeopleProfileRoute(peopleId: user.id ?? ''),
                                       );
                                     },
                                     child: Container(
@@ -179,7 +176,7 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                             borderRadius: BorderRadius.circular(10.0).r,
                                             child: (user.profileImage?.isNotEmpty ?? false)
                                                 ? CachedNetworkImage(
-                                                    imageUrl:profileImage,
+                                                    imageUrl: profileImage,
                                                     width: 48.r,
                                                     height: 48.r,
                                                     fit: BoxFit.cover,

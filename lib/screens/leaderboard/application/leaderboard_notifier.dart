@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
@@ -17,9 +18,11 @@ class LeaderboardNotifier extends StateNotifier<LeaderboardState> {
   final HiveDatabase _hiveDatabase;
 
   final RefreshController refreshController = RefreshController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   dispose() {
+    searchController.dispose();
     refreshController.dispose();
     super.dispose();
   }
@@ -35,9 +38,17 @@ class LeaderboardNotifier extends StateNotifier<LeaderboardState> {
     refreshController.loadComplete();
   }
 
-  Future<void> fetchLeaderboardList({bool isLoadMore = false}) async {
+  void searchStandings() async {
+    await fetchLeaderboardList(isSearch: true);
+  }
+
+  void clearSearch() {
+    searchController.clear();
+  }
+
+  Future<void> fetchLeaderboardList({bool isLoadMore = false, bool isSearch = false}) async {
     try {
-      state = state.copyWith(isLoading: !isLoadMore);
+      state = state.copyWith(isLoading: !isLoadMore && !isSearch);
 
       if (isLoadMore && (state.currentPage * 10 == state.leaderboardList.length)) {
         state = state.copyWith(currentPage: state.currentPage + 1);
@@ -48,6 +59,7 @@ class LeaderboardNotifier extends StateNotifier<LeaderboardState> {
       final FormData formData = FormData.fromMap({
         "perpage": 10,
         "page": state.currentPage,
+        if (searchController.text.isNotEmpty) "search": searchController.text,
       });
 
       var headers = {
