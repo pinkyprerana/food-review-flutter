@@ -30,9 +30,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final stateNotifier = ref.watch(homeNotifierProvider.notifier);
     final state = ref.watch(homeNotifierProvider);
+    final deviceSize = MediaQuery.sizeOf(context);
 
     return Scaffold(
-      body: state.isLoading || stateNotifier.matchEngine == null
+      body: state.isLoading
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,
@@ -41,8 +42,8 @@ class _HomePageState extends ConsumerState<HomePage> {
           : Stack(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - kToolbarHeight,
-                  width: MediaQuery.of(context).size.width,
+                  height: deviceSize.height - kToolbarHeight,
+                  width: deviceSize.width,
                   child: state.selectedIndex == 0
                       ? state.isAllPostStackFinished
                           ? Column(
@@ -69,39 +70,41 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 ),
                               ],
                             )
-                          : SwipeCards(
-                              matchEngine: stateNotifier.matchEngine ?? MatchEngine(),
-                              itemBuilder: (BuildContext context, int index) {
-                                if ((state.postList?.length ?? 0) == 0) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(color: AppColors.colorWhite),
-                                  );
-                                }
+                          : stateNotifier.matchEngine != null
+                              ? SwipeCards(
+                                  matchEngine: stateNotifier.matchEngine ?? MatchEngine(),
+                                  itemBuilder: (BuildContext context, int index) {
+                                    if ((state.postList?.length ?? 0) == 0) {
+                                      return const Center(
+                                        child:
+                                            CircularProgressIndicator(color: AppColors.colorWhite),
+                                      );
+                                    }
 
-                                return stateNotifier.swipeItems[index].content;
-                              },
-                              onStackFinished: () async {
-                                // currently, this function is not working. the last empty page
-                                // is triggered from itemChanged()
-                                if (state.allSwipeItems.isEmpty) {
-                                  stateNotifier.emptyAllPosts();
-                                }
-                                //else {
-                                //   stateNotifier.matchEngine =
-                                //       MatchEngine(swipeItems: [...state.allSwipeItems]);
-                                // }
-                              },
-                              itemChanged: (SwipeItem item, int index) {
-                                print('allSwipeItems: ${state.allSwipeItems.length}');
-                                if (state.allSwipeItems.length == 2) {
-                                  stateNotifier.emptyAllPosts();
-                                } else if (state.allSwipeItems.length == 8) {
-                                  stateNotifier.loadMorePostFeed();
-                                }
-                              },
-                              upSwipeAllowed: true,
-                              fillSpace: true,
-                            )
+                                    return stateNotifier.swipeItems[index].content;
+                                  },
+                                  onStackFinished: () async {
+                                    // currently, this function is not working. the last empty page
+                                    // is triggered from itemChanged()
+                                    if (state.allSwipeItems.isEmpty) {
+                                      stateNotifier.emptyAllPosts();
+                                    }
+                                    //else {
+                                    //   stateNotifier.matchEngine =
+                                    //       MatchEngine(swipeItems: [...state.allSwipeItems]);
+                                    // }
+                                  },
+                                  itemChanged: (SwipeItem item, int index) {
+                                    if (state.allSwipeItems.length == 2) {
+                                      stateNotifier.emptyAllPosts();
+                                    } else if (state.allSwipeItems.length == 8) {
+                                      stateNotifier.loadMorePostFeed();
+                                    }
+                                  },
+                                  upSwipeAllowed: true,
+                                  fillSpace: true,
+                                )
+                              : const SizedBox.shrink()
                       : state.isFollowingPostStackFinished
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +122,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ),
                                 ),
                                 Text(
-                                  "You've seen all new posts !",
+                                  "You've seen all new posts!",
                                   style: AppTextStyles.textStylePoppinsMedium.copyWith(
                                     fontSize: 11.sp,
                                     color: AppColors.colorPrimaryAlpha,

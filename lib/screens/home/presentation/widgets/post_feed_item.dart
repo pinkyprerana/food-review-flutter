@@ -300,11 +300,10 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 : Image.asset(Assets.like)),
                                         15.verticalSpace,
                                         GestureDetector(
-                                          onTap: () {},
-                                          // onTap: () => AutoRouter.of(context)
-                                          //     .push(CommentsRoute(
-                                          //   postInfoList: widget.post,
-                                          // )),
+                                          onTap: () => AutoRouter.of(context)
+                                              .push(PostCommentsRoute(
+                                            post: widget.post,
+                                          )),
                                           child: Column(
                                             children: [
                                               Image.asset(Assets.comments),
@@ -598,11 +597,10 @@ class _PostFeedItemState extends ConsumerState<PostFeedItem> {
                                                 : Image.asset(Assets.like)),
                                         15.verticalSpace,
                                         GestureDetector(
-                                          onTap: () {},
-                                          // onTap: () => AutoRouter.of(context)
-                                          //     .push(CommentsRoute(
-                                          //   postInfoList: widget.postList,
-                                          // )),
+                                          onTap: () => AutoRouter.of(context)
+                                              .push(PostCommentsRoute(
+                                            post: widget.post,
+                                          )),
                                           child: Column(
                                             children: [
                                               Image.asset(Assets.comments),
