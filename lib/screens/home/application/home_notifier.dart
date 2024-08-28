@@ -210,6 +210,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
           state = state.copyWith(isLoading: false);
           return;
         }
+        print('postList?.isEmpty outside ${postModel.postList?.isEmpty}');
 
         if (postModel.status == 200) {
           List<Comment> allComments = [];
@@ -316,6 +317,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
       var (response, dioException) = await _networkApiService
           .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.getPostFeed}', body: {
         "list_type": "follow",
+        "view_type": "list",
         "perpage": 10,
         "page": state.currentPageAllPosts2,
       });
