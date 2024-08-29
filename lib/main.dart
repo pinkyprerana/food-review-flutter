@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
+import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/app_widget.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -80,8 +82,21 @@ class MainApp extends ConsumerWidget {
             useMaterial3: true,
           ),
           title: 'For The Table',
-          routeInformationParser: appRouter.defaultRouteParser(),
-          routerDelegate: appRouter.delegate(),
+          // routeInformationParser: appRouter.defaultRouteParser(),
+          // routerDelegate: appRouter.delegate(),
+          routerConfig: appRouter.config(
+            deepLinkBuilder: (deepLink) {
+              AppLog.log('deepLink =========== >> ${deepLink.path}');
+              if (deepLink.path.startsWith('/user/profile')) {
+                // continue with the platform link
+                return deepLink;
+              } else {
+                return DeepLink.defaultPath;
+                // or DeepLink.path('/')
+                // or DeepLink([HomeRoute()])
+              }
+            },
+          ),
           debugShowCheckedModeBanner: false,
         );
       },

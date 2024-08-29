@@ -59,9 +59,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   Future<XFile?> downloadImage(String imageUrl) async {
     try {
-      final response = await Dio().get(imageUrl, options: Options(responseType: ResponseType.stream));
+      final response = await Dio()
+          .get(imageUrl, options: Options(responseType: ResponseType.stream));
       final directory = await getTemporaryDirectory();
-      final filePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final filePath =
+          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
       final file = File(filePath);
       await response.data.pipe(file.openWrite());
       return XFile(filePath);
@@ -74,7 +76,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   void shareProfileWithImage(String profileUrl, String imageUrl) async {
     final imageFile = await downloadImage(imageUrl);
     if (imageFile != null) {
-      Share.shareXFiles([imageFile], text: 'Check out this profile: $profileUrl');
+      Share.shareXFiles([imageFile],
+          text: 'Check out this profile: $profileUrl');
     } else {
       Share.share('Check out this profile: $profileUrl');
     }
@@ -90,6 +93,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
     final deviceSize = MediaQuery.sizeOf(context);
     int? postCount = stateNotifier.fetchedUser?.stats?.postCount;
+    String? id = stateNotifier.fetchedUser?.id;
     String postCountString = (postCount != null && postCount > 9)
         ? postCount.toString()
         : postCount != null
@@ -155,8 +159,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       child: Stack(
                         children: [
                           GestureDetector(
-                            onTap: () => stateNotifier.checkPermissionForGallery(
-                                context: context, imageSource: 'bannerPicture'),
+                            onTap: () =>
+                                stateNotifier.checkPermissionForGallery(
+                                    context: context,
+                                    imageSource: 'bannerPicture'),
                             child: Container(
                               height: 135.r,
                               decoration: const BoxDecoration(
@@ -166,43 +172,53 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   topRight: Radius.circular(15),
                                 ),
                               ),
-                              child: (state.fetchedUser?.bannerImage?.isNotEmpty ?? false)
-                                  ? ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                        topRight: Radius.circular(15),
-                                      ),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            '${AppUrls.bannerLocation}/${state.fetchedUser?.bannerImage ?? ''}',
-                                        fit: BoxFit.cover,
-                                        width: double.maxFinite,
-                                      ),
-                                    )
-                                  : const SizedBox.expand(),
+                              child:
+                                  (state.fetchedUser?.bannerImage?.isNotEmpty ??
+                                          false)
+                                      ? ClipRRect(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                '${AppUrls.bannerLocation}/${state.fetchedUser?.bannerImage ?? ''}',
+                                            fit: BoxFit.cover,
+                                            width: double.maxFinite,
+                                          ),
+                                        )
+                                      : const SizedBox.expand(),
                             ),
                           ),
                           Column(
                             children: [
                               100.verticalSpace,
                               Container(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20, bottom: 25, top: 20)
-                                        .r,
+                                padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 25,
+                                        top: 20)
+                                    .r,
                                 decoration: const BoxDecoration(
                                   color: AppColors.colorWhite,
                                   // borderRadius: BorderRadius.only(
                                   //   bottomLeft: Radius.circular(15),
                                   //   bottomRight: Radius.circular(15),
                                   // ),
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
                                 ),
                                 child: Column(
                                   children: [
-                                    deviceSize.height < 700 ? 70.verticalSpace : 40.verticalSpace,
+                                    deviceSize.height < 700
+                                        ? 70.verticalSpace
+                                        : 40.verticalSpace,
                                     Text(
                                       state.fetchedUser?.fullName ?? '',
-                                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                                      style: AppTextStyles
+                                          .textStylePoppinsSemiBold
+                                          .copyWith(
                                         fontSize: 16.sp,
                                         color: AppColors.colorText2,
                                       ),
@@ -210,28 +226,34 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     5.verticalSpace,
                                     Text(
                                       'Joined ${DateFormat('MMMM dd, yyyy').format(
-                                        DateTime.parse(
-                                            state.fetchedUser?.createdAt.toString() ?? ''),
+                                        DateTime.parse(state
+                                                .fetchedUser?.createdAt
+                                                .toString() ??
+                                            ''),
                                       )}',
-                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      style: AppTextStyles
+                                          .textStylePoppinsRegular
+                                          .copyWith(
                                         fontSize: 10.sp,
                                         color: AppColors.colorText3,
                                       ),
                                     ),
                                     10.verticalSpace,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         AppButton(
                                           width: 168.w,
                                           text: 'Edit Profile',
                                           onPressed: () =>
-                                              AutoRouter.of(context).push(const EditProfileRoute()),
+                                              AutoRouter.of(context).push(
+                                                  const EditProfileRoute()),
                                         ),
                                         // 8.horizontalSpace,
                                         GestureDetector(
-                                          onTap: () =>
-                                              AutoRouter.of(context).push(const SettingsRoute()),
+                                          onTap: () => AutoRouter.of(context)
+                                              .push(const SettingsRoute()),
                                           child: SmallProfileContainer2(
                                               widget: Center(
                                             child: Image.asset(Assets.settings),
@@ -240,50 +262,64 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         // 8.horizontalSpace,
                                         SmallProfileContainer2(
                                             widget: GestureDetector(
-                                              onTap: (){
-                                                AppLog.log("ProfileURL: ${'${AppUrls.baseUrl}${AppUrls.profile}'}");
+                                          onTap: () {
+                                            // AppLog.log(
+                                            //     "ProfileURL: ${'${AppUrls.baseUrl}${AppUrls.profile}'}");
+                                            AppLog.log(
+                                                "ProfileURL: ${'forthetable-bc1a5.web.app${AppUrls.profile}/$id'}");
 
-                                                String profileUrl = '${AppUrls.baseUrl}${AppUrls.profile}';
-                                                String imageUrl = state.profileImgPath;
-                                                shareProfileWithImage(profileUrl, imageUrl);
-                                              },
-                                              child: Center(
-                                               child: Image.asset(Assets.share),
-                                                      ),
-                                                    )
-                                        ),
+                                            String profileUrl =
+                                                'forthetable-bc1a5.web.app${AppUrls.profile}/$id';
+                                            String imageUrl =
+                                                state.profileImgPath;
+                                            shareProfile(profileUrl);
+                                          },
+                                          child: Center(
+                                            child: Image.asset(Assets.share),
+                                          ),
+                                        )),
                                       ],
                                     ),
                                     10.verticalSpace,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () => AutoRouter.of(context)
-                                              .push(YourPeopleListRoute(tabIndex: 0)),
+                                              .push(YourPeopleListRoute(
+                                                  tabIndex: 0)),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state.userProfileResponseModel?.profileDetails
-                                                              ?.stats?.followerCount
+                                                      state
+                                                              .userProfileResponseModel
+                                                              ?.profileDetails
+                                                              ?.stats
+                                                              ?.followerCount
                                                               .toString() ??
                                                           '',
-                                                      style: AppTextStyles.textStylePoppinsBold
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsBold
                                                           .copyWith(
                                                         fontSize: 14.sp,
-                                                        color: AppColors.colorPrimary,
+                                                        color: AppColors
+                                                            .colorPrimary,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Followers',
-                                                      style: AppTextStyles.textStylePoppinsRegular
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
-                                                        color: AppColors.colorText3,
+                                                        color: AppColors
+                                                            .colorText3,
                                                       ),
                                                     ),
                                                   ],
@@ -295,30 +331,39 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () => AutoRouter.of(context)
-                                              .push(YourPeopleListRoute(tabIndex: 1)),
+                                              .push(YourPeopleListRoute(
+                                                  tabIndex: 1)),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state.userProfileResponseModel?.profileDetails
-                                                              ?.stats?.followingCount
+                                                      state
+                                                              .userProfileResponseModel
+                                                              ?.profileDetails
+                                                              ?.stats
+                                                              ?.followingCount
                                                               .toString() ??
                                                           '',
-                                                      style: AppTextStyles.textStylePoppinsBold
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsBold
                                                           .copyWith(
                                                         fontSize: 14.sp,
-                                                        color: AppColors.colorPrimary,
+                                                        color: AppColors
+                                                            .colorPrimary,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Following',
-                                                      style: AppTextStyles.textStylePoppinsRegular
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
-                                                        color: AppColors.colorText3,
+                                                        color: AppColors
+                                                            .colorText3,
                                                       ),
                                                     ),
                                                   ],
@@ -329,31 +374,39 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () =>
-                                              AutoRouter.of(context).push(const SavedRoute()),
+                                          onTap: () => AutoRouter.of(context)
+                                              .push(const SavedRoute()),
                                           child: SmallProfileContainer(
                                             widget: Row(
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      state.userProfileResponseModel?.profileDetails
-                                                              ?.stats?.savePostCount
+                                                      state
+                                                              .userProfileResponseModel
+                                                              ?.profileDetails
+                                                              ?.stats
+                                                              ?.savePostCount
                                                               .toString() ??
                                                           '',
-                                                      style: AppTextStyles.textStylePoppinsBold
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsBold
                                                           .copyWith(
                                                         fontSize: 14.sp,
-                                                        color: AppColors.colorPrimary,
+                                                        color: AppColors
+                                                            .colorPrimary,
                                                       ),
                                                     ),
                                                     Text(
                                                       'Saved',
-                                                      style: AppTextStyles.textStylePoppinsRegular
+                                                      style: AppTextStyles
+                                                          .textStylePoppinsRegular
                                                           .copyWith(
                                                         fontSize: 10.sp,
-                                                        color: AppColors.colorText3,
+                                                        color: AppColors
+                                                            .colorText3,
                                                       ),
                                                     ),
                                                   ],
@@ -381,27 +434,40 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   child: GestureDetector(
                                     onTap: () {
                                       stateNotifier.checkPermissionForGallery(
-                                          context: context, imageSource: 'displayPicture');
+                                          context: context,
+                                          imageSource: 'displayPicture');
                                     },
                                     child: Container(
-                                      width: deviceSize.height < 700 ? 105.w : 110.w,
-                                      height: deviceSize.height < 700 ? 105.w : 110.w,
+                                      width: deviceSize.height < 700
+                                          ? 105.w
+                                          : 110.w,
+                                      height: deviceSize.height < 700
+                                          ? 105.w
+                                          : 110.w,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        border: Border.all(color: AppColors.colorWhite, width: 4),
+                                        border: Border.all(
+                                            color: AppColors.colorWhite,
+                                            width: 4),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: AppColors.colorShadow.withOpacity(0.1),
+                                              color: AppColors.colorShadow
+                                                  .withOpacity(0.1),
                                               offset: const Offset(0, 2),
                                               blurRadius: 10,
                                               spreadRadius: 0)
                                         ],
                                         image: DecorationImage(
-                                          image:
-                                              (state.fetchedUser?.profileImage?.isNotEmpty ?? false)
-                                                  ? CachedNetworkImageProvider(state.profileImgPath)
-                                                      as ImageProvider
-                                                  : const AssetImage(Assets.noProfileImage),
+                                          image: (state
+                                                      .fetchedUser
+                                                      ?.profileImage
+                                                      ?.isNotEmpty ??
+                                                  false)
+                                              ? CachedNetworkImageProvider(
+                                                      state.profileImgPath)
+                                                  as ImageProvider
+                                              : const AssetImage(
+                                                  Assets.noProfileImage),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -428,7 +494,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   child: Text(
                                     postCountString,
                                     style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(fontSize: 13.sp, color: AppColors.colorText),
+                                        .copyWith(
+                                            fontSize: 13.sp,
+                                            color: AppColors.colorText),
                                   ),
                                 ),
                               ),
@@ -449,10 +517,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => AutoRouter.of(context).push(const RecentActivityRoute()),
+                          onTap: () => AutoRouter.of(context)
+                              .push(const RecentActivityRoute()),
                           child: Text(
                             'View All',
-                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            style:
+                                AppTextStyles.textStylePoppinsRegular.copyWith(
                               fontSize: 10.sp,
                               color: AppColors.colorPrimaryAlpha,
                             ),
@@ -468,8 +538,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       itemBuilder: (context, index) {
                         final activitiesList = state.userActivitiesList;
                         return RecentActivityWidget(
-                          imgpath: activitiesList?[index].userInfo?.profileImage ?? '',
-                          subtitle: activitiesList?[index].createdAt ?? DateTime.now(),
+                          imgpath:
+                              activitiesList?[index].userInfo?.profileImage ??
+                                  '',
+                          subtitle: activitiesList?[index].createdAt ??
+                              DateTime.now(),
                           title: activitiesList?[index].title ?? '',
                         );
                       },
