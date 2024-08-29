@@ -10,7 +10,8 @@ import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
+import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_widget.dart';
+// import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
 import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
 import 'package:for_the_table/widgets/show_video_post.dart';
 // import 'package:for_the_table/screens/post_feed/presentation/widgets/heart_animation_dart';
@@ -31,6 +32,9 @@ class PostFeedItem extends ConsumerStatefulWidget {
 }
 
 class _PostDetailsState extends ConsumerState<PostFeedItem> {
+  bool _isFavorite = false;
+  bool _isLike = false;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +45,8 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
         widget.post.isFollowing ?? false,
         widget.post.isFollowingRequest ?? false,
       );
+
+      _isLike = widget.post.isMyLike ?? false;
     });
   }
 
@@ -66,16 +72,18 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
     final String? postId = widget.post.id;
     final String? restaurantRating = widget.post.restaurantInfo?.rating;
     final bool? isSaved = widget.post.isSave;
-    final bool? isLiked = widget.post.isMyLike;
+    // final bool? isLiked = widget.post.isMyLike;
     final hive = ref.read(hiveProvider);
     final loggedInUserId = hive.box.get(AppPreferenceKeys.userId);
     // final deviceSize = MediaQuery.sizeOf(context);
 
     return GestureDetector(
       onDoubleTap: () {
-        // stateNotifier.updateIsDoubleTappedStatus();
-        // stateNotifier.showFavourite(context);
-        // stateNotifier.likePost(() {}, widget.post.id ?? '');
+        setState(() {
+          _isFavorite = true;
+        });
+        stateNotifier.showFavourite(context);
+        stateNotifier.likePost(() {}, widget.post.id ?? '');
       },
       child: Container(
         color: AppColors.colorPrimary,
@@ -252,10 +260,29 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
                               ),
                               Column(
                                 children: [
-                                  LikeIcon(
-                                    isLiked: isLiked ?? false,
-                                    onTap: () => stateNotifier.likeUnlikePost(() {}, postId ?? ""),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (_isFavorite) {
+                                        setState(() {
+                                          _isFavorite = false;
+                                          _isLike = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _isLike = !_isLike;
+                                        });
+                                      }
+                                      stateNotifier.likeUnlikePost(() {}, postId ?? "");
+                                    },
+                                    child: (_isLike || _isFavorite)
+                                        ? Image.asset(Assets.redHeart)
+                                        : Image.asset(Assets.like),
                                   ),
+
+                                  // LikeIcon(
+                                  //   isLiked: isLiked ?? false,
+                                  //   onTap: () => stateNotifier.likeUnlikePost(() {}, postId ?? ""),
+                                  // ),
                                   15.verticalSpace,
                                   GestureDetector(
                                     onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
@@ -359,22 +386,21 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
                 ),
               ),
             ),
-
-            // Opacity(
-            //   opacity: state.isHeartAnimating ? 1 : 0,
-            //   child: HeartAnimationWidget(
-            //     isAnimating: state.isHeartAnimating,
-            //     duration: const Duration(milliseconds: 900),
-            //     onEnd: () {
-            //       stateNotifier.setFvoriteToFalse();
-            //     },
-            //     child: const Icon(
-            //       Icons.favorite,
-            //       size: 85,
-            //       color: Colors.white,
-            //     ),
-            //   ),
-            // )
+            Opacity(
+              opacity: state.isHeartAnimating ? 1 : 0,
+              child: HeartAnimationWidget(
+                isAnimating: state.isHeartAnimating,
+                duration: const Duration(milliseconds: 900),
+                onEnd: () {
+                  stateNotifier.setFvoriteToFalse();
+                },
+                child: const Icon(
+                  Icons.favorite,
+                  size: 85,
+                  color: Colors.white,
+                ),
+              ),
+            )
           ],
         ),
       ),

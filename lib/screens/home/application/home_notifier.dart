@@ -210,7 +210,6 @@ class HomeNotifier extends StateNotifier<HomeState> {
           state = state.copyWith(isLoading: false);
           return;
         }
-        print('postList?.isEmpty outside ${postModel.postList?.isEmpty}');
 
         if (postModel.status == 200) {
           List<Comment> allComments = [];
