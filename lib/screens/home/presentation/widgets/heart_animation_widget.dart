@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 
 class HeartAnimationWidget extends StatefulWidget {
   const HeartAnimationWidget({
