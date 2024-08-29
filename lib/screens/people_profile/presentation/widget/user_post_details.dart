@@ -11,6 +11,7 @@ import '../../../../core/constants/assets.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
+import '../../../../widgets/show_video_post.dart';
 import '../../../your_lists/shared/provider.dart';
 import '../../domain/other_people_profile_model.dart';
 import '../../shared/providers.dart';
@@ -89,9 +90,9 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
 
     final String mediaUrl = "${AppUrls.postImageLocation}${postDetails?.file}";
 
-    // bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
-    //     mediaUrl.toLowerCase().endsWith('.mov') ||
-    //     mediaUrl.toLowerCase().endsWith('.avi');
+    bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
+        mediaUrl.toLowerCase().endsWith('.mov') ||
+        mediaUrl.toLowerCase().endsWith('.avi');
     final postFeedState = ref.watch(postFeedNotifierProvider);
     DataOfPostModel? postDetailsList = postFeedState.postList?.firstWhere(
       (post) => post.id == widget.postId,
@@ -100,6 +101,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      backgroundColor: AppColors.colorBlack,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
@@ -121,235 +123,244 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
               ),
             ),
           )),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-            image: NetworkImage(
-              CachedNetworkImage(
-                imageUrl: mediaUrl,
-                placeholder: (context, url) => const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ).imageUrl,
+      body:Stack(
+        alignment: Alignment.center,
+        children: [
+          isVideo
+              ? ShowVideoWidget(videoUrl: mediaUrl)
+              : Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: NetworkImage(
+                  CachedNetworkImage(
+                    imageUrl: mediaUrl,
+                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  ).imageUrl,
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
-            fit: BoxFit.cover,
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0).r,
-          child: Column(
-            children: [
-              const Spacer(),
-              8.verticalSpace,
-              Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.symmetric(horizontal: 10).r,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0).r,
+              child: Column(
+                children: [
+                  const Spacer(),
+                  8.verticalSpace,
+                  Container(
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(horizontal: 10).r,
+                    child: Column(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                AutoRouter.of(context).push(PeopleProfileRoute(
-                                  peopleId: widget.userId ?? "",
-                                ));
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 20.w,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            '${AppUrls.profilePicLocation}/${creatorDetails?.profileImage ?? ''}',
-                                          ),
-                                          fit: BoxFit.cover,
-                                        )),
-                                  ),
-                                  8.horizontalSpace,
-                                  Text(
-                                    creatorDetails?.fullName ?? "",
-                                    style: AppTextStyles.textStylePoppinsMedium
-                                        .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
-                                  ),
-                                  8.horizontalSpace,
-                                  GestureDetector(
-                                    onTap: () async => await _handleFollowUnfollowButtonPressed(
-                                        creatorDetails?.id),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(70),
-                                        border:
-                                            Border.all(width: 1, color: const Color(0xffDDDFE6)),
-                                        color: AppColors.colorWhite.withOpacity(0.20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    AutoRouter.of(context).push(PeopleProfileRoute(
+                                      peopleId: widget.userId ?? "",
+                                    ));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 20.w,
+                                        height: 20.h,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                '${AppUrls.profilePicLocation}/${creatorDetails?.profileImage ?? ''}',
+                                              ),
+                                              fit: BoxFit.cover,
+                                            )),
                                       ),
-                                      child: Center(
-                                        child: Text(
-                                          (creatorDetails?.isFollowing ?? false)
-                                              ? 'Unfollow'
-                                              : (creatorDetails?.isFollowingRequest ?? false)
+                                      8.horizontalSpace,
+                                      Text(
+                                        creatorDetails?.fullName ?? "",
+                                        style: AppTextStyles.textStylePoppinsMedium
+                                            .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
+                                      ),
+                                      8.horizontalSpace,
+                                      GestureDetector(
+                                        onTap: () async => await _handleFollowUnfollowButtonPressed(
+                                            creatorDetails?.id),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(70),
+                                            border:
+                                            Border.all(width: 1, color: const Color(0xffDDDFE6)),
+                                            color: AppColors.colorWhite.withOpacity(0.20),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              (creatorDetails?.isFollowing ?? false)
+                                                  ? 'Unfollow'
+                                                  : (creatorDetails?.isFollowingRequest ?? false)
                                                   ? 'Requested'
                                                   : 'Follow',
-                                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                            color: AppColors.colorWhite,
-                                            fontSize: 10.sp,
+                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                                color: AppColors.colorWhite,
+                                                fontSize: 10.sp,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            20.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  Assets.location2,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                8.horizontalSpace,
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                20.verticalSpace,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      postDetails?.restaurantInfo?.name ?? "",
-                                      style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                                        fontSize: 13.sp,
-                                        color: AppColors.colorWhite,
-                                      ),
+                                    Image.asset(
+                                      Assets.location2,
                                     ),
-                                    Text(
-                                      postDetails!.restaurantInfo!.address.length > 40
-                                          ? '${postDetails?.restaurantInfo?.address.substring(0, 40)}...'
-                                          : postDetails?.restaurantInfo?.address ?? "",
-                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.colorWhite,
-                                      ),
-                                    ),
+                                    8.horizontalSpace,
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          postDetails?.restaurantInfo?.name ?? "",
+                                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                                            fontSize: 13.sp,
+                                            color: AppColors.colorWhite,
+                                          ),
+                                        ),
+                                        Text(
+                                          postDetails!.restaurantInfo!.address.length > 40
+                                              ? '${postDetails?.restaurantInfo?.address.substring(0, 40)}...'
+                                              : postDetails?.restaurantInfo?.address ?? "",
+                                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                            fontSize: 10.sp,
+                                            color: AppColors.colorWhite,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
-                                )
+                                ),
                               ],
                             ),
+                            Column(
+                              children: [
+                                GestureDetector(
+                                    onTap: () async => await _handleLikeUnlike(postDetails?.id ?? ""),
+                                    child: (postDetails?.isMyLike ?? false)
+                                        ? Image.asset(Assets.redHeart)
+                                        : Image.asset(Assets.like)),
+                                15.verticalSpace,
+                                GestureDetector(
+                                  onTap: () {
+                                    AutoRouter.of(context).push(
+                                      CommentsRoute(postInfoList: postDetailsList!),
+                                    );
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Image.asset(Assets.comments),
+                                      Text(
+                                        (postDetails!.commentCount! > 9)
+                                            ? postDetails?.commentCount.toString() ?? ""
+                                            : "0${postDetails?.commentCount.toString()}",
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                          color: AppColors.colorWhite,
+                                          fontSize: 10.sp,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                10.verticalSpace,
+                                GestureDetector(
+                                    onTap: () async => await _handleSaveUnsave(widget.postId ?? ""),
+                                    child: (postDetails?.isSave ?? false)
+                                        ? Image.asset(
+                                      Assets.saved,
+                                      scale: 2,
+                                    )
+                                        : Image.asset(Assets.bookmark)),
+                              ],
+                            )
                           ],
                         ),
-                        Column(
+                        10.verticalSpace,
+                        Row(
                           children: [
-                            GestureDetector(
-                                onTap: () async => await _handleLikeUnlike(postDetails?.id ?? ""),
-                                child: (postDetails?.isMyLike ?? false)
-                                    ? Image.asset(Assets.redHeart)
-                                    : Image.asset(Assets.like)),
-                            15.verticalSpace,
-                            GestureDetector(
-                              onTap: () {
-                                AutoRouter.of(context).push(
-                                  CommentsRoute(postInfoList: postDetailsList!),
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  Image.asset(Assets.comments),
-                                  Text(
-                                    (postDetails!.commentCount! > 9)
-                                        ? postDetails?.commentCount.toString() ?? ""
-                                        : "0${postDetails?.commentCount.toString()}",
-                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                      color: AppColors.colorWhite,
-                                      fontSize: 10.sp,
-                                    ),
-                                  )
-                                ],
+                            Image.asset(Assets.star),
+                            2.horizontalSpace,
+                            Image.asset(Assets.star),
+                            2.horizontalSpace,
+                            Image.asset(Assets.star),
+                            2.horizontalSpace,
+                            Image.asset(Assets.star),
+                            2.horizontalSpace,
+                            Image.asset(Assets.star),
+                            5.horizontalSpace,
+                            Text(
+                              postDetails?.restaurantInfo?.rating ?? "",
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                fontSize: 10.sp,
+                                color: AppColors.colorWhite,
                               ),
                             ),
-                            10.verticalSpace,
-                            GestureDetector(
-                                onTap: () async => await _handleSaveUnsave(widget.postId ?? ""),
-                                child: (postDetails?.isSave ?? false)
-                                    ? Image.asset(
-                                        Assets.saved,
-                                        scale: 2,
-                                      )
-                                    : Image.asset(Assets.bookmark)),
+                            15.horizontalSpace,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: Image.asset(Assets.price),
+                            ),
+                            8.horizontalSpace,
+                            Text(
+                              '\$100 For 2',
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                fontSize: 10.sp,
+                                color: AppColors.colorWhite,
+                              ),
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                    10.verticalSpace,
-                    Row(
-                      children: [
-                        Image.asset(Assets.star),
-                        2.horizontalSpace,
-                        Image.asset(Assets.star),
-                        2.horizontalSpace,
-                        Image.asset(Assets.star),
-                        2.horizontalSpace,
-                        Image.asset(Assets.star),
-                        2.horizontalSpace,
-                        Image.asset(Assets.star),
-                        5.horizontalSpace,
-                        Text(
-                          postDetails?.restaurantInfo?.rating ?? "",
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                            fontSize: 10.sp,
-                            color: AppColors.colorWhite,
+                        ),
+                        20.verticalSpace,
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            postDetails?.title ?? "",
+                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                              fontSize: 13.sp,
+                              color: AppColors.colorWhite,
+                            ),
                           ),
                         ),
-                        15.horizontalSpace,
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: Image.asset(Assets.price),
-                        ),
-                        8.horizontalSpace,
-                        Text(
-                          '\$100 For 2',
-                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                            fontSize: 10.sp,
-                            color: AppColors.colorWhite,
+                        15.verticalSpace,
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            postDetails?.description ?? "",
+                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                              fontSize: 10.sp,
+                              color: AppColors.colorWhite,
+                            ),
                           ),
                         )
                       ],
                     ),
-                    20.verticalSpace,
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        postDetails?.title ?? "",
-                        style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                          fontSize: 13.sp,
-                          color: AppColors.colorWhite,
-                        ),
-                      ),
-                    ),
-                    15.verticalSpace,
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        postDetails?.description ?? "",
-                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          fontSize: 10.sp,
-                          color: AppColors.colorWhite,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  20.verticalSpace,
+                ],
               ),
-              20.verticalSpace,
-            ],
-          ),
-        ),
-      ),
+            ),
+          )
+        ],
+      )
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
+import 'package:for_the_table/widgets/video_thumbnail.dart';
 import 'package:intl/intl.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
@@ -60,7 +61,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     final followingCount = getDetails?.stats?.followingCount.toString() ??'';
     final reviewedRestaurantCount = getDetails?.stats?.reviewedRestaurantsCount.toString() ??'';
     final savedRestaurantCount = getDetails?.stats?.savedRestaurantsCount.toString() ??'';
-
+    
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
 
@@ -438,6 +439,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                   itemCount: postListOfOtherUser.length,
                   itemBuilder: (context, index) {
                     final postList = postListOfOtherUser[index];
+                    final String mediaUrl = "${AppUrls.postImageLocation}${postList.file}";
+                    bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
+                        mediaUrl.toLowerCase().endsWith('.mov') ||
+                        mediaUrl.toLowerCase().endsWith('.avi');
                     return GestureDetector(
                       onTap: () {
                         AutoRouter.of(context).push(PostDetailsRoute( postId: postList.id, userId: getDetails?.id,));
@@ -449,7 +454,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
-                              Image.network(
+                              isVideo
+                              ? VideoThumbnails(videoUrl: mediaUrl)
+                              : Image.network(
                                 '${AppUrls.postImageLocation}${postList.file}',
                                 fit: BoxFit.cover,
                               ),
