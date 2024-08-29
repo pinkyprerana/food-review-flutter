@@ -21,7 +21,6 @@ class AppUrls {
   static const profilePicLocation =
       'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
 
-
   //Post Feed
   static const getPostFeed = '/post/list';
   static const likeUnlikePost = '/post-like/add';
@@ -29,6 +28,7 @@ class AppUrls {
   static const saveUnsavePost = '/post-save/add';
   static const addComment = '/post-comment/add';
   static const likeUnlikeComment = '/post-like/comment';
+  static const getPostDetials = '/post/details';
 
   //Other User's
   static const getOtherUserDetails = '/user/other/profile';

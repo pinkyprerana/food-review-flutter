@@ -2,11 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
+import 'package:for_the_table/core/infrastructure/dio_exceptions.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/application/home_state.dart';
+import 'package:for_the_table/screens/home/domain/post_feed_item_model.dart';
 import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_feed_item.dart';
 import 'package:for_the_table/screens/people_profile/application/follow_notifier.dart';
@@ -175,7 +177,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
     await getPostFeed(isLoadMore: true);
   }
 
-  Future<void> getPostFeed({bool isLoadMore = false}) async {
+  Future<void> getPostFeed({bool isPostLoading = false, bool isLoadMore = false}) async {
     state = state.copyWith(isLoading: !isLoadMore);
 
     if (isLoadMore) {
@@ -210,7 +212,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
           state = state.copyWith(isLoading: false);
           return;
         }
-        print('postList?.isEmpty outside ${postModel.postList?.isEmpty}');
+        // print('postList?.isEmpty outside ${postModel.postList?.isEmpty}');
 
         if (postModel.status == 200) {
           List<Comment> allComments = [];
@@ -630,11 +632,63 @@ class HomeNotifier extends StateNotifier<HomeState> {
     }
   }
 
+  void setIsExpanded() {
+    state = state.copyWith(isExpanded: !state.isExpanded);
+  }
+
   Future<void> showFavourite(BuildContext context) async {
     state = state.copyWith(isHeartAnimating: true);
   }
 
   void setFvoriteToFalse() {
     state = state.copyWith(isHeartAnimating: false);
+  }
+
+  Future<bool> getPostDetails(String postID) async {
+    AppLog.log('get post details is called');
+    try {
+      state = state.copyWith(postDetailsIsLoading: true);
+
+      final data = {
+        "post_id": postID,
+      };
+
+      final headers = {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+        'token': _hiveDatabase.box.get(AppPreferenceKeys.token),
+      };
+
+      _dio.options.headers.addAll(headers);
+
+      final response = await _dio.post<Map<String, dynamic>>(
+        '${AppUrls.baseUrl}${AppUrls.getPostDetials}',
+        data: data,
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final postDetailsResponse = PostFeedItemModel.fromJson(response.data!);
+
+        state = state.copyWith(postDetailsIsLoading: false);
+
+        AppLog.log('isMyLike ----->> ${postDetailsResponse.data.isMyLike}');
+
+        return postDetailsResponse.data.isMyLike;
+      } else {
+        final message = response.data?['message'] as String?;
+        showToastMessage(message ?? '');
+
+        state = state.copyWith(postDetailsIsLoading: false);
+
+        return false;
+      }
+    } on DioException catch (e) {
+      final error = DioExceptions.fromDioError(e).message;
+      showToastMessage(error, errorMessage: 'Failed to get post details');
+
+      state = state.copyWith(postDetailsIsLoading: false);
+
+      return false;
+    }
   }
 }
