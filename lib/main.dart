@@ -85,13 +85,14 @@ class MainApp extends ConsumerWidget {
           // routeInformationParser: appRouter.defaultRouteParser(),
           // routerDelegate: appRouter.delegate(),
           routerConfig: appRouter.config(
+            includePrefixMatches: true,
             deepLinkBuilder: (deepLink) {
               AppLog.log('deepLink =========== >> ${deepLink.path}');
               List listOfSubstrings = deepLink.path.split('/');
               AppLog.log(listOfSubstrings.toString());
-              if (deepLink.path.startsWith('/user/profile')) {
+              if (deepLink.path.startsWith('/savedRoute')) {
                 // continue with the platform link
-                DeepLink([PeopleProfileRoute(peopleId: listOfSubstrings.last)]);
+                DeepLink([SavedRoute()]);
                 return deepLink;
               } else {
                 return DeepLink.defaultPath;
