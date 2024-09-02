@@ -90,9 +90,9 @@ class MainApp extends ConsumerWidget {
               AppLog.log('deepLink =========== >> ${deepLink.path}');
               List listOfSubstrings = deepLink.path.split('/');
               AppLog.log(listOfSubstrings.toString());
-              if (deepLink.path.startsWith('/savedRoute')) {
+              if (deepLink.path.startsWith('/peopleProfile')) {
                 // continue with the platform link
-                DeepLink([SavedRoute()]);
+                DeepLink([PeopleProfileRoute(peopleId: listOfSubstrings.last)]);
                 return deepLink;
               } else {
                 return DeepLink.defaultPath;

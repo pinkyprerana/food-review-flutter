@@ -269,7 +269,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                 "ProfileURL: ${'forthetable-bc1a5.web.app${AppUrls.profile}/$id'}");
 
                                             String profileUrl =
-                                                'forthetable-bc1a5.web.app/savedRoute';
+                                                'forthetable-bc1a5.web.app/peopleProfile/$id';
                                             String imageUrl =
                                                 state.profileImgPath;
                                             shareProfile(profileUrl);

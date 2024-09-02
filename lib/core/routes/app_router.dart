@@ -154,7 +154,7 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(
           page: PeopleProfileRoute.page,
-          path: '/peopleProfile',
+          path: '/peopleProfile/:id',
         ),
         AutoRoute(
           page: SavedRoute.page,
