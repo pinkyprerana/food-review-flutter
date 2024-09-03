@@ -33,11 +33,17 @@ class _SaveIconState extends State<SaveIcon> {
         });
       },
       child: (_isSaved)
-          ? Image.asset(
-              Assets.saved,
-              scale: 2,
+          ? SizedBox(
+              width: 20,
+              child: Image.asset(
+                Assets.bookmarkFilled,
+                scale: 2,
+              ),
             )
-          : Image.asset(Assets.bookmark),
+          : SizedBox(
+              width: 20,
+              child: Image.asset(Assets.bookmarkOutline),
+            ),
     );
   }
 }

@@ -275,8 +275,14 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
                                       stateNotifier.likeUnlikePost(() {}, postId ?? "");
                                     },
                                     child: (_isLike || _isFavorite)
-                                        ? Image.asset(Assets.redHeart)
-                                        : Image.asset(Assets.like),
+                                        ? SizedBox(
+                                            width: 20,
+                                            child: Image.asset(Assets.heartFilled),
+                                          )
+                                        : SizedBox(
+                                            width: 20,
+                                            child: Image.asset(Assets.heartOutline),
+                                          ),
                                   ),
 
                                   // LikeIcon(
@@ -290,7 +296,10 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
                                     )),
                                     child: Column(
                                       children: [
-                                        Image.asset(Assets.comments),
+                                        SizedBox(
+                                          width: 20,
+                                          child: Image.asset(Assets.commentOutline),
+                                        ),
                                         Text(
                                           ((commentCount ?? 0) > 9)
                                               ? commentCount.toString()
