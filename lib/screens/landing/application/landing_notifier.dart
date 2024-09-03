@@ -26,8 +26,6 @@ class LandingNotifier extends StateNotifier<LandingState> {
 
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      await googleSignIn.signOut();
-
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {

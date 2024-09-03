@@ -82,6 +82,23 @@
 	<false/>
 	<key>FLTEnableImpeller</key>
   <false/>
+	<key>GIDClientID</key>
+	<!-- Copied from GoogleService-Info.plist key CLIENT_ID -->
+	<string>807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m.apps.googleusercontent.com</string>
 
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+				<string>com.googleusercontent.apps.807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m</string>
+			</array>
+		</dict>
+	</array>
+	<!-- End of the Google Sign-in Section -->
 </dict>
 </plist>
