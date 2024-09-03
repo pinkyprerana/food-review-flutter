@@ -91,9 +91,12 @@ class MainApp extends ConsumerWidget {
               List listOfSubstrings = deepLink.path.split('/');
               AppLog.log(listOfSubstrings.toString());
               if (deepLink.path.startsWith('/peopleProfile')) {
+                AppLog.log('-----deep link to people profile---------');
                 // continue with the platform link
-                DeepLink([PeopleProfileRoute(peopleId: listOfSubstrings.last)]);
-                return deepLink;
+                return DeepLink([
+                  PeopleProfileRoute(peopleId: listOfSubstrings.last ?? '')
+                ]);
+                // return deepLink;
               } else {
                 return DeepLink.defaultPath;
                 // or DeepLink.path('/')
