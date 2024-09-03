@@ -10,7 +10,7 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/people_profile/shared/providers.dart';
+// import 'package:for_the_table/screens/people_profile/shared/providers.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/other_options_widget.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/recent_activity_widget.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/small_profile_container.dart';
@@ -19,7 +19,7 @@ import 'package:for_the_table/widgets/app_button.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:uni_links/uni_links.dart';
+// import 'package:uni_links/uni_links.dart';
 import '../../../core/utils/app_log.dart';
 import '../shared/providers.dart';
 
@@ -48,12 +48,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       await stateNotifier.fetchUserActivities();
     });
 
-    uriLinkStream.listen((Uri? uri) {
-      if (uri != null) {
-        final userId = uri.pathSegments.last;
-        ref.read(followNotifierProvider.notifier).getUserById(userId);
-      }
-    });
+    // uriLinkStream.listen((Uri? uri) {
+    //   if (uri != null) {
+    //     final userId = uri.pathSegments.last;
+    //     ref.read(followNotifierProvider.notifier).getUserById(userId);
+    //   }
+    // });
     super.initState();
   }
 

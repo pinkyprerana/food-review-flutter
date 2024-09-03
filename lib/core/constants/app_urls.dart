@@ -55,6 +55,8 @@ class AppUrls {
   static const postListPerRestaurant = '/post/list';
 
   //restaurant
+  static const restaurantLocation =
+      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/';
   static const restaurantList = '/restaurant/list';
   static const saveRestaurant = '/restaurant/save';
   static const restaurnatDetails = '/restaurant/details';
