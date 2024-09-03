@@ -1,7 +1,6 @@
 class AppUrls {
   static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
-  static const postImageLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/post/';
+  static const postImageLocation = 'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   //Authentication
   static const signup = '/user/signup';
@@ -20,7 +19,7 @@ class AppUrls {
   static const logout = '/user/logout';
   static const profilePicLocation =
       'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
-
+  static const socialLogin = '/user/social-signin';
 
   //Post Feed
   static const getPostFeed = '/post/list';
@@ -50,8 +49,7 @@ class AppUrls {
   static const getLeaderboardList = '/user/leaderboard/list';
 
   // Pic Locations
-  static const bannerLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
+  static const bannerLocation = 'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
 
   // Restaurant
   static const postListPerRestaurant = '/post/list';
