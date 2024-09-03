@@ -11,6 +11,13 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 
   final NetworkApiService _networkApiService;
 
+  void addNotification(NotificationData notification) {
+    state = state.copyWith(
+      todayNotifications: [...state.todayNotifications, notification],
+    );
+  }
+
+
   Future<void> getNotificationList() async {
     state = state.copyWith(isLoading: true);
     try {
@@ -37,7 +44,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 
           for (var notification in notificationModel.notificationList) {
             final createdAt = notification.createdAt;
-            if (createdAt.isAfter(todayStart)) {
+            if (createdAt!.isAfter(todayStart)) {
               todayNotifications.add(notification);
             } else if (createdAt.isAfter(yesterdayStart) && createdAt.isBefore(yesterdayEnd)) {
               yesterdayNotifications.add(notification);

@@ -1,6 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,20 +12,114 @@ import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_widget.dart';
 import 'package:for_the_table/firebase_options.dart';
+import 'package:for_the_table/screens/notification/shared/providers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'core/utils/app_log.dart';
+import 'model/notification_model/notification_model.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  firebaseMessaging.getToken().then((token){
+    AppLog.log("Device token is $token");
+  });
+  FirebaseMessaging.instance.setAutoInitEnabled(true);
+  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+  AwesomeNotifications().initialize(
+    'resource://drawable/notification_icon',
+    [
+      NotificationChannel(
+        channelKey: 'high_importance_channel',
+        channelName: 'High Importance Notifications',
+        channelDescription: 'Notifications with high importance',
+        defaultColor: AppColors.colorPrimary,
+        ledColor: AppColors.colorWhite,
+      ),
+    ],
+  );
 
-  SystemChannels.textInput.invokeMethod('TextInput.hide');
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await requestNotificationPermission();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(ProviderScope(child: MainApp()));
   });
 }
+final container = ProviderContainer();
+final notificationNotifier = container.read(notificationNotifierProvider.notifier);
+
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  AppLog.log("Handling a background message: ${message.messageId}");
+  // await _showNotification(message);
+}
+
+Future<void> requestNotificationPermission() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: true,
+    criticalAlert: true,
+    provisional: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    AppLog.log('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    AppLog.log('User granted provisional permission');
+  } else {
+    AppLog.log('User declined or has not accepted permission');
+  }
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    AppLog.log("Received a foreground message: ${message.messageId}");
+    if (message.notification != null) {
+      _showNotification(message);
+    }
+  });
+}
+
+Future<void> _showNotification(RemoteMessage message) async {
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+        channelKey: 'high_importance_channel',
+        id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
+        title: message.notification?.title,
+        body: message.notification?.body,
+        notificationLayout: NotificationLayout.Default,
+        wakeUpScreen: true
+    ),
+    actionButtons: [
+      NotificationActionButton(
+        key: 'open',
+        label: 'Open',
+        actionType: ActionType.Default,
+      ),
+    ],
+  );
+
+  await notificationNotifier.getNotificationList();
+  final notificationState = container.read(notificationNotifierProvider);
+  final notifications = notificationState.todayNotifications.last.title;
+  AppLog.log("Notification: ${message.notification?.title}");
+  AppLog.log("Notification title: $notifications");
+  notificationNotifier.addNotification(NotificationData(
+    title: message.notification?.title ?? 'No Title',
+    message: message.notification?.body ?? 'No Message',
+    postedUserInfo:  const UserNotificationInfo(profileImage: '',fullName: ''),
+    createdAt: DateTime.now(),
+  ));
+}
+
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
@@ -39,11 +136,11 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
     ..interceptors;
 
   ref.read(dioProvider).interceptors.add(
-        PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-        ),
-      );
+    PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+    ),
+  );
 
   return unit;
 });

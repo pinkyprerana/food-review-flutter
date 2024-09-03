@@ -397,13 +397,13 @@ NotificationData _$NotificationDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$NotificationData {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: "message")
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "type")
-  String get type => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: "ref_post_id")
   String? get refPostId => throw _privateConstructorUsedError;
   @JsonKey(name: "ref_user_follow_id")
@@ -415,15 +415,16 @@ mixin _$NotificationData {
   @JsonKey(name: "ref_post_save_id")
   String? get refPostSaveId => throw _privateConstructorUsedError;
   @JsonKey(name: "status")
-  String get status => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "read_status")
-  bool get readStatus => throw _privateConstructorUsedError;
+  bool? get readStatus => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "posted_user_info")
-  UserNotificationInfo get postedUserInfo => throw _privateConstructorUsedError;
+  UserNotificationInfo? get postedUserInfo =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: "receiver_user_info")
-  UserNotificationInfo get receiverUserInfo =>
+  UserNotificationInfo? get receiverUserInfo =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -439,24 +440,24 @@ abstract class $NotificationDataCopyWith<$Res> {
       _$NotificationDataCopyWithImpl<$Res, NotificationData>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "message") String message,
-      @JsonKey(name: "type") String type,
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title,
+      @JsonKey(name: "message") String? message,
+      @JsonKey(name: "type") String? type,
       @JsonKey(name: "ref_post_id") String? refPostId,
       @JsonKey(name: "ref_user_follow_id") String? refUserFollowId,
       @JsonKey(name: "ref_post_comment_id") String? refPostCommentId,
       @JsonKey(name: "ref_post_like_id") String? refPostLikeId,
       @JsonKey(name: "ref_post_save_id") String? refPostSaveId,
-      @JsonKey(name: "status") String status,
-      @JsonKey(name: "read_status") bool readStatus,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "posted_user_info") UserNotificationInfo postedUserInfo,
+      @JsonKey(name: "status") String? status,
+      @JsonKey(name: "read_status") bool? readStatus,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "posted_user_info") UserNotificationInfo? postedUserInfo,
       @JsonKey(name: "receiver_user_info")
-      UserNotificationInfo receiverUserInfo});
+      UserNotificationInfo? receiverUserInfo});
 
-  $UserNotificationInfoCopyWith<$Res> get postedUserInfo;
-  $UserNotificationInfoCopyWith<$Res> get receiverUserInfo;
+  $UserNotificationInfoCopyWith<$Res>? get postedUserInfo;
+  $UserNotificationInfoCopyWith<$Res>? get receiverUserInfo;
 }
 
 /// @nodoc
@@ -472,38 +473,38 @@ class _$NotificationDataCopyWithImpl<$Res, $Val extends NotificationData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? message = null,
-    Object? type = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? message = freezed,
+    Object? type = freezed,
     Object? refPostId = freezed,
     Object? refUserFollowId = freezed,
     Object? refPostCommentId = freezed,
     Object? refPostLikeId = freezed,
     Object? refPostSaveId = freezed,
-    Object? status = null,
-    Object? readStatus = null,
-    Object? createdAt = null,
-    Object? postedUserInfo = null,
-    Object? receiverUserInfo = null,
+    Object? status = freezed,
+    Object? readStatus = freezed,
+    Object? createdAt = freezed,
+    Object? postedUserInfo = freezed,
+    Object? receiverUserInfo = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
+              as String?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
+              as String?,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       refPostId: freezed == refPostId
           ? _value.refPostId
           : refPostId // ignore: cast_nullable_to_non_nullable
@@ -524,41 +525,49 @@ class _$NotificationDataCopyWithImpl<$Res, $Val extends NotificationData>
           ? _value.refPostSaveId
           : refPostSaveId // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: null == status
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      readStatus: null == readStatus
+              as String?,
+      readStatus: freezed == readStatus
           ? _value.readStatus
           : readStatus // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdAt: null == createdAt
+              as bool?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      postedUserInfo: null == postedUserInfo
+              as DateTime?,
+      postedUserInfo: freezed == postedUserInfo
           ? _value.postedUserInfo
           : postedUserInfo // ignore: cast_nullable_to_non_nullable
-              as UserNotificationInfo,
-      receiverUserInfo: null == receiverUserInfo
+              as UserNotificationInfo?,
+      receiverUserInfo: freezed == receiverUserInfo
           ? _value.receiverUserInfo
           : receiverUserInfo // ignore: cast_nullable_to_non_nullable
-              as UserNotificationInfo,
+              as UserNotificationInfo?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserNotificationInfoCopyWith<$Res> get postedUserInfo {
-    return $UserNotificationInfoCopyWith<$Res>(_value.postedUserInfo, (value) {
+  $UserNotificationInfoCopyWith<$Res>? get postedUserInfo {
+    if (_value.postedUserInfo == null) {
+      return null;
+    }
+
+    return $UserNotificationInfoCopyWith<$Res>(_value.postedUserInfo!, (value) {
       return _then(_value.copyWith(postedUserInfo: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserNotificationInfoCopyWith<$Res> get receiverUserInfo {
-    return $UserNotificationInfoCopyWith<$Res>(_value.receiverUserInfo,
+  $UserNotificationInfoCopyWith<$Res>? get receiverUserInfo {
+    if (_value.receiverUserInfo == null) {
+      return null;
+    }
+
+    return $UserNotificationInfoCopyWith<$Res>(_value.receiverUserInfo!,
         (value) {
       return _then(_value.copyWith(receiverUserInfo: value) as $Val);
     });
@@ -574,26 +583,26 @@ abstract class _$$NotificationDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "message") String message,
-      @JsonKey(name: "type") String type,
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "title") String? title,
+      @JsonKey(name: "message") String? message,
+      @JsonKey(name: "type") String? type,
       @JsonKey(name: "ref_post_id") String? refPostId,
       @JsonKey(name: "ref_user_follow_id") String? refUserFollowId,
       @JsonKey(name: "ref_post_comment_id") String? refPostCommentId,
       @JsonKey(name: "ref_post_like_id") String? refPostLikeId,
       @JsonKey(name: "ref_post_save_id") String? refPostSaveId,
-      @JsonKey(name: "status") String status,
-      @JsonKey(name: "read_status") bool readStatus,
-      @JsonKey(name: "createdAt") DateTime createdAt,
-      @JsonKey(name: "posted_user_info") UserNotificationInfo postedUserInfo,
+      @JsonKey(name: "status") String? status,
+      @JsonKey(name: "read_status") bool? readStatus,
+      @JsonKey(name: "createdAt") DateTime? createdAt,
+      @JsonKey(name: "posted_user_info") UserNotificationInfo? postedUserInfo,
       @JsonKey(name: "receiver_user_info")
-      UserNotificationInfo receiverUserInfo});
+      UserNotificationInfo? receiverUserInfo});
 
   @override
-  $UserNotificationInfoCopyWith<$Res> get postedUserInfo;
+  $UserNotificationInfoCopyWith<$Res>? get postedUserInfo;
   @override
-  $UserNotificationInfoCopyWith<$Res> get receiverUserInfo;
+  $UserNotificationInfoCopyWith<$Res>? get receiverUserInfo;
 }
 
 /// @nodoc
@@ -607,38 +616,38 @@ class __$$NotificationDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? message = null,
-    Object? type = null,
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? message = freezed,
+    Object? type = freezed,
     Object? refPostId = freezed,
     Object? refUserFollowId = freezed,
     Object? refPostCommentId = freezed,
     Object? refPostLikeId = freezed,
     Object? refPostSaveId = freezed,
-    Object? status = null,
-    Object? readStatus = null,
-    Object? createdAt = null,
-    Object? postedUserInfo = null,
-    Object? receiverUserInfo = null,
+    Object? status = freezed,
+    Object? readStatus = freezed,
+    Object? createdAt = freezed,
+    Object? postedUserInfo = freezed,
+    Object? receiverUserInfo = freezed,
   }) {
     return _then(_$NotificationDataImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
+              as String?,
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
+              as String?,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       refPostId: freezed == refPostId
           ? _value.refPostId
           : refPostId // ignore: cast_nullable_to_non_nullable
@@ -659,26 +668,26 @@ class __$$NotificationDataImplCopyWithImpl<$Res>
           ? _value.refPostSaveId
           : refPostSaveId // ignore: cast_nullable_to_non_nullable
               as String?,
-      status: null == status
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
-      readStatus: null == readStatus
+              as String?,
+      readStatus: freezed == readStatus
           ? _value.readStatus
           : readStatus // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdAt: null == createdAt
+              as bool?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      postedUserInfo: null == postedUserInfo
+              as DateTime?,
+      postedUserInfo: freezed == postedUserInfo
           ? _value.postedUserInfo
           : postedUserInfo // ignore: cast_nullable_to_non_nullable
-              as UserNotificationInfo,
-      receiverUserInfo: null == receiverUserInfo
+              as UserNotificationInfo?,
+      receiverUserInfo: freezed == receiverUserInfo
           ? _value.receiverUserInfo
           : receiverUserInfo // ignore: cast_nullable_to_non_nullable
-              as UserNotificationInfo,
+              as UserNotificationInfo?,
     ));
   }
 }
@@ -687,36 +696,36 @@ class __$$NotificationDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NotificationDataImpl implements _NotificationData {
   const _$NotificationDataImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "message") required this.message,
-      @JsonKey(name: "type") required this.type,
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "title") this.title,
+      @JsonKey(name: "message") this.message,
+      @JsonKey(name: "type") this.type,
       @JsonKey(name: "ref_post_id") this.refPostId,
       @JsonKey(name: "ref_user_follow_id") this.refUserFollowId,
       @JsonKey(name: "ref_post_comment_id") this.refPostCommentId,
       @JsonKey(name: "ref_post_like_id") this.refPostLikeId,
       @JsonKey(name: "ref_post_save_id") this.refPostSaveId,
-      @JsonKey(name: "status") required this.status,
-      @JsonKey(name: "read_status") required this.readStatus,
-      @JsonKey(name: "createdAt") required this.createdAt,
-      @JsonKey(name: "posted_user_info") required this.postedUserInfo,
-      @JsonKey(name: "receiver_user_info") required this.receiverUserInfo});
+      @JsonKey(name: "status") this.status,
+      @JsonKey(name: "read_status") this.readStatus,
+      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "posted_user_info") this.postedUserInfo,
+      @JsonKey(name: "receiver_user_info") this.receiverUserInfo});
 
   factory _$NotificationDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$NotificationDataImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "title")
-  final String title;
+  final String? title;
   @override
   @JsonKey(name: "message")
-  final String message;
+  final String? message;
   @override
   @JsonKey(name: "type")
-  final String type;
+  final String? type;
   @override
   @JsonKey(name: "ref_post_id")
   final String? refPostId;
@@ -734,19 +743,19 @@ class _$NotificationDataImpl implements _NotificationData {
   final String? refPostSaveId;
   @override
   @JsonKey(name: "status")
-  final String status;
+  final String? status;
   @override
   @JsonKey(name: "read_status")
-  final bool readStatus;
+  final bool? readStatus;
   @override
   @JsonKey(name: "createdAt")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   @JsonKey(name: "posted_user_info")
-  final UserNotificationInfo postedUserInfo;
+  final UserNotificationInfo? postedUserInfo;
   @override
   @JsonKey(name: "receiver_user_info")
-  final UserNotificationInfo receiverUserInfo;
+  final UserNotificationInfo? receiverUserInfo;
 
   @override
   String toString() {
@@ -819,39 +828,38 @@ class _$NotificationDataImpl implements _NotificationData {
 
 abstract class _NotificationData implements NotificationData {
   const factory _NotificationData(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "title") required final String title,
-          @JsonKey(name: "message") required final String message,
-          @JsonKey(name: "type") required final String type,
-          @JsonKey(name: "ref_post_id") final String? refPostId,
-          @JsonKey(name: "ref_user_follow_id") final String? refUserFollowId,
-          @JsonKey(name: "ref_post_comment_id") final String? refPostCommentId,
-          @JsonKey(name: "ref_post_like_id") final String? refPostLikeId,
-          @JsonKey(name: "ref_post_save_id") final String? refPostSaveId,
-          @JsonKey(name: "status") required final String status,
-          @JsonKey(name: "read_status") required final bool readStatus,
-          @JsonKey(name: "createdAt") required final DateTime createdAt,
-          @JsonKey(name: "posted_user_info")
-          required final UserNotificationInfo postedUserInfo,
-          @JsonKey(name: "receiver_user_info")
-          required final UserNotificationInfo receiverUserInfo}) =
-      _$NotificationDataImpl;
+      {@JsonKey(name: "_id") final String? id,
+      @JsonKey(name: "title") final String? title,
+      @JsonKey(name: "message") final String? message,
+      @JsonKey(name: "type") final String? type,
+      @JsonKey(name: "ref_post_id") final String? refPostId,
+      @JsonKey(name: "ref_user_follow_id") final String? refUserFollowId,
+      @JsonKey(name: "ref_post_comment_id") final String? refPostCommentId,
+      @JsonKey(name: "ref_post_like_id") final String? refPostLikeId,
+      @JsonKey(name: "ref_post_save_id") final String? refPostSaveId,
+      @JsonKey(name: "status") final String? status,
+      @JsonKey(name: "read_status") final bool? readStatus,
+      @JsonKey(name: "createdAt") final DateTime? createdAt,
+      @JsonKey(name: "posted_user_info")
+      final UserNotificationInfo? postedUserInfo,
+      @JsonKey(name: "receiver_user_info")
+      final UserNotificationInfo? receiverUserInfo}) = _$NotificationDataImpl;
 
   factory _NotificationData.fromJson(Map<String, dynamic> json) =
       _$NotificationDataImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "title")
-  String get title;
+  String? get title;
   @override
   @JsonKey(name: "message")
-  String get message;
+  String? get message;
   @override
   @JsonKey(name: "type")
-  String get type;
+  String? get type;
   @override
   @JsonKey(name: "ref_post_id")
   String? get refPostId;
@@ -869,19 +877,19 @@ abstract class _NotificationData implements NotificationData {
   String? get refPostSaveId;
   @override
   @JsonKey(name: "status")
-  String get status;
+  String? get status;
   @override
   @JsonKey(name: "read_status")
-  bool get readStatus;
+  bool? get readStatus;
   @override
   @JsonKey(name: "createdAt")
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(name: "posted_user_info")
-  UserNotificationInfo get postedUserInfo;
+  UserNotificationInfo? get postedUserInfo;
   @override
   @JsonKey(name: "receiver_user_info")
-  UserNotificationInfo get receiverUserInfo;
+  UserNotificationInfo? get receiverUserInfo;
   @override
   @JsonKey(ignore: true)
   _$$NotificationDataImplCopyWith<_$NotificationDataImpl> get copyWith =>
@@ -895,15 +903,15 @@ UserNotificationInfo _$UserNotificationInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserNotificationInfo {
   @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "fullName")
-  String get fullName => throw _privateConstructorUsedError;
+  String? get fullName => throw _privateConstructorUsedError;
   @JsonKey(name: "email")
-  String get email => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
   @JsonKey(name: "phone")
-  String get phone => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_image")
-  String get profileImage => throw _privateConstructorUsedError;
+  String? get profileImage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -918,11 +926,11 @@ abstract class $UserNotificationInfoCopyWith<$Res> {
       _$UserNotificationInfoCopyWithImpl<$Res, UserNotificationInfo>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "phone") String phone,
-      @JsonKey(name: "profile_image") String profileImage});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "fullName") String? fullName,
+      @JsonKey(name: "email") String? email,
+      @JsonKey(name: "phone") String? phone,
+      @JsonKey(name: "profile_image") String? profileImage});
 }
 
 /// @nodoc
@@ -939,33 +947,33 @@ class _$UserNotificationInfoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? fullName = null,
-    Object? email = null,
-    Object? phone = null,
-    Object? profileImage = null,
+    Object? id = freezed,
+    Object? fullName = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
+    Object? profileImage = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullName: null == fullName
+              as String?,
+      fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
+              as String?,
+      phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImage: null == profileImage
+              as String?,
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -979,11 +987,11 @@ abstract class _$$UserNotificationInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "fullName") String fullName,
-      @JsonKey(name: "email") String email,
-      @JsonKey(name: "phone") String phone,
-      @JsonKey(name: "profile_image") String profileImage});
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "fullName") String? fullName,
+      @JsonKey(name: "email") String? email,
+      @JsonKey(name: "phone") String? phone,
+      @JsonKey(name: "profile_image") String? profileImage});
 }
 
 /// @nodoc
@@ -997,33 +1005,33 @@ class __$$UserNotificationInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? fullName = null,
-    Object? email = null,
-    Object? phone = null,
-    Object? profileImage = null,
+    Object? id = freezed,
+    Object? fullName = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
+    Object? profileImage = freezed,
   }) {
     return _then(_$UserNotificationInfoImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      fullName: null == fullName
+              as String?,
+      fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
+              as String?,
+      phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String,
-      profileImage: null == profileImage
+              as String?,
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1032,30 +1040,30 @@ class __$$UserNotificationInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserNotificationInfoImpl implements _UserNotificationInfo {
   const _$UserNotificationInfoImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "fullName") required this.fullName,
-      @JsonKey(name: "email") required this.email,
-      @JsonKey(name: "phone") required this.phone,
-      @JsonKey(name: "profile_image") required this.profileImage});
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "fullName") this.fullName,
+      @JsonKey(name: "email") this.email,
+      @JsonKey(name: "phone") this.phone,
+      @JsonKey(name: "profile_image") this.profileImage});
 
   factory _$UserNotificationInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserNotificationInfoImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
-  final String id;
+  final String? id;
   @override
   @JsonKey(name: "fullName")
-  final String fullName;
+  final String? fullName;
   @override
   @JsonKey(name: "email")
-  final String email;
+  final String? email;
   @override
   @JsonKey(name: "phone")
-  final String phone;
+  final String? phone;
   @override
   @JsonKey(name: "profile_image")
-  final String profileImage;
+  final String? profileImage;
 
   @override
   String toString() {
@@ -1099,11 +1107,11 @@ class _$UserNotificationInfoImpl implements _UserNotificationInfo {
 
 abstract class _UserNotificationInfo implements UserNotificationInfo {
   const factory _UserNotificationInfo(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "fullName") required final String fullName,
-          @JsonKey(name: "email") required final String email,
-          @JsonKey(name: "phone") required final String phone,
-          @JsonKey(name: "profile_image") required final String profileImage}) =
+          {@JsonKey(name: "_id") final String? id,
+          @JsonKey(name: "fullName") final String? fullName,
+          @JsonKey(name: "email") final String? email,
+          @JsonKey(name: "phone") final String? phone,
+          @JsonKey(name: "profile_image") final String? profileImage}) =
       _$UserNotificationInfoImpl;
 
   factory _UserNotificationInfo.fromJson(Map<String, dynamic> json) =
@@ -1111,19 +1119,19 @@ abstract class _UserNotificationInfo implements UserNotificationInfo {
 
   @override
   @JsonKey(name: "_id")
-  String get id;
+  String? get id;
   @override
   @JsonKey(name: "fullName")
-  String get fullName;
+  String? get fullName;
   @override
   @JsonKey(name: "email")
-  String get email;
+  String? get email;
   @override
   @JsonKey(name: "phone")
-  String get phone;
+  String? get phone;
   @override
   @JsonKey(name: "profile_image")
-  String get profileImage;
+  String? get profileImage;
   @override
   @JsonKey(ignore: true)
   _$$UserNotificationInfoImplCopyWith<_$UserNotificationInfoImpl>
