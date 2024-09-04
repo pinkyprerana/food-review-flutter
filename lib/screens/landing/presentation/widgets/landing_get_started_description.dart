@@ -82,7 +82,10 @@ class LandingGetStartedDescription extends ConsumerWidget {
                             if (Platform.isAndroid) {
                               showToastMessage('This option is only available for iPhone users');
                             } else {
-                              print('Apple');
+                              await stateNotifier.signInWithApple(voidCallback: () {
+                                AutoRouter.of(context).pushAndPopUntil(const LocationRoute(),
+                                    predicate: (_) => false);
+                              });
                             }
                           } else {
                             print('FaceBook');
