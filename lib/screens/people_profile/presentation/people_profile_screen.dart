@@ -26,10 +26,12 @@ import 'package:after_layout/after_layout.dart';
 @RoutePage()
 class PeopleProfilePage extends ConsumerStatefulWidget {
   final String peopleId;
+  final bool? isDeepLinking;
 
   const PeopleProfilePage({
     super.key,
     required this.peopleId,
+    this.isDeepLinking,
   });
 
   @override
@@ -98,7 +100,12 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
         centerTitle: false,
         automaticallyImplyLeading: false,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            (widget.isDeepLinking ?? false)
+                ? AutoRouter.of(context)
+                    .pushAndPopUntil(const BaseRoute(), predicate: (_) => false)
+                : Navigator.pop(context);
+          },
           child: Container(
             alignment: Alignment.center,
             margin:

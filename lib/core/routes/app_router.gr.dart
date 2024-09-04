@@ -139,6 +139,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: PeopleProfilePage(
           key: args.key,
           peopleId: args.peopleId,
+          isDeepLinking: args.isDeepLinking,
         ),
       );
     },
@@ -583,12 +584,14 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
   PeopleProfileRoute({
     Key? key,
     required String peopleId,
+    bool? isDeepLinking,
     List<PageRouteInfo>? children,
   }) : super(
           PeopleProfileRoute.name,
           args: PeopleProfileRouteArgs(
             key: key,
             peopleId: peopleId,
+            isDeepLinking: isDeepLinking,
           ),
           initialChildren: children,
         );
@@ -603,15 +606,18 @@ class PeopleProfileRouteArgs {
   const PeopleProfileRouteArgs({
     this.key,
     required this.peopleId,
+    this.isDeepLinking,
   });
 
   final Key? key;
 
   final String peopleId;
 
+  final bool? isDeepLinking;
+
   @override
   String toString() {
-    return 'PeopleProfileRouteArgs{key: $key, peopleId: $peopleId}';
+    return 'PeopleProfileRouteArgs{key: $key, peopleId: $peopleId, isDeepLinking: $isDeepLinking}';
   }
 }
 

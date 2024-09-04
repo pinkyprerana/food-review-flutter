@@ -12,7 +12,11 @@ import '../../../core/constants/assets.dart';
 @RoutePage()
 class SplashPage extends ConsumerStatefulWidget {
   final String? peopleId;
-  const SplashPage({super.key, this.peopleId});
+
+  const SplashPage({
+    super.key,
+    this.peopleId,
+  });
 
   @override
   ConsumerState<SplashPage> createState() => _SplashPageState();
@@ -56,7 +60,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       if (token != null && token.toString().isNotEmpty) {
         if (widget.peopleId != null) {
           AutoRouter.of(context).pushAndPopUntil(
-              PeopleProfileRoute(peopleId: widget.peopleId!),
+              PeopleProfileRoute(
+                  peopleId: widget.peopleId!, isDeepLinking: true),
               predicate: (_) => false);
         } else {
           (permission == LocationPermission.denied ||
