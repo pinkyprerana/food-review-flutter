@@ -22,10 +22,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  firebaseMessaging.getToken().then((token){
-    AppLog.log("Device token is $token");
-  });
+
   FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   AwesomeNotifications().initialize(
