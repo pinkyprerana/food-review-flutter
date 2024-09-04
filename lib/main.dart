@@ -37,6 +37,7 @@ Future<void> main() async {
         channelDescription: 'Notifications with high importance',
         defaultColor: AppColors.colorPrimary,
         ledColor: AppColors.colorWhite,
+        importance: NotificationImportance.High,
       ),
     ],
   );
@@ -88,37 +89,63 @@ Future<void> requestNotificationPermission() async {
   });
 }
 
+// Future<void> _showNotification(RemoteMessage message) async {
+//   await AwesomeNotifications().createNotification(
+//     content: NotificationContent(
+//         channelKey: 'high_importance_channel',
+//         id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
+//         title: message.notification?.title,
+//         body: message.notification?.body,
+//         notificationLayout: NotificationLayout.Default,
+//         wakeUpScreen: true
+//     ),
+//     actionButtons: [
+//       NotificationActionButton(
+//         key: 'open',
+//         label: 'Open',
+//         actionType: ActionType.Default,
+//       ),
+//     ],
+//   );
+//
+//   await notificationNotifier.getNotificationList();
+//   final notificationState = container.read(notificationNotifierProvider);
+//   final notifications = notificationState.todayNotifications.last.title;
+//   AppLog.log("Notification: ${message.notification?.title}");
+//   AppLog.log("Notification title: $notifications");
+//   notificationNotifier.addNotification(NotificationData(
+//     title: message.notification?.title ?? 'No Title',
+//     message: message.notification?.body ?? 'No Message',
+//     postedUserInfo:  const UserNotificationInfo(profileImage: '',fullName: ''),
+//     createdAt: DateTime.now(),
+//   ));
+// }
+
 Future<void> _showNotification(RemoteMessage message) async {
+  if (message.notification?.title == null || message.notification?.body == null) {
+    AppLog.log('Notification title or body is null');
+    return;
+  }
+
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-        channelKey: 'high_importance_channel',
-        id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
-        title: message.notification?.title,
-        body: message.notification?.body,
-        notificationLayout: NotificationLayout.Default,
-        wakeUpScreen: true
+      channelKey: 'high_importance_channel',
+      id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      title: message.notification?.title,
+      body: message.notification?.body,
+      notificationLayout: NotificationLayout.Default,
+      wakeUpScreen: true,
     ),
-    actionButtons: [
-      NotificationActionButton(
-        key: 'open',
-        label: 'Open',
-        actionType: ActionType.Default,
-      ),
-    ],
   );
 
-  await notificationNotifier.getNotificationList();
-  final notificationState = container.read(notificationNotifierProvider);
-  final notifications = notificationState.todayNotifications.last.title;
-  AppLog.log("Notification: ${message.notification?.title}");
-  AppLog.log("Notification title: $notifications");
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
     message: message.notification?.body ?? 'No Message',
-    postedUserInfo:  const UserNotificationInfo(profileImage: '',fullName: ''),
+    postedUserInfo: const UserNotificationInfo(profileImage: '', fullName: ''),
     createdAt: DateTime.now(),
   ));
 }
+
 
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
