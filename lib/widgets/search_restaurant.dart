@@ -77,7 +77,9 @@ class _SearchRestaurantPageState extends ConsumerState<SearchRestaurantPage> {
         //   ),
         // ),
       ),
-      body: SmartRefresher(
+      body: restaurantState.isLoading
+       ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,))
+      : SmartRefresher(
         controller: restaurantNotifier.restaurantRefreshController,
         enablePullUp: true,
         enablePullDown: false,
