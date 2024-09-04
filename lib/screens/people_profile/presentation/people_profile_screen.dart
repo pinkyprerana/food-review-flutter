@@ -36,8 +36,7 @@ class PeopleProfilePage extends ConsumerStatefulWidget {
   ConsumerState<PeopleProfilePage> createState() => _PeopleProfilePageState();
 }
 
-class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage>
-    with AfterLayoutMixin<PeopleProfilePage> {
+class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   DataOfOtherPeople? getDetails;
   @override
   void initState() {
@@ -583,11 +582,11 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage>
     );
   }
 
-  @override
-  FutureOr<void> afterFirstLayout(BuildContext context) async {
-    final followNotifier = ref.read(followNotifierProvider.notifier);
-    await followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
-    await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
-    throw UnimplementedError();
-  }
+  // @override
+  // FutureOr<void> afterFirstLayout(BuildContext context) async {
+  //   final followNotifier = ref.read(followNotifierProvider.notifier);
+  //   await followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.peopleId);
+  //   await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
+  //   throw UnimplementedError();
+  // }
 }

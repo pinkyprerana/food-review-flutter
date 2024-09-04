@@ -11,7 +11,8 @@ import '../../../core/constants/assets.dart';
 
 @RoutePage()
 class SplashPage extends ConsumerStatefulWidget {
-  const SplashPage({super.key});
+  final String? peopleId;
+  const SplashPage({super.key, this.peopleId});
 
   @override
   ConsumerState<SplashPage> createState() => _SplashPageState();
@@ -42,7 +43,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     // final stateOfLocation = ref.watch(locationNotifierProvider);
     final hive = ref.read(hiveProvider);
     final token = hive.box.get(AppPreferenceKeys.token);
-    final getStartedDone = await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
+    final getStartedDone =
+        await hive.box.get(AppPreferenceKeys.getStartedDone) ?? 'false';
     final String? isLocationFetched =
         await hive.box.get(AppPreferenceKeys.isLocationFetched) ?? 'false';
     // final id = await hive.box.get(AppPreferenceKeys.userId);
@@ -52,15 +54,25 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
     if (mounted) {
       if (token != null && token.toString().isNotEmpty) {
-        (permission == LocationPermission.denied ||
-                isLocationFetched == null ||
-                isLocationFetched == 'false')
-            ? AutoRouter.of(context).pushAndPopUntil(const LocationRoute(), predicate: (_) => false)
-            : AutoRouter.of(context).pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
+        if (widget.peopleId != null) {
+          AutoRouter.of(context).pushAndPopUntil(
+              PeopleProfileRoute(peopleId: widget.peopleId!),
+              predicate: (_) => false);
+        } else {
+          (permission == LocationPermission.denied ||
+                  isLocationFetched == null ||
+                  isLocationFetched == 'false')
+              ? AutoRouter.of(context).pushAndPopUntil(const LocationRoute(),
+                  predicate: (_) => false)
+              : AutoRouter.of(context)
+                  .pushAndPopUntil(const BaseRoute(), predicate: (_) => false);
+        }
       } else if (getStartedDone == 'true') {
-        AutoRouter.of(context).pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
+        AutoRouter.of(context)
+            .pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
       } else {
-        AutoRouter.of(context).pushAndPopUntil(const LandingIntroRoute(), predicate: (_) => false);
+        AutoRouter.of(context).pushAndPopUntil(const LandingIntroRoute(),
+            predicate: (_) => false);
       }
     }
   }

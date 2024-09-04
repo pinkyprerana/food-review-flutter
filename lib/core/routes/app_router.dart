@@ -48,8 +48,8 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           page: SplashRoute.page,
-          // path: '/splash',
-          path: '/',
+          path: '/splash',
+          // path: '/',
           initial: true,
         ),
         AutoRoute(

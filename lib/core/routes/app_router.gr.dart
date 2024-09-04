@@ -241,9 +241,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SplashRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashRouteArgs>(
+          orElse: () => const SplashRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SplashPage(),
+        child: SplashPage(
+          key: args.key,
+          peopleId: args.peopleId,
+        ),
       );
     },
     StandingsRoute.name: (routeData) {
@@ -906,16 +911,39 @@ class SettingsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SplashPage]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute({List<PageRouteInfo>? children})
-      : super(
+class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
+  SplashRoute({
+    Key? key,
+    String? peopleId,
+    List<PageRouteInfo>? children,
+  }) : super(
           SplashRoute.name,
+          args: SplashRouteArgs(
+            key: key,
+            peopleId: peopleId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SplashRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SplashRouteArgs> page = PageInfo<SplashRouteArgs>(name);
+}
+
+class SplashRouteArgs {
+  const SplashRouteArgs({
+    this.key,
+    this.peopleId,
+  });
+
+  final Key? key;
+
+  final String? peopleId;
+
+  @override
+  String toString() {
+    return 'SplashRouteArgs{key: $key, peopleId: $peopleId}';
+  }
 }
 
 /// generated route for
