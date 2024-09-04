@@ -47,4 +47,5 @@ class AppPreferenceKeys {
   static const String longitude = 'longitude';
   static const String location = 'location';
   static const String isLocationFetched = 'isLocationFetched';
+  static const String deviceToken = 'device_token';
 }

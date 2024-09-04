@@ -198,6 +198,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           _hiveDatabase.box
               .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.deviceToken, jsonData['device_token'] ?? '');
           showToastMessage(jsonData["message"]);
           clearLoginPageFields();
           voidCallback.call();
