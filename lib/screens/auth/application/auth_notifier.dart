@@ -217,7 +217,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-
   Future<void> signUp(VoidCallback? voidCallback) async {
     state = state.copyWith(isLoading: true);
 
