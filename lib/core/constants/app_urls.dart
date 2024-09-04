@@ -20,6 +20,7 @@ class AppUrls {
   static const logout = '/user/logout';
   static const profilePicLocation =
       'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
+  static const socialLogin = '/user/social-signin';
 
   //Post Feed
   static const getPostFeed = '/post/list';
@@ -57,6 +58,8 @@ class AppUrls {
   static const postListPerRestaurant = '/post/list';
 
   //restaurant
+  static const restaurantLocation =
+      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/';
   static const restaurantList = '/restaurant/list';
   static const saveRestaurant = '/restaurant/save';
   static const restaurnatDetails = '/restaurant/details';

@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/toast.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
@@ -14,12 +12,13 @@ import '../../../core/utils/common_util.dart';
 import '../../../model/restaurant/restaurantlist_response_model.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/custom_input_field.dart';
+import '../../../widgets/search_restaurant.dart';
 import '../../../widgets/video_preview.dart';
 import '../../onboarding/shared/provider.dart';
 import '../../post_feed/shared/provider.dart';
-import '../../restaurant/shared/provider.dart';
+// import '../../restaurant/shared/provider.dart';
 import '../shared/provider.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
+// import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 @RoutePage()
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -141,13 +140,13 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                       child: media == null
                           ? const Text('No media selected.')
                           : isVideo
-                              ? VideoPreviewWidget(file: media)
-                              : Image.file(
-                                  File(media.path),
-                                  fit: BoxFit.fill,
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                ), // Display image
+                          ? VideoPreviewWidget(file: media)
+                          : Image.file(
+                        File(media.path),
+                        fit: BoxFit.fill,
+                        height: double.infinity,
+                        width: double.infinity,
+                      ), // Display image
                     ),
                   ),
                 ),
@@ -173,64 +172,64 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                     ),
                     currentPage == 1
                         ? Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AppButton(
-                                  loading: state.isLoading,
-                                  width: MediaQuery.of(context).size.width * 0.73,
-                                  text: "Post",
-                                  onPressed: () async {
-                                    dismissKeyboard(context);
-                                    if (media != null) {
-                                      createPostNotifier.addPost(() {
-                                        FocusManager.instance.primaryFocus?.unfocus();
-                                        createPostNotifier.onContinuePressed(context);
-                                        postFeedNotifier.getPostFeed();
-                                        createPostNotifier.clearRestaurantDetails();
-                                      }, media);
-                                    } else {
-                                      showToastMessage("Click or select image");
-                                    }
-                                  },
-                                ),
-                                AppButton(
-                                  color: AppColors.colorPrimaryAlpha,
-                                  width: MediaQuery.of(context).size.width * 0.13,
-                                  onPressed: () {
-                                    createPostNotifier.resetPage();
-                                    createPostNotifier.clearAllPostDetails();
-                                    Navigator.pop(context);
-                                  },
-                                  child: Image.asset(
-                                    Assets.cancel,
-                                    color: AppColors.colorBackground,
-                                    scale: 2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: AppButton(
-                                loading: state.isLoading,
-                                text: "Continue",
-                                onPressed: () {
-                                  dismissKeyboard(context);
-                                  if (createPostNotifier.postTitleTextController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      createPostNotifier.postDescriptionTextController.text
-                                          .trim()
-                                          .isNotEmpty) {
-                                    createPostNotifier.onContinuePressed(context);
-                                  } else {
-                                    showToastMessage("Post title and description are required");
-                                  }
-                                }),
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppButton(
+                            loading: state.isLoading,
+                            width: MediaQuery.of(context).size.width * 0.73,
+                            text: "Post",
+                            onPressed: () async {
+                              dismissKeyboard(context);
+                              if (media != null) {
+                                createPostNotifier.addPost(() {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  createPostNotifier.onContinuePressed(context);
+                                  postFeedNotifier.getPostFeed();
+                                  createPostNotifier.clearRestaurantDetails();
+                                }, media);
+                              } else {
+                                showToastMessage("Click or select image");
+                              }
+                            },
                           ),
+                          AppButton(
+                            color: AppColors.colorPrimaryAlpha,
+                            width: MediaQuery.of(context).size.width * 0.13,
+                            onPressed: () {
+                              createPostNotifier.resetPage();
+                              createPostNotifier.clearAllPostDetails();
+                              Navigator.pop(context);
+                            },
+                            child: Image.asset(
+                              Assets.cancel,
+                              color: AppColors.colorBackground,
+                              scale: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: AppButton(
+                          loading: state.isLoading,
+                          text: "Continue",
+                          onPressed: () {
+                            dismissKeyboard(context);
+                            if (createPostNotifier.postTitleTextController.text
+                                .trim()
+                                .isNotEmpty &&
+                                createPostNotifier.postDescriptionTextController.text
+                                    .trim()
+                                    .isNotEmpty) {
+                              createPostNotifier.onContinuePressed(context);
+                            } else {
+                              showToastMessage("Post title and description are required");
+                            }
+                          }),
+                    ),
                   ],
                 ),
               ],
@@ -301,9 +300,9 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
 
   Widget _selectRestaurantPage(allPreferences) {
     final createPostNotifier = ref.watch(createPostNotifierProvider.notifier);
-    final restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
-    final restaurantState = ref.watch(restaurantNotifierProvider);
-    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    // var restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
+    // final restaurantState = ref.watch(restaurantNotifierProvider);
+    // final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
     List<dynamic> cuisineList = allPreferences;
 
     return Padding(
@@ -353,6 +352,141 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               ),
             ),
             10.verticalSpace,
+            // Container(
+            //   height: 60.r,
+            //   width: double.infinity,
+            //   alignment: Alignment.center,
+            //   padding: const EdgeInsets.symmetric(horizontal: 16).r,
+            //   decoration: BoxDecoration(
+            //       color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
+            //   child: SmartRefresher(
+            //     controller: restaurantNotifier.restaurantRefreshController,
+            //     enablePullUp: true,
+            //     enablePullDown: false,
+            //     onRefresh: () async {
+            //       await restaurantNotifier.loadMoreRestaurants(context, ref);
+            //       await restaurantNotifier.getRestaurants(ref: ref);
+            //       setState(() {
+            //         restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
+            //       });
+            //       restaurantNotifier.restaurantRefreshController.refreshCompleted();
+            //     },
+            //     onLoading: () async {
+            //       await restaurantNotifier.loadMoreRestaurants(context, ref);
+            //       setState(() {
+            //         restaurantList = ref.watch(restaurantNotifierProvider).restaurantList;
+            //       });
+            //       restaurantNotifier.restaurantRefreshController.loadComplete();
+            //     },
+            //     footer: CustomFooter(
+            //       builder: (BuildContext context, mode) {
+            //         if (!restaurantState.isMoreDataFetchable) {
+            //           mode = LoadStatus.noMore;
+            //         }
+            //         Widget body;
+            //         if (mode == LoadStatus.idle) {
+            //           body = const SizedBox.shrink();
+            //         } else if (mode == LoadStatus.loading) {
+            //           body = const CupertinoActivityIndicator();
+            //         } else if (mode == LoadStatus.failed) {
+            //           body = Text(
+            //             "Load Failed!Click retry!",
+            //             style: AppTextStyles.textStylePoppinsLight,
+            //           );
+            //         } else if (mode == LoadStatus.canLoading) {
+            //           body = Text(
+            //             "release to load more",
+            //             style: AppTextStyles.textStylePoppinsLight,
+            //           );
+            //         } else {
+            //           body = Text(
+            //             "No more Data",
+            //             style: AppTextStyles.textStylePoppinsLight,
+            //           );
+            //         }
+            //         return SizedBox(
+            //           height: 55.0,
+            //           child: Center(child: body),
+            //         );
+            //       },
+            //     ),
+            //     child: CupertinoTypeAheadField<Restaurant>(
+            //       hideWithKeyboard: false,
+            //       controller: createPostNotifier.restaurantNameTextController,
+            //       builder: (context, TextEditingController controller, FocusNode focusNode) {
+            //         return TextField(
+            //           controller: controller,
+            //           focusNode: focusNode,
+            //           autofocus: true,
+            //           decoration: InputDecoration(
+            //             hintText: "Select Restaurant",
+            //             hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+            //               color: AppColors.colorPrimaryAlpha,
+            //             ),
+            //             focusedBorder: InputBorder.none,
+            //             border: InputBorder.none,
+            //             floatingLabelBehavior: FloatingLabelBehavior.always,
+            //           ),
+            //         );
+            //       },
+            //       suggestionsCallback: (pattern) {
+            //         return restaurantList
+            //                 ?.where((restaurant) =>
+            //                     restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
+            //                 .toList() ??
+            //             [];
+            //       },
+            //       itemBuilder: (context, suggestion) {
+            //         return ListTile(
+            //           title: Padding(
+            //             padding: const EdgeInsets.only(bottom: 8.0),
+            //             child: Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Text(
+            //                   suggestion.name!,
+            //                   style: AppTextStyles.textStylePoppinsLight
+            //                       .copyWith(color: AppColors.colorBlack, fontSize: 10),
+            //                 ),
+            //                 Row(
+            //                   mainAxisAlignment: MainAxisAlignment.start,
+            //                   children: [
+            //                     Icon(
+            //                       Icons.location_on_outlined,
+            //                       color: AppColors.colorBlack,
+            //                       size: 10.h,
+            //                     ),
+            //                     Text(
+            //                       suggestion.address!.length > 40
+            //                           ? '${suggestion.address!.substring(0, 40)}...'
+            //                           : suggestion.address ?? "",
+            //                       style: AppTextStyles.textStylePoppinsRegular
+            //                           .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
+            //                     )
+            //                   ],
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         );
+            //       },
+            //       onSelected: (Restaurant selection) {
+            //         selectedRestaurantName = selection.name!;
+            //         selectedRestaurantId = selection.id!;
+            //         createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+            //         createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+            //         createPostNotifier.restaurantAddressTextController.text = selection.address!;
+            //         dismissKeyboard(context);
+            //         createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
+            //         createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
+            //         createPostNotifier.restaurantAddressTextController.text = selection.address!;
+            //         if (createPostNotifier.restaurantNameTextController.text.isEmpty) {
+            //           createPostNotifier.restaurantAddressTextController.text = '';
+            //         }
+            //       },
+            //     ),
+            //   ),
+            // ),
             Container(
               height: 60.r,
               width: double.infinity,
@@ -360,120 +494,35 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16).r,
               decoration: BoxDecoration(
                   color: AppColors.colorGrey, borderRadius: BorderRadius.circular(10)),
-              child: SmartRefresher(
-                controller: restaurantNotifier.restaurantRefreshController,
-                enablePullUp: true,
-                enablePullDown: false,
-                onRefresh: () {},
-                onLoading: () async {
-                  await restaurantNotifier.loadMoreRestaurants(context, ref);
+              child: GestureDetector(
+                onTap: () async {
+                  final selectedRestaurant = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchRestaurantPage(),
+                    ),
+                  );
+
+                  if (selectedRestaurant != null) {
+                    final restaurant = selectedRestaurant as Restaurant;
+                    createPostNotifier.restaurantNameTextController.text = restaurant.name!;
+                    createPostNotifier.restaurantIdTextController.text = restaurant.id!;
+                    createPostNotifier.restaurantAddressTextController.text = restaurant.address!;
+                  }
                 },
-                footer: CustomFooter(
-                  builder: (BuildContext context, mode) {
-                    if (!restaurantState.isMoreDataFetchable) {
-                      mode = LoadStatus.noMore;
-                    }
-                    Widget body;
-                    if (mode == LoadStatus.idle) {
-                      body = const SizedBox.shrink();
-                    } else if (mode == LoadStatus.loading) {
-                      body = const CupertinoActivityIndicator();
-                    } else if (mode == LoadStatus.failed) {
-                      body = Text(
-                        "Load Failed!Click retry!",
-                        style: AppTextStyles.textStylePoppinsLight,
-                      );
-                    } else if (mode == LoadStatus.canLoading) {
-                      body = Text(
-                        "release to load more",
-                        style: AppTextStyles.textStylePoppinsLight,
-                      );
-                    } else {
-                      body = Text(
-                        "No more Data",
-                        style: AppTextStyles.textStylePoppinsLight,
-                      );
-                    }
-                    return SizedBox(
-                      height: 55.0,
-                      child: Center(child: body),
-                    );
-                  },
-                ),
-                child: CupertinoTypeAheadField<Restaurant>(
-                  hideWithKeyboard: false,
-                  controller: createPostNotifier.restaurantNameTextController,
-                  builder: (context, TextEditingController controller, FocusNode focusNode) {
-                    return TextField(
-                      controller: controller,
-                      focusNode: focusNode,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                        hintText: "Select Restaurant",
-                        hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                        focusedBorder: InputBorder.none,
-                        border: InputBorder.none,
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                child: AbsorbPointer(
+                  child: TextField(
+                    controller: createPostNotifier.restaurantNameTextController,
+                    decoration: InputDecoration(
+                      hintText: "Select Restaurant",
+                      hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorPrimaryAlpha,
                       ),
-                    );
-                  },
-                  suggestionsCallback: (pattern) {
-                    return restaurantList
-                            ?.where((restaurant) =>
-                                restaurant.name!.toLowerCase().contains(pattern.toLowerCase()))
-                            .toList() ??
-                        [];
-                  },
-                  itemBuilder: (context, suggestion) {
-                    return ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              suggestion.name!,
-                              style: AppTextStyles.textStylePoppinsLight
-                                  .copyWith(color: AppColors.colorBlack, fontSize: 10),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  color: AppColors.colorBlack,
-                                  size: 10.h,
-                                ),
-                                Text(
-                                  suggestion.address!.length > 40
-                                      ? '${suggestion.address!.substring(0, 40)}...'
-                                      : suggestion.address ?? "",
-                                  style: AppTextStyles.textStylePoppinsRegular
-                                      .copyWith(color: AppColors.colorPrimaryAlpha, fontSize: 10),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  onSelected: (Restaurant selection) {
-                    selectedRestaurantName = selection.name!;
-                    selectedRestaurantId = selection.id!;
-                    createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                    createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                    createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                    dismissKeyboard(context);
-                    createPostNotifier.restaurantNameTextController.text = selectedRestaurantName;
-                    createPostNotifier.restaurantIdTextController.text = selectedRestaurantId;
-                    createPostNotifier.restaurantAddressTextController.text = selection.address!;
-                    if (createPostNotifier.restaurantNameTextController.text.isEmpty) {
-                      createPostNotifier.restaurantAddressTextController.text = '';
-                    }
-                  },
+                      focusedBorder: InputBorder.none,
+                      border: InputBorder.none,
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -519,7 +568,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               ),
             ),
             10.verticalSpace,
-
             Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -542,34 +590,15 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                   Icons.keyboard_arrow_down,
                   color: AppColors.colorGrey3,
                 ),
-                //   items: cuisineName
-                //       .map((cuisine) => DropdownMenuItem<String>(
-                //             value: cuisine,
-                //             child: Text(
-                //               cuisine,
-                //               style: AppTextStyles.textStylePoppinsLight.copyWith(
-                //                   color: AppColors.colorBlack, fontSize: 14),
-                //             ),
-                //           ))
-                //       .toList(),
-                //   onChanged: (value) {
-                //     if (value != null) {
-                //       final selectedCuisine = value;
-                //       createPostNotifier.postCuisineIdTextController.text =
-                //           selectedCuisine;
-                //     }
-                //   },
-                // ),
-
                 items: cuisineList
                     .map((cuisine) => DropdownMenuItem<String>(
-                          value: cuisine.id,
-                          child: Text(
-                            cuisine.title,
-                            style: AppTextStyles.textStylePoppinsLight
-                                .copyWith(color: AppColors.colorBlack, fontSize: 14),
-                          ),
-                        ))
+                  value: cuisine.id,
+                  child: Text(
+                    cuisine.title,
+                    style: AppTextStyles.textStylePoppinsLight
+                        .copyWith(color: AppColors.colorBlack, fontSize: 14),
+                  ),
+                ))
                     .toList(),
                 onChanged: (String? value) {
                   if (value != null) {
@@ -579,33 +608,6 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
                 },
               ),
             ),
-
-            // Container(
-            //   alignment: Alignment.center,
-            //   decoration: BoxDecoration(
-            //       color: AppColors.colorGrey,
-            //       borderRadius: BorderRadius.circular(10)),
-            //   padding: const EdgeInsets.all(16).r,
-            //   height: 56.r,
-            //   child: DropdownButtonHideUnderline(
-            //     child: DropdownButton2<String>(
-            //     items: cuisineList.map((cuisine) => DropdownMenuItem<String>(
-            //           value: cuisine,
-            //           child: Text(
-            //             cuisine,
-            //             style: AppTextStyles.textStylePoppinsLight.copyWith(color: AppColors.colorBlack,fontSize: 14),
-            //           ),
-            //         )).toList(),
-            //       onChanged: (value) {
-            //             if (value != null) {
-            //               final selectedCuisine = value;
-            //               createPostNotifier.postCuisineTextController.text = selectedCuisine;
-            //             }
-            //           },
-            //     ),
-            //   ),
-            // ),
-
             20.verticalSpace,
             Align(
               alignment: Alignment.topLeft,

@@ -84,6 +84,11 @@ class Assets {
   static const String saved = 'assets/icons/saved.png';
   static const String home = 'assets/icons/home.png';
   static const String homeInactive = 'assets/icons/home_inactive.png';
+  static const String heartOutline = 'assets/icons/heart_outlined.png';
+  static const String commentOutline = 'assets/icons/comment_outlined.png';
+  static const String bookmarkOutline = 'assets/icons/bookmark_outlined.png';
+  static const String heartFilled = 'assets/icons/heart_filled.png';
+  static const String bookmarkFilled = 'assets/icons/bookmark_filled.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';
