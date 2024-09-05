@@ -25,6 +25,7 @@ mixin _$HomeState {
   bool get isLiked => throw _privateConstructorUsedError;
   bool get isDoubleTapped => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
+  bool get isVideoOnMute => throw _privateConstructorUsedError;
   String get followStatus => throw _privateConstructorUsedError;
   List<SwipeItem> get allSwipeItems => throw _privateConstructorUsedError;
   List<SwipeItem> get followingSwipeItems => throw _privateConstructorUsedError;
@@ -58,6 +59,7 @@ abstract class $HomeStateCopyWith<$Res> {
       bool isLiked,
       bool isDoubleTapped,
       bool isExpanded,
+      bool isVideoOnMute,
       String followStatus,
       List<SwipeItem> allSwipeItems,
       List<SwipeItem> followingSwipeItems,
@@ -94,6 +96,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? isLiked = null,
     Object? isDoubleTapped = null,
     Object? isExpanded = null,
+    Object? isVideoOnMute = null,
     Object? followStatus = null,
     Object? allSwipeItems = null,
     Object? followingSwipeItems = null,
@@ -143,6 +146,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVideoOnMute: null == isVideoOnMute
+          ? _value.isVideoOnMute
+          : isVideoOnMute // ignore: cast_nullable_to_non_nullable
               as bool,
       followStatus: null == followStatus
           ? _value.followStatus
@@ -214,6 +221,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       bool isLiked,
       bool isDoubleTapped,
       bool isExpanded,
+      bool isVideoOnMute,
       String followStatus,
       List<SwipeItem> allSwipeItems,
       List<SwipeItem> followingSwipeItems,
@@ -248,6 +256,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? isLiked = null,
     Object? isDoubleTapped = null,
     Object? isExpanded = null,
+    Object? isVideoOnMute = null,
     Object? followStatus = null,
     Object? allSwipeItems = null,
     Object? followingSwipeItems = null,
@@ -297,6 +306,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVideoOnMute: null == isVideoOnMute
+          ? _value.isVideoOnMute
+          : isVideoOnMute // ignore: cast_nullable_to_non_nullable
               as bool,
       followStatus: null == followStatus
           ? _value.followStatus
@@ -363,6 +376,7 @@ class _$HomeStateImpl extends _HomeState {
       this.isLiked = false,
       this.isDoubleTapped = false,
       this.isExpanded = false,
+      this.isVideoOnMute = true,
       this.followStatus = '',
       final List<SwipeItem> allSwipeItems = const [],
       final List<SwipeItem> followingSwipeItems = const [],
@@ -409,6 +423,9 @@ class _$HomeStateImpl extends _HomeState {
   @override
   @JsonKey()
   final bool isExpanded;
+  @override
+  @JsonKey()
+  final bool isVideoOnMute;
   @override
   @JsonKey()
   final String followStatus;
@@ -483,7 +500,7 @@ class _$HomeStateImpl extends _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, followStatus: $followStatus, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, selectedIndex: $selectedIndex, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts)';
+    return 'HomeState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isHeartAnimating: $isHeartAnimating, isAllPostStackFinished: $isAllPostStackFinished, isFollowingPostStackFinished: $isFollowingPostStackFinished, isSavePost: $isSavePost, isLiked: $isLiked, isDoubleTapped: $isDoubleTapped, isExpanded: $isExpanded, isVideoOnMute: $isVideoOnMute, followStatus: $followStatus, allSwipeItems: $allSwipeItems, followingSwipeItems: $followingSwipeItems, commentsList: $commentsList, postList: $postList, doubleTapList: $doubleTapList, selectedIndex: $selectedIndex, currentPage: $currentPage, totalPages: $totalPages, currentPageAllPosts: $currentPageAllPosts, currentPageAllPosts2: $currentPageAllPosts2, totalPagesAllPosts: $totalPagesAllPosts)';
   }
 
   @override
@@ -510,6 +527,8 @@ class _$HomeStateImpl extends _HomeState {
                 other.isDoubleTapped == isDoubleTapped) &&
             (identical(other.isExpanded, isExpanded) ||
                 other.isExpanded == isExpanded) &&
+            (identical(other.isVideoOnMute, isVideoOnMute) ||
+                other.isVideoOnMute == isVideoOnMute) &&
             (identical(other.followStatus, followStatus) ||
                 other.followStatus == followStatus) &&
             const DeepCollectionEquality()
@@ -547,6 +566,7 @@ class _$HomeStateImpl extends _HomeState {
         isLiked,
         isDoubleTapped,
         isExpanded,
+        isVideoOnMute,
         followStatus,
         const DeepCollectionEquality().hash(_allSwipeItems),
         const DeepCollectionEquality().hash(_followingSwipeItems),
@@ -579,6 +599,7 @@ abstract class _HomeState extends HomeState {
       final bool isLiked,
       final bool isDoubleTapped,
       final bool isExpanded,
+      final bool isVideoOnMute,
       final String followStatus,
       final List<SwipeItem> allSwipeItems,
       final List<SwipeItem> followingSwipeItems,
@@ -611,6 +632,8 @@ abstract class _HomeState extends HomeState {
   bool get isDoubleTapped;
   @override
   bool get isExpanded;
+  @override
+  bool get isVideoOnMute;
   @override
   String get followStatus;
   @override

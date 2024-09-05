@@ -289,7 +289,7 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
                                   //   isLiked: isLiked ?? false,
                                   //   onTap: () => stateNotifier.likeUnlikePost(() {}, postId ?? ""),
                                   // ),
-                                  15.verticalSpace,
+                                  12.verticalSpace,
                                   GestureDetector(
                                     onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
                                       post: widget.post,
@@ -312,10 +312,29 @@ class _PostDetailsState extends ConsumerState<PostFeedItem> {
                                       ],
                                     ),
                                   ),
-                                  10.verticalSpace,
+                                  12.verticalSpace,
                                   SaveIcon(
                                     isSaved: isSaved ?? false,
                                     onTap: () => stateNotifier.saveUnsavePost(() {}, postId ?? ""),
+                                  ),
+                                  12.verticalSpace,
+                                  Visibility(
+                                    visible: isVideo,
+                                    child: GestureDetector(
+                                      onTap: () => stateNotifier.toggleVideoSound(),
+                                      child: SizedBox(
+                                        width: 24,
+                                        child: state.isVideoOnMute
+                                            ? Image.asset(
+                                                Assets.volumeLow,
+                                                color: Colors.white,
+                                              )
+                                            : Image.asset(
+                                                Assets.volumeHigh,
+                                                color: Colors.white,
+                                              ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               )
