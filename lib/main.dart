@@ -36,7 +36,7 @@ Future<void> main() async {
         ledColor: AppColors.colorWhite,
         importance: NotificationImportance.High,
         playSound: true,
-        soundSource: 'resource://raw/res_custom_notification',
+        // soundSource: 'resource://raw/res_custom_notification',
       ),
     ],
   );
@@ -44,14 +44,13 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await requestNotificationPermission();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(ProviderScope(child: MainApp()));
   });
 }
+
 final container = ProviderContainer();
 final notificationNotifier = container.read(notificationNotifierProvider.notifier);
-
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -91,12 +90,12 @@ Future<void> requestNotificationPermission() async {
 Future<void> _showNotification(RemoteMessage message) async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
-        channelKey: 'high_importance_channel',
-        id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
-        title: message.notification?.title,
-        body: message.notification?.body,
-        notificationLayout: NotificationLayout.Default,
-        wakeUpScreen: true,
+      channelKey: 'high_importance_channel',
+      id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      title: message.notification?.title,
+      body: message.notification?.body,
+      notificationLayout: NotificationLayout.Default,
+      wakeUpScreen: true,
     ),
     actionButtons: [
       NotificationActionButton(
@@ -115,7 +114,7 @@ Future<void> _showNotification(RemoteMessage message) async {
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
     message: message.notification?.body ?? 'No Message',
-    postedUserInfo:  const UserNotificationInfo(profileImage: '',fullName: ''),
+    postedUserInfo: const UserNotificationInfo(profileImage: '', fullName: ''),
     createdAt: DateTime.now(),
   ));
 }
@@ -135,11 +134,11 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
     ..interceptors;
 
   ref.read(dioProvider).interceptors.add(
-    PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
-    ),
-  );
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+        ),
+      );
 
   return unit;
 });
