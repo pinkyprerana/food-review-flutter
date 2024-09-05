@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
@@ -34,9 +36,23 @@ class LandingNotifier extends StateNotifier<LandingState> {
     return digest.toString();
   }
 
+  Future<String> getDeviceToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    return token ?? '';
+  }
+
+  String deviceType() {
+    if (Platform.isAndroid) {
+      return 'Android';
+    } else {
+      return 'iOS';
+    }
+  }
+
   Future<void> signInWithApple({required VoidCallback voidCallback}) async {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
+    final deviceToken = await getDeviceToken();
 
     try {
       state = state.copyWith(isLoading: true);
@@ -72,6 +88,8 @@ class LandingNotifier extends StateNotifier<LandingState> {
           "email": user.user?.email,
           "socialId": user.user?.uid,
           "registerType": "Apple",
+          "deviceToken": deviceToken,
+          "deviceType": deviceType(),
         };
 
         var headers = {
@@ -114,10 +132,14 @@ class LandingNotifier extends StateNotifier<LandingState> {
   Future<void> signInWithGoogle({required VoidCallback voidCallback}) async {
     state = state.copyWith(isLoading: true);
 
+    final deviceToken = await getDeviceToken();
+
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
 
       final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      await googleSignIn.signOut();
 
       final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
@@ -136,7 +158,9 @@ class LandingNotifier extends StateNotifier<LandingState> {
             "fullName": userCredential.user?.displayName,
             "socialId": userCredential.user?.uid,
             "email": userCredential.user?.email,
-            "registerType": "Google"
+            "registerType": "Google",
+            "deviceToken": deviceToken,
+            "deviceType": deviceType(),
           };
 
           final response =
