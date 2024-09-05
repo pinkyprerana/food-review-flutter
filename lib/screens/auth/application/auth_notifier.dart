@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -170,6 +171,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     try {
+      String? deviceType = Platform.isAndroid ? "android" : Platform.isIOS ? "ios" : "web";
       String? deviceToken = await FirebaseMessaging.instance.getToken();
       AppLog.log("Device token is $deviceToken");
 
@@ -177,7 +179,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
           .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.signin}', body: {
         "email": loginEmailTextController.text.toLowerCase(),
         "password": loginPasswordTextController.text,
-        "device_token": deviceToken,
+        "deviceType": deviceType,
+        "deviceToken": deviceToken,
       });
 
       AppLog.log('response ----- $response');
@@ -235,6 +238,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     try {
+      String? deviceType = Platform.isAndroid ? "android" : Platform.isIOS ? "ios" : "web";
+      String? deviceToken = await FirebaseMessaging.instance.getToken();
+      AppLog.log("Device token is $deviceToken");
       Map<String, dynamic> requestBody = {
         "first_name": firstName,
         "last_name": lastName,
@@ -242,6 +248,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
         "phone": phone,
         "password": password,
         "confirm_password": confirmPassword,
+        "deviceType": deviceType,
+        "deviceToken": deviceToken,
       };
 
       var (response, dioException) = await _networkApiService.postApiRequest(
