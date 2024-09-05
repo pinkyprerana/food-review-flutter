@@ -35,6 +35,8 @@ Future<void> main() async {
         defaultColor: AppColors.colorPrimary,
         ledColor: AppColors.colorWhite,
         importance: NotificationImportance.High,
+        playSound: true,
+        soundSource: 'resource://raw/res_custom_notification',
       ),
     ],
   );
@@ -94,7 +96,7 @@ Future<void> _showNotification(RemoteMessage message) async {
         title: message.notification?.title,
         body: message.notification?.body,
         notificationLayout: NotificationLayout.Default,
-        wakeUpScreen: true
+        wakeUpScreen: true,
     ),
     actionButtons: [
       NotificationActionButton(
@@ -117,33 +119,6 @@ Future<void> _showNotification(RemoteMessage message) async {
     createdAt: DateTime.now(),
   ));
 }
-
-// Future<void> _showNotification(RemoteMessage message) async {
-//   if (message.notification?.title == null || message.notification?.body == null) {
-//     AppLog.log('Notification title or body is null');
-//     return;
-//   }
-//
-//   await AwesomeNotifications().createNotification(
-//     content: NotificationContent(
-//       channelKey: 'high_importance_channel',
-//       id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
-//       title: message.notification?.title,
-//       body: message.notification?.body,
-//       notificationLayout: NotificationLayout.Default,
-//       wakeUpScreen: true,
-//     ),
-//   );
-//
-//   notificationNotifier.addNotification(NotificationData(
-//     title: message.notification?.title ?? 'No Title',
-//     message: message.notification?.body ?? 'No Message',
-//     postedUserInfo: const UserNotificationInfo(profileImage: '', fullName: ''),
-//     createdAt: DateTime.now(),
-//   ));
-// }
-
-
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
