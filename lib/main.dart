@@ -36,7 +36,7 @@ Future<void> main() async {
         ledColor: AppColors.colorWhite,
         importance: NotificationImportance.High,
         playSound: true,
-        soundSource: 'resource://raw/res_custom_notification',
+        // soundSource: 'resource://raw/res_custom_notification',
       ),
     ],
   );
