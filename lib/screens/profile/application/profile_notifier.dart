@@ -901,6 +901,15 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
+        await _hiveDataBase.box.delete(AppPreferenceKeys.token);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userEmail);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userId);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userFirstName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userLastName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.fullName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userPhone);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.profileImage);
+
         showToastMessage(response.data["message"]);
 
         if (onSuccess != null) onSuccess.call();
@@ -933,6 +942,15 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
+        await _hiveDataBase.box.delete(AppPreferenceKeys.token);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userEmail);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userId);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userFirstName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userLastName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.fullName);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.userPhone);
+        await _hiveDataBase.box.delete(AppPreferenceKeys.profileImage);
+
         showToastMessage(response.data["message"]);
 
         if (onSuccess != null) onSuccess.call();
