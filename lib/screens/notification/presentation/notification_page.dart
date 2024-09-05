@@ -101,11 +101,11 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                             itemBuilder: (context, index) {
                               final notifications = todayNotifications[index];
                               final imgUrl =
-                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo.profileImage}';
+                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
                               return NotificationWidget(
                                 imgpath: imgUrl,
-                                title: notifications.title,
-                                subtitle: notifications.message,
+                                title: notifications.title??"",
+                                subtitle: notifications.message??"",
                               );
                             },
                           ),
@@ -133,11 +133,11 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                             itemBuilder: (context, index) {
                               final notifications = yesterdayNotifications[index];
                               final imgUrl =
-                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo.profileImage}';
+                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
                               return NotificationWidget(
                                 imgpath: imgUrl,
-                                title: notifications.title,
-                                subtitle: notifications.message,
+                                title: notifications.title??"",
+                                subtitle: notifications.message??"",
                               );
                             },
                           ),
@@ -165,11 +165,11 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                             itemBuilder: (context, index) {
                               final notifications = olderNotifications[index];
                               final imgUrl =
-                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo.profileImage}';
+                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
                               return NotificationWidget(
                                 imgpath: imgUrl,
-                                title: notifications.title,
-                                subtitle: notifications.message,
+                                title: notifications.title??"",
+                                subtitle: notifications.message??"",
                               );
                             },
                           ),

@@ -54,6 +54,9 @@ dependencies:
   uuid: ^3.0.4
   video_player: ^2.9.1
   video_thumbnail: ^0.5.3
+  firebase_messaging: ^14.7.10
+  awesome_notifications: ^0.8.2
+  firebase_analytics: ^10.8.0
 
 dev_dependencies:
   auto_route_generator: ^8.0.0

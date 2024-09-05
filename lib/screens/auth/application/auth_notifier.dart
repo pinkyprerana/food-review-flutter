@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/hive_database.dart';
@@ -169,11 +170,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     try {
+      String? deviceToken = await FirebaseMessaging.instance.getToken();
+      AppLog.log("Device token is $deviceToken");
+
       var (response, dioException) = await _networkApiService
           .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.signin}', body: {
         "email": loginEmailTextController.text.toLowerCase(),
         "password": loginPasswordTextController.text,
+        "device_token": deviceToken,
       });
+
       AppLog.log('response ----- $response');
       state = state.copyWith(isLoading: false);
 
@@ -188,21 +194,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
           _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
-          _hiveDatabase.box
-              .put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
-          _hiveDatabase.box
-              .put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
-          _hiveDatabase.box
-              .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
+          _hiveDatabase.box.put(AppPreferenceKeys.deviceToken, deviceToken);
           showToastMessage(jsonData["message"]);
           clearLoginPageFields();
           voidCallback.call();
-        } else if (jsonData['message'] ==
-            "Sorry user is deleted by admin. Please contact with admin.") {
+        } else if (jsonData['message'] == "Sorry user is deleted by admin. Please contact with admin.") {
           showToastMessage('Account has been deleted by Admin');
         } else {
           showToastMessage(jsonData['message']);

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +14,34 @@ import '../screens/restaurant/shared/provider.dart';
 import '../screens/your_lists/shared/provider.dart';
 import 'custom_search_field.dart';
 
-class SearchRestaurantPage extends ConsumerWidget {
+class SearchRestaurantPage extends ConsumerStatefulWidget {
   const SearchRestaurantPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _SearchRestaurantPageState();
+}
+
+class _SearchRestaurantPageState extends ConsumerState<SearchRestaurantPage> {
+  Timer? _debounce;
+
+  void _onSearchChanged(String query) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+
+    final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      await restaurantNotifier.getRestaurants(ref: ref);
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
     final searchNotifier = ref.watch(yourPeopleNotifierProvider.notifier);
     final restaurantState = ref.watch(restaurantNotifierProvider);
@@ -28,9 +53,7 @@ class SearchRestaurantPage extends ConsumerWidget {
         title: CustomSearchField(
           hint: 'Search Restaurant',
           controller: searchNotifier.searchController,
-          onChanged: (_) async {
-            await ref.watch(restaurantNotifierProvider.notifier).getRestaurants(ref: ref);
-          },
+          onChanged: _onSearchChanged
         ),
 
         // leading: GestureDetector(
@@ -54,7 +77,9 @@ class SearchRestaurantPage extends ConsumerWidget {
         //   ),
         // ),
       ),
-      body: SmartRefresher(
+      body: restaurantState.isLoading
+       ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,))
+      : SmartRefresher(
         controller: restaurantNotifier.restaurantRefreshController,
         enablePullUp: true,
         enablePullDown: false,
