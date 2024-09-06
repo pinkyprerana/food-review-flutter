@@ -89,6 +89,8 @@ class Assets {
   static const String bookmarkOutline = 'assets/icons/bookmark_outlined.png';
   static const String heartFilled = 'assets/icons/heart_filled.png';
   static const String bookmarkFilled = 'assets/icons/bookmark_filled.png';
+  static const String volumeHigh = 'assets/icons/volume-high.png';
+  static const String volumeLow = 'assets/icons/volume-low.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';

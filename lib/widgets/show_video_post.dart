@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../core/styles/app_colors.dart';
@@ -25,6 +26,8 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
   }
 
   Future<void> _initializeVideoPlayer() async {
+    // final state = ref.watch(homeNotifierProvider);
+
     try {
       _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
         ..addListener(() {
@@ -35,6 +38,7 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
           } else if (_controller.value.position == _controller.value.duration) {
             _controller.seekTo(Duration.zero);
             _controller.play();
+            _controller.setVolume(0.0);
           }
         })
         ..initialize().then((_) {
@@ -42,6 +46,9 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
             _isVideoLoaded = true;
           });
           _controller.play();
+          // Set initial volume from the provider state
+          final isMuted = ref.read(homeNotifierProvider).isVideoOnMute;
+          _controller.setVolume(isMuted ? 0.0 : 1.0);
         });
     } catch (e) {
       setState(() {
@@ -58,6 +65,12 @@ class _ShowVideoWidgetState extends ConsumerState<ShowVideoWidget> {
     final videoAspectRatio = _controller.value.aspectRatio;
     final deviceSize = MediaQuery.sizeOf(context);
     final screenAspectRatio = deviceSize.width / deviceSize.height;
+    final isMuted = ref.watch(homeNotifierProvider).isVideoOnMute;
+
+    // Update the video player volume when the state changes
+    if (_isVideoLoaded) {
+      _controller.setVolume(isMuted ? 0.0 : 1.0);
+    }
 
     return _isVideoLoaded
         ? Center(

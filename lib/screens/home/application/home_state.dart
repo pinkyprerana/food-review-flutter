@@ -16,6 +16,7 @@ class HomeState with _$HomeState {
     @Default(false) bool isLiked,
     @Default(false) bool isDoubleTapped,
     @Default(false) bool isExpanded,
+    @Default(true) bool isVideoOnMute,
     @Default('') String followStatus,
     @Default([]) List<SwipeItem> allSwipeItems,
     @Default([]) List<SwipeItem> followingSwipeItems,

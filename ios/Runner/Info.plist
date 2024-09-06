@@ -96,9 +96,28 @@
 			<array>
 				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
 				<string>com.googleusercontent.apps.807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m</string>
+				<!-- FB App ID -->
+				<string>fb1561842581070815</string>
 			</array>
 		</dict>
 	</array>
+	<!-- <key>FacebookAppID</key>
+	<string>APP-ID</string>
+	<key>FacebookClientToken</key>
+	<string>84aa9e23e59fa5a424e16de0094af3a7</string>
+	<key>FacebookDisplayName</key>
+	<string>APP-NAME</string> -->
 	<!-- End of the Google Sign-in Section -->
+
+	<!-- Notification -->
+	<key>UIBackgroundModes</key>
+      <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+      </array>
+      <key>FirebaseAppDelegateProxyEnabled</key>
+      <false/>
+
+
 </dict>
 </plist>

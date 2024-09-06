@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +9,8 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
+import 'package:for_the_table/core/utils/toast.dart';
+import 'package:for_the_table/screens/landing/shared/providers.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
@@ -41,6 +45,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final isScreenSmall = size.height < 750;
     final stateNotifier = ref.watch(authNotifierProvider.notifier);
     final state = ref.watch(authNotifierProvider);
+    final landingNotifier = ref.watch(landingNotifierProvider.notifier);
+
     return PopScope(
       canPop: !state.isLoading,
       child: Scaffold(
@@ -211,14 +217,36 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           for (int i = 0; i < socialIcons.length; i++) ...[
-                            Container(
-                              height: isScreenSmall ? 50.r : 50.r,
-                              width: isScreenSmall ? 50.r : 50.r,
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: AppColors.colorPrimaryAlpha,
-                                  borderRadius: BorderRadius.circular(13)),
-                              child: Image.asset(socialIcons[i]),
+                            GestureDetector(
+                              onTap: () async {
+                                if (i == 0) {
+                                  await landingNotifier.signInWithGoogle(voidCallback: () {
+                                    AutoRouter.of(context).pushAndPopUntil(const LocationRoute(),
+                                        predicate: (_) => false);
+                                  });
+                                } else if (i == 1) {
+                                  if (Platform.isAndroid) {
+                                    showToastMessage(
+                                        'This option is only available for iPhone users');
+                                  } else {
+                                    await landingNotifier.signInWithApple(voidCallback: () {
+                                      AutoRouter.of(context).pushAndPopUntil(const LocationRoute(),
+                                          predicate: (_) => false);
+                                    });
+                                  }
+                                } else {
+                                  showToastMessage('Working');
+                                }
+                              },
+                              child: Container(
+                                height: isScreenSmall ? 50.r : 50.r,
+                                width: isScreenSmall ? 50.r : 50.r,
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                    color: AppColors.colorPrimaryAlpha,
+                                    borderRadius: BorderRadius.circular(13)),
+                                child: Image.asset(socialIcons[i]),
+                              ),
                             ),
                             if (i != socialIcons.length - 1) 16.horizontalSpace
                           ],

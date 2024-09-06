@@ -53,6 +53,10 @@ class HomeNotifier extends StateNotifier<HomeState> {
     state = state.copyWith(isFollowingPostStackFinished: true);
   }
 
+  void toggleVideoSound() {
+    state = state.copyWith(isVideoOnMute: !state.isVideoOnMute);
+  }
+
   void assignFollowStatus(bool isFollowing, bool isRequested) {
     if (isFollowing) {
       state = state.copyWith(followStatus: 'Unfollow');
