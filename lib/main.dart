@@ -1,3 +1,4 @@
+// import 'package:auto_route/auto_route.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -13,6 +14,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_widget.dart';
 import 'package:for_the_table/firebase_options.dart';
 import 'package:for_the_table/screens/notification/shared/providers.dart';
+// import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'core/utils/app_log.dart';
 import 'model/notification_model/notification_model.dart';
@@ -88,6 +90,9 @@ Future<void> requestNotificationPermission() async {
 }
 
 Future<void> _showNotification(RemoteMessage message) async {
+  // String? notificationType = message.data['type'];
+  // String? relatedId = message.data['id'];
+
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       channelKey: 'high_importance_channel',
@@ -105,6 +110,7 @@ Future<void> _showNotification(RemoteMessage message) async {
       ),
     ],
   );
+  // _handleNotificationRedirection(notificationType, relatedId);
 
   await notificationNotifier.getNotificationList();
   final notificationState = container.read(notificationNotifierProvider);
@@ -118,6 +124,38 @@ Future<void> _showNotification(RemoteMessage message) async {
     createdAt: DateTime.now(),
   ));
 }
+
+// void _handleNotificationRedirection(String? type, String? relatedId, context) {
+//   if (type == null || relatedId == null) {
+//     return;
+//   }
+//
+//   switch (type) {
+//     case 'user_follow':
+//       AutoRouter.of(context).push(PeopleProfileRoute(peopleId: relatedId));
+//       break;
+//     case 'user_unfollow':
+//       AutoRouter.of(context).push(PeopleProfileRoute(peopleId: relatedId));
+//       break;
+//     case 'user_accept':
+//     case 'user_deny':
+//       AutoRouter.of(context).push(YourPeopleListRoute());
+//       break;
+//     case 'post_like':
+//     case 'post_dislike':
+//       AutoRouter.of(context).push(PostDetailsRoute(postId: relatedId, userId: relatedId));
+//       break;
+//     case 'comment_like':
+//     case 'comment_add':
+//       AutoRouter.of(context).push(CommentsRoute(postInfoList: relatedId as DataOfPostModel));
+//       break;
+//     case 'post_save':
+//       AutoRouter.of(context).push(const SavedRoute());
+//       break;
+//     default:
+//       break;
+//   }
+// }
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
