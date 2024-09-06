@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -124,12 +126,16 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
 
   ref.read(dioProvider)
     ..options = BaseOptions(
-      connectTimeout: const Duration(seconds: 60),
-      receiveTimeout: const Duration(seconds: 60),
-      validateStatus: (status) {
-        return true;
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+      validateStatus: (_) => true,
+      headers: {
+        HttpHeaders.userAgentHeader: 'dio',
+        'api': '1.0.0',
       },
-      baseUrl: 'Demo',
+      contentType: Headers.jsonContentType,
+      // responseType: ResponseType.plain,
+      baseUrl: 'https://forthetable.dedicateddevelopers.us/api',
     )
     ..interceptors;
 
