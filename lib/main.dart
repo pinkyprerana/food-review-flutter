@@ -126,14 +126,14 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
 
   ref.read(dioProvider)
     ..options = BaseOptions(
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
       validateStatus: (_) => true,
       headers: {
         HttpHeaders.userAgentHeader: 'dio',
         'api': '1.0.0',
       },
-      contentType: Headers.jsonContentType,
+      // contentType: Headers.jsonContentType,
       // responseType: ResponseType.plain,
       baseUrl: 'https://forthetable.dedicateddevelopers.us/api',
     )

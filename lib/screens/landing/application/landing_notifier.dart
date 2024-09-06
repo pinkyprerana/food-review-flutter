@@ -91,7 +91,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
           "socialId": user.user?.uid,
           "registerType": "Apple",
           "deviceToken": deviceToken,
-          "deviceType": deviceType(),
+          "deviceType": Platform.isAndroid ? "Android" : "iOS",
         };
 
         var headers = {
@@ -164,12 +164,12 @@ class LandingNotifier extends StateNotifier<LandingState> {
             "email": userCredential.user?.email,
             "registerType": "Google",
             "deviceToken": deviceToken,
-            "deviceType": deviceType(),
+            "deviceType": Platform.isAndroid ? "Android" : "iOS",
           };
 
+          AppLog.log(requestdata.toString());
+
           final response =
-              // await http.post(Uri.https(
-              //     'forthetable.dedicateddevelopers.us', '/api${AppUrls.socialLogin}', requestdata));
               await _dio.post('${AppUrls.baseUrl}${AppUrls.socialLogin}', data: requestdata);
 
           if (response.statusCode == 200 && response.data.isNotEmpty) {
@@ -177,7 +177,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
 
             _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
             _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
-
+            print(response);
             voidCallback.call();
           } else if (response.statusCode == 400) {
             showToastMessage('Google is not responding. Please try a different method');
