@@ -114,8 +114,9 @@ Future<void> _showNotification(RemoteMessage message) async {
   AppLog.log("notificationType $notificationType");
   _handleNotificationRedirection(notificationType);
 
-  if (container.read(notificationNotifierProvider.notifier).mounted) {
-    await notificationNotifier.getNotificationList();
+  final notifier = container.read(notificationNotifierProvider.notifier);
+  if (notifier.mounted) {
+    await notifier.getNotificationList();
   }
 
   final notificationState = container.read(notificationNotifierProvider);

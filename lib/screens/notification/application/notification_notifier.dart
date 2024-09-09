@@ -12,10 +12,13 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   final NetworkApiService _networkApiService;
 
   void addNotification(NotificationData notification) {
-    state = state.copyWith(
-      todayNotifications: [...state.todayNotifications, notification],
-    );
+    if (mounted) {
+      state = state.copyWith(
+        todayNotifications: [...state.todayNotifications, notification],
+      );
+    }
   }
+
 
 
   Future<void> getNotificationList() async {
