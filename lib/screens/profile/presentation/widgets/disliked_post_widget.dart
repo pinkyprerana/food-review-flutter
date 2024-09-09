@@ -252,7 +252,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                   )
                                 : AutoRouter.of(context).push(
                                     CommentsRoute(
-                                      postInfoList: postInfo!,
+                                      postId: postInfo!.id??'',
                                     ),
                                   );
                           },

@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../core/routes/app_router.dart';
@@ -289,7 +288,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                             15.verticalSpace,
                             GestureDetector(
                               onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                                postInfoList: widget.postList as DataOfPostModel,
+                                postId: widget.postList.id ??'',
                               )),
                               child: Column(
                                 children: [

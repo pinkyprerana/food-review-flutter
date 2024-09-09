@@ -1,6 +1,5 @@
 import 'dart:io';
-
-// import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -16,7 +15,6 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_widget.dart';
 import 'package:for_the_table/firebase_options.dart';
 import 'package:for_the_table/screens/notification/shared/providers.dart';
-// import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'core/utils/app_log.dart';
 import 'model/notification_model/notification_model.dart';
@@ -46,6 +44,7 @@ Future<void> main() async {
   );
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationAction);
   await requestNotificationPermission();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
@@ -92,8 +91,7 @@ Future<void> requestNotificationPermission() async {
 }
 
 Future<void> _showNotification(RemoteMessage message) async {
-  // String? notificationType = message.data['type'];
-  // String? relatedId = message.data['id'];
+  String? notificationType = message.data['type'];
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -112,13 +110,22 @@ Future<void> _showNotification(RemoteMessage message) async {
       ),
     ],
   );
-  // _handleNotificationRedirection(notificationType, relatedId);
 
-  await notificationNotifier.getNotificationList();
+  AppLog.log("notificationType $notificationType");
+  _handleNotificationRedirection(notificationType);
+
+  if (container.read(notificationNotifierProvider.notifier).mounted) {
+    await notificationNotifier.getNotificationList();
+  }
+
   final notificationState = container.read(notificationNotifierProvider);
-  final notifications = notificationState.todayNotifications.last.title;
-  AppLog.log("Notification: ${message.notification?.title}");
-  AppLog.log("Notification title: $notifications");
+  if (notificationState.todayNotifications.isNotEmpty) {
+    final notifications = notificationState.todayNotifications.last.title;
+    AppLog.log("Notification title: $notifications");
+  } else {
+    AppLog.log("No notifications available");
+  }
+
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
     message: message.notification?.body ?? 'No Message',
@@ -127,37 +134,18 @@ Future<void> _showNotification(RemoteMessage message) async {
   ));
 }
 
-// void _handleNotificationRedirection(String? type, String? relatedId, context) {
-//   if (type == null || relatedId == null) {
-//     return;
-//   }
-//
-//   switch (type) {
-//     case 'user_follow':
-//       AutoRouter.of(context).push(PeopleProfileRoute(peopleId: relatedId));
-//       break;
-//     case 'user_unfollow':
-//       AutoRouter.of(context).push(PeopleProfileRoute(peopleId: relatedId));
-//       break;
-//     case 'user_accept':
-//     case 'user_deny':
-//       AutoRouter.of(context).push(YourPeopleListRoute());
-//       break;
-//     case 'post_like':
-//     case 'post_dislike':
-//       AutoRouter.of(context).push(PostDetailsRoute(postId: relatedId, userId: relatedId));
-//       break;
-//     case 'comment_like':
-//     case 'comment_add':
-//       AutoRouter.of(context).push(CommentsRoute(postInfoList: relatedId as DataOfPostModel));
-//       break;
-//     case 'post_save':
-//       AutoRouter.of(context).push(const SavedRoute());
-//       break;
-//     default:
-//       break;
-//   }
-// }
+
+BuildContext? globalContext;
+
+void _handleNotificationRedirection(String? type) {
+  MainApp.navigateToNotificationScreen(type);
+}
+
+Future<void> _handleNotificationAction(RemoteMessage message) async {
+  final type = message.data['type'];
+  _handleNotificationRedirection(type);
+}
+late NotificationData notifications;
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
@@ -190,6 +178,7 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
 class MainApp extends ConsumerWidget {
   MainApp({super.key});
   final appRouter = AppRouter();
+  static final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -231,5 +220,35 @@ class MainApp extends ConsumerWidget {
         );
       },
     );
+  }
+
+
+   static navigateToNotificationScreen(String? type) {
+    if (type == null) return;
+
+    final context = _navigatorKey.currentContext;
+    if (context == null) return;
+
+    switch (type) {
+      case 'user_follow':
+        AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.id??""));
+        break;
+      case 'user_unfollow':
+        AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.id??""));
+        break;
+      case 'user_accept':
+      case 'user_deny':
+        AutoRouter.of(context).push(YourPeopleListRoute());
+        break;
+      case 'post_like':
+      case 'post_dislike':
+      case 'post_save':
+      case 'comment_like':
+      case 'comment_add':
+         AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.id?? "", userId: notifications.receiverUserInfo?.id??""));
+        break;
+      default:
+        break;
+    }
   }
 }

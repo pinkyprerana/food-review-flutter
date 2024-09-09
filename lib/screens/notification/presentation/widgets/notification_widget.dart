@@ -10,61 +10,66 @@ class NotificationWidget extends StatelessWidget {
       {super.key,
       required this.imgpath,
       required this.title,
-      required this.subtitle});
+      required this.subtitle,
+      required this.onTap,});
   final String imgpath;
   final String title;
   final String subtitle;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0).r,
-      child: ListTile(
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: AppColors.colorGrey, width: 1),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        leading: SizedBox(
-          width: 50.w,
-          height: 47.h,
-          child:  CachedNetworkImage(
-            imageUrl: imgpath,
-            placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary,),
-            errorWidget: (context, url, error) => ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                Assets.avatar,
-                scale: 1,
-                fit: BoxFit.cover,
-              ),
-            ),
-            imageBuilder: (context, imageProvider) => Container(
-              width: 50.w,
-              height: 47.h,
-              decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0).r,
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: AppColors.colorGrey, width: 1),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          leading: SizedBox(
+            width: 50.w,
+            height: 47.h,
+            child:  CachedNetworkImage(
+              imageUrl: imgpath,
+              placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary,),
+              errorWidget: (context, url, error) => ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: imageProvider,
+                child: Image.asset(
+                  Assets.avatar,
+                  scale: 1,
                   fit: BoxFit.cover,
+                ),
+              ),
+              imageBuilder: (context, imageProvider) => Container(
+                width: 50.w,
+                height: 47.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        title: Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.textStylePoppinsMedium.copyWith(
-            fontSize: 13.sp,
-            color: AppColors.colorPrimary,
+          title: Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.textStylePoppinsMedium.copyWith(
+              fontSize: 13.sp,
+              color: AppColors.colorPrimary,
+            ),
           ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: AppTextStyles.textStylePoppinsRegular.copyWith(
-            fontSize: 10.sp,
-            color: AppColors.colorPrimaryAlpha,
+          subtitle: Text(
+            subtitle,
+            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+              fontSize: 10.sp,
+              color: AppColors.colorPrimaryAlpha,
+            ),
           ),
         ),
       ),
