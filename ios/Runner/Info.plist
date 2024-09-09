@@ -117,6 +117,9 @@
     </array>
     <key>FirebaseAppDelegateProxyEnabled</key>
     <false/>
+	<key>FlutterDeepLinkingEnabled</key>
+    <true/>
+
 
 
 </dict>
