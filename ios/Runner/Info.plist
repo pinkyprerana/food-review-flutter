@@ -111,12 +111,12 @@
 
 	<!-- Notification -->
 	<key>UIBackgroundModes</key>
-      <array>
-        <string>fetch</string>
-        <string>remote-notification</string>
-      </array>
-      <key>FirebaseAppDelegateProxyEnabled</key>
-      <false/>
+    <array>
+      <string>fetch</string>
+      <string>remote-notification</string>
+    </array>
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 
 
 </dict>

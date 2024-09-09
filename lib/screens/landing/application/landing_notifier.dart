@@ -15,7 +15,7 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/landing/application/landing_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LandingNotifier extends StateNotifier<LandingState> {
@@ -178,7 +178,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
 
             _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
             _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
-            print(response);
+            // print(response);
             voidCallback.call();
           } else if (response.statusCode == 400) {
             showToastMessage('Google is not responding. Please try a different method');
