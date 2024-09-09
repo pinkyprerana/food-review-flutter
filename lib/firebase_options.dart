@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '807325107906',
     projectId: 'forthetable-bc1a5',
     storageBucket: 'forthetable-bc1a5.appspot.com',
-    androidClientId: '807325107906-uabt6oes0csdm89096m95ict4gthpqnm.apps.googleusercontent.com',
+    androidClientId: '807325107906-9u6dmerpf1afvhb3mh1gsmg85el6f5qe.apps.googleusercontent.com',
     iosClientId: '807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m.apps.googleusercontent.com',
     iosBundleId: 'com.example.forTheTable',
   );

@@ -171,17 +171,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     try {
-      String? deviceType = Platform.isAndroid ? "android" : Platform.isIOS ? "ios" : "web";
-      String? androidDeviceToken = await FirebaseMessaging.instance.getToken();
-      String? iOSDeviceToken = await FirebaseMessaging.instance.getAPNSToken();
-      AppLog.log("ios token : $iOSDeviceToken");
+      String? deviceType = Platform.isAndroid
+          ? "android"
+          : Platform.isIOS
+              ? "ios"
+              : "web";
+      String? deviceToken = await FirebaseMessaging.instance.getToken();
+      AppLog.log("device token : $deviceToken");
 
       var (response, dioException) = await _networkApiService
           .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.signin}', body: {
         "email": loginEmailTextController.text.toLowerCase(),
         "password": loginPasswordTextController.text,
         "deviceType": deviceType,
-        "deviceToken": (deviceType=="android") ? androidDeviceToken : iOSDeviceToken,
+        "deviceToken": deviceToken,
       });
 
       AppLog.log('response ----- $response');
@@ -198,18 +201,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
           _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userFirstName, jsonData['data']['first_name'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.userLastName, jsonData['data']['last_name'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.fullName, jsonData['data']['fullName'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userPhone, jsonData['data']['phone'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userEmail, jsonData['data']['email'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
+          _hiveDatabase.box
+              .put(AppPreferenceKeys.profileImage, jsonData['data']['profile_image'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userCity, jsonData['data']['city'] ?? '');
-          _hiveDatabase.box.put(AppPreferenceKeys.deviceToken, (deviceType=="android") ? androidDeviceToken : iOSDeviceToken);
+          _hiveDatabase.box.put(AppPreferenceKeys.deviceToken, deviceToken);
           showToastMessage(jsonData["message"]);
           clearLoginPageFields();
           voidCallback.call();
-        } else if (jsonData['message'] == "Sorry user is deleted by admin. Please contact with admin.") {
+        } else if (jsonData['message'] ==
+            "Sorry user is deleted by admin. Please contact with admin.") {
           showToastMessage('Account has been deleted by Admin');
         } else {
           showToastMessage(jsonData['message']);
@@ -239,7 +246,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     try {
-      String? deviceType = Platform.isAndroid ? "android" : Platform.isIOS ? "ios" : "web";
+      String? deviceType = Platform.isAndroid
+          ? "android"
+          : Platform.isIOS
+              ? "ios"
+              : "web";
       String? deviceToken = await FirebaseMessaging.instance.getToken();
       AppLog.log("Device token is $deviceToken");
       Map<String, dynamic> requestBody = {

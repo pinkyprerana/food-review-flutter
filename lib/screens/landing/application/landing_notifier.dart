@@ -15,6 +15,7 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/landing/application/landing_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LandingNotifier extends StateNotifier<LandingState> {
@@ -54,6 +55,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
     final deviceToken = await getDeviceToken();
+    // String? iOSDeviceToken = await FirebaseMessaging.instance.getAPNSToken();
 
     try {
       state = state.copyWith(isLoading: true);
@@ -84,13 +86,13 @@ class LandingNotifier extends StateNotifier<LandingState> {
       }
 
       if (user.user != null) {
-        final requestBody = {
+        Map<String, dynamic> requestdata = {
           "fullName": user.user?.displayName ?? (appleCredential.givenName ?? 'user'),
           "email": user.user?.email,
           "socialId": user.user?.uid,
           "registerType": "Apple",
           "deviceToken": deviceToken,
-          "deviceType": deviceType(),
+          "deviceType": Platform.isAndroid ? "Android" : "iOS",
         };
 
         var headers = {
@@ -100,10 +102,12 @@ class LandingNotifier extends StateNotifier<LandingState> {
 
         _dio.options.headers.addAll(headers);
 
-        final response = await _dio.post(
-          '${AppUrls.baseUrl}${AppUrls.socialLogin}',
-          data: requestBody,
-        );
+        final response =
+            await _dio.post('${AppUrls.baseUrl}${AppUrls.socialLogin}', data: requestdata);
+        // await _dio.post(
+        //   '${AppUrls.baseUrl}${AppUrls.socialLogin}',
+        //   data: requestdata,
+        // );
 
         if (response.statusCode == 200) {
           Map<String, dynamic> jsonData = response.data;
@@ -155,25 +159,29 @@ class LandingNotifier extends StateNotifier<LandingState> {
         final UserCredential userCredential = await auth.signInWithCredential(credential);
 
         if (userCredential.user != null) {
-          Map<String, dynamic> requestBody = {
+          Map<String, dynamic> requestdata = {
             "fullName": userCredential.user?.displayName,
             "socialId": userCredential.user?.uid,
             "email": userCredential.user?.email,
             "registerType": "Google",
             "deviceToken": deviceToken,
-            "deviceType": deviceType(),
+            "deviceType": Platform.isAndroid ? "Android" : "iOS",
           };
 
-          final response =
-              await _dio.post('${AppUrls.baseUrl}${AppUrls.socialLogin}', data: requestBody);
+          AppLog.log(requestdata.toString());
 
-          if (response.statusCode == 200 && response.data != null) {
+          final response =
+              await _dio.post('${AppUrls.baseUrl}${AppUrls.socialLogin}', data: requestdata);
+
+          if (response.statusCode == 200 && response.data.isNotEmpty) {
             Map<String, dynamic> jsonData = response.data;
 
             _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
             _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
-
+            print(response);
             voidCallback.call();
+          } else if (response.statusCode == 400) {
+            showToastMessage('Google is not responding. Please try a different method');
           }
         } else {
           showToastMessage('Something went wrong. Please try again.');
