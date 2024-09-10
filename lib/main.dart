@@ -92,6 +92,9 @@ Future<void> requestNotificationPermission() async {
 
 Future<void> _showNotification(RemoteMessage message) async {
   String? notificationType = message.data['type'];
+  String? postId = message.data['postId'];
+  String? userId = message.data['userId'];
+  AppLog.log("$postId & $userId");
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -144,8 +147,13 @@ void _handleNotificationRedirection(String? type) {
 
 Future<void> _handleNotificationAction(RemoteMessage message) async {
   final type = message.data['type'];
-  _handleNotificationRedirection(type);
+  if (type != null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleNotificationRedirection(type);
+    });
+  }
 }
+
 late NotificationData notifications;
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
