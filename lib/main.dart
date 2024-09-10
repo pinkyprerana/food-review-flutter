@@ -231,22 +231,18 @@ class MainApp extends ConsumerWidget {
     if (context == null) return;
 
     switch (type) {
-      case 'user_follow':
-        AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.id??""));
-        break;
-      case 'user_unfollow':
-        AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.id??""));
-        break;
       case 'user_accept':
       case 'user_deny':
-        AutoRouter.of(context).push(YourPeopleListRoute());
+      case 'user_follow':
+      case 'user_unfollow':
+        AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.receiverUserInfo?.id??""));
         break;
       case 'post_like':
       case 'post_dislike':
       case 'post_save':
       case 'comment_like':
       case 'comment_add':
-         AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.id?? "", userId: notifications.receiverUserInfo?.id??""));
+         AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.refPostId?? "", userId: notifications.receiverUserInfo?.id??""));
         break;
       default:
         break;

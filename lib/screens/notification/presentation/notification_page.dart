@@ -33,7 +33,10 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
   _handleNotificationTap(BuildContext context, NotificationData notifications) {
     final notificationType = notifications.type;
     switch (notificationType) {
+      case 'user_accept':
+      case 'user_deny':
       case 'user_follow':
+      case 'user_unfollow':
          AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.postedUserInfo?.id ?? ""));
         break;
       case 'post_like':
@@ -41,7 +44,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
       case 'post_save':
       case 'comment_like':
       case 'comment_add':
-       AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.id?? "", userId: notifications.receiverUserInfo?.id??""));
+       AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.refPostId?? "", userId: notifications.receiverUserInfo?.id??""));
         break;
       default:
         break;
