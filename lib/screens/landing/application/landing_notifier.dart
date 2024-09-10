@@ -222,7 +222,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
             "email": userCredential.user?.email,
             "registerType": "Facebook",
             "deviceToken": deviceToken,
-            "deviceType": deviceType(),
+            "deviceType": Platform.isAndroid ? "Android" : "iOS",
           };
 
           final response =

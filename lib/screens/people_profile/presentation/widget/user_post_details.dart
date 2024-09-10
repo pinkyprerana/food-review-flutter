@@ -185,7 +185,9 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                       ),
                                       8.horizontalSpace,
                                       Text(
-                                        creatorDetails?.fullName ?? "",
+                                        (creatorDetails?.fullName != null && (creatorDetails!.fullName!.length > 15))
+                                            ? '${creatorDetails!.fullName!.substring(0, 15)}...'
+                                            : creatorDetails?.fullName ?? "",
                                         style: AppTextStyles.textStylePoppinsMedium
                                             .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                                       ),
@@ -238,7 +240,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                           ),
                                         ),
                                         Text(
-                                          postDetails!.restaurantInfo!.address.length > 40
+                                          (postDetails?.restaurantInfo?.address.length ?? 0) > 40
                                               ? '${postDetails?.restaurantInfo?.address.substring(0, 40)}...'
                                               : postDetails?.restaurantInfo?.address ?? "",
                                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -263,14 +265,14 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                 GestureDetector(
                                   onTap: () {
                                     AutoRouter.of(context).push(
-                                      CommentsRoute(postInfoList: postDetailsList!),
+                                      CommentsRoute(postId: postDetailsList!.id??''),
                                     );
                                   },
                                   child: Column(
                                     children: [
                                       Image.asset(Assets.comments),
                                       Text(
-                                        (postDetails!.commentCount! > 9)
+                                        (postDetails?.commentCount ?? 0) > 9
                                             ? postDetails?.commentCount.toString() ?? ""
                                             : "0${postDetails?.commentCount.toString()}",
                                         style: AppTextStyles.textStylePoppinsRegular.copyWith(

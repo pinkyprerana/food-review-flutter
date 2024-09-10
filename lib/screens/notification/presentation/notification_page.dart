@@ -6,6 +6,8 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/notification/presentation/widgets/notification_widget.dart';
 import '../../../core/constants/app_urls.dart';
+import '../../../core/routes/app_router.dart';
+import '../../../model/notification_model/notification_model.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -27,6 +29,28 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
       await notificationNotifier.getNotificationList();
     });
   }
+
+  _handleNotificationTap(BuildContext context, NotificationData notifications) {
+    final notificationType = notifications.type;
+    switch (notificationType) {
+      case 'user_accept':
+      case 'user_deny':
+      case 'user_follow':
+      case 'user_unfollow':
+         AutoRouter.of(context).push(PeopleProfileRoute(peopleId: notifications.postedUserInfo?.id ?? ""));
+        break;
+      case 'post_like':
+      case 'post_dislike':
+      case 'post_save':
+      case 'comment_like':
+      case 'comment_add':
+       AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.refPostId?? "", userId: notifications.receiverUserInfo?.id??""));
+        break;
+      default:
+        break;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +130,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                                 imgpath: imgUrl,
                                 title: notifications.title??"",
                                 subtitle: notifications.message??"",
+                                onTap: () => _handleNotificationTap(context, notifications),
                               );
                             },
                           ),
@@ -138,6 +163,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                                 imgpath: imgUrl,
                                 title: notifications.title??"",
                                 subtitle: notifications.message??"",
+                                onTap: () => _handleNotificationTap(context, notifications),
                               );
                             },
                           ),
@@ -170,6 +196,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                                 imgpath: imgUrl,
                                 title: notifications.title??"",
                                 subtitle: notifications.message??"",
+                                onTap: () => _handleNotificationTap(context, notifications),
                               );
                             },
                           ),

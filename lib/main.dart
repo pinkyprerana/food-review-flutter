@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'dart:io';
-
-// import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -18,7 +17,7 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/app_widget.dart';
 import 'package:for_the_table/firebase_options.dart';
 import 'package:for_the_table/screens/notification/shared/providers.dart';
-// import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'core/utils/app_log.dart';
 import 'model/notification_model/notification_model.dart';
@@ -48,6 +47,7 @@ Future<void> main() async {
   );
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationAction);
   await requestNotificationPermission();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -59,6 +59,7 @@ Future<void> main() async {
 final container = ProviderContainer();
 final notificationNotifier =
     container.read(notificationNotifierProvider.notifier);
+late NotificationData notifications;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -67,9 +68,18 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> requestNotificationPermission() async {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  PermissionStatus status = await Permission.notification.status;
+  if (!status.isGranted) {
+    status = await Permission.notification.request();
+    if (!status.isGranted) {
+      AppLog.log('Notification permission declined');
+      openAppSettings();
+      return;
+    }
+  }
 
-  NotificationSettings settings = await messaging.requestPermission(
+  NotificationSettings settings =
+      await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: true,
     badge: true,
@@ -80,11 +90,12 @@ Future<void> requestNotificationPermission() async {
   );
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    AppLog.log('User granted permission');
+    AppLog.log('Firebase Messaging: User granted permission');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    AppLog.log('User granted provisional permission');
+    AppLog.log('Firebase Messaging: User granted provisional permission');
   } else {
-    AppLog.log('User declined or has not accepted permission');
+    AppLog.log('Firebase Messaging: User declined permission');
+    openAppSettings();
   }
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -96,8 +107,10 @@ Future<void> requestNotificationPermission() async {
 }
 
 Future<void> _showNotification(RemoteMessage message) async {
-  // String? notificationType = message.data['type'];
-  // String? relatedId = message.data['id'];
+  String? notificationType = message.data['type'];
+  String? postId = message.data['postId'];
+  String? userId = message.data['userId'];
+  AppLog.log("$postId & $userId");
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -116,52 +129,34 @@ Future<void> _showNotification(RemoteMessage message) async {
       ),
     ],
   );
-  // _handleNotificationRedirection(notificationType, relatedId);
 
-  await notificationNotifier.getNotificationList();
-  final notificationState = container.read(notificationNotifierProvider);
-  final notifications = notificationState.todayNotifications.last.title;
-  AppLog.log("Notification: ${message.notification?.title}");
-  AppLog.log("Notification title: $notifications");
+  AppLog.log("notificationType $notificationType");
+  MainApp.navigateToNotificationScreen(notificationType);
+
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
     message: message.notification?.body ?? 'No Message',
-    postedUserInfo: const UserNotificationInfo(profileImage: '', fullName: ''),
+    postedUserInfo: UserNotificationInfo(
+        profileImage: notifications.postedUserInfo?.profileImage ?? "",
+        fullName: notifications.postedUserInfo?.fullName ?? ""),
     createdAt: DateTime.now(),
   ));
 }
 
-// void _handleNotificationRedirection(String? type, String? relatedId, context) {
-//   if (type == null || relatedId == null) {
-//     return;
-//   }
-//
-//   switch (type) {
-//     case 'user_follow':
-//       AutoRouter.of(context).push(PeopleProfileRoute(peopleId: relatedId));
-//       break;
-//     case 'user_unfollow':
-//       AutoRouter.of(context).push(PeopleProfileRoute(peopleId: relatedId));
-//       break;
-//     case 'user_accept':
-//     case 'user_deny':
-//       AutoRouter.of(context).push(YourPeopleListRoute());
-//       break;
-//     case 'post_like':
-//     case 'post_dislike':
-//       AutoRouter.of(context).push(PostDetailsRoute(postId: relatedId, userId: relatedId));
-//       break;
-//     case 'comment_like':
-//     case 'comment_add':
-//       AutoRouter.of(context).push(CommentsRoute(postInfoList: relatedId as DataOfPostModel));
-//       break;
-//     case 'post_save':
-//       AutoRouter.of(context).push(const SavedRoute());
-//       break;
-//     default:
-//       break;
-//   }
-// }
+BuildContext? globalContext;
+
+void _handleNotificationRedirection(String? type) {
+  MainApp.navigateToNotificationScreen(type);
+}
+
+Future<void> _handleNotificationAction(RemoteMessage message) async {
+  final type = message.data['type'];
+  if (type != null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleNotificationRedirection(type);
+    });
+  }
+}
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
@@ -194,6 +189,8 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
 class MainApp extends ConsumerWidget {
   MainApp({super.key});
   final appRouter = AppRouter();
+  static final GlobalKey<NavigatorState> _navigatorKey =
+      GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -210,6 +207,8 @@ class MainApp extends ConsumerWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
+          key: _navigatorKey,
+          // routerConfig: appRouter.config(),
           theme: ThemeData(
             // inputDecorationTheme: InputDecorationTheme(
             //   contentPadding: EdgeInsets.symmetric(
@@ -256,5 +255,36 @@ class MainApp extends ConsumerWidget {
         );
       },
     );
+  }
+
+  static navigateToNotificationScreen(String? type) {
+    if (type == null) return;
+
+    final context = _navigatorKey.currentContext;
+    if (context == null) {
+      AppLog.log("Context is null, can't navigate.");
+      return;
+    }
+
+    switch (type) {
+      case 'user_accept':
+      case 'user_deny':
+      case 'user_follow':
+      case 'user_unfollow':
+        AutoRouter.of(context).push(PeopleProfileRoute(
+            peopleId: notifications.receiverUserInfo?.id ?? ""));
+        break;
+      case 'post_like':
+      case 'post_dislike':
+      case 'post_save':
+      case 'comment_like':
+      case 'comment_add':
+        AutoRouter.of(context).push(PostDetailsRoute(
+            postId: notifications.refPostId ?? "",
+            userId: notifications.receiverUserInfo?.id ?? ""));
+        break;
+      default:
+        break;
+    }
   }
 }

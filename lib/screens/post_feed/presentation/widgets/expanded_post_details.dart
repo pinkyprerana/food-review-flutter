@@ -179,7 +179,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(CommentsRoute(
-                      postInfoList: widget.postList,
+                      postId: widget.postList?.id ??'',
                     )),
                     child: Column(
                       children: [

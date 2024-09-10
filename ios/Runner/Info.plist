@@ -119,8 +119,11 @@
     <false/>
 	<key>FlutterDeepLinkingEnabled</key>
     <true/>
-
-
+    <key>APNs</key>
+    <dict>
+        <key>APNsEnvironment</key>
+        <string>production</string>
+    </dict>
 
 </dict>
 </plist>

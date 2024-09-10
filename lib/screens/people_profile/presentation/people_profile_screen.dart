@@ -10,6 +10,7 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/widgets/custom_icon.dart';
 import 'package:for_the_table/widgets/video_thumbnail.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
@@ -53,6 +54,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
       AppLog.log('api is getting called');
     });
     WidgetsBinding.instance.ensureVisualUpdate();
+  }
+
+  void shareProfile(String profileUrl) {
+    Share.share('Check out this profile: $profileUrl');
   }
 
   @override
@@ -242,10 +247,17 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                     ),
                                   ),
                                   20.horizontalSpace,
-                                  SmallProfileContainer(
-                                      widget: Center(
-                                    child: Image.asset(Assets.share),
-                                  )),
+                                  GestureDetector(
+                                    onTap: () {
+                                      String profileUrl =
+                                          'forthetable-bc1a5.web.app/splash/${widget.peopleId}';
+                                      shareProfile(profileUrl);
+                                    },
+                                    child: SmallProfileContainer(
+                                        widget: Center(
+                                      child: Image.asset(Assets.share),
+                                    )),
+                                  ),
                                 ],
                               ),
                               10.verticalSpace,

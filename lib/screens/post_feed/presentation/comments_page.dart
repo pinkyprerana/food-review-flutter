@@ -13,53 +13,67 @@ import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../people_profile/shared/providers.dart';
+import '../../restaurant/shared/provider.dart';
+import '../../your_lists/shared/provider.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
 class CommentsPage extends ConsumerStatefulWidget {
   const CommentsPage({
     super.key,
-    required this.postInfoList,
+    required this.postId,
   });
-  final DataOfPostModel? postInfoList;
+  final String postId;
 
   @override
   ConsumerState<CommentsPage> createState() => _CommentsPageState();
 }
 
 class _CommentsPageState extends ConsumerState<CommentsPage> {
+  late DataOfPostModel postInfoList;
+  late List<CommentInfo> comments;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
+      final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+      await restaurantNotifier.getRestaurants(ref: ref);
+      await restaurantNotifier.getSavedRestaurants();
+      final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+      await yourPeopleNotifier.getAllUsersList(isFollowState: true);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
     final postFeedState = ref.watch(postFeedNotifierProvider);
     final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final String? postId = widget.postInfoList?.id;
-    // final String peopleId = widget.postInfoList.userInfo?.id ?? "";
-    final String name = widget.postInfoList?.userInfo?.fullName ?? "";
+    postInfoList = postFeedState.postList!.firstWhere((post)
+    => post.id == widget.postId,
+        orElse:()=> const DataOfPostModel(id: '')
+    );
+    final String postId = widget.postId;//postInfoList.id;
+    final String name = postInfoList.userInfo?.fullName ?? "";
     final String profileImage =
-        "${AppUrls.profilePicLocation}/${widget.postInfoList?.userInfo?.profileImage}";
-    final String? description = widget.postInfoList?.description;
-    final String? restaurantName = widget.postInfoList?.restaurantInfo?.name;
-    final String? rating = widget.postInfoList?.restaurantInfo?.rating;
-    final String? address = widget.postInfoList?.restaurantInfo?.address;
-    final String? cuisine = widget.postInfoList?.preferenceInfo?.title;
-    final int commentCount = widget.postInfoList?.commentCount ?? 0;
+        "${AppUrls.profilePicLocation}/${postInfoList.userInfo?.profileImage}";
+    final String? description = postInfoList.description;
+    final String? restaurantName = postInfoList.restaurantInfo?.name;
+    final String? rating = postInfoList.restaurantInfo?.rating;
+    final String? address = postInfoList.restaurantInfo?.address;
+    final String? cuisine = postInfoList.preferenceInfo?.title;
+    final int commentCount = postInfoList.commentCount ?? 0;
     const int amount = 100; //widget.postInfoList.commentCount;
-    final bool? isSaved = widget.postInfoList?.isSave;
-    final bool? isLiked = widget.postInfoList?.isMyLike;
-    final bool? isFollowing = widget.postInfoList?.isFollowing;
-    final bool? isRequested = widget.postInfoList?.isFollowingRequest;
-    final comments = postFeedState.commentInfoList
-        ?.where((comment) => comment.postId == postId)
-        .toList();
+    final bool? isSaved = postInfoList.isSave;
+    final bool? isLiked = postInfoList.isMyLike;
+    final bool? isFollowing = postInfoList.isFollowing;
+    final bool? isRequested = postInfoList.isFollowingRequest;
+    comments =
+        postFeedState.commentInfoList!.where((comment) => comment.postId == postId).toList();
+
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -290,7 +304,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                 //         color: AppColors.colorWhite,
                 //       ))
                 //     :
-                comments!.isEmpty
+                comments.isEmpty
                     ? Center(
                         child: Text("Be the first to comment in this post.",
                             style:
@@ -344,7 +358,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             await postFeedNotifier.postComment(() async {
                               dismissKeyboard(context);
                               _fetchPostDetails();
-                            }, postId ?? "");
+                            }, postId);
                           },
                           text: 'Submit',
                         )
@@ -363,13 +377,13 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
   Future<void> _fetchPostDetails() async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     await followNotifier.getAllPostsOfOtherUserProfile(
-        () {}, widget.postInfoList?.userInfo?.id ?? "");
-    await followNotifier.getOtherPeopleDetails(
-        () {}, widget.postInfoList?.userInfo?.id ?? "");
+            () {}, postInfoList.userInfo?.id ?? "");
+    await followNotifier.getOtherPeopleDetails(() {},postInfoList.userInfo?.id ?? "");
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
     final profileNotifier = ref.read(profileNotifierProvider.notifier);
     await profileNotifier.fetchlikedPosts();
     await profileNotifier.fetchDislikedPosts();
   }
+
 }
