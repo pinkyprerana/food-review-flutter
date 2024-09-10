@@ -127,20 +127,6 @@ Future<void> _showNotification(RemoteMessage message) async {
 
   AppLog.log("notificationType $notificationType");
   MainApp.navigateToNotificationScreen(notificationType);
-  // _handleNotificationRedirection(notificationType);
-
-  // final notifier = container.read(notificationNotifierProvider.notifier);
-  // if (notifier.mounted) {
-  //   await notifier.getNotificationList();
-  // }
-  //
-  // final notificationState = container.read(notificationNotifierProvider);
-  // if (notificationState.todayNotifications.isNotEmpty) {
-  //   final notifications = notificationState.todayNotifications.last.title;
-  //   AppLog.log("Notification title: $notifications");
-  // } else {
-  //   AppLog.log("No notifications available");
-  // }
 
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
