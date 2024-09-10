@@ -88,7 +88,10 @@ class LandingGetStartedDescription extends ConsumerWidget {
                               });
                             }
                           } else {
-                            showToastMessage('Working');
+                            await stateNotifier.signInWithFacebook(voidCallback: () {
+                              AutoRouter.of(context)
+                                  .pushAndPopUntil(const LocationRoute(), predicate: (_) => false);
+                            });
                           }
                         },
                         child: Container(
