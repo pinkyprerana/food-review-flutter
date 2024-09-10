@@ -55,6 +55,7 @@ Future<void> main() async {
 
 final container = ProviderContainer();
 final notificationNotifier = container.read(notificationNotifierProvider.notifier);
+late NotificationData notifications;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -125,25 +126,29 @@ Future<void> _showNotification(RemoteMessage message) async {
   );
 
   AppLog.log("notificationType $notificationType");
-  _handleNotificationRedirection(notificationType);
+  MainApp.navigateToNotificationScreen(notificationType);
+  // _handleNotificationRedirection(notificationType);
 
-  final notifier = container.read(notificationNotifierProvider.notifier);
-  if (notifier.mounted) {
-    await notifier.getNotificationList();
-  }
-
-  final notificationState = container.read(notificationNotifierProvider);
-  if (notificationState.todayNotifications.isNotEmpty) {
-    final notifications = notificationState.todayNotifications.last.title;
-    AppLog.log("Notification title: $notifications");
-  } else {
-    AppLog.log("No notifications available");
-  }
+  // final notifier = container.read(notificationNotifierProvider.notifier);
+  // if (notifier.mounted) {
+  //   await notifier.getNotificationList();
+  // }
+  //
+  // final notificationState = container.read(notificationNotifierProvider);
+  // if (notificationState.todayNotifications.isNotEmpty) {
+  //   final notifications = notificationState.todayNotifications.last.title;
+  //   AppLog.log("Notification title: $notifications");
+  // } else {
+  //   AppLog.log("No notifications available");
+  // }
 
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
     message: message.notification?.body ?? 'No Message',
-    postedUserInfo: const UserNotificationInfo(profileImage: '', fullName: ''),
+    postedUserInfo: UserNotificationInfo(
+        profileImage: notifications.postedUserInfo?.profileImage ?? "",
+        fullName:  notifications.postedUserInfo?.fullName ?? ""
+    ),
     createdAt: DateTime.now(),
   ));
 }
@@ -163,8 +168,6 @@ Future<void> _handleNotificationAction(RemoteMessage message) async {
     });
   }
 }
-
-late NotificationData notifications;
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
@@ -214,6 +217,8 @@ class MainApp extends ConsumerWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
+          key: _navigatorKey,
+          // routerConfig: appRouter.config(),
           theme: ThemeData(
             // inputDecorationTheme: InputDecorationTheme(
             //   contentPadding: EdgeInsets.symmetric(
@@ -246,7 +251,10 @@ class MainApp extends ConsumerWidget {
     if (type == null) return;
 
     final context = _navigatorKey.currentContext;
-    if (context == null) return;
+    if (context == null) {
+      AppLog.log("Context is null, can't navigate.");
+      return;
+    }
 
     switch (type) {
       case 'user_accept':
