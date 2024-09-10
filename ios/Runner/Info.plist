@@ -117,7 +117,11 @@
     </array>
     <key>FirebaseAppDelegateProxyEnabled</key>
     <false/>
-
+    <key>APNs</key>
+    <dict>
+        <key>APNsEnvironment</key>
+        <string>production</string>
+    </dict>
 
 </dict>
 </plist>

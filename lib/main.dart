@@ -15,6 +15,7 @@ import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/utils/app_widget.dart';
 import 'package:for_the_table/firebase_options.dart';
 import 'package:for_the_table/screens/notification/shared/providers.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'core/utils/app_log.dart';
 import 'model/notification_model/notification_model.dart';
@@ -62,9 +63,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> requestNotificationPermission() async {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  PermissionStatus status = await Permission.notification.status;
+  if (!status.isGranted) {
+    status = await Permission.notification.request();
+    if (!status.isGranted) {
+      AppLog.log('Notification permission declined');
+      openAppSettings();
+      return;
+    }
+  }
 
-  NotificationSettings settings = await messaging.requestPermission(
+  NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: true,
     badge: true,
@@ -75,11 +84,12 @@ Future<void> requestNotificationPermission() async {
   );
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    AppLog.log('User granted permission');
+    AppLog.log('Firebase Messaging: User granted permission');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    AppLog.log('User granted provisional permission');
+    AppLog.log('Firebase Messaging: User granted provisional permission');
   } else {
-    AppLog.log('User declined or has not accepted permission');
+    AppLog.log('Firebase Messaging: User declined permission');
+    openAppSettings();
   }
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
