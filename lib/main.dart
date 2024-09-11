@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'dart:io';
-import 'package:auto_route/auto_route.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -19,7 +18,6 @@ import 'package:for_the_table/firebase_options.dart';
 import 'package:for_the_table/screens/notification/shared/providers.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'core/utils/app_log.dart';
 import 'model/notification_model/notification_model.dart';
 
 Future<void> main() async {
@@ -233,21 +231,14 @@ class MainApp extends ConsumerWidget {
           routerConfig: appRouter.config(
             includePrefixMatches: true,
             deepLinkBuilder: (deepLink) {
-              AppLog.log('deepLink =========== >> ${deepLink.path}');
               List listOfSubstrings = deepLink.path.split('/');
               AppLog.log(listOfSubstrings.toString());
               if (deepLink.path.startsWith('/splash')) {
-                AppLog.log('-----deep link to people profile---------');
-                // continue with the platform link
                 return DeepLink([
                   SplashRoute(peopleId: listOfSubstrings.last),
-                  // PeopleProfileRoute(peopleId: listOfSubstrings.last ?? '')
                 ]);
-                // return deepLink;
               } else {
                 return DeepLink.defaultPath;
-                // or DeepLink.path('/')
-                // or DeepLink([HomeRoute()])
               }
             },
           ),

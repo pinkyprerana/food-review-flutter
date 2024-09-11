@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,6 @@ import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../../your_lists/shared/provider.dart';
 import '../domain/other_people_profile_model.dart';
 import '../shared/providers.dart';
-import 'package:after_layout/after_layout.dart';
 
 @RoutePage()
 class PeopleProfilePage extends ConsumerStatefulWidget {

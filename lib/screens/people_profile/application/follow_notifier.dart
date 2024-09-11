@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/screens/people_profile/domain/other_people_profile_model.dart';
 import '../../../core/constants/app_urls.dart';
@@ -11,14 +10,10 @@ import '../domain/post_list_of_other_model.dart';
 import 'follow_state.dart';
 
 class FollowNotifier extends StateNotifier<FollowState> {
-  FollowNotifier(this._networkApiService, this._hiveDatabase)
+  FollowNotifier(this._networkApiService)
       : super(const FollowState());
 
   final NetworkApiService _networkApiService;
-  final HiveDatabase _hiveDatabase;
-
-  // String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
-  // String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
 
   Future<void> followUnfollow(VoidCallback voidCallback, String userID) async {
     // state = state.copyWith(isLoading: true);

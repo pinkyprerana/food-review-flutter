@@ -270,8 +270,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
                                             String profileUrl =
                                                 'forthetable-bc1a5.web.app/splash/$id';
-                                            String imageUrl =
-                                                state.profileImgPath;
                                             shareProfile(profileUrl);
                                           },
                                           child: Center(
