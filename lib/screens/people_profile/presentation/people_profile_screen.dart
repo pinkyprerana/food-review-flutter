@@ -64,6 +64,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     final postListOfOtherUser = state.postListOfOtherUser;
 
     getDetails = followNotifier.getUserById(widget.peopleId);
+    String getUserId = followNotifier.getUserId!;
     final peoplename = getDetails?.fullName ?? '';
     final peopleimage =
         '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}';
@@ -198,13 +199,13 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      followNotifier.followUnfollow(() {
-                                        final followNotifier = ref.read(
-                                            yourPeopleNotifierProvider
-                                                .notifier);
-                                        followNotifier.getAllUsersList();
-                                        postFeedNotifier.getPostFeed();
-                                      }, widget.peopleId);
+                                      if (widget.peopleId != getUserId) {
+                                        followNotifier.followUnfollow(() {
+                                          final followNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+                                          followNotifier.getAllUsersList();
+                                          postFeedNotifier.getPostFeed();
+                                        }, widget.peopleId);
+                                      }
                                     },
                                     child: Container(
                                       width: 158.w,
@@ -224,11 +225,11 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                         ),
                                       ),
                                       child: Text(
-                                        isFollowing
-                                            ? 'Unfollow'
-                                            : isRequested
-                                                ? 'Requested'
-                                                : 'Follow',
+                                        (widget.peopleId == getUserId)
+                                            ? 'Your profile'
+                                            : isFollowing ? 'Unfollow'
+                                            : isRequested ? 'Requested'
+                                            : 'Follow',
                                         style: AppTextStyles
                                             .textStylePoppinsBold
                                             .copyWith(

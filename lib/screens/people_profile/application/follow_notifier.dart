@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_the_table/core/infrastructure/hive_database.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
 import 'package:for_the_table/screens/people_profile/domain/other_people_profile_model.dart';
 import '../../../core/constants/app_urls.dart';
@@ -10,16 +11,19 @@ import '../domain/post_list_of_other_model.dart';
 import 'follow_state.dart';
 
 class FollowNotifier extends StateNotifier<FollowState> {
-  FollowNotifier(this._networkApiService)
-      : super(const FollowState());
+  FollowNotifier(this._networkApiService, this._hiveDatabase) : super(const FollowState());
 
   final NetworkApiService _networkApiService;
+  final HiveDatabase _hiveDatabase;
+
+  String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
+  String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  String? get getUserId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
 
   Future<void> followUnfollow(VoidCallback voidCallback, String userID) async {
     // state = state.copyWith(isLoading: true);
     try {
-      var (response, dioException) =
-          await _networkApiService.postApiRequestWithToken(
+      var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.followUnfollow}',
         body: {
           "follow_user_id": userID,
@@ -48,31 +52,26 @@ class FollowNotifier extends StateNotifier<FollowState> {
     }
   }
 
-  Future<void> getAllPostsOfOtherUserProfile(
-      VoidCallback voidCallback, String userID) async {
+  Future<void> getAllPostsOfOtherUserProfile(VoidCallback voidCallback, String userID) async {
     state = state.copyWith(isLoading: true);
 
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: "${AppUrls.baseUrl}${AppUrls.getPostFeed}",
-              body: {
-            // "lat": getLatitude,
-            // "lng": getLongitude,
-            "user_id": userID,
-          });
+          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${AppUrls.getPostFeed}", body: {
+        "lat": getLatitude,
+        "lng": getLongitude,
+        "user_id": userID,
+      });
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        PostListOfOtherModel postListOfOtherModel =
-            PostListOfOtherModel.fromJson(response.data);
+        PostListOfOtherModel postListOfOtherModel = PostListOfOtherModel.fromJson(response.data);
         if (postListOfOtherModel.status == 200) {
           state = state.copyWith(
-              isLoading: false,
-              postListOfOtherUser: postListOfOtherModel.postListOfOtherUser);
+              isLoading: false, postListOfOtherUser: postListOfOtherModel.postListOfOtherUser);
         } else {
           showToastMessage(postListOfOtherModel.message.toString());
         }
@@ -84,26 +83,20 @@ class FollowNotifier extends StateNotifier<FollowState> {
     }
   }
 
-  Future<void> getOtherPeopleDetails(
-      VoidCallback voidCallback, String userID) async {
+  Future<void> getOtherPeopleDetails(VoidCallback voidCallback, String userID) async {
     try {
       var (response, dioException) = await _networkApiService
-          .postApiRequestWithToken(
-              url: "${AppUrls.baseUrl}${AppUrls.getOtherUserDetails}",
-              body: {
-            "user_id": userID,
-          });
+          .postApiRequestWithToken(url: "${AppUrls.baseUrl}${AppUrls.getOtherUserDetails}", body: {
+        "user_id": userID,
+      });
 
       if (response == null && dioException == null) {
         showConnectionWasInterruptedToastMessage();
       } else if (dioException != null) {
         showDioError(dioException);
       } else if (response.statusCode == 200 && response.data != null) {
-        final otherPeopleProfileModel =
-            OtherPeopleProfileModel.fromJson(response.data);
-        final List<DataOfOtherPeople> detailsList = [
-          otherPeopleProfileModel.data!
-        ];
+        final otherPeopleProfileModel = OtherPeopleProfileModel.fromJson(response.data);
+        final List<DataOfOtherPeople> detailsList = [otherPeopleProfileModel.data!];
 
         state = state.copyWith(
           isLoading: false,
@@ -111,8 +104,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
           otherPeopleProfile: otherPeopleProfileModel,
         );
       } else {
-        showToastMessage(
-            response.data?['message'].toString() ?? 'Unexpected error');
+        showToastMessage(response.data?['message'].toString() ?? 'Unexpected error');
       }
     } catch (error) {
       AppLog.log(error.toString());
@@ -123,16 +115,14 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
   DataOfOtherPeople? getUserById(String userId) {
     return state.getDetails?.firstWhere(
-      (user) => user.id == userId,
+          (user) => user.id == userId,
       orElse: () => const DataOfOtherPeople(id: '', fullName: ''),
     );
   }
 
   Future<void> updateUserData(String userID) async {
     await getOtherPeopleDetails(() {}, userID);
-    if (state.getDetails
-            ?.any((user) => user.id == userID && user.isFollowing == true) ??
-        false) {
+    if (state.getDetails?.any((user) => user.id == userID && user.isFollowing == true) ?? false) {
       await getAllPostsOfOtherUserProfile(() {}, userID);
     }
   }
