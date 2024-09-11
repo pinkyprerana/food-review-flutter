@@ -129,6 +129,9 @@ Future<void> _showNotification(RemoteMessage message) async {
   );
 
   AppLog.log("notificationType $notificationType");
+  AppLog.log(notifications.receiverUserInfo?.id??'');
+  AppLog.log('__________');
+  AppLog.log(notifications.postedUserInfo?.id??'');
   MainApp.navigateToNotificationScreen(notificationType);
 
   notificationNotifier.addNotification(NotificationData(
@@ -262,17 +265,21 @@ class MainApp extends ConsumerWidget {
       case 'user_deny':
       case 'user_follow':
       case 'user_unfollow':
-        AutoRouter.of(context).push(PeopleProfileRoute(
-            peopleId: notifications.receiverUserInfo?.id ?? ""));
+        AutoRouter.of(context).pushAndPopUntil(PeopleProfileRoute(
+            peopleId: notifications.postedUserInfo?.id ?? "",
+            isDeepLinking: true,
+        ), predicate: (_) => false);
         break;
       case 'post_like':
       case 'post_dislike':
       case 'post_save':
       case 'comment_like':
       case 'comment_add':
-        AutoRouter.of(context).push(PostDetailsRoute(
+        AutoRouter.of(context).pushAndPopUntil(PostDetailsRoute(
             postId: notifications.refPostId ?? "",
-            userId: notifications.receiverUserInfo?.id ?? ""));
+            userId: notifications.receiverUserInfo?.id ?? "",
+
+        ), predicate: (_) => false);
         break;
       default:
         break;
