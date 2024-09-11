@@ -18,6 +18,7 @@ class FollowNotifier extends StateNotifier<FollowState> {
 
   String? get getLatitude => _hiveDatabase.box.get(AppPreferenceKeys.latitude);
   String? get getLongitude => _hiveDatabase.box.get(AppPreferenceKeys.longitude);
+  String? get getUserId => _hiveDatabase.box.get(AppPreferenceKeys.userId);
 
   Future<void> followUnfollow(VoidCallback voidCallback, String userID) async {
     // state = state.copyWith(isLoading: true);
