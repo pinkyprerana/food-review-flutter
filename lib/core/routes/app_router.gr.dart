@@ -167,6 +167,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           postId: args.postId,
           userId: args.userId,
+          isDeepLinking: args.isDeepLinking,
         ),
       );
     },
@@ -249,6 +250,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: SplashPage(
           key: args.key,
           peopleId: args.peopleId,
+          postId: args.postId,
         ),
       );
     },
@@ -680,6 +682,7 @@ class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
     Key? key,
     required String? postId,
     required String? userId,
+    bool? isDeepLinking,
     List<PageRouteInfo>? children,
   }) : super(
           PostDetailsRoute.name,
@@ -687,6 +690,7 @@ class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
             key: key,
             postId: postId,
             userId: userId,
+            isDeepLinking: isDeepLinking,
           ),
           initialChildren: children,
         );
@@ -702,6 +706,7 @@ class PostDetailsRouteArgs {
     this.key,
     required this.postId,
     required this.userId,
+    this.isDeepLinking,
   });
 
   final Key? key;
@@ -710,9 +715,11 @@ class PostDetailsRouteArgs {
 
   final String? userId;
 
+  final bool? isDeepLinking;
+
   @override
   String toString() {
-    return 'PostDetailsRouteArgs{key: $key, postId: $postId, userId: $userId}';
+    return 'PostDetailsRouteArgs{key: $key, postId: $postId, userId: $userId, isDeepLinking: $isDeepLinking}';
   }
 }
 
@@ -921,12 +928,14 @@ class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
   SplashRoute({
     Key? key,
     String? peopleId,
+    String? postId,
     List<PageRouteInfo>? children,
   }) : super(
           SplashRoute.name,
           args: SplashRouteArgs(
             key: key,
             peopleId: peopleId,
+            postId: postId,
           ),
           initialChildren: children,
         );
@@ -940,15 +949,18 @@ class SplashRouteArgs {
   const SplashRouteArgs({
     this.key,
     this.peopleId,
+    this.postId,
   });
 
   final Key? key;
 
   final String? peopleId;
 
+  final String? postId;
+
   @override
   String toString() {
-    return 'SplashRouteArgs{key: $key, peopleId: $peopleId}';
+    return 'SplashRouteArgs{key: $key, peopleId: $peopleId, postId: $postId}';
   }
 }
 

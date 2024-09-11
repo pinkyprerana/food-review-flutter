@@ -146,18 +146,21 @@ Future<void> _showNotification(RemoteMessage message) async {
 
 BuildContext? globalContext;
 
-void _handleNotificationRedirection(String? type) {
-  MainApp.navigateToNotificationScreen(type);
-}
-
 Future<void> _handleNotificationAction(RemoteMessage message) async {
+  AppLog.log("Received message on app opened: ${message.toMap()}");
+
   final type = message.data['type'];
+  AppLog.log("print type: $type");
+
   if (type != null) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _handleNotificationRedirection(type);
+      MainApp.navigateToNotificationScreen(type);
     });
+  } else {
+    AppLog.log("Notification type is null");
   }
 }
+
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
@@ -209,7 +212,6 @@ class MainApp extends ConsumerWidget {
       builder: (context, child) {
         return MaterialApp.router(
           key: _navigatorKey,
-          // routerConfig: appRouter.config(),
           theme: ThemeData(
             // inputDecorationTheme: InputDecorationTheme(
             //   contentPadding: EdgeInsets.symmetric(
@@ -240,6 +242,18 @@ class MainApp extends ConsumerWidget {
                 return DeepLink([
                   SplashRoute(peopleId: listOfSubstrings.last),
                 ]);
+              } else if (deepLink.path.startsWith('/peopleProfile/:id')) {
+                return DeepLink([
+                  PeopleProfileRoute(peopleId: listOfSubstrings.last),
+                ]);
+              } else if (deepLink.path.startsWith('/postDetailsRoute')) {
+                return DeepLink([
+                  PostDetailsRoute(
+                      postId: notifications.refPostId,
+                      userId: listOfSubstrings.last,
+                      isDeepLinking: true
+                  ),
+                ]);
               } else {
                 return DeepLink.defaultPath;
               }
@@ -251,38 +265,43 @@ class MainApp extends ConsumerWidget {
     );
   }
 
-  static navigateToNotificationScreen(String? type) {
-    if (type == null) return;
-
-    final context = _navigatorKey.currentContext;
-    if (context == null) {
-      AppLog.log("Context is null, can't navigate.");
-      return;
-    }
-
-    switch (type) {
-      case 'user_accept':
-      case 'user_deny':
-      case 'user_follow':
-      case 'user_unfollow':
-        AutoRouter.of(context).pushAndPopUntil(PeopleProfileRoute(
-            peopleId: notifications.postedUserInfo?.id ?? "",
-            isDeepLinking: true,
-        ), predicate: (_) => false);
-        break;
-      case 'post_like':
-      case 'post_dislike':
-      case 'post_save':
-      case 'comment_like':
-      case 'comment_add':
-        AutoRouter.of(context).pushAndPopUntil(PostDetailsRoute(
-            postId: notifications.refPostId ?? "",
-            userId: notifications.receiverUserInfo?.id ?? "",
-
-        ), predicate: (_) => false);
-        break;
-      default:
-        break;
-    }
+  static void navigateToNotificationScreen(String? type) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = _navigatorKey.currentContext;
+      if (context != null) {
+        try {
+          switch (type) {
+            case 'user_accept':
+            case 'user_deny':
+            case 'user_follow':
+            case 'user_unfollow':
+              AppLog.log("Navigating to PeopleProfileRoute");
+              AutoRouter.of(context).pushAndPopUntil(PeopleProfileRoute(
+                peopleId: notifications.postedUserInfo?.id ?? "",
+                isDeepLinking: true
+              ), predicate: (_) => false);
+              break;
+            case 'post_like':
+            case 'post_dislike':
+            case 'post_save':
+            case 'comment_like':
+            case 'comment_add':
+              AppLog.log("Navigating to PostDetailsRoute");
+              AutoRouter.of(context).pushAndPopUntil(PostDetailsRoute(
+                postId: notifications.refPostId ?? "",
+                userId: notifications.receiverUserInfo?.id ?? "",
+                isDeepLinking: true
+              ), predicate: (_) => false);
+              break;
+            default:
+              AppLog.log('Unhandled notification type: $type');
+              break;
+          }
+        }catch (e, stackTrace) {
+          AppLog.log("Navigation error: $e");
+          AppLog.log("StackTrace: $stackTrace");
+        }
+      }
+    });
   }
 }

@@ -20,11 +20,13 @@ import '../../shared/providers.dart';
 class PostDetailsPage extends ConsumerStatefulWidget {
   final String? postId;
   final String? userId;
+  final bool? isDeepLinking;
 
   const PostDetailsPage({
     super.key,
     required this.postId,
     required this.userId,
+    this.isDeepLinking
   });
 
   @override
