@@ -384,45 +384,96 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         5.verticalSpace,
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  stateNotifier.clearStateSliderValue();
-                                                  stateNotifier.clearImageOrVideo();
-                                                  stateNotifier.clearReviewFields();
-                                                  if (stateNotifier.reastaurantDetials
-                                                          ?.restaurantDetails?.isReview ??
-                                                      false) {
-                                                    showToastMessage(
-                                                        'Your review has already been added');
-                                                    return;
-                                                  }
+                                          child: Center(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                stateNotifier.clearStateSliderValue();
+                                                stateNotifier.clearImageOrVideo();
+                                                stateNotifier.clearReviewFields();
+                                                if (stateNotifier.reastaurantDetials
+                                                        ?.restaurantDetails?.isReview ??
+                                                    false) {
+                                                  showToastMessage(
+                                                      'Your review has already been added');
+                                                  return;
+                                                }
 
-                                                  commonModal(
-                                                    context,
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    isReviewSource: true,
-                                                    child: SingleChildScrollView(
-                                                      child: Column(
-                                                        children: [
-                                                          20.verticalSpace,
-                                                          CustomSlider(
-                                                            onChanged: (value) {
-                                                              stateNotifier
-                                                                  .sliderValueUpdate(value);
-                                                            },
+                                                commonModal(
+                                                  context,
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  isReviewSource: true,
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        20.verticalSpace,
+                                                        CustomSlider(
+                                                          onChanged: (value) {
+                                                            stateNotifier
+                                                                .sliderValueUpdate(value);
+                                                          },
+                                                        ),
+                                                        10.verticalSpace,
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              'Add a Title',
+                                                              style: AppTextStyles
+                                                                  .textStylePoppinsMedium
+                                                                  .copyWith(
+                                                                fontSize: 13.sp,
+                                                                color: AppColors.colorPrimary,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        5.verticalSpace,
+                                                        CustomInputField(
+                                                          controller:
+                                                              stateNotifier.titleTextController,
+                                                          hint: 'Write the title',
+                                                        ),
+                                                        mediaQuery.height < 700
+                                                            ? 15.verticalSpace
+                                                            : 20.verticalSpace,
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              'Add a written review',
+                                                              style: AppTextStyles
+                                                                  .textStylePoppinsMedium
+                                                                  .copyWith(
+                                                                fontSize: 13.sp,
+                                                                color: AppColors.colorPrimary,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        5.verticalSpace,
+                                                        SizedBox(
+                                                          height: 130.h,
+                                                          child: ExpandedCommonTextField(
+                                                            controller: stateNotifier
+                                                                .reviewTextController,
+                                                            maxLines: null,
+                                                            expands: true,
+                                                            hint: 'Write review',
                                                           ),
-                                                          10.verticalSpace,
-                                                          Row(
+                                                        ),
+                                                        mediaQuery.height < 700
+                                                            ? 15.verticalSpace
+                                                            : 20.verticalSpace,
+                                                        Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment.start,
                                                             children: [
                                                               Text(
-                                                                'Add a Title',
+                                                                'Add a Photo or Video',
                                                                 style: AppTextStyles
                                                                     .textStylePoppinsMedium
                                                                     .copyWith(
@@ -430,91 +481,37 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                                   color: AppColors.colorPrimary,
                                                                 ),
                                                               )
-                                                            ],
-                                                          ),
-                                                          5.verticalSpace,
-                                                          CustomInputField(
-                                                            controller:
-                                                                stateNotifier.titleTextController,
-                                                            hint: 'Write the title',
-                                                          ),
-                                                          mediaQuery.height < 700
-                                                              ? 15.verticalSpace
-                                                              : 20.verticalSpace,
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                'Add a written review',
-                                                                style: AppTextStyles
-                                                                    .textStylePoppinsMedium
-                                                                    .copyWith(
-                                                                  fontSize: 13.sp,
-                                                                  color: AppColors.colorPrimary,
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          5.verticalSpace,
-                                                          SizedBox(
-                                                            height: 130.h,
-                                                            child: ExpandedCommonTextField(
-                                                              controller: stateNotifier
-                                                                  .reviewTextController,
-                                                              maxLines: null,
-                                                              expands: true,
-                                                              hint: 'Write review',
-                                                            ),
-                                                          ),
-                                                          mediaQuery.height < 700
-                                                              ? 15.verticalSpace
-                                                              : 20.verticalSpace,
-                                                          Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment.start,
-                                                              children: [
-                                                                Text(
-                                                                  'Add a Photo or Video',
-                                                                  style: AppTextStyles
-                                                                      .textStylePoppinsMedium
-                                                                      .copyWith(
-                                                                    fontSize: 13.sp,
-                                                                    color: AppColors.colorPrimary,
-                                                                  ),
-                                                                )
-                                                              ]),
-                                                          5.verticalSpace,
-                                                          const PhotoOrVideoBox(),
-                                                          10.verticalSpace,
-                                                          AppButton(
-                                                            loading: state.isLoadingForReviewSubmit,
-                                                            text: 'Submit',
-                                                            onPressed: () {
-                                                              stateNotifier.submitReview(
-                                                                  onSuccess: () {
-                                                                Navigator.pop(context);
-                                                              });
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            ]),
+                                                        5.verticalSpace,
+                                                        const PhotoOrVideoBox(),
+                                                        10.verticalSpace,
+                                                        AppButton(
+                                                          loading: state.isLoadingForReviewSubmit,
+                                                          text: 'Submit',
+                                                          onPressed: () {
+                                                            stateNotifier.submitReview(
+                                                                onSuccess: () {
+                                                              Navigator.pop(context);
+                                                            });
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
-                                                  );
-                                                },
-                                                child: SizedBox(
-                                                  width: double.maxFinite,
-                                                  child: Text(
-                                                    'Write A Review',
-                                                    style: AppTextStyles.textStylePoppinsRegular
-                                                        .copyWith(
-                                                      fontSize: 10.sp,
-                                                      color: AppColors.colorPrimaryAlpha,
-                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: SizedBox(
+                                                width: double.maxFinite,
+                                                child: Text(
+                                                  'Write A Review',
+                                                  style: AppTextStyles.textStylePoppinsRegular
+                                                      .copyWith(
+                                                    fontSize: 10.sp,
+                                                    color: AppColors.colorPrimaryAlpha,
                                                   ),
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
                                         // 10.verticalSpace,
