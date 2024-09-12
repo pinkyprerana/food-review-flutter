@@ -242,18 +242,18 @@ class MainApp extends ConsumerWidget {
                 return DeepLink([
                   SplashRoute(peopleId: listOfSubstrings.last),
                 ]);
-              } else if (deepLink.path.startsWith('/peopleProfile/:id')) {
-                return DeepLink([
-                  PeopleProfileRoute(peopleId: listOfSubstrings.last),
-                ]);
-              } else if (deepLink.path.startsWith('/postDetailsRoute')) {
-                return DeepLink([
-                  PostDetailsRoute(
-                      postId: notifications.refPostId,
-                      userId: listOfSubstrings.last,
-                      isDeepLinking: true
-                  ),
-                ]);
+              // } else if (deepLink.path.startsWith('/peopleProfile/:id')) {
+              //   return DeepLink([
+              //     PeopleProfileRoute(peopleId: listOfSubstrings.last),
+              //   ]);
+              // } else if (deepLink.path.startsWith('/postDetailsRoute')) {
+              //   return DeepLink([
+              //     PostDetailsRoute(
+              //         postId: notifications.refPostId,
+              //         userId: listOfSubstrings.last,
+              //         isDeepLinking: true
+              //     ),
+              //   ]);
               } else {
                 return DeepLink.defaultPath;
               }
