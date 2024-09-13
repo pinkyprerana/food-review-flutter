@@ -1,10 +1,12 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../post_feed/shared/provider.dart';
@@ -90,39 +92,46 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                       final String postId = savedList[index].id;
                       bool isSaved = savedList[index].isSave;
 
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          margin: const EdgeInsets.all(2),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              Image.network(
-                                imageURL,
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                    onTap: () async {
-                                      await postFeedNotifier
-                                          .saveUnsavePost(() {}, postId)
-                                          .then((_) async {
-                                        final savedNotifier =
-                                            ref.read(profileNotifierProvider.notifier);
-                                        await savedNotifier.getSavedList();
-                                        await savedNotifier.getUserDetails();
-                                      });
-                                    },
-                                    child: isSaved
-                                        ? Image.asset(
-                                            Assets.saved,
-                                            scale: 2,
-                                          )
-                                        : Image.asset(Assets.bookmark)),
-                              )
-                            ],
+                      return GestureDetector(
+                        onTap: (){
+                          AutoRouter.of(context).push(PostDetailsRoute(
+                            postId: postId, userId: savedList[index].userInfo.id,
+                          ));
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            margin: const EdgeInsets.all(2),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                Image.network(
+                                  imageURL,
+                                  fit: BoxFit.cover,
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: GestureDetector(
+                                      onTap: () async {
+                                        await postFeedNotifier
+                                            .saveUnsavePost(() {}, postId)
+                                            .then((_) async {
+                                          final savedNotifier =
+                                              ref.read(profileNotifierProvider.notifier);
+                                          await savedNotifier.getSavedList();
+                                          await savedNotifier.getUserDetails();
+                                        });
+                                      },
+                                      child: isSaved
+                                          ? Image.asset(
+                                              Assets.saved,
+                                              scale: 2,
+                                            )
+                                          : Image.asset(Assets.bookmark)),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
