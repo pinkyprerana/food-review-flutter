@@ -203,7 +203,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                     child: Center(
                                       child: Text(
                                         (widget.isFollowing ?? false)
-                                            ? 'Unfollow'
+                                            ? 'Following'
                                             : (widget.isRequested ?? false)
                                             ? 'Requested'
                                             : 'Follow',

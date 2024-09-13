@@ -211,7 +211,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                                     child: Center(
                                         child: Text(
                                       widget.isFollowing
-                                          ? 'Unfollow'
+                                          ? 'Following'
                                           : widget.isRequested
                                               ? 'Requested'
                                               : 'Follow',

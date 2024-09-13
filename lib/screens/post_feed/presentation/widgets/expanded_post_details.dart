@@ -121,7 +121,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                             child: Center(
                               child: Text(
                                 (isFollowing ?? false)
-                                    ? 'Unfollow'
+                                    ? 'Following'
                                     : (isRequested ?? false)
                                         ? 'Requested'
                                         : 'Follow',

@@ -227,7 +227,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       child: Text(
                                         (widget.peopleId == getUserId)
                                             ? 'My profile'
-                                            : isFollowing ? 'Unfollow'
+                                            : isFollowing ? 'Following'
                                             : isRequested ? 'Requested'
                                             : 'Follow',
                                         style: AppTextStyles

@@ -206,16 +206,18 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     YourPeopleNotifier stateNotifier,
     ProfileNotifier profileNotifier,
   ) {
-    return followState.followerList.isEmpty
-        ? Center(
-            child: Text(
-              'You have no followers.',
-              style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                fontSize: 13.sp,
-                color: AppColors.colorBlack,
+    return followState.isLoading
+             ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary))
+                : followState.followerList.isEmpty
+                ? Center(
+                  child: Text(
+                  'You have no followers.',
+                  style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                  fontSize: 13.sp,
+                  color: AppColors.colorBlack,
+                ),
               ),
-            ),
-          )
+            )
         : Column(
             children: [
               Align(
@@ -287,7 +289,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     YourPeopleNotifier stateNotifier,
     ProfileNotifier profileNotifier,
   ) {
-    return followState.followingList.isEmpty
+    return followState.isLoading
+        ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary))
+        : followState.followingList.isEmpty
         ? Center(
             child: Text(
               'You are not following anyone.',
@@ -343,7 +347,7 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
                       button: AppButton(
                         height: 30,
                         width: 100,
-                        text: 'Unfollow',
+                        text: 'Following',
                         onPressed: () async {
                           await stateNotifier.unfollowFriend(following.id ?? '');
                           await profileNotifier.getUserDetails();
@@ -364,7 +368,9 @@ class _YourPeopleListPageState extends ConsumerState<YourPeopleListPage> {
     YourPeopleNotifier stateNotifier,
     ProfileNotifier profileNotifier,
   ) {
-    return followState.followRequestsList.isEmpty
+    return followState.isLoading
+        ? const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary))
+        : followState.followRequestsList.isEmpty
         ? Center(
             child: Text(
               'You have no requests.',

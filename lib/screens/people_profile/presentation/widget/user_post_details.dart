@@ -12,6 +12,7 @@ import '../../../../core/routes/app_router.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
 import '../../../../widgets/show_video_post.dart';
+import '../../../home/shared/provider.dart';
 import '../../../your_lists/shared/provider.dart';
 import '../../domain/other_people_profile_model.dart';
 import '../../shared/providers.dart';
@@ -84,6 +85,8 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     final state = ref.watch(followNotifierProvider);
     final followNotifier = ref.watch(followNotifierProvider.notifier);
     final postListOfOtherUser = state.postListOfOtherUser;
+    final homeState = ref.watch(homeNotifierProvider);
+    final homeNotifier = ref.watch(homeNotifierProvider.notifier);
     postDetails = postListOfOtherUser.firstWhere(
       (post) => post.id == widget.postId,
       orElse: () => const DataOfPostListOfOtherModel(id: ''),
@@ -208,7 +211,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                           child: Center(
                                             child: Text(
                                               (creatorDetails?.isFollowing ?? false)
-                                                  ? 'Unfollow'
+                                                  ? 'Following'
                                                   : (creatorDetails?.isFollowingRequest ?? false)
                                                   ? 'Requested'
                                                   : 'Follow',
@@ -294,6 +297,25 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                       scale: 2,
                                     )
                                         : Image.asset(Assets.bookmark)),
+                                10.verticalSpace,
+                                Visibility(
+                                  visible: isVideo,
+                                  child: GestureDetector(
+                                    onTap: () => homeNotifier.toggleVideoSound(),
+                                    child: SizedBox(
+                                      width: 20,
+                                      child: homeState.isVideoOnMute
+                                          ? Image.asset(
+                                        Assets.volumeLow,
+                                        color: Colors.white,
+                                      )
+                                          : Image.asset(
+                                        Assets.volumeHigh,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             )
                           ],

@@ -59,7 +59,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
   void assignFollowStatus(bool isFollowing, bool isRequested) {
     if (isFollowing) {
-      state = state.copyWith(followStatus: 'Unfollow');
+      state = state.copyWith(followStatus: 'Following');
     } else if (isRequested) {
       state = state.copyWith(followStatus: 'Requested');
     } else {
@@ -68,7 +68,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
   }
 
   Future<void> onFollowUnfollowButtonPressed(String userId) async {
-    if (state.followStatus == 'Unfollow') {
+    if (state.followStatus == 'Following') {
       state = state.copyWith(followStatus: 'Follow');
     } else if (state.followStatus == 'Requested') {
       state = state.copyWith(followStatus: 'Follow');
