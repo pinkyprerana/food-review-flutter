@@ -46,6 +46,10 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationAction);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    AppLog.log("Payload: ${message.data.toString()}");
+  });
+
   await requestNotificationPermission();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -56,7 +60,7 @@ Future<void> main() async {
 
 final container = ProviderContainer();
 final notificationNotifier =
-    container.read(notificationNotifierProvider.notifier);
+container.read(notificationNotifierProvider.notifier);
 late NotificationData notifications;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -77,7 +81,7 @@ Future<void> requestNotificationPermission() async {
   }
 
   NotificationSettings settings =
-      await FirebaseMessaging.instance.requestPermission(
+  await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: true,
     badge: true,
@@ -106,10 +110,9 @@ Future<void> requestNotificationPermission() async {
 
 Future<void> _showNotification(RemoteMessage message) async {
   String? notificationType = message.data['type'];
-  final postId = notifications.refPostId;
-  final senderId = notifications.postedUserInfo?.id ?? "";
-  final receiverId = notifications.postedUserInfo?.id ?? "";
-  AppLog.log("$postId & $senderId & $receiverId");
+  String? postId = message.data['postId'];
+  String? userId = message.data['userId'];
+  AppLog.log("$postId & $userId");
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -129,8 +132,11 @@ Future<void> _showNotification(RemoteMessage message) async {
     ],
   );
 
-  AppLog.log("$notificationType & $postId & $senderId & $receiverId");
-  MainApp.navigateToNotificationScreen(notificationType, postId, senderId, receiverId);
+  AppLog.log("notificationType $notificationType");
+  AppLog.log(notifications.receiverUserInfo?.id??'');
+  AppLog.log('__________');
+  AppLog.log(notifications.postedUserInfo?.id??'');
+  MainApp.navigateToNotificationScreen(notificationType);
 
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
@@ -148,14 +154,11 @@ Future<void> _handleNotificationAction(RemoteMessage message) async {
   AppLog.log("Received message on app opened: ${message.toMap()}");
 
   final type = message.data['type'];
-  final postId = notifications.refPostId;
-  final senderId = notifications.postedUserInfo?.id ?? "";
-  final receiverId = notifications.postedUserInfo?.id ?? "";
   AppLog.log("print type: $type");
 
   if (type != null) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      MainApp.navigateToNotificationScreen(type, postId, senderId, receiverId);
+      MainApp.navigateToNotificationScreen(type);
     });
   } else {
     AppLog.log("Notification type is null");
@@ -182,11 +185,11 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
     ..interceptors;
 
   ref.read(dioProvider).interceptors.add(
-        PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-        ),
-      );
+    PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+    ),
+  );
 
   return unit;
 });
@@ -195,7 +198,7 @@ class MainApp extends ConsumerWidget {
   MainApp({super.key});
   final appRouter = AppRouter();
   static final GlobalKey<NavigatorState> _navigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -243,6 +246,18 @@ class MainApp extends ConsumerWidget {
                 return DeepLink([
                   SplashRoute(peopleId: listOfSubstrings.last),
                 ]);
+              } else if (deepLink.path.startsWith('/peopleProfile/:id')) {
+                return DeepLink([
+                  PeopleProfileRoute(peopleId: listOfSubstrings.last),
+                ]);
+              } else if (deepLink.path.startsWith('/postDetailsRoute')) {
+                return DeepLink([
+                  PostDetailsRoute(
+                      postId: notifications.refPostId,
+                      userId: listOfSubstrings.last,
+                      isDeepLinking: true
+                  ),
+                ]);
               } else {
                 return DeepLink.defaultPath;
               }
@@ -254,8 +269,7 @@ class MainApp extends ConsumerWidget {
     );
   }
 
-  static void navigateToNotificationScreen(type, postId, senderId,receiverId ) {
-    AppLog.log("$type & $postId & $senderId & $receiverId");
+  static void navigateToNotificationScreen(String? type) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = _navigatorKey.currentContext;
       if (context != null) {
@@ -267,8 +281,8 @@ class MainApp extends ConsumerWidget {
             case 'user_unfollow':
               AppLog.log("Navigating to PeopleProfileRoute");
               AutoRouter.of(context).pushAndPopUntil(PeopleProfileRoute(
-                peopleId: senderId,
-                isDeepLinking: true
+                  peopleId: notifications.postedUserInfo?.id ?? "",
+                  isDeepLinking: true
               ), predicate: (_) => false);
               break;
             case 'post_like':
@@ -278,9 +292,9 @@ class MainApp extends ConsumerWidget {
             case 'comment_add':
               AppLog.log("Navigating to PostDetailsRoute");
               AutoRouter.of(context).pushAndPopUntil(PostDetailsRoute(
-                postId: postId,
-                userId: receiverId,
-                isDeepLinking: true
+                  postId: notifications.refPostId ?? "",
+                  userId: notifications.receiverUserInfo?.id ?? "",
+                  isDeepLinking: true
               ), predicate: (_) => false);
               break;
             default:
