@@ -53,6 +53,7 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
 }
 
 class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
+  bool? _isLike;
   @override
   void initState() {
     super.initState();
@@ -60,6 +61,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
       final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
     });
+    _isLike = widget.isLiked;
   }
 
   void _handleFollowUnfollowButtonPressed(userId) {
@@ -289,11 +291,15 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                               child: Column(
                                 children: [
                                   GestureDetector(
-                                      onTap: () => postFeedNotifier.likeUnlikePost(() {
+                                      onTap: () {
+                                          setState(() {
+                                            _isLike = !_isLike!;
+                                          });
+                                        postFeedNotifier.likeUnlikePost(() {}, widget.postId ?? "");
                                         profileNotifier.fetchlikedPosts(isLoadingStatus: true);
                                         profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
                                         profileNotifier.getUserDetails();
-                                      }, widget.postId ?? ""),
+                                      },
                                       child: (widget.isLiked ?? false)
                                           ? Image.asset(Assets.redHeart)
                                           : Image.asset(Assets.like)),

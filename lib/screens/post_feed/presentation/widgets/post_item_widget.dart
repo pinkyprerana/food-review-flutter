@@ -55,6 +55,20 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
 }
 
 class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
+  bool? _isLike;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+      final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+      yourPeopleNotifier.getAllUsersList(isFollowState: true);
+      restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
+    });
+    _isLike = widget.postList.isMyLike;
+  }
+
   void handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
@@ -295,10 +309,18 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                             Column(
                               children: [
                                 GestureDetector(
-                                    onTap: () => postFeedNotifier.likeUnlikePost(() {
-                                          restaurantNotifier.getPostListRelatedToRestaurant(
+                                    onTap: () {
+                                      postFeedNotifier.likeUnlikePost(() {}, widget.postList.id ?? "");
+                                      setState(() {
+                                        _isLike = !_isLike!;
+                                      });
+                                      restaurantNotifier.getPostListRelatedToRestaurant(
                                               () {}, widget.restaurantId);
-                                        }, widget.postList.id ?? ""),
+                                    },
+                                    // onTap: () => postFeedNotifier.likeUnlikePost(() {
+                                    //       restaurantNotifier.getPostListRelatedToRestaurant(
+                                    //           () {}, widget.restaurantId);
+                                    //     }, widget.postList.id ?? ""),
                                     child: (widget.postList.isMyLike ?? false)
                                         ? Image.asset(Assets.redHeart)
                                         : Image.asset(Assets.like)),
