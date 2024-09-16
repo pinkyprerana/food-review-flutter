@@ -94,7 +94,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     creatorDetails = followNotifier.getUserById(widget.userId ?? '');
 
     final String mediaUrl = "${AppUrls.postImageLocation}${postDetails?.file}";
-
+    String getUserId = followNotifier.getUserId!;
     bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
         mediaUrl.toLowerCase().endsWith('.mov') ||
         mediaUrl.toLowerCase().endsWith('.avi');
@@ -197,7 +197,9 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                             .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                                       ),
                                       8.horizontalSpace,
-                                      GestureDetector(
+                                      (widget.userId == getUserId)
+                                      ? const SizedBox()
+                                      : GestureDetector(
                                         onTap: () async => await _handleFollowUnfollowButtonPressed(
                                             creatorDetails?.id),
                                         child: Container(
