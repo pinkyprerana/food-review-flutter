@@ -20,6 +20,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'model/notification_model/notification_model.dart';
 
+
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -70,24 +73,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> requestNotificationPermission() async {
-  PermissionStatus status = await Permission.notification.status;
-  if (!status.isGranted) {
-    status = await Permission.notification.request();
-    if (!status.isGranted) {
-      AppLog.log('Notification permission declined');
-      openAppSettings();
-      return;
-    }
-  }
-
-  NotificationSettings settings =
-  await FirebaseMessaging.instance.requestPermission(
+  NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
     alert: true,
     announcement: true,
     badge: true,
     carPlay: true,
     criticalAlert: true,
-    provisional: true,
+    provisional: false,
     sound: true,
   );
 
