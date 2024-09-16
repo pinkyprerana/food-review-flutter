@@ -122,7 +122,7 @@
     <key>APNs</key>
     <dict>
         <key>APNsEnvironment</key>
-        <string>production</string>
+        <string>development</string>
     </dict>
 
 </dict>
