@@ -64,7 +64,7 @@ Future<void> main() async {
 final container = ProviderContainer();
 final notificationNotifier =
 container.read(notificationNotifierProvider.notifier);
-late NotificationData notifications;
+NotificationData? notifications;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -125,17 +125,17 @@ Future<void> _showNotification(RemoteMessage message) async {
   );
 
   AppLog.log("notificationType $notificationType");
-  AppLog.log(notifications.receiverUserInfo?.id??'');
+  AppLog.log(notifications?.receiverUserInfo?.id??'');
   AppLog.log('__________');
-  AppLog.log(notifications.postedUserInfo?.id??'');
+  AppLog.log(notifications?.postedUserInfo?.id??'');
   MainApp.navigateToNotificationScreen(notificationType);
 
   notificationNotifier.addNotification(NotificationData(
     title: message.notification?.title ?? 'No Title',
     message: message.notification?.body ?? 'No Message',
     postedUserInfo: UserNotificationInfo(
-        profileImage: notifications.postedUserInfo?.profileImage ?? "",
-        fullName: notifications.postedUserInfo?.fullName ?? ""),
+        profileImage: notifications?.postedUserInfo?.profileImage ?? "",
+        fullName: notifications?.postedUserInfo?.fullName ?? ""),
     createdAt: DateTime.now(),
   ));
 }
@@ -245,7 +245,7 @@ class MainApp extends ConsumerWidget {
               } else if (deepLink.path.startsWith('/postDetailsRoute')) {
                 return DeepLink([
                   PostDetailsRoute(
-                      postId: notifications.refPostId,
+                      postId: notifications?.refPostId,
                       userId: listOfSubstrings.last,
                       isDeepLinking: true
                   ),
@@ -273,7 +273,7 @@ class MainApp extends ConsumerWidget {
             case 'user_unfollow':
               AppLog.log("Navigating to PeopleProfileRoute");
               AutoRouter.of(context).pushAndPopUntil(PeopleProfileRoute(
-                  peopleId: notifications.postedUserInfo?.id ?? "",
+                  peopleId: notifications?.postedUserInfo?.id ?? "",
                   isDeepLinking: true
               ), predicate: (_) => false);
               break;
@@ -284,8 +284,8 @@ class MainApp extends ConsumerWidget {
             case 'comment_add':
               AppLog.log("Navigating to PostDetailsRoute");
               AutoRouter.of(context).pushAndPopUntil(PostDetailsRoute(
-                  postId: notifications.refPostId ?? "",
-                  userId: notifications.receiverUserInfo?.id ?? "",
+                  postId: notifications?.refPostId ?? "",
+                  userId: notifications?.receiverUserInfo?.id ?? "",
                   isDeepLinking: true
               ), predicate: (_) => false);
               break;
