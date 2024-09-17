@@ -160,7 +160,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         children: [
                           GestureDetector(
                             onTap: () =>
-                                stateNotifier.checkPermissionForGallery(
+                                stateNotifier.checkGalleryPermission(//checkPermissionForGallery(
                                     context: context,
                                     imageSource: 'bannerPicture'),
                             child: Container(
@@ -431,7 +431,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 Center(
                                   child: GestureDetector(
                                     onTap: () {
-                                      stateNotifier.checkPermissionForGallery(
+                                      stateNotifier.checkGalleryPermission(//checkPermissionForGallery(
                                           context: context,
                                           imageSource: 'displayPicture');
                                     },
