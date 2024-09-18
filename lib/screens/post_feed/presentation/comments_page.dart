@@ -110,7 +110,7 @@ class _CommentsPageState extends ConsumerState<CommentsPage> {
                             ),
                             8.horizontalSpace,
                             Text(
-                              name,
+                              name.length > 15 ? '${name.substring(0, 15)}...' : name,
                               style: AppTextStyles.textStylePoppinsMedium
                                   .copyWith(
                                       fontSize: 16.sp,

@@ -9,6 +9,8 @@ import 'package:for_the_table/screens/profile/presentation/widgets/disliked_post
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../home/shared/provider.dart';
+
 @RoutePage()
 class LikedPostsPage extends ConsumerStatefulWidget {
   const LikedPostsPage({super.key});
@@ -30,6 +32,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileNotifierProvider);
+    final postState = ref.watch(homeNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
 
     return Scaffold(
@@ -66,7 +69,7 @@ class _LikedPostsPageState extends ConsumerState<LikedPostsPage> {
           ),
         ),
       ),
-      body: state.isLoading
+      body: (state.isLoading || postState.isLoading)
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,

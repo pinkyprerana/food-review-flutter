@@ -82,7 +82,9 @@ class PostCommentsPage extends ConsumerWidget {
                                   ),
                                   8.horizontalSpace,
                                   Text(
-                                    name,
+                                    name.length > 15
+                                        ? '${name.substring(0, 15)}...'
+                                        : name,
                                     style: AppTextStyles.textStylePoppinsMedium
                                         .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                                   ),
@@ -300,37 +302,39 @@ class PostCommentsPage extends ConsumerWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          height: 100.h,
-                          child: TextField(
-                            controller: stateNotifier.commentController,
-                            style: AppTextStyles.textStylePoppinsRegular
-                                .copyWith(color: AppColors.colorWhite),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Write a comment',
-                                hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                  fontSize: 13.sp,
-                                  color: AppColors.colorWhite.withOpacity(0.70),
-                                )),
-                            maxLines: null,
-                            expands: true,
-                            keyboardType: TextInputType.multiline,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 100.h,
+                            child: TextField(
+                              controller: stateNotifier.commentController,
+                              style: AppTextStyles.textStylePoppinsRegular
+                                  .copyWith(color: AppColors.colorWhite),
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Write a comment',
+                                  hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    fontSize: 13.sp,
+                                    color: AppColors.colorWhite.withOpacity(0.70),
+                                  )),
+                              maxLines: null,
+                              expands: true,
+                              keyboardType: TextInputType.multiline,
+                            ),
                           ),
-                        ),
-                        AppButton(
-                          onPressed: () async {
-                            await stateNotifier.postComment(() async {
-                              dismissKeyboard(context);
-                              await stateNotifier.getPostFeed();
-                            }, postId ?? "");
-                          },
-                          text: 'Submit',
-                        )
-                      ],
+                          AppButton(
+                            onPressed: () async {
+                              await stateNotifier.postComment(() async {
+                                dismissKeyboard(context);
+                                await stateNotifier.getPostFeed();
+                              }, postId ?? "");
+                            },
+                            text: 'Submit',
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

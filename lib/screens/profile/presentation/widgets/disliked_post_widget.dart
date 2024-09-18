@@ -288,7 +288,8 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                       color: AppColors.colorPrimary,
                                     ),
                                   )
-                                      : AutoRouter.of(context).push(
+                                      :
+                                  AutoRouter.of(context).push(
                                     CommentsRoute(
                                       postId: postInfo!.id??'',
                                     ),
@@ -297,14 +298,14 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                 child: Column(
                                   children: [
                                     GestureDetector(
-                                        onTap: () {
+                                        onTap: () async {
                                             setState(() {
                                               _isLike = !_isLike!;
                                             });
                                           postFeedNotifier.likeUnlikePost(() {}, widget.postId ?? "");
-                                          profileNotifier.fetchlikedPosts(isLoadingStatus: true);
-                                          profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
-                                          profileNotifier.getUserDetails();
+                                            await profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                            await profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
+                                            await profileNotifier.getUserDetails();
                                         },
                                         child: (widget.isLiked ?? false)
                                             ? Image.asset(Assets.redHeart)
@@ -315,16 +316,16 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                     ),
                                     10.verticalSpace,
                                     GestureDetector(
-                                      onTap: () => postFeedNotifier.saveUnsavePost(() {
+                                      onTap: () => postFeedNotifier.saveUnsavePost(() async {
                                         final profileNotifier =
                                         ref.read(profileNotifierProvider.notifier);
-                                        profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
-                                        profileNotifier.fetchlikedPosts(isLoadingStatus: true);
-                                        profileNotifier.getUserDetails();
+                                        await profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
+                                        await profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                        await profileNotifier.getUserDetails();
                                       }, widget.postId ?? ""),
                                       child: SaveButtonWidget(
-                                        isSavePost: postFeedState.isSavePost,
-                                        isSaved: widget.isSaved ?? false,
+                                         isSavePost: postFeedState.isSavePost,
+                                         isSaved: widget.isSaved ?? false,
                                       ),
                                     ),
                                   ],

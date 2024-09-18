@@ -8,6 +8,7 @@ import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
+import '../../../widgets/video_thumbnail.dart';
 import '../../post_feed/shared/provider.dart';
 
 @RoutePage()
@@ -90,6 +91,13 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                       final imageURL = "${AppUrls.postImageLocation}${savedList[index].file}";
                       final String postId = savedList[index].id;
                       bool isSaved = savedList[index].isSave;
+                      bool isVideo = imageURL
+                          .toLowerCase()
+                          .endsWith('.mp4') ||
+                          imageURL
+                              .toLowerCase()
+                              .endsWith('.mov') ||
+                          imageURL.toLowerCase().endsWith('.avi');
 
                       return GestureDetector(
                         onTap: (){
@@ -104,8 +112,10 @@ class _SavedPageState extends ConsumerState<SavedPage> {
                             child: Stack(
                               fit: StackFit.expand,
                               children: [
-                                Image.network(
-                                  imageURL,
+                                isVideo
+                                    ? VideoThumbnails(
+                                    videoUrl: imageURL)
+                                    : Image.network(imageURL,
                                   fit: BoxFit.cover,
                                 ),
                                 Positioned(

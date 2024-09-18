@@ -13,6 +13,7 @@ import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
 import '../../../../widgets/show_video_post.dart';
 import '../../../home/shared/provider.dart';
+import '../../../profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
 import '../../domain/other_people_profile_model.dart';
 import '../../shared/providers.dart';
@@ -52,6 +53,8 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     await followNotifier.getOtherPeopleDetails(() {}, widget.userId ?? "");
     final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
+    final savedNotifier = ref.read(profileNotifierProvider.notifier);
+    await savedNotifier.getSavedList();
     final followState = ref.watch(followNotifierProvider);
     final postListOfOtherUser = followState.postListOfOtherUser;
     postDetails = postListOfOtherUser.firstWhere((post) => post.id == widget.postId,

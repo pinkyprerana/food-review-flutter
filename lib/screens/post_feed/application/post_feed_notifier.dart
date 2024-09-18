@@ -237,7 +237,6 @@ class PostFeedNotifier extends StateNotifier<PostFeedState> {
           }
         } catch (error) {
           AppLog.log("Error parsing PostModel: $error");
-          showToastMessage("Error parsing response data");
         }
       }
     } catch (error) {

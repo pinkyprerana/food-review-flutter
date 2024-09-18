@@ -538,8 +538,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                               isVideo
                                                   ? VideoThumbnails(
                                                       videoUrl: mediaUrl)
-                                                  : Image.network(
-                                                      '${AppUrls.postImageLocation}${postList.file}',
+                                                  : Image.network(mediaUrl,
                                                       fit: BoxFit.cover,
                                                     ),
                                               Positioned(
