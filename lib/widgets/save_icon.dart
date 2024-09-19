@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:for_the_table/core/styles/app_colors.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
+import 'package:for_the_table/core/constants/assets.dart';
 
 class SaveIcon extends StatefulWidget {
-  const SaveIcon({super.key, required this.isBookmarked, required this.onTap});
   final VoidCallback onTap;
-  final bool isBookmarked;
+  final bool isSaved;
+
+  const SaveIcon({
+    super.key,
+    required this.isSaved,
+    required this.onTap,
+  });
 
   @override
   State<SaveIcon> createState() => _SaveIconState();
@@ -15,34 +19,31 @@ class _SaveIconState extends State<SaveIcon> {
   var _isSaved = false;
   @override
   void initState() {
-    _isSaved = widget.isBookmarked;
+    _isSaved = widget.isSaved;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    AppLog.log('_isSaved---------->> $_isSaved');
-    AppLog.log('widget.isBookmarked---------->> ${widget.isBookmarked}');
     return GestureDetector(
-        onTap: () {
-          widget.onTap.call();
-          setState(() {
-            _isSaved = !_isSaved;
-          });
-        },
-        child: (_isSaved)
-            ? const Icon(
-                Icons.bookmark,
-                color: Colors.amber,
-              )
-            : const Icon(
-                Icons.bookmark_border_outlined,
-                color: AppColors.colorPrimary,
-              )
-        // : Image.asset(
-        //     Assets.bookmark,
-        //     color: AppColors.colorPrimary,
-        //   ),
-        );
+      onTap: () {
+        widget.onTap.call();
+        setState(() {
+          _isSaved = !_isSaved;
+        });
+      },
+      child: (_isSaved)
+          ? SizedBox(
+              width: 20,
+              child: Image.asset(
+                Assets.bookmarkFilled,
+                scale: 2,
+              ),
+            )
+          : SizedBox(
+              width: 20,
+              child: Image.asset(Assets.bookmarkOutline),
+            ),
+    );
   }
 }

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:for_the_table/screens/profile/presentation/widgets/disliked_post_widget.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -31,7 +30,6 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileNotifierProvider);
-    final postState = ref.watch(homeNotifierProvider);
     final stateNotifier = ref.watch(profileNotifierProvider.notifier);
 
     return Scaffold(
@@ -68,7 +66,7 @@ class _DislikedPostsPageState extends ConsumerState<DislikedPostsPage> {
           ),
         ),
       ),
-      body: (state.isLoading || postState.isLoading)
+      body: state.isLoading
           ? const Center(
               child: CircularProgressIndicator(
                 color: AppColors.colorPrimary,

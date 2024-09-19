@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isCommentLoading => throw _privateConstructorUsedError;
+  bool get isSavePost => throw _privateConstructorUsedError;
   bool get isBeingSubmitted => throw _privateConstructorUsedError;
   String get profileImgPath => throw _privateConstructorUsedError;
   ProfileDetails? get fetchedUser => throw _privateConstructorUsedError;
@@ -32,9 +34,11 @@ mixin _$ProfileState {
       throw _privateConstructorUsedError;
   List<NotificationData> get notificationList =>
       throw _privateConstructorUsedError;
-  List<Posts> get dislikedPostsList => throw _privateConstructorUsedError;
-  List<Posts> get likedPostList => throw _privateConstructorUsedError;
+  List<DataOfPostModel> get dislikedPostsList =>
+      throw _privateConstructorUsedError;
+  List<DataOfPostModel> get likedPostList => throw _privateConstructorUsedError;
   List<DataOfFQA>? get faqList => throw _privateConstructorUsedError;
+  List<CommentInfo>? get commentsList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -49,6 +53,8 @@ abstract class $ProfileStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isCommentLoading,
+      bool isSavePost,
       bool isBeingSubmitted,
       String profileImgPath,
       ProfileDetails? fetchedUser,
@@ -61,9 +67,10 @@ abstract class $ProfileStateCopyWith<$Res> {
       dynamic isMoreDataFetchable,
       List<DataOfSavedPostModel> savedList,
       List<NotificationData> notificationList,
-      List<Posts> dislikedPostsList,
-      List<Posts> likedPostList,
-      List<DataOfFQA>? faqList});
+      List<DataOfPostModel> dislikedPostsList,
+      List<DataOfPostModel> likedPostList,
+      List<DataOfFQA>? faqList,
+      List<CommentInfo>? commentsList});
 
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
   $UserProfileModelCopyWith<$Res>? get userProfileResponseModel;
@@ -83,6 +90,8 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isCommentLoading = null,
+    Object? isSavePost = null,
     Object? isBeingSubmitted = null,
     Object? profileImgPath = null,
     Object? fetchedUser = freezed,
@@ -98,11 +107,20 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? dislikedPostsList = null,
     Object? likedPostList = null,
     Object? faqList = freezed,
+    Object? commentsList = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCommentLoading: null == isCommentLoading
+          ? _value.isCommentLoading
+          : isCommentLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSavePost: null == isSavePost
+          ? _value.isSavePost
+          : isSavePost // ignore: cast_nullable_to_non_nullable
               as bool,
       isBeingSubmitted: null == isBeingSubmitted
           ? _value.isBeingSubmitted
@@ -155,15 +173,19 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       dislikedPostsList: null == dislikedPostsList
           ? _value.dislikedPostsList
           : dislikedPostsList // ignore: cast_nullable_to_non_nullable
-              as List<Posts>,
+              as List<DataOfPostModel>,
       likedPostList: null == likedPostList
           ? _value.likedPostList
           : likedPostList // ignore: cast_nullable_to_non_nullable
-              as List<Posts>,
+              as List<DataOfPostModel>,
       faqList: freezed == faqList
           ? _value.faqList
           : faqList // ignore: cast_nullable_to_non_nullable
               as List<DataOfFQA>?,
+      commentsList: freezed == commentsList
+          ? _value.commentsList
+          : commentsList // ignore: cast_nullable_to_non_nullable
+              as List<CommentInfo>?,
     ) as $Val);
   }
 
@@ -203,6 +225,8 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isCommentLoading,
+      bool isSavePost,
       bool isBeingSubmitted,
       String profileImgPath,
       ProfileDetails? fetchedUser,
@@ -215,9 +239,10 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       dynamic isMoreDataFetchable,
       List<DataOfSavedPostModel> savedList,
       List<NotificationData> notificationList,
-      List<Posts> dislikedPostsList,
-      List<Posts> likedPostList,
-      List<DataOfFQA>? faqList});
+      List<DataOfPostModel> dislikedPostsList,
+      List<DataOfPostModel> likedPostList,
+      List<DataOfFQA>? faqList,
+      List<CommentInfo>? commentsList});
 
   @override
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
@@ -237,6 +262,8 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isCommentLoading = null,
+    Object? isSavePost = null,
     Object? isBeingSubmitted = null,
     Object? profileImgPath = null,
     Object? fetchedUser = freezed,
@@ -252,11 +279,20 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? dislikedPostsList = null,
     Object? likedPostList = null,
     Object? faqList = freezed,
+    Object? commentsList = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCommentLoading: null == isCommentLoading
+          ? _value.isCommentLoading
+          : isCommentLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSavePost: null == isSavePost
+          ? _value.isSavePost
+          : isSavePost // ignore: cast_nullable_to_non_nullable
               as bool,
       isBeingSubmitted: null == isBeingSubmitted
           ? _value.isBeingSubmitted
@@ -308,15 +344,19 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
       dislikedPostsList: null == dislikedPostsList
           ? _value._dislikedPostsList
           : dislikedPostsList // ignore: cast_nullable_to_non_nullable
-              as List<Posts>,
+              as List<DataOfPostModel>,
       likedPostList: null == likedPostList
           ? _value._likedPostList
           : likedPostList // ignore: cast_nullable_to_non_nullable
-              as List<Posts>,
+              as List<DataOfPostModel>,
       faqList: freezed == faqList
           ? _value._faqList
           : faqList // ignore: cast_nullable_to_non_nullable
               as List<DataOfFQA>?,
+      commentsList: freezed == commentsList
+          ? _value._commentsList
+          : commentsList // ignore: cast_nullable_to_non_nullable
+              as List<CommentInfo>?,
     ));
   }
 }
@@ -326,6 +366,8 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 class _$ProfileStateImpl extends _ProfileState {
   const _$ProfileStateImpl(
       {this.isLoading = false,
+      this.isCommentLoading = false,
+      this.isSavePost = false,
       this.isBeingSubmitted = false,
       this.profileImgPath = '',
       this.fetchedUser,
@@ -338,20 +380,28 @@ class _$ProfileStateImpl extends _ProfileState {
       this.isMoreDataFetchable = true,
       final List<DataOfSavedPostModel> savedList = const [],
       final List<NotificationData> notificationList = const [],
-      final List<Posts> dislikedPostsList = const [],
-      final List<Posts> likedPostList = const [],
-      final List<DataOfFQA>? faqList = const []})
+      final List<DataOfPostModel> dislikedPostsList = const [],
+      final List<DataOfPostModel> likedPostList = const [],
+      final List<DataOfFQA>? faqList = const [],
+      final List<CommentInfo>? commentsList = const []})
       : _userActivitiesList = userActivitiesList,
         _savedList = savedList,
         _notificationList = notificationList,
         _dislikedPostsList = dislikedPostsList,
         _likedPostList = likedPostList,
         _faqList = faqList,
+        _commentsList = commentsList,
         super._();
 
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isCommentLoading;
+  @override
+  @JsonKey()
+  final bool isSavePost;
   @override
   @JsonKey()
   final bool isBeingSubmitted;
@@ -407,20 +457,20 @@ class _$ProfileStateImpl extends _ProfileState {
     return EqualUnmodifiableListView(_notificationList);
   }
 
-  final List<Posts> _dislikedPostsList;
+  final List<DataOfPostModel> _dislikedPostsList;
   @override
   @JsonKey()
-  List<Posts> get dislikedPostsList {
+  List<DataOfPostModel> get dislikedPostsList {
     if (_dislikedPostsList is EqualUnmodifiableListView)
       return _dislikedPostsList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_dislikedPostsList);
   }
 
-  final List<Posts> _likedPostList;
+  final List<DataOfPostModel> _likedPostList;
   @override
   @JsonKey()
-  List<Posts> get likedPostList {
+  List<DataOfPostModel> get likedPostList {
     if (_likedPostList is EqualUnmodifiableListView) return _likedPostList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_likedPostList);
@@ -437,9 +487,20 @@ class _$ProfileStateImpl extends _ProfileState {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<CommentInfo>? _commentsList;
+  @override
+  @JsonKey()
+  List<CommentInfo>? get commentsList {
+    final value = _commentsList;
+    if (value == null) return null;
+    if (_commentsList is EqualUnmodifiableListView) return _commentsList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, faqList: $faqList)';
+    return 'ProfileState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isSavePost: $isSavePost, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, faqList: $faqList, commentsList: $commentsList)';
   }
 
   @override
@@ -449,6 +510,10 @@ class _$ProfileStateImpl extends _ProfileState {
             other is _$ProfileStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isCommentLoading, isCommentLoading) ||
+                other.isCommentLoading == isCommentLoading) &&
+            (identical(other.isSavePost, isSavePost) ||
+                other.isSavePost == isSavePost) &&
             (identical(other.isBeingSubmitted, isBeingSubmitted) ||
                 other.isBeingSubmitted == isBeingSubmitted) &&
             (identical(other.profileImgPath, profileImgPath) ||
@@ -478,28 +543,34 @@ class _$ProfileStateImpl extends _ProfileState {
                 .equals(other._dislikedPostsList, _dislikedPostsList) &&
             const DeepCollectionEquality()
                 .equals(other._likedPostList, _likedPostList) &&
-            const DeepCollectionEquality().equals(other._faqList, _faqList));
+            const DeepCollectionEquality().equals(other._faqList, _faqList) &&
+            const DeepCollectionEquality()
+                .equals(other._commentsList, _commentsList));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      isBeingSubmitted,
-      profileImgPath,
-      fetchedUser,
-      profileImage,
-      userProfileResponseModel,
-      const DeepCollectionEquality().hash(_userActivitiesList),
-      postCount,
-      currentPage,
-      totalPages,
-      const DeepCollectionEquality().hash(isMoreDataFetchable),
-      const DeepCollectionEquality().hash(_savedList),
-      const DeepCollectionEquality().hash(_notificationList),
-      const DeepCollectionEquality().hash(_dislikedPostsList),
-      const DeepCollectionEquality().hash(_likedPostList),
-      const DeepCollectionEquality().hash(_faqList));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        isLoading,
+        isCommentLoading,
+        isSavePost,
+        isBeingSubmitted,
+        profileImgPath,
+        fetchedUser,
+        profileImage,
+        userProfileResponseModel,
+        const DeepCollectionEquality().hash(_userActivitiesList),
+        postCount,
+        currentPage,
+        totalPages,
+        const DeepCollectionEquality().hash(isMoreDataFetchable),
+        const DeepCollectionEquality().hash(_savedList),
+        const DeepCollectionEquality().hash(_notificationList),
+        const DeepCollectionEquality().hash(_dislikedPostsList),
+        const DeepCollectionEquality().hash(_likedPostList),
+        const DeepCollectionEquality().hash(_faqList),
+        const DeepCollectionEquality().hash(_commentsList)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -511,6 +582,8 @@ class _$ProfileStateImpl extends _ProfileState {
 abstract class _ProfileState extends ProfileState {
   const factory _ProfileState(
       {final bool isLoading,
+      final bool isCommentLoading,
+      final bool isSavePost,
       final bool isBeingSubmitted,
       final String profileImgPath,
       final ProfileDetails? fetchedUser,
@@ -523,13 +596,18 @@ abstract class _ProfileState extends ProfileState {
       final dynamic isMoreDataFetchable,
       final List<DataOfSavedPostModel> savedList,
       final List<NotificationData> notificationList,
-      final List<Posts> dislikedPostsList,
-      final List<Posts> likedPostList,
-      final List<DataOfFQA>? faqList}) = _$ProfileStateImpl;
+      final List<DataOfPostModel> dislikedPostsList,
+      final List<DataOfPostModel> likedPostList,
+      final List<DataOfFQA>? faqList,
+      final List<CommentInfo>? commentsList}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
   @override
   bool get isLoading;
+  @override
+  bool get isCommentLoading;
+  @override
+  bool get isSavePost;
   @override
   bool get isBeingSubmitted;
   @override
@@ -555,11 +633,13 @@ abstract class _ProfileState extends ProfileState {
   @override
   List<NotificationData> get notificationList;
   @override
-  List<Posts> get dislikedPostsList;
+  List<DataOfPostModel> get dislikedPostsList;
   @override
-  List<Posts> get likedPostList;
+  List<DataOfPostModel> get likedPostList;
   @override
   List<DataOfFQA>? get faqList;
+  @override
+  List<CommentInfo>? get commentsList;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

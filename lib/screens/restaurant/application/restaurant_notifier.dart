@@ -12,11 +12,9 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/model/restaurant/all_restaurants_model.dart';
-import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurant_details_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
 import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
 import 'package:for_the_table/screens/restaurant/application/restaurant_state.dart';
 import 'package:for_the_table/screens/your_lists/shared/provider.dart';
 import 'package:for_the_table/widgets/app_button.dart';
@@ -25,6 +23,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:uuid/uuid.dart';
+import '../../home/domain/post_feed_model.dart';
 
 class RestaurantNotifier extends StateNotifier<RestaurantState> {
   RestaurantNotifier(this._dio, this._hiveDataBase, this._networkApiService, )
@@ -360,9 +359,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       if (response.statusCode == 200 && response.data != null) {
         AppLog.log('response ---->> $response');
         final postlistPerRestaurantResponseModel =
-            PostlistPerRestaurantResponseModel.fromJson(response.data!);
+            PostModel.fromJson(response.data!);
 
-        final List<Post>? postList = postlistPerRestaurantResponseModel.postList;
+        final List<DataOfPostModel>? postList = postlistPerRestaurantResponseModel.postList;
 
         state = state.copyWith(
           isLoadingForPosts: false,

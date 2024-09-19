@@ -9,7 +9,7 @@ import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/video_thumbnail.dart';
-import '../../post_feed/shared/provider.dart';
+import '../../home/shared/provider.dart';
 
 @RoutePage()
 class SavedPage extends ConsumerStatefulWidget {
@@ -34,7 +34,7 @@ class _SavedPageState extends ConsumerState<SavedPage> {
     final profileState = ref.watch(profileNotifierProvider);
     final savedList = profileState.savedList;
     // final postFeedState = ref.watch(postFeedNotifierProvider);
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
 
     return Scaffold(
         extendBody: true,

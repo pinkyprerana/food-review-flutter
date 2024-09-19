@@ -15,7 +15,7 @@ import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/save_button.dart';
-import '../../post_feed/shared/provider.dart';
+import '../../home/shared/provider.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../../your_lists/shared/provider.dart';
 import '../domain/other_people_profile_model.dart';
@@ -80,8 +80,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     final savedRestaurantCount =
         getDetails?.stats?.savedRestaurantsCount.toString() ?? '';
 
-    final postFeedState = ref.watch(postFeedNotifierProvider);
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final postFeedState = ref.watch(homeNotifierProvider);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
 
     DateTime? joinedDateTime;
     String formattedDate = '';

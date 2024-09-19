@@ -7,12 +7,12 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../../../../widgets/save_button.dart';
 import '../../../people_profile/shared/providers.dart';
+import '../../../home/domain/post_feed_model.dart';
 import '../../../your_lists/shared/provider.dart';
 
 class PostItemWidget2 extends ConsumerStatefulWidget {
@@ -34,7 +34,7 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
     required this.isRequested,
   });
 
-  final Post postList;
+  final DataOfPostModel postList;
   final String userId;
   final String image;
   final String title;
@@ -288,7 +288,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                             15.verticalSpace,
                             GestureDetector(
                               onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
-                                post: widget.postList,
+                                postId: widget.postList.id ?? '',
                               )),
                               child: Column(
                                 children: [

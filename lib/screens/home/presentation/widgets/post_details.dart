@@ -9,14 +9,14 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/shared/provider.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../../widgets/like_icon.dart';
+import '../../../../widgets/save_icon.dart';
+import '../../domain/post_feed_model.dart';
 
 class PostDetails extends ConsumerStatefulWidget {
-  final Post post;
+  final DataOfPostModel post;
 
   const PostDetails({
     super.key,
@@ -200,7 +200,7 @@ class _PostDetailsState extends ConsumerState<PostDetails> {
                   15.verticalSpace,
                   GestureDetector(
                     onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
-                      post: widget.post,
+                      postId: widget.post.id ??"",
                     )),
                     child: Column(
                       children: [

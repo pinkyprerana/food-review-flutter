@@ -1,13 +1,11 @@
 // ignore: depend_on_referenced_packages
 
 import 'package:for_the_table/model/restaurant/all_restaurants_model.dart';
-import 'package:for_the_table/model/restaurant/postlist_per_restaurant_response_model.dart';
 import 'package:for_the_table/model/restaurant/restaurantlist_response_model.dart';
 import 'package:for_the_table/model/restaurant/saved_restaurants_response_model.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/home/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
-
 part 'restaurant_state.freezed.dart';
 
 @freezed
@@ -23,7 +21,7 @@ class RestaurantState with _$RestaurantState {
     @Default(1) int totalPages,
     @Default(true) isMoreDataFetchable,
     @Default([]) List<DataOfPostModel>? postList,
-    @Default([]) List<Post>? postPerRestaurantList,
+    @Default([]) List<DataOfPostModel>? postPerRestaurantList,
     @Default(1) int currentPageForPosts,
     @Default(false) bool isLoadingForPosts,
     @Default(1) int totalPagesPosts,

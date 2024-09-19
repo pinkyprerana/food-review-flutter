@@ -9,10 +9,10 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/application/home_state.dart';
 import 'package:for_the_table/screens/home/domain/post_feed_item_model.dart';
-import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_feed_item.dart';
 import 'package:for_the_table/screens/people_profile/application/follow_notifier.dart';
 import 'package:swipe_cards/swipe_cards.dart';
+import '../../home/domain/post_feed_model.dart';
 
 class HomeNotifier extends StateNotifier<HomeState> {
   HomeNotifier(this._dio, this._hiveDatabase, this._networkApiService,
@@ -222,9 +222,9 @@ class HomeNotifier extends StateNotifier<HomeState> {
         }
 
         if (postModel.status == 200) {
-          List<Comment> allComments = [];
+          List<CommentInfo> allComments = [];
 
-          for (Post post in postModel.postList ?? []) {
+          for (DataOfPostModel post in postModel.postList ?? []) {
             if (post.commentInfo != null) {
               allComments.addAll(post.commentInfo!);
             }
@@ -238,7 +238,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
             swipeItems.add(
               SwipeItem(
                 content: PostFeedItem(
-                  post: postModel.postList?[i] ?? const Post(),
+                  post: postModel.postList?[i] ?? const DataOfPostModel(),
                   index: i,
                 ),
                 superlikeAction: () {
@@ -350,9 +350,9 @@ class HomeNotifier extends StateNotifier<HomeState> {
           return;
         }
 
-        List<Comment> allComments = [];
+        List<CommentInfo> allComments = [];
 
-        for (Post post in postModel.postList ?? []) {
+        for (DataOfPostModel post in postModel.postList ?? []) {
           if (post.commentInfo != null) {
             allComments.addAll(post.commentInfo!);
           }
@@ -366,7 +366,7 @@ class HomeNotifier extends StateNotifier<HomeState> {
           swipeItemsFollowing.add(
             SwipeItem(
               content: PostFeedItem(
-                post: postModel.postList?[i] ?? const Post(),
+                post: postModel.postList?[i] ?? const DataOfPostModel(),
                 index: i,
               ),
               superlikeAction: () {

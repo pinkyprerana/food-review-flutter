@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,18 +13,17 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/core/utils/toast.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/post_item_widget.dart';
+import 'package:for_the_table/screens/home/presentation/widgets/post_item_widget.dart';
 import 'package:for_the_table/screens/restaurant/presentation/widgets/photo_or_video_box.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/custom_slider.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
-import 'package:for_the_table/widgets/save_icon.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import '../../../widgets/save_restaurant_icon.dart';
 import '../shared/provider.dart';
 
 @RoutePage()
@@ -623,7 +621,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                 ),
                                               ),
                                             )
-                                          : SaveIcon(
+                                          : SaveRestaurantIcon(
                                               // isBookmarked:
                                               //     widget.isBookmarked,
                                               isBookmarked: stateNotifier.reastaurantDetials

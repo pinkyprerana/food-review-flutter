@@ -14,15 +14,13 @@ import 'package:for_the_table/core/utils/validator.dart';
 import 'package:for_the_table/screens/profile/domain/faq_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_profile_model.dart';
 import 'package:for_the_table/screens/profile/application/profile_state.dart';
-import 'package:for_the_table/screens/profile/domain/posts_model.dart';
 import 'package:for_the_table/screens/profile/domain/user_activities.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-// import '../../../core/utils/app_log.dart';
 import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
+import '../../home/domain/post_feed_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this._dio, this._hiveDataBase, this._networkApiService)
@@ -49,6 +47,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   final RefreshController refreshController = RefreshController();
   final RefreshController dislikePostRefreshController = RefreshController();
   final RefreshController likePostRefreshController = RefreshController();
+  // TextEditingController commentController = TextEditingController();
 
   @override
   void dispose() {
@@ -808,11 +807,19 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final dislikedPostsModel = PostsModel.fromJson(response.data ?? {});
-        final List<Posts> dislikedPosts = [];
+        final dislikedPostsModel = PostModel.fromJson(response.data ?? {});
+        final List<DataOfPostModel> dislikedPosts = [];
 
-        for (var posts in dislikedPostsModel.postsList ?? []) {
+        for (var posts in dislikedPostsModel.postList ?? []) {
           dislikedPosts.add(posts);
+        }
+
+        List<CommentInfo> allComments = [];
+
+        for (DataOfPostModel post in dislikedPostsModel.postList ?? []) {
+          if (post.commentInfo != null) {
+            allComments.addAll(post.commentInfo!);
+          }
         }
 
         if (isLoadMore) {
@@ -838,6 +845,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           isLoading: false,
           dislikedPostsList: dislikedPosts,
           totalPages: dislikedPostsModel.pages ?? 0,
+          commentsList: allComments,
         );
       } else {
         showToastMessage(response.data?["message"]);
@@ -881,11 +889,19 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final likedPostsModel = PostsModel.fromJson(response.data ?? {});
-        final List<Posts> likedPosts = [];
+        final likedPostsModel = PostModel.fromJson(response.data ?? {});
+        final List<DataOfPostModel> likedPosts = [];
 
-        for (var posts in likedPostsModel.postsList ?? []) {
+        for (var posts in likedPostsModel.postList ?? []) {
           likedPosts.add(posts);
+        }
+
+        List<CommentInfo> allComments = [];
+
+        for (DataOfPostModel post in likedPostsModel.postList ?? []) {
+          if (post.commentInfo != null) {
+            allComments.addAll(post.commentInfo!);
+          }
         }
 
         if (isLoadMore) {
@@ -911,6 +927,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
           isLoading: false,
           likedPostList: likedPosts,
           totalPages: likedPostsModel.pages ?? 0,
+          commentsList: allComments,
         );
       } else {
         showToastMessage(response.data?["message"]);
@@ -1145,4 +1162,59 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   void searchFAQ() async {
     await getFAQList();
   }
+
+  String formatDate(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays > 7) {
+      return '${date.day}/${date.month}/${date.year}';
+    } else if (difference.inDays > 1) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inHours > 1) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inMinutes > 1) {
+      return '${difference.inMinutes} minutes ago';
+    } else {
+      return 'Just now';
+    }
+  }
+
+  // Future<void> postCommentLikeUnlike(
+  //     VoidCallback voidCallback, String commentID) async {
+  //   state = state.copyWith(isCommentLoading: true);
+  //   try {
+  //     var (response, dioException) =
+  //     await _networkApiService.postApiRequestWithToken(
+  //       url: '${AppUrls.baseUrl}${AppUrls.likeUnlikeComment}',
+  //       body: {
+  //         "comment_id": commentID,
+  //       },
+  //     );
+  //     state = state.copyWith(isLoading: false);
+  //
+  //     if (response == null && dioException == null) {
+  //       showConnectionWasInterruptedToastMessage();
+  //     } else if (dioException != null) {
+  //       showDioError(dioException);
+  //     } else {
+  //       Map<String, dynamic> jsonData = response.data;
+  //
+  //       if (response.statusCode == 200) {
+  //         showToastMessage(jsonData['message']);
+  //         // await getPostFeed(isPostLoading: true);
+  //         state = state.copyWith(isCommentLoading: false);
+  //         commentController.clear();
+  //         voidCallback.call();
+  //       } else {
+  //         showToastMessage(jsonData['message']);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     state = state.copyWith(isSavePost: false);
+  //     showConnectionWasInterruptedToastMessage();
+  //   }
+  // }
+
+
 }

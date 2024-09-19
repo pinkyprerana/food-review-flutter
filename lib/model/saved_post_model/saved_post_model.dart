@@ -44,7 +44,7 @@ abstract class DataOfSavedPostModel with _$DataOfSavedPostModel {
     @JsonKey(name: "isMyDisLike") required bool isMyDisLike,
     @JsonKey(name: "comment_count") required int commentCount,
     @JsonKey(name: "userInfo") required UserInfo userInfo,
-    @JsonKey(name: "commentInfo") List<CommentInfo>? commentInfo,
+    @JsonKey(name: "commentInfo") List<CommentList>? commentInfo,
     @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
     @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo,
   }) = _DataOfSavedPostModel;
@@ -103,8 +103,8 @@ abstract class RestaurantInfo with _$RestaurantInfo {
 }
 
 @freezed
-abstract class CommentInfo with _$CommentInfo {
-  const factory CommentInfo({
+abstract class CommentList with _$CommentList {
+  const factory CommentList({
     @JsonKey(name: "_id") required String id,
     @JsonKey(name: "user_id") required String userId,
     @JsonKey(name: "post_id") required String postId,
@@ -112,9 +112,9 @@ abstract class CommentInfo with _$CommentInfo {
     @JsonKey(name: "createdAt") required DateTime createdAt,
     @JsonKey(name: "commentedUserData") required CommentedUserData commentedUserData,
     @JsonKey(name: "isCommentLiked") required bool isCommentLiked,
-  }) = _CommentInfo;
+  }) = _CommentList;
 
-  factory CommentInfo.fromJson(Map<String, dynamic> json) => _$CommentInfoFromJson(json);
+  factory CommentList.fromJson(Map<String, dynamic> json) => _$CommentListFromJson(json);
 }
 
 @freezed

@@ -33,16 +33,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BasePage(),
       );
     },
-    CommentsRoute.name: (routeData) {
-      final args = routeData.argsAs<CommentsRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: CommentsPage(
-          key: args.key,
-          postId: args.postId,
-        ),
-      );
-    },
     CreatePostRoute.name: (routeData) {
       final args = routeData.argsAs<CreatePostRouteArgs>(
           orElse: () => const CreatePostRouteArgs());
@@ -155,7 +145,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PostCommentsPage(
           key: args.key,
-          post: args.post,
+          postId: args.postId,
         ),
       );
     },
@@ -320,44 +310,6 @@ class BaseRoute extends PageRouteInfo<void> {
   static const String name = 'BaseRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [CommentsPage]
-class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
-  CommentsRoute({
-    Key? key,
-    required String postId,
-    List<PageRouteInfo>? children,
-  }) : super(
-          CommentsRoute.name,
-          args: CommentsRouteArgs(
-            key: key,
-            postId: postId,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'CommentsRoute';
-
-  static const PageInfo<CommentsRouteArgs> page =
-      PageInfo<CommentsRouteArgs>(name);
-}
-
-class CommentsRouteArgs {
-  const CommentsRouteArgs({
-    this.key,
-    required this.postId,
-  });
-
-  final Key? key;
-
-  final String postId;
-
-  @override
-  String toString() {
-    return 'CommentsRouteArgs{key: $key, postId: $postId}';
-  }
 }
 
 /// generated route for
@@ -642,13 +594,13 @@ class PhotoClickRoute extends PageRouteInfo<void> {
 class PostCommentsRoute extends PageRouteInfo<PostCommentsRouteArgs> {
   PostCommentsRoute({
     Key? key,
-    required Post post,
+    required String postId,
     List<PageRouteInfo>? children,
   }) : super(
           PostCommentsRoute.name,
           args: PostCommentsRouteArgs(
             key: key,
-            post: post,
+            postId: postId,
           ),
           initialChildren: children,
         );
@@ -662,16 +614,16 @@ class PostCommentsRoute extends PageRouteInfo<PostCommentsRouteArgs> {
 class PostCommentsRouteArgs {
   const PostCommentsRouteArgs({
     this.key,
-    required this.post,
+    required this.postId,
   });
 
   final Key? key;
 
-  final Post post;
+  final String postId;
 
   @override
   String toString() {
-    return 'PostCommentsRouteArgs{key: $key, post: $post}';
+    return 'PostCommentsRouteArgs{key: $key, postId: $postId}';
   }
 }
 

@@ -6,12 +6,12 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
+import 'package:for_the_table/screens/home/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../people_profile/shared/providers.dart';
 import '../../../profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
-import '../../shared/provider.dart';
 
 class ExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel? postList;
@@ -34,7 +34,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
   void _handleFollowUnfollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
     await followNotifier.followUnfollow(() {}, userId);
     await yourPeopleNotifier.getAllUsersList(isFollowState: true);
     await postFeedNotifier.getPostFeed(isPostLoading: true);
@@ -55,11 +55,11 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
     final String? postId = widget.postList?.id;
     final bool? isFollowing = widget.postList?.isFollowing;
     final bool? isRequested = widget.postList?.isFollowingRequest;
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
     final bool? isSaved = widget.postList?.isSave;
     final bool? isLiked = widget.postList?.isMyLike;
 
-    final state = ref.watch(postFeedNotifierProvider);
+    final state = ref.watch(homeNotifierProvider);
 
     return Container(
       color: Colors.transparent,
@@ -178,7 +178,7 @@ class _ExpandedPostDetailsState extends ConsumerState<ExpandedPostDetails> {
                           : Image.asset(Assets.like)),
                   15.verticalSpace,
                   GestureDetector(
-                    onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                    onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
                       postId: widget.postList?.id ??'',
                     )),
                     child: Column(

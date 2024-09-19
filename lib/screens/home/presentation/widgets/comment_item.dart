@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/home/domain/post_model.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/like_icon_widget.dart';
+import 'package:for_the_table/screens/home/domain/post_feed_model.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../shared/provider.dart';
 
 class CommentItem extends ConsumerStatefulWidget {
-  final List<Comment> commentsList;
+  final List<CommentInfo> commentsList;
 
   const CommentItem({
     super.key,

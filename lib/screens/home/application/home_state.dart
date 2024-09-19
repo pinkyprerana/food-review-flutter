@@ -1,7 +1,6 @@
-import 'package:for_the_table/screens/home/domain/post_model.dart';
+import 'package:for_the_table/screens/home/domain/post_feed_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-
 part 'home_state.freezed.dart';
 
 @freezed
@@ -20,8 +19,8 @@ class HomeState with _$HomeState {
     @Default('') String followStatus,
     @Default([]) List<SwipeItem> allSwipeItems,
     @Default([]) List<SwipeItem> followingSwipeItems,
-    @Default([]) List<Comment>? commentsList,
-    @Default([]) List<Post>? postList,
+    @Default([]) List<CommentInfo>? commentsList,
+    @Default([]) List<DataOfPostModel>? postList,
     @Default([]) List<bool> doubleTapList,
     @Default(0) int selectedIndex,
     @Default(1) int currentPage,

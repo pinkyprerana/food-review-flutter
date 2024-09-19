@@ -3,8 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/screens/people_profile/domain/post_list_of_other_model.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
-import 'package:for_the_table/screens/post_feed/shared/provider.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../../core/constants/assets.dart';
@@ -12,7 +11,6 @@ import '../../../../core/routes/app_router.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
 import '../../../../widgets/show_video_post.dart';
-import '../../../home/shared/provider.dart';
 import '../../../profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
 import '../../domain/other_people_profile_model.dart';
@@ -51,7 +49,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     await followNotifier.getAllPostsOfOtherUserProfile(() {}, widget.userId ?? "");
     await followNotifier.getOtherPeopleDetails(() {}, widget.userId ?? "");
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
     final savedNotifier = ref.read(profileNotifierProvider.notifier);
     await savedNotifier.getSavedList();
@@ -62,14 +60,14 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
   }
 
   Future<void> _handleLikeUnlike(String postId) async {
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
     await postFeedNotifier.likeUnlikePost(() async {
       await _fetchPostDetails();
     }, postId);
   }
 
   Future<void> _handleSaveUnsave(String postId) async {
-    final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
     await postFeedNotifier.saveUnsavePost(() async {
       await _fetchPostDetails();
     }, postId);
@@ -101,11 +99,11 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
     bool isVideo = mediaUrl.toLowerCase().endsWith('.mp4') ||
         mediaUrl.toLowerCase().endsWith('.mov') ||
         mediaUrl.toLowerCase().endsWith('.avi');
-    final postFeedState = ref.watch(postFeedNotifierProvider);
-    DataOfPostModel? postDetailsList = postFeedState.postList?.firstWhere(
-      (post) => post.id == widget.postId,
-      orElse: () => const DataOfPostModel(id: ''),
-    );
+    // final postFeedState = ref.watch(postFeedNotifierProvider);
+    // DataOfPostModel? postDetailsList = postFeedState.postList?.firstWhere(
+    //   (post) => post.id == widget.postId,
+    //   orElse: () => const DataOfPostModel(id: ''),
+    // );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -275,7 +273,7 @@ class _PostDetailsPageState extends ConsumerState<PostDetailsPage> {
                                 GestureDetector(
                                   onTap: () {
                                     AutoRouter.of(context).push(
-                                      CommentsRoute(postId: postDetailsList!.id??''),
+                                      PostCommentsRoute(postId: widget.postId??''),
                                     );
                                   },
                                   child: Column(

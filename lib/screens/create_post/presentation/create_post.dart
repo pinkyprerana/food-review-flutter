@@ -15,10 +15,8 @@ import '../../../widgets/custom_input_field.dart';
 import '../../../widgets/search_restaurant.dart';
 import '../../../widgets/video_preview.dart';
 import '../../onboarding/shared/provider.dart';
-import '../../post_feed/shared/provider.dart';
-// import '../../restaurant/shared/provider.dart';
+import '../../home/shared/provider.dart';
 import '../shared/provider.dart';
-// import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 @RoutePage()
 class CreatePostPage extends ConsumerStatefulWidget {
@@ -61,7 +59,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
         (media?.path.toLowerCase().endsWith('.avi') ?? false);
 
     final allPreferences = ref.watch(preferenceNotifierProvider).data;
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

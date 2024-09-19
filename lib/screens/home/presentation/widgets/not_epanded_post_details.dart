@@ -7,12 +7,12 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/like_icon.dart';
-import 'package:for_the_table/screens/post_feed/presentation/widgets/save_icon.dart';
-import 'package:for_the_table/screens/post_feed/shared/provider.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
+import '../../../../widgets/like_icon.dart';
+import '../../../../widgets/post_feed_widgets/widgets/save_icon.dart';
 import '../../../people_profile/shared/providers.dart';
+import '../../domain/post_feed_model.dart';
 
 class NotExpandedPostDetails extends ConsumerStatefulWidget {
   final DataOfPostModel? postList;
@@ -31,8 +31,6 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      // final profileNotifier = ref.read(profileNotifierProvider.notifier);
-      // await profileNotifier.getSavedList();
       if (widget.postList?.isFollowing ?? false) {
         setState(() {
           followStatus = 'Following';
@@ -85,7 +83,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
     final String? postId = widget.postList?.id;
     // final bool? isFollowing = widget.postList?.isFollowing;
     // final bool? isRequested = widget.postList?.isFollowingRequest;
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
     final bool? isSaved = widget.postList?.isSave;
     final bool? isLiked = widget.postList?.isMyLike;
 
@@ -235,7 +233,7 @@ class _NotExpandedPostDetailsState extends ConsumerState<NotExpandedPostDetails>
                   ),
                   15.verticalSpace,
                   GestureDetector(
-                    onTap: () => AutoRouter.of(context).push(CommentsRoute(
+                    onTap: () => AutoRouter.of(context).push(PostCommentsRoute(
                       postId: widget.postList?.id ??'',
                     )),
                     child: Column(

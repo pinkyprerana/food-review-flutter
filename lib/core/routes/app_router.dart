@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:for_the_table/screens/home/domain/post_model.dart';
-import 'package:for_the_table/screens/home/presentation/post_comments_page.dart';
 import 'package:for_the_table/screens/profile/presentation/recent_activity.dart';
 import 'package:for_the_table/screens/profile/presentation/saved_restaurants_page.dart';
 import '../../screens/auth/presentation/forget_password_page.dart';
@@ -13,6 +11,7 @@ import '../../screens/auth/presentation/verify_otp_page.dart';
 import '../../screens/base/presentation/base_screen.dart';
 import '../../screens/create_post/presentation/create_post.dart';
 import '../../screens/create_post/presentation/photo_click_page.dart';
+import '../../screens/home/presentation/post_comments_page.dart';
 import '../../screens/landing/presentation/landing_get_started_page.dart';
 import '../../screens/landing/presentation/landing_intro_page.dart';
 import '../../screens/leaderboard/presentation/standings_page.dart';
@@ -22,7 +21,6 @@ import '../../screens/notification/presentation/notification_page.dart';
 import '../../screens/onboarding/presentation/select_preferene_page.dart';
 import '../../screens/people_profile/presentation/people_profile_screen.dart';
 import '../../screens/people_profile/presentation/widget/user_post_details.dart';
-import '../../screens/post_feed/presentation/comments_page.dart';
 import '../../screens/profile/presentation/add_bio_page.dart';
 import '../../screens/profile/presentation/app_info_page.dart';
 import '../../screens/profile/presentation/disliked_posts_page.dart';
@@ -109,10 +107,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: NotificationRoute.page,
           path: '/notificationRoute',
-        ),
-        AutoRoute(
-          page: CommentsRoute.page,
-          path: '/commentsRoute',
         ),
         AutoRoute(
           page: PostCommentsRoute.page,

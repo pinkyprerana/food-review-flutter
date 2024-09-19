@@ -388,7 +388,7 @@ mixin _$DataOfSavedPostModel {
   @JsonKey(name: "userInfo")
   UserInfo get userInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "commentInfo")
-  List<CommentInfo>? get commentInfo => throw _privateConstructorUsedError;
+  List<CommentList>? get commentInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "preferenceInfo")
   PreferenceInfo? get preferenceInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "restaurantInfo")
@@ -428,7 +428,7 @@ abstract class $DataOfSavedPostModelCopyWith<$Res> {
       @JsonKey(name: "isMyDisLike") bool isMyDisLike,
       @JsonKey(name: "comment_count") int commentCount,
       @JsonKey(name: "userInfo") UserInfo userInfo,
-      @JsonKey(name: "commentInfo") List<CommentInfo>? commentInfo,
+      @JsonKey(name: "commentInfo") List<CommentList>? commentInfo,
       @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
       @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
 
@@ -565,7 +565,7 @@ class _$DataOfSavedPostModelCopyWithImpl<$Res,
       commentInfo: freezed == commentInfo
           ? _value.commentInfo
           : commentInfo // ignore: cast_nullable_to_non_nullable
-              as List<CommentInfo>?,
+              as List<CommentList>?,
       preferenceInfo: freezed == preferenceInfo
           ? _value.preferenceInfo
           : preferenceInfo // ignore: cast_nullable_to_non_nullable
@@ -648,7 +648,7 @@ abstract class _$$DataOfSavedPostModelImplCopyWith<$Res>
       @JsonKey(name: "isMyDisLike") bool isMyDisLike,
       @JsonKey(name: "comment_count") int commentCount,
       @JsonKey(name: "userInfo") UserInfo userInfo,
-      @JsonKey(name: "commentInfo") List<CommentInfo>? commentInfo,
+      @JsonKey(name: "commentInfo") List<CommentList>? commentInfo,
       @JsonKey(name: "preferenceInfo") PreferenceInfo? preferenceInfo,
       @JsonKey(name: "restaurantInfo") RestaurantInfo? restaurantInfo});
 
@@ -786,7 +786,7 @@ class __$$DataOfSavedPostModelImplCopyWithImpl<$Res>
       commentInfo: freezed == commentInfo
           ? _value._commentInfo
           : commentInfo // ignore: cast_nullable_to_non_nullable
-              as List<CommentInfo>?,
+              as List<CommentList>?,
       preferenceInfo: freezed == preferenceInfo
           ? _value.preferenceInfo
           : preferenceInfo // ignore: cast_nullable_to_non_nullable
@@ -824,7 +824,7 @@ class _$DataOfSavedPostModelImpl implements _DataOfSavedPostModel {
       @JsonKey(name: "isMyDisLike") required this.isMyDisLike,
       @JsonKey(name: "comment_count") required this.commentCount,
       @JsonKey(name: "userInfo") required this.userInfo,
-      @JsonKey(name: "commentInfo") final List<CommentInfo>? commentInfo,
+      @JsonKey(name: "commentInfo") final List<CommentList>? commentInfo,
       @JsonKey(name: "preferenceInfo") this.preferenceInfo,
       @JsonKey(name: "restaurantInfo") this.restaurantInfo})
       : _commentInfo = commentInfo;
@@ -895,10 +895,10 @@ class _$DataOfSavedPostModelImpl implements _DataOfSavedPostModel {
   @override
   @JsonKey(name: "userInfo")
   final UserInfo userInfo;
-  final List<CommentInfo>? _commentInfo;
+  final List<CommentList>? _commentInfo;
   @override
   @JsonKey(name: "commentInfo")
-  List<CommentInfo>? get commentInfo {
+  List<CommentList>? get commentInfo {
     final value = _commentInfo;
     if (value == null) return null;
     if (_commentInfo is EqualUnmodifiableListView) return _commentInfo;
@@ -1034,7 +1034,7 @@ abstract class _DataOfSavedPostModel implements DataOfSavedPostModel {
       @JsonKey(name: "isMyDisLike") required final bool isMyDisLike,
       @JsonKey(name: "comment_count") required final int commentCount,
       @JsonKey(name: "userInfo") required final UserInfo userInfo,
-      @JsonKey(name: "commentInfo") final List<CommentInfo>? commentInfo,
+      @JsonKey(name: "commentInfo") final List<CommentList>? commentInfo,
       @JsonKey(name: "preferenceInfo") final PreferenceInfo? preferenceInfo,
       @JsonKey(name: "restaurantInfo")
       final RestaurantInfo? restaurantInfo}) = _$DataOfSavedPostModelImpl;
@@ -1107,7 +1107,7 @@ abstract class _DataOfSavedPostModel implements DataOfSavedPostModel {
   UserInfo get userInfo;
   @override
   @JsonKey(name: "commentInfo")
-  List<CommentInfo>? get commentInfo;
+  List<CommentList>? get commentInfo;
   @override
   @JsonKey(name: "preferenceInfo")
   PreferenceInfo? get preferenceInfo;
@@ -2004,12 +2004,12 @@ abstract class _RestaurantInfo implements RestaurantInfo {
       throw _privateConstructorUsedError;
 }
 
-CommentInfo _$CommentInfoFromJson(Map<String, dynamic> json) {
-  return _CommentInfo.fromJson(json);
+CommentList _$CommentListFromJson(Map<String, dynamic> json) {
+  return _CommentList.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CommentInfo {
+mixin _$CommentList {
   @JsonKey(name: "_id")
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "user_id")
@@ -2027,15 +2027,15 @@ mixin _$CommentInfo {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CommentInfoCopyWith<CommentInfo> get copyWith =>
+  $CommentListCopyWith<CommentList> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CommentInfoCopyWith<$Res> {
-  factory $CommentInfoCopyWith(
-          CommentInfo value, $Res Function(CommentInfo) then) =
-      _$CommentInfoCopyWithImpl<$Res, CommentInfo>;
+abstract class $CommentListCopyWith<$Res> {
+  factory $CommentListCopyWith(
+          CommentList value, $Res Function(CommentList) then) =
+      _$CommentListCopyWithImpl<$Res, CommentList>;
   @useResult
   $Res call(
       {@JsonKey(name: "_id") String id,
@@ -2050,9 +2050,9 @@ abstract class $CommentInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CommentInfoCopyWithImpl<$Res, $Val extends CommentInfo>
-    implements $CommentInfoCopyWith<$Res> {
-  _$CommentInfoCopyWithImpl(this._value, this._then);
+class _$CommentListCopyWithImpl<$Res, $Val extends CommentList>
+    implements $CommentListCopyWith<$Res> {
+  _$CommentListCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -2112,11 +2112,11 @@ class _$CommentInfoCopyWithImpl<$Res, $Val extends CommentInfo>
 }
 
 /// @nodoc
-abstract class _$$CommentInfoImplCopyWith<$Res>
-    implements $CommentInfoCopyWith<$Res> {
-  factory _$$CommentInfoImplCopyWith(
-          _$CommentInfoImpl value, $Res Function(_$CommentInfoImpl) then) =
-      __$$CommentInfoImplCopyWithImpl<$Res>;
+abstract class _$$CommentListImplCopyWith<$Res>
+    implements $CommentListCopyWith<$Res> {
+  factory _$$CommentListImplCopyWith(
+          _$CommentListImpl value, $Res Function(_$CommentListImpl) then) =
+      __$$CommentListImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -2133,11 +2133,11 @@ abstract class _$$CommentInfoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CommentInfoImplCopyWithImpl<$Res>
-    extends _$CommentInfoCopyWithImpl<$Res, _$CommentInfoImpl>
-    implements _$$CommentInfoImplCopyWith<$Res> {
-  __$$CommentInfoImplCopyWithImpl(
-      _$CommentInfoImpl _value, $Res Function(_$CommentInfoImpl) _then)
+class __$$CommentListImplCopyWithImpl<$Res>
+    extends _$CommentListCopyWithImpl<$Res, _$CommentListImpl>
+    implements _$$CommentListImplCopyWith<$Res> {
+  __$$CommentListImplCopyWithImpl(
+      _$CommentListImpl _value, $Res Function(_$CommentListImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2151,7 +2151,7 @@ class __$$CommentInfoImplCopyWithImpl<$Res>
     Object? commentedUserData = null,
     Object? isCommentLiked = null,
   }) {
-    return _then(_$CommentInfoImpl(
+    return _then(_$CommentListImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -2186,8 +2186,8 @@ class __$$CommentInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CommentInfoImpl implements _CommentInfo {
-  const _$CommentInfoImpl(
+class _$CommentListImpl implements _CommentList {
+  const _$CommentListImpl(
       {@JsonKey(name: "_id") required this.id,
       @JsonKey(name: "user_id") required this.userId,
       @JsonKey(name: "post_id") required this.postId,
@@ -2196,8 +2196,8 @@ class _$CommentInfoImpl implements _CommentInfo {
       @JsonKey(name: "commentedUserData") required this.commentedUserData,
       @JsonKey(name: "isCommentLiked") required this.isCommentLiked});
 
-  factory _$CommentInfoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CommentInfoImplFromJson(json);
+  factory _$CommentListImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommentListImplFromJson(json);
 
   @override
   @JsonKey(name: "_id")
@@ -2223,14 +2223,14 @@ class _$CommentInfoImpl implements _CommentInfo {
 
   @override
   String toString() {
-    return 'CommentInfo(id: $id, userId: $userId, postId: $postId, comment: $comment, createdAt: $createdAt, commentedUserData: $commentedUserData, isCommentLiked: $isCommentLiked)';
+    return 'CommentList(id: $id, userId: $userId, postId: $postId, comment: $comment, createdAt: $createdAt, commentedUserData: $commentedUserData, isCommentLiked: $isCommentLiked)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CommentInfoImpl &&
+            other is _$CommentListImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.postId, postId) || other.postId == postId) &&
@@ -2251,19 +2251,19 @@ class _$CommentInfoImpl implements _CommentInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CommentInfoImplCopyWith<_$CommentInfoImpl> get copyWith =>
-      __$$CommentInfoImplCopyWithImpl<_$CommentInfoImpl>(this, _$identity);
+  _$$CommentListImplCopyWith<_$CommentListImpl> get copyWith =>
+      __$$CommentListImplCopyWithImpl<_$CommentListImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CommentInfoImplToJson(
+    return _$$CommentListImplToJson(
       this,
     );
   }
 }
 
-abstract class _CommentInfo implements CommentInfo {
-  const factory _CommentInfo(
+abstract class _CommentList implements CommentList {
+  const factory _CommentList(
       {@JsonKey(name: "_id") required final String id,
       @JsonKey(name: "user_id") required final String userId,
       @JsonKey(name: "post_id") required final String postId,
@@ -2272,10 +2272,10 @@ abstract class _CommentInfo implements CommentInfo {
       @JsonKey(name: "commentedUserData")
       required final CommentedUserData commentedUserData,
       @JsonKey(name: "isCommentLiked")
-      required final bool isCommentLiked}) = _$CommentInfoImpl;
+      required final bool isCommentLiked}) = _$CommentListImpl;
 
-  factory _CommentInfo.fromJson(Map<String, dynamic> json) =
-      _$CommentInfoImpl.fromJson;
+  factory _CommentList.fromJson(Map<String, dynamic> json) =
+      _$CommentListImpl.fromJson;
 
   @override
   @JsonKey(name: "_id")
@@ -2300,7 +2300,7 @@ abstract class _CommentInfo implements CommentInfo {
   bool get isCommentLiked;
   @override
   @JsonKey(ignore: true)
-  _$$CommentInfoImplCopyWith<_$CommentInfoImpl> get copyWith =>
+  _$$CommentListImplCopyWith<_$CommentListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

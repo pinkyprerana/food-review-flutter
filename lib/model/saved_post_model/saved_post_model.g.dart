@@ -58,7 +58,7 @@ _$DataOfSavedPostModelImpl _$$DataOfSavedPostModelImplFromJson(
       commentCount: (json['comment_count'] as num).toInt(),
       userInfo: UserInfo.fromJson(json['userInfo'] as Map<String, dynamic>),
       commentInfo: (json['commentInfo'] as List<dynamic>?)
-          ?.map((e) => CommentInfo.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => CommentList.fromJson(e as Map<String, dynamic>))
           .toList(),
       preferenceInfo: json['preferenceInfo'] == null
           ? null
@@ -168,8 +168,8 @@ Map<String, dynamic> _$$RestaurantInfoImplToJson(
       'rating': instance.rating,
     };
 
-_$CommentInfoImpl _$$CommentInfoImplFromJson(Map<String, dynamic> json) =>
-    _$CommentInfoImpl(
+_$CommentListImpl _$$CommentListImplFromJson(Map<String, dynamic> json) =>
+    _$CommentListImpl(
       id: json['_id'] as String,
       userId: json['user_id'] as String,
       postId: json['post_id'] as String,
@@ -180,7 +180,7 @@ _$CommentInfoImpl _$$CommentInfoImplFromJson(Map<String, dynamic> json) =>
       isCommentLiked: json['isCommentLiked'] as bool,
     );
 
-Map<String, dynamic> _$$CommentInfoImplToJson(_$CommentInfoImpl instance) =>
+Map<String, dynamic> _$$CommentListImplToJson(_$CommentListImpl instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'user_id': instance.userId,

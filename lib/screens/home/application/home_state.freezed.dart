@@ -29,8 +29,8 @@ mixin _$HomeState {
   String get followStatus => throw _privateConstructorUsedError;
   List<SwipeItem> get allSwipeItems => throw _privateConstructorUsedError;
   List<SwipeItem> get followingSwipeItems => throw _privateConstructorUsedError;
-  List<Comment>? get commentsList => throw _privateConstructorUsedError;
-  List<Post>? get postList => throw _privateConstructorUsedError;
+  List<CommentInfo>? get commentsList => throw _privateConstructorUsedError;
+  List<DataOfPostModel>? get postList => throw _privateConstructorUsedError;
   List<bool> get doubleTapList => throw _privateConstructorUsedError;
   int get selectedIndex => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
@@ -64,8 +64,8 @@ abstract class $HomeStateCopyWith<$Res> {
       String followStatus,
       List<SwipeItem> allSwipeItems,
       List<SwipeItem> followingSwipeItems,
-      List<Comment>? commentsList,
-      List<Post>? postList,
+      List<CommentInfo>? commentsList,
+      List<DataOfPostModel>? postList,
       List<bool> doubleTapList,
       int selectedIndex,
       int currentPage,
@@ -169,11 +169,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       commentsList: freezed == commentsList
           ? _value.commentsList
           : commentsList // ignore: cast_nullable_to_non_nullable
-              as List<Comment>?,
+              as List<CommentInfo>?,
       postList: freezed == postList
           ? _value.postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<Post>?,
+              as List<DataOfPostModel>?,
       doubleTapList: null == doubleTapList
           ? _value.doubleTapList
           : doubleTapList // ignore: cast_nullable_to_non_nullable
@@ -232,8 +232,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       String followStatus,
       List<SwipeItem> allSwipeItems,
       List<SwipeItem> followingSwipeItems,
-      List<Comment>? commentsList,
-      List<Post>? postList,
+      List<CommentInfo>? commentsList,
+      List<DataOfPostModel>? postList,
       List<bool> doubleTapList,
       int selectedIndex,
       int currentPage,
@@ -335,11 +335,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       commentsList: freezed == commentsList
           ? _value._commentsList
           : commentsList // ignore: cast_nullable_to_non_nullable
-              as List<Comment>?,
+              as List<CommentInfo>?,
       postList: freezed == postList
           ? _value._postList
           : postList // ignore: cast_nullable_to_non_nullable
-              as List<Post>?,
+              as List<DataOfPostModel>?,
       doubleTapList: null == doubleTapList
           ? _value._doubleTapList
           : doubleTapList // ignore: cast_nullable_to_non_nullable
@@ -393,8 +393,8 @@ class _$HomeStateImpl extends _HomeState {
       this.followStatus = '',
       final List<SwipeItem> allSwipeItems = const [],
       final List<SwipeItem> followingSwipeItems = const [],
-      final List<Comment>? commentsList = const [],
-      final List<Post>? postList = const [],
+      final List<CommentInfo>? commentsList = const [],
+      final List<DataOfPostModel>? postList = const [],
       final List<bool> doubleTapList = const [],
       this.selectedIndex = 0,
       this.currentPage = 1,
@@ -462,10 +462,10 @@ class _$HomeStateImpl extends _HomeState {
     return EqualUnmodifiableListView(_followingSwipeItems);
   }
 
-  final List<Comment>? _commentsList;
+  final List<CommentInfo>? _commentsList;
   @override
   @JsonKey()
-  List<Comment>? get commentsList {
+  List<CommentInfo>? get commentsList {
     final value = _commentsList;
     if (value == null) return null;
     if (_commentsList is EqualUnmodifiableListView) return _commentsList;
@@ -473,10 +473,10 @@ class _$HomeStateImpl extends _HomeState {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Post>? _postList;
+  final List<DataOfPostModel>? _postList;
   @override
   @JsonKey()
-  List<Post>? get postList {
+  List<DataOfPostModel>? get postList {
     final value = _postList;
     if (value == null) return null;
     if (_postList is EqualUnmodifiableListView) return _postList;
@@ -623,8 +623,8 @@ abstract class _HomeState extends HomeState {
       final String followStatus,
       final List<SwipeItem> allSwipeItems,
       final List<SwipeItem> followingSwipeItems,
-      final List<Comment>? commentsList,
-      final List<Post>? postList,
+      final List<CommentInfo>? commentsList,
+      final List<DataOfPostModel>? postList,
       final List<bool> doubleTapList,
       final int selectedIndex,
       final int currentPage,
@@ -662,9 +662,9 @@ abstract class _HomeState extends HomeState {
   @override
   List<SwipeItem> get followingSwipeItems;
   @override
-  List<Comment>? get commentsList;
+  List<CommentInfo>? get commentsList;
   @override
-  List<Post>? get postList;
+  List<DataOfPostModel>? get postList;
   @override
   List<bool> get doubleTapList;
   @override

@@ -8,14 +8,14 @@ import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/screens/post_feed/domain/post_feed_model.dart';
-import 'package:for_the_table/screens/post_feed/shared/provider.dart';
+import 'package:for_the_table/screens/home/shared/provider.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import '../../../../widgets/comments_icon.dart';
 import '../../../../widgets/save_button.dart';
 import '../../../../widgets/video_thumbnail.dart';
+import '../../../home/domain/post_feed_model.dart';
 import '../../../people_profile/shared/providers.dart';
-import '../../../post_feed/presentation/widgets/comments_icon.dart';
 import '../../../your_lists/shared/provider.dart';
 
 class DislikedPostWidget extends ConsumerStatefulWidget {
@@ -54,11 +54,12 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
 
 class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
   bool? _isLike;
+  late DataOfPostModel? postInfo;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final postFeedNotifier = ref.read(postFeedNotifierProvider.notifier);
+      final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
       await postFeedNotifier.getPostFeed();
     });
     _isLike = widget.isLiked;
@@ -77,9 +78,9 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
   @override
   Widget build(BuildContext context) {
     final profileNotifier = ref.watch(profileNotifierProvider.notifier);
-    final postFeedState = ref.watch(postFeedNotifierProvider);
-    final postFeedNotifier = ref.watch(postFeedNotifierProvider.notifier);
-    final DataOfPostModel? postInfo = postFeedState.postList?.firstWhere(
+    final postFeedState = ref.watch(homeNotifierProvider);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
+    postInfo = postFeedState.postList?.firstWhere(
             (post) => post.id == widget.postId,
         orElse: () => const DataOfPostModel(id: '', file: ''));
 
@@ -280,56 +281,48 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                   ),
                                 ],
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  postFeedState.isLoading
-                                      ? const Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.colorPrimary,
-                                    ),
-                                  )
-                                      :
-                                  AutoRouter.of(context).push(
-                                    CommentsRoute(
-                                      postId: postInfo!.id??'',
-                                    ),
-                                  );
-                                },
-                                child: Column(
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () async {
-                                            setState(() {
-                                              _isLike = !_isLike!;
-                                            });
-                                          postFeedNotifier.likeUnlikePost(() {}, widget.postId ?? "");
-                                            await profileNotifier.fetchlikedPosts(isLoadingStatus: true);
-                                            await profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
-                                            await profileNotifier.getUserDetails();
-                                        },
-                                        child: (widget.isLiked ?? false)
-                                            ? Image.asset(Assets.redHeart)
-                                            : Image.asset(Assets.like)),
-                                    15.verticalSpace,
-                                    CommentsIcon(
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () async {
+                                          setState(() {
+                                            _isLike = !_isLike!;
+                                          });
+                                        postFeedNotifier.likeUnlikePost(() {}, widget.postId ?? "");
+                                          await profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                          await profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
+                                          await profileNotifier.getUserDetails();
+                                      },
+                                      child: (widget.isLiked ?? false)
+                                          ? Image.asset(Assets.redHeart)
+                                          : Image.asset(Assets.like)),
+                                  15.verticalSpace,
+                                  GestureDetector(
+                                    onTap: () =>
+                                        AutoRouter.of(context).push(
+                                          PostCommentsRoute(
+                                              postId:  widget.postId ??''
+                                          ),
+                                        ),
+                                    child: CommentsIcon(
                                       commentCount: widget.commentCount ?? 0,
                                     ),
-                                    10.verticalSpace,
-                                    GestureDetector(
-                                      onTap: () => postFeedNotifier.saveUnsavePost(() async {
-                                        final profileNotifier =
-                                        ref.read(profileNotifierProvider.notifier);
-                                        await profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
-                                        await profileNotifier.fetchlikedPosts(isLoadingStatus: true);
-                                        await profileNotifier.getUserDetails();
-                                      }, widget.postId ?? ""),
-                                      child: SaveButtonWidget(
-                                         isSavePost: postFeedState.isSavePost,
-                                         isSaved: widget.isSaved ?? false,
-                                      ),
+                                  ),
+                                  10.verticalSpace,
+                                  GestureDetector(
+                                    onTap: () => postFeedNotifier.saveUnsavePost(() async {
+                                      final profileNotifier =
+                                      ref.read(profileNotifierProvider.notifier);
+                                      await profileNotifier.fetchDislikedPosts(isLoadingStatus: true);
+                                      await profileNotifier.fetchlikedPosts(isLoadingStatus: true);
+                                      await profileNotifier.getUserDetails();
+                                    }, widget.postId ?? ""),
+                                    child: SaveButtonWidget(
+                                       isSavePost: postFeedState.isSavePost,
+                                       isSaved: widget.isSaved ?? false,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
