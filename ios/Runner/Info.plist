@@ -124,6 +124,32 @@
         <key>APNsEnvironment</key>
         <string>production</string>
     </dict>
+    <!---End of Notification --->
+
+    <!--- Facebook Auth --->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb1214180166433181</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1214180166433181</string>
+    <key>FacebookClientToken</key>
+    <string>23d5bd965fe3c6ec18b94b741e19a332</string>
+    <key>FacebookDisplayName</key>
+    <string>For The Table</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+
 
 </dict>
 </plist>
