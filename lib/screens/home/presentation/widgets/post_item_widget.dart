@@ -382,11 +382,9 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
   }
 
   Future<void> _fetchPostDetails() async {
-    final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
     final homeNotifier = ref.read(homeNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, widget.userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: false);
     homeNotifier.getPostFeed();
     restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
