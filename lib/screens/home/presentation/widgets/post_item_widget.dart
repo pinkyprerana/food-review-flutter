@@ -58,8 +58,35 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
 }
 
 class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
+  bool? _isLiked;
+  bool? _isSaved;
 
+  @override
+  void initState() {
+    super.initState();
+    _isLiked = widget.isLiked;
+    _isSaved = widget.isSaved;
+  }
 
+  void _toggleLike() async {
+    final stateNotifier = ref.read(homeNotifierProvider.notifier);
+    await stateNotifier.likeUnlikePost(() {
+      setState(() {
+        _isLiked = !_isLiked!;
+      });
+    }, widget.postList.id ?? "");
+    _fetchPostDetails();
+  }
+
+  void _toggleSave() async {
+    final stateNotifier = ref.read(homeNotifierProvider.notifier);
+    await stateNotifier.saveUnsavePost(() {
+      setState(() {
+        _isSaved = !_isSaved!;
+      });
+    }, widget.postList.id ?? "");
+    _fetchPostDetails();
+  }
 
   void handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
@@ -88,8 +115,6 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
     // final bool isFollowing = widget.isFollowing;
     // final bool isRequested = widget.isRequested;
     final state = ref.watch(homeNotifierProvider);
-    final stateNotifier = ref.watch(homeNotifierProvider.notifier);
-    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10).r,
@@ -285,11 +310,12 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                         Column(
                           children: [
                             GestureDetector(
-                                onTap: () => stateNotifier.likeUnlikePost(() async {
-                                      restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
-                                      _fetchPostDetails;
-                                    }, widget.postList.id ?? ""),
-                                child: (widget.isLiked ?? false)
+                              onTap : _toggleLike,
+                                // onTap: () => stateNotifier.likeUnlikePost(() async {
+                                //       restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
+                                //       _fetchPostDetails;
+                                //     }, widget.postList.id ?? ""),
+                                child: _isLiked! //(widget.isLiked ?? false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
@@ -314,13 +340,14 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                             ),
                             10.verticalSpace,
                             GestureDetector(
-                              onTap: () => stateNotifier.saveUnsavePost(() {
-                                restaurantNotifier.getPostListRelatedToRestaurant(
-                                    () {}, widget.restaurantId);
-                              }, widget.postList.id ?? ""),
+                              onTap: _toggleSave,
+                              // onTap: () => stateNotifier.saveUnsavePost(() {
+                              //   restaurantNotifier.getPostListRelatedToRestaurant(
+                              //       () {}, widget.restaurantId);
+                              // }, widget.postList.id ?? ""),
                               child: SaveButtonWidget(
                                 isSavePost: state.isSavePost,
-                                isSaved: widget.isSaved ?? false,
+                                isSaved: _isSaved! //widget.isSaved ?? false,
                               ),
                             ),
                           ],
@@ -358,9 +385,11 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+    final homeNotifier = ref.read(homeNotifierProvider.notifier);
     followNotifier.followUnfollow(() {}, widget.userId);
-    yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    yourPeopleNotifier.getAllUsersList(isFollowState: false);
+    homeNotifier.getPostFeed();
     restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
-    restaurantNotifier.getPosts(context: context, restaurantId: widget.restaurantId);
+    // restaurantNotifier.getPosts(context: context, restaurantId: widget.restaurantId);
   }
 }
