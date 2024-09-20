@@ -32,6 +32,8 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
     required this.commentCount,
     required this.isFollowing,
     required this.isRequested,
+    required this.isSaved,
+    required this.isLiked
   });
 
   final DataOfPostModel postList;
@@ -48,12 +50,17 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
   final int commentCount;
   final bool isFollowing;
   final bool isRequested;
+  final bool? isSaved;
+  final bool? isLiked;
 
   @override
   ConsumerState<PostItemWidget2> createState() => _PostItemWidget2State();
 }
 
 class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
+
+
+
   void handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
@@ -278,11 +285,11 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                         Column(
                           children: [
                             GestureDetector(
-                                onTap: () => stateNotifier.likeUnlikePost(() {
-                                      restaurantNotifier.getPostListRelatedToRestaurant(
-                                          () {}, widget.restaurantId);
+                                onTap: () => stateNotifier.likeUnlikePost(() async {
+                                      restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
+                                      _fetchPostDetails;
                                     }, widget.postList.id ?? ""),
-                                child: (widget.postList.isMyLike ?? false)
+                                child: (widget.isLiked ?? false)
                                     ? Image.asset(Assets.redHeart)
                                     : Image.asset(Assets.like)),
                             15.verticalSpace,
@@ -313,7 +320,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                               }, widget.postList.id ?? ""),
                               child: SaveButtonWidget(
                                 isSavePost: state.isSavePost,
-                                isSaved: widget.postList.isSave ?? false,
+                                isSaved: widget.isSaved ?? false,
                               ),
                             ),
                           ],
@@ -345,5 +352,15 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
         ),
       ),
     );
+  }
+
+  Future<void> _fetchPostDetails() async {
+    final followNotifier = ref.read(followNotifierProvider.notifier);
+    final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
+    final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
+    followNotifier.followUnfollow(() {}, widget.userId);
+    yourPeopleNotifier.getAllUsersList(isFollowState: true);
+    restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
+    restaurantNotifier.getPosts(context: context, restaurantId: widget.restaurantId);
   }
 }

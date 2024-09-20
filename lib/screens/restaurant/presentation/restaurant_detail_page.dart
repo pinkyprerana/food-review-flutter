@@ -696,6 +696,8 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                 title: state.postPerRestaurantList?[index].title ?? '',
                                 image:
                                     'https://forthetable.dedicateddevelopers.us/uploads/post/${state.postPerRestaurantList?[index].file}',
+                                isLiked: state.postPerRestaurantList?[index].isMyLike,
+                                isSaved: state.postPerRestaurantList?[index].isSave,
                               );
                             },
                             separatorBuilder: (BuildContext context, int index) => 5.verticalSpace,
