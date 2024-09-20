@@ -60,12 +60,16 @@ class PostItemWidget2 extends ConsumerStatefulWidget {
 class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
   bool? _isLiked;
   bool? _isSaved;
+  bool? _isFollowing;
+  bool? _isRequested;
 
   @override
   void initState() {
     super.initState();
     _isLiked = widget.isLiked;
     _isSaved = widget.isSaved;
+    _isFollowing = widget.isFollowing;
+    _isRequested = widget.isRequested;
   }
 
   void _toggleLike() async {
@@ -88,11 +92,16 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
     _fetchPostDetails();
   }
 
-  void handleFollowUnfollowButtonPressed(userId) {
+  Future<void> handleFollowUnfollowButtonPressed(userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final restaurantNotifier = ref.read(restaurantNotifierProvider.notifier);
-    followNotifier.followUnfollow(() {}, userId);
+    await followNotifier.followUnfollow(() {
+      setState(() {
+          _isFollowing = widget.isFollowing;
+          _isRequested = widget.isRequested;
+      });
+    }, userId);
     yourPeopleNotifier.getAllUsersList(isFollowState: true);
     restaurantNotifier.getPostListRelatedToRestaurant(() {}, widget.restaurantId);
   }
@@ -161,12 +170,7 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // AutoRouter.of(context).push(PeopleProfileRoute(
-                        //     peoplename: 'Ahmad Gouse',
-                        //     peopleimage:
-                        //         'assets/images/temp/follower-sample2.png',
-                        //     peopleId: '',
-                        //     isFollow: true));
+                        AutoRouter.of(context).push(PeopleProfileRoute(peopleId: widget.postList.userInfo?.id ?? "",));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -208,9 +212,9 @@ class _PostItemWidget2State extends ConsumerState<PostItemWidget2> {
                               ),
                               child: Center(
                                   child: Text(
-                                widget.isFollowing
+                                _isFollowing!
                                     ? 'Following'
-                                    : widget.isRequested
+                                    : _isRequested!
                                         ? 'Requested'
                                         : 'Follow',
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
