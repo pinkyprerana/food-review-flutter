@@ -80,7 +80,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     final savedRestaurantCount =
         getDetails?.stats?.savedRestaurantsCount.toString() ?? '';
 
-    final postFeedState = ref.watch(homeNotifierProvider);
+    // final postFeedState = ref.watch(homeNotifierProvider);
     final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
 
     DateTime? joinedDateTime;
@@ -213,7 +213,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(13),
-                                        color: isFollowing
+                                        color: (widget.peopleId == getUserId)
+                                           ? AppColors.colorWhite
+                                           : isFollowing
                                             ? AppColors.colorWhite
                                             : isRequested
                                                 ? AppColors.colorGrey2
@@ -234,7 +236,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                             .textStylePoppinsBold
                                             .copyWith(
                                           fontSize: 15.sp,
-                                          color: isFollowing
+                                          color: (widget.peopleId == getUserId)
+                                              ? AppColors.colorBlack
+                                              : isFollowing
                                               ? AppColors.colorBlack
                                               : isRequested
                                                   ? AppColors.colorBlack
@@ -339,72 +343,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                 ],
                               ),
                               10.verticalSpace,
-                              isFollowing
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: SmallProfileContainer(
-                                            widget: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  reviewedRestaurantCount,
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsBold
-                                                      .copyWith(
-                                                    fontSize: 14.sp,
-                                                    color:
-                                                        AppColors.colorPrimary,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Reviewed Restaurant',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors.colorText3,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        10.horizontalSpace,
-                                        Expanded(
-                                          child: SmallProfileContainer(
-                                            widget: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  savedRestaurantCount,
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsBold
-                                                      .copyWith(
-                                                    fontSize: 14.sp,
-                                                    color:
-                                                        AppColors.colorPrimary,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Saved Restaurant',
-                                                  style: AppTextStyles
-                                                      .textStylePoppinsRegular
-                                                      .copyWith(
-                                                    fontSize: 10.sp,
-                                                    color: AppColors.colorText3,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
+                              (widget.peopleId == getUserId)
+                                  ? showMetadata(reviewedRestaurantCount, savedRestaurantCount)
+                                  : isFollowing
+                                  ? showMetadata(reviewedRestaurantCount, savedRestaurantCount)
                                   : const SizedBox(),
                             ],
                           ),
@@ -499,74 +441,11 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                   : SizedBox(
                       height: MediaQuery.of(context).size.height * 0.7,
                       width: double.infinity,
-                      child: isFollowing
+                      child:(widget.peopleId == getUserId)
+                          ? showPosts(postListOfOtherUser)
+                          : isFollowing
                           ? postListOfOtherUser.isNotEmpty
-                              ? GridView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 3 / 3,
-                                  ),
-                                  itemCount: postListOfOtherUser.length,
-                                  itemBuilder: (context, index) {
-                                    final postList = postListOfOtherUser[index];
-                                    final String mediaUrl =
-                                        "${AppUrls.postImageLocation}${postList.file}";
-                                    bool isVideo = mediaUrl
-                                            .toLowerCase()
-                                            .endsWith('.mp4') ||
-                                        mediaUrl
-                                            .toLowerCase()
-                                            .endsWith('.mov') ||
-                                        mediaUrl.toLowerCase().endsWith('.avi');
-                                    return GestureDetector(
-                                      onTap: () {
-                                        AutoRouter.of(context)
-                                            .push(PostDetailsRoute(
-                                          postId: postList.id,
-                                          userId: getDetails?.id,
-                                        ));
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          margin: const EdgeInsets.all(2),
-                                          child: Stack(
-                                            fit: StackFit.expand,
-                                            children: [
-                                              isVideo
-                                                  ? VideoThumbnails(
-                                                      videoUrl: mediaUrl)
-                                                  : Image.network(mediaUrl,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                              Positioned(
-                                                top: 8,
-                                                right: 8,
-                                                child: GestureDetector(
-                                                  onTap: () => postFeedNotifier
-                                                      .saveUnsavePost(() {
-                                                    followNotifier
-                                                        .getAllPostsOfOtherUserProfile(
-                                                            () {},
-                                                            widget.peopleId);
-                                                  }, postList.id ?? ''),
-                                                  child: SaveButtonWidget(
-                                                    isSavePost: postFeedState
-                                                        .isSavePost,
-                                                    isSaved: postList.isSave ??
-                                                        false,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
+                              ? showPosts(postListOfOtherUser)
                               : Align(
                                   alignment: Alignment.topCenter,
                                   child: Column(
@@ -595,6 +474,146 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget showMetadata(reviewedRestaurantCount, savedRestaurantCount){
+    return Row(
+      mainAxisAlignment:
+      MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: SmallProfileContainer(
+            widget: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Text(
+                  reviewedRestaurantCount,
+                  style: AppTextStyles
+                      .textStylePoppinsBold
+                      .copyWith(
+                    fontSize: 14.sp,
+                    color:
+                    AppColors.colorPrimary,
+                  ),
+                ),
+                Text(
+                  'Reviewed Restaurant',
+                  style: AppTextStyles
+                      .textStylePoppinsRegular
+                      .copyWith(
+                    fontSize: 10.sp,
+                    color: AppColors.colorText3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        10.horizontalSpace,
+        Expanded(
+          child: SmallProfileContainer(
+            widget: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Text(
+                  savedRestaurantCount,
+                  style: AppTextStyles
+                      .textStylePoppinsBold
+                      .copyWith(
+                    fontSize: 14.sp,
+                    color:
+                    AppColors.colorPrimary,
+                  ),
+                ),
+                Text(
+                  'Saved Restaurant',
+                  style: AppTextStyles
+                      .textStylePoppinsRegular
+                      .copyWith(
+                    fontSize: 10.sp,
+                    color: AppColors.colorText3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget showPosts(postListOfOtherUser){
+    final postFeedState = ref.watch(homeNotifierProvider);
+    final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
+    final followNotifier = ref.watch(followNotifierProvider.notifier);
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate:
+      const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 3 / 3,
+      ),
+      itemCount: postListOfOtherUser.length,
+      itemBuilder: (context, index) {
+        final postList = postListOfOtherUser[index];
+        final String mediaUrl =
+            "${AppUrls.postImageLocation}${postList.file}";
+        bool isVideo = mediaUrl
+            .toLowerCase()
+            .endsWith('.mp4') ||
+            mediaUrl
+                .toLowerCase()
+                .endsWith('.mov') ||
+            mediaUrl.toLowerCase().endsWith('.avi');
+        return GestureDetector(
+          onTap: () {
+            AutoRouter.of(context)
+                .push(PostDetailsRoute(
+              postId: postList.id,
+              userId: getDetails?.id,
+            ));
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              margin: const EdgeInsets.all(2),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  isVideo
+                      ? VideoThumbnails(
+                      videoUrl: mediaUrl)
+                      : Image.network(mediaUrl,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: GestureDetector(
+                      onTap: () => postFeedNotifier
+                          .saveUnsavePost(() {
+                        followNotifier
+                            .getAllPostsOfOtherUserProfile(
+                                () {},
+                            widget.peopleId);
+                      }, postList.id ?? ''),
+                      child: SaveButtonWidget(
+                        isSavePost: postFeedState
+                            .isSavePost,
+                        isSaved: postList.isSave ??
+                            false,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
