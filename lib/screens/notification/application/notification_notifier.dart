@@ -107,8 +107,8 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
               todayNotifications: todayNotifications,
               yesterdayNotifications: yesterdayNotifications,
               olderNotifications: olderNotifications,
-              totalNotifications: notificationModel.total ?? 10,
-              totalPages: notificationModel.pages ?? 1,
+              totalNotifications: notificationModel.total ?? state.totalNotifications,
+              totalPages: notificationModel.pages ?? state.totalPages,
             );
           }
         } else {
