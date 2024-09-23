@@ -10,6 +10,9 @@ class NotificationState with _$NotificationState {
     @Default([]) List<NotificationData> todayNotifications,
     @Default([]) List<NotificationData> yesterdayNotifications,
     @Default([]) List<NotificationData> olderNotifications,
+    @Default(0) int totalNotifications,
+    @Default(0) int currentPage,
+    @Default(0) int totalPages,
   }) = _NotificationState;
   const NotificationState._();
 }

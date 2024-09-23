@@ -1,6 +1,7 @@
 // ignore_for_file: parameter_assignments, empty_catches
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/infrastructure/network_api_services.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/utils/toast.dart';
 import '../../../model/notification_model/notification_model.dart';
@@ -10,6 +11,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   NotificationNotifier(this._networkApiService) : super(const NotificationState());
 
   final NetworkApiService _networkApiService;
+  final RefreshController refreshController = RefreshController();
 
   void addNotification(NotificationData notification) {
     if (mounted) {
@@ -19,13 +21,33 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
     }
   }
 
+  void loadMoreNotifications() async {
+    if (state.currentPage > state.totalPages) {
+      showToastMessage('No new notification to display');
+      refreshController.loadComplete();
+      return;
+    }
+
+    await getNotificationList(isLoadMore: true);
+    refreshController.loadComplete();
+  }
 
 
-  Future<void> getNotificationList() async {
-    state = state.copyWith(isLoading: true);
+
+  Future<void> getNotificationList({bool isLoadMore = false}) async {
+    state = state.copyWith(isLoading: !isLoadMore);
+    if (isLoadMore && (state.currentPage * 10 == state.notificationList.length)) {
+      state = state.copyWith(currentPage: state.currentPage + 1);
+    } else {
+      state = state.copyWith(currentPage: 1);
+    }
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.getAllNotifications}',
+        body: {
+          "limit": 10,
+          "page": isLoadMore ? state.currentPage + 1 : 1,
+        }
       );
       state = state.copyWith(isLoading: false);
 
@@ -56,13 +78,39 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
             }
           }
 
-          state = state.copyWith(
-            isLoading: false,
-            notificationList: notificationModel.notificationList,
-            todayNotifications: todayNotifications,
-            yesterdayNotifications: yesterdayNotifications,
-            olderNotifications: olderNotifications,
-          );
+          if (isLoadMore) {
+            state = state.copyWith(
+              isLoading: false,
+              notificationList: [
+                ...state.notificationList,
+                ...notificationModel.notificationList,
+              ],
+              todayNotifications: [
+                ...state.todayNotifications,
+                ...todayNotifications,
+              ],
+              yesterdayNotifications: [
+                ...state.yesterdayNotifications,
+                ...yesterdayNotifications,
+              ],
+              olderNotifications: [
+                ...state.olderNotifications,
+                ...olderNotifications,
+              ],
+              totalNotifications: notificationModel.total ?? state.totalNotifications,
+              totalPages: notificationModel.pages ?? state.totalPages,
+            );
+          } else {
+            state = state.copyWith(
+              isLoading: false,
+              notificationList: notificationModel.notificationList,
+              todayNotifications: todayNotifications,
+              yesterdayNotifications: yesterdayNotifications,
+              olderNotifications: olderNotifications,
+              totalNotifications: notificationModel.total ?? 10,
+              totalPages: notificationModel.pages ?? 1,
+            );
+          }
         } else {
           showToastMessage(notificationModel.message.toString());
         }

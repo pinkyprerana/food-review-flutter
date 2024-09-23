@@ -25,6 +25,9 @@ mixin _$NotificationState {
       throw _privateConstructorUsedError;
   List<NotificationData> get olderNotifications =>
       throw _privateConstructorUsedError;
+  int get totalNotifications => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NotificationStateCopyWith<NotificationState> get copyWith =>
@@ -42,7 +45,10 @@ abstract class $NotificationStateCopyWith<$Res> {
       List<NotificationData> notificationList,
       List<NotificationData> todayNotifications,
       List<NotificationData> yesterdayNotifications,
-      List<NotificationData> olderNotifications});
+      List<NotificationData> olderNotifications,
+      int totalNotifications,
+      int currentPage,
+      int totalPages});
 }
 
 /// @nodoc
@@ -63,6 +69,9 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
     Object? todayNotifications = null,
     Object? yesterdayNotifications = null,
     Object? olderNotifications = null,
+    Object? totalNotifications = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -85,6 +94,18 @@ class _$NotificationStateCopyWithImpl<$Res, $Val extends NotificationState>
           ? _value.olderNotifications
           : olderNotifications // ignore: cast_nullable_to_non_nullable
               as List<NotificationData>,
+      totalNotifications: null == totalNotifications
+          ? _value.totalNotifications
+          : totalNotifications // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -102,7 +123,10 @@ abstract class _$$NotificationStateImplCopyWith<$Res>
       List<NotificationData> notificationList,
       List<NotificationData> todayNotifications,
       List<NotificationData> yesterdayNotifications,
-      List<NotificationData> olderNotifications});
+      List<NotificationData> olderNotifications,
+      int totalNotifications,
+      int currentPage,
+      int totalPages});
 }
 
 /// @nodoc
@@ -121,6 +145,9 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
     Object? todayNotifications = null,
     Object? yesterdayNotifications = null,
     Object? olderNotifications = null,
+    Object? totalNotifications = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
   }) {
     return _then(_$NotificationStateImpl(
       isLoading: null == isLoading
@@ -143,6 +170,18 @@ class __$$NotificationStateImplCopyWithImpl<$Res>
           ? _value._olderNotifications
           : olderNotifications // ignore: cast_nullable_to_non_nullable
               as List<NotificationData>,
+      totalNotifications: null == totalNotifications
+          ? _value.totalNotifications
+          : totalNotifications // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -155,7 +194,10 @@ class _$NotificationStateImpl extends _NotificationState {
       final List<NotificationData> notificationList = const [],
       final List<NotificationData> todayNotifications = const [],
       final List<NotificationData> yesterdayNotifications = const [],
-      final List<NotificationData> olderNotifications = const []})
+      final List<NotificationData> olderNotifications = const [],
+      this.totalNotifications = 0,
+      this.currentPage = 0,
+      this.totalPages = 0})
       : _notificationList = notificationList,
         _todayNotifications = todayNotifications,
         _yesterdayNotifications = yesterdayNotifications,
@@ -206,8 +248,18 @@ class _$NotificationStateImpl extends _NotificationState {
   }
 
   @override
+  @JsonKey()
+  final int totalNotifications;
+  @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final int totalPages;
+
+  @override
   String toString() {
-    return 'NotificationState(isLoading: $isLoading, notificationList: $notificationList, todayNotifications: $todayNotifications, yesterdayNotifications: $yesterdayNotifications, olderNotifications: $olderNotifications)';
+    return 'NotificationState(isLoading: $isLoading, notificationList: $notificationList, todayNotifications: $todayNotifications, yesterdayNotifications: $yesterdayNotifications, olderNotifications: $olderNotifications, totalNotifications: $totalNotifications, currentPage: $currentPage, totalPages: $totalPages)';
   }
 
   @override
@@ -224,7 +276,13 @@ class _$NotificationStateImpl extends _NotificationState {
             const DeepCollectionEquality().equals(
                 other._yesterdayNotifications, _yesterdayNotifications) &&
             const DeepCollectionEquality()
-                .equals(other._olderNotifications, _olderNotifications));
+                .equals(other._olderNotifications, _olderNotifications) &&
+            (identical(other.totalNotifications, totalNotifications) ||
+                other.totalNotifications == totalNotifications) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages));
   }
 
   @override
@@ -234,7 +292,10 @@ class _$NotificationStateImpl extends _NotificationState {
       const DeepCollectionEquality().hash(_notificationList),
       const DeepCollectionEquality().hash(_todayNotifications),
       const DeepCollectionEquality().hash(_yesterdayNotifications),
-      const DeepCollectionEquality().hash(_olderNotifications));
+      const DeepCollectionEquality().hash(_olderNotifications),
+      totalNotifications,
+      currentPage,
+      totalPages);
 
   @JsonKey(ignore: true)
   @override
@@ -246,12 +307,14 @@ class _$NotificationStateImpl extends _NotificationState {
 
 abstract class _NotificationState extends NotificationState {
   const factory _NotificationState(
-          {final bool isLoading,
-          final List<NotificationData> notificationList,
-          final List<NotificationData> todayNotifications,
-          final List<NotificationData> yesterdayNotifications,
-          final List<NotificationData> olderNotifications}) =
-      _$NotificationStateImpl;
+      {final bool isLoading,
+      final List<NotificationData> notificationList,
+      final List<NotificationData> todayNotifications,
+      final List<NotificationData> yesterdayNotifications,
+      final List<NotificationData> olderNotifications,
+      final int totalNotifications,
+      final int currentPage,
+      final int totalPages}) = _$NotificationStateImpl;
   const _NotificationState._() : super._();
 
   @override
@@ -264,6 +327,12 @@ abstract class _NotificationState extends NotificationState {
   List<NotificationData> get yesterdayNotifications;
   @override
   List<NotificationData> get olderNotifications;
+  @override
+  int get totalNotifications;
+  @override
+  int get currentPage;
+  @override
+  int get totalPages;
   @override
   @JsonKey(ignore: true)
   _$$NotificationStateImplCopyWith<_$NotificationStateImpl> get copyWith =>

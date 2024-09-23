@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/notification/presentation/widgets/notification_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../model/notification_model/notification_model.dart';
@@ -55,6 +57,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     final notificationState = ref.watch(notificationNotifierProvider);
+    final notificationNotifier = ref.watch(notificationNotifierProvider.notifier);
     final todayNotifications = notificationState.todayNotifications;
     final yesterdayNotifications = notificationState.yesterdayNotifications;
     final olderNotifications = notificationState.olderNotifications;
@@ -98,114 +101,149 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
           : todayNotifications.isNotEmpty ||
                   yesterdayNotifications.isNotEmpty ||
                   olderNotifications.isNotEmpty
-              ? SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,
-                    child: Column(
-                      children: [
-                        // Today's Notifications
-                        if (todayNotifications.isNotEmpty) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Today',
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColors.colorPrimaryAlpha,
+              ? SmartRefresher(
+                controller: notificationNotifier.refreshController,
+                enablePullDown: false,
+                enablePullUp: true,
+                onLoading: notificationNotifier.loadMoreNotifications,
+                footer: CustomFooter(
+                  builder: (BuildContext context, mode) {
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = const SizedBox.shrink();
+                    } else if (mode == LoadStatus.loading) {
+                      body = const CupertinoActivityIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body = Text(
+                        "Load Failed!Click retry!",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = Text(
+                        "release to load more",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    } else {
+                      body = Text(
+                        "No more Data",
+                        style: AppTextStyles.textStylePoppinsLight,
+                      );
+                    }
+                    return SizedBox(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
+                ),
+                child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1).r,
+                      child: Column(
+                        children: [
+                          // Today's Notifications
+                          if (todayNotifications.isNotEmpty) ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Today',
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    fontSize: 10.sp,
+                                    color: AppColors.colorPrimaryAlpha,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          ListView.builder(
-                            padding: const EdgeInsets.all(0.0),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: todayNotifications.length,
-                            itemBuilder: (context, index) {
-                              final notifications = todayNotifications[index];
-                              final imgUrl =
-                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
-                              return NotificationWidget(
-                                imgpath: imgUrl,
-                                title: notifications.title??"",
-                                subtitle: notifications.message??"",
-                                onTap: () => _handleNotificationTap(context, notifications),
-                              );
-                            },
-                          ),
-                          10.verticalSpace,
-                        ],
-                        // Yesterday's Notifications
-                        if (yesterdayNotifications.isNotEmpty) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Yesterday',
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColors.colorPrimaryAlpha,
+                              ],
+                            ),
+                            ListView.builder(
+                              padding: const EdgeInsets.all(0.0),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: todayNotifications.length,
+                              itemBuilder: (context, index) {
+                                final notifications = todayNotifications[index];
+                                final imgUrl =
+                                    '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
+                                return NotificationWidget(
+                                  imgpath: imgUrl,
+                                  title: notifications.title??"",
+                                  subtitle: notifications.message??"",
+                                  onTap: () => _handleNotificationTap(context, notifications),
+                                );
+                              },
+                            ),
+                            10.verticalSpace,
+                          ],
+                          // Yesterday's Notifications
+                          if (yesterdayNotifications.isNotEmpty) ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Yesterday',
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    fontSize: 10.sp,
+                                    color: AppColors.colorPrimaryAlpha,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          ListView.builder(
-                            padding: const EdgeInsets.all(0.0),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: yesterdayNotifications.length,
-                            itemBuilder: (context, index) {
-                              final notifications = yesterdayNotifications[index];
-                              final imgUrl =
-                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
-                              return NotificationWidget(
-                                imgpath: imgUrl,
-                                title: notifications.title??"",
-                                subtitle: notifications.message??"",
-                                onTap: () => _handleNotificationTap(context, notifications),
-                              );
-                            },
-                          ),
-                          10.verticalSpace,
-                        ],
-                        // Older Notifications
-                        if (olderNotifications.isNotEmpty) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Earlier',
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColors.colorPrimaryAlpha,
+                              ],
+                            ),
+                            ListView.builder(
+                              padding: const EdgeInsets.all(0.0),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: yesterdayNotifications.length,
+                              itemBuilder: (context, index) {
+                                final notifications = yesterdayNotifications[index];
+                                final imgUrl =
+                                    '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
+                                return NotificationWidget(
+                                  imgpath: imgUrl,
+                                  title: notifications.title??"",
+                                  subtitle: notifications.message??"",
+                                  onTap: () => _handleNotificationTap(context, notifications),
+                                );
+                              },
+                            ),
+                            10.verticalSpace,
+                          ],
+                          // Older Notifications
+                          if (olderNotifications.isNotEmpty) ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Earlier',
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    fontSize: 10.sp,
+                                    color: AppColors.colorPrimaryAlpha,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          ListView.builder(
-                            padding: const EdgeInsets.all(0.0),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: olderNotifications.length,
-                            itemBuilder: (context, index) {
-                              final notifications = olderNotifications[index];
-                              final imgUrl =
-                                  '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
-                              return NotificationWidget(
-                                imgpath: imgUrl,
-                                title: notifications.title??"",
-                                subtitle: notifications.message??"",
-                                onTap: () => _handleNotificationTap(context, notifications),
-                              );
-                            },
-                          ),
-                          10.verticalSpace,
+                              ],
+                            ),
+                            ListView.builder(
+                              padding: const EdgeInsets.all(0.0),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: olderNotifications.length,
+                              itemBuilder: (context, index) {
+                                final notifications = olderNotifications[index];
+                                final imgUrl =
+                                    '${AppUrls.profilePicLocation}/${notifications.postedUserInfo?.profileImage}';
+                                return NotificationWidget(
+                                  imgpath: imgUrl,
+                                  title: notifications.title??"",
+                                  subtitle: notifications.message??"",
+                                  onTap: () => _handleNotificationTap(context, notifications),
+                                );
+                              },
+                            ),
+                            10.verticalSpace,
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
-                )
+              )
               : Center(
                   child: Text(
                     'No notification.',
