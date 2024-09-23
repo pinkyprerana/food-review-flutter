@@ -33,8 +33,6 @@ class PostCommentsPage extends ConsumerStatefulWidget {
 }
 
 class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
-  late DataOfPostModel postInfoList;
-  late List<CommentInfo> comments;
 
   @override
   void initState() {
@@ -104,7 +102,7 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     }
 
     final String postId = widget.postId;//postInfoList.id;
-    final String userId = widget.postId;//postInfoList.id;
+    final String userId = postInfoList.userInfo?.id ?? "";
     final String name = postInfoList.userInfo?.fullName ?? "";
     final String profileImage =
         "${AppUrls.profilePicLocation}/${postInfoList.userInfo?.profileImage}";
@@ -408,7 +406,7 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
                             onPressed: () async {
                               await homeNotifier.postComment(() async {
                                 dismissKeyboard(context);
-                                _fetchPostDetails();
+                                _fetchPostDetails(userId);
                               }, postId);
                             },
                             text: 'Submit',
@@ -426,11 +424,11 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     );
   }
 
-  Future<void> _fetchPostDetails() async {
+  Future<void> _fetchPostDetails(String userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     await followNotifier.getAllPostsOfOtherUserProfile(
-            () {}, postInfoList.userInfo?.id ?? "");
-    await followNotifier.getOtherPeopleDetails(() {},postInfoList.userInfo?.id ?? "");
+            () {}, userId);
+    await followNotifier.getOtherPeopleDetails(() {},userId);
     final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
     await postFeedNotifier.getPostFeed();
     final profileNotifier = ref.read(profileNotifierProvider.notifier);
