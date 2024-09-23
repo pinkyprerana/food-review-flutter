@@ -19,6 +19,7 @@ import '../../../people_profile/shared/providers.dart';
 import '../../../your_lists/shared/provider.dart';
 
 class DislikedPostWidget extends ConsumerStatefulWidget {
+  final DataOfPostModel postList;
   final String? userId;
   final String? userFullName;
   final String? userDisplayPicture;
@@ -35,6 +36,7 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
 
   const DislikedPostWidget(
       {super.key,
+        required this.postList,
         this.userId,
         this.userFullName,
         this.userDisplayPicture,
@@ -54,7 +56,6 @@ class DislikedPostWidget extends ConsumerStatefulWidget {
 
 class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
   bool? _isLike;
-  late DataOfPostModel? postInfo;
   @override
   void initState() {
     super.initState();
@@ -80,9 +81,9 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
     final profileNotifier = ref.watch(profileNotifierProvider.notifier);
     final postFeedState = ref.watch(homeNotifierProvider);
     final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
-    postInfo = postFeedState.postList?.firstWhere(
-            (post) => post.id == widget.postId,
-        orElse: () => const DataOfPostModel(id: '', file: ''));
+    // postInfo = postFeedState.postList?.firstWhere(
+    //         (post) => post.id == widget.postId,
+    //     orElse: () => const DataOfPostModel(id: '', file: ''));
 
     String file= '${AppUrls.postImageLocation}/${widget.postPicture}';
     bool isVideo = file.toLowerCase().endsWith('.mp4') || file.toLowerCase().endsWith('.mov') || file.toLowerCase().endsWith('.avi');
@@ -301,7 +302,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                     onTap: () =>
                                         AutoRouter.of(context).push(
                                           PostCommentsRoute(
-                                              postId:  widget.postId ??''
+                                              postId:  widget.postList.id ??''
                                           ),
                                         ),
                                     child: CommentsIcon(
