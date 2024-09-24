@@ -2,38 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>The reason for this is to access photos in library</string>
-	<key>NSCameraUsageDescription</key>
-    <string>The reason for this is to access camera in the device</string>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>The reason for this is to allow access to record video</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>The reason for this is to access location</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>The reason for this is to access location</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-    <string>The reason for this is to access location</string>
-	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
-    <string>The reason for this is to access location</string>
-	<key>NSCalendarsUsageDescription</key>
-    <string>The reason for this is to access calender</string>
-	<key>NSContactsUsageDescription</key>
-    <string>The reason for this is to access contacts</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-    <string>The reason for this is to access contacts</string>
-	<key>NSAppleMusicUsageDescription</key>
-    <string>The reason for this is to access music</string>
-	<key>NSMotionUsageDescription</key>
-    <string>The reason for this is to access motion usage</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-    <string>The reason for this is to access speech recognition usage</string>
-	<key>NSSiriUsageDescription</key>
-    <string>The reason for this is to access siri</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-    <string>The reason for this is to access bluetooth</string>
 	<key>CFBundleDisplayName</key>
 	<string>For The Table</string>
 	<key>CFBundleExecutable</key>
@@ -50,10 +22,80 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m</string>
+				<string>fb1214180166433181</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FLTEnableImpeller</key>
+	<false/>
+	<key>FacebookAppID</key>
+	<string>1214180166433181</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
+	<key>FacebookClientToken</key>
+	<string>23d5bd965fe3c6ec18b94b741e19a332</string>
+	<key>FacebookDisplayName</key>
+	<string>For The Table</string>
+	<key>GIDClientID</key>
+	<string>807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m.apps.googleusercontent.com</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>The reason for this is to access music</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>The reason for this is to access bluetooth</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>The reason for this is to access contacts</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>The reason for this is to access calender</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The reason for this is to access camera in the device</string>
+	<key>NSContactsUsageDescription</key>
+	<string>The reason for this is to access contacts</string>
+	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
+	<string>The reason for this is to access location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The reason for this is to access location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The reason for this is to access location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The reason for this is to access location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The reason for this is to allow access to record video</string>
+	<key>NSMotionUsageDescription</key>
+	<string>The reason for this is to access motion usage</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>The reason for this is to access photos in library</string>
+	<key>NSSiriUsageDescription</key>
+	<string>The reason for this is to access siri</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>The reason for this is to access speech recognition usage</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We need your permission to track data for improving app experience and showing relevant ads.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -71,68 +113,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<!-- <key>UIStatusBarStyle</key> -->
-	<!-- <string>UIStatusBarStyleDefault</string> -->
-	<!-- <string>UIStatusBarStyleLightContent</string> -->
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>FLTEnableImpeller</key>
-  <false/>
-	<key>GIDClientID</key>
-	<!-- Copied from GoogleService-Info.plist key CLIENT_ID -->
-	<string>807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m.apps.googleusercontent.com</string>
-
-	<!-- Google Sign-in Section -->
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-				<string>com.googleusercontent.apps.807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m</string>
-				<!-- FB App ID -->
-				<string>fb1214180166433181</string>
-			</array>
-		</dict>
-	</array>
-	<!-- <key>FacebookAppID</key>
-	<key>FacebookAppID</key>
-    <string>1214180166433181</string>
-    <key>FacebookClientToken</key>
-    <string>23d5bd965fe3c6ec18b94b741e19a332</string>
-    <key>FacebookDisplayName</key>
-    <string>For The Table</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-	<!-- End of the Google Sign-in Section -->
-
-	<!-- Notification -->
-	<key>UIBackgroundModes</key>
-    <array>
-      <string>fetch</string>
-      <string>remote-notification</string>
-    </array>
-    <key>FirebaseAppDelegateProxyEnabled</key>
-    <false/>
-	<key>FlutterDeepLinkingEnabled</key>
-    <true/>
-    <key>APNs</key>
-    <dict>
-        <key>APNsEnvironment</key>
-        <string>production</string>
-    </dict>
-    <!---End of Notification --->
-
 </dict>
 </plist>

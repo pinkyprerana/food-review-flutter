@@ -14,6 +14,7 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/landing/application/landing_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 // import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -200,12 +201,29 @@ class LandingNotifier extends StateNotifier<LandingState> {
   Future<void> signInWithFacebook({required VoidCallback voidCallback}) async {
     state = state.copyWith(isLoading: true);
 
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
     final deviceToken = await getDeviceToken();
 
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
 
-      final LoginResult loginResult = await FacebookAuth.instance.login();
+      if (Platform.isIOS) {
+        final status = await Permission.appTrackingTransparency.request();
+        if (status == PermissionStatus.granted) {
+          await FacebookAuth.i.autoLogAppEventsEnabled(true);
+          print("isAutoLogAppEventsEnabled:: ${await FacebookAuth.i.isAutoLogAppEventsEnabled}");
+        } else if (status == PermissionStatus.permanentlyDenied) {
+          await openAppSettings();
+        }
+      }
+
+      final LoginResult loginResult = await FacebookAuth.instance.login(
+        permissions: ['email'],
+        loginTracking: LoginTracking.limited,
+        nonce: nonce,
+        loginBehavior: LoginBehavior.nativeOnly,
+      );
 
       if (loginResult.status == LoginStatus.success) {
         final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(
