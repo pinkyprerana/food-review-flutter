@@ -97,16 +97,24 @@
 				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
 				<string>com.googleusercontent.apps.807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m</string>
 				<!-- FB App ID -->
-				<string>fb1561842581070815</string>
+				<string>fb1214180166433181</string>
 			</array>
 		</dict>
 	</array>
 	<!-- <key>FacebookAppID</key>
-	<string>APP-ID</string>
-	<key>FacebookClientToken</key>
-	<string>84aa9e23e59fa5a424e16de0094af3a7</string>
-	<key>FacebookDisplayName</key>
-	<string>APP-NAME</string> -->
+	<key>FacebookAppID</key>
+    <string>1214180166433181</string>
+    <key>FacebookClientToken</key>
+    <string>23d5bd965fe3c6ec18b94b741e19a332</string>
+    <key>FacebookDisplayName</key>
+    <string>For The Table</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 	<!-- End of the Google Sign-in Section -->
 
 	<!-- Notification -->
@@ -125,31 +133,6 @@
         <string>production</string>
     </dict>
     <!---End of Notification --->
-
-    <!--- Facebook Auth --->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb1214180166433181</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>1214180166433181</string>
-    <key>FacebookClientToken</key>
-    <string>23d5bd965fe3c6ec18b94b741e19a332</string>
-    <key>FacebookDisplayName</key>
-    <string>For The Table</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-
 
 </dict>
 </plist>
