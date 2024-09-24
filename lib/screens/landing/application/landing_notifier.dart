@@ -92,7 +92,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
           "socialId": user.user?.uid,
           "registerType": "Apple",
           "deviceToken": deviceToken,
-          "deviceType": Platform.isAndroid ? "Android" : "iOS",
+          "deviceType": Platform.isAndroid ? "android" : "ios",
         };
 
         var headers = {
@@ -157,7 +157,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
         );
 
         final UserCredential userCredential = await auth.signInWithCredential(credential);
-
+        debugPrint("userCredential : $userCredential");
         if (userCredential.user != null) {
           Map<String, dynamic> requestdata = {
             "fullName": userCredential.user?.displayName,
@@ -165,10 +165,10 @@ class LandingNotifier extends StateNotifier<LandingState> {
             "email": userCredential.user?.email,
             "registerType": "Google",
             "deviceToken": deviceToken,
-            "deviceType": Platform.isAndroid ? "Android" : "iOS",
+            "deviceType": Platform.isAndroid ? "android" : "ios",
           };
 
-          AppLog.log(requestdata.toString());
+          debugPrint(requestdata.toString());
 
           final response =
               await _dio.post('${AppUrls.baseUrl}${AppUrls.socialLogin}', data: requestdata);
@@ -222,7 +222,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
             "email": userCredential.user?.email,
             "registerType": "Facebook",
             "deviceToken": deviceToken,
-            "deviceType": Platform.isAndroid ? "Android" : "iOS",
+            "deviceType": Platform.isAndroid ? "android" : "ios",
           };
 
           final response =

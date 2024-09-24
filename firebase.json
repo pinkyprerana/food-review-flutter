@@ -1,16 +1,30 @@
 {
-  "hosting": {
-    "public": "build/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "forthetable-bc1a5",
+          "appId": "1:807325107906:android:4bd19934582ecd5e131d5b",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "forthetable-bc1a5",
+          "appId": "1:807325107906:ios:06fbef946e196ade131d5b",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "forthetable-bc1a5",
+          "configurations": {
+            "android": "1:807325107906:android:4bd19934582ecd5e131d5b",
+            "ios": "1:807325107906:ios:06fbef946e196ade131d5b"
+          }
+        }
       }
-    ]
+    }
   }
 }
