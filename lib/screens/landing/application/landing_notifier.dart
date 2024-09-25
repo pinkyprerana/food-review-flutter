@@ -15,7 +15,6 @@ import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/landing/application/landing_state.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 // import 'package:http/http.dart' as http;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
