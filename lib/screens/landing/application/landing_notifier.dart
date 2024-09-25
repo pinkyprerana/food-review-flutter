@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:for_the_table/core/constants/app_urls.dart';
@@ -207,28 +208,64 @@ class LandingNotifier extends StateNotifier<LandingState> {
 
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
+      OAuthCredential facebookAuthCredential;
 
-      if (Platform.isIOS) {
-        final status = await Permission.appTrackingTransparency.request();
-        if (status == PermissionStatus.granted) {
-          await FacebookAuth.i.autoLogAppEventsEnabled(true);
-          print("isAutoLogAppEventsEnabled:: ${await FacebookAuth.i.isAutoLogAppEventsEnabled}");
-        } else if (status == PermissionStatus.permanentlyDenied) {
-          await openAppSettings();
-        }
-      }
+      // if (Platform.isIOS) {
+      //   final status = await Permission.appTrackingTransparency.request();
+      //   if (status == PermissionStatus.granted) {
+      //     await FacebookAuth.i.autoLogAppEventsEnabled(true);
+      //     print("isAutoLogAppEventsEnabled:: ${await FacebookAuth.i.isAutoLogAppEventsEnabled}");
+      //   } else if (status == PermissionStatus.permanentlyDenied) {
+      //     await openAppSettings();
+      //   }
+      // }
 
-      final LoginResult loginResult = await FacebookAuth.instance.login(
-        permissions: ['email'],
+      final LoginResult loginResult = await FacebookAuth.instance
+          .login(
+        // permissions: ['email'],
         loginTracking: LoginTracking.limited,
         nonce: nonce,
-        loginBehavior: LoginBehavior.nativeOnly,
-      );
+        // loginBehavior: LoginBehavior.nativeOnly,
+      )
+          .catchError((onError) {
+        if (kDebugMode) {
+          print(onError);
+        }
+        throw Exception(onError.message);
+      });
+
+      if (loginResult.accessToken == null) {
+        throw Exception(loginResult.message);
+      }
+
+      if (Platform.isIOS) {
+        switch (loginResult.accessToken!.type) {
+          case AccessTokenType.classic:
+            final token = loginResult.accessToken as ClassicToken;
+            facebookAuthCredential = FacebookAuthProvider.credential(
+              token.authenticationToken!,
+            );
+            break;
+          case AccessTokenType.limited:
+            final token = loginResult.accessToken as LimitedToken;
+            facebookAuthCredential = OAuthCredential(
+              providerId: 'facebook.com',
+              signInMethod: 'oauth',
+              idToken: token.tokenString,
+              rawNonce: rawNonce,
+            );
+            break;
+        }
+      } else {
+        facebookAuthCredential = FacebookAuthProvider.credential(
+          loginResult.accessToken!.tokenString,
+        );
+      }
 
       if (loginResult.status == LoginStatus.success) {
-        final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(
-          loginResult.accessToken?.tokenString ?? '',
-        );
+        // final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(
+        //   loginResult.accessToken?.tokenString ?? '',
+        // );
 
         final UserCredential userCredential =
             await auth.signInWithCredential(facebookAuthCredential);
