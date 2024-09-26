@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
@@ -20,15 +21,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'model/notification_model/notification_model.dart';
 
-
-final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  await requestNotificationPermission();
   FirebaseMessaging.instance.setAutoInitEnabled(true);
   await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   AwesomeNotifications().initialize(
@@ -47,13 +45,30 @@ Future<void> main() async {
     ],
   );
 
+  FirebaseMessaging.instance.getInitialMessage().then((message) {
+    if (message != null) {
+        _handleNotificationAction(message);
+        AppLog.log("initial message found");
+      }else{
+        AppLog.log("No initial message found");
+      }
+  });
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationAction);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     AppLog.log("Payload: ${message.data.toString()}");
   });
+  // FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationAction);
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    AppLog.log('A new onMessageOpenedApp event was published!');
+    if (message.data['type'] != null) {
+      _handleNotificationAction(message);
+    }
+  });
 
-  await requestNotificationPermission();
+
+  AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+  );
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -61,15 +76,63 @@ Future<void> main() async {
   });
 }
 
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final container = ProviderContainer();
-final notificationNotifier =
-container.read(notificationNotifierProvider.notifier);
+final notificationNotifier = container.read(notificationNotifierProvider.notifier);
 NotificationData? notifications;
+
+void _handleNotificationAction(RemoteMessage message) async {
+  final type = message.data['type'];
+  final title = message.data['title'];
+  final body = message.data['body'];
+  final postId = message.data['ref_post_id'];
+  final userId = message.data['user_id'];
+  final profileImage = "${AppUrls.profilePicLocation}/${message.data['user_profile_image']}";
+  final userName = message.data['user_full_name'];
+  AppLog.log("Received message on app opened:: $type, $title, $body, $postId, $userId, $profileImage, $userName");
+
+  notifications = NotificationData(
+    title: title,
+    message: body,
+    postedUserInfo: UserNotificationInfo(
+        profileImage: profileImage,
+        fullName: userName),
+    createdAt: DateTime.now(),
+  );
+  if (type != null) {
+    _safeNavigateToNotificationScreen(type);
+  } else {
+    AppLog.log("Notification type is null");
+  }
+}
+
+void _safeNavigateToNotificationScreen(String type) {
+  final context = scaffoldMessengerKey.currentContext;
+
+  if (context != null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _navigateToNotificationScreen(context, type);
+    });
+  } else {
+    AppLog.log("Context is null, delaying navigation");
+    _delayedNavigateToNotificationScreen(type);
+  }
+}
+
+void _delayedNavigateToNotificationScreen(String type) {
+// Use a listener on scaffoldMessengerKey to detect when context is ready
+  scaffoldMessengerKey.currentState?.mounted ?? WidgetsBinding.instance.addPostFrameCallback((_) {
+    final context = scaffoldMessengerKey.currentContext;
+    if (context != null) {
+      _navigateToNotificationScreen(context, type);
+    }
+  });
+}
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   AppLog.log("Handling a background message: ${message.messageId}");
-  // await _showNotification(message);
+  // _handleNotificationAction(message);
 }
 
 Future<void> requestNotificationPermission() async {
@@ -98,13 +161,19 @@ Future<void> requestNotificationPermission() async {
       _showNotification(message);
     }
   });
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    AppLog.log('A new onMessageOpenedApp event was published!');
+    if (message.data['type'] != null) {
+      _handleNotificationAction(message);
+    }
+  });
 }
 
 Future<void> _showNotification(RemoteMessage message) async {
-  String? notificationType = message.data['type'];
-  String? postId = message.data['postId'];
-  String? userId = message.data['userId'];
-  AppLog.log("$postId & $userId");
+  String? title = message.data['title'];
+  String? body = message.data['body'];
+  String? profileImage = "${AppUrls.profilePicLocation}/${message.data['user_profile_image']}";
+  String? userName = message.data['user_full_name'];
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -114,6 +183,12 @@ Future<void> _showNotification(RemoteMessage message) async {
       body: message.notification?.body,
       notificationLayout: NotificationLayout.Default,
       wakeUpScreen: true,
+      payload: {
+        'user_profile_image': profileImage,
+        'user_full_name': userName,
+        'type': message.data['type'],
+        'click_action': "FLUTTER_NOTIFICATION_CLICK"
+      },
     ),
     actionButtons: [
       NotificationActionButton(
@@ -124,39 +199,52 @@ Future<void> _showNotification(RemoteMessage message) async {
     ],
   );
 
-  AppLog.log("notificationType $notificationType");
-  AppLog.log(notifications?.receiverUserInfo?.id??'');
-  AppLog.log('__________');
-  AppLog.log(notifications?.postedUserInfo?.id??'');
-  MainApp.navigateToNotificationScreen(notificationType);
-
   notificationNotifier.addNotification(NotificationData(
-    title: message.notification?.title ?? 'No Title',
-    message: message.notification?.body ?? 'No Message',
+    title: title,
+    message: body,
     postedUserInfo: UserNotificationInfo(
-        profileImage: notifications?.postedUserInfo?.profileImage ?? "",
-        fullName: notifications?.postedUserInfo?.fullName ?? ""),
+        profileImage: profileImage,
+        fullName: userName),
     createdAt: DateTime.now(),
   ));
 }
 
-BuildContext? globalContext;
-
-Future<void> _handleNotificationAction(RemoteMessage message) async {
-  AppLog.log("Received message on app opened: ${message.toMap()}");
-
-  final type = message.data['type'];
-  AppLog.log("print type: $type");
-
-  if (type != null) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      MainApp.navigateToNotificationScreen(type);
-    });
-  } else {
-    AppLog.log("Notification type is null");
+void _navigateToNotificationScreen(BuildContext context, String type) {  //Todo: Notification redirection problem is here
+  final autoRouter = AutoRouter.of(context);
+  switch (type) {
+    case 'user_accept':
+    case 'user_deny':
+    case 'user_follow':
+    case 'user_unfollow':
+      AppLog.log("Navigating to PeopleProfileRoute");
+      autoRouter.pushAndPopUntil(
+        PeopleProfileRoute(
+          peopleId: notifications?.postedUserInfo?.id ?? "",
+            isDeepLinking: true
+        ),
+        predicate: (_) => false,
+      );
+      break;
+    case 'post_like':
+    case 'post_dislike':
+    case 'post_save':
+    case 'comment_like':
+    case 'comment_add':
+      AppLog.log("Navigating to PostDetailsRoute");
+      autoRouter.pushAndPopUntil(
+        PostDetailsRoute(
+          postId: notifications?.refPostId ?? "",
+          userId: notifications?.receiverUserInfo?.id ?? "",
+            isDeepLinking: true
+        ),
+        predicate: (_) => false,
+      );
+      break;
+    default:
+      AppLog.log('Unhandled notification type: $type');
+      break;
   }
 }
-
 
 final initializationProvider = FutureProvider<Unit>((ref) async {
   await ref.read(hiveProvider).init();
@@ -189,8 +277,6 @@ final initializationProvider = FutureProvider<Unit>((ref) async {
 class MainApp extends ConsumerWidget {
   MainApp({super.key});
   final appRouter = AppRouter();
-  static final GlobalKey<NavigatorState> _navigatorKey =
-  GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -207,7 +293,7 @@ class MainApp extends ConsumerWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
-          key: _navigatorKey,
+          scaffoldMessengerKey: scaffoldMessengerKey,
           theme: ThemeData(
             // inputDecorationTheme: InputDecorationTheme(
             //   contentPadding: EdgeInsets.symmetric(
@@ -227,8 +313,6 @@ class MainApp extends ConsumerWidget {
             useMaterial3: true,
           ),
           title: 'For The Table',
-          // routeInformationParser: appRouter.defaultRouteParser(),
-          // routerDelegate: appRouter.delegate(),
           routerConfig: appRouter.config(
             includePrefixMatches: true,
             deepLinkBuilder: (deepLink) {
@@ -248,44 +332,14 @@ class MainApp extends ConsumerWidget {
       },
     );
   }
+}
 
-  static void navigateToNotificationScreen(String? type) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final context = _navigatorKey.currentContext;
-      if (context != null) {
-        try {
-          switch (type) {
-            case 'user_accept':
-            case 'user_deny':
-            case 'user_follow':
-            case 'user_unfollow':
-              AppLog.log("Navigating to PeopleProfileRoute");
-              AutoRouter.of(context).pushAndPopUntil(PeopleProfileRoute(
-                  peopleId: notifications?.postedUserInfo?.id ?? "",
-                  isDeepLinking: true
-              ), predicate: (_) => false);
-              break;
-            case 'post_like':
-            case 'post_dislike':
-            case 'post_save':
-            case 'comment_like':
-            case 'comment_add':
-              AppLog.log("Navigating to PostDetailsRoute");
-              AutoRouter.of(context).pushAndPopUntil(PostDetailsRoute(
-                  postId: notifications?.refPostId ?? "",
-                  userId: notifications?.receiverUserInfo?.id ?? "",
-                  isDeepLinking: true
-              ), predicate: (_) => false);
-              break;
-            default:
-              AppLog.log('Unhandled notification type: $type');
-              break;
-          }
-        }catch (e, stackTrace) {
-          AppLog.log("Navigation error: $e");
-          AppLog.log("StackTrace: $stackTrace");
-        }
-      }
-    });
+class NotificationController {
+  @pragma("vm:entry-point")
+  static Future<void> onActionReceivedMethod(ReceivedAction receivedAction) async {
+    final notificationType = receivedAction.payload?['type'];
+    if (notificationType != null) {
+      _safeNavigateToNotificationScreen(notificationType);
+    }
   }
 }
