@@ -209,36 +209,40 @@ Future<void> _showNotification(RemoteMessage message) async {
   ));
 }
 
-void _navigateToNotificationScreen(BuildContext context, String type) {  //Todo: Notification redirection problem is here
-  final autoRouter = AutoRouter.of(context);
+void _navigateToNotificationScreen(BuildContext context, String type) {
+  final userId = notifications?.postedUserInfo?.id ?? ""; //Todo: Fetch from FCM
+  final receiverId = notifications?.receiverUserInfo?.id ?? "";//Todo: Fetch from FCM
+  final postId = notifications?.refPostId ?? "";//Todo: Fetch from FCM
+  AppLog.log("Fetch userId, receiverId, postId respectively: $userId , $receiverId, $postId)");
+  final autoRouter = AppRouter();
   switch (type) {
     case 'user_accept':
     case 'user_deny':
     case 'user_follow':
     case 'user_unfollow':
-      AppLog.log("Navigating to PeopleProfileRoute");
       autoRouter.pushAndPopUntil(
         PeopleProfileRoute(
-          peopleId: notifications?.postedUserInfo?.id ?? "",
+          peopleId: userId,
             isDeepLinking: true
         ),
         predicate: (_) => false,
       );
+      AppLog.log("Navigating to PeopleProfileRoute");
       break;
     case 'post_like':
     case 'post_dislike':
     case 'post_save':
     case 'comment_like':
     case 'comment_add':
-      AppLog.log("Navigating to PostDetailsRoute");
       autoRouter.pushAndPopUntil(
         PostDetailsRoute(
-          postId: notifications?.refPostId ?? "",
-          userId: notifications?.receiverUserInfo?.id ?? "",
+          postId: postId,
+          userId: receiverId,
             isDeepLinking: true
         ),
         predicate: (_) => false,
       );
+      AppLog.log("Navigating to PostDetailsRoute");
       break;
     default:
       AppLog.log('Unhandled notification type: $type');

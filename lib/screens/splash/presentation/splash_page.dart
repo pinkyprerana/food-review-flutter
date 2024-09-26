@@ -71,12 +71,6 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                   userId: widget.peopleId!,
                   postId: widget.postId!, isDeepLinking: true),
               predicate: (_) => false);
-        } else if (widget.postId != null) {
-          AutoRouter.of(context).pushAndPopUntil(
-              PostDetailsRoute(
-                  userId: widget.peopleId!,
-                  postId: widget.postId!, isDeepLinking: true),
-              predicate: (_) => false);
         } else {
           (permission == LocationPermission.denied ||
                   isLocationFetched == null ||
