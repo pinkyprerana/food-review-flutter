@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- <string name="facebook_application_id">1214180166433181</string>
-  <string name="facebook_client_token">23d5bd965fe3c6ec18b94b741e19a332</string> -->
-
   <string name="app_name">For The Table</string>
-  <string name="facebook_app_id">1214180166433181</string>
-  <string name="fb_login_protocol_scheme">fb1214180166433181</string>
-  <string name="facebook_client_token">23d5bd965fe3c6ec18b94b741e19a332</string>
+  <string name="facebook_app_id">890789022956957</string>
+  <string name="fb_login_protocol_scheme">fb890789022956957</string>
+  <string name="facebook_client_token">3e48e2def5477101e9ddc477da127b40</string>
 
 
 </resources>

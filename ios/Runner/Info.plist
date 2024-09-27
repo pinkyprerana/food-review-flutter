@@ -30,7 +30,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.807325107906-9jmjt7b8pf54mfadhf7iea2cd6f9dl9m</string>
-				<string>fb1214180166433181</string>
+				<string>fb890789022956957</string>
 			</array>
 		</dict>
 	</array>
@@ -39,7 +39,7 @@
 	<key>FLTEnableImpeller</key>
 	<false/>
 	<key>FacebookAppID</key>
-	<string>1214180166433181</string>
+	<string>890789022956957</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<false/>
 	<key>FacebookClientToken</key>
