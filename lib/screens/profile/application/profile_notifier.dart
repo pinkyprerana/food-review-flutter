@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -1007,6 +1008,10 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         await _hiveDataBase.box.delete(AppPreferenceKeys.fullName);
         await _hiveDataBase.box.delete(AppPreferenceKeys.userPhone);
         await _hiveDataBase.box.delete(AppPreferenceKeys.profileImage);
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await user.delete();
+        }
 
         showToastMessage(response.data["message"]);
 

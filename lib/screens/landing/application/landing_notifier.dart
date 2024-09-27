@@ -182,6 +182,8 @@ class LandingNotifier extends StateNotifier<LandingState> {
             voidCallback.call();
           } else if (response.statusCode == 400) {
             showToastMessage('Google is not responding. Please try a different method');
+          }else if (response.statusCode == 403) {
+            showToastMessage("Try Facebook sign-in. An account already exists with the same email address but using Facebook sign-in.");
           }
         } else {
           showToastMessage('Something went wrong. Please try again.');
@@ -193,7 +195,6 @@ class LandingNotifier extends StateNotifier<LandingState> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      // handle the error here
     }
   }
 
@@ -299,6 +300,7 @@ class LandingNotifier extends StateNotifier<LandingState> {
       }
     } catch (e) {
       debugPrint(e.toString());
+      showToastMessage("Try Google sign-in. An account already exists with the same email address but using Google sign-in.");
       // handle the error here
     }
   }
