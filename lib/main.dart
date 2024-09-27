@@ -87,6 +87,7 @@ void _handleNotificationAction(RemoteMessage message) async {
   final body = message.data['body'];
   final postId = message.data['ref_post_id'];
   final userId = message.data['user_id'];
+  final receiverId = message.data['ref_user_follow_id'];
   final profileImage = "${AppUrls.profilePicLocation}/${message.data['user_profile_image']}";
   final userName = message.data['user_full_name'];
   AppLog.log("Received message on app opened:: $type, $title, $body, $postId, $userId, $profileImage, $userName");
@@ -98,6 +99,7 @@ void _handleNotificationAction(RemoteMessage message) async {
         profileImage: profileImage,
         fullName: userName),
     createdAt: DateTime.now(),
+    receiverUserInfo: UserNotificationInfo(id: receiverId),
   );
   if (type != null) {
     _safeNavigateToNotificationScreen(type);
@@ -170,10 +172,11 @@ Future<void> requestNotificationPermission() async {
 }
 
 Future<void> _showNotification(RemoteMessage message) async {
-  String? title = message.data['title'];
-  String? body = message.data['body'];
-  String? profileImage = "${AppUrls.profilePicLocation}/${message.data['user_profile_image']}";
-  String? userName = message.data['user_full_name'];
+  final title = message.data['title'];
+  final body = message.data['body'];
+  final profileImage = "${AppUrls.profilePicLocation}/${message.data['user_profile_image']}";
+  final userName = message.data['user_full_name'];
+  final receiverId = message.data['ref_user_follow_id'];
 
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
@@ -206,13 +209,14 @@ Future<void> _showNotification(RemoteMessage message) async {
         profileImage: profileImage,
         fullName: userName),
     createdAt: DateTime.now(),
+    receiverUserInfo: UserNotificationInfo(id: receiverId),
   ));
 }
 
 void _navigateToNotificationScreen(BuildContext context, String type) {
-  final userId = notifications?.postedUserInfo?.id ?? ""; //Todo: Fetch from FCM
-  final receiverId = notifications?.receiverUserInfo?.id ?? "";//Todo: Fetch from FCM
-  final postId = notifications?.refPostId ?? "";//Todo: Fetch from FCM
+  final userId = notifications?.postedUserInfo?.id ?? "66b5df3fab42aec8b86242a6"; //Todo: Solve ID issue
+  final receiverId = notifications?.receiverUserInfo?.id ?? "66b5de64ab42aec8b8624294";//Todo: Solve ID issue
+  final postId = notifications?.refPostId ?? "66ced81ee6f744118648998b";//Todo: Solve ID issue
   AppLog.log("Fetch userId, receiverId, postId respectively: $userId , $receiverId, $postId)");
   final autoRouter = AppRouter();
   switch (type) {
@@ -223,7 +227,7 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
       autoRouter.pushAndPopUntil(
         PeopleProfileRoute(
           peopleId: userId,
-            isDeepLinking: true
+            // isDeepLinking: true
         ),
         predicate: (_) => false,
       );
@@ -238,7 +242,7 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
         PostDetailsRoute(
           postId: postId,
           userId: receiverId,
-            isDeepLinking: true
+            // isDeepLinking: true
         ),
         predicate: (_) => false,
       );
