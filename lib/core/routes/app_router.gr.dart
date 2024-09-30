@@ -33,16 +33,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BasePage(),
       );
     },
-    CommentsRoute.name: (routeData) {
-      final args = routeData.argsAs<CommentsRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: CommentsPage(
-          key: args.key,
-          amount: args.amount,
-        ),
-      );
-    },
     CreatePostRoute.name: (routeData) {
       final args = routeData.argsAs<CreatePostRouteArgs>(
           orElse: () => const CreatePostRouteArgs());
@@ -50,7 +40,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: CreatePostPage(
           key: args.key,
-          imageFile: args.imageFile,
+          file: args.file,
         ),
       );
     },
@@ -90,18 +80,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeCityPage(),
       );
     },
-    HomeRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const HomePage(),
-      );
-    },
-    HomeRouteNew.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const HomePageNew(),
-      );
-    },
     LandingGetStartedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -126,6 +104,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ListPage(),
       );
     },
+    LocationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LocationPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -144,8 +128,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PeopleProfilePage(
           key: args.key,
-          peoplename: args.peoplename,
-          peopleimage: args.peopleimage,
+          peopleId: args.peopleId,
+          isDeepLinking: args.isDeepLinking,
         ),
       );
     },
@@ -153,6 +137,28 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PhotoClickPage(),
+      );
+    },
+    PostCommentsRoute.name: (routeData) {
+      final args = routeData.argsAs<PostCommentsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PostCommentsPage(
+          key: args.key,
+          postId: args.postId,
+        ),
+      );
+    },
+    PostDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<PostDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PostDetailsPage(
+          key: args.key,
+          postId: args.postId,
+          userId: args.userId,
+          isDeepLinking: args.isDeepLinking,
+        ),
       );
     },
     PrivacyPolicyRoute.name: (routeData) {
@@ -165,6 +171,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ProfilePage(),
+      );
+    },
+    RecentActivityRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RecentActivityPage(),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -180,15 +192,32 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     RestaurantDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<RestaurantDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const RestaurantDetailPage(),
+        child: RestaurantDetailPage(
+          key: args.key,
+          address: args.address,
+          image: args.image,
+          lat: args.lat,
+          lng: args.lng,
+          name: args.name,
+          description: args.description,
+          restaurantId: args.restaurantId,
+          isBookmarked: args.isBookmarked,
+        ),
       );
     },
     SavedRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SavedPage(),
+      );
+    },
+    SavedRestaurantsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SavedRestaurantsPage(),
       );
     },
     SelectPreferenceRoute.name: (routeData) {
@@ -204,9 +233,15 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SplashRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashRouteArgs>(
+          orElse: () => const SplashRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SplashPage(),
+        child: SplashPage(
+          key: args.key,
+          peopleId: args.peopleId,
+          postId: args.postId,
+        ),
       );
     },
     StandingsRoute.name: (routeData) {
@@ -222,15 +257,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     YourPeopleListRoute.name: (routeData) {
+      final args = routeData.argsAs<YourPeopleListRouteArgs>(
+          orElse: () => const YourPeopleListRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const YourPeopleListPage(),
-      );
-    },
-    YourPeopleRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const YourPeoplePage(),
+        child: YourPeopleListPage(
+          key: args.key,
+          tabIndex: args.tabIndex,
+        ),
       );
     },
   };
@@ -279,55 +313,17 @@ class BaseRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [CommentsPage]
-class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
-  CommentsRoute({
-    Key? key,
-    required String amount,
-    List<PageRouteInfo>? children,
-  }) : super(
-          CommentsRoute.name,
-          args: CommentsRouteArgs(
-            key: key,
-            amount: amount,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'CommentsRoute';
-
-  static const PageInfo<CommentsRouteArgs> page =
-      PageInfo<CommentsRouteArgs>(name);
-}
-
-class CommentsRouteArgs {
-  const CommentsRouteArgs({
-    this.key,
-    required this.amount,
-  });
-
-  final Key? key;
-
-  final String amount;
-
-  @override
-  String toString() {
-    return 'CommentsRouteArgs{key: $key, amount: $amount}';
-  }
-}
-
-/// generated route for
 /// [CreatePostPage]
 class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
   CreatePostRoute({
     Key? key,
-    XFile? imageFile,
+    XFile? file,
     List<PageRouteInfo>? children,
   }) : super(
           CreatePostRoute.name,
           args: CreatePostRouteArgs(
             key: key,
-            imageFile: imageFile,
+            file: file,
           ),
           initialChildren: children,
         );
@@ -341,16 +337,16 @@ class CreatePostRoute extends PageRouteInfo<CreatePostRouteArgs> {
 class CreatePostRouteArgs {
   const CreatePostRouteArgs({
     this.key,
-    this.imageFile,
+    this.file,
   });
 
   final Key? key;
 
-  final XFile? imageFile;
+  final XFile? file;
 
   @override
   String toString() {
-    return 'CreatePostRouteArgs{key: $key, imageFile: $imageFile}';
+    return 'CreatePostRouteArgs{key: $key, file: $file}';
   }
 }
 
@@ -439,34 +435,6 @@ class HomeCityRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [HomePage]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [HomePageNew]
-class HomeRouteNew extends PageRouteInfo<void> {
-  const HomeRouteNew({List<PageRouteInfo>? children})
-      : super(
-          HomeRouteNew.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HomeRouteNew';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [LandingGetStartedPage]
 class LandingGetStartedRoute extends PageRouteInfo<void> {
   const LandingGetStartedRoute({List<PageRouteInfo>? children})
@@ -523,6 +491,20 @@ class ListRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [LocationPage]
+class LocationRoute extends PageRouteInfo<void> {
+  const LocationRoute({List<PageRouteInfo>? children})
+      : super(
+          LocationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LocationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginPage]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -555,15 +537,15 @@ class NotificationRoute extends PageRouteInfo<void> {
 class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
   PeopleProfileRoute({
     Key? key,
-    required String peoplename,
-    required String peopleimage,
+    required String peopleId,
+    bool? isDeepLinking,
     List<PageRouteInfo>? children,
   }) : super(
           PeopleProfileRoute.name,
           args: PeopleProfileRouteArgs(
             key: key,
-            peoplename: peoplename,
-            peopleimage: peopleimage,
+            peopleId: peopleId,
+            isDeepLinking: isDeepLinking,
           ),
           initialChildren: children,
         );
@@ -577,19 +559,19 @@ class PeopleProfileRoute extends PageRouteInfo<PeopleProfileRouteArgs> {
 class PeopleProfileRouteArgs {
   const PeopleProfileRouteArgs({
     this.key,
-    required this.peoplename,
-    required this.peopleimage,
+    required this.peopleId,
+    this.isDeepLinking,
   });
 
   final Key? key;
 
-  final String peoplename;
+  final String peopleId;
 
-  final String peopleimage;
+  final bool? isDeepLinking;
 
   @override
   String toString() {
-    return 'PeopleProfileRouteArgs{key: $key, peoplename: $peoplename, peopleimage: $peopleimage}';
+    return 'PeopleProfileRouteArgs{key: $key, peopleId: $peopleId, isDeepLinking: $isDeepLinking}';
   }
 }
 
@@ -605,6 +587,92 @@ class PhotoClickRoute extends PageRouteInfo<void> {
   static const String name = 'PhotoClickRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PostCommentsPage]
+class PostCommentsRoute extends PageRouteInfo<PostCommentsRouteArgs> {
+  PostCommentsRoute({
+    Key? key,
+    required String postId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PostCommentsRoute.name,
+          args: PostCommentsRouteArgs(
+            key: key,
+            postId: postId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PostCommentsRoute';
+
+  static const PageInfo<PostCommentsRouteArgs> page =
+      PageInfo<PostCommentsRouteArgs>(name);
+}
+
+class PostCommentsRouteArgs {
+  const PostCommentsRouteArgs({
+    this.key,
+    required this.postId,
+  });
+
+  final Key? key;
+
+  final String postId;
+
+  @override
+  String toString() {
+    return 'PostCommentsRouteArgs{key: $key, postId: $postId}';
+  }
+}
+
+/// generated route for
+/// [PostDetailsPage]
+class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
+  PostDetailsRoute({
+    Key? key,
+    required String? postId,
+    required String? userId,
+    bool? isDeepLinking,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PostDetailsRoute.name,
+          args: PostDetailsRouteArgs(
+            key: key,
+            postId: postId,
+            userId: userId,
+            isDeepLinking: isDeepLinking,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PostDetailsRoute';
+
+  static const PageInfo<PostDetailsRouteArgs> page =
+      PageInfo<PostDetailsRouteArgs>(name);
+}
+
+class PostDetailsRouteArgs {
+  const PostDetailsRouteArgs({
+    this.key,
+    required this.postId,
+    required this.userId,
+    this.isDeepLinking,
+  });
+
+  final Key? key;
+
+  final String? postId;
+
+  final String? userId;
+
+  final bool? isDeepLinking;
+
+  @override
+  String toString() {
+    return 'PostDetailsRouteArgs{key: $key, postId: $postId, userId: $userId, isDeepLinking: $isDeepLinking}';
+  }
 }
 
 /// generated route for
@@ -631,6 +699,20 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RecentActivityPage]
+class RecentActivityRoute extends PageRouteInfo<void> {
+  const RecentActivityRoute({List<PageRouteInfo>? children})
+      : super(
+          RecentActivityRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RecentActivityRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -665,16 +747,75 @@ class ResetPasswordRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [RestaurantDetailPage]
-class RestaurantDetailRoute extends PageRouteInfo<void> {
-  const RestaurantDetailRoute({List<PageRouteInfo>? children})
-      : super(
+class RestaurantDetailRoute extends PageRouteInfo<RestaurantDetailRouteArgs> {
+  RestaurantDetailRoute({
+    Key? key,
+    required String address,
+    required String image,
+    required String lat,
+    required String lng,
+    required String name,
+    required String description,
+    required String restaurantId,
+    required bool isBookmarked,
+    List<PageRouteInfo>? children,
+  }) : super(
           RestaurantDetailRoute.name,
+          args: RestaurantDetailRouteArgs(
+            key: key,
+            address: address,
+            image: image,
+            lat: lat,
+            lng: lng,
+            name: name,
+            description: description,
+            restaurantId: restaurantId,
+            isBookmarked: isBookmarked,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'RestaurantDetailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<RestaurantDetailRouteArgs> page =
+      PageInfo<RestaurantDetailRouteArgs>(name);
+}
+
+class RestaurantDetailRouteArgs {
+  const RestaurantDetailRouteArgs({
+    this.key,
+    required this.address,
+    required this.image,
+    required this.lat,
+    required this.lng,
+    required this.name,
+    required this.description,
+    required this.restaurantId,
+    required this.isBookmarked,
+  });
+
+  final Key? key;
+
+  final String address;
+
+  final String image;
+
+  final String lat;
+
+  final String lng;
+
+  final String name;
+
+  final String description;
+
+  final String restaurantId;
+
+  final bool isBookmarked;
+
+  @override
+  String toString() {
+    return 'RestaurantDetailRouteArgs{key: $key, address: $address, image: $image, lat: $lat, lng: $lng, name: $name, description: $description, restaurantId: $restaurantId, isBookmarked: $isBookmarked}';
+  }
 }
 
 /// generated route for
@@ -687,6 +828,20 @@ class SavedRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SavedRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SavedRestaurantsPage]
+class SavedRestaurantsRoute extends PageRouteInfo<void> {
+  const SavedRestaurantsRoute({List<PageRouteInfo>? children})
+      : super(
+          SavedRestaurantsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SavedRestaurantsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -721,16 +876,44 @@ class SettingsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SplashPage]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute({List<PageRouteInfo>? children})
-      : super(
+class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
+  SplashRoute({
+    Key? key,
+    String? peopleId,
+    String? postId,
+    List<PageRouteInfo>? children,
+  }) : super(
           SplashRoute.name,
+          args: SplashRouteArgs(
+            key: key,
+            peopleId: peopleId,
+            postId: postId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SplashRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SplashRouteArgs> page = PageInfo<SplashRouteArgs>(name);
+}
+
+class SplashRouteArgs {
+  const SplashRouteArgs({
+    this.key,
+    this.peopleId,
+    this.postId,
+  });
+
+  final Key? key;
+
+  final String? peopleId;
+
+  final String? postId;
+
+  @override
+  String toString() {
+    return 'SplashRouteArgs{key: $key, peopleId: $peopleId, postId: $postId}';
+  }
 }
 
 /// generated route for
@@ -763,28 +946,38 @@ class VerifyOtpRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [YourPeopleListPage]
-class YourPeopleListRoute extends PageRouteInfo<void> {
-  const YourPeopleListRoute({List<PageRouteInfo>? children})
-      : super(
+class YourPeopleListRoute extends PageRouteInfo<YourPeopleListRouteArgs> {
+  YourPeopleListRoute({
+    Key? key,
+    int? tabIndex,
+    List<PageRouteInfo>? children,
+  }) : super(
           YourPeopleListRoute.name,
+          args: YourPeopleListRouteArgs(
+            key: key,
+            tabIndex: tabIndex,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'YourPeopleListRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<YourPeopleListRouteArgs> page =
+      PageInfo<YourPeopleListRouteArgs>(name);
 }
 
-/// generated route for
-/// [YourPeoplePage]
-class YourPeopleRoute extends PageRouteInfo<void> {
-  const YourPeopleRoute({List<PageRouteInfo>? children})
-      : super(
-          YourPeopleRoute.name,
-          initialChildren: children,
-        );
+class YourPeopleListRouteArgs {
+  const YourPeopleListRouteArgs({
+    this.key,
+    this.tabIndex,
+  });
 
-  static const String name = 'YourPeopleRoute';
+  final Key? key;
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  final int? tabIndex;
+
+  @override
+  String toString() {
+    return 'YourPeopleListRouteArgs{key: $key, tabIndex: $tabIndex}';
+  }
 }

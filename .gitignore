@@ -41,3 +41,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS related
+ios/Podfile.lock
+ios/Runner/AppDelegate.swift
+
+# Linux related
+linux/flutter/generated_plugin_registrant.cc
+linux/flutter/generated_plugins.cmake
+
+# macOS related
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Podfile.lock
+
+# Windows related
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugins.cmake
+
+# Other
+pubspec.lock

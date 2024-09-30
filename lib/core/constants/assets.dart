@@ -5,8 +5,7 @@ class Assets {
   //
   static const String landingintro = 'assets/images/landing-intro.png';
   //
-  static const String ftbCustomShapeImage1 =
-      'assets/images/ftb-custom-shape-img1.png';
+  static const String ftbCustomShapeImage1 = 'assets/images/ftb-custom-shape-img1.png';
   static const String reviewImg1 = 'assets/images/review-img1.png';
   static const String reviewImg2 = 'assets/images/review-img2.png';
   static const String profileImage = 'assets/images/girl.jpg';
@@ -21,6 +20,7 @@ class Assets {
   static const String rest4 = 'assets/images/rest4.png';
   static const String post2 = 'assets/images/post.png';
   static const String photo = 'assets/images/photo.png';
+  static const String avatar = "assets/images/no-profile-image.png";
 
   // base assets
   static const String feedActive = 'assets/icons/feed.png';
@@ -43,6 +43,7 @@ class Assets {
   static const String search = 'assets/icons/search.png';
   static const String bell = 'assets/icons/notification.png';
   static const String like = 'assets/icons/heart.png';
+  static const String redHeart = 'assets/icons/redHeart.png';
   static const String comment = 'assets/icons/comment.png';
   static const String send = 'assets/icons/send.png';
   static const String dish = 'assets/icons/dish.png';
@@ -72,7 +73,7 @@ class Assets {
   static const String frame = 'assets/icons/frame.png';
   static const String text = 'assets/icons/text.png';
   static const String star = 'assets/icons/star.png';
-  static const String dislike_emoji = 'assets/icons/dislike_emoji.png';
+  static const String dislikeEmoji = 'assets/icons/dislike_emoji.png';
   static const String location2 = 'assets/icons/location2.png';
   static const String comments = 'assets/icons/comments.png';
   static const String bookmark = 'assets/icons/bookmark.png';
@@ -81,6 +82,15 @@ class Assets {
   static const String rate = 'assets/icons/rate.png';
   static const String add = 'assets/icons/add.png';
   static const String saved = 'assets/icons/saved.png';
+  static const String home = 'assets/icons/home.png';
+  static const String homeInactive = 'assets/icons/home_inactive.png';
+  static const String heartOutline = 'assets/icons/heart_outlined.png';
+  static const String commentOutline = 'assets/icons/comment_outlined.png';
+  static const String bookmarkOutline = 'assets/icons/bookmark_outlined.png';
+  static const String heartFilled = 'assets/icons/heart_filled.png';
+  static const String bookmarkFilled = 'assets/icons/bookmark_filled.png';
+  static const String volumeHigh = 'assets/icons/volume-high.png';
+  static const String volumeLow = 'assets/icons/volume-low.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';
@@ -91,8 +101,11 @@ class Assets {
   static const String cancel = 'assets/icons/cancel.png';
   static const String delete = 'assets/icons/delete.png';
   static const String close = 'assets/icons/close.png';
-  static const String coverPhoto = 'assets/images/coverPhoto.png';
+  static const String coverPhoto = 'assets/images/cover.png';
   static const String blurred = 'assets/images/blurred.png';
   static const String man = 'assets/images/man.png';
   static const String woman = 'assets/images/woman.png';
+  static const String noProfileImage = 'assets/images/no-profile-image.png';
+  static const String noRestaurantImage = 'assets/images/no-image.jpg';
+  static const String locationPin = 'assets/images/location.png';
 }

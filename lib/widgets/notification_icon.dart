@@ -6,7 +6,9 @@ import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 
 class NotificationIcon extends StatelessWidget {
-  const NotificationIcon({super.key});
+  const NotificationIcon({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

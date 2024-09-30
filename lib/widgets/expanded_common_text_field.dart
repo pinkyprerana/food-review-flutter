@@ -69,23 +69,23 @@ class _ExpandedCommonTextFieldState extends State<ExpandedCommonTextField> {
               : FloatingLabelBehavior.never,
           suffix: widget.isPassword
               ? GestureDetector(
-                  onTap: () => setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  }),
-                  child: isPasswordVisible
-                      ? const Icon(
-                          Icons.visibility_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        )
-                      : const Icon(
-                          Icons.visibility_off_outlined,
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                )
+            onTap: () => setState(() {
+              isPasswordVisible = !isPasswordVisible;
+            }),
+            child: isPasswordVisible
+                ? const Icon(
+              Icons.visibility_outlined,
+              color: AppColors.colorPrimaryAlpha,
+            )
+                : const Icon(
+              Icons.visibility_off_outlined,
+              color: AppColors.colorPrimaryAlpha,
+            ),
+          )
               : const Icon(
-                  Icons.text_fields_rounded,
-                  color: AppColors.colorTransparent,
-                ),
+            Icons.text_fields_rounded,
+            color: AppColors.colorTransparent,
+          ),
           prefixText: widget.keyboardType == TextInputType.phone ? '+1 ' : null,
         ),
         keyboardType: widget.keyboardType,

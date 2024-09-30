@@ -31,7 +31,7 @@ class RebuildFactors {
 class ScreenUtilInit extends StatefulWidget {
   /// A helper widget that initializes [ScreenUtil]
   const ScreenUtilInit(
-      {Key? key,
+      {super.key,
       required this.builder,
       this.child,
       this.rebuildFactor = RebuildFactors.size,
@@ -39,8 +39,7 @@ class ScreenUtilInit extends StatefulWidget {
       this.splitScreenMode = false,
       this.minTextAdapt = false,
       this.useInheritedMediaQuery = false,
-      this.scaleByHeight = false})
-      : super(key: key);
+      this.scaleByHeight = false});
 
   final ScreenUtilInitBuilder builder;
   final Widget? child;
@@ -57,8 +56,7 @@ class ScreenUtilInit extends StatefulWidget {
   State<ScreenUtilInit> createState() => _ScreenUtilInitState();
 }
 
-class _ScreenUtilInitState extends State<ScreenUtilInit>
-    with WidgetsBindingObserver {
+class _ScreenUtilInitState extends State<ScreenUtilInit> with WidgetsBindingObserver {
   MediaQueryData? _mediaQueryData;
 
   bool wrappedInMediaQuery = false;
@@ -146,8 +144,7 @@ class _ScreenUtilInitState extends State<ScreenUtilInit>
                   alignment: Alignment.center,
                   child: SizedBox(
                     width: widget.scaleByHeight
-                        ? (deviceSize.height * widget.designSize.width) /
-                            widget.designSize.height
+                        ? (deviceSize.height * widget.designSize.width) / widget.designSize.height
                         : deviceSize.width,
                     height: deviceSize.height,
                     child: child,
@@ -175,8 +172,7 @@ class _ScreenUtilInitState extends State<ScreenUtilInit>
         alignment: Alignment.center,
         child: SizedBox(
           width: widget.scaleByHeight
-              ? (deviceSize.height * widget.designSize.width) /
-                  widget.designSize.height
+              ? (deviceSize.height * widget.designSize.width) / widget.designSize.height
               : deviceSize.width,
           height: deviceSize.height,
           child: child,
