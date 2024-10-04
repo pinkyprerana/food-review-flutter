@@ -95,9 +95,12 @@ void _handleNotificationAction(RemoteMessage message) async {
   notifications = NotificationData(
     title: title,
     message: body,
+    refPostId: postId,
     postedUserInfo: UserNotificationInfo(
         profileImage: profileImage,
-        fullName: userName),
+        fullName: userName,
+        id: userId
+    ),
     createdAt: DateTime.now(),
     receiverUserInfo: UserNotificationInfo(id: receiverId),
   );
@@ -214,9 +217,9 @@ Future<void> _showNotification(RemoteMessage message) async {
 }
 
 void _navigateToNotificationScreen(BuildContext context, String type) {
-  final userId = notifications?.postedUserInfo?.id ?? "66b5df3fab42aec8b86242a6"; //Todo: Solve ID issue
-  final receiverId = notifications?.receiverUserInfo?.id ?? "66b5de64ab42aec8b8624294";//Todo: Solve ID issue
-  final postId = notifications?.refPostId ?? "66ced81ee6f744118648998b";//Todo: Solve ID issue
+  final userId = notifications?.postedUserInfo?.id;
+  final receiverId = notifications?.receiverUserInfo?.id;
+  final postId = notifications?.refPostId;
   AppLog.log("Fetch userId, receiverId, postId respectively: $userId , $receiverId, $postId)");
   final autoRouter = AppRouter();
   switch (type) {
@@ -226,7 +229,7 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
     case 'user_unfollow':
       autoRouter.pushAndPopUntil(
         PeopleProfileRoute(
-          peopleId: userId,
+          peopleId: userId ?? '',
             // isDeepLinking: true
         ),
         predicate: (_) => false,
