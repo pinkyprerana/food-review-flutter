@@ -39,6 +39,7 @@ mixin _$ProfileState {
   List<DataOfPostModel> get likedPostList => throw _privateConstructorUsedError;
   List<DataOfFQA>? get faqList => throw _privateConstructorUsedError;
   List<CommentInfo>? get commentsList => throw _privateConstructorUsedError;
+  String get privacyPolicy => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -70,7 +71,8 @@ abstract class $ProfileStateCopyWith<$Res> {
       List<DataOfPostModel> dislikedPostsList,
       List<DataOfPostModel> likedPostList,
       List<DataOfFQA>? faqList,
-      List<CommentInfo>? commentsList});
+      List<CommentInfo>? commentsList,
+      String privacyPolicy});
 
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
   $UserProfileModelCopyWith<$Res>? get userProfileResponseModel;
@@ -108,6 +110,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? likedPostList = null,
     Object? faqList = freezed,
     Object? commentsList = freezed,
+    Object? privacyPolicy = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -186,6 +189,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.commentsList
           : commentsList // ignore: cast_nullable_to_non_nullable
               as List<CommentInfo>?,
+      privacyPolicy: null == privacyPolicy
+          ? _value.privacyPolicy
+          : privacyPolicy // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -242,7 +249,8 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       List<DataOfPostModel> dislikedPostsList,
       List<DataOfPostModel> likedPostList,
       List<DataOfFQA>? faqList,
-      List<CommentInfo>? commentsList});
+      List<CommentInfo>? commentsList,
+      String privacyPolicy});
 
   @override
   $ProfileDetailsCopyWith<$Res>? get fetchedUser;
@@ -280,6 +288,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? likedPostList = null,
     Object? faqList = freezed,
     Object? commentsList = freezed,
+    Object? privacyPolicy = null,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -357,6 +366,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value._commentsList
           : commentsList // ignore: cast_nullable_to_non_nullable
               as List<CommentInfo>?,
+      privacyPolicy: null == privacyPolicy
+          ? _value.privacyPolicy
+          : privacyPolicy // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -383,7 +396,8 @@ class _$ProfileStateImpl extends _ProfileState {
       final List<DataOfPostModel> dislikedPostsList = const [],
       final List<DataOfPostModel> likedPostList = const [],
       final List<DataOfFQA>? faqList = const [],
-      final List<CommentInfo>? commentsList = const []})
+      final List<CommentInfo>? commentsList = const [],
+      this.privacyPolicy = ''})
       : _userActivitiesList = userActivitiesList,
         _savedList = savedList,
         _notificationList = notificationList,
@@ -499,8 +513,12 @@ class _$ProfileStateImpl extends _ProfileState {
   }
 
   @override
+  @JsonKey()
+  final String privacyPolicy;
+
+  @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isSavePost: $isSavePost, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, faqList: $faqList, commentsList: $commentsList)';
+    return 'ProfileState(isLoading: $isLoading, isCommentLoading: $isCommentLoading, isSavePost: $isSavePost, isBeingSubmitted: $isBeingSubmitted, profileImgPath: $profileImgPath, fetchedUser: $fetchedUser, profileImage: $profileImage, userProfileResponseModel: $userProfileResponseModel, userActivitiesList: $userActivitiesList, postCount: $postCount, currentPage: $currentPage, totalPages: $totalPages, isMoreDataFetchable: $isMoreDataFetchable, savedList: $savedList, notificationList: $notificationList, dislikedPostsList: $dislikedPostsList, likedPostList: $likedPostList, faqList: $faqList, commentsList: $commentsList, privacyPolicy: $privacyPolicy)';
   }
 
   @override
@@ -545,7 +563,9 @@ class _$ProfileStateImpl extends _ProfileState {
                 .equals(other._likedPostList, _likedPostList) &&
             const DeepCollectionEquality().equals(other._faqList, _faqList) &&
             const DeepCollectionEquality()
-                .equals(other._commentsList, _commentsList));
+                .equals(other._commentsList, _commentsList) &&
+            (identical(other.privacyPolicy, privacyPolicy) ||
+                other.privacyPolicy == privacyPolicy));
   }
 
   @override
@@ -569,7 +589,8 @@ class _$ProfileStateImpl extends _ProfileState {
         const DeepCollectionEquality().hash(_dislikedPostsList),
         const DeepCollectionEquality().hash(_likedPostList),
         const DeepCollectionEquality().hash(_faqList),
-        const DeepCollectionEquality().hash(_commentsList)
+        const DeepCollectionEquality().hash(_commentsList),
+        privacyPolicy
       ]);
 
   @JsonKey(ignore: true)
@@ -599,7 +620,8 @@ abstract class _ProfileState extends ProfileState {
       final List<DataOfPostModel> dislikedPostsList,
       final List<DataOfPostModel> likedPostList,
       final List<DataOfFQA>? faqList,
-      final List<CommentInfo>? commentsList}) = _$ProfileStateImpl;
+      final List<CommentInfo>? commentsList,
+      final String privacyPolicy}) = _$ProfileStateImpl;
   const _ProfileState._() : super._();
 
   @override
@@ -640,6 +662,8 @@ abstract class _ProfileState extends ProfileState {
   List<DataOfFQA>? get faqList;
   @override
   List<CommentInfo>? get commentsList;
+  @override
+  String get privacyPolicy;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

@@ -23,7 +23,7 @@ class ListPage extends ConsumerStatefulWidget {
 
 class _ListPageState extends ConsumerState<ListPage> {
   List<String> options = [
-    'Followers',
+    'Users',
     'Restaurants',
   ];
 

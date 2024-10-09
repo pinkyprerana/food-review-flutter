@@ -46,6 +46,7 @@ class AppUrls {
   static const deactivateAccount = '/user/deactivate';
   static const savedPostList = '/post-save/list';
   static const faqList = '/faq/list';
+  static const privacyPolicy = '/cms/details/privacy-policy';
 
   // Leaderboard
   static const getLeaderboardList = '/user/leaderboard/list';

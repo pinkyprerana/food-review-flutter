@@ -22,6 +22,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
 import '../../home/domain/post_feed_model.dart';
+import '../domain/privacy_policy_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this._dio, this._hiveDataBase, this._networkApiService)
@@ -1220,6 +1221,36 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   //     showConnectionWasInterruptedToastMessage();
   //   }
   // }
+
+  Future<void> getPrivacyPolicy() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.privacyPolicy}');
+
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        PrivacyPolicyModel ppModel = PrivacyPolicyModel.fromJson(response.data);
+
+        if (ppModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              privacyPolicy: ppModel.data?.content ?? ''
+          );
+        } else {
+          showToastMessage(ppModel.message ?? 'Failed to load privacy policy');
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
 
 
 }

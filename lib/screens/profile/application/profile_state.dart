@@ -29,6 +29,7 @@ class ProfileState with _$ProfileState {
     @Default([]) List<DataOfPostModel> likedPostList,
     @Default([]) List<DataOfFQA>? faqList,
     @Default([]) List<CommentInfo>? commentsList,
+    @Default('') String privacyPolicy,
   }) = _ProfileState;
   const ProfileState._();
 }
