@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -180,9 +181,15 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   }) async {
     PermissionStatus permission;
 
-    if (Platform.isAndroid) {
+    // Check if the platform is Android and the version is 13 or higher (API level 33+)
+    if (Platform.isAndroid && (await _isAndroid13OrAbove())) {
+      // Request for media permission on Android 13+ for images or videos
+      permission = await Permission.photos.request();
+    } else if (Platform.isAndroid) {
+      // Use the old permission model for Android versions below 13
       permission = await Permission.storage.request();
     } else {
+      // For iOS, use the existing photos permission
       permission = await Permission.photos.request();
     }
 
@@ -212,6 +219,55 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         showToastMessage('Unexpected permission status');
     }
   }
+
+// Helper function to check if the device is Android 13 or above
+  Future<bool> _isAndroid13OrAbove() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      return androidInfo.version.sdkInt >= 33;
+    }
+    return false;
+  }
+
+
+  // Future<void> checkGalleryPermission({
+  //   required BuildContext context,
+  //   required String imageSource,
+  // }) async {
+  //   PermissionStatus permission;
+  //
+  //   if (Platform.isAndroid) {
+  //     permission = await Permission.storage.request();
+  //   } else {
+  //     permission = await Permission.photos.request();
+  //   }
+  //
+  //   switch (permission) {
+  //     case PermissionStatus.granted:
+  //       if (!context.mounted) return;
+  //       if (imageSource == 'displayPicture') {
+  //         await uploadProfileImage(context);
+  //       } else {
+  //         await uploadBannerImage(context);
+  //       }
+  //       break;
+  //
+  //     case PermissionStatus.denied:
+  //       showToastMessage(
+  //           'Permission denied, please grant access to the gallery.');
+  //       break;
+  //
+  //     case PermissionStatus.permanentlyDenied:
+  //       showToastMessage(
+  //           'Permission permanently denied, please go to app settings to grant permission.');
+  //       if (!context.mounted) return;
+  //       _showPermissionDialog(context);
+  //       break;
+  //
+  //     default:
+  //       showToastMessage('Unexpected permission status');
+  //   }
+  // }
 
 
   Future<void> checkPermissionForGallery({
@@ -592,10 +648,14 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   }
 
   bool validateBio() {
-    if (bioController.text.isEmpty || bioController.text.length < 50) {
-      showToastMessage('Please add min 50 characters about you.');
+    if (bioController.text.isEmpty) {
+      showToastMessage('Please add bio.');
       return false;
     }
+    // if (bioController.text.isEmpty || bioController.text.length < 50) {
+    //   showToastMessage('Please add min 50 characters about you.');
+    //   return false;
+    // }
     return true;
   }
 

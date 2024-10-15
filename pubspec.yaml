@@ -60,6 +60,7 @@ dependencies:
   video_player: ^2.9.1
   video_thumbnail: ^0.5.3
   after_layout: ^1.2.0
+  device_info_plus: ^11.0.0
 
 dev_dependencies:
   auto_route_generator: ^8.0.0
