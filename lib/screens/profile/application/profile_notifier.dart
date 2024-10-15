@@ -230,45 +230,6 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   }
 
 
-  // Future<void> checkGalleryPermission({
-  //   required BuildContext context,
-  //   required String imageSource,
-  // }) async {
-  //   PermissionStatus permission;
-  //
-  //   if (Platform.isAndroid) {
-  //     permission = await Permission.storage.request();
-  //   } else {
-  //     permission = await Permission.photos.request();
-  //   }
-  //
-  //   switch (permission) {
-  //     case PermissionStatus.granted:
-  //       if (!context.mounted) return;
-  //       if (imageSource == 'displayPicture') {
-  //         await uploadProfileImage(context);
-  //       } else {
-  //         await uploadBannerImage(context);
-  //       }
-  //       break;
-  //
-  //     case PermissionStatus.denied:
-  //       showToastMessage(
-  //           'Permission denied, please grant access to the gallery.');
-  //       break;
-  //
-  //     case PermissionStatus.permanentlyDenied:
-  //       showToastMessage(
-  //           'Permission permanently denied, please go to app settings to grant permission.');
-  //       if (!context.mounted) return;
-  //       _showPermissionDialog(context);
-  //       break;
-  //
-  //     default:
-  //       showToastMessage('Unexpected permission status');
-  //   }
-  // }
-
 
   Future<void> checkPermissionForGallery({
     required BuildContext context,
@@ -1319,7 +1280,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     try {
       var (response, dioException) = await _networkApiService
           .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.termsAndConditions}');
-      print("Terms and Conditions Response: ${response?.data}");
+
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
