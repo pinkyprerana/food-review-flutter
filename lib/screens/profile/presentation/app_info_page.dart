@@ -1,15 +1,35 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
 
+import '../shared/providers.dart';
+
 @RoutePage()
-class AppInfoPage extends StatelessWidget {
+class AppInfoPage extends ConsumerStatefulWidget {
   const AppInfoPage({super.key});
 
   @override
+  ConsumerState<AppInfoPage> createState() => _AppInfoPageState();
+}
+
+
+class _AppInfoPageState extends ConsumerState<AppInfoPage> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_)async{
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getAppInfo();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final profileState = ref.watch(profileNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -44,8 +64,22 @@ class AppInfoPage extends StatelessWidget {
           ),
         ),
       ),
-      body: const Center(
-        child: Text('App Info will be here'),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child:profileState.isLoading
+              ? const CircularProgressIndicator(color: AppColors.colorPrimary,)
+              :  Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+              profileState.appInfo.isEmpty ? "App info will appear here" : profileState.appInfo,
+              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                color: AppColors.colorPrimaryAlpha,
+                fontSize: 12.sp,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

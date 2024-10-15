@@ -22,7 +22,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
 import '../../home/domain/post_feed_model.dart';
+import '../domain/app_info_model.dart';
 import '../domain/privacy_policy_model.dart';
+import '../domain/terms_and_conditions_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this._dio, this._hiveDataBase, this._networkApiService)
@@ -1252,5 +1254,63 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
+  Future<void> getTermsAndConditions() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.termsAndConditions}');
+      print("Terms and Conditions Response: ${response?.data}");
+      state = state.copyWith(isLoading: false);
 
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        TermsAndConditionsModel termsAndConditionsModel = TermsAndConditionsModel.fromJson(response.data);
+
+        if (termsAndConditionsModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              termsAndConditions: termsAndConditionsModel.data?.content ?? ''
+          );
+        } else {
+          showToastMessage(termsAndConditionsModel.message ?? 'Failed to load terms and conditions');
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> getAppInfo() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.appInfo}');
+
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        AppInfoModel appInfoModel = AppInfoModel.fromJson(response.data);
+
+        if (appInfoModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              appInfo: appInfoModel.data?.content ?? ''
+          );
+        } else {
+          showToastMessage(appInfoModel.message ?? 'Failed to load app info');
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
 }

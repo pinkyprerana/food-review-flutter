@@ -47,6 +47,8 @@ class AppUrls {
   static const savedPostList = '/post-save/list';
   static const faqList = '/faq/list';
   static const privacyPolicy = '/cms/details/privacy-policy';
+  static const termsAndConditions = '/cms/details/terms-and-conditions';
+  static const appInfo = '/cms/details/cookies-policy';
 
   // Leaderboard
   static const getLeaderboardList = '/user/leaderboard/list';

@@ -30,6 +30,8 @@ class ProfileState with _$ProfileState {
     @Default([]) List<DataOfFQA>? faqList,
     @Default([]) List<CommentInfo>? commentsList,
     @Default('') String privacyPolicy,
+    @Default('') String termsAndConditions,
+    @Default('') String appInfo,
   }) = _ProfileState;
   const ProfileState._();
 }
