@@ -15,6 +15,7 @@ import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/custom_richtext.dart';
 
+import '../../../widgets/name_input_field.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -121,7 +122,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: CustomInputField(
+                                child: NameInputField(
                                   controller: stateNotifier.signupFirstNameTextController,
                                   focusNode: firstNameFN,
                                   label: 'First Name',
@@ -135,7 +136,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                               5.horizontalSpace,
                               Expanded(
-                                child: CustomInputField(
+                                child: NameInputField(
                                   controller: stateNotifier.signupLastNameTextController,
                                   focusNode: lastNameFN,
                                   label: 'Last Name',
