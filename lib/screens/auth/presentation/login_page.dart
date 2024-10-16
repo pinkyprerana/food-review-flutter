@@ -152,6 +152,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ],
                       ),
                       const Spacer(),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                            onTap: () => AutoRouter.of(context).push(const HelpRoute()),
+                            child: Text("Help?",
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                color: AppColors.colorPrimary,
+                                fontSize: 12.sp,
+                              ),
+                            )
+                        ),
+                      ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

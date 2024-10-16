@@ -109,30 +109,33 @@ class LandingGetStartedDescription extends ConsumerWidget {
                   ],
                 ),
                 isScreenSmall ? 16.verticalSpace : 32.verticalSpace,
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: TextStyle(
-                      height: isScreenSmall ? 1 : 1.2,
-                      fontSize: 12.sp,
+                GestureDetector(
+                  onTap: () => AutoRouter.of(context).push(const PrivacyPolicyRoute()),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(
+                        height: isScreenSmall ? 1 : 1.2,
+                        fontSize: 12.sp,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'By continuing you agree to For The Table',
+                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: " \n",
+                        ),
+                        TextSpan(
+                          text: 'Terms of Services & Privacy Policy',
+                          style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                            color: AppColors.colorPrimaryAlpha,
+                          ),
+                        ),
+                      ],
                     ),
-                    children: [
-                      TextSpan(
-                        text: 'By continuing you agree to For The Table',
-                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                      ),
-                      const TextSpan(
-                        text: " \n",
-                      ),
-                      TextSpan(
-                        text: 'Terms of Services & Privacy Policy',
-                        style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                          color: AppColors.colorPrimaryAlpha,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],

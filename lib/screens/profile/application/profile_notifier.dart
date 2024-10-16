@@ -1249,7 +1249,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.privacyPolicy}');
+          .getApiRequest(url: '${AppUrls.baseUrl}${AppUrls.privacyPolicy}');
 
       state = state.copyWith(isLoading: false);
 
@@ -1279,7 +1279,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.termsAndConditions}');
+          .getApiRequest(url: '${AppUrls.baseUrl}${AppUrls.termsAndConditions}');
 
       state = state.copyWith(isLoading: false);
 
@@ -1309,7 +1309,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     state = state.copyWith(isLoading: true);
     try {
       var (response, dioException) = await _networkApiService
-          .getApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.appInfo}');
+          .getApiRequest(url: '${AppUrls.baseUrl}${AppUrls.appInfo}');
 
       state = state.copyWith(isLoading: false);
 
