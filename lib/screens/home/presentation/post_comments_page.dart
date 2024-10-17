@@ -58,12 +58,15 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     final profileState = ref.watch(profileNotifierProvider);
     final homeNotifier = ref.watch(homeNotifierProvider.notifier);
 
-    if (homeState.postList == null ||
-        homeState.postList!.isEmpty ||
-        homeState.commentsList == null ||
-        profileState.dislikedPostsList.isEmpty ||
-        profileState.likedPostList.isEmpty ||
-        profileState.commentsList == null
+    if (
+        // homeState.postList == null ||
+        // homeState.postList!.isEmpty ||
+        // homeState.commentsList == null ||
+        // profileState.dislikedPostsList.isEmpty ||
+        // profileState.likedPostList.isEmpty ||
+        // profileState.commentsList == null ||
+        homeState.isLoading ||
+        profileState.isLoading
     ) {
       return const Center(
         child: CircularProgressIndicator(color: AppColors.colorWhite),
@@ -118,10 +121,21 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     // final bool? isFollowing = postInfoList.isFollowing;
     // final bool? isRequested = postInfoList.isFollowingRequest;
     final deviceHeight = MediaQuery.sizeOf(context).height;
-    final comments = [
+    // final comments = [
+    //   ...?homeState.commentsList?.where((comment) => comment.postId == postId),
+    //   ...?profileState.commentsList?.where((comment) => comment.postId == postId)
+    // ];
+
+    final List<CommentInfo> comments = [
       ...?homeState.commentsList?.where((comment) => comment.postId == postId),
-      ...?profileState.commentsList?.where((comment) => comment.postId == postId)
+      ...profileState.likedPostList
+          .expand((post) => post.commentInfo ?? [])
+          .where((comment) => comment.postId == postId),
+      ...profileState.dislikedPostsList
+          .expand((post) => post.commentInfo ?? [])
+          .where((comment) => comment.postId == postId),
     ];
+
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
