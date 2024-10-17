@@ -118,10 +118,22 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     // final bool? isFollowing = postInfoList.isFollowing;
     // final bool? isRequested = postInfoList.isFollowingRequest;
     final deviceHeight = MediaQuery.sizeOf(context).height;
-    final comments = [
+    // final comments = [
+    //   ...?homeState.commentsList?.where((comment) => comment.postId == postId),
+    //   ...?profileState.commentsList?.where((comment) => comment.postId == postId)
+    // ];
+
+    //Solved unstable comments issue in liked & disliked post screen
+    final List<CommentInfo> comments = [
       ...?homeState.commentsList?.where((comment) => comment.postId == postId),
-      ...?profileState.commentsList?.where((comment) => comment.postId == postId)
+      ...profileState.likedPostList
+          .expand((post) => post.commentInfo ?? [])
+          .where((comment) => comment.postId == postId),
+      ...profileState.dislikedPostsList
+          .expand((post) => post.commentInfo ?? [])
+          .where((comment) => comment.postId == postId),
     ];
+
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

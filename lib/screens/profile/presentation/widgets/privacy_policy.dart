@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/screens/profile/shared/providers.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/app_text_styles.dart';
 
@@ -14,8 +15,21 @@ class PrivacyPolicyPage extends ConsumerStatefulWidget {
 }
 
 class _PrivacyPolicyPageState extends ConsumerState<PrivacyPolicyPage> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_)async{
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getPrivacyPolicy();
+      await profileNotifier.getTermsAndConditions();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final profileState = ref.watch(profileNotifierProvider);
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
@@ -69,18 +83,36 @@ class _PrivacyPolicyPageState extends ConsumerState<PrivacyPolicyPage> {
                   ),
                 ),
                 10.verticalSpace,
-                Text(
-                  "Lorem ipsum dolor sit amet consectetur. Et risus habitasse viverra duis sed arcu eget commodo. Et vitae leo sollicitudin id libero accumsan nullam. Pulvinar sit nunc viverra aliquam tincidunt feugiat. Tempus a tellus amet pulvinar feugiat vitae orci elit. Libero nisi mi egestas at arcu nec amet varius pharetra. Scelerisque pellentesque etiam sed tempus bibendum. Massa elementum proin tincidunt laoreet aliquet sed interdum sed. Sagittis cum ac volutpat curabitur lacus nibh eget augue. Imperdiet luctus commodo mauris amet aliquet malesuada. Rhoncus bibendum adipiscing laoreet diam ac suspendisse et vitae lorem. Sed mauris nulla nunc at cursus.\n\nEt dui tincidunt sollicitudin a non pulvinar. Auctor et metus auctor odio convallis metus vitae. Id imperdiet tincidunt tortor quisque.",
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: AppColors.colorPrimaryAlpha,
-                    fontSize: 12.sp,
+                if (profileState.isLoading) ...[
+                  const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                ] else if (profileState.privacyPolicy.isEmpty) ...[
+                  Align(
+                    alignment: Alignment.topLeft,
+                     child: Text(
+                      "Privacy Policy will appear here",
+                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                         color: AppColors.colorPrimaryAlpha,
+                         fontSize: 12.sp,
+                       ),
+                        ),
+                   ),
+                ] else ...[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      profileState.privacyPolicy,
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorPrimaryAlpha,
+                        fontSize: 12.sp,
+                      ),
+                    ),
                   ),
-                ),
+                ],
                 50.verticalSpace,
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "Terms And Consditions",
+                    "Terms And Conditions",
                     style: AppTextStyles.textStylePoppinsMedium.copyWith(
                       color: AppColors.colorBlack,
                       fontSize: 14.sp,
@@ -88,13 +120,31 @@ class _PrivacyPolicyPageState extends ConsumerState<PrivacyPolicyPage> {
                   ),
                 ),
                 10.verticalSpace,
-                Text(
-                  "Lorem ipsum dolor sit amet consectetur. Et risus habitasse viverra duis sed arcu eget commodo. Et vitae leo sollicitudin id libero accumsan nullam. Pulvinar sit nunc viverra aliquam tincidunt feugiat. Tempus a tellus amet pulvinar feugiat vitae orci elit. Libero nisi mi egestas at arcu nec amet varius pharetra. Scelerisque pellentesque etiam sed tempus bibendum. Massa elementum proin tincidunt laoreet aliquet sed interdum sed. Sagittis cum ac volutpat curabitur lacus nibh eget augue. Imperdiet luctus commodo mauris amet aliquet malesuada. Rhoncus bibendum adipiscing laoreet diam ac suspendisse et vitae lorem. Sed mauris nulla nunc at cursus.\n\nEt dui tincidunt sollicitudin a non pulvinar. Auctor et metus auctor odio convallis metus vitae. Id imperdiet tincidunt tortor quisque.",
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: AppColors.colorPrimaryAlpha,
-                    fontSize: 12.sp,
+                if (profileState.isLoading) ...[
+                  const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                ] else if (profileState.termsAndConditions.isEmpty) ...[
+                   Align(
+                     alignment: Alignment.topLeft,
+                     child: Text(
+                      "Terms and Conditions will appear here",
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorPrimaryAlpha,
+                        fontSize: 12.sp,
+                      ),
+                     ),
+                   ),
+                ] else ...[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      profileState.termsAndConditions,
+                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorPrimaryAlpha,
+                        fontSize: 12.sp,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

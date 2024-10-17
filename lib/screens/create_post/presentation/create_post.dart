@@ -73,6 +73,7 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               if (currentPage == 0) {
                 if (media != null) {
                   Navigator.pop(context, null);
+                  createPostNotifier.clearAllPostDetails();
                 } else {
                   Navigator.pop(context);
                 }
@@ -82,7 +83,8 @@ class _CreatePostPageState extends ConsumerState<CreatePostPage> {
               }
               FocusManager.instance.primaryFocus?.unfocus();
               createPostNotifier.resetPage();
-              createPostNotifier.clearAllPostDetails();
+              createPostNotifier.clearRestaurantDetails();
+              // createPostNotifier.clearAllPostDetails();
             },
             child: Container(
               alignment: Alignment.center,

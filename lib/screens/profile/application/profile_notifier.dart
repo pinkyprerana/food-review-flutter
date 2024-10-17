@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../model/notification_model/notification_model.dart';
 import '../../../model/saved_post_model/saved_post_model.dart';
 import '../../home/domain/post_feed_model.dart';
+import '../domain/app_info_model.dart';
+import '../domain/privacy_policy_model.dart';
+import '../domain/terms_and_conditions_model.dart';
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this._dio, this._hiveDataBase, this._networkApiService)
@@ -177,9 +181,15 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   }) async {
     PermissionStatus permission;
 
-    if (Platform.isAndroid) {
+    // Check if the platform is Android and the version is 13 or higher (API level 33+)
+    if (Platform.isAndroid && (await _isAndroid13OrAbove())) {
+      // Request for media permission on Android 13+ for images or videos
+      permission = await Permission.photos.request();
+    } else if (Platform.isAndroid) {
+      // Use the old permission model for Android versions below 13
       permission = await Permission.storage.request();
     } else {
+      // For iOS, use the existing photos permission
       permission = await Permission.photos.request();
     }
 
@@ -209,6 +219,16 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         showToastMessage('Unexpected permission status');
     }
   }
+
+// Helper function to check if the device is Android 13 or above
+  Future<bool> _isAndroid13OrAbove() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      return androidInfo.version.sdkInt >= 33;
+    }
+    return false;
+  }
+
 
 
   Future<void> checkPermissionForGallery({
@@ -589,10 +609,14 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   }
 
   bool validateBio() {
-    if (bioController.text.isEmpty || bioController.text.length < 50) {
-      showToastMessage('Please add min 50 characters about you.');
+    if (bioController.text.isEmpty) {
+      showToastMessage('Please add bio.');
       return false;
     }
+    // if (bioController.text.isEmpty || bioController.text.length < 50) {
+    //   showToastMessage('Please add min 50 characters about you.');
+    //   return false;
+    // }
     return true;
   }
 
@@ -1221,5 +1245,93 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   //   }
   // }
 
+  Future<void> getPrivacyPolicy() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .getApiRequest(url: '${AppUrls.baseUrl}${AppUrls.privacyPolicy}');
 
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        PrivacyPolicyModel ppModel = PrivacyPolicyModel.fromJson(response.data);
+
+        if (ppModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              privacyPolicy: ppModel.data?.content ?? ''
+          );
+        } else {
+          showToastMessage(ppModel.message ?? 'Failed to load privacy policy');
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> getTermsAndConditions() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .getApiRequest(url: '${AppUrls.baseUrl}${AppUrls.termsAndConditions}');
+
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        TermsAndConditionsModel termsAndConditionsModel = TermsAndConditionsModel.fromJson(response.data);
+
+        if (termsAndConditionsModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              termsAndConditions: termsAndConditionsModel.data?.content ?? ''
+          );
+        } else {
+          showToastMessage(termsAndConditionsModel.message ?? 'Failed to load terms and conditions');
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
+
+  Future<void> getAppInfo() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      var (response, dioException) = await _networkApiService
+          .getApiRequest(url: '${AppUrls.baseUrl}${AppUrls.appInfo}');
+
+      state = state.copyWith(isLoading: false);
+
+      if (response == null && dioException == null) {
+        showConnectionWasInterruptedToastMessage();
+      } else if (dioException != null) {
+        showDioError(dioException);
+      } else {
+        AppInfoModel appInfoModel = AppInfoModel.fromJson(response.data);
+
+        if (appInfoModel.status == 200) {
+          state = state.copyWith(
+              isLoading: false,
+              appInfo: appInfoModel.data?.content ?? ''
+          );
+        } else {
+          showToastMessage(appInfoModel.message ?? 'Failed to load app info');
+        }
+      }
+    } catch (error) {
+      state = state.copyWith(isLoading: false);
+      showConnectionWasInterruptedToastMessage();
+    }
+  }
 }

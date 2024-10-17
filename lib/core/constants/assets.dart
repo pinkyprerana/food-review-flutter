@@ -1,7 +1,7 @@
 class Assets {
   static const String logo = 'assets/images/logo.png';
   static const String logoTransparent = 'assets/images/logo-transparent.png';
-  static const String logoFull = 'assets/images/login_full.jpeg';
+  static const String logoFull = 'assets/images/logo.jpg';
   //
   static const String landingintro = 'assets/images/landing-intro.png';
   //
