@@ -58,15 +58,12 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     final profileState = ref.watch(profileNotifierProvider);
     final homeNotifier = ref.watch(homeNotifierProvider.notifier);
 
-    if (
-        // homeState.postList == null ||
-        // homeState.postList!.isEmpty ||
-        // homeState.commentsList == null ||
-        // profileState.dislikedPostsList.isEmpty ||
-        // profileState.likedPostList.isEmpty ||
-        // profileState.commentsList == null ||
-        homeState.isLoading ||
-        profileState.isLoading
+    if (homeState.postList == null ||
+        homeState.postList!.isEmpty ||
+        homeState.commentsList == null ||
+        profileState.dislikedPostsList.isEmpty ||
+        profileState.likedPostList.isEmpty ||
+        profileState.commentsList == null
     ) {
       return const Center(
         child: CircularProgressIndicator(color: AppColors.colorWhite),
@@ -126,6 +123,7 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     //   ...?profileState.commentsList?.where((comment) => comment.postId == postId)
     // ];
 
+    //Solved unstable comments issue in liked & disliked post screen
     final List<CommentInfo> comments = [
       ...?homeState.commentsList?.where((comment) => comment.postId == postId),
       ...profileState.likedPostList
