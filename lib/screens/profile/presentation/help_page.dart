@@ -7,6 +7,7 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/custom_input_field.dart';
 import 'package:for_the_table/widgets/expanded_common_text_field.dart';
+import '../../../widgets/name_input_field.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -82,7 +83,7 @@ class _HelpPageState extends ConsumerState<HelpPage> {
                 ],
               ),
               10.verticalSpace,
-              CustomInputField(
+              NameInputField(
                 label: 'Full name',
                 hint: 'Enter your full name',
                 controller: stateNotifier.contactNameController,
