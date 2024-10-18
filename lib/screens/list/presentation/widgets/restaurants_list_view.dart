@@ -207,54 +207,27 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                           Icon(Icons.star,
                                               color: AppColors.colorRatingStar, size: 14.r),
                                           SizedBox(width: 4.w),
-                                          (allRestaurantList[index].rating != '')
-                                              ? Text(
-                                                  // widget.restaurants[index]
-                                                  //     ['rating']!,
-                                                  (double.parse(
-                                                              allRestaurantList[index].rating ??
-                                                                  '0') *
-                                                          2)
-                                                      .toString(),
-                                                  style: AppTextStyles.textStylePoppinsRegular
+                                          Text(
+                                            (allRestaurantList[index].rating != '')
+                                                ? (double.parse(allRestaurantList[index].rating ?? '0') * 2).toString()
+                                                : (double.tryParse(allRestaurantList[index].userRatingsTotal ?? '0') ?? 0 * 2).toString(),
+                                            style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     color: AppColors.colorPrimary,
                                                     fontSize: 12.sp,
                                                   ),
                                                 )
-                                              : Text(
-                                                  // widget.restaurants[index]
-                                                  //     ['rating']!,
 
-                                                  '0.0',
-                                                  style: AppTextStyles.textStylePoppinsRegular
-                                                      .copyWith(
-                                                    color: AppColors.colorPrimary,
-                                                    fontSize: 12.sp,
-                                                  ),
-                                                ),
                                         ],
                                       ),
                                       SizedBox(width: 8.w),
-                                      (allRestaurantList[index].userRatingsTotal != '')
-                                          ? Text(
-                                              //widget.restaurants[index]['reviews']!,
-                                              '${allRestaurantList[index].userRatingsTotal ?? 0} reviews',
-                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                                color: AppColors.colorPrimaryAlpha,
-                                                fontSize: 8.sp,
-                                              ),
-                                            )
-                                          : Text(
-                                              // widget.restaurants[index]
-                                              //     ['reviews']!,
-
-                                              '0 reviews',
-                                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                                color: AppColors.colorPrimaryAlpha,
-                                                fontSize: 8.sp,
-                                              ),
-                                            ),
+                                      Text(
+                                        '${allRestaurantList[index].userRatingsTotal?.isNotEmpty == true ? allRestaurantList[index].userRatingsTotal : '0'} reviews',
+                                        style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                          color: AppColors.colorPrimaryAlpha,
+                                          fontSize: 8.sp,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
