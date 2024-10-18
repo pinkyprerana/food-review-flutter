@@ -33,6 +33,7 @@ class PostCommentsPage extends ConsumerStatefulWidget {
 }
 
 class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
+ bool isSubmitting = false;
 
   @override
   void initState() {
@@ -415,14 +416,24 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
                             ),
                           ),
                           AppButton(
-                            onPressed: () async {
+                            onPressed: isSubmitting
+                                ? null
+                                : () async {
+                              setState(() {
+                                isSubmitting = true;
+                              });
+
                               await homeNotifier.postComment(() async {
                                 dismissKeyboard(context);
                                 _fetchPostDetails(userId);
                               }, postId);
+
+                              setState(() {
+                                isSubmitting = false;
+                              });
                             },
                             text: 'Submit',
-                          )
+                          ),
                         ],
                       ),
                     ),
