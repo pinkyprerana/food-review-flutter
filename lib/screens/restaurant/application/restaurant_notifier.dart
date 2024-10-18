@@ -114,9 +114,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        final reastaurantListResponseModel = RestaurantlistResponseModel.fromJson(response.data!);
+        final restaurantListResponseModel = RestaurantlistResponseModel.fromJson(response.data!);
 
-        final List<Restaurant>? restaurantList = reastaurantListResponseModel.restaurantList;
+        final List<Restaurant>? restaurantList = restaurantListResponseModel.restaurantList;
 
         if (isLoadMore) {
           final currentRestaurantIds = state.restaurantList?.map((friend) => friend.id).toSet();
@@ -145,8 +145,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
           restaurantList: [
             ...restaurantList ?? [],
           ],
-          totalPages: reastaurantListResponseModel.pages ?? 0,
-          totalNumberOfRestaurants: reastaurantListResponseModel.total ?? 0,
+          totalPages: restaurantListResponseModel.pages ?? 0,
+          totalNumberOfRestaurants: restaurantListResponseModel.total ?? 0,
         );
       } else {
         final message = response.data?['message'] as String?;

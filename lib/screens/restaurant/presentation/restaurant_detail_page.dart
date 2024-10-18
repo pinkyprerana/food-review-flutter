@@ -295,13 +295,13 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       color: AppColors.colorBorder,
                                                     )),
                                                 child: (stateNotifier.reastaurantDetials
-                                                            ?.restaurantDetails?.restaurantRating !=
+                                                            ?.restaurantDetails?.totalRating !=
                                                         0.0)
                                                     ? Text(
                                                         ((stateNotifier
                                                                         .reastaurantDetials
                                                                         ?.restaurantDetails
-                                                                        ?.restaurantRating ??
+                                                                        ?.totalRating ??
                                                                     0.0) )
                                                             .toString(),
                                                         style: AppTextStyles

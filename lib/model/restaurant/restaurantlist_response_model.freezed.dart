@@ -385,6 +385,8 @@ mixin _$Restaurant {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "user_ratings_total")
   String? get userRatingsTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_rating")
+  double? get totalRating => throw _privateConstructorUsedError;
   @JsonKey(name: "rating")
   String? get rating => throw _privateConstructorUsedError;
   @JsonKey(name: "status")
@@ -424,6 +426,7 @@ abstract class $RestaurantCopyWith<$Res> {
       @JsonKey(name: "phone") String? phone,
       @JsonKey(name: "description") String? description,
       @JsonKey(name: "user_ratings_total") String? userRatingsTotal,
+      @JsonKey(name: "total_rating") double? totalRating,
       @JsonKey(name: "rating") String? rating,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "street") String? street,
@@ -461,6 +464,7 @@ class _$RestaurantCopyWithImpl<$Res, $Val extends Restaurant>
     Object? phone = freezed,
     Object? description = freezed,
     Object? userRatingsTotal = freezed,
+    Object? totalRating = freezed,
     Object? rating = freezed,
     Object? status = freezed,
     Object? street = freezed,
@@ -528,6 +532,10 @@ class _$RestaurantCopyWithImpl<$Res, $Val extends Restaurant>
           ? _value.userRatingsTotal
           : userRatingsTotal // ignore: cast_nullable_to_non_nullable
               as String?,
+      totalRating: freezed == totalRating
+          ? _value.totalRating
+          : totalRating // ignore: cast_nullable_to_non_nullable
+              as double?,
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
@@ -588,6 +596,7 @@ abstract class _$$RestaurantImplCopyWith<$Res>
       @JsonKey(name: "phone") String? phone,
       @JsonKey(name: "description") String? description,
       @JsonKey(name: "user_ratings_total") String? userRatingsTotal,
+      @JsonKey(name: "total_rating") double? totalRating,
       @JsonKey(name: "rating") String? rating,
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "street") String? street,
@@ -624,6 +633,7 @@ class __$$RestaurantImplCopyWithImpl<$Res>
     Object? phone = freezed,
     Object? description = freezed,
     Object? userRatingsTotal = freezed,
+    Object? totalRating = freezed,
     Object? rating = freezed,
     Object? status = freezed,
     Object? street = freezed,
@@ -691,6 +701,10 @@ class __$$RestaurantImplCopyWithImpl<$Res>
           ? _value.userRatingsTotal
           : userRatingsTotal // ignore: cast_nullable_to_non_nullable
               as String?,
+      totalRating: freezed == totalRating
+          ? _value.totalRating
+          : totalRating // ignore: cast_nullable_to_non_nullable
+              as double?,
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
@@ -734,6 +748,7 @@ class _$RestaurantImpl implements _Restaurant {
       @JsonKey(name: "phone") this.phone,
       @JsonKey(name: "description") this.description,
       @JsonKey(name: "user_ratings_total") this.userRatingsTotal,
+      @JsonKey(name: "total_rating") this.totalRating,
       @JsonKey(name: "rating") this.rating,
       @JsonKey(name: "status") this.status,
       @JsonKey(name: "street") this.street,
@@ -798,6 +813,9 @@ class _$RestaurantImpl implements _Restaurant {
   @JsonKey(name: "user_ratings_total")
   final String? userRatingsTotal;
   @override
+  @JsonKey(name: "total_rating")
+  final double? totalRating;
+  @override
   @JsonKey(name: "rating")
   final String? rating;
   @override
@@ -815,7 +833,7 @@ class _$RestaurantImpl implements _Restaurant {
 
   @override
   String toString() {
-    return 'Restaurant(id: $id, image: $image, name: $name, address: $address, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, userRatingsTotal: $userRatingsTotal, rating: $rating, status: $status, street: $street, placeId: $placeId, isSave: $isSave)';
+    return 'Restaurant(id: $id, image: $image, name: $name, address: $address, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, userRatingsTotal: $userRatingsTotal, totalRating: $totalRating, rating: $rating, status: $status, street: $street, placeId: $placeId, isSave: $isSave)';
   }
 
   @override
@@ -841,6 +859,8 @@ class _$RestaurantImpl implements _Restaurant {
                 other.description == description) &&
             (identical(other.userRatingsTotal, userRatingsTotal) ||
                 other.userRatingsTotal == userRatingsTotal) &&
+            (identical(other.totalRating, totalRating) ||
+                other.totalRating == totalRating) &&
             (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.street, street) || other.street == street) &&
@@ -867,6 +887,7 @@ class _$RestaurantImpl implements _Restaurant {
         phone,
         description,
         userRatingsTotal,
+        totalRating,
         rating,
         status,
         street,
@@ -905,6 +926,7 @@ abstract class _Restaurant implements Restaurant {
       @JsonKey(name: "phone") final String? phone,
       @JsonKey(name: "description") final String? description,
       @JsonKey(name: "user_ratings_total") final String? userRatingsTotal,
+      @JsonKey(name: "total_rating") final double? totalRating,
       @JsonKey(name: "rating") final String? rating,
       @JsonKey(name: "status") final String? status,
       @JsonKey(name: "street") final String? street,
@@ -959,6 +981,9 @@ abstract class _Restaurant implements Restaurant {
   @override
   @JsonKey(name: "user_ratings_total")
   String? get userRatingsTotal;
+  @override
+  @JsonKey(name: "total_rating")
+  double? get totalRating;
   @override
   @JsonKey(name: "rating")
   String? get rating;
