@@ -208,9 +208,12 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                               color: AppColors.colorRatingStar, size: 14.r),
                                           SizedBox(width: 4.w),
                                           Text(
-                                            (allRestaurantList[index].rating != '')
-                                                ? (double.parse(allRestaurantList[index].rating ?? '0') * 2).toString()
-                                                : (double.tryParse(allRestaurantList[index].rating.toString()) ?? 0 * 2).toString(),
+                                            (allRestaurantList[index].totalRating != null)
+                                                ? (allRestaurantList[index].totalRating!).toStringAsFixed(1)
+                                                : '0.0',
+                                            // (allRestaurantList[index].rating != '')
+                                            //     ? (double.parse(allRestaurantList[index].rating ?? '0') * 2).toString()
+                                            //     : (double.tryParse(allRestaurantList[index].rating.toString()) ?? 0 * 2).toString(),
                                             style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     color: AppColors.colorPrimary,
