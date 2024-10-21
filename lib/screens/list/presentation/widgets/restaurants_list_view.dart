@@ -210,7 +210,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                           Text(
                                             (allRestaurantList[index].rating != '')
                                                 ? (double.parse(allRestaurantList[index].rating ?? '0') * 2).toString()
-                                                : (double.tryParse(allRestaurantList[index].rating.toString() ?? '0') ?? 0 * 2).toString(),
+                                                : (double.tryParse(allRestaurantList[index].rating.toString()) ?? 0 * 2).toString(),
                                             style: AppTextStyles.textStylePoppinsRegular
                                                       .copyWith(
                                                     color: AppColors.colorPrimary,
