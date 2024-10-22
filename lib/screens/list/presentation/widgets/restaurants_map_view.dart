@@ -70,11 +70,11 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
                         children: [
                           GoogleMap(
                             gestureRecognizers:
-                                <Factory<OneSequenceGestureRecognizer>>[
+                            <Factory<OneSequenceGestureRecognizer>>{
                               Factory<OneSequenceGestureRecognizer>(
-                                () => EagerGestureRecognizer(),
+                                    () => EagerGestureRecognizer(),
                               ),
-                            ].toSet(),
+                            },
                             myLocationButtonEnabled: false,
                             initialCameraPosition: CameraPosition(
                               target: LatLng(
