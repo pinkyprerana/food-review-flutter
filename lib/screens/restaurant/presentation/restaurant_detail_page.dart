@@ -295,15 +295,14 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       color: AppColors.colorBorder,
                                                     )),
                                                 child: (stateNotifier.reastaurantDetials
-                                                            ?.restaurantDetails?.restaurantRating !=
+                                                            ?.restaurantDetails?.totalRating !=
                                                         0.0)
                                                     ? Text(
                                                         ((stateNotifier
                                                                         .reastaurantDetials
                                                                         ?.restaurantDetails
-                                                                        ?.restaurantRating ??
-                                                                    0.0) *
-                                                                2)
+                                                                        ?.totalRating ??
+                                                                    0.0) )
                                                             .toString(),
                                                         style: AppTextStyles
                                                             .textStylePoppinsSemiBold
@@ -381,7 +380,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         ),
                                         5.verticalSpace,
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                          padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0 ),
                                           child: Center(
                                             child: GestureDetector(
                                               onTap: () {
@@ -403,6 +402,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                   },
                                                   isReviewSource: true,
                                                   child: SingleChildScrollView(
+                                                    physics: const AlwaysScrollableScrollPhysics(),
                                                     child: Column(
                                                       children: [
                                                         20.verticalSpace,
@@ -562,7 +562,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                   ),
                                   Positioned(
                                     top: 10,
-                                    left: (Platform.isIOS) ? 157 : 157,
+                                    left: (Platform.isIOS) ? 157 : 147,
                                     child: SizedBox(
                                         width: mediaQuery.width * 0.5,
                                         //height: mediaQuery.height * 0.3,
@@ -608,7 +608,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                         )),
                                   ),
                                   Positioned(
-                                      left: 310,
+                                      left: (Platform.isIOS) ? 320 : 295,
                                       top: 10,
                                       child: (state.isLoadingForRestaurantDetails ||
                                               stateNotifier.reastaurantDetials == null)

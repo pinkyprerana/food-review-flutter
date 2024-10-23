@@ -418,12 +418,16 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
+  String? get currentEmail => _hiveDataBase.box.get(AppPreferenceKeys.userEmail);
   bool validateEmailField() {
     if (emailAddress.text.isEmpty) {
       showToastMessage('Please enter your email address');
       return false;
     } else if (emailAddress.text.isNotEmpty && !Validator.validateEmail(emailAddress.text)) {
       showToastMessage('Please enter a valid email');
+      return false;
+    } else if (emailAddress.text == currentEmail) {
+      showToastMessage('New email cannot be the same as the current email');
       return false;
     } else {
       return true;
@@ -443,6 +447,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       return false;
     } else if (newPasswordController.text != confirmPasswordController.text) {
       showToastMessage('New password and confirm password does not match.');
+      return false;
+    } else if (oldPasswordController.text == newPasswordController.text){
+      showToastMessage('New password and old password can not be same.');
       return false;
     } else {
       return true;
@@ -549,6 +556,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     }
   }
 
+  String? get currentPhoneNumber => _hiveDataBase.box.get(AppPreferenceKeys.userPhone);
   bool validatePhoneNumber() {
     if (phoneNumber.text.isEmpty) {
       showToastMessage('Please enter your phone number');
@@ -558,6 +566,9 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
       return false;
     } else if (!Validator.validatePhone(phoneNumber.text)) {
       showToastMessage('Please enter a valid phone number');
+      return false;
+    } else if (phoneNumber.text == currentPhoneNumber) {
+      showToastMessage('New phone number cannot be the same as the current phone number');
       return false;
     } else {
       return true;

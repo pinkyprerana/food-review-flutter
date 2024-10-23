@@ -40,6 +40,7 @@ class Restaurant with _$Restaurant {
     @JsonKey(name: "phone") String? phone,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "user_ratings_total") String? userRatingsTotal,
+    @JsonKey(name: "total_rating") double? totalRating,
     @JsonKey(name: "rating") String? rating,
     @JsonKey(name: "status") String? status,
     @JsonKey(name: "street") String? street,
