@@ -44,7 +44,7 @@ android {
         
         // minSdk = flutter.minSdkVersion
         // Minimum Android version for Google Maps SDK
-        minSdk = 23
+        minSdk = 29
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
