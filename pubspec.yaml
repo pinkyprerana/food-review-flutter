@@ -61,6 +61,7 @@ dependencies:
   video_thumbnail: ^0.5.3
   after_layout: ^1.2.0
   device_info_plus: ^11.0.0
+  flutter_secure_storage: ^9.2.2
   encrypt: ^5.0.3
 
 dev_dependencies:
