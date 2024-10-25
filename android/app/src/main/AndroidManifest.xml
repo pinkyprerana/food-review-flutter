@@ -114,6 +114,26 @@
             android:exported="true"
             tools:replace="android:exported,android:permission" />
 
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="false"
+            tools:replace="android:exported" />
+
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:exported="false"
+            tools:replace="android:exported"/>
+
+        <activity
+            android:name="com.google.firebase.auth.internal.GenericId"
+            android:exported="false"
+            tools:replace="android:exported" />
+
+        <activity
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="false"
+            tools:replace="android:exported" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
