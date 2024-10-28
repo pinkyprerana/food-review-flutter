@@ -397,6 +397,8 @@ mixin _$Restaurant {
   String? get placeId => throw _privateConstructorUsedError;
   @JsonKey(name: "isSave")
   bool? get isSave => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_user_count")
+  int? get totalUserCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -431,7 +433,8 @@ abstract class $RestaurantCopyWith<$Res> {
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "street") String? street,
       @JsonKey(name: "place_id") String? placeId,
-      @JsonKey(name: "isSave") bool? isSave});
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "total_user_count") int? totalUserCount});
 
   $GeoLocCopyWith<$Res>? get geoLoc;
 }
@@ -470,6 +473,7 @@ class _$RestaurantCopyWithImpl<$Res, $Val extends Restaurant>
     Object? street = freezed,
     Object? placeId = freezed,
     Object? isSave = freezed,
+    Object? totalUserCount = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -556,6 +560,10 @@ class _$RestaurantCopyWithImpl<$Res, $Val extends Restaurant>
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
               as bool?,
+      totalUserCount: freezed == totalUserCount
+          ? _value.totalUserCount
+          : totalUserCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -601,7 +609,8 @@ abstract class _$$RestaurantImplCopyWith<$Res>
       @JsonKey(name: "status") String? status,
       @JsonKey(name: "street") String? street,
       @JsonKey(name: "place_id") String? placeId,
-      @JsonKey(name: "isSave") bool? isSave});
+      @JsonKey(name: "isSave") bool? isSave,
+      @JsonKey(name: "total_user_count") int? totalUserCount});
 
   @override
   $GeoLocCopyWith<$Res>? get geoLoc;
@@ -639,6 +648,7 @@ class __$$RestaurantImplCopyWithImpl<$Res>
     Object? street = freezed,
     Object? placeId = freezed,
     Object? isSave = freezed,
+    Object? totalUserCount = freezed,
   }) {
     return _then(_$RestaurantImpl(
       id: freezed == id
@@ -725,6 +735,10 @@ class __$$RestaurantImplCopyWithImpl<$Res>
           ? _value.isSave
           : isSave // ignore: cast_nullable_to_non_nullable
               as bool?,
+      totalUserCount: freezed == totalUserCount
+          ? _value.totalUserCount
+          : totalUserCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -753,7 +767,8 @@ class _$RestaurantImpl implements _Restaurant {
       @JsonKey(name: "status") this.status,
       @JsonKey(name: "street") this.street,
       @JsonKey(name: "place_id") this.placeId,
-      @JsonKey(name: "isSave") this.isSave})
+      @JsonKey(name: "isSave") this.isSave,
+      @JsonKey(name: "total_user_count") this.totalUserCount})
       : _image = image;
 
   factory _$RestaurantImpl.fromJson(Map<String, dynamic> json) =>
@@ -830,10 +845,13 @@ class _$RestaurantImpl implements _Restaurant {
   @override
   @JsonKey(name: "isSave")
   final bool? isSave;
+  @override
+  @JsonKey(name: "total_user_count")
+  final int? totalUserCount;
 
   @override
   String toString() {
-    return 'Restaurant(id: $id, image: $image, name: $name, address: $address, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, userRatingsTotal: $userRatingsTotal, totalRating: $totalRating, rating: $rating, status: $status, street: $street, placeId: $placeId, isSave: $isSave)';
+    return 'Restaurant(id: $id, image: $image, name: $name, address: $address, state: $state, city: $city, country: $country, zipcode: $zipcode, geoLoc: $geoLoc, lng: $lng, lat: $lat, landmark: $landmark, phone: $phone, description: $description, userRatingsTotal: $userRatingsTotal, totalRating: $totalRating, rating: $rating, status: $status, street: $street, placeId: $placeId, isSave: $isSave, totalUserCount: $totalUserCount)';
   }
 
   @override
@@ -865,7 +883,9 @@ class _$RestaurantImpl implements _Restaurant {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.street, street) || other.street == street) &&
             (identical(other.placeId, placeId) || other.placeId == placeId) &&
-            (identical(other.isSave, isSave) || other.isSave == isSave));
+            (identical(other.isSave, isSave) || other.isSave == isSave) &&
+            (identical(other.totalUserCount, totalUserCount) ||
+                other.totalUserCount == totalUserCount));
   }
 
   @JsonKey(ignore: true)
@@ -892,7 +912,8 @@ class _$RestaurantImpl implements _Restaurant {
         status,
         street,
         placeId,
-        isSave
+        isSave,
+        totalUserCount
       ]);
 
   @JsonKey(ignore: true)
@@ -911,27 +932,29 @@ class _$RestaurantImpl implements _Restaurant {
 
 abstract class _Restaurant implements Restaurant {
   const factory _Restaurant(
-      {@JsonKey(name: "_id") final String? id,
-      @JsonKey(name: "image") final List<String>? image,
-      @JsonKey(name: "name") final String? name,
-      @JsonKey(name: "address") final String? address,
-      @JsonKey(name: "state") final String? state,
-      @JsonKey(name: "city") final String? city,
-      @JsonKey(name: "country") final String? country,
-      @JsonKey(name: "zipcode") final String? zipcode,
-      @JsonKey(name: "geo_loc") final GeoLoc? geoLoc,
-      @JsonKey(name: "lng") final String? lng,
-      @JsonKey(name: "lat") final String? lat,
-      @JsonKey(name: "landmark") final String? landmark,
-      @JsonKey(name: "phone") final String? phone,
-      @JsonKey(name: "description") final String? description,
-      @JsonKey(name: "user_ratings_total") final String? userRatingsTotal,
-      @JsonKey(name: "total_rating") final double? totalRating,
-      @JsonKey(name: "rating") final String? rating,
-      @JsonKey(name: "status") final String? status,
-      @JsonKey(name: "street") final String? street,
-      @JsonKey(name: "place_id") final String? placeId,
-      @JsonKey(name: "isSave") final bool? isSave}) = _$RestaurantImpl;
+          {@JsonKey(name: "_id") final String? id,
+          @JsonKey(name: "image") final List<String>? image,
+          @JsonKey(name: "name") final String? name,
+          @JsonKey(name: "address") final String? address,
+          @JsonKey(name: "state") final String? state,
+          @JsonKey(name: "city") final String? city,
+          @JsonKey(name: "country") final String? country,
+          @JsonKey(name: "zipcode") final String? zipcode,
+          @JsonKey(name: "geo_loc") final GeoLoc? geoLoc,
+          @JsonKey(name: "lng") final String? lng,
+          @JsonKey(name: "lat") final String? lat,
+          @JsonKey(name: "landmark") final String? landmark,
+          @JsonKey(name: "phone") final String? phone,
+          @JsonKey(name: "description") final String? description,
+          @JsonKey(name: "user_ratings_total") final String? userRatingsTotal,
+          @JsonKey(name: "total_rating") final double? totalRating,
+          @JsonKey(name: "rating") final String? rating,
+          @JsonKey(name: "status") final String? status,
+          @JsonKey(name: "street") final String? street,
+          @JsonKey(name: "place_id") final String? placeId,
+          @JsonKey(name: "isSave") final bool? isSave,
+          @JsonKey(name: "total_user_count") final int? totalUserCount}) =
+      _$RestaurantImpl;
 
   factory _Restaurant.fromJson(Map<String, dynamic> json) =
       _$RestaurantImpl.fromJson;
@@ -999,6 +1022,9 @@ abstract class _Restaurant implements Restaurant {
   @override
   @JsonKey(name: "isSave")
   bool? get isSave;
+  @override
+  @JsonKey(name: "total_user_count")
+  int? get totalUserCount;
   @override
   @JsonKey(ignore: true)
   _$$RestaurantImplCopyWith<_$RestaurantImpl> get copyWith =>

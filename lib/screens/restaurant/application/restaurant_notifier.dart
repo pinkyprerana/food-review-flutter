@@ -743,6 +743,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     } else if (reviewTextController.text.trim().isEmpty) {
       showToastMessage('Please enter a review');
       return false;
+    } else if (state.sliderValue == 0) {
+      showToastMessage('Please select a rating');
+      return false;
     } else {
       return true;
     }
