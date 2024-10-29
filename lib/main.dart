@@ -90,7 +90,7 @@ void _handleNotificationAction(RemoteMessage message) async {
   final receiverId = message.data['ref_user_follow_id'];
   final profileImage = "${AppUrls.profilePicLocation}/${message.data['user_profile_image']}";
   final userName = message.data['user_full_name'];
-  AppLog.log("Received message on app opened:: $type, $title, $body, $postId, $userId, $profileImage, $userName");
+
 
   notifications = NotificationData(
     title: title,
@@ -220,7 +220,7 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
   final userId = notifications?.postedUserInfo?.id;
   final receiverId = notifications?.receiverUserInfo?.id;
   final postId = notifications?.refPostId;
-  AppLog.log("Fetch userId, receiverId, postId respectively: $userId , $receiverId, $postId)");
+
   final autoRouter = AppRouter();
   switch (type) {
     case 'user_accept':

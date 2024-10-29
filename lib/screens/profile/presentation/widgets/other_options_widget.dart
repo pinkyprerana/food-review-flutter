@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
-// import 'package:for_the_table/core/shared/providers.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/widgets/app_button.dart';
 import 'package:for_the_table/widgets/app_outline_button.dart';
@@ -76,8 +74,6 @@ class OtherOptionsWidget extends ConsumerWidget {
                             text: 'Logout',
                             loading: state.isLoading,
                             onPressed: () async {
-                              AppLog.log(
-                                  "---------------abc------------------");
                               await stateNotifier.logout(context: context);
                               // await stateNotifier.logout(callback: () async {
                               //   Future.delayed(const Duration(seconds: 3), () {

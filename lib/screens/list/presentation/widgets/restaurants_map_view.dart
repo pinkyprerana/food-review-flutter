@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../restaurant/shared/provider.dart';
 
@@ -46,9 +45,7 @@ class _RestaurantMapViewState extends ConsumerState<RestaurantMapView> {
   Widget build(BuildContext context) {
     final state = ref.watch(restaurantNotifierProvider);
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    AppLog.log('stateNotifier.maekers ----------->> ${stateNotifier.markers}');
-    AppLog.log(
-        'stateNotifier.maekers.length ----------->> ${stateNotifier.markers.length}');
+
     return SingleChildScrollView(
       child: Column(
         children: [

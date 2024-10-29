@@ -65,7 +65,6 @@ class CreatePostNotifier extends StateNotifier<CreatePostState> {
 
   Future<void> addPost(VoidCallback voidCallback, File? imageFile) async {
     state = state.copyWith(isLoading: true);
-    AppLog.log('imageFile --------->> $imageFile');
 
     try {
       final formData = FormData.fromMap({

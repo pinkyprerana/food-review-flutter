@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
@@ -26,8 +24,6 @@ class VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
-
-    AppLog.log('widget.file ----------->>> ${widget.file}');
 
     videoStatusAnimation = Container();
 
