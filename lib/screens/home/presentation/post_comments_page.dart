@@ -62,9 +62,8 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     if (homeState.postList == null ||
         homeState.postList!.isEmpty ||
         homeState.commentsList == null ||
-        // profileState.dislikedPostsList.isEmpty ||
-        // profileState.likedPostList.isEmpty ||
-        profileState.commentsList == null
+        profileState.commentsList == null ||
+        widget.postId.isEmpty
     ) {
       return const Center(
         child: CircularProgressIndicator(color: AppColors.colorWhite),
@@ -96,9 +95,14 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
           ? postFromLikedPost
         : postFromDislikedPost;
 
-    if (postInfoList.id==null) {
-      return const Center(
-        child: Text("Post id not found", style: TextStyle(color: AppColors.colorWhite)),
+    if(postInfoList.userInfo?.id == null){
+      return Center(
+        child: Text("Something went wrong.", //Commentator's id not found.
+          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+            fontSize: 14.sp,
+            color: AppColors.colorWhite,
+          ),
+        ),
       );
     }
 
@@ -449,14 +453,13 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
 
   Future<void> _fetchPostDetails(String userId) async {
     final followNotifier = ref.read(followNotifierProvider.notifier);
-    await followNotifier.getAllPostsOfOtherUserProfile(
-            () {}, userId);
-    await followNotifier.getOtherPeopleDetails(() {},userId);
+    await followNotifier.getAllPostsOfOtherUserProfile(() {}, userId); // People profile
+    // await followNotifier.getOtherPeopleDetails(() {},userId);
     final postFeedNotifier = ref.read(homeNotifierProvider.notifier);
-    await postFeedNotifier.getPostFeed();
+    await postFeedNotifier.getPostFeed(); // Post feed
     final profileNotifier = ref.read(profileNotifierProvider.notifier);
-    await profileNotifier.fetchlikedPosts();
-    await profileNotifier.fetchDislikedPosts();
+    await profileNotifier.fetchlikedPosts(); // Liked post
+    await profileNotifier.fetchDislikedPosts(); //Disliked post
   }
 
 }
