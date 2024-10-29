@@ -62,8 +62,8 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     if (homeState.postList == null ||
         homeState.postList!.isEmpty ||
         homeState.commentsList == null ||
-        profileState.dislikedPostsList.isEmpty ||
-        profileState.likedPostList.isEmpty ||
+        // profileState.dislikedPostsList.isEmpty ||
+        // profileState.likedPostList.isEmpty ||
         profileState.commentsList == null
     ) {
       return const Center(
