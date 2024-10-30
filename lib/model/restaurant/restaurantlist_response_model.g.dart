@@ -60,6 +60,7 @@ _$RestaurantImpl _$$RestaurantImplFromJson(Map<String, dynamic> json) =>
       street: json['street'] as String?,
       placeId: json['place_id'] as String?,
       isSave: json['isSave'] as bool?,
+      totalUserCount: (json['total_user_count'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$RestaurantImplToJson(_$RestaurantImpl instance) =>
@@ -85,6 +86,7 @@ Map<String, dynamic> _$$RestaurantImplToJson(_$RestaurantImpl instance) =>
       'street': instance.street,
       'place_id': instance.placeId,
       'isSave': instance.isSave,
+      'total_user_count': instance.totalUserCount,
     };
 
 _$GeoLocImpl _$$GeoLocImplFromJson(Map<String, dynamic> json) => _$GeoLocImpl(

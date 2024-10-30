@@ -63,13 +63,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     state = state.copyWith(totalPagesPosts: 0);
     state = state.copyWith(currentPageForPosts: 1);
     state = state.copyWith(postPerRestaurantList: []);
-    AppLog.log('state.totalPagesPosts ------>> ${state.totalPagesPosts}');
-    AppLog.log('state.currentPageForPosts ------>> ${state.currentPageForPosts}');
-    AppLog.log('state.postPerRestaurantList ------>> ${state.postPerRestaurantList}');
   }
 
   Future<void> loadMoreRestaurants(BuildContext context,  WidgetRef ref) async {
-    AppLog.log('state.currentPage: ------->> ${state.currentPage}');
     if (state.currentPage >= state.totalPages) {
       showToastMessage('No more restaurants');
       restaurantRefreshController.loadComplete();
@@ -179,7 +175,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response +++++++++++ $response');
         final allReastaurantsModel =
             AllRestaurantsModel.fromJson(response.data!);
 
@@ -311,7 +306,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> loadMorePosts(BuildContext context, String? restaurantId) async {
-    AppLog.log('state.currentPageForPosts: ------->> ${state.currentPageForPosts}');
     if (state.currentPageForPosts >= state.totalPagesPosts) {
       showToastMessage('No more posts');
       restaurantRefreshController2.loadComplete();
@@ -326,7 +320,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       {required BuildContext context,
       bool isLoadMore = false,
       required String? restaurantId}) async {
-    AppLog.log('state.currentPageForPosts ======== ${state.currentPageForPosts}');
     try {
       state = state.copyWith(isLoadingForPosts: !isLoadMore);
 
@@ -357,7 +350,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('response ---->> $response');
         final postlistPerRestaurantResponseModel =
             PostModel.fromJson(response.data!);
 
@@ -383,7 +375,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   Future<void> saveRestaurant(String restaurantID) async {
-    AppLog.log('restaurantID------------->>>> $restaurantID');
     try {
       state = state.copyWith(isLoadingSaveRestaurant: true);
 
@@ -405,12 +396,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('save restaurant response ----->> $response');
 
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
-
-        // AppLog.log(localSavedRestaurantList![0].toString());
 
         if (localSavedRestaurantList != null && (localSavedRestaurantList?.isNotEmpty ?? false)) {
           for (int i = 0; i < localSavedRestaurantList!.length; i++) {
@@ -420,8 +408,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
             }
           }
         }
-
-        AppLog.log('localSavedRestaurantList +++++++++ $localSavedRestaurantList');
 
         // await getSavedRestaurants();
         if (localSavedRestaurantList != null && (localSavedRestaurantList?.isNotEmpty ?? false)) {
@@ -447,7 +433,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   Future<void> restaurantDetails(String restaurantId) async {
     restId = restaurantId;
-    AppLog.log('restaurantID------------->>>> $restaurantId');
     try {
       state = state.copyWith(isLoadingForRestaurantDetails: true);
 
@@ -468,17 +453,8 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
         data: data,
       );
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('restaurant details----->> $response');
-
-        AppLog.log('response.data ======== ${response.data}');
 
         reastaurantDetials = RestaurantDetailsModel.fromJson(response.data ?? {});
-
-        // AppLog.log(
-        //     'Restaurant-details variable ------->>>${reastaurantDetials.toString()}');
-
-        // final message = response.data?['message'] as String?;
-        // showToastMessage(message ?? '');
 
         state = state.copyWith(isLoadingForRestaurantDetails: false);
       } else {
@@ -503,7 +479,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
     }
 
     await getSavedRestaurants(isLoadMore: true);
-    AppLog.log('more saved restaurants are called');
     savedRestaurantRefreshController.loadComplete();
   }
 
@@ -544,7 +519,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       );
 
       if (response.statusCode == 200 && response.data != null) {
-        AppLog.log('RESPONSE:------------ $response');
         final savedRestaurantsResponseModel =
             SavedRestaurantsResponseModel.fromJson(response.data!);
 
@@ -582,7 +556,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
         localSavedRestaurantList = [...state.savedRestaurantList ?? []];
 
-        AppLog.log('localSavedRestaurantList------>> ${localSavedRestaurantList?.length}');
       } else {
         final message = response.data?['message'] as String?;
         showToastMessage(message ?? '');
@@ -598,7 +571,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
   }
 
   void updateLocalSavedRestaurantList() {
-    AppLog.log('localSavedRestaurantList ------------- $localSavedRestaurantList');
     localSavedRestaurantList?.retainWhere((item) => item.isSaveLocally == true);
 
     state = state.copyWith(savedRestaurantList: [...localSavedRestaurantList ?? []]);
@@ -606,7 +578,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
   void sliderValueUpdate(double value) {
     state = state.copyWith(sliderValue: value);
-    AppLog.log('state.sliderValue -------->> ${state.sliderValue}');
   }
 
   void clearStateSliderValue() {
@@ -657,13 +628,11 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
 
     switch (permission) {
       case PermissionStatus.granted:
-        AppLog.log('permission granted');
         if (!context.mounted) return;
         showOptionDialog(context);
         // pickImageOrVideo();
         break;
       case PermissionStatus.denied:
-        AppLog.log('permission denied');
         final permissionAgain = await Permission.photos.request();
         if (permissionAgain == PermissionStatus.denied) {
           showToastMessage('Request Denied, please go to app settings to grant gallery permission');
@@ -674,14 +643,12 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
           if (!context.mounted) return;
           _showPermissionDialog(context);
         } else if (permissionAgain == PermissionStatus.granted) {
-          AppLog.log('permission granted');
           // pickImageOrVideo();
           if (!context.mounted) return;
           showOptionDialog(context);
         }
         break;
       case PermissionStatus.permanentlyDenied:
-        AppLog.log('permission denied');
         final permissionAgain = await Permission.photos.request();
         if (permissionAgain == PermissionStatus.denied) {
           showToastMessage('Request Denied, please go to app settings to grant gallery permission');
@@ -692,20 +659,16 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
           if (!context.mounted) return;
           _showPermissionDialog(context);
         } else if (permissionAgain == PermissionStatus.granted) {
-          AppLog.log('permission granted');
           // pickImageOrVideo();
           if (!context.mounted) return;
           showOptionDialog(context);
         }
         break;
       case PermissionStatus.limited:
-        AppLog.log('permission limited');
         break;
       case PermissionStatus.restricted:
-        AppLog.log('permission restricted');
         break;
       case PermissionStatus.provisional:
-        AppLog.log('permission provisional');
         break;
       default:
     }
@@ -727,10 +690,6 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       return;
     }
 
-    // filePicked = File(pickedFile.path);
-
-    // AppLog.log('pickedFile-------- ${pickedFile.path}');
-
     state = (photo)
         ? state.copyWith(imageOrVideo: pickedFile, isVideo: false)
         : state.copyWith(imageOrVideo: pickedFile, isVideo: true);
@@ -742,6 +701,9 @@ class RestaurantNotifier extends StateNotifier<RestaurantState> {
       return false;
     } else if (reviewTextController.text.trim().isEmpty) {
       showToastMessage('Please enter a review');
+      return false;
+    } else if (state.sliderValue == 0) {
+      showToastMessage('Please select a rating');
       return false;
     } else {
       return true;

@@ -37,7 +37,6 @@ class NetworkApiService implements BaseApiServices {
             'Bearer ${_hiveDatabase.box.get(AppPreferenceKeys.token)}',
         'x-access-token': '${_hiveDatabase.box.get(AppPreferenceKeys.token)}'
       };
-      AppLog.log(_hiveDatabase.box.get(AppPreferenceKeys.token));
       _dio.options.headers.addAll(headers);
       final returnResponse = await _dio.get(url);
       return (returnResponse, null);

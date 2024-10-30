@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 
 class SaveRestaurantIcon extends StatefulWidget {
   const SaveRestaurantIcon({super.key, required this.isBookmarked, required this.onTap});
@@ -21,8 +20,6 @@ class _SaveRestaurantIconState extends State<SaveRestaurantIcon> {
 
   @override
   Widget build(BuildContext context) {
-    AppLog.log('_isSaved---------->> $_isSaved');
-    AppLog.log('widget.isBookmarked---------->> ${widget.isBookmarked}');
     return GestureDetector(
         onTap: () {
           widget.onTap.call();

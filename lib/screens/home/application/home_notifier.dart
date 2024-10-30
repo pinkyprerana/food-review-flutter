@@ -703,7 +703,6 @@ class HomeNotifier extends StateNotifier<HomeState> {
 
         state = state.copyWith(postDetailsIsLoading: false);
 
-        AppLog.log('isMyLike ----->> ${postDetailsResponse.data.isMyLike}');
 
         return postDetailsResponse.data.isMyLike;
       } else {

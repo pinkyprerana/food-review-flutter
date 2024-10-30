@@ -225,7 +225,7 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                       ),
                                       SizedBox(width: 8.w),
                                       Text(
-                                        '${allRestaurantList[index].userRatingsTotal?.isNotEmpty == true ? allRestaurantList[index].userRatingsTotal : '0'} reviews',
+                                        '${allRestaurantList[index].totalUserCount != 0 ? allRestaurantList[index].totalUserCount : '0'} reviews',
                                         style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                           color: AppColors.colorPrimaryAlpha,
                                           fontSize: 8.sp,

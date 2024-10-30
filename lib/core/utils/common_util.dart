@@ -10,7 +10,7 @@ import '../styles/app_colors.dart';
 
 Center buttonLoader({Color? color, double? size}) {
   return Center(
-    child: LoadingAnimationWidget.prograssiveDots(
+    child: LoadingAnimationWidget.progressiveDots(
       color: color ?? Colors.white,
       size: size ?? 50,
     ),
@@ -161,7 +161,7 @@ Center loaderPrimaryColor() {
 
 Center loader() {
   return Center(
-    child: LoadingAnimationWidget.prograssiveDots(
+    child: LoadingAnimationWidget.progressiveDots(
       color: AppColors.colorWhite,
       size: 40,
     ),

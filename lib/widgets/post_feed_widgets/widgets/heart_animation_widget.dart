@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 
 class HeartAnimationWidget extends StatefulWidget {
   const HeartAnimationWidget({
@@ -60,8 +59,6 @@ class _HeartAnimationWidgetState extends State<HeartAnimationWidget>
 
   @override
   Widget build(BuildContext context) {
-    AppLog.log('liked double tap');
-    AppLog.log('widget.isAnimating---->> ${widget.isAnimating}');
     return ScaleTransition(scale: scale, child: widget.child);
   }
 }

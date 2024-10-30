@@ -10,7 +10,6 @@ import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
 import 'package:for_the_table/core/styles/app_text_styles.dart';
-import 'package:for_the_table/core/utils/app_log.dart';
 import 'package:for_the_table/core/utils/modal_bottom_sheet.dart';
 import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/screens/home/presentation/widgets/post_item_widget.dart';
@@ -101,13 +100,10 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    AppLog.log('restaurantID ----->> ${widget.restaurantId}');
     final mediaQuery = MediaQuery.sizeOf(context);
     final state = ref.watch(restaurantNotifierProvider);
     final stateNotifier = ref.watch(restaurantNotifierProvider.notifier);
 
-    AppLog.log(state.sliderValue.toString());
-    AppLog.log(widget.image);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -630,10 +626,6 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                               onTap: () async {
                                                 await stateNotifier
                                                     .saveRestaurant(widget.restaurantId);
-                                                // AppLog.log(
-                                                //     '------saved/unsaved-----');
-                                                // stateNotifier
-                                                //     .updateLocalSavedRestaurantList();
                                               }))
                                 ],
                               ),

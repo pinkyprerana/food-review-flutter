@@ -41,14 +41,11 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   @override
   void initState() {
     super.initState();
-    AppLog.log('--------id--------${widget.peopleId}');
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
-      AppLog.log('widgets binding is called');
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getAllPostsOfOtherUserProfile(
           () {}, widget.peopleId);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
-      AppLog.log('api is getting called');
     });
     WidgetsBinding.instance.ensureVisualUpdate();
   }

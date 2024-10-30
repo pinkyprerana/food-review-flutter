@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:for_the_table/core/utils/toast.dart';
 import 'package:for_the_table/core/utils/validator.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/infrastructure/network_api_services.dart';
-import '../../../core/utils/app_log.dart';
 import 'auth_state.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
@@ -177,7 +175,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
               ? "ios"
               : "web";
       String? deviceToken = await FirebaseMessaging.instance.getToken();
-      AppLog.log("device token : $deviceToken");
 
       var (response, dioException) = await _networkApiService
           .postApiRequest(url: '${AppUrls.baseUrl}${AppUrls.signin}', body: {
@@ -187,7 +184,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
         "deviceToken": deviceToken,
       });
 
-      AppLog.log('response ----- $response');
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -197,7 +193,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       } else {
         Map<String, dynamic> jsonData = response.data;
         if (response.statusCode == 200) {
-          AppLog.log(jsonEncode(jsonData));
 
           _hiveDatabase.box.put(AppPreferenceKeys.token, jsonData['token'] ?? '');
           _hiveDatabase.box.put(AppPreferenceKeys.userId, jsonData['data']['_id'] ?? '');
@@ -252,7 +247,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
               ? "ios"
               : "web";
       String? deviceToken = await FirebaseMessaging.instance.getToken();
-      AppLog.log("Device token is $deviceToken");
+
       Map<String, dynamic> requestBody = {
         "first_name": firstName,
         "last_name": lastName,
@@ -311,7 +306,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showDioError(dioException);
       } else {
         Map<String, dynamic> jsonData = response.data;
-        AppLog.log(jsonEncode(jsonData));
+
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
           voidCallback.call();
@@ -344,7 +339,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         showDioError(dioException);
       } else {
         Map<String, dynamic> jsonData = response.data;
-        AppLog.log(jsonEncode(jsonData));
+
         if (response.statusCode == 200) {
           showToastMessage(jsonData['message']);
           voidCallback.call();
@@ -377,7 +372,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         Map<String, dynamic> jsonData = response.data;
 
         if (response.statusCode == 200) {
-          AppLog.log(jsonEncode(jsonData));
+
           showToastMessage(jsonData['message']);
           fpOtpTextController.clear();
           voidCallback.call();
