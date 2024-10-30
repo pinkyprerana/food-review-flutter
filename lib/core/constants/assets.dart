@@ -92,6 +92,9 @@ class Assets {
   static const String volumeHigh = 'assets/icons/volume-high.png';
   static const String volumeLow = 'assets/icons/volume-low.png';
   static const String startChat = 'assets/icons/dm.png';
+  static const String sendMessage = 'assets/icons/sendMessage.png';
+  static const String addEmoji = 'assets/icons/addEmoji.png';
+  static const String addAttachment = 'assets/icons/addAttachment.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';

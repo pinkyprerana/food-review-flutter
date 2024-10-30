@@ -144,38 +144,77 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               },
             ),
           ),
-          // Message Input Box
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Enter Message',
-                      hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(color: AppColors.colorText3),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      filled: true,
-                      fillColor: Colors.grey[100],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide.none,
+            child: Container(
+              height: 60,
+              decoration: BoxDecoration(
+                  color: AppColors.colorWhite,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.colorGrey3)
+              ),
+              child: Row(
+                children: [
+                  // Emoji Button
+                  IconButton(
+                    icon: Image.asset(Assets.addEmoji,
+                      width: 20.r,
+                      height: 20.r,
+                      fit: BoxFit.cover,
+                    ),
+                    onPressed: () {
+                      // TODO: Add emoji picker logic
+                    },
+                  ),
+                  // 8.horizontalSpace,
+                  // Message Input Field
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Enter Message',
+                        hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          color: AppColors.colorGrey3,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        filled: true,
+                        fillColor: AppColors.colorTransparent,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: AppColors.colorPrimary,
-                  child: IconButton(
-                    icon: const Icon(Icons.send, color: Colors.white),
+                  8.horizontalSpace,
+
+                  // Attachment Icon
+                  IconButton(
+                    icon: Image.asset(Assets.addAttachment,
+                      width: 20.r,
+                      height: 20.r,
+                      fit: BoxFit.cover,
+                    ),
                     onPressed: () {
-                      //Todo: Send message action
+                      // TODO: Handle attachment logic
                     },
                   ),
-                ),
-              ],
+                  8.horizontalSpace,
+                  // Send Button
+                  IconButton(
+                    icon: Image.asset(Assets.sendMessage,
+                      width: 20.r,
+                      height: 20.r,
+                      fit: BoxFit.cover,
+                    ),
+                    onPressed: () {
+                      // TODO: Send message logic
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
