@@ -54,6 +54,11 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     Share.share('Check out this profile: $profileUrl');
   }
 
+
+  String generateChatId(String userId1, String userId2) {
+    return userId1.compareTo(userId2) < 0 ? '$userId1\_$userId2' : '$userId2\_$userId1';
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(followNotifierProvider);
@@ -262,7 +267,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                    ? const SizedBox()
                                   : GestureDetector(
                                     onTap: () {
-                                      AutoRouter.of(context).push(const DirectMessageRoute());
+                                      final initiateChatId = generateChatId(widget.peopleId, getUserId);
+                                      AutoRouter.of(context).push( DirectMessageRoute(chatId: initiateChatId, peopleId: widget.peopleId));
                                     },
                                     child: SmallProfileContainer(
                                         widget: Center(

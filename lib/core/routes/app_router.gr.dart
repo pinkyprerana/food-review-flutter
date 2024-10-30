@@ -45,9 +45,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     DirectMessageRoute.name: (routeData) {
+      final args = routeData.argsAs<DirectMessageRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const DirectMessageScreen(),
+        child: DirectMessageScreen(
+          chatId: args.chatId,
+          peopleId: args.peopleId,
+          key: args.key,
+        ),
       );
     },
     DislikedPostsRoute.name: (routeData) {
@@ -364,16 +369,45 @@ class CreatePostRouteArgs {
 
 /// generated route for
 /// [DirectMessageScreen]
-class DirectMessageRoute extends PageRouteInfo<void> {
-  const DirectMessageRoute({List<PageRouteInfo>? children})
-      : super(
+class DirectMessageRoute extends PageRouteInfo<DirectMessageRouteArgs> {
+  DirectMessageRoute({
+    required String chatId,
+    required String peopleId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           DirectMessageRoute.name,
+          args: DirectMessageRouteArgs(
+            chatId: chatId,
+            peopleId: peopleId,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'DirectMessageRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<DirectMessageRouteArgs> page =
+      PageInfo<DirectMessageRouteArgs>(name);
+}
+
+class DirectMessageRouteArgs {
+  const DirectMessageRouteArgs({
+    required this.chatId,
+    required this.peopleId,
+    this.key,
+  });
+
+  final String chatId;
+
+  final String peopleId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'DirectMessageRouteArgs{chatId: $chatId, peopleId: $peopleId, key: $key}';
+  }
 }
 
 /// generated route for

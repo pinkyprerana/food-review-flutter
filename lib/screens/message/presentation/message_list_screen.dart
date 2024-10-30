@@ -18,6 +18,12 @@ class MessageListScreen extends ConsumerStatefulWidget {
 }
 
 class _MessageListScreenState extends ConsumerState<MessageListScreen> {
+
+  String generateChatId(String userId1, String userId2) {
+    return userId1.compareTo(userId2) < 0 ? '$userId1\_$userId2' : '$userId2\_$userId1';
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +164,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       ],
                     ),
                     onTap: () {
-                      AutoRouter.of(context).push(const DirectMessageRoute());
+                      // final chatId = generateChatId(AppPreferenceKeys.userId, user);
+                      AutoRouter.of(context).push( DirectMessageRoute(chatId: '', peopleId: ''));
                     },
                   );
                 },
