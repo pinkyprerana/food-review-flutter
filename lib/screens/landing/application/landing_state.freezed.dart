@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LandingState {
   bool get isLoading => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LandingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LandingStateCopyWith<LandingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$LandingStateCopyWithImpl<$Res, $Val extends LandingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LandingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +79,8 @@ class __$$LandingStateImplCopyWithImpl<$Res>
       _$LandingStateImpl _value, $Res Function(_$LandingStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LandingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -115,7 +121,9 @@ class _$LandingStateImpl extends _LandingState {
   @override
   int get hashCode => Object.hash(runtimeType, isLoading);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LandingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LandingStateImplCopyWith<_$LandingStateImpl> get copyWith =>
@@ -128,8 +136,11 @@ abstract class _LandingState extends LandingState {
 
   @override
   bool get isLoading;
+
+  /// Create a copy of LandingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LandingStateImplCopyWith<_$LandingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

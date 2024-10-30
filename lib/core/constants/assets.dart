@@ -91,6 +91,7 @@ class Assets {
   static const String bookmarkFilled = 'assets/icons/bookmark_filled.png';
   static const String volumeHigh = 'assets/icons/volume-high.png';
   static const String volumeLow = 'assets/icons/volume-low.png';
+  static const String startChat = 'assets/icons/dm.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';

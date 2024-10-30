@@ -30,8 +30,12 @@ mixin _$TermsAndConditionsModel {
   @JsonKey(name: "data")
   DataOfTermsAndConditions? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this TermsAndConditionsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TermsAndConditionsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TermsAndConditionsModelCopyWith<TermsAndConditionsModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$TermsAndConditionsModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TermsAndConditionsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -90,6 +96,8 @@ class _$TermsAndConditionsModelCopyWithImpl<$Res,
     ) as $Val);
   }
 
+  /// Create a copy of TermsAndConditionsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DataOfTermsAndConditionsCopyWith<$Res>? get data {
@@ -132,6 +140,8 @@ class __$$TermsAndConditionsModelImplCopyWithImpl<$Res>
       $Res Function(_$TermsAndConditionsModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TermsAndConditionsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -202,11 +212,13 @@ class _$TermsAndConditionsModelImpl implements _TermsAndConditionsModel {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, type, message, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TermsAndConditionsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TermsAndConditionsModelImplCopyWith<_$TermsAndConditionsModelImpl>
@@ -244,8 +256,11 @@ abstract class _TermsAndConditionsModel implements TermsAndConditionsModel {
   @override
   @JsonKey(name: "data")
   DataOfTermsAndConditions? get data;
+
+  /// Create a copy of TermsAndConditionsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TermsAndConditionsModelImplCopyWith<_$TermsAndConditionsModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -266,8 +281,12 @@ mixin _$DataOfTermsAndConditions {
   @JsonKey(name: "content")
   String? get content => throw _privateConstructorUsedError;
 
+  /// Serializes this DataOfTermsAndConditions to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataOfTermsAndConditions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataOfTermsAndConditionsCopyWith<DataOfTermsAndConditions> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -296,6 +315,8 @@ class _$DataOfTermsAndConditionsCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataOfTermsAndConditions
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -351,6 +372,8 @@ class __$$DataOfTermsAndConditionsImplCopyWithImpl<$Res>
       $Res Function(_$DataOfTermsAndConditionsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataOfTermsAndConditions
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -421,11 +444,13 @@ class _$DataOfTermsAndConditionsImpl implements _DataOfTermsAndConditions {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, slug, content);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataOfTermsAndConditions
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataOfTermsAndConditionsImplCopyWith<_$DataOfTermsAndConditionsImpl>
@@ -463,8 +488,11 @@ abstract class _DataOfTermsAndConditions implements DataOfTermsAndConditions {
   @override
   @JsonKey(name: "content")
   String? get content;
+
+  /// Create a copy of DataOfTermsAndConditions
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataOfTermsAndConditionsImplCopyWith<_$DataOfTermsAndConditionsImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

@@ -29,8 +29,12 @@ mixin _$PreferenceModel {
   @JsonKey(name: "data")
   List<PreferenceList>? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this PreferenceModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PreferenceModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PreferenceModelCopyWith<PreferenceModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$PreferenceModelCopyWithImpl<$Res, $Val extends PreferenceModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PreferenceModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +116,8 @@ class __$$PreferenceModelImplCopyWithImpl<$Res>
       _$PreferenceModelImpl _value, $Res Function(_$PreferenceModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PreferenceModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -188,12 +196,14 @@ class _$PreferenceModelImpl implements _PreferenceModel {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, type, message,
       const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PreferenceModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PreferenceModelImplCopyWith<_$PreferenceModelImpl> get copyWith =>
@@ -231,8 +241,11 @@ abstract class _PreferenceModel implements PreferenceModel {
   @override
   @JsonKey(name: "data")
   List<PreferenceList>? get data;
+
+  /// Create a copy of PreferenceModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PreferenceModelImplCopyWith<_$PreferenceModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -250,8 +263,12 @@ mixin _$PreferenceList {
   @JsonKey(name: "status")
   String? get status => throw _privateConstructorUsedError;
 
+  /// Serializes this PreferenceList to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PreferenceList
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PreferenceListCopyWith<PreferenceList> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -278,6 +295,8 @@ class _$PreferenceListCopyWithImpl<$Res, $Val extends PreferenceList>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PreferenceList
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -324,6 +343,8 @@ class __$$PreferenceListImplCopyWithImpl<$Res>
       _$PreferenceListImpl _value, $Res Function(_$PreferenceListImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PreferenceList
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -384,11 +405,13 @@ class _$PreferenceListImpl implements _PreferenceList {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PreferenceList
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PreferenceListImplCopyWith<_$PreferenceListImpl> get copyWith =>
@@ -421,8 +444,11 @@ abstract class _PreferenceList implements PreferenceList {
   @override
   @JsonKey(name: "status")
   String? get status;
+
+  /// Create a copy of PreferenceList
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PreferenceListImplCopyWith<_$PreferenceListImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

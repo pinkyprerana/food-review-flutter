@@ -33,6 +33,7 @@ class ProfilePage extends ConsumerStatefulWidget {
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
   List otherOptions = [
+    {'icon': Assets.startChat, 'title': 'Messages'},
     {'icon': Assets.bookmark, 'title': 'Saved Restaurants'},
     {'icon': Assets.dislike, 'title': 'Disliked Posts'},
     {'icon': Assets.like, 'title': 'Liked Posts'},

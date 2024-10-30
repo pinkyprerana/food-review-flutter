@@ -22,7 +22,9 @@ mixin _$CreatePostState {
   XFile? get imageFile => throw _privateConstructorUsedError;
   String get selectedReview => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreatePostState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreatePostStateCopyWith<CreatePostState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$CreatePostStateCopyWithImpl<$Res, $Val extends CreatePostState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreatePostState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class __$$CreatePostStateImplCopyWithImpl<$Res>
       _$CreatePostStateImpl _value, $Res Function(_$CreatePostStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreatePostState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,7 +200,9 @@ class _$CreatePostStateImpl implements _CreatePostState {
   int get hashCode => Object.hash(runtimeType, currentPage, isLoading,
       isPressed, imageFile, selectedReview);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreatePostState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreatePostStateImplCopyWith<_$CreatePostStateImpl> get copyWith =>
@@ -220,8 +228,11 @@ abstract class _CreatePostState implements CreatePostState {
   XFile? get imageFile;
   @override
   String get selectedReview;
+
+  /// Create a copy of CreatePostState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreatePostStateImplCopyWith<_$CreatePostStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -44,6 +44,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    DirectMessageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DirectMessageScreen(),
+      );
+    },
     DislikedPostsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -114,6 +120,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LoginPage(),
+      );
+    },
+    MessageListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MessageListScreen(),
       );
     },
     NotificationRoute.name: (routeData) {
@@ -351,6 +363,20 @@ class CreatePostRouteArgs {
 }
 
 /// generated route for
+/// [DirectMessageScreen]
+class DirectMessageRoute extends PageRouteInfo<void> {
+  const DirectMessageRoute({List<PageRouteInfo>? children})
+      : super(
+          DirectMessageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DirectMessageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [DislikedPostsPage]
 class DislikedPostsRoute extends PageRouteInfo<void> {
   const DislikedPostsRoute({List<PageRouteInfo>? children})
@@ -514,6 +540,20 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MessageListScreen]
+class MessageListRoute extends PageRouteInfo<void> {
+  const MessageListRoute({List<PageRouteInfo>? children})
+      : super(
+          MessageListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MessageListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -20,7 +20,9 @@ mixin _$ListState {
   int get listIndex => throw _privateConstructorUsedError;
   int get mapViewIndex => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ListStateCopyWith<ListState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$ListStateCopyWithImpl<$Res, $Val extends ListState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +90,8 @@ class __$$ListStateImplCopyWithImpl<$Res>
       _$ListStateImpl _value, $Res Function(_$ListStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -149,7 +155,9 @@ class _$ListStateImpl extends _ListState {
   int get hashCode =>
       Object.hash(runtimeType, isLoading, listIndex, mapViewIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListStateImplCopyWith<_$ListStateImpl> get copyWith =>
@@ -169,8 +177,11 @@ abstract class _ListState extends ListState {
   int get listIndex;
   @override
   int get mapViewIndex;
+
+  /// Create a copy of ListState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListStateImplCopyWith<_$ListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

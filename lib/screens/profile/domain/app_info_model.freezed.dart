@@ -29,8 +29,12 @@ mixin _$AppInfoModel {
   @JsonKey(name: "data")
   AppInfoData? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this AppInfoModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppInfoModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AppInfoModelCopyWith<AppInfoModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$AppInfoModelCopyWithImpl<$Res, $Val extends AppInfoModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AppInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +94,8 @@ class _$AppInfoModelCopyWithImpl<$Res, $Val extends AppInfoModel>
     ) as $Val);
   }
 
+  /// Create a copy of AppInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AppInfoDataCopyWith<$Res>? get data {
@@ -127,6 +135,8 @@ class __$$AppInfoModelImplCopyWithImpl<$Res>
       _$AppInfoModelImpl _value, $Res Function(_$AppInfoModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -197,11 +207,13 @@ class _$AppInfoModelImpl implements _AppInfoModel {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, type, message, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppInfoModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AppInfoModelImplCopyWith<_$AppInfoModelImpl> get copyWith =>
@@ -237,8 +249,11 @@ abstract class _AppInfoModel implements AppInfoModel {
   @override
   @JsonKey(name: "data")
   AppInfoData? get data;
+
+  /// Create a copy of AppInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppInfoModelImplCopyWith<_$AppInfoModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -258,8 +273,12 @@ mixin _$AppInfoData {
   @JsonKey(name: "content")
   String? get content => throw _privateConstructorUsedError;
 
+  /// Serializes this AppInfoData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppInfoData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AppInfoDataCopyWith<AppInfoData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -287,6 +306,8 @@ class _$AppInfoDataCopyWithImpl<$Res, $Val extends AppInfoData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AppInfoData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -339,6 +360,8 @@ class __$$AppInfoDataImplCopyWithImpl<$Res>
       _$AppInfoDataImpl _value, $Res Function(_$AppInfoDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppInfoData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -409,11 +432,13 @@ class _$AppInfoDataImpl implements _AppInfoData {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, slug, content);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppInfoData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AppInfoDataImplCopyWith<_$AppInfoDataImpl> get copyWith =>
@@ -449,8 +474,11 @@ abstract class _AppInfoData implements AppInfoData {
   @override
   @JsonKey(name: "content")
   String? get content;
+
+  /// Create a copy of AppInfoData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppInfoDataImplCopyWith<_$AppInfoDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

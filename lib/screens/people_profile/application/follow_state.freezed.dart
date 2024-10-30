@@ -30,7 +30,9 @@ mixin _$FollowState {
   OtherPeopleProfileModel? get otherPeopleProfile =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FollowState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FollowStateCopyWith<FollowState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,6 +67,8 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FollowState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,6 +122,8 @@ class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
     ) as $Val);
   }
 
+  /// Create a copy of FollowState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $OtherPeopleProfileModelCopyWith<$Res>? get otherPeopleProfile {
@@ -163,6 +169,8 @@ class __$$FollowStateImplCopyWithImpl<$Res>
       _$FollowStateImpl _value, $Res Function(_$FollowStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FollowState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -362,7 +370,9 @@ class _$FollowStateImpl implements _FollowState {
       const DeepCollectionEquality().hash(_getDetails),
       otherPeopleProfile);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FollowState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>
@@ -399,8 +409,11 @@ abstract class _FollowState implements FollowState {
   List<DataOfOtherPeople>? get getDetails;
   @override
   OtherPeopleProfileModel? get otherPeopleProfile;
+
+  /// Create a copy of FollowState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -17,6 +17,8 @@ import '../../screens/landing/presentation/landing_intro_page.dart';
 import '../../screens/leaderboard/presentation/standings_page.dart';
 import '../../screens/list/presentation/list_page.dart';
 import '../../screens/location/presentation/location_page.dart';
+import '../../screens/message/presentation/message_list_screen.dart';
+import '../../screens/message/presentation/direct_message_screen.dart';
 import '../../screens/notification/presentation/notification_page.dart';
 import '../../screens/onboarding/presentation/select_preferene_page.dart';
 import '../../screens/people_profile/presentation/people_profile_screen.dart';
@@ -185,6 +187,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: PostDetailsRoute.page,
           path: '/postDetailsRoute',
+        ),
+        AutoRoute(
+          page: MessageListRoute.page,
+          path: '/messageListRoute',
+        ),
+        AutoRoute(
+          page: DirectMessageRoute.page,
+          path: '/directMessageRoute',
         ),
       ];
 }

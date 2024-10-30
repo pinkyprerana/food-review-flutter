@@ -257,6 +257,18 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       child: Image.asset(Assets.share),
                                     )),
                                   ),
+                                  20.horizontalSpace,
+                                  (widget.peopleId == getUserId)
+                                   ? const SizedBox()
+                                  : GestureDetector(
+                                    onTap: () {
+                                      AutoRouter.of(context).push(const DirectMessageRoute());
+                                    },
+                                    child: SmallProfileContainer(
+                                        widget: Center(
+                                          child: Image.asset(Assets.startChat),
+                                        )),
+                                  ),
                                 ],
                               ),
                               10.verticalSpace,
