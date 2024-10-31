@@ -95,6 +95,7 @@ class Assets {
   static const String sendMessage = 'assets/icons/sendMessage.png';
   static const String addEmoji = 'assets/icons/addEmoji.png';
   static const String addAttachment = 'assets/icons/addAttachment.png';
+  static const String initiateChat = 'assets/icons/initiateChat.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';

@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
+import 'package:for_the_table/screens/message/shared/providers.dart';
+import 'package:intl/intl.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
-import '../application/fcm_service.dart';
-import '../domain/fcm_model.dart';
+import '../../../core/utils/app_log.dart';
+import '../domain/chat_model.dart';
 
 @RoutePage()
 class DirectMessageScreen extends ConsumerStatefulWidget {
@@ -29,24 +31,24 @@ class DirectMessageScreen extends ConsumerStatefulWidget {
 class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   final TextEditingController _messageController = TextEditingController();
 
-  void _initializeChat() {
-    final chatDoc = FirebaseFirestore.instance.collection('chats').doc(widget.chatId);
-
-    chatDoc.get().then((doc) {
-      if (!doc.exists) {
-        chatDoc.set({
-          'userIds': [AppPreferenceKeys.userId,widget.peopleId],
-          'createdAt': FieldValue.serverTimestamp(),
-          // Additional initial chat data here
-        });
-      }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final stateNotifier = ref.read(chatNotifierProvider.notifier);
+      await stateNotifier.initializeChat(widget.chatId, widget.peopleId);
+      stateNotifier.getMessages(widget.chatId);
+      AppLog.log("Chat : ${widget.chatId},");
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    final FirebaseChatService chatService = FirebaseChatService();
-    _initializeChat();
+    // final state = ref.watch(chatNotifierProvider);
+    final stateNotifier = ref.watch(chatNotifierProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -113,7 +115,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   ),
                 ),
                 Text(
-                  'Typing...',
+                  '', //Typing...
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                     fontSize: 10.sp,
                     color: AppColors.colorText3,
@@ -124,167 +126,103 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: StreamBuilder<List<MessageModel>>(
-              stream: chatService.getMessages(widget.chatId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
-                }
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('Initiate chat'));
-                }
-                final messages = snapshot.data!;
-                return ListView.builder(
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
-                    bool isSender = message.senderId.isNotEmpty;
-                    return ListTile(
-                      title: Text(message.text,
-                        style: TextStyle(color: isSender ? Colors.white : Colors.black, fontSize: 14.sp,),
-                      ),
-                      subtitle: Text(message.timestamp.toDate().toString()),
-                      trailing: message.senderId == AppPreferenceKeys.userId ? Icon(Icons.person) : null,
+      body: GestureDetector(
+        onTap: FocusScope.of(context).unfocus,
+        child: Column(
+          children: [
+            Expanded(
+              child: StreamBuilder<List<ChatModel>>(
+                stream: stateNotifier.getMessages(widget.chatId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                             "Initiate chat",
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                fontSize: 10.sp,
+                                color: AppColors.colorText3,
+                              ),
+                            ),
+                            5.verticalSpace,
+                            Image.asset(Assets.initiateChat,
+                              height: 40,
+                              width: 50,
+                            ),
+                          ],
+                        )
                     );
-                  },
-                );
-              },
-            ),
-          ),
-          _buildMessageInput(),
-        ],
-      ),
+                  }
+                  final messages = snapshot.data!;
 
-      // body: Column(
-      //   children: [
-      //     Expanded(
-      //       child: ListView.builder(
-      //         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      //         itemCount: 10,
-      //         itemBuilder: (context, index) {
-      //           bool isSender = index % 2 == 0;
-      //           return Column(
-      //             crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-      //             children: [
-      //               Container(
-      //                 constraints: BoxConstraints(
-      //                   maxWidth: MediaQuery.of(context).size.width * 0.7,
-      //                 ),
-      //                 padding: const EdgeInsets.all(12.0),
-      //                 margin: const EdgeInsets.symmetric(vertical: 4.0),
-      //                 decoration: BoxDecoration(
-      //                   color: isSender ? Colors.black : Colors.grey[200],
-      //                   borderRadius: BorderRadius.only(
-      //                     topLeft: const Radius.circular(16),
-      //                     topRight: const Radius.circular(16),
-      //                     bottomLeft: isSender ? const Radius.circular(16) : Radius.zero,
-      //                     bottomRight: isSender ? Radius.zero : const Radius.circular(16),
-      //                   ),
-      //                 ),
-      //                 child: Text(
-      //                   'Lorem ipsum dolor sit amet consectetur. Ultrices lorem mauris mattis aliquet tristique risus. ',
-      //                   style: TextStyle(
-      //                     color: isSender ? Colors.white : Colors.black,
-      //                     fontSize: 14.sp,
-      //                   ),
-      //                 ),
-      //               ),
-      //               Padding(
-      //                 padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
-      //                 child: Text(
-      //                   '3:15 PM',
-      //                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
-      //                     fontSize: 10.sp,
-      //                     color: AppColors.colorText3,
-      //                   ),
-      //                 ),
-      //               ),
-      //             ],
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      //       child: Container(
-      //         height: 60,
-      //         decoration: BoxDecoration(
-      //             color: AppColors.colorWhite,
-      //           borderRadius: BorderRadius.circular(10),
-      //           border: Border.all(color: AppColors.colorGrey3)
-      //         ),
-      //         child: Row(
-      //           children: [
-      //             // Emoji Button
-      //             IconButton(
-      //               icon: Image.asset(Assets.addEmoji,
-      //                 width: 20.r,
-      //                 height: 20.r,
-      //                 fit: BoxFit.cover,
-      //               ),
-      //               onPressed: () {
-      //                 // TODO: Add emoji picker logic
-      //               },
-      //             ),
-      //             // 8.horizontalSpace,
-      //             // Message Input Field
-      //             Expanded(
-      //               child: TextField(
-      //                 decoration: InputDecoration(
-      //                   hintText: 'Enter Message',
-      //                   hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-      //                     color: AppColors.colorGrey3,
-      //                   ),
-      //                   contentPadding: const EdgeInsets.symmetric(
-      //                     horizontal: 16,
-      //                     vertical: 12,
-      //                   ),
-      //                   filled: true,
-      //                   fillColor: AppColors.colorTransparent,
-      //                   border: OutlineInputBorder(
-      //                     borderRadius: BorderRadius.circular(25),
-      //                     borderSide: BorderSide.none,
-      //                   ),
-      //                 ),
-      //               ),
-      //             ),
-      //             8.horizontalSpace,
-      //
-      //             // Attachment Icon
-      //             IconButton(
-      //               icon: Image.asset(Assets.addAttachment,
-      //                 width: 20.r,
-      //                 height: 20.r,
-      //                 fit: BoxFit.cover,
-      //               ),
-      //               onPressed: () {
-      //                 // TODO: Handle attachment logic
-      //               },
-      //             ),
-      //             8.horizontalSpace,
-      //             // Send Button
-      //             IconButton(
-      //               icon: Image.asset(Assets.sendMessage,
-      //                 width: 20.r,
-      //                 height: 20.r,
-      //                 fit: BoxFit.cover,
-      //               ),
-      //               onPressed: () {
-      //                 // TODO: Send message logic
-      //               },
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[index];
+                      AppLog.log("messages : ${messages}");
+                      bool isSender = message.senderID == AppPreferenceKeys.userId;
+                      String formattedTimestamp() {
+                        final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(message.createdAt);
+                        return DateFormat.Hm().format(dateTime);
+                      }
+                      return Column(
+                        crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            padding: const EdgeInsets.all(12.0),
+                            margin: const EdgeInsets.symmetric(vertical: 4.0),
+                            decoration: BoxDecoration(
+                              color: isSender ? AppColors.colorGrey2 : AppColors.colorPrimary,
+                              borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(16),
+                                topRight: const Radius.circular(16),
+                                bottomLeft: isSender ? const Radius.circular(16) : Radius.zero,
+                                bottomRight: isSender ? Radius.zero : const Radius.circular(16),
+                              ),
+                            ),
+                            child: Text(
+                              message.message,
+                              style: TextStyle(
+                                color: isSender ? Colors.black : Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
+                            child: Text(
+                            formattedTimestamp.toString(),
+                              // message.timestamp.toString(),
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                fontSize: 10.sp,
+                                color: AppColors.colorText3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            _buildMessageInput(),
+          ],
+        ),
+      ),
     );
   }
   Widget _buildMessageInput() {
+    final stateNotifier = ref.watch(chatNotifierProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
@@ -352,13 +290,18 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 fit: BoxFit.cover,
               ),
               onPressed: () {
-                final message = MessageModel(
-                  senderId: AppPreferenceKeys.userId,
-                  text: _messageController.text,
-                  timestamp: Timestamp.now(),
+                final chatModel = ChatModel(
+                  chatAttachment: '',
+                  createdAt: Timestamp.now().millisecondsSinceEpoch,
+                  message: _messageController.text,
+                  reaction: '',
                   read: false,
+                  receiverID: widget.peopleId,
+                  senderID: AppPreferenceKeys.userId,
+                  replyTo: null,
                 );
-                FirebaseChatService().sendMessage(widget.chatId, message); //Todo: establish connection and send message
+                stateNotifier.sendMessageWithRetry(widget.peopleId, chatModel);
+                AppLog.log("Sent ${_messageController.text}");
                 _messageController.clear();
                 dismissKeyboard(context);
               },

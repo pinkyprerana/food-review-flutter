@@ -69,4 +69,8 @@ class AppUrls {
   static const getSavedRestaurantList = '/restaurant/save/list';
   static const reviewSubmit = '/restaurant/review/add';
   static const getAllRestaurants = '/restaurant/full-list';
+
+  //chat
+  static const chatTokenGenerate = '/chat/token/create';
+  static const chatList = '/chat/user/list';
 }
