@@ -1,3 +1,4 @@
+// ignore_for_file: parameter_assignments, empty_catches
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
@@ -15,11 +16,9 @@ import '../domain/chat_model_firebase.dart';
 import 'chat_state.dart';
 
 class ChatNotifier extends StateNotifier<ChatState> {
-  ChatNotifier(this._dio, this._hiveDataBase, this._networkApiService)
-      : super( const ChatState());
+  ChatNotifier( this._hiveDataBase, this._networkApiService) : super( const ChatState());
 
   final HiveDatabase _hiveDataBase;
-  final Dio _dio;
   final NetworkApiService _networkApiService;
   final DatabaseReference _db = FirebaseDatabase.instance.ref();
 
@@ -268,6 +267,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
           showConnectionWasInterruptedToastMessage();
         } else if (dioException != null) {
           showDioError(dioException);
+        } else {
+          AppLog.log("Successfully started chatting");
         }
    }
 

@@ -5,4 +5,4 @@ import '../application/chat_state.dart';
 
 final chatNotifierProvider =
 StateNotifierProvider<ChatNotifier, ChatState>((ref) =>
-    ChatNotifier(ref.watch(dioProvider), ref.watch(hiveProvider), ref.watch(networkService)));
+    ChatNotifier(ref.watch(hiveProvider), ref.watch(networkService)));
