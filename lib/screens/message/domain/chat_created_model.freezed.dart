@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'chat_create_model.dart';
+part of 'chat_created_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ChatCreateModel _$ChatCreateModelFromJson(Map<String, dynamic> json) {
-  return _ChatCreateModel.fromJson(json);
+ChatCreatedModel _$ChatCreatedModelFromJson(Map<String, dynamic> json) {
+  return _ChatCreatedModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ChatCreateModel {
+mixin _$ChatCreatedModel {
   @JsonKey(name: "status")
   int? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "type")
@@ -27,47 +27,47 @@ mixin _$ChatCreateModel {
   @JsonKey(name: "message")
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
-  DataOfChat? get chatDataList => throw _privateConstructorUsedError;
+  DataOfChat? get dataOfChat => throw _privateConstructorUsedError;
   @JsonKey(name: "video_room")
   String? get videoRoom => throw _privateConstructorUsedError;
 
-  /// Serializes this ChatCreateModel to a JSON map.
+  /// Serializes this ChatCreatedModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of ChatCreateModel
+  /// Create a copy of ChatCreatedModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ChatCreateModelCopyWith<ChatCreateModel> get copyWith =>
+  $ChatCreatedModelCopyWith<ChatCreatedModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChatCreateModelCopyWith<$Res> {
-  factory $ChatCreateModelCopyWith(
-          ChatCreateModel value, $Res Function(ChatCreateModel) then) =
-      _$ChatCreateModelCopyWithImpl<$Res, ChatCreateModel>;
+abstract class $ChatCreatedModelCopyWith<$Res> {
+  factory $ChatCreatedModelCopyWith(
+          ChatCreatedModel value, $Res Function(ChatCreatedModel) then) =
+      _$ChatCreatedModelCopyWithImpl<$Res, ChatCreatedModel>;
   @useResult
   $Res call(
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") DataOfChat? chatDataList,
+      @JsonKey(name: "data") DataOfChat? dataOfChat,
       @JsonKey(name: "video_room") String? videoRoom});
 
-  $DataOfChatCopyWith<$Res>? get chatDataList;
+  $DataOfChatCopyWith<$Res>? get dataOfChat;
 }
 
 /// @nodoc
-class _$ChatCreateModelCopyWithImpl<$Res, $Val extends ChatCreateModel>
-    implements $ChatCreateModelCopyWith<$Res> {
-  _$ChatCreateModelCopyWithImpl(this._value, this._then);
+class _$ChatCreatedModelCopyWithImpl<$Res, $Val extends ChatCreatedModel>
+    implements $ChatCreatedModelCopyWith<$Res> {
+  _$ChatCreatedModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ChatCreateModel
+  /// Create a copy of ChatCreatedModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -75,7 +75,7 @@ class _$ChatCreateModelCopyWithImpl<$Res, $Val extends ChatCreateModel>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? chatDataList = freezed,
+    Object? dataOfChat = freezed,
     Object? videoRoom = freezed,
   }) {
     return _then(_value.copyWith(
@@ -91,9 +91,9 @@ class _$ChatCreateModelCopyWithImpl<$Res, $Val extends ChatCreateModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      chatDataList: freezed == chatDataList
-          ? _value.chatDataList
-          : chatDataList // ignore: cast_nullable_to_non_nullable
+      dataOfChat: freezed == dataOfChat
+          ? _value.dataOfChat
+          : dataOfChat // ignore: cast_nullable_to_non_nullable
               as DataOfChat?,
       videoRoom: freezed == videoRoom
           ? _value.videoRoom
@@ -102,49 +102,49 @@ class _$ChatCreateModelCopyWithImpl<$Res, $Val extends ChatCreateModel>
     ) as $Val);
   }
 
-  /// Create a copy of ChatCreateModel
+  /// Create a copy of ChatCreatedModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $DataOfChatCopyWith<$Res>? get chatDataList {
-    if (_value.chatDataList == null) {
+  $DataOfChatCopyWith<$Res>? get dataOfChat {
+    if (_value.dataOfChat == null) {
       return null;
     }
 
-    return $DataOfChatCopyWith<$Res>(_value.chatDataList!, (value) {
-      return _then(_value.copyWith(chatDataList: value) as $Val);
+    return $DataOfChatCopyWith<$Res>(_value.dataOfChat!, (value) {
+      return _then(_value.copyWith(dataOfChat: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$ChatCreateModelImplCopyWith<$Res>
-    implements $ChatCreateModelCopyWith<$Res> {
-  factory _$$ChatCreateModelImplCopyWith(_$ChatCreateModelImpl value,
-          $Res Function(_$ChatCreateModelImpl) then) =
-      __$$ChatCreateModelImplCopyWithImpl<$Res>;
+abstract class _$$ChatCreatedModelImplCopyWith<$Res>
+    implements $ChatCreatedModelCopyWith<$Res> {
+  factory _$$ChatCreatedModelImplCopyWith(_$ChatCreatedModelImpl value,
+          $Res Function(_$ChatCreatedModelImpl) then) =
+      __$$ChatCreatedModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") DataOfChat? chatDataList,
+      @JsonKey(name: "data") DataOfChat? dataOfChat,
       @JsonKey(name: "video_room") String? videoRoom});
 
   @override
-  $DataOfChatCopyWith<$Res>? get chatDataList;
+  $DataOfChatCopyWith<$Res>? get dataOfChat;
 }
 
 /// @nodoc
-class __$$ChatCreateModelImplCopyWithImpl<$Res>
-    extends _$ChatCreateModelCopyWithImpl<$Res, _$ChatCreateModelImpl>
-    implements _$$ChatCreateModelImplCopyWith<$Res> {
-  __$$ChatCreateModelImplCopyWithImpl(
-      _$ChatCreateModelImpl _value, $Res Function(_$ChatCreateModelImpl) _then)
+class __$$ChatCreatedModelImplCopyWithImpl<$Res>
+    extends _$ChatCreatedModelCopyWithImpl<$Res, _$ChatCreatedModelImpl>
+    implements _$$ChatCreatedModelImplCopyWith<$Res> {
+  __$$ChatCreatedModelImplCopyWithImpl(_$ChatCreatedModelImpl _value,
+      $Res Function(_$ChatCreatedModelImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ChatCreateModel
+  /// Create a copy of ChatCreatedModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -152,10 +152,10 @@ class __$$ChatCreateModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? chatDataList = freezed,
+    Object? dataOfChat = freezed,
     Object? videoRoom = freezed,
   }) {
-    return _then(_$ChatCreateModelImpl(
+    return _then(_$ChatCreatedModelImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -168,9 +168,9 @@ class __$$ChatCreateModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      chatDataList: freezed == chatDataList
-          ? _value.chatDataList
-          : chatDataList // ignore: cast_nullable_to_non_nullable
+      dataOfChat: freezed == dataOfChat
+          ? _value.dataOfChat
+          : dataOfChat // ignore: cast_nullable_to_non_nullable
               as DataOfChat?,
       videoRoom: freezed == videoRoom
           ? _value.videoRoom
@@ -182,16 +182,16 @@ class __$$ChatCreateModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ChatCreateModelImpl implements _ChatCreateModel {
-  const _$ChatCreateModelImpl(
+class _$ChatCreatedModelImpl implements _ChatCreatedModel {
+  const _$ChatCreatedModelImpl(
       {@JsonKey(name: "status") this.status,
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
-      @JsonKey(name: "data") this.chatDataList,
+      @JsonKey(name: "data") this.dataOfChat,
       @JsonKey(name: "video_room") this.videoRoom});
 
-  factory _$ChatCreateModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChatCreateModelImplFromJson(json);
+  factory _$ChatCreatedModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChatCreatedModelImplFromJson(json);
 
   @override
   @JsonKey(name: "status")
@@ -204,26 +204,26 @@ class _$ChatCreateModelImpl implements _ChatCreateModel {
   final String? message;
   @override
   @JsonKey(name: "data")
-  final DataOfChat? chatDataList;
+  final DataOfChat? dataOfChat;
   @override
   @JsonKey(name: "video_room")
   final String? videoRoom;
 
   @override
   String toString() {
-    return 'ChatCreateModel(status: $status, type: $type, message: $message, chatDataList: $chatDataList, videoRoom: $videoRoom)';
+    return 'ChatCreatedModel(status: $status, type: $type, message: $message, dataOfChat: $dataOfChat, videoRoom: $videoRoom)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChatCreateModelImpl &&
+            other is _$ChatCreatedModelImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.chatDataList, chatDataList) ||
-                other.chatDataList == chatDataList) &&
+            (identical(other.dataOfChat, dataOfChat) ||
+                other.dataOfChat == dataOfChat) &&
             (identical(other.videoRoom, videoRoom) ||
                 other.videoRoom == videoRoom));
   }
@@ -231,36 +231,36 @@ class _$ChatCreateModelImpl implements _ChatCreateModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, status, type, message, chatDataList, videoRoom);
+      Object.hash(runtimeType, status, type, message, dataOfChat, videoRoom);
 
-  /// Create a copy of ChatCreateModel
+  /// Create a copy of ChatCreatedModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChatCreateModelImplCopyWith<_$ChatCreateModelImpl> get copyWith =>
-      __$$ChatCreateModelImplCopyWithImpl<_$ChatCreateModelImpl>(
+  _$$ChatCreatedModelImplCopyWith<_$ChatCreatedModelImpl> get copyWith =>
+      __$$ChatCreatedModelImplCopyWithImpl<_$ChatCreatedModelImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ChatCreateModelImplToJson(
+    return _$$ChatCreatedModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _ChatCreateModel implements ChatCreateModel {
-  const factory _ChatCreateModel(
+abstract class _ChatCreatedModel implements ChatCreatedModel {
+  const factory _ChatCreatedModel(
           {@JsonKey(name: "status") final int? status,
           @JsonKey(name: "type") final String? type,
           @JsonKey(name: "message") final String? message,
-          @JsonKey(name: "data") final DataOfChat? chatDataList,
+          @JsonKey(name: "data") final DataOfChat? dataOfChat,
           @JsonKey(name: "video_room") final String? videoRoom}) =
-      _$ChatCreateModelImpl;
+      _$ChatCreatedModelImpl;
 
-  factory _ChatCreateModel.fromJson(Map<String, dynamic> json) =
-      _$ChatCreateModelImpl.fromJson;
+  factory _ChatCreatedModel.fromJson(Map<String, dynamic> json) =
+      _$ChatCreatedModelImpl.fromJson;
 
   @override
   @JsonKey(name: "status")
@@ -273,16 +273,16 @@ abstract class _ChatCreateModel implements ChatCreateModel {
   String? get message;
   @override
   @JsonKey(name: "data")
-  DataOfChat? get chatDataList;
+  DataOfChat? get dataOfChat;
   @override
   @JsonKey(name: "video_room")
   String? get videoRoom;
 
-  /// Create a copy of ChatCreateModel
+  /// Create a copy of ChatCreatedModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ChatCreateModelImplCopyWith<_$ChatCreateModelImpl> get copyWith =>
+  _$$ChatCreatedModelImplCopyWith<_$ChatCreatedModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

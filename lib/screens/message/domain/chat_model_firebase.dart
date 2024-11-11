@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'chat_model.freezed.dart';
-part 'chat_model.g.dart';
+part 'chat_model_firebase.freezed.dart';
+part 'chat_model_firebase.g.dart';
 
 @freezed
 class ChatModel with _$ChatModel {

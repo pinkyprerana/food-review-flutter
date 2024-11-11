@@ -17,9 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChatState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoadMore => throw _privateConstructorUsedError;
   bool get isSending => throw _privateConstructorUsedError;
   List<ChatModel> get allChatList => throw _privateConstructorUsedError;
-  DataOfChat? get chatDataList => throw _privateConstructorUsedError;
+  DataOfChat? get dataOfChat => throw _privateConstructorUsedError;
   String? get selectedChat => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
@@ -39,15 +40,16 @@ abstract class $ChatStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isLoadMore,
       bool isSending,
       List<ChatModel> allChatList,
-      DataOfChat? chatDataList,
+      DataOfChat? dataOfChat,
       String? selectedChat,
       String? errorMessage,
       int currentPage,
       int totalPages});
 
-  $DataOfChatCopyWith<$Res>? get chatDataList;
+  $DataOfChatCopyWith<$Res>? get dataOfChat;
 }
 
 /// @nodoc
@@ -66,9 +68,10 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoadMore = null,
     Object? isSending = null,
     Object? allChatList = null,
-    Object? chatDataList = freezed,
+    Object? dataOfChat = freezed,
     Object? selectedChat = freezed,
     Object? errorMessage = freezed,
     Object? currentPage = null,
@@ -79,6 +82,10 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoadMore: null == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       isSending: null == isSending
           ? _value.isSending
           : isSending // ignore: cast_nullable_to_non_nullable
@@ -87,9 +94,9 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
           ? _value.allChatList
           : allChatList // ignore: cast_nullable_to_non_nullable
               as List<ChatModel>,
-      chatDataList: freezed == chatDataList
-          ? _value.chatDataList
-          : chatDataList // ignore: cast_nullable_to_non_nullable
+      dataOfChat: freezed == dataOfChat
+          ? _value.dataOfChat
+          : dataOfChat // ignore: cast_nullable_to_non_nullable
               as DataOfChat?,
       selectedChat: freezed == selectedChat
           ? _value.selectedChat
@@ -114,13 +121,13 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $DataOfChatCopyWith<$Res>? get chatDataList {
-    if (_value.chatDataList == null) {
+  $DataOfChatCopyWith<$Res>? get dataOfChat {
+    if (_value.dataOfChat == null) {
       return null;
     }
 
-    return $DataOfChatCopyWith<$Res>(_value.chatDataList!, (value) {
-      return _then(_value.copyWith(chatDataList: value) as $Val);
+    return $DataOfChatCopyWith<$Res>(_value.dataOfChat!, (value) {
+      return _then(_value.copyWith(dataOfChat: value) as $Val);
     });
   }
 }
@@ -135,16 +142,17 @@ abstract class _$$ChatStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isLoadMore,
       bool isSending,
       List<ChatModel> allChatList,
-      DataOfChat? chatDataList,
+      DataOfChat? dataOfChat,
       String? selectedChat,
       String? errorMessage,
       int currentPage,
       int totalPages});
 
   @override
-  $DataOfChatCopyWith<$Res>? get chatDataList;
+  $DataOfChatCopyWith<$Res>? get dataOfChat;
 }
 
 /// @nodoc
@@ -161,9 +169,10 @@ class __$$ChatStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoadMore = null,
     Object? isSending = null,
     Object? allChatList = null,
-    Object? chatDataList = freezed,
+    Object? dataOfChat = freezed,
     Object? selectedChat = freezed,
     Object? errorMessage = freezed,
     Object? currentPage = null,
@@ -174,6 +183,10 @@ class __$$ChatStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isLoadMore: null == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       isSending: null == isSending
           ? _value.isSending
           : isSending // ignore: cast_nullable_to_non_nullable
@@ -182,9 +195,9 @@ class __$$ChatStateImplCopyWithImpl<$Res>
           ? _value._allChatList
           : allChatList // ignore: cast_nullable_to_non_nullable
               as List<ChatModel>,
-      chatDataList: freezed == chatDataList
-          ? _value.chatDataList
-          : chatDataList // ignore: cast_nullable_to_non_nullable
+      dataOfChat: freezed == dataOfChat
+          ? _value.dataOfChat
+          : dataOfChat // ignore: cast_nullable_to_non_nullable
               as DataOfChat?,
       selectedChat: freezed == selectedChat
           ? _value.selectedChat
@@ -211,9 +224,10 @@ class __$$ChatStateImplCopyWithImpl<$Res>
 class _$ChatStateImpl extends _ChatState {
   const _$ChatStateImpl(
       {this.isLoading = false,
+      this.isLoadMore = false,
       this.isSending = false,
       final List<ChatModel> allChatList = const [],
-      this.chatDataList = const [],
+      this.dataOfChat,
       this.selectedChat = '',
       this.errorMessage = '',
       this.currentPage = 0,
@@ -224,6 +238,9 @@ class _$ChatStateImpl extends _ChatState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isLoadMore;
   @override
   @JsonKey()
   final bool isSending;
@@ -237,8 +254,7 @@ class _$ChatStateImpl extends _ChatState {
   }
 
   @override
-  @JsonKey()
-  final DataOfChat? chatDataList;
+  final DataOfChat? dataOfChat;
   @override
   @JsonKey()
   final String? selectedChat;
@@ -254,7 +270,7 @@ class _$ChatStateImpl extends _ChatState {
 
   @override
   String toString() {
-    return 'ChatState(isLoading: $isLoading, isSending: $isSending, allChatList: $allChatList, chatDataList: $chatDataList, selectedChat: $selectedChat, errorMessage: $errorMessage, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'ChatState(isLoading: $isLoading, isLoadMore: $isLoadMore, isSending: $isSending, allChatList: $allChatList, dataOfChat: $dataOfChat, selectedChat: $selectedChat, errorMessage: $errorMessage, currentPage: $currentPage, totalPages: $totalPages)';
   }
 
   @override
@@ -264,12 +280,14 @@ class _$ChatStateImpl extends _ChatState {
             other is _$ChatStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isLoadMore, isLoadMore) ||
+                other.isLoadMore == isLoadMore) &&
             (identical(other.isSending, isSending) ||
                 other.isSending == isSending) &&
             const DeepCollectionEquality()
                 .equals(other._allChatList, _allChatList) &&
-            (identical(other.chatDataList, chatDataList) ||
-                other.chatDataList == chatDataList) &&
+            (identical(other.dataOfChat, dataOfChat) ||
+                other.dataOfChat == dataOfChat) &&
             (identical(other.selectedChat, selectedChat) ||
                 other.selectedChat == selectedChat) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -284,9 +302,10 @@ class _$ChatStateImpl extends _ChatState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
+      isLoadMore,
       isSending,
       const DeepCollectionEquality().hash(_allChatList),
-      chatDataList,
+      dataOfChat,
       selectedChat,
       errorMessage,
       currentPage,
@@ -304,9 +323,10 @@ class _$ChatStateImpl extends _ChatState {
 abstract class _ChatState extends ChatState {
   const factory _ChatState(
       {final bool isLoading,
+      final bool isLoadMore,
       final bool isSending,
       final List<ChatModel> allChatList,
-      final DataOfChat? chatDataList,
+      final DataOfChat? dataOfChat,
       final String? selectedChat,
       final String? errorMessage,
       final int currentPage,
@@ -316,11 +336,13 @@ abstract class _ChatState extends ChatState {
   @override
   bool get isLoading;
   @override
+  bool get isLoadMore;
+  @override
   bool get isSending;
   @override
   List<ChatModel> get allChatList;
   @override
-  DataOfChat? get chatDataList;
+  DataOfChat? get dataOfChat;
   @override
   String? get selectedChat;
   @override

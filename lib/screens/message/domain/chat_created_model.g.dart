@@ -1,30 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chat_create_model.dart';
+part of 'chat_created_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatCreateModelImpl _$$ChatCreateModelImplFromJson(
+_$ChatCreatedModelImpl _$$ChatCreatedModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$ChatCreateModelImpl(
+    _$ChatCreatedModelImpl(
       status: (json['status'] as num?)?.toInt(),
       type: json['type'] as String?,
       message: json['message'] as String?,
-      chatDataList: json['data'] == null
+      dataOfChat: json['data'] == null
           ? null
           : DataOfChat.fromJson(json['data'] as Map<String, dynamic>),
       videoRoom: json['video_room'] as String?,
     );
 
-Map<String, dynamic> _$$ChatCreateModelImplToJson(
-        _$ChatCreateModelImpl instance) =>
+Map<String, dynamic> _$$ChatCreatedModelImplToJson(
+        _$ChatCreatedModelImpl instance) =>
     <String, dynamic>{
       'status': instance.status,
       'type': instance.type,
       'message': instance.message,
-      'data': instance.chatDataList,
+      'data': instance.dataOfChat,
       'video_room': instance.videoRoom,
     };
 

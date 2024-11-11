@@ -1,11 +1,12 @@
+// ignore_for_file: parameter_assignments, empty_catches, invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'chat_create_model.freezed.dart';
-part 'chat_create_model.g.dart';
+part 'chat_created_model.freezed.dart';
+part 'chat_created_model.g.dart';
 
 @freezed
-class ChatCreateModel with _$ChatCreateModel {
-  const factory ChatCreateModel({
+class ChatCreatedModel with _$ChatCreatedModel {
+  const factory ChatCreatedModel({
     @JsonKey(name: "status")
     int? status,
     @JsonKey(name: "type")
@@ -13,12 +14,12 @@ class ChatCreateModel with _$ChatCreateModel {
     @JsonKey(name: "message")
     String? message,
     @JsonKey(name: "data")
-    DataOfChat? chatDataList,
+    DataOfChat ? dataOfChat,
     @JsonKey(name: "video_room")
     String? videoRoom,
-  }) = _ChatCreateModel;
+  }) = _ChatCreatedModel;
 
-  factory ChatCreateModel.fromJson(Map<String, dynamic> json) => _$ChatCreateModelFromJson(json);
+  factory ChatCreatedModel.fromJson(Map<String, dynamic> json) => _$ChatCreatedModelFromJson(json);
 }
 
 @freezed
@@ -52,3 +53,4 @@ class DataOfChat with _$DataOfChat {
 
   factory DataOfChat.fromJson(Map<String, dynamic> json) => _$DataOfChatFromJson(json);
 }
+

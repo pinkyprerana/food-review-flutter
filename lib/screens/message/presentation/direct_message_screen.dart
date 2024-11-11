@@ -7,19 +7,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
 import 'package:intl/intl.dart';
+import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
-import '../domain/chat_model.dart';
+import '../../people_profile/domain/other_people_profile_model.dart';
+import '../../people_profile/shared/providers.dart';
+import '../domain/chat_model_firebase.dart';
 
 @RoutePage()
 class DirectMessageScreen extends ConsumerStatefulWidget {
-  final String chatId;
   final String peopleId;
   const DirectMessageScreen({
-    required this.chatId,
     required this.peopleId,
     super.key
   });
@@ -30,15 +31,17 @@ class DirectMessageScreen extends ConsumerStatefulWidget {
 
 class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   final TextEditingController _messageController = TextEditingController();
+  DataOfOtherPeople? getDetails;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
-      await stateNotifier.initializeChat(widget.chatId, widget.peopleId);
-      stateNotifier.getMessages(widget.chatId);
-      AppLog.log("Chat : ${widget.chatId},");
+      await stateNotifier.initializeChat(widget.peopleId);
+      stateNotifier.getMessages(widget.peopleId);
+      final followNotifier = ref.read(followNotifierProvider.notifier);
+      await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
     });
   }
 
@@ -48,6 +51,19 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   Widget build(BuildContext context) {
     // final state = ref.watch(chatNotifierProvider);
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
+
+    String formattedTimestamp(int timestamp) {
+      try {
+        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+        return DateFormat('hh:mm a').format(dateTime);
+      } catch (e) {
+        return "Invalid time";
+      }
+    }
+    final followNotifier = ref.watch(followNotifierProvider.notifier);
+    getDetails = followNotifier.getUserById(widget.peopleId);
+    String peopleName = getDetails?.fullName ?? '';
+    final peopleImage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}';
 
     return Scaffold(
       appBar: AppBar(
@@ -77,10 +93,10 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: SizedBox(
-                width: 50.w,
-                height: 47.h,
+                width: 45.w,
+                height: 43.h,
                 child: CachedNetworkImage(
-                  imageUrl: Assets.avatar,
+                  imageUrl: peopleImage,
                   placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
                   errorWidget: (context, url, error) => ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -108,7 +124,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Chance Aminoff',
+                  peopleName,
                   style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
                     fontSize: 14.sp,
                     color: AppColors.colorText2,
@@ -132,7 +148,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
           children: [
             Expanded(
               child: StreamBuilder<List<ChatModel>>(
-                stream: stateNotifier.getMessages(widget.chatId),
+                stream: stateNotifier.getMessages(widget.peopleId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
@@ -165,46 +181,77 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index];
-                      AppLog.log("messages : ${messages}");
-                      bool isSender = message.senderID == AppPreferenceKeys.userId;
-                      String formattedTimestamp() {
-                        final DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(message.createdAt);
-                        return DateFormat.Hm().format(dateTime);
-                      }
-                      return Column(
-                        crossAxisAlignment: isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                      AppLog.log("messages : $messages");
+                      bool isSent = message.senderID == AppPreferenceKeys.userId;
+
+                      return Row(
+                        mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
                         children: [
-                          Container(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.7,
-                            ),
-                            padding: const EdgeInsets.all(12.0),
-                            margin: const EdgeInsets.symmetric(vertical: 4.0),
-                            decoration: BoxDecoration(
-                              color: isSender ? AppColors.colorGrey2 : AppColors.colorPrimary,
-                              borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(16),
-                                topRight: const Radius.circular(16),
-                                bottomLeft: isSender ? const Radius.circular(16) : Radius.zero,
-                                bottomRight: isSender ? Radius.zero : const Radius.circular(16),
+                          Column(
+                            crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                ),
+                                padding: const EdgeInsets.all(12.0),
+                                margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                decoration: BoxDecoration(
+                                  color: isSent ? AppColors.colorGrey2 : AppColors.colorPrimary,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: const Radius.circular(16),
+                                    topRight: const Radius.circular(16),
+                                    bottomLeft: isSent ? const Radius.circular(16) : Radius.zero,
+                                    bottomRight: isSent ? Radius.zero : const Radius.circular(16),
+                                  ),
+                                ),
+                                child: Text(
+                                  message.message,
+                                  style: TextStyle(
+                                    color: isSent ? Colors.black : Colors.white,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              message.message,
-                              style: TextStyle(
-                                color: isSender ? Colors.black : Colors.white,
-                                fontSize: 14.sp,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
+                                child: Text(
+                                  formattedTimestamp(message.createdAt),
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    fontSize: 10.sp,
+                                    color: AppColors.colorText3,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
-                            child: Text(
-                            formattedTimestamp.toString(),
-                              // message.timestamp.toString(),
-                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                fontSize: 10.sp,
-                                color: AppColors.colorText3,
+                          isSent ? 5.horizontalSpace : 0.horizontalSpace,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: SizedBox(
+                              width: 20.w,
+                              height: 18.h,
+                              child: CachedNetworkImage(
+                                imageUrl: Assets.avatar,
+                                placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                errorWidget: (context, url, error) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset(
+                                    Assets.profileImage,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                imageBuilder: (context, imageProvider) => Container(
+                                  width: 50.w,
+                                  height: 47.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),

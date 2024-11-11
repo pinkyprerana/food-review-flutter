@@ -30,9 +30,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
-      String? userId = stateNotifier.getUserId;
       await stateNotifier.fetchAParticularChat();
-      await stateNotifier.getChatList(userId!);
+      await stateNotifier.getChatList();
     });
   }
 
@@ -107,7 +106,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                     'Chats will show here',
                     style: AppTextStyles.textStylePoppinsMedium.copyWith(
                       color: AppColors.colorPrimaryAlpha,
-                      fontSize: 14.sp,
+                      fontSize: 10.sp,
                     ),
                   ),
                 )
@@ -121,7 +120,9 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                         final receiverId = chat.receiverID;
                         final chatId = generateChatId(senderId, receiverId);
                         stateNotifier.selectChat(chatId);
-                        AutoRouter.of(context).push(DirectMessageRoute(chatId: chatId, peopleId: chat.receiverID));
+                        final chatNotifier = ref.read(chatNotifierProvider.notifier);
+                        chatNotifier.sendPeopleId(chat.senderID);
+                        AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.receiverID));
                       },
                       child: ListTile(
                         contentPadding: EdgeInsets.symmetric(vertical: 1.h),
@@ -201,7 +202,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                           ],
                         ),
                         onTap: () {
-                          AutoRouter.of(context).push(DirectMessageRoute(chatId: '', peopleId: ''));
+                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: ''));
+
                         },
                       ),
                     );

@@ -49,7 +49,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: DirectMessageScreen(
-          chatId: args.chatId,
           peopleId: args.peopleId,
           key: args.key,
         ),
@@ -371,14 +370,12 @@ class CreatePostRouteArgs {
 /// [DirectMessageScreen]
 class DirectMessageRoute extends PageRouteInfo<DirectMessageRouteArgs> {
   DirectMessageRoute({
-    required String chatId,
     required String peopleId,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           DirectMessageRoute.name,
           args: DirectMessageRouteArgs(
-            chatId: chatId,
             peopleId: peopleId,
             key: key,
           ),
@@ -393,12 +390,9 @@ class DirectMessageRoute extends PageRouteInfo<DirectMessageRouteArgs> {
 
 class DirectMessageRouteArgs {
   const DirectMessageRouteArgs({
-    required this.chatId,
     required this.peopleId,
     this.key,
   });
-
-  final String chatId;
 
   final String peopleId;
 
@@ -406,7 +400,7 @@ class DirectMessageRouteArgs {
 
   @override
   String toString() {
-    return 'DirectMessageRouteArgs{chatId: $chatId, peopleId: $peopleId, key: $key}';
+    return 'DirectMessageRouteArgs{peopleId: $peopleId, key: $key}';
   }
 }
 

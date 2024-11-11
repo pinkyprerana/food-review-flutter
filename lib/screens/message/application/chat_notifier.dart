@@ -9,13 +9,13 @@ import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/infrastructure/network_api_services.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
-import '../domain/chat_create_model.dart';
-import '../domain/chat_model.dart';
+import '../domain/chat_created_model.dart';
+import '../domain/chat_model_firebase.dart';
 import 'chat_state.dart';
 
 class ChatNotifier extends StateNotifier<ChatState> {
   ChatNotifier(this._dio, this._hiveDataBase, this._networkApiService)
-      : super(const ChatState());
+      : super( const ChatState());
 
   final HiveDatabase _hiveDataBase;
   final Dio _dio;
@@ -24,13 +24,13 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
   String? get getUserId => _hiveDataBase.box.get(AppPreferenceKeys.userId);
 
-  Future<void> initializeChat(String chatId, String peopleId) async {
+  Future<void> initializeChat( String peopleId) async {
     int retryCount = 0;
     const maxRetries = 3;
 
     while (retryCount < maxRetries) {
       try {
-        final chatDoc = FirebaseFirestore.instance.collection('chat_dev').doc(chatId);
+        final chatDoc = FirebaseFirestore.instance.collection('chat_dev').doc(peopleId);
         final docSnapshot = await chatDoc.get();
         if (!docSnapshot.exists) {
           await chatDoc.set({
@@ -81,50 +81,62 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
     while (retryCount < maxRetries) {
       try {
-
         var (response, dioException) = await _networkApiService
-            .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}',
-            body: {
-              "user_id": peopleId
-            });
+            .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}', body: {
+          "user_id": peopleId
+        });
         state = state.copyWith(isLoading: false);
 
         if (response == null && dioException == null) {
           showConnectionWasInterruptedToastMessage();
         } else if (dioException != null) {
           showDioError(dioException);
-        } else {
-          ChatCreateModel ccModel = ChatCreateModel.fromJson(response.data);
-          if (ccModel.status == 200) {
-            state = state.copyWith(isLoading: false);
-          } else {
-            showToastMessage(ccModel.message.toString());
-          }
         }
 
         await sendMessage(peopleId, message);
+
         final chatDoc = FirebaseFirestore.instance.collection('chat_dev').doc(peopleId);
-        await chatDoc.update({
-          'lastMessage': message.message,
-          'lastMessageTimestamp': FieldValue.serverTimestamp(),
-          'lastAttachment': message.chatAttachment,
-          'lastReaction': message.reaction,
-          'read': false,
-        });
-        return; // Exit if successful
-      } catch (e) {
+        try {
+          await chatDoc.update({
+            'lastMessage': message.message,
+            'lastMessageTimestamp': FieldValue.serverTimestamp(),
+            'lastAttachment': message.chatAttachment,
+            'lastReaction': message.reaction,
+            'read': false,
+          });
+        } catch (e) {
+          if (e is FirebaseException && e.code == 'not-found') {
+            AppLog.log('Document not found, creating new document...');
+            await chatDoc.set({
+              'userIds': [getUserId, peopleId],
+              'createdAt': FieldValue.serverTimestamp(),
+            });
+          } else {
+            rethrow;
+          }
+        }
+
+        return;
+
+      } catch (e, stacktrace) {
+        AppLog.log('Error sending message: $e');
+        AppLog.log('Stacktrace: $stacktrace');
+
         retryCount++;
-        final delay = Duration(seconds: pow(2, retryCount).toInt());
-        AppLog.log('Retrying in ${delay.inSeconds} seconds...');
-        await Future.delayed(delay);
+        if (retryCount >= maxRetries) {
+          showToastMessage('Failed to send message. Please try again later.');
+        } else {
+          final delay = Duration(seconds: pow(2, retryCount).toInt());
+          AppLog.log('Retrying in ${delay.inSeconds} seconds...');
+          await Future.delayed(delay);
+        }
       }
     }
-
-    showToastMessage('Failed to send message. Please try again later.');
   }
 
-  Stream<List<ChatModel>> getMessages(String chatId) {
-    final chatRef = _db.child('chat_dev/$chatId');
+
+  Stream<List<ChatModel>> getMessages(String peopleId) {
+    final chatRef = _db.child('chat_dev/$peopleId');
 
     return chatRef.onValue.map((event) {
       final data = event.snapshot.value as Map<dynamic, dynamic>?;
@@ -134,7 +146,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       try {
         return data.entries.map((entry) {
           final messageData = Map<String, dynamic>.from(entry.value as Map);
-          AppLog.log('Received message: ${messageData['message']}');
+          AppLog.log('Sent message: ${messageData['message']}');
           return ChatModel.fromJson(messageData);
         }).toList()
           ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
@@ -146,42 +158,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
   }
 
 
-  // Future<List<ChatModel>> getChatList(String currentUserId) async {
-  //   try {
-  //     final chatRef = _db.child('chat_dev/');
-  //     final snapshot = await chatRef.get();
-  //
-  //     if (!snapshot.exists) return [];
-  //
-  //     final chatList = snapshot.children.map((chatData) {
-  //       final chatValue = chatData.value as Map<String, dynamic>?;
-  //       final participants = (chatValue?['participants'] as List<dynamic>?)?.cast<String>();
-  //
-  //       if (participants == null || !participants.contains(currentUserId)) return null;
-  //
-  //       final otherUserId = participants.firstWhere((id) => id != currentUserId);
-  //
-  //       final lastMessage = chatValue?['lastMessage'] ?? "";
-  //       final lastMessageTimestamp = chatValue?['lastMessageTimestamp'] as int? ?? DateTime.now().millisecondsSinceEpoch ~/ 1000;
-  //
-  //       return ChatModel(
-  //         chatAttachment: chatValue?['lastAttachment'] ?? "",
-  //         createdAt: lastMessageTimestamp,
-  //         message: lastMessage,
-  //         reaction: chatValue?['lastReaction'] ?? "",
-  //         read: chatValue?['read'] ?? false,
-  //         receiverID: otherUserId,
-  //         senderID: currentUserId,
-  //       );
-  //     }).whereType<ChatModel>().toList();
-  //
-  //     return chatList;
-  //   } catch (e) {
-  //     AppLog.log('Error fetching chat list: $e');
-  //     return [];
-  //   }
-  // }
-
   Future<void> fetchAParticularChat() async {
     state = state.copyWith(isLoading: true);
 
@@ -191,8 +167,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
         throw Exception("User ID is null.");
       }
 
-      final chatDataList = await getChatList(userId);
-      state = state.copyWith(isLoading: false, allChatList: chatDataList);
+      final chatDataList = await getChatList();
+      state = state.copyWith(isLoading: false, allChatList: state.allChatList);
 
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
@@ -207,12 +183,12 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
   final RefreshController refreshController = RefreshController();
 
-  void addChat(ChatCreateModel notification) {
-    // if (mounted) {
-    //   state = state.copyWith(
-    //     chat: [...state.allChatList, chat],
-    //   );
-    // }
+  void addChat(ChatCreatedModel chat) {
+    if (mounted) {
+      state = state.copyWith(
+        // chat: [...state.allChatList, chat],
+      );
+    }
   }
 
   void loadMoreChats() async {
@@ -228,20 +204,23 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
 
 
-  Future<void> getChatList(String s, {bool isLoadMore = false}) async {
+  Future<void> getChatList({bool isLoadMore = false}) async {
     state = state.copyWith(isLoading: !isLoadMore);
+
     if (isLoadMore && (state.currentPage * 10 == state.allChatList.length)) {
       state = state.copyWith(currentPage: state.currentPage + 1);
     } else {
       state = state.copyWith(currentPage: 1);
     }
+
     try {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
-          url: '${AppUrls.baseUrl}${AppUrls.chatList}',
-          body: {
-              "generalSearch": "string"
-          }
+        url: '${AppUrls.baseUrl}${AppUrls.chatList}',
+        body:  {
+            "generalSearch": ""
+        }
       );
+
       state = state.copyWith(isLoading: false);
 
       if (response == null && dioException == null) {
@@ -249,14 +228,18 @@ class ChatNotifier extends StateNotifier<ChatState> {
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        ChatCreateModel ccModel = ChatCreateModel.fromJson(response.data);
-        if (ccModel.status == 200) {
-            state = state.copyWith(
-              isLoading: false,
-              allChatList: ccModel.chat,
-              totalPages: ccModel.pages ?? state.totalPages,
-            );
+        ChatCreatedModel ccModel = ChatCreatedModel.fromJson(response.data);
 
+        if (ccModel.status == 200) {
+          AppLog.log("chat list success");
+          List<ChatModel> chatList = state.allChatList;
+
+          state = state.copyWith(
+            isLoading: false,
+            allChatList: isLoadMore ? [...state.allChatList, ...chatList] : chatList,
+            totalPages: state.totalPages,
+            dataOfChat: ccModel.dataOfChat,
+          );
         } else {
           showToastMessage(ccModel.message.toString());
         }
@@ -267,5 +250,20 @@ class ChatNotifier extends StateNotifier<ChatState> {
     }
   }
 
+
+  Future<void> sendPeopleId(String peopleId) async {
+    var (response, dioException) = await _networkApiService
+            .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}',
+            body: {
+               "user_id": peopleId
+              });
+        state = state.copyWith(isLoading: false);
+
+        if (response == null && dioException == null) {
+          showConnectionWasInterruptedToastMessage();
+        } else if (dioException != null) {
+          showDioError(dioException);
+        }
+   }
 
 }

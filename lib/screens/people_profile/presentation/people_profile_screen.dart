@@ -16,6 +16,7 @@ import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/save_button.dart';
 import '../../home/shared/provider.dart';
+import '../../message/shared/providers.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../../your_lists/shared/provider.dart';
 import '../domain/other_people_profile_model.dart';
@@ -55,9 +56,9 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   }
 
 
-  String generateChatId(String userId1, String userId2) {
-    return userId1.compareTo(userId2) < 0 ? '$userId1\_$userId2' : '$userId2\_$userId1';
-  }
+  // String generateChatId(String userId1, String userId2) {
+  //   return userId1.compareTo(userId2) < 0 ? '$userId1\_$userId2' : '$userId2\_$userId1';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -267,8 +268,10 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                    ? const SizedBox()
                                   : GestureDetector(
                                     onTap: () {
-                                      final initiateChatId = generateChatId(widget.peopleId, getUserId);
-                                      AutoRouter.of(context).push( DirectMessageRoute(chatId: initiateChatId, peopleId: widget.peopleId));
+                                      // final initiateChatId = generateChatId(widget.peopleId, getUserId);
+                                      final chatNotifier = ref.read(chatNotifierProvider.notifier);
+                                      chatNotifier.sendPeopleId(widget.peopleId);
+                                      AutoRouter.of(context).push( DirectMessageRoute(peopleId: widget.peopleId));
                                     },
                                     child: SmallProfileContainer(
                                         widget: Center(
