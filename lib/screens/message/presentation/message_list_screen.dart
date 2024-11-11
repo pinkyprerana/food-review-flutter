@@ -80,7 +80,10 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               16.verticalSpace,
-              const CustomSearchField(),
+               CustomSearchField(
+                controller: stateNotifier.searchController,
+                 onChanged: (_) => stateNotifier.searchChat(),
+              ),
               20.verticalSpace,
               Text(
                 'Message List',

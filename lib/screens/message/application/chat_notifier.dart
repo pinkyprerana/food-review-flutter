@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
@@ -23,6 +24,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
   final DatabaseReference _db = FirebaseDatabase.instance.ref();
 
   String? get getUserId => _hiveDataBase.box.get(AppPreferenceKeys.userId);
+  TextEditingController searchController = TextEditingController();
 
   Future<void> initializeChat( String peopleId) async {
     int retryCount = 0;
@@ -204,8 +206,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
 
 
-  Future<void> getChatList({bool isLoadMore = false}) async {
-    state = state.copyWith(isLoading: !isLoadMore);
+  Future<void> getChatList({bool isLoadMore = false, bool isSearch = false}) async {
+    state = state.copyWith(isLoading: !isLoadMore && !isSearch);
 
     if (isLoadMore && (state.currentPage * 10 == state.allChatList.length)) {
       state = state.copyWith(currentPage: state.currentPage + 1);
@@ -217,7 +219,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       var (response, dioException) = await _networkApiService.postApiRequestWithToken(
         url: '${AppUrls.baseUrl}${AppUrls.chatList}',
         body:  {
-            "generalSearch": ""
+            "generalSearch": searchController.text
         }
       );
 
@@ -250,6 +252,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
     }
   }
 
+  void searchChat() async {
+    await getChatList(isSearch: true);
+  }
 
   Future<void> sendPeopleId(String peopleId) async {
     var (response, dioException) = await _networkApiService
