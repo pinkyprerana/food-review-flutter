@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
+import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
@@ -15,6 +16,7 @@ import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
 import '../../people_profile/domain/other_people_profile_model.dart';
 import '../../people_profile/shared/providers.dart';
+import '../../restaurant/shared/provider.dart';
 import '../domain/chat_model_firebase.dart';
 
 @RoutePage()
@@ -42,6 +44,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
       stateNotifier.getMessages(widget.peopleId);
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
+      final profileNotifier = ref.read(profileNotifierProvider.notifier);
+      await profileNotifier.getUserDetails();
     });
   }
 
@@ -51,6 +55,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   Widget build(BuildContext context) {
     // final state = ref.watch(chatNotifierProvider);
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
+    final followNotifier = ref.watch(followNotifierProvider.notifier);
+    final profileState = ref.watch(profileNotifierProvider);
 
     String formattedTimestamp(int timestamp) {
       try {
@@ -60,7 +66,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
         return "Invalid time";
       }
     }
-    final followNotifier = ref.watch(followNotifierProvider.notifier);
+
     getDetails = followNotifier.getUserById(widget.peopleId);
     String peopleName = getDetails?.fullName ?? '';
     final peopleImage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}';
@@ -233,12 +239,12 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                               width: 20.w,
                               height: 18.h,
                               child: CachedNetworkImage(
-                                imageUrl: Assets.avatar,
+                                imageUrl: profileState.profileImgPath,
                                 placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
                                 errorWidget: (context, url, error) => ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.asset(
-                                    Assets.profileImage,
+                                    Assets.avatar,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -326,7 +332,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 fit: BoxFit.cover,
               ),
               onPressed: () {
-                // TODO: implement selecting attachments
+                final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+                restaurantNotifier.checkPermissionForGallery(context);
               },
             ),
             8.horizontalSpace,
