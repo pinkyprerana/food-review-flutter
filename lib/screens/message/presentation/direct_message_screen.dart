@@ -101,7 +101,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   errorWidget: (context, url, error) => ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      Assets.profileImage,
+                      Assets.avatar,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -186,6 +186,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
 
                       return Row(
                         mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
                             crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -198,11 +199,11 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                 margin: const EdgeInsets.symmetric(vertical: 4.0),
                                 decoration: BoxDecoration(
                                   color: isSent ? AppColors.colorGrey2 : AppColors.colorPrimary,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(16),
-                                    topRight: const Radius.circular(16),
-                                    bottomLeft: isSent ? const Radius.circular(16) : Radius.zero,
-                                    bottomRight: isSent ? Radius.zero : const Radius.circular(16),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(16),
+                                    topRight: Radius.circular(16),
+                                    bottomLeft: Radius.circular(16),
+                                    bottomRight: Radius.circular(16),
                                   ),
                                 ),
                                 child: Text(
