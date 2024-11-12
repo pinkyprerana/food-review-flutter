@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,8 @@ class DirectMessageScreen extends ConsumerStatefulWidget {
 class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   final TextEditingController _messageController = TextEditingController();
   DataOfOtherPeople? getDetails;
+  StreamSubscription<List<ChatModel>>? _messageSubscription;
+
 
   @override
   void initState() {
@@ -40,7 +43,11 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
       final chatToken = stateNotifier.getChatToken;
-      stateNotifier.getMessages(widget.peopleId, chatToken!);
+      _messageSubscription = stateNotifier.getMessages(widget.peopleId, chatToken!)
+          .listen((messages) {
+      });
+      stateNotifier.getMessages(widget.peopleId, chatToken);
+      stateNotifier.initiateChatWithPeopleId(widget.peopleId);
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
       final profileNotifier = ref.read(profileNotifierProvider.notifier);
@@ -51,6 +58,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   @override
   void dispose() {
     _messageController.dispose();
+    _messageSubscription?.cancel();
     super.dispose();
   }
 
@@ -369,7 +377,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 }
                 AppLog.log("Sent ${_messageController.text}");
                 _messageController.clear();
-                dismissKeyboard(context);
               },
             ),
           ],

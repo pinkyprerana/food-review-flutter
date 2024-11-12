@@ -116,6 +116,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       : ListView.builder(
                     itemCount: state.allChatList.length,
                     itemBuilder: (context, index) {
+
                       final chat = state.allChatList[index];
                       final user = chat.userDetails;
                       String formatDate(String dateString) {
@@ -124,6 +125,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       }
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
+
 
                       return GestureDetector(
                         onTap: () {

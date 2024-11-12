@@ -42,8 +42,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
       ChatCreatedModel chatCreatedModel = ChatCreatedModel.fromJson(response.data);
       String? chatToken = chatCreatedModel.dataOfChat?.chatToken;
-      _hiveDataBase.box.put(AppPreferenceKeys.chatToken, chatToken ?? '');
-      AppLog.log("token : $getChatToken ");
 
       if (chatToken == null) {
         AppLog.log('Chat token not found in response');
@@ -189,6 +187,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
   }
 
   Future<void> initiateChatWithPeopleId(String peopleId) async {
+    if (peopleId == getUserId) {
+      showToastMessage("Can't chat with yourself!");
+      return;
+    }
     var (response, dioException) = await _networkApiService
         .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}', body: {
       "user_id": peopleId
@@ -203,7 +205,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
       ChatCreatedModel chatCreatedModel = ChatCreatedModel.fromJson(response.data);
       String? chatToken = chatCreatedModel.dataOfChat?.chatToken;
-
+      _hiveDataBase.box.put(AppPreferenceKeys.chatToken, chatToken ?? '');
+      AppLog.log("token : $getChatToken ");
       if (chatToken == null) {
         AppLog.log('Chat token not found in response');
         return;
