@@ -268,9 +268,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                    ? const SizedBox()
                                   : GestureDetector(
                                     onTap: () {
-                                      // final initiateChatId = generateChatId(widget.peopleId, getUserId);
                                       final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                                      chatNotifier.sendPeopleId(widget.peopleId);
+                                      chatNotifier.initiateChatWithPeopleId(widget.peopleId);
                                       AutoRouter.of(context).push( DirectMessageRoute(peopleId: widget.peopleId));
                                     },
                                     child: SmallProfileContainer(

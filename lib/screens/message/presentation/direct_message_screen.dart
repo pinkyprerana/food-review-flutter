@@ -39,8 +39,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
-      // await stateNotifier.initializeChat(widget.peopleId);
-      stateNotifier.getMessages(widget.peopleId);
+      final chatToken = stateNotifier.getChatToken;
+      stateNotifier.getMessages(widget.peopleId, chatToken!);
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
       final profileNotifier = ref.read(profileNotifierProvider.notifier);
@@ -48,7 +48,11 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     });
   }
 
-
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +161,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
           children: [
             Expanded(
               child: StreamBuilder<List<ChatModel>>(
-                stream: stateNotifier.getMessages(widget.peopleId),
+                stream: stateNotifier.getMessages(widget.peopleId, stateNotifier.getChatToken ?? ''),
                 builder: (context, snapshot) {
                   // if (snapshot.connectionState == ConnectionState.waiting) {
                   //   return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
@@ -349,17 +353,20 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 fit: BoxFit.cover,
               ),
               onPressed: () {
-                final chatModel = ChatModel(
-                  chatAttachment: '',
-                  createdAt: Timestamp.now().millisecondsSinceEpoch,
-                  message: _messageController.text,
-                  reaction: '',
-                  read: false,
-                  receiverID: widget.peopleId,
-                  senderID: userId,
-                  replyTo: null,
-                );
-                stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
+                if(_messageController.text.isNotEmpty)
+                {
+                  final chatModel = ChatModel(
+                    chatAttachment: '',
+                    createdAt: Timestamp.now().millisecondsSinceEpoch,
+                    message: _messageController.text,
+                    reaction: '',
+                    read: false,
+                    receiverID: widget.peopleId,
+                    senderID: userId,
+                    replyTo: null,
+                  );
+                  stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
+                }
                 AppLog.log("Sent ${_messageController.text}");
                 _messageController.clear();
                 dismissKeyboard(context);

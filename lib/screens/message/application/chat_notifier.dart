@@ -20,6 +20,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
   final DatabaseReference _db = FirebaseDatabase.instance.ref();
 
   String? get getUserId => _hiveDataBase.box.get(AppPreferenceKeys.userId);
+  String? get getChatToken => _hiveDataBase.box.get(AppPreferenceKeys.chatToken);
   TextEditingController searchController = TextEditingController();
 
   Future<void> sendOnceMessage(String peopleId, ChatModel message) async {
@@ -41,6 +42,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
       ChatCreatedModel chatCreatedModel = ChatCreatedModel.fromJson(response.data);
       String? chatToken = chatCreatedModel.dataOfChat?.chatToken;
+      _hiveDataBase.box.put(AppPreferenceKeys.chatToken, chatToken ?? '');
+      AppLog.log("token : $getChatToken ");
 
       if (chatToken == null) {
         AppLog.log('Chat token not found in response');
@@ -72,30 +75,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
     }
   }
 
-  // Stream<List<ChatModel>> getMessages(String peopleId) {
-  //   final chatRef = _db.child('chat_dev/$peopleId');
-  //
-  //   return chatRef.onValue.map((event) {
-  //     final data = event.snapshot.value as Map<dynamic, dynamic>?;
-  //
-  //     if (data == null) return [];
-  //
-  //     try {
-  //       return data.entries.map((entry) {
-  //         final messageData = Map<String, dynamic>.from(entry.value as Map);
-  //         AppLog.log('Sent message: ${messageData['message']}');
-  //         return ChatModel.fromJson(messageData);
-  //       }).toList()
-  //         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
-  //     } catch (e) {
-  //       AppLog.log('Error retrieving messages: $e');
-  //       return [];
-  //     }
-  //   });
-  // }
-
-  Stream<List<ChatModel>> getMessages(String peopleId) {
-    final chatRef = _db.child('chat_dev/$peopleId');
+  Stream<List<ChatModel>> getMessages(String peopleId, String chatToken) {
+    final chatRef = _db.child('chat_dev/$chatToken');
 
     return chatRef.onValue.map((event) {
       final data = event.snapshot.value;
@@ -115,10 +96,13 @@ class ChatNotifier extends StateNotifier<ChatState> {
       try {
         final mapData = Map<String, dynamic>.from(data);
 
-        final messages = mapData.entries.map((entry) {
+        final messages = mapData.entries
+            .where((entry) => entry.value is Map)
+            .map((entry) {
           final messageData = Map<String, dynamic>.from(entry.value as Map);
           return ChatModel.fromJson(messageData);
-        }).toList();
+        })
+            .toList();
 
         messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
         return messages;
@@ -129,14 +113,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
     });
   }
 
-
-
-
-
   void selectChat(String chat) {
     state = state.copyWith(selectedChat: chat);
   }
-
 
   final RefreshController refreshController = RefreshController();
 
@@ -158,7 +137,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
     await getChatList(isLoadMore: true);
     refreshController.loadComplete();
   }
-
 
 
   Future<void> getChatList({bool isLoadMore = false, bool isSearch = false}) async {
@@ -186,12 +164,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
       } else if (dioException != null) {
         showDioError(dioException);
       } else {
-        // Parse the response into the ChatUserListModel
         ChatUserListModel ccModel = ChatUserListModel.fromJson(response.data);
 
         if (ccModel.status == 200) {
-          AppLog.log("chat list success");
-
           List<DataOfChatList> chatListData = ccModel.allChatList ?? [];
 
           state = state.copyWith(
@@ -203,7 +178,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
         }
       }
     } catch (error) {
-      // Handle error and reset loading state
       state = state.copyWith(isLoading: false);
       showConnectionWasInterruptedToastMessage();
     }
@@ -214,7 +188,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
     await getChatList(isSearch: true);
   }
 
-  Future<void> sendPeopleId(String peopleId) async {
+  Future<void> initiateChatWithPeopleId(String peopleId) async {
     var (response, dioException) = await _networkApiService
         .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}', body: {
       "user_id": peopleId
@@ -235,7 +209,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
         return;
       }
 
-      getMessages(peopleId);
+      getMessages(peopleId, chatToken);
       AppLog.log("Successfully started chatting");
     }
   }

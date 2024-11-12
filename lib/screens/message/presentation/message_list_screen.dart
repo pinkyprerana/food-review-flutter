@@ -11,7 +11,6 @@ import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
-import '../../people_profile/shared/providers.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -29,10 +28,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
-      final followNotifier = ref.watch(followNotifierProvider.notifier);
       await stateNotifier.getChatList();
-      final userId = followNotifier.getUserId;
-      stateNotifier.sendPeopleId(userId!);
     });
   }
 
