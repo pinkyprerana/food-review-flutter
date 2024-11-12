@@ -19,7 +19,7 @@ mixin _$ChatState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoadMore => throw _privateConstructorUsedError;
   bool get isSending => throw _privateConstructorUsedError;
-  List<ChatModel> get allChatList => throw _privateConstructorUsedError;
+  List<DataOfChatList> get allChatList => throw _privateConstructorUsedError;
   DataOfChat? get dataOfChat => throw _privateConstructorUsedError;
   String? get selectedChat => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $ChatStateCopyWith<$Res> {
       {bool isLoading,
       bool isLoadMore,
       bool isSending,
-      List<ChatModel> allChatList,
+      List<DataOfChatList> allChatList,
       DataOfChat? dataOfChat,
       String? selectedChat,
       String? errorMessage,
@@ -93,7 +93,7 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
       allChatList: null == allChatList
           ? _value.allChatList
           : allChatList // ignore: cast_nullable_to_non_nullable
-              as List<ChatModel>,
+              as List<DataOfChatList>,
       dataOfChat: freezed == dataOfChat
           ? _value.dataOfChat
           : dataOfChat // ignore: cast_nullable_to_non_nullable
@@ -144,7 +144,7 @@ abstract class _$$ChatStateImplCopyWith<$Res>
       {bool isLoading,
       bool isLoadMore,
       bool isSending,
-      List<ChatModel> allChatList,
+      List<DataOfChatList> allChatList,
       DataOfChat? dataOfChat,
       String? selectedChat,
       String? errorMessage,
@@ -194,7 +194,7 @@ class __$$ChatStateImplCopyWithImpl<$Res>
       allChatList: null == allChatList
           ? _value._allChatList
           : allChatList // ignore: cast_nullable_to_non_nullable
-              as List<ChatModel>,
+              as List<DataOfChatList>,
       dataOfChat: freezed == dataOfChat
           ? _value.dataOfChat
           : dataOfChat // ignore: cast_nullable_to_non_nullable
@@ -226,7 +226,7 @@ class _$ChatStateImpl extends _ChatState {
       {this.isLoading = false,
       this.isLoadMore = false,
       this.isSending = false,
-      final List<ChatModel> allChatList = const [],
+      final List<DataOfChatList> allChatList = const [],
       this.dataOfChat,
       this.selectedChat = '',
       this.errorMessage = '',
@@ -244,10 +244,10 @@ class _$ChatStateImpl extends _ChatState {
   @override
   @JsonKey()
   final bool isSending;
-  final List<ChatModel> _allChatList;
+  final List<DataOfChatList> _allChatList;
   @override
   @JsonKey()
-  List<ChatModel> get allChatList {
+  List<DataOfChatList> get allChatList {
     if (_allChatList is EqualUnmodifiableListView) return _allChatList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_allChatList);
@@ -325,7 +325,7 @@ abstract class _ChatState extends ChatState {
       {final bool isLoading,
       final bool isLoadMore,
       final bool isSending,
-      final List<ChatModel> allChatList,
+      final List<DataOfChatList> allChatList,
       final DataOfChat? dataOfChat,
       final String? selectedChat,
       final String? errorMessage,
@@ -340,7 +340,7 @@ abstract class _ChatState extends ChatState {
   @override
   bool get isSending;
   @override
-  List<ChatModel> get allChatList;
+  List<DataOfChatList> get allChatList;
   @override
   DataOfChat? get dataOfChat;
   @override

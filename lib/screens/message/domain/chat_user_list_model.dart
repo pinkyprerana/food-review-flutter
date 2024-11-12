@@ -14,17 +14,21 @@ class ChatUserListModel with _$ChatUserListModel {
     @JsonKey(name: "message")
     String? message,
     @JsonKey(name: "data")
-    DataOfChatListModel? data,
-    @JsonKey(name: "video_room")
-    String? videoRoom,
+    List<DataOfChatList>? allChatList,
+    @JsonKey(name: "user_unread_count")
+    int? userUnreadCount,
   }) = _ChatUserListModel;
 
   factory ChatUserListModel.fromJson(Map<String, dynamic> json) => _$ChatUserListModelFromJson(json);
 }
 
 @freezed
-class DataOfChatListModel with _$DataOfChatListModel {
-  const factory DataOfChatListModel({
+class DataOfChatList with _$DataOfChatList {
+  const factory DataOfChatList({
+    @JsonKey(name: "userDetails")
+    RDetails? userDetails,
+    @JsonKey(name: "creatorDetails")
+    RDetails? creatorDetails,
     @JsonKey(name: "_id")
     String? id,
     @JsonKey(name: "creator_id")
@@ -37,8 +41,6 @@ class DataOfChatListModel with _$DataOfChatListModel {
     int? userUnreadCount,
     @JsonKey(name: "creator_unread_count")
     int? creatorUnreadCount,
-    @JsonKey(name: "new")
-    bool? dataNew,
     @JsonKey(name: "isBlocked")
     bool? isBlocked,
     @JsonKey(name: "isDeleted")
@@ -47,9 +49,27 @@ class DataOfChatListModel with _$DataOfChatListModel {
     String? chatDate,
     @JsonKey(name: "createdAt")
     String? createdAt,
-    @JsonKey(name: "updatedAt")
-    String? updatedAt,
-  }) = _DataOfChatListModel;
+    @JsonKey(name: "last_message")
+    String? lastMessage,
+    @JsonKey(name: "isLastMessage")
+    bool? isLastMessage,
+  }) = _DataOfChatList;
 
-  factory DataOfChatListModel.fromJson(Map<String, dynamic> json) => _$DataOfChatListModelFromJson(json);
+  factory DataOfChatList.fromJson(Map<String, dynamic> json) => _$DataOfChatListFromJson(json);
+}
+
+@freezed
+class RDetails with _$RDetails {
+  const factory RDetails({
+    @JsonKey(name: "_id")
+    String? id,
+    @JsonKey(name: "first_name")
+    String? firstName,
+    @JsonKey(name: "last_name")
+    String? lastName,
+    @JsonKey(name: "profile_image")
+    String? profileImage,
+  }) = _RDetails;
+
+  factory RDetails.fromJson(Map<String, dynamic> json) => _$RDetailsFromJson(json);
 }

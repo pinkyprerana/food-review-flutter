@@ -10,7 +10,6 @@ import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
-import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
@@ -40,7 +39,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
-      await stateNotifier.initializeChat(widget.peopleId);
+      // await stateNotifier.initializeChat(widget.peopleId);
       stateNotifier.getMessages(widget.peopleId);
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
@@ -57,6 +56,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
     final followNotifier = ref.watch(followNotifierProvider.notifier);
     final profileState = ref.watch(profileNotifierProvider);
+    final userId = followNotifier.getUserId;
 
     String formattedTimestamp(int timestamp) {
       try {
@@ -71,94 +71,97 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     String peopleName = getDetails?.fullName ?? '';
     final peopleImage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}';
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.colorPrimary.withOpacity(0.20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
-              ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          leading: GestureDetector(
+            onTap: () {
+              _messageController.clear();
+              Navigator.pop(context);
+              },
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.colorPrimary.withOpacity(0.20),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.arrow_back_ios, color: AppColors.colorPrimary, size: 15.h),
+                ],
+              ),
             ),
           ),
-        ),
-        title: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: SizedBox(
-                width: 45.w,
-                height: 43.h,
-                child: CachedNetworkImage(
-                  imageUrl: peopleImage,
-                  placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                  errorWidget: (context, url, error) => ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      Assets.avatar,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 50.w,
-                    height: 47.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      image: DecorationImage(
-                        image: imageProvider,
+          title: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: SizedBox(
+                  width: 45.w,
+                  height: 43.h,
+                  child: CachedNetworkImage(
+                    imageUrl: peopleImage,
+                    placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                    errorWidget: (context, url, error) => ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        Assets.avatar,
                         fit: BoxFit.cover,
+                      ),
+                    ),
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 50.w,
+                      height: 47.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            8.horizontalSpace,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  peopleName,
-                  style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.colorText2,
+              8.horizontalSpace,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    peopleName,
+                    style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                      fontSize: 14.sp,
+                      color: AppColors.colorText2,
+                    ),
                   ),
-                ),
-                Text(
-                  '', //Typing...
-                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    fontSize: 10.sp,
-                    color: AppColors.colorText3,
+                  Text(
+                    '', //Typing...
+                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                      fontSize: 10.sp,
+                      color: AppColors.colorText3,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      body: GestureDetector(
-        onTap: FocusScope.of(context).unfocus,
-        child: Column(
+        body: Column(
           children: [
             Expanded(
               child: StreamBuilder<List<ChatModel>>(
                 stream: stateNotifier.getMessages(widget.peopleId),
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
-                  }
+                  // if (snapshot.connectionState == ConnectionState.waiting) {
+                  //   return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
+                  // }
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(
                         child: Column(
@@ -188,7 +191,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     itemBuilder: (context, index) {
                       final message = messages[index];
                       AppLog.log("messages : $messages");
-                      bool isSent = message.senderID == AppPreferenceKeys.userId;
+                      bool isSent = message.senderID == userId;
 
                       return Row(
                         mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -269,14 +272,15 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 },
               ),
             ),
-            _buildMessageInput(),
+            _buildMessageInput(userId!),
           ],
         ),
       ),
     );
   }
-  Widget _buildMessageInput() {
+  Widget _buildMessageInput(userId) {
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
@@ -352,10 +356,10 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   reaction: '',
                   read: false,
                   receiverID: widget.peopleId,
-                  senderID: AppPreferenceKeys.userId,
+                  senderID: userId,
                   replyTo: null,
                 );
-                stateNotifier.sendMessageWithRetry(widget.peopleId, chatModel);
+                stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
                 AppLog.log("Sent ${_messageController.text}");
                 _messageController.clear();
                 dismissKeyboard(context);

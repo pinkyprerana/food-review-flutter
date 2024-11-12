@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/widgets/custom_search_field.dart';
+import 'package:intl/intl.dart';
+import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
+import '../../people_profile/shared/providers.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -21,17 +24,15 @@ class MessageListScreen extends ConsumerStatefulWidget {
 
 class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
-  String generateChatId(String userId1, String userId2) {
-    return userId1.compareTo(userId2) < 0 ? '$userId1\_$userId2' : '$userId2\_$userId1';
-  }
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
-      await stateNotifier.fetchAParticularChat();
+      final followNotifier = ref.watch(followNotifierProvider.notifier);
       await stateNotifier.getChatList();
+      final userId = followNotifier.getUserId;
+      stateNotifier.sendPeopleId(userId!);
     });
   }
 
@@ -120,15 +121,17 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                     itemCount: state.allChatList.length,
                     itemBuilder: (context, index) {
                       final chat = state.allChatList[index];
+                      final user = chat.userDetails;
+                      String formatDate(String dateString) {
+                        DateTime dateTime = DateTime.parse(dateString);
+                        return DateFormat('MMM dd, yyyy').format(dateTime);
+                      }
+                      String formattedChatDate = formatDate(chat.chatDate.toString());
+                      final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
+
                       return GestureDetector(
                         onTap: () {
-                          final senderId = chat.senderID;
-                          final receiverId = chat.receiverID;
-                          final chatId = generateChatId(senderId, receiverId);
-                          stateNotifier.selectChat(chatId);
-                          final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                          chatNotifier.sendPeopleId(chat.senderID);
-                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.receiverID));
+                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.userId ?? ''),);
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(vertical: 1.h),
@@ -138,12 +141,12 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                               width: 45.w,
                               height: 45.h,
                               child: CachedNetworkImage(
-                                imageUrl: Assets.avatar,
+                                imageUrl: profileImage,
                                 placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
                                 errorWidget: (context, url, error) => ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.asset(
-                                    Assets.profileImage,
+                                    Assets.avatar,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -162,14 +165,15 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                             ),
                           ),
                           title: Text(
-                            'User Name $index',
+                            '${user?.firstName} ${user?.lastName}',
                             style: AppTextStyles.textStylePoppinsMedium.copyWith(
                               color: AppColors.colorPrimary,
                               fontSize: 13.sp,
                             ),
+                            maxLines: 1,
                           ),
                           subtitle: Text(
-                            'Lorem ipsum dolor sit amet consectetur.',
+                            chat.lastMessage??'',
                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 10.sp,
@@ -181,14 +185,15 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Feb 28, 2024',
+                                formattedChatDate,
                                 style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                   fontSize: 10.sp,
                                   color: AppColors.colorText3,
                                 ),
                               ),
                               4.verticalSpace,
-                              Container(
+                              chat.userUnreadCount != 0
+                              ? Container(
                                 width: 16.w,
                                 height: 16.h,
                                 decoration: const BoxDecoration(
@@ -197,18 +202,19 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '10+',
+                                    chat.userUnreadCount.toString() , //'10+',
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorWhite,
                                       fontSize: 8.sp,
                                     ),
                                   ),
                                 ),
-                              ),
+                              )
+                              : const SizedBox(),
                             ],
                           ),
                           onTap: () {
-                            AutoRouter.of(context).push(DirectMessageRoute(peopleId: ''));
+                            AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.userId ?? ''));
 
                           },
                         ),

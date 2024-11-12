@@ -27,9 +27,9 @@ mixin _$ChatUserListModel {
   @JsonKey(name: "message")
   String? get message => throw _privateConstructorUsedError;
   @JsonKey(name: "data")
-  DataOfChatListModel? get data => throw _privateConstructorUsedError;
-  @JsonKey(name: "video_room")
-  String? get videoRoom => throw _privateConstructorUsedError;
+  List<DataOfChatList>? get allChatList => throw _privateConstructorUsedError;
+  @JsonKey(name: "user_unread_count")
+  int? get userUnreadCount => throw _privateConstructorUsedError;
 
   /// Serializes this ChatUserListModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,10 +51,8 @@ abstract class $ChatUserListModelCopyWith<$Res> {
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") DataOfChatListModel? data,
-      @JsonKey(name: "video_room") String? videoRoom});
-
-  $DataOfChatListModelCopyWith<$Res>? get data;
+      @JsonKey(name: "data") List<DataOfChatList>? allChatList,
+      @JsonKey(name: "user_unread_count") int? userUnreadCount});
 }
 
 /// @nodoc
@@ -75,8 +73,8 @@ class _$ChatUserListModelCopyWithImpl<$Res, $Val extends ChatUserListModel>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? data = freezed,
-    Object? videoRoom = freezed,
+    Object? allChatList = freezed,
+    Object? userUnreadCount = freezed,
   }) {
     return _then(_value.copyWith(
       status: freezed == status
@@ -91,29 +89,15 @@ class _$ChatUserListModelCopyWithImpl<$Res, $Val extends ChatUserListModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as DataOfChatListModel?,
-      videoRoom: freezed == videoRoom
-          ? _value.videoRoom
-          : videoRoom // ignore: cast_nullable_to_non_nullable
-              as String?,
+      allChatList: freezed == allChatList
+          ? _value.allChatList
+          : allChatList // ignore: cast_nullable_to_non_nullable
+              as List<DataOfChatList>?,
+      userUnreadCount: freezed == userUnreadCount
+          ? _value.userUnreadCount
+          : userUnreadCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
-  }
-
-  /// Create a copy of ChatUserListModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $DataOfChatListModelCopyWith<$Res>? get data {
-    if (_value.data == null) {
-      return null;
-    }
-
-    return $DataOfChatListModelCopyWith<$Res>(_value.data!, (value) {
-      return _then(_value.copyWith(data: value) as $Val);
-    });
   }
 }
 
@@ -129,11 +113,8 @@ abstract class _$$ChatUserListModelImplCopyWith<$Res>
       {@JsonKey(name: "status") int? status,
       @JsonKey(name: "type") String? type,
       @JsonKey(name: "message") String? message,
-      @JsonKey(name: "data") DataOfChatListModel? data,
-      @JsonKey(name: "video_room") String? videoRoom});
-
-  @override
-  $DataOfChatListModelCopyWith<$Res>? get data;
+      @JsonKey(name: "data") List<DataOfChatList>? allChatList,
+      @JsonKey(name: "user_unread_count") int? userUnreadCount});
 }
 
 /// @nodoc
@@ -152,8 +133,8 @@ class __$$ChatUserListModelImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? type = freezed,
     Object? message = freezed,
-    Object? data = freezed,
-    Object? videoRoom = freezed,
+    Object? allChatList = freezed,
+    Object? userUnreadCount = freezed,
   }) {
     return _then(_$ChatUserListModelImpl(
       status: freezed == status
@@ -168,14 +149,14 @@ class __$$ChatUserListModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as DataOfChatListModel?,
-      videoRoom: freezed == videoRoom
-          ? _value.videoRoom
-          : videoRoom // ignore: cast_nullable_to_non_nullable
-              as String?,
+      allChatList: freezed == allChatList
+          ? _value._allChatList
+          : allChatList // ignore: cast_nullable_to_non_nullable
+              as List<DataOfChatList>?,
+      userUnreadCount: freezed == userUnreadCount
+          ? _value.userUnreadCount
+          : userUnreadCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -187,8 +168,9 @@ class _$ChatUserListModelImpl implements _ChatUserListModel {
       {@JsonKey(name: "status") this.status,
       @JsonKey(name: "type") this.type,
       @JsonKey(name: "message") this.message,
-      @JsonKey(name: "data") this.data,
-      @JsonKey(name: "video_room") this.videoRoom});
+      @JsonKey(name: "data") final List<DataOfChatList>? allChatList,
+      @JsonKey(name: "user_unread_count") this.userUnreadCount})
+      : _allChatList = allChatList;
 
   factory _$ChatUserListModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatUserListModelImplFromJson(json);
@@ -202,16 +184,24 @@ class _$ChatUserListModelImpl implements _ChatUserListModel {
   @override
   @JsonKey(name: "message")
   final String? message;
+  final List<DataOfChatList>? _allChatList;
   @override
   @JsonKey(name: "data")
-  final DataOfChatListModel? data;
+  List<DataOfChatList>? get allChatList {
+    final value = _allChatList;
+    if (value == null) return null;
+    if (_allChatList is EqualUnmodifiableListView) return _allChatList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
-  @JsonKey(name: "video_room")
-  final String? videoRoom;
+  @JsonKey(name: "user_unread_count")
+  final int? userUnreadCount;
 
   @override
   String toString() {
-    return 'ChatUserListModel(status: $status, type: $type, message: $message, data: $data, videoRoom: $videoRoom)';
+    return 'ChatUserListModel(status: $status, type: $type, message: $message, allChatList: $allChatList, userUnreadCount: $userUnreadCount)';
   }
 
   @override
@@ -222,15 +212,16 @@ class _$ChatUserListModelImpl implements _ChatUserListModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.data, data) || other.data == data) &&
-            (identical(other.videoRoom, videoRoom) ||
-                other.videoRoom == videoRoom));
+            const DeepCollectionEquality()
+                .equals(other._allChatList, _allChatList) &&
+            (identical(other.userUnreadCount, userUnreadCount) ||
+                other.userUnreadCount == userUnreadCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, type, message, data, videoRoom);
+  int get hashCode => Object.hash(runtimeType, status, type, message,
+      const DeepCollectionEquality().hash(_allChatList), userUnreadCount);
 
   /// Create a copy of ChatUserListModel
   /// with the given fields replaced by the non-null parameter values.
@@ -254,8 +245,8 @@ abstract class _ChatUserListModel implements ChatUserListModel {
           {@JsonKey(name: "status") final int? status,
           @JsonKey(name: "type") final String? type,
           @JsonKey(name: "message") final String? message,
-          @JsonKey(name: "data") final DataOfChatListModel? data,
-          @JsonKey(name: "video_room") final String? videoRoom}) =
+          @JsonKey(name: "data") final List<DataOfChatList>? allChatList,
+          @JsonKey(name: "user_unread_count") final int? userUnreadCount}) =
       _$ChatUserListModelImpl;
 
   factory _ChatUserListModel.fromJson(Map<String, dynamic> json) =
@@ -272,10 +263,10 @@ abstract class _ChatUserListModel implements ChatUserListModel {
   String? get message;
   @override
   @JsonKey(name: "data")
-  DataOfChatListModel? get data;
+  List<DataOfChatList>? get allChatList;
   @override
-  @JsonKey(name: "video_room")
-  String? get videoRoom;
+  @JsonKey(name: "user_unread_count")
+  int? get userUnreadCount;
 
   /// Create a copy of ChatUserListModel
   /// with the given fields replaced by the non-null parameter values.
@@ -285,12 +276,16 @@ abstract class _ChatUserListModel implements ChatUserListModel {
       throw _privateConstructorUsedError;
 }
 
-DataOfChatListModel _$DataOfChatListModelFromJson(Map<String, dynamic> json) {
-  return _DataOfChatListModel.fromJson(json);
+DataOfChatList _$DataOfChatListFromJson(Map<String, dynamic> json) {
+  return _DataOfChatList.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DataOfChatListModel {
+mixin _$DataOfChatList {
+  @JsonKey(name: "userDetails")
+  RDetails? get userDetails => throw _privateConstructorUsedError;
+  @JsonKey(name: "creatorDetails")
+  RDetails? get creatorDetails => throw _privateConstructorUsedError;
   @JsonKey(name: "_id")
   String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "creator_id")
@@ -303,8 +298,6 @@ mixin _$DataOfChatListModel {
   int? get userUnreadCount => throw _privateConstructorUsedError;
   @JsonKey(name: "creator_unread_count")
   int? get creatorUnreadCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "new")
-  bool? get dataNew => throw _privateConstructorUsedError;
   @JsonKey(name: "isBlocked")
   bool? get isBlocked => throw _privateConstructorUsedError;
   @JsonKey(name: "isDeleted")
@@ -313,69 +306,86 @@ mixin _$DataOfChatListModel {
   String? get chatDate => throw _privateConstructorUsedError;
   @JsonKey(name: "createdAt")
   String? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updatedAt")
-  String? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "last_message")
+  String? get lastMessage => throw _privateConstructorUsedError;
+  @JsonKey(name: "isLastMessage")
+  bool? get isLastMessage => throw _privateConstructorUsedError;
 
-  /// Serializes this DataOfChatListModel to a JSON map.
+  /// Serializes this DataOfChatList to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of DataOfChatListModel
+  /// Create a copy of DataOfChatList
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DataOfChatListModelCopyWith<DataOfChatListModel> get copyWith =>
+  $DataOfChatListCopyWith<DataOfChatList> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DataOfChatListModelCopyWith<$Res> {
-  factory $DataOfChatListModelCopyWith(
-          DataOfChatListModel value, $Res Function(DataOfChatListModel) then) =
-      _$DataOfChatListModelCopyWithImpl<$Res, DataOfChatListModel>;
+abstract class $DataOfChatListCopyWith<$Res> {
+  factory $DataOfChatListCopyWith(
+          DataOfChatList value, $Res Function(DataOfChatList) then) =
+      _$DataOfChatListCopyWithImpl<$Res, DataOfChatList>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String? id,
+      {@JsonKey(name: "userDetails") RDetails? userDetails,
+      @JsonKey(name: "creatorDetails") RDetails? creatorDetails,
+      @JsonKey(name: "_id") String? id,
       @JsonKey(name: "creator_id") String? creatorId,
       @JsonKey(name: "user_id") String? userId,
       @JsonKey(name: "chat_token") String? chatToken,
       @JsonKey(name: "user_unread_count") int? userUnreadCount,
       @JsonKey(name: "creator_unread_count") int? creatorUnreadCount,
-      @JsonKey(name: "new") bool? dataNew,
       @JsonKey(name: "isBlocked") bool? isBlocked,
       @JsonKey(name: "isDeleted") bool? isDeleted,
       @JsonKey(name: "chat_date") String? chatDate,
       @JsonKey(name: "createdAt") String? createdAt,
-      @JsonKey(name: "updatedAt") String? updatedAt});
+      @JsonKey(name: "last_message") String? lastMessage,
+      @JsonKey(name: "isLastMessage") bool? isLastMessage});
+
+  $RDetailsCopyWith<$Res>? get userDetails;
+  $RDetailsCopyWith<$Res>? get creatorDetails;
 }
 
 /// @nodoc
-class _$DataOfChatListModelCopyWithImpl<$Res, $Val extends DataOfChatListModel>
-    implements $DataOfChatListModelCopyWith<$Res> {
-  _$DataOfChatListModelCopyWithImpl(this._value, this._then);
+class _$DataOfChatListCopyWithImpl<$Res, $Val extends DataOfChatList>
+    implements $DataOfChatListCopyWith<$Res> {
+  _$DataOfChatListCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of DataOfChatListModel
+  /// Create a copy of DataOfChatList
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userDetails = freezed,
+    Object? creatorDetails = freezed,
     Object? id = freezed,
     Object? creatorId = freezed,
     Object? userId = freezed,
     Object? chatToken = freezed,
     Object? userUnreadCount = freezed,
     Object? creatorUnreadCount = freezed,
-    Object? dataNew = freezed,
     Object? isBlocked = freezed,
     Object? isDeleted = freezed,
     Object? chatDate = freezed,
     Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? lastMessage = freezed,
+    Object? isLastMessage = freezed,
   }) {
     return _then(_value.copyWith(
+      userDetails: freezed == userDetails
+          ? _value.userDetails
+          : userDetails // ignore: cast_nullable_to_non_nullable
+              as RDetails?,
+      creatorDetails: freezed == creatorDetails
+          ? _value.creatorDetails
+          : creatorDetails // ignore: cast_nullable_to_non_nullable
+              as RDetails?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -400,10 +410,6 @@ class _$DataOfChatListModelCopyWithImpl<$Res, $Val extends DataOfChatListModel>
           ? _value.creatorUnreadCount
           : creatorUnreadCount // ignore: cast_nullable_to_non_nullable
               as int?,
-      dataNew: freezed == dataNew
-          ? _value.dataNew
-          : dataNew // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isBlocked: freezed == isBlocked
           ? _value.isBlocked
           : isBlocked // ignore: cast_nullable_to_non_nullable
@@ -420,64 +426,113 @@ class _$DataOfChatListModelCopyWithImpl<$Res, $Val extends DataOfChatListModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
+      lastMessage: freezed == lastMessage
+          ? _value.lastMessage
+          : lastMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLastMessage: freezed == isLastMessage
+          ? _value.isLastMessage
+          : isLastMessage // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
+  }
+
+  /// Create a copy of DataOfChatList
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RDetailsCopyWith<$Res>? get userDetails {
+    if (_value.userDetails == null) {
+      return null;
+    }
+
+    return $RDetailsCopyWith<$Res>(_value.userDetails!, (value) {
+      return _then(_value.copyWith(userDetails: value) as $Val);
+    });
+  }
+
+  /// Create a copy of DataOfChatList
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $RDetailsCopyWith<$Res>? get creatorDetails {
+    if (_value.creatorDetails == null) {
+      return null;
+    }
+
+    return $RDetailsCopyWith<$Res>(_value.creatorDetails!, (value) {
+      return _then(_value.copyWith(creatorDetails: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$DataOfChatListModelImplCopyWith<$Res>
-    implements $DataOfChatListModelCopyWith<$Res> {
-  factory _$$DataOfChatListModelImplCopyWith(_$DataOfChatListModelImpl value,
-          $Res Function(_$DataOfChatListModelImpl) then) =
-      __$$DataOfChatListModelImplCopyWithImpl<$Res>;
+abstract class _$$DataOfChatListImplCopyWith<$Res>
+    implements $DataOfChatListCopyWith<$Res> {
+  factory _$$DataOfChatListImplCopyWith(_$DataOfChatListImpl value,
+          $Res Function(_$DataOfChatListImpl) then) =
+      __$$DataOfChatListImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String? id,
+      {@JsonKey(name: "userDetails") RDetails? userDetails,
+      @JsonKey(name: "creatorDetails") RDetails? creatorDetails,
+      @JsonKey(name: "_id") String? id,
       @JsonKey(name: "creator_id") String? creatorId,
       @JsonKey(name: "user_id") String? userId,
       @JsonKey(name: "chat_token") String? chatToken,
       @JsonKey(name: "user_unread_count") int? userUnreadCount,
       @JsonKey(name: "creator_unread_count") int? creatorUnreadCount,
-      @JsonKey(name: "new") bool? dataNew,
       @JsonKey(name: "isBlocked") bool? isBlocked,
       @JsonKey(name: "isDeleted") bool? isDeleted,
       @JsonKey(name: "chat_date") String? chatDate,
       @JsonKey(name: "createdAt") String? createdAt,
-      @JsonKey(name: "updatedAt") String? updatedAt});
+      @JsonKey(name: "last_message") String? lastMessage,
+      @JsonKey(name: "isLastMessage") bool? isLastMessage});
+
+  @override
+  $RDetailsCopyWith<$Res>? get userDetails;
+  @override
+  $RDetailsCopyWith<$Res>? get creatorDetails;
 }
 
 /// @nodoc
-class __$$DataOfChatListModelImplCopyWithImpl<$Res>
-    extends _$DataOfChatListModelCopyWithImpl<$Res, _$DataOfChatListModelImpl>
-    implements _$$DataOfChatListModelImplCopyWith<$Res> {
-  __$$DataOfChatListModelImplCopyWithImpl(_$DataOfChatListModelImpl _value,
-      $Res Function(_$DataOfChatListModelImpl) _then)
+class __$$DataOfChatListImplCopyWithImpl<$Res>
+    extends _$DataOfChatListCopyWithImpl<$Res, _$DataOfChatListImpl>
+    implements _$$DataOfChatListImplCopyWith<$Res> {
+  __$$DataOfChatListImplCopyWithImpl(
+      _$DataOfChatListImpl _value, $Res Function(_$DataOfChatListImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DataOfChatListModel
+  /// Create a copy of DataOfChatList
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userDetails = freezed,
+    Object? creatorDetails = freezed,
     Object? id = freezed,
     Object? creatorId = freezed,
     Object? userId = freezed,
     Object? chatToken = freezed,
     Object? userUnreadCount = freezed,
     Object? creatorUnreadCount = freezed,
-    Object? dataNew = freezed,
     Object? isBlocked = freezed,
     Object? isDeleted = freezed,
     Object? chatDate = freezed,
     Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? lastMessage = freezed,
+    Object? isLastMessage = freezed,
   }) {
-    return _then(_$DataOfChatListModelImpl(
+    return _then(_$DataOfChatListImpl(
+      userDetails: freezed == userDetails
+          ? _value.userDetails
+          : userDetails // ignore: cast_nullable_to_non_nullable
+              as RDetails?,
+      creatorDetails: freezed == creatorDetails
+          ? _value.creatorDetails
+          : creatorDetails // ignore: cast_nullable_to_non_nullable
+              as RDetails?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -502,10 +557,6 @@ class __$$DataOfChatListModelImplCopyWithImpl<$Res>
           ? _value.creatorUnreadCount
           : creatorUnreadCount // ignore: cast_nullable_to_non_nullable
               as int?,
-      dataNew: freezed == dataNew
-          ? _value.dataNew
-          : dataNew // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isBlocked: freezed == isBlocked
           ? _value.isBlocked
           : isBlocked // ignore: cast_nullable_to_non_nullable
@@ -522,34 +573,46 @@ class __$$DataOfChatListModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
+      lastMessage: freezed == lastMessage
+          ? _value.lastMessage
+          : lastMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLastMessage: freezed == isLastMessage
+          ? _value.isLastMessage
+          : isLastMessage // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$DataOfChatListModelImpl implements _DataOfChatListModel {
-  const _$DataOfChatListModelImpl(
-      {@JsonKey(name: "_id") this.id,
+class _$DataOfChatListImpl implements _DataOfChatList {
+  const _$DataOfChatListImpl(
+      {@JsonKey(name: "userDetails") this.userDetails,
+      @JsonKey(name: "creatorDetails") this.creatorDetails,
+      @JsonKey(name: "_id") this.id,
       @JsonKey(name: "creator_id") this.creatorId,
       @JsonKey(name: "user_id") this.userId,
       @JsonKey(name: "chat_token") this.chatToken,
       @JsonKey(name: "user_unread_count") this.userUnreadCount,
       @JsonKey(name: "creator_unread_count") this.creatorUnreadCount,
-      @JsonKey(name: "new") this.dataNew,
       @JsonKey(name: "isBlocked") this.isBlocked,
       @JsonKey(name: "isDeleted") this.isDeleted,
       @JsonKey(name: "chat_date") this.chatDate,
       @JsonKey(name: "createdAt") this.createdAt,
-      @JsonKey(name: "updatedAt") this.updatedAt});
+      @JsonKey(name: "last_message") this.lastMessage,
+      @JsonKey(name: "isLastMessage") this.isLastMessage});
 
-  factory _$DataOfChatListModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DataOfChatListModelImplFromJson(json);
+  factory _$DataOfChatListImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DataOfChatListImplFromJson(json);
 
+  @override
+  @JsonKey(name: "userDetails")
+  final RDetails? userDetails;
+  @override
+  @JsonKey(name: "creatorDetails")
+  final RDetails? creatorDetails;
   @override
   @JsonKey(name: "_id")
   final String? id;
@@ -569,9 +632,6 @@ class _$DataOfChatListModelImpl implements _DataOfChatListModel {
   @JsonKey(name: "creator_unread_count")
   final int? creatorUnreadCount;
   @override
-  @JsonKey(name: "new")
-  final bool? dataNew;
-  @override
   @JsonKey(name: "isBlocked")
   final bool? isBlocked;
   @override
@@ -584,19 +644,26 @@ class _$DataOfChatListModelImpl implements _DataOfChatListModel {
   @JsonKey(name: "createdAt")
   final String? createdAt;
   @override
-  @JsonKey(name: "updatedAt")
-  final String? updatedAt;
+  @JsonKey(name: "last_message")
+  final String? lastMessage;
+  @override
+  @JsonKey(name: "isLastMessage")
+  final bool? isLastMessage;
 
   @override
   String toString() {
-    return 'DataOfChatListModel(id: $id, creatorId: $creatorId, userId: $userId, chatToken: $chatToken, userUnreadCount: $userUnreadCount, creatorUnreadCount: $creatorUnreadCount, dataNew: $dataNew, isBlocked: $isBlocked, isDeleted: $isDeleted, chatDate: $chatDate, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'DataOfChatList(userDetails: $userDetails, creatorDetails: $creatorDetails, id: $id, creatorId: $creatorId, userId: $userId, chatToken: $chatToken, userUnreadCount: $userUnreadCount, creatorUnreadCount: $creatorUnreadCount, isBlocked: $isBlocked, isDeleted: $isDeleted, chatDate: $chatDate, createdAt: $createdAt, lastMessage: $lastMessage, isLastMessage: $isLastMessage)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataOfChatListModelImpl &&
+            other is _$DataOfChatListImpl &&
+            (identical(other.userDetails, userDetails) ||
+                other.userDetails == userDetails) &&
+            (identical(other.creatorDetails, creatorDetails) ||
+                other.creatorDetails == creatorDetails) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.creatorId, creatorId) ||
                 other.creatorId == creatorId) &&
@@ -607,7 +674,6 @@ class _$DataOfChatListModelImpl implements _DataOfChatListModel {
                 other.userUnreadCount == userUnreadCount) &&
             (identical(other.creatorUnreadCount, creatorUnreadCount) ||
                 other.creatorUnreadCount == creatorUnreadCount) &&
-            (identical(other.dataNew, dataNew) || other.dataNew == dataNew) &&
             (identical(other.isBlocked, isBlocked) ||
                 other.isBlocked == isBlocked) &&
             (identical(other.isDeleted, isDeleted) ||
@@ -616,63 +682,75 @@ class _$DataOfChatListModelImpl implements _DataOfChatListModel {
                 other.chatDate == chatDate) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+            (identical(other.lastMessage, lastMessage) ||
+                other.lastMessage == lastMessage) &&
+            (identical(other.isLastMessage, isLastMessage) ||
+                other.isLastMessage == isLastMessage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      userDetails,
+      creatorDetails,
       id,
       creatorId,
       userId,
       chatToken,
       userUnreadCount,
       creatorUnreadCount,
-      dataNew,
       isBlocked,
       isDeleted,
       chatDate,
       createdAt,
-      updatedAt);
+      lastMessage,
+      isLastMessage);
 
-  /// Create a copy of DataOfChatListModel
+  /// Create a copy of DataOfChatList
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DataOfChatListModelImplCopyWith<_$DataOfChatListModelImpl> get copyWith =>
-      __$$DataOfChatListModelImplCopyWithImpl<_$DataOfChatListModelImpl>(
+  _$$DataOfChatListImplCopyWith<_$DataOfChatListImpl> get copyWith =>
+      __$$DataOfChatListImplCopyWithImpl<_$DataOfChatListImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DataOfChatListModelImplToJson(
+    return _$$DataOfChatListImplToJson(
       this,
     );
   }
 }
 
-abstract class _DataOfChatListModel implements DataOfChatListModel {
-  const factory _DataOfChatListModel(
-          {@JsonKey(name: "_id") final String? id,
+abstract class _DataOfChatList implements DataOfChatList {
+  const factory _DataOfChatList(
+          {@JsonKey(name: "userDetails") final RDetails? userDetails,
+          @JsonKey(name: "creatorDetails") final RDetails? creatorDetails,
+          @JsonKey(name: "_id") final String? id,
           @JsonKey(name: "creator_id") final String? creatorId,
           @JsonKey(name: "user_id") final String? userId,
           @JsonKey(name: "chat_token") final String? chatToken,
           @JsonKey(name: "user_unread_count") final int? userUnreadCount,
           @JsonKey(name: "creator_unread_count") final int? creatorUnreadCount,
-          @JsonKey(name: "new") final bool? dataNew,
           @JsonKey(name: "isBlocked") final bool? isBlocked,
           @JsonKey(name: "isDeleted") final bool? isDeleted,
           @JsonKey(name: "chat_date") final String? chatDate,
           @JsonKey(name: "createdAt") final String? createdAt,
-          @JsonKey(name: "updatedAt") final String? updatedAt}) =
-      _$DataOfChatListModelImpl;
+          @JsonKey(name: "last_message") final String? lastMessage,
+          @JsonKey(name: "isLastMessage") final bool? isLastMessage}) =
+      _$DataOfChatListImpl;
 
-  factory _DataOfChatListModel.fromJson(Map<String, dynamic> json) =
-      _$DataOfChatListModelImpl.fromJson;
+  factory _DataOfChatList.fromJson(Map<String, dynamic> json) =
+      _$DataOfChatListImpl.fromJson;
 
+  @override
+  @JsonKey(name: "userDetails")
+  RDetails? get userDetails;
+  @override
+  @JsonKey(name: "creatorDetails")
+  RDetails? get creatorDetails;
   @override
   @JsonKey(name: "_id")
   String? get id;
@@ -692,9 +770,6 @@ abstract class _DataOfChatListModel implements DataOfChatListModel {
   @JsonKey(name: "creator_unread_count")
   int? get creatorUnreadCount;
   @override
-  @JsonKey(name: "new")
-  bool? get dataNew;
-  @override
   @JsonKey(name: "isBlocked")
   bool? get isBlocked;
   @override
@@ -707,13 +782,245 @@ abstract class _DataOfChatListModel implements DataOfChatListModel {
   @JsonKey(name: "createdAt")
   String? get createdAt;
   @override
-  @JsonKey(name: "updatedAt")
-  String? get updatedAt;
+  @JsonKey(name: "last_message")
+  String? get lastMessage;
+  @override
+  @JsonKey(name: "isLastMessage")
+  bool? get isLastMessage;
 
-  /// Create a copy of DataOfChatListModel
+  /// Create a copy of DataOfChatList
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DataOfChatListModelImplCopyWith<_$DataOfChatListModelImpl> get copyWith =>
+  _$$DataOfChatListImplCopyWith<_$DataOfChatListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RDetails _$RDetailsFromJson(Map<String, dynamic> json) {
+  return _RDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RDetails {
+  @JsonKey(name: "_id")
+  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "first_name")
+  String? get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: "last_name")
+  String? get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: "profile_image")
+  String? get profileImage => throw _privateConstructorUsedError;
+
+  /// Serializes this RDetails to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RDetailsCopyWith<RDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RDetailsCopyWith<$Res> {
+  factory $RDetailsCopyWith(RDetails value, $Res Function(RDetails) then) =
+      _$RDetailsCopyWithImpl<$Res, RDetails>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "first_name") String? firstName,
+      @JsonKey(name: "last_name") String? lastName,
+      @JsonKey(name: "profile_image") String? profileImage});
+}
+
+/// @nodoc
+class _$RDetailsCopyWithImpl<$Res, $Val extends RDetails>
+    implements $RDetailsCopyWith<$Res> {
+  _$RDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
+    Object? profileImage = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RDetailsImplCopyWith<$Res>
+    implements $RDetailsCopyWith<$Res> {
+  factory _$$RDetailsImplCopyWith(
+          _$RDetailsImpl value, $Res Function(_$RDetailsImpl) then) =
+      __$$RDetailsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "_id") String? id,
+      @JsonKey(name: "first_name") String? firstName,
+      @JsonKey(name: "last_name") String? lastName,
+      @JsonKey(name: "profile_image") String? profileImage});
+}
+
+/// @nodoc
+class __$$RDetailsImplCopyWithImpl<$Res>
+    extends _$RDetailsCopyWithImpl<$Res, _$RDetailsImpl>
+    implements _$$RDetailsImplCopyWith<$Res> {
+  __$$RDetailsImplCopyWithImpl(
+      _$RDetailsImpl _value, $Res Function(_$RDetailsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
+    Object? profileImage = freezed,
+  }) {
+    return _then(_$RDetailsImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RDetailsImpl implements _RDetails {
+  const _$RDetailsImpl(
+      {@JsonKey(name: "_id") this.id,
+      @JsonKey(name: "first_name") this.firstName,
+      @JsonKey(name: "last_name") this.lastName,
+      @JsonKey(name: "profile_image") this.profileImage});
+
+  factory _$RDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RDetailsImplFromJson(json);
+
+  @override
+  @JsonKey(name: "_id")
+  final String? id;
+  @override
+  @JsonKey(name: "first_name")
+  final String? firstName;
+  @override
+  @JsonKey(name: "last_name")
+  final String? lastName;
+  @override
+  @JsonKey(name: "profile_image")
+  final String? profileImage;
+
+  @override
+  String toString() {
+    return 'RDetails(id: $id, firstName: $firstName, lastName: $lastName, profileImage: $profileImage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RDetailsImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
+            (identical(other.profileImage, profileImage) ||
+                other.profileImage == profileImage));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, firstName, lastName, profileImage);
+
+  /// Create a copy of RDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RDetailsImplCopyWith<_$RDetailsImpl> get copyWith =>
+      __$$RDetailsImplCopyWithImpl<_$RDetailsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RDetailsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RDetails implements RDetails {
+  const factory _RDetails(
+          {@JsonKey(name: "_id") final String? id,
+          @JsonKey(name: "first_name") final String? firstName,
+          @JsonKey(name: "last_name") final String? lastName,
+          @JsonKey(name: "profile_image") final String? profileImage}) =
+      _$RDetailsImpl;
+
+  factory _RDetails.fromJson(Map<String, dynamic> json) =
+      _$RDetailsImpl.fromJson;
+
+  @override
+  @JsonKey(name: "_id")
+  String? get id;
+  @override
+  @JsonKey(name: "first_name")
+  String? get firstName;
+  @override
+  @JsonKey(name: "last_name")
+  String? get lastName;
+  @override
+  @JsonKey(name: "profile_image")
+  String? get profileImage;
+
+  /// Create a copy of RDetails
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RDetailsImplCopyWith<_$RDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
