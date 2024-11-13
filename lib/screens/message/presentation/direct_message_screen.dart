@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +19,6 @@ import '../../../core/utils/app_log.dart';
 import '../../people_profile/domain/other_people_profile_model.dart';
 import '../../people_profile/shared/providers.dart';
 import '../../restaurant/presentation/widgets/video_widget.dart';
-import '../../restaurant/shared/provider.dart';
 import '../domain/chat_model_firebase.dart';
 
 @RoutePage()
@@ -92,28 +90,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
         return "Invalid time";
       }
     }
-
-    String formattedChatDatestamp(int timestamp) {
-      try {
-        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-        final today = DateTime.now();
-        final yesterday = today.subtract(const Duration(days: 1));
-        final isToday = dateTime.year == today.year && dateTime.month == today.month && dateTime.day == today.day;
-        final isYesterday = dateTime.year == yesterday.year && dateTime.month == yesterday.month && dateTime.day == yesterday.day;
-
-        if (isToday) {
-          return 'Today';
-        } else if (isYesterday) {
-          return 'Yesterday';
-        } else {
-          return DateFormat('MMM dd, yyyy').format(dateTime);
-        }
-      } catch (e) {
-        return "Invalid date";
-      }
-    }
-
-
 
     getDetails = followNotifier.getUserById(widget.peopleId);
     String peopleName = getDetails?.fullName ?? '';
@@ -362,6 +338,13 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                               : const SizedBox(),
                             ],
                           ),
+
+                          if (message.chatAttachment.isNotEmpty)
+                            CachedNetworkImage(
+                              imageUrl: message.chatAttachment,
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            ),
                         ],
                       );
                     },
@@ -386,117 +369,121 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   }
   Widget _buildMessageInput(userId) {
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
-    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
-    final restaurantState = ref.watch(restaurantNotifierProvider);
+    final state = ref.watch(chatNotifierProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        height: 60,
-        decoration: BoxDecoration(
-            color: AppColors.colorWhite,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.colorGrey3)
-        ),
-        child: Row(
-          children: [
-            // Emoji Button
-            IconButton(
-              icon: Image.asset(Assets.addEmoji,
-                width: 20.r,
-                height: 20.r,
-                fit: BoxFit.cover,
-              ),
-              onPressed: () {
-                _toggleEmojiPicker();
-              },
+      child: Column(
+        children: [
+          if (stateNotifier.image != null)
+            SizedBox(
+                width: state.imageOrVideo == null ? 0:100,
+                height: state.imageOrVideo == null ? 0:100,
+                child: state.imageOrVideo == null
+                    ? const SizedBox()
+                    : state.isVideo
+                    ? VideoWidget(file: File(state.imageOrVideo!.path))
+                    : Image.file(File(state.imageOrVideo!.path))
             ),
-            // 8.horizontalSpace,
-            // Message Input Field
-            Expanded(
-              child: TextField(
-                controller: _messageController,
-                // onChanged: (text) {
-                //   setState(() => _isTyping = text.isNotEmpty);
-                // },
-                decoration: InputDecoration(
-                  hintText: 'Enter Message',
-                  hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: AppColors.colorGrey3,
+          Container(
+            height: 60,
+            decoration: BoxDecoration(
+                color: AppColors.colorWhite,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppColors.colorGrey3)
+            ),
+            child: Row(
+              children: [
+                // Emoji Button
+                IconButton(
+                  icon: Image.asset(Assets.addEmoji,
+                    width: 20.r,
+                    height: 20.r,
+                    fit: BoxFit.cover,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  filled: true,
-                  fillColor: AppColors.colorTransparent,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide.none,
+                  onPressed: () {
+                    _toggleEmojiPicker();
+                  },
+                ),
+                // 8.horizontalSpace,
+                // Message Input Field
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    // onChanged: (text) {
+                    //   setState(() => _isTyping = text.isNotEmpty);
+                    // },
+                    decoration: InputDecoration(
+                      hintText: 'Enter Message',
+                      hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
+                        color: AppColors.colorGrey3,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      filled: true,
+                      fillColor: AppColors.colorTransparent,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            // if (selectedMediaPath != null)
-            //   SizedBox(
-            //     width: 100,
-            //     height: 100,
-            //     child: restaurantState.imageOrVideo == null
-            //         ? Center(
-            //       child: Image.asset(Assets.add),
-            //     )
-            //         : restaurantState.isVideo
-            //         ? VideoWidget(file: File(restaurantState.imageOrVideo!.path))
-            //         : Image.file(File(restaurantState.imageOrVideo!.path))
-            //   ),
-            8.horizontalSpace,
 
-            // Attachment Icon
-            IconButton(
-              icon: Image.asset(Assets.addAttachment,
-                width: 20.r,
-                height: 20.r,
-                fit: BoxFit.cover,
-              ),
-              onPressed: () {
-                restaurantNotifier.checkPermissionForGallery(context);
-              },
+                8.horizontalSpace,
+
+                // Attachment Icon
+                IconButton(
+                  icon: Image.asset(Assets.addAttachment,
+                    width: 20.r,
+                    height: 20.r,
+                    fit: BoxFit.cover,
+                  ),
+                  onPressed: () {
+                    stateNotifier.checkPermissionForGallery(context);
+                  },
+                ),
+                8.horizontalSpace,
+                // Send Button
+                IconButton(
+                  icon: Image.asset(Assets.sendMessage,
+                    width: 20.r,
+                    height: 20.r,
+                    fit: BoxFit.cover,
+                  ),
+                  onPressed: () {
+                    if(_messageController.text.isNotEmpty || stateNotifier.image!.path.isNotEmpty)
+                    {
+                      final chatModel = ChatModel(
+                        chatAttachment: stateNotifier.image?.path ?? '', //await MultipartFile.fromFile(filePicked.path),
+                        createdAt: Timestamp.now().millisecondsSinceEpoch,
+                        message: _messageController.text,
+                        reaction: '',
+                        read: false,
+                        receiverID: widget.peopleId,
+                        senderID: userId,
+                        replyTo: null,
+                      );
+                      stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
+                    }
+                    AppLog.log("Picked image path: ${stateNotifier.image?.path}");
+
+                    _messageController.clear();
+                    stateNotifier.clearImage();
+                    setState(() {
+                      // _isTyping = false;
+                      _isEmojiVisible = false;
+                    });
+                    _scrollToBottom();
+                    dismissKeyboard(context);
+                  },
+                ),
+              ],
             ),
-            8.horizontalSpace,
-            // Send Button
-            IconButton(
-              icon: Image.asset(Assets.sendMessage,
-                width: 20.r,
-                height: 20.r,
-                fit: BoxFit.cover,
-              ),
-              onPressed: () {
-                if(_messageController.text.isNotEmpty)
-                {
-                  final chatModel = ChatModel(
-                    chatAttachment: '', //await MultipartFile.fromFile(filePicked.path),
-                    createdAt: Timestamp.now().millisecondsSinceEpoch,
-                    message: _messageController.text,
-                    reaction: '',
-                    read: false,
-                    receiverID: widget.peopleId,
-                    senderID: userId,
-                    replyTo: null,
-                  );
-                  stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
-                }
-                AppLog.log("Sent ${_messageController.text}");
-                _messageController.clear();
-                setState(() {
-                  // _isTyping = false;
-                  _isEmojiVisible = false;
-                });
-                _scrollToBottom();
-                dismissKeyboard(context);
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -510,4 +497,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
       );
     }
   }
+
+
+
 }

@@ -1,13 +1,21 @@
+import 'dart:io';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/screens/message/domain/chat_user_list_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/infrastructure/hive_database.dart';
 import '../../../core/infrastructure/network_api_services.dart';
+import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../core/utils/toast.dart';
+import '../../../widgets/app_button.dart';
 import '../domain/chat_created_model.dart';
 import '../domain/chat_model_firebase.dart';
 import 'chat_state.dart';
@@ -215,6 +223,157 @@ class ChatNotifier extends StateNotifier<ChatState> {
       getMessages(peopleId, chatToken);
       AppLog.log("Successfully started chatting");
     }
+  }
+
+  final ImagePicker picker = ImagePicker();
+  XFile? image;
+
+  Future<void> checkPermissionForGallery(BuildContext context) async {
+    PermissionStatus permission;
+
+    if (Platform.isAndroid) {
+      permission = await Permission.storage.request();
+    } else {
+      permission = await Permission.photos.request();
+    }
+
+    switch (permission) {
+      case PermissionStatus.granted:
+        if (!context.mounted) return;
+        showOptionDialog(context);
+        // pickImageOrVideo();
+        break;
+      case PermissionStatus.denied:
+        final permissionAgain = await Permission.photos.request();
+        if (permissionAgain == PermissionStatus.denied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.granted) {
+          // pickImageOrVideo();
+          if (!context.mounted) return;
+          showOptionDialog(context);
+        }
+        break;
+      case PermissionStatus.permanentlyDenied:
+        final permissionAgain = await Permission.photos.request();
+        if (permissionAgain == PermissionStatus.denied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.permanentlyDenied) {
+          showToastMessage('Request Denied, please go to app settings to grant gallery permission');
+          if (!context.mounted) return;
+          _showPermissionDialog(context);
+        } else if (permissionAgain == PermissionStatus.granted) {
+          // pickImageOrVideo();
+          if (!context.mounted) return;
+          showOptionDialog(context);
+        }
+        break;
+      case PermissionStatus.limited:
+        break;
+      case PermissionStatus.restricted:
+        break;
+      case PermissionStatus.provisional:
+        break;
+      default:
+    }
+  }
+
+  void showOptionDialog(BuildContext context) {
+    showDialog(
+        context: (context),
+        builder: (ctx) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+                  'Choose an option',
+                  style: AppTextStyles.textStylePoppins.copyWith(fontSize: 17.sp),
+                )),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppButton(
+                  text: 'Pick Image',
+                  onPressed: () {
+                    pickImageOrVideo();
+                    Navigator.pop(context);
+                  },
+                ),
+                10.verticalSpace,
+                AppButton(
+                  text: 'Pick Video',
+                  onPressed: () {
+                    pickImageOrVideo(photo: false);
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+
+  XFile? pickedFile;
+  Future<void> pickImageOrVideo({photo = true}) async {
+    pickedFile = (photo)
+        ? await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    )
+        : await picker.pickVideo(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile == null) {
+      return;
+    }
+
+    // Set the picked file to imageOrVideo and state
+    state = (photo)
+        ? state.copyWith(imageOrVideo: pickedFile, isVideo: false)
+        : state.copyWith(imageOrVideo: pickedFile, isVideo: true);
+
+    // Also set the image or video directly in the 'image' field
+    image = pickedFile;
+  }
+
+
+  void _showPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Photos/Videos Permission Required'),
+        content: const Text(
+            'This app needs gallery permission to work properly. Please grant the permission in settings.'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void clearImage() {
+    state = state.copyWith(imageOrVideo: null);
+    AppLog.log("Image path cleared.");
   }
 
 }

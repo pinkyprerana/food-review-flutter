@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../domain/chat_created_model.dart';
 import '../domain/chat_user_list_model.dart';
@@ -15,6 +16,10 @@ class ChatState with _$ChatState {
     @Default('') String? errorMessage,
     @Default(0) int currentPage,
     @Default(0) int totalPages,
+    XFile? imageOrVideo,
+    @Default(false) bool isLoadingForImageUpload,
+    @Default(false) bool isVideo,
+    @Default(false) bool isLoadingForSubmit,
   }) = _ChatState;
 
   const ChatState._();

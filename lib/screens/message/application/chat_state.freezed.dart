@@ -25,6 +25,10 @@ mixin _$ChatState {
   String? get errorMessage => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
+  XFile? get imageOrVideo => throw _privateConstructorUsedError;
+  bool get isLoadingForImageUpload => throw _privateConstructorUsedError;
+  bool get isVideo => throw _privateConstructorUsedError;
+  bool get isLoadingForSubmit => throw _privateConstructorUsedError;
 
   /// Create a copy of ChatState
   /// with the given fields replaced by the non-null parameter values.
@@ -47,7 +51,11 @@ abstract class $ChatStateCopyWith<$Res> {
       String? selectedChat,
       String? errorMessage,
       int currentPage,
-      int totalPages});
+      int totalPages,
+      XFile? imageOrVideo,
+      bool isLoadingForImageUpload,
+      bool isVideo,
+      bool isLoadingForSubmit});
 
   $DataOfChatCopyWith<$Res>? get dataOfChat;
 }
@@ -76,6 +84,10 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
     Object? errorMessage = freezed,
     Object? currentPage = null,
     Object? totalPages = null,
+    Object? imageOrVideo = freezed,
+    Object? isLoadingForImageUpload = null,
+    Object? isVideo = null,
+    Object? isLoadingForSubmit = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -114,6 +126,22 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      imageOrVideo: freezed == imageOrVideo
+          ? _value.imageOrVideo
+          : imageOrVideo // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      isLoadingForImageUpload: null == isLoadingForImageUpload
+          ? _value.isLoadingForImageUpload
+          : isLoadingForImageUpload // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVideo: null == isVideo
+          ? _value.isVideo
+          : isVideo // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingForSubmit: null == isLoadingForSubmit
+          ? _value.isLoadingForSubmit
+          : isLoadingForSubmit // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -149,7 +177,11 @@ abstract class _$$ChatStateImplCopyWith<$Res>
       String? selectedChat,
       String? errorMessage,
       int currentPage,
-      int totalPages});
+      int totalPages,
+      XFile? imageOrVideo,
+      bool isLoadingForImageUpload,
+      bool isVideo,
+      bool isLoadingForSubmit});
 
   @override
   $DataOfChatCopyWith<$Res>? get dataOfChat;
@@ -177,6 +209,10 @@ class __$$ChatStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? currentPage = null,
     Object? totalPages = null,
+    Object? imageOrVideo = freezed,
+    Object? isLoadingForImageUpload = null,
+    Object? isVideo = null,
+    Object? isLoadingForSubmit = null,
   }) {
     return _then(_$ChatStateImpl(
       isLoading: null == isLoading
@@ -215,6 +251,22 @@ class __$$ChatStateImplCopyWithImpl<$Res>
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
               as int,
+      imageOrVideo: freezed == imageOrVideo
+          ? _value.imageOrVideo
+          : imageOrVideo // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      isLoadingForImageUpload: null == isLoadingForImageUpload
+          ? _value.isLoadingForImageUpload
+          : isLoadingForImageUpload // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isVideo: null == isVideo
+          ? _value.isVideo
+          : isVideo // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingForSubmit: null == isLoadingForSubmit
+          ? _value.isLoadingForSubmit
+          : isLoadingForSubmit // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -231,7 +283,11 @@ class _$ChatStateImpl extends _ChatState {
       this.selectedChat = '',
       this.errorMessage = '',
       this.currentPage = 0,
-      this.totalPages = 0})
+      this.totalPages = 0,
+      this.imageOrVideo,
+      this.isLoadingForImageUpload = false,
+      this.isVideo = false,
+      this.isLoadingForSubmit = false})
       : _allChatList = allChatList,
         super._();
 
@@ -267,10 +323,21 @@ class _$ChatStateImpl extends _ChatState {
   @override
   @JsonKey()
   final int totalPages;
+  @override
+  final XFile? imageOrVideo;
+  @override
+  @JsonKey()
+  final bool isLoadingForImageUpload;
+  @override
+  @JsonKey()
+  final bool isVideo;
+  @override
+  @JsonKey()
+  final bool isLoadingForSubmit;
 
   @override
   String toString() {
-    return 'ChatState(isLoading: $isLoading, isLoadMore: $isLoadMore, isSending: $isSending, allChatList: $allChatList, dataOfChat: $dataOfChat, selectedChat: $selectedChat, errorMessage: $errorMessage, currentPage: $currentPage, totalPages: $totalPages)';
+    return 'ChatState(isLoading: $isLoading, isLoadMore: $isLoadMore, isSending: $isSending, allChatList: $allChatList, dataOfChat: $dataOfChat, selectedChat: $selectedChat, errorMessage: $errorMessage, currentPage: $currentPage, totalPages: $totalPages, imageOrVideo: $imageOrVideo, isLoadingForImageUpload: $isLoadingForImageUpload, isVideo: $isVideo, isLoadingForSubmit: $isLoadingForSubmit)';
   }
 
   @override
@@ -295,7 +362,15 @@ class _$ChatStateImpl extends _ChatState {
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages));
+                other.totalPages == totalPages) &&
+            const DeepCollectionEquality()
+                .equals(other.imageOrVideo, imageOrVideo) &&
+            (identical(
+                    other.isLoadingForImageUpload, isLoadingForImageUpload) ||
+                other.isLoadingForImageUpload == isLoadingForImageUpload) &&
+            (identical(other.isVideo, isVideo) || other.isVideo == isVideo) &&
+            (identical(other.isLoadingForSubmit, isLoadingForSubmit) ||
+                other.isLoadingForSubmit == isLoadingForSubmit));
   }
 
   @override
@@ -309,7 +384,11 @@ class _$ChatStateImpl extends _ChatState {
       selectedChat,
       errorMessage,
       currentPage,
-      totalPages);
+      totalPages,
+      const DeepCollectionEquality().hash(imageOrVideo),
+      isLoadingForImageUpload,
+      isVideo,
+      isLoadingForSubmit);
 
   /// Create a copy of ChatState
   /// with the given fields replaced by the non-null parameter values.
@@ -330,7 +409,11 @@ abstract class _ChatState extends ChatState {
       final String? selectedChat,
       final String? errorMessage,
       final int currentPage,
-      final int totalPages}) = _$ChatStateImpl;
+      final int totalPages,
+      final XFile? imageOrVideo,
+      final bool isLoadingForImageUpload,
+      final bool isVideo,
+      final bool isLoadingForSubmit}) = _$ChatStateImpl;
   const _ChatState._() : super._();
 
   @override
@@ -351,6 +434,14 @@ abstract class _ChatState extends ChatState {
   int get currentPage;
   @override
   int get totalPages;
+  @override
+  XFile? get imageOrVideo;
+  @override
+  bool get isLoadingForImageUpload;
+  @override
+  bool get isVideo;
+  @override
+  bool get isLoadingForSubmit;
 
   /// Create a copy of ChatState
   /// with the given fields replaced by the non-null parameter values.
