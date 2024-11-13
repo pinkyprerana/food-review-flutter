@@ -46,7 +46,9 @@ _$DataOfChatListImpl _$$DataOfChatListImplFromJson(Map<String, dynamic> json) =>
       isDeleted: json['isDeleted'] as bool?,
       chatDate: json['chat_date'] as String?,
       createdAt: json['createdAt'] as String?,
-      lastMessage: json['last_message'] as String?,
+      lastMessage: json['last_message'] == null
+          ? null
+          : LastMessage.fromJson(json['last_message'] as Map<String, dynamic>),
       isLastMessage: json['isLastMessage'] as bool?,
     );
 
@@ -83,4 +85,26 @@ Map<String, dynamic> _$$RDetailsImplToJson(_$RDetailsImpl instance) =>
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'profile_image': instance.profileImage,
+    };
+
+_$LastMessageImpl _$$LastMessageImplFromJson(Map<String, dynamic> json) =>
+    _$LastMessageImpl(
+      chatAttachment: json['chatAttachment'] as String?,
+      createdAt: (json['createdAt'] as num?)?.toInt(),
+      message: json['message'] as String?,
+      reaction: json['reaction'] as String?,
+      read: json['read'] as bool?,
+      receiverId: json['receiverID'] as String?,
+      senderId: json['senderID'] as String?,
+    );
+
+Map<String, dynamic> _$$LastMessageImplToJson(_$LastMessageImpl instance) =>
+    <String, dynamic>{
+      'chatAttachment': instance.chatAttachment,
+      'createdAt': instance.createdAt,
+      'message': instance.message,
+      'reaction': instance.reaction,
+      'read': instance.read,
+      'receiverID': instance.receiverId,
+      'senderID': instance.senderId,
     };

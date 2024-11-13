@@ -307,7 +307,7 @@ mixin _$DataOfChatList {
   @JsonKey(name: "createdAt")
   String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "last_message")
-  String? get lastMessage => throw _privateConstructorUsedError;
+  LastMessage? get lastMessage => throw _privateConstructorUsedError;
   @JsonKey(name: "isLastMessage")
   bool? get isLastMessage => throw _privateConstructorUsedError;
 
@@ -340,11 +340,12 @@ abstract class $DataOfChatListCopyWith<$Res> {
       @JsonKey(name: "isDeleted") bool? isDeleted,
       @JsonKey(name: "chat_date") String? chatDate,
       @JsonKey(name: "createdAt") String? createdAt,
-      @JsonKey(name: "last_message") String? lastMessage,
+      @JsonKey(name: "last_message") LastMessage? lastMessage,
       @JsonKey(name: "isLastMessage") bool? isLastMessage});
 
   $RDetailsCopyWith<$Res>? get userDetails;
   $RDetailsCopyWith<$Res>? get creatorDetails;
+  $LastMessageCopyWith<$Res>? get lastMessage;
 }
 
 /// @nodoc
@@ -429,7 +430,7 @@ class _$DataOfChatListCopyWithImpl<$Res, $Val extends DataOfChatList>
       lastMessage: freezed == lastMessage
           ? _value.lastMessage
           : lastMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as LastMessage?,
       isLastMessage: freezed == isLastMessage
           ? _value.isLastMessage
           : isLastMessage // ignore: cast_nullable_to_non_nullable
@@ -464,6 +465,20 @@ class _$DataOfChatListCopyWithImpl<$Res, $Val extends DataOfChatList>
       return _then(_value.copyWith(creatorDetails: value) as $Val);
     });
   }
+
+  /// Create a copy of DataOfChatList
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $LastMessageCopyWith<$Res>? get lastMessage {
+    if (_value.lastMessage == null) {
+      return null;
+    }
+
+    return $LastMessageCopyWith<$Res>(_value.lastMessage!, (value) {
+      return _then(_value.copyWith(lastMessage: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -487,13 +502,15 @@ abstract class _$$DataOfChatListImplCopyWith<$Res>
       @JsonKey(name: "isDeleted") bool? isDeleted,
       @JsonKey(name: "chat_date") String? chatDate,
       @JsonKey(name: "createdAt") String? createdAt,
-      @JsonKey(name: "last_message") String? lastMessage,
+      @JsonKey(name: "last_message") LastMessage? lastMessage,
       @JsonKey(name: "isLastMessage") bool? isLastMessage});
 
   @override
   $RDetailsCopyWith<$Res>? get userDetails;
   @override
   $RDetailsCopyWith<$Res>? get creatorDetails;
+  @override
+  $LastMessageCopyWith<$Res>? get lastMessage;
 }
 
 /// @nodoc
@@ -576,7 +593,7 @@ class __$$DataOfChatListImplCopyWithImpl<$Res>
       lastMessage: freezed == lastMessage
           ? _value.lastMessage
           : lastMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as LastMessage?,
       isLastMessage: freezed == isLastMessage
           ? _value.isLastMessage
           : isLastMessage // ignore: cast_nullable_to_non_nullable
@@ -645,7 +662,7 @@ class _$DataOfChatListImpl implements _DataOfChatList {
   final String? createdAt;
   @override
   @JsonKey(name: "last_message")
-  final String? lastMessage;
+  final LastMessage? lastMessage;
   @override
   @JsonKey(name: "isLastMessage")
   final bool? isLastMessage;
@@ -738,7 +755,7 @@ abstract class _DataOfChatList implements DataOfChatList {
           @JsonKey(name: "isDeleted") final bool? isDeleted,
           @JsonKey(name: "chat_date") final String? chatDate,
           @JsonKey(name: "createdAt") final String? createdAt,
-          @JsonKey(name: "last_message") final String? lastMessage,
+          @JsonKey(name: "last_message") final LastMessage? lastMessage,
           @JsonKey(name: "isLastMessage") final bool? isLastMessage}) =
       _$DataOfChatListImpl;
 
@@ -783,7 +800,7 @@ abstract class _DataOfChatList implements DataOfChatList {
   String? get createdAt;
   @override
   @JsonKey(name: "last_message")
-  String? get lastMessage;
+  LastMessage? get lastMessage;
   @override
   @JsonKey(name: "isLastMessage")
   bool? get isLastMessage;
@@ -1022,5 +1039,305 @@ abstract class _RDetails implements RDetails {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RDetailsImplCopyWith<_$RDetailsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LastMessage _$LastMessageFromJson(Map<String, dynamic> json) {
+  return _LastMessage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LastMessage {
+  @JsonKey(name: "chatAttachment")
+  String? get chatAttachment => throw _privateConstructorUsedError;
+  @JsonKey(name: "createdAt")
+  int? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "message")
+  String? get message => throw _privateConstructorUsedError;
+  @JsonKey(name: "reaction")
+  String? get reaction => throw _privateConstructorUsedError;
+  @JsonKey(name: "read")
+  bool? get read => throw _privateConstructorUsedError;
+  @JsonKey(name: "receiverID")
+  String? get receiverId => throw _privateConstructorUsedError;
+  @JsonKey(name: "senderID")
+  String? get senderId => throw _privateConstructorUsedError;
+
+  /// Serializes this LastMessage to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of LastMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $LastMessageCopyWith<LastMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LastMessageCopyWith<$Res> {
+  factory $LastMessageCopyWith(
+          LastMessage value, $Res Function(LastMessage) then) =
+      _$LastMessageCopyWithImpl<$Res, LastMessage>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "chatAttachment") String? chatAttachment,
+      @JsonKey(name: "createdAt") int? createdAt,
+      @JsonKey(name: "message") String? message,
+      @JsonKey(name: "reaction") String? reaction,
+      @JsonKey(name: "read") bool? read,
+      @JsonKey(name: "receiverID") String? receiverId,
+      @JsonKey(name: "senderID") String? senderId});
+}
+
+/// @nodoc
+class _$LastMessageCopyWithImpl<$Res, $Val extends LastMessage>
+    implements $LastMessageCopyWith<$Res> {
+  _$LastMessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of LastMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? chatAttachment = freezed,
+    Object? createdAt = freezed,
+    Object? message = freezed,
+    Object? reaction = freezed,
+    Object? read = freezed,
+    Object? receiverId = freezed,
+    Object? senderId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      chatAttachment: freezed == chatAttachment
+          ? _value.chatAttachment
+          : chatAttachment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      reaction: freezed == reaction
+          ? _value.reaction
+          : reaction // ignore: cast_nullable_to_non_nullable
+              as String?,
+      read: freezed == read
+          ? _value.read
+          : read // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      receiverId: freezed == receiverId
+          ? _value.receiverId
+          : receiverId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderId: freezed == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LastMessageImplCopyWith<$Res>
+    implements $LastMessageCopyWith<$Res> {
+  factory _$$LastMessageImplCopyWith(
+          _$LastMessageImpl value, $Res Function(_$LastMessageImpl) then) =
+      __$$LastMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "chatAttachment") String? chatAttachment,
+      @JsonKey(name: "createdAt") int? createdAt,
+      @JsonKey(name: "message") String? message,
+      @JsonKey(name: "reaction") String? reaction,
+      @JsonKey(name: "read") bool? read,
+      @JsonKey(name: "receiverID") String? receiverId,
+      @JsonKey(name: "senderID") String? senderId});
+}
+
+/// @nodoc
+class __$$LastMessageImplCopyWithImpl<$Res>
+    extends _$LastMessageCopyWithImpl<$Res, _$LastMessageImpl>
+    implements _$$LastMessageImplCopyWith<$Res> {
+  __$$LastMessageImplCopyWithImpl(
+      _$LastMessageImpl _value, $Res Function(_$LastMessageImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of LastMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? chatAttachment = freezed,
+    Object? createdAt = freezed,
+    Object? message = freezed,
+    Object? reaction = freezed,
+    Object? read = freezed,
+    Object? receiverId = freezed,
+    Object? senderId = freezed,
+  }) {
+    return _then(_$LastMessageImpl(
+      chatAttachment: freezed == chatAttachment
+          ? _value.chatAttachment
+          : chatAttachment // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      reaction: freezed == reaction
+          ? _value.reaction
+          : reaction // ignore: cast_nullable_to_non_nullable
+              as String?,
+      read: freezed == read
+          ? _value.read
+          : read // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      receiverId: freezed == receiverId
+          ? _value.receiverId
+          : receiverId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderId: freezed == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LastMessageImpl implements _LastMessage {
+  const _$LastMessageImpl(
+      {@JsonKey(name: "chatAttachment") this.chatAttachment,
+      @JsonKey(name: "createdAt") this.createdAt,
+      @JsonKey(name: "message") this.message,
+      @JsonKey(name: "reaction") this.reaction,
+      @JsonKey(name: "read") this.read,
+      @JsonKey(name: "receiverID") this.receiverId,
+      @JsonKey(name: "senderID") this.senderId});
+
+  factory _$LastMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LastMessageImplFromJson(json);
+
+  @override
+  @JsonKey(name: "chatAttachment")
+  final String? chatAttachment;
+  @override
+  @JsonKey(name: "createdAt")
+  final int? createdAt;
+  @override
+  @JsonKey(name: "message")
+  final String? message;
+  @override
+  @JsonKey(name: "reaction")
+  final String? reaction;
+  @override
+  @JsonKey(name: "read")
+  final bool? read;
+  @override
+  @JsonKey(name: "receiverID")
+  final String? receiverId;
+  @override
+  @JsonKey(name: "senderID")
+  final String? senderId;
+
+  @override
+  String toString() {
+    return 'LastMessage(chatAttachment: $chatAttachment, createdAt: $createdAt, message: $message, reaction: $reaction, read: $read, receiverId: $receiverId, senderId: $senderId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LastMessageImpl &&
+            (identical(other.chatAttachment, chatAttachment) ||
+                other.chatAttachment == chatAttachment) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.reaction, reaction) ||
+                other.reaction == reaction) &&
+            (identical(other.read, read) || other.read == read) &&
+            (identical(other.receiverId, receiverId) ||
+                other.receiverId == receiverId) &&
+            (identical(other.senderId, senderId) ||
+                other.senderId == senderId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, chatAttachment, createdAt,
+      message, reaction, read, receiverId, senderId);
+
+  /// Create a copy of LastMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LastMessageImplCopyWith<_$LastMessageImpl> get copyWith =>
+      __$$LastMessageImplCopyWithImpl<_$LastMessageImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LastMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LastMessage implements LastMessage {
+  const factory _LastMessage(
+      {@JsonKey(name: "chatAttachment") final String? chatAttachment,
+      @JsonKey(name: "createdAt") final int? createdAt,
+      @JsonKey(name: "message") final String? message,
+      @JsonKey(name: "reaction") final String? reaction,
+      @JsonKey(name: "read") final bool? read,
+      @JsonKey(name: "receiverID") final String? receiverId,
+      @JsonKey(name: "senderID") final String? senderId}) = _$LastMessageImpl;
+
+  factory _LastMessage.fromJson(Map<String, dynamic> json) =
+      _$LastMessageImpl.fromJson;
+
+  @override
+  @JsonKey(name: "chatAttachment")
+  String? get chatAttachment;
+  @override
+  @JsonKey(name: "createdAt")
+  int? get createdAt;
+  @override
+  @JsonKey(name: "message")
+  String? get message;
+  @override
+  @JsonKey(name: "reaction")
+  String? get reaction;
+  @override
+  @JsonKey(name: "read")
+  bool? get read;
+  @override
+  @JsonKey(name: "receiverID")
+  String? get receiverId;
+  @override
+  @JsonKey(name: "senderID")
+  String? get senderId;
+
+  /// Create a copy of LastMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LastMessageImplCopyWith<_$LastMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

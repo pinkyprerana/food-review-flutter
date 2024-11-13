@@ -474,7 +474,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 if(_messageController.text.isNotEmpty)
                 {
                   final chatModel = ChatModel(
-                    chatAttachment: '',
+                    chatAttachment: '', //await MultipartFile.fromFile(filePicked.path),
                     createdAt: Timestamp.now().millisecondsSinceEpoch,
                     message: _messageController.text,
                     reaction: '',

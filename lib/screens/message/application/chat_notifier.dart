@@ -57,13 +57,13 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
       final databaseRef = FirebaseDatabase.instance.ref().child('chat_dev/$chatToken');
       await databaseRef.update({
-        'lastMessage': message.message,
-        'lastMessageTimestamp': ServerValue.timestamp,
-        'lastAttachment': message.chatAttachment,
-        'lastReaction': message.reaction,
-        'read': false,
-        'senderID': getUserId,
-        'receiverID': peopleId,
+        // 'chatAttachment': message.chatAttachment,
+        // 'createdAt': message.createdAt,
+        // 'reaction': message.reaction,
+        // 'message': message.message,
+        // 'read': false,
+        // 'senderID': getUserId,
+        // 'receiverID': peopleId,
       });
 
       AppLog.log('Message sent successfully!');

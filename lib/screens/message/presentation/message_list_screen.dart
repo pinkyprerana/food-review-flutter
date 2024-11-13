@@ -32,6 +32,21 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
     });
   }
 
+  String formatDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime yesterday = today.subtract(const Duration(days: 1));
+
+    if (dateTime.isAfter(today)) {
+      return 'Today';
+    } else if (dateTime.isAfter(yesterday)) {
+      return 'Yesterday';
+    } else {
+      return DateFormat('MMM dd, yyyy').format(dateTime);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,13 +134,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                       final chat = state.allChatList[index];
                       final user = chat.userDetails;
-                      String formatDate(String dateString) {
-                        DateTime dateTime = DateTime.parse(dateString);
-                        return DateFormat('MMM dd, yyyy').format(dateTime);
-                      }
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
-
 
                       return GestureDetector(
                         onTap: () {
@@ -173,7 +183,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                             maxLines: 1,
                           ),
                           subtitle: Text(
-                            chat.lastMessage??'',
+                            chat.lastMessage?.message ?? '',
                             style: AppTextStyles.textStylePoppinsRegular.copyWith(
                               color: AppColors.colorPrimaryAlpha,
                               fontSize: 10.sp,
@@ -192,8 +202,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                                 ),
                               ),
                               4.verticalSpace,
-                              chat.userUnreadCount != 0
-                              ? Container(
+                              (chat.lastMessage?.read == false && (chat.userUnreadCount ?? 0) > 0)
+                                  ? Container(
                                 width: 16.w,
                                 height: 16.h,
                                 decoration: const BoxDecoration(
@@ -202,7 +212,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    chat.userUnreadCount.toString() , //'10+',
+                                    chat.userUnreadCount.toString(),
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                       color: AppColors.colorWhite,
                                       fontSize: 8.sp,
@@ -210,7 +220,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                                   ),
                                 ),
                               )
-                              : const SizedBox(),
+                                  : const SizedBox(),
+
                             ],
                           ),
                           onTap: () {

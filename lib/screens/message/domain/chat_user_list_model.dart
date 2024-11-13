@@ -50,7 +50,7 @@ class DataOfChatList with _$DataOfChatList {
     @JsonKey(name: "createdAt")
     String? createdAt,
     @JsonKey(name: "last_message")
-    String? lastMessage,
+    LastMessage? lastMessage,
     @JsonKey(name: "isLastMessage")
     bool? isLastMessage,
   }) = _DataOfChatList;
@@ -72,4 +72,26 @@ class RDetails with _$RDetails {
   }) = _RDetails;
 
   factory RDetails.fromJson(Map<String, dynamic> json) => _$RDetailsFromJson(json);
+}
+
+@freezed
+class LastMessage with _$LastMessage {
+  const factory LastMessage({
+    @JsonKey(name: "chatAttachment")
+    String? chatAttachment,
+    @JsonKey(name: "createdAt")
+    int? createdAt,
+    @JsonKey(name: "message")
+    String? message,
+    @JsonKey(name: "reaction")
+    String? reaction,
+    @JsonKey(name: "read")
+    bool? read,
+    @JsonKey(name: "receiverID")
+    String? receiverId,
+    @JsonKey(name: "senderID")
+    String? senderId,
+  }) = _LastMessage;
+
+  factory LastMessage.fromJson(Map<String, dynamic> json) => _$LastMessageFromJson(json);
 }
