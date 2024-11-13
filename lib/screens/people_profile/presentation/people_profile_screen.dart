@@ -16,7 +16,6 @@ import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../widgets/save_button.dart';
 import '../../home/shared/provider.dart';
-import '../../message/shared/providers.dart';
 import '../../profile/presentation/widgets/small_profile_container.dart';
 import '../../your_lists/shared/provider.dart';
 import '../domain/other_people_profile_model.dart';
@@ -268,8 +267,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                    ? const SizedBox()
                                   : GestureDetector(
                                     onTap: () {
-                                      final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                                      chatNotifier.initiateChatWithPeopleId(widget.peopleId);
+                                      // final chatNotifier = ref.read(chatNotifierProvider.notifier);
+                                      // chatNotifier.initiateChatWithPeopleId(widget.peopleId);
                                       AutoRouter.of(context).push( DirectMessageRoute(peopleId: widget.peopleId));
                                     },
                                     child: SmallProfileContainer(

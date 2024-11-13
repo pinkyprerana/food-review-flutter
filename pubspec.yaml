@@ -63,6 +63,7 @@ dependencies:
   device_info_plus: ^11.0.0
   cloud_firestore: ^5.4.4
   firebase_database: ^11.1.4
+  emoji_picker_flutter: ^3.1.0
 
 dev_dependencies:
   auto_route_generator: ^8.0.0

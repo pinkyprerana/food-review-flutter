@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +19,7 @@ import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
 import '../../people_profile/domain/other_people_profile_model.dart';
 import '../../people_profile/shared/providers.dart';
+import '../../restaurant/presentation/widgets/video_widget.dart';
 import '../../restaurant/shared/provider.dart';
 import '../domain/chat_model_firebase.dart';
 
@@ -35,6 +39,15 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   final TextEditingController _messageController = TextEditingController();
   DataOfOtherPeople? getDetails;
   StreamSubscription<List<ChatModel>>? _messageSubscription;
+  final ScrollController _scrollController = ScrollController();
+  bool _isEmojiVisible = false;
+  // bool _isTyping = false;
+
+  void _toggleEmojiPicker() {
+    setState(() {
+      _isEmojiVisible = !_isEmojiVisible;
+    });
+  }
 
 
   @override
@@ -43,22 +56,23 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final stateNotifier = ref.read(chatNotifierProvider.notifier);
       final chatToken = stateNotifier.getChatToken;
-      _messageSubscription = stateNotifier.getMessages(widget.peopleId, chatToken!)
+      stateNotifier.initiateChatWithPeopleId(widget.peopleId);
+      stateNotifier.getMessages(widget.peopleId, chatToken!);
+      _messageSubscription = stateNotifier.getMessages(widget.peopleId, chatToken)
           .listen((messages) {
       });
-      stateNotifier.getMessages(widget.peopleId, chatToken);
-      stateNotifier.initiateChatWithPeopleId(widget.peopleId);
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
       final profileNotifier = ref.read(profileNotifierProvider.notifier);
       await profileNotifier.getUserDetails();
+      _scrollToBottom();
     });
   }
 
   @override
   void dispose() {
-    _messageController.dispose();
     _messageSubscription?.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -79,12 +93,37 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
       }
     }
 
+    String formattedChatDatestamp(int timestamp) {
+      try {
+        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+        final today = DateTime.now();
+        final yesterday = today.subtract(const Duration(days: 1));
+        final isToday = dateTime.year == today.year && dateTime.month == today.month && dateTime.day == today.day;
+        final isYesterday = dateTime.year == yesterday.year && dateTime.month == yesterday.month && dateTime.day == yesterday.day;
+
+        if (isToday) {
+          return 'Today';
+        } else if (isYesterday) {
+          return 'Yesterday';
+        } else {
+          return DateFormat('MMM dd, yyyy').format(dateTime);
+        }
+      } catch (e) {
+        return "Invalid date";
+      }
+    }
+
+
+
     getDetails = followNotifier.getUserById(widget.peopleId);
     String peopleName = getDetails?.fullName ?? '';
     final peopleImage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}';
 
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        setState(() => _isEmojiVisible = false);
+      },
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -153,13 +192,11 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                       color: AppColors.colorText2,
                     ),
                   ),
-                  Text(
-                    '', //Typing...
-                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                      fontSize: 10.sp,
-                      color: AppColors.colorText3,
-                    ),
-                  ),
+                  // if (_isTyping)
+                  //   Text(
+                  //     'Typing...',
+                  //     style: TextStyle(fontSize: 10.sp, color: AppColors.colorText3),
+                  //   ),
                 ],
               ),
             ],
@@ -198,6 +235,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   final messages = snapshot.data!;
 
                   return ListView.builder(
+                    controller: _scrollController,
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
@@ -205,77 +243,124 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                       AppLog.log("messages : $messages");
                       bool isSent = message.senderID == userId;
 
-                      return Row(
-                        mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      return Column(
                         children: [
-                          Column(
-                            crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                          //Todo: Show Today, Yesterday, Nov 11, 2024
+                          // Text(
+                          //   formattedChatDatestamp(message.createdAt),
+                          //   style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                          //     fontSize: 10.sp,
+                          //     color: AppColors.colorText3,
+                          //   ),
+                          // ),
+
+                          Row(
+                            mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                constraints: BoxConstraints(
-                                  maxWidth: MediaQuery.of(context).size.width * 0.7,
-                                ),
-                                padding: const EdgeInsets.all(12.0),
-                                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                                decoration: BoxDecoration(
-                                  color: isSent ? AppColors.colorGrey2 : AppColors.colorPrimary,
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(16),
-                                    topRight: Radius.circular(16),
-                                    bottomLeft: Radius.circular(16),
-                                    bottomRight: Radius.circular(16),
-                                  ),
-                                ),
-                                child: Text(
-                                  message.message,
-                                  style: TextStyle(
-                                    color: isSent ? Colors.black : Colors.white,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
-                                child: Text(
-                                  formattedTimestamp(message.createdAt),
-                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                    fontSize: 10.sp,
-                                    color: AppColors.colorText3,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          isSent ? 5.horizontalSpace : 0.horizontalSpace,
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: SizedBox(
-                              width: 20.w,
-                              height: 18.h,
-                              child: CachedNetworkImage(
-                                imageUrl: profileState.profileImgPath,
-                                placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                                errorWidget: (context, url, error) => ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    Assets.avatar,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                imageBuilder: (context, imageProvider) => Container(
-                                  width: 50.w,
-                                  height: 47.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
+                              isSent
+                                  ? const SizedBox()
+                                  : ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: SizedBox(
+                                  width: 20.w,
+                                  height: 18.h,
+                                  child: CachedNetworkImage(
+                                    imageUrl: peopleImage,
+                                    placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                    errorWidget: (context, url, error) => ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.asset(
+                                        Assets.avatar,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      width: 50.w,
+                                      height: 47.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                              isSent ? 0.horizontalSpace : 5.horizontalSpace,
+                              Column(
+                                crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    constraints: BoxConstraints(
+                                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                                    ),
+                                    padding: const EdgeInsets.all(12.0),
+                                    margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                    decoration: BoxDecoration(
+                                      color: isSent ? AppColors.colorGrey2 : AppColors.colorPrimary,
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                        topRight: Radius.circular(16),
+                                        bottomLeft: Radius.circular(16),
+                                        bottomRight: Radius.circular(16),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      message.message,
+                                      style: TextStyle(
+                                        color: isSent ? Colors.black : Colors.white,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
+                                    child: Text(
+                                      formattedTimestamp(message.createdAt),
+                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                        fontSize: 10.sp,
+                                        color: AppColors.colorText3,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              isSent ? 5.horizontalSpace : 0.horizontalSpace,
+                              isSent
+                              ? ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: SizedBox(
+                                  width: 20.w,
+                                  height: 18.h,
+                                  child: CachedNetworkImage(
+                                    imageUrl: profileState.profileImgPath,
+                                    placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                    errorWidget: (context, url, error) => ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.asset(
+                                        Assets.avatar,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      width: 50.w,
+                                      height: 47.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              : const SizedBox(),
+                            ],
                           ),
                         ],
                       );
@@ -284,6 +369,15 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 },
               ),
             ),
+            if (_isEmojiVisible)
+              SizedBox(
+                height: 250,
+                child: EmojiPicker(
+                  onEmojiSelected: (category, emoji) {
+                    _messageController.text += emoji.emoji;
+                  },
+                ),
+              ),
             _buildMessageInput(userId!),
           ],
         ),
@@ -292,6 +386,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
   }
   Widget _buildMessageInput(userId) {
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
+    final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
+    final restaurantState = ref.watch(restaurantNotifierProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -312,7 +408,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 fit: BoxFit.cover,
               ),
               onPressed: () {
-                // TODO: Add emoji picker logic
+                _toggleEmojiPicker();
               },
             ),
             // 8.horizontalSpace,
@@ -320,6 +416,9 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
             Expanded(
               child: TextField(
                 controller: _messageController,
+                // onChanged: (text) {
+                //   setState(() => _isTyping = text.isNotEmpty);
+                // },
                 decoration: InputDecoration(
                   hintText: 'Enter Message',
                   hintStyle: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -338,6 +437,18 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 ),
               ),
             ),
+            // if (selectedMediaPath != null)
+            //   SizedBox(
+            //     width: 100,
+            //     height: 100,
+            //     child: restaurantState.imageOrVideo == null
+            //         ? Center(
+            //       child: Image.asset(Assets.add),
+            //     )
+            //         : restaurantState.isVideo
+            //         ? VideoWidget(file: File(restaurantState.imageOrVideo!.path))
+            //         : Image.file(File(restaurantState.imageOrVideo!.path))
+            //   ),
             8.horizontalSpace,
 
             // Attachment Icon
@@ -348,7 +459,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 fit: BoxFit.cover,
               ),
               onPressed: () {
-                final restaurantNotifier = ref.watch(restaurantNotifierProvider.notifier);
                 restaurantNotifier.checkPermissionForGallery(context);
               },
             ),
@@ -377,11 +487,27 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 }
                 AppLog.log("Sent ${_messageController.text}");
                 _messageController.clear();
+                setState(() {
+                  // _isTyping = false;
+                  _isEmojiVisible = false;
+                });
+                _scrollToBottom();
+                dismissKeyboard(context);
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 }

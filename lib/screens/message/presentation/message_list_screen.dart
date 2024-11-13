@@ -129,6 +129,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                       return GestureDetector(
                         onTap: () {
+                          final chatNotifier = ref.read(chatNotifierProvider.notifier);
+                          chatNotifier.initiateChatWithPeopleId(chat.userId ?? '');
                           AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.userId ?? ''),);
                         },
                         child: ListTile(
@@ -212,6 +214,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                             ],
                           ),
                           onTap: () {
+                            final chatNotifier = ref.read(chatNotifierProvider.notifier);
+                            chatNotifier.initiateChatWithPeopleId(chat.userId ?? '');
                             AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.userId ?? ''));
 
                           },
