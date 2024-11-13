@@ -216,7 +216,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index];
-                      AppLog.log("messages : $messages");
+                      AppLog.log("attachment received : ${message.chatAttachment}");
                       bool isSent = message.senderID == userId;
 
                       return Column(

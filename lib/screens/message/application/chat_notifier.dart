@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,6 +61,13 @@ class ChatNotifier extends StateNotifier<ChatState> {
       messageData['senderID'] = getUserId;
       messageData['receiverID'] = peopleId;
 
+      if (message.chatAttachment.isNotEmpty) {
+        File file = File(message.chatAttachment);
+        String downloadUrl = await _uploadChatAttachment(file);
+        messageData['chatAttachment'] = downloadUrl;
+      }
+
+
       final chatRef = _db.child('chat_dev/$chatToken').push();
       await chatRef.set(messageData);
 
@@ -78,6 +86,21 @@ class ChatNotifier extends StateNotifier<ChatState> {
     } catch (e) {
       AppLog.log('Error sending message: $e');
       showToastMessage('Error sending message: $e');
+    }
+  }
+
+  Future<String> _uploadChatAttachment(File attachment) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageRef = FirebaseStorage.instance.ref().child(fileName);
+
+      TaskSnapshot snapshot = await storageRef.putFile(attachment);
+
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      AppLog.log('Error uploading attachment: $e');
+      throw Exception('Error uploading attachment');
     }
   }
 
@@ -107,8 +130,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
             .map((entry) {
           final messageData = Map<String, dynamic>.from(entry.value as Map);
           return ChatModel.fromJson(messageData);
-        })
-            .toList();
+        }).toList();
 
         messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
         return messages;
