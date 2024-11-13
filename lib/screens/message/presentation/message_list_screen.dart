@@ -140,8 +140,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       return GestureDetector(
                         onTap: () {
                           final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                          chatNotifier.initiateChatWithPeopleId(chat.userId ?? '');
-                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.userId ?? ''),);
+                          chatNotifier.initiateChatWithPeopleId(chat.lastMessage?.senderId ?? '');
+                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.lastMessage?.senderId ?? ''),);
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(vertical: 1.h),
@@ -226,8 +226,8 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                           ),
                           onTap: () {
                             final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                            chatNotifier.initiateChatWithPeopleId(chat.userId ?? '');
-                            AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.userId ?? ''));
+                            chatNotifier.initiateChatWithPeopleId(chat.lastMessage?.senderId ?? '');
+                            AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.lastMessage?.senderId ?? ''));
 
                           },
                         ),
