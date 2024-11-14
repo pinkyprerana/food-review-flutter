@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +89,6 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
 
     DateTime? joinedDateTime;
     String formattedDate = '';
-
-    bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     if (joinedDate.isNotEmpty) {
       try {
@@ -212,7 +212,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       }
                                     },
                                     child: Container(
-                                      width: isSmallScreen ? 100.w : 158.w,
+                                      width: Platform.isIOS ? 100.w : 158.w,
                                       height: 50.h,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
@@ -252,7 +252,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  isSmallScreen ? 5.horizontalSpace : 20.horizontalSpace,
+                                  Platform.isIOS ? 5.horizontalSpace : 20.horizontalSpace,
                                   GestureDetector(
                                     onTap: () {
                                       String profileUrl =
@@ -264,7 +264,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       child: Image.asset(Assets.share),
                                     )),
                                   ),
-                                  isSmallScreen ? 5.horizontalSpace : 20.horizontalSpace,
+                                  Platform.isIOS ? 5.horizontalSpace : 20.horizontalSpace,
                                   (widget.peopleId == getUserId)
                                    ? const SizedBox()
                                   : GestureDetector(
