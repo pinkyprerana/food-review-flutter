@@ -88,6 +88,8 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
     DateTime? joinedDateTime;
     String formattedDate = '';
 
+    bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+
     if (joinedDate.isNotEmpty) {
       try {
         joinedDateTime = DateTime.parse(joinedDate);
@@ -210,7 +212,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       }
                                     },
                                     child: Container(
-                                      width: 158.w,
+                                      width: isSmallScreen ? 100.w : 158.w,
                                       height: 50.h,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
@@ -250,7 +252,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  20.horizontalSpace,
+                                  isSmallScreen ? 5.horizontalSpace : 20.horizontalSpace,
                                   GestureDetector(
                                     onTap: () {
                                       String profileUrl =
@@ -262,7 +264,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       child: Image.asset(Assets.share),
                                     )),
                                   ),
-                                  20.horizontalSpace,
+                                  isSmallScreen ? 5.horizontalSpace : 20.horizontalSpace,
                                   (widget.peopleId == getUserId)
                                    ? const SizedBox()
                                   : GestureDetector(

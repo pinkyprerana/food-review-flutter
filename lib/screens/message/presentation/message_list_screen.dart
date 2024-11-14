@@ -52,7 +52,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatNotifierProvider);
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
-    AppLog.log("Chat list : ${state.allChatList}");
+    final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -109,16 +109,16 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                 ),
                 4.verticalSpace,
                 Text(
-                  state.allChatList.length.toString(),
+                  "${filteredChatList.length > 9 ? filteredChatList.length.toString() : filteredChatList.length.toString().padLeft(2, '0')} Connections",
                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                    color: AppColors.colorPrimaryAlpha,
-                    fontSize: 10.sp,
+                      color: AppColors.colorPrimaryAlpha,
+                      fontSize: 10.sp,
                   ),
                 ),
                 10.verticalSpace,
                 // Message List
                 Expanded(
-                  child: state.allChatList.isEmpty
+                  child: filteredChatList.isEmpty
                       ? Center(
                     child: Text(
                       'Chats will show here',
@@ -129,107 +129,102 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                     ),
                   )
                       : ListView.builder(
-                    itemCount: state.allChatList.length,
+                    itemCount: filteredChatList.length,
                     itemBuilder: (context, index) {
-
-                      final chat = state.allChatList[index];
+                      // final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
+                      final chat = filteredChatList[index];
                       final user = chat.userDetails;
                       final peopleId = chat.userDetails?.id;
+
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
-                      AppLog.log("userId : ${user?.id}");
-                      return GestureDetector(
-                        onTap: () async {
-                          await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
-                          await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''),);
-                        },
-                        child: ListTile(
-                          contentPadding: EdgeInsets.symmetric(vertical: 1.h),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: SizedBox(
-                              width: 45.w,
-                              height: 45.h,
-                              child: CachedNetworkImage(
-                                imageUrl: profileImage,
-                                placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                                errorWidget: (context, url, error) => ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    Assets.avatar,
+                      AppLog.log("peopleId : ${peopleId}");
+                      return ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 1.h),
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: SizedBox(
+                            width: 45.w,
+                            height: 45.h,
+                            child: CachedNetworkImage(
+                              imageUrl: profileImage,
+                              placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                              errorWidget: (context, url, error) => ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  Assets.avatar,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              imageBuilder: (context, imageProvider) => Container(
+                                width: 45.w,
+                                height: 45.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  image: DecorationImage(
+                                    image: imageProvider,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                imageBuilder: (context, imageProvider) => Container(
-                                  width: 45.w,
-                                  height: 45.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
                           ),
-                          title: Text(
-                            '${user?.firstName} ${user?.lastName}',
-                            style: AppTextStyles.textStylePoppinsMedium.copyWith(
-                              color: AppColors.colorPrimary,
-                              fontSize: 13.sp,
-                            ),
-                            maxLines: 1,
-                          ),
-                          subtitle: Text(
-                            chat.lastMessage?.message ?? '',
-                            style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                              color: AppColors.colorPrimaryAlpha,
-                              fontSize: 10.sp,
-                            ),
-                            maxLines: 1,
-                          ),
-                          trailing: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                formattedChatDate,
-                                style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                  fontSize: 10.sp,
-                                  color: AppColors.colorText3,
-                                ),
-                              ),
-                              4.verticalSpace,
-                              (chat.lastMessage?.read == false && (chat.userUnreadCount ?? 0) > 0)
-                                  ? Container(
-                                width: 16.w,
-                                height: 16.h,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    chat.userUnreadCount.toString(),
-                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                      color: AppColors.colorWhite,
-                                      fontSize: 8.sp,
-                                    ),
-                                  ),
-                                ),
-                              )
-                                  : const SizedBox(),
-
-                            ],
-                          ),
-                          onTap: () async {
-                            await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
-                            await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
-
-                          },
                         ),
+                        title: Text(
+                          '${user?.firstName} ${user?.lastName}',
+                          style: AppTextStyles.textStylePoppinsMedium.copyWith(
+                            color: AppColors.colorPrimary,
+                            fontSize: 13.sp,
+                          ),
+                          maxLines: 1,
+                        ),
+                        subtitle: Text(
+                          chat.lastMessage?.message ?? '',
+                          style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                            color: AppColors.colorPrimaryAlpha,
+                            fontSize: 10.sp,
+                          ),
+                          maxLines: 1,
+                        ),
+                        trailing: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              formattedChatDate,
+                              style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                fontSize: 10.sp,
+                                color: AppColors.colorText3,
+                              ),
+                            ),
+                            4.verticalSpace,
+                            (chat.lastMessage?.read == false && (chat.userUnreadCount ?? 0) > 0)
+                                ? Container(
+                              width: 16.w,
+                              height: 16.h,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  chat.userUnreadCount.toString(),
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    color: AppColors.colorWhite,
+                                    fontSize: 8.sp,
+                                  ),
+                                ),
+                              ),
+                            )
+                                : const SizedBox(),
+
+                          ],
+                        ),
+                        onTap: () async {
+                          await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
+                          await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
+                          stateNotifier.markChatAsRead(peopleId??'');
+                        },
                       );
                     },
                   ),

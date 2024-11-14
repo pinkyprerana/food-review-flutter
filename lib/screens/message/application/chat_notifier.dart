@@ -81,7 +81,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
         // 'senderID': getUserId,
         // 'receiverID': peopleId,
       });
-
+      getChatList();
       AppLog.log('Message sent successfully!');
     } catch (e) {
       AppLog.log('Error sending message: $e');
@@ -105,6 +105,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
   }
 
   Stream<List<ChatModel>> getMessages(String peopleId, String chatToken) {
+    if (chatToken.isEmpty) {
+      initiateChatWithPeopleId(peopleId);
+    }
     final chatRef = _db.child('chat_dev/$chatToken');
 
     return chatRef.onValue.map((event) {
@@ -243,6 +246,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
       }
 
       getMessages(peopleId, chatToken);
+      markChatAsRead(peopleId);
+      getChatList();
       AppLog.log("Successfully started chatting");
     }
   }
@@ -402,6 +407,39 @@ class ChatNotifier extends StateNotifier<ChatState> {
     _hiveDataBase.box.delete(AppPreferenceKeys.chatToken);
     AppLog.log("Chat token deleted.");
   }
+
+  void markChatAsRead(String peopleId) async {
+
+      var (response, dioException) = await _networkApiService
+          .postApiRequestWithToken(url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}', body: {
+        "user_id": peopleId
+      });
+      state = state.copyWith(isLoading: false);
+      ChatCreatedModel chatCreatedModel = ChatCreatedModel.fromJson(response.data);
+      String? chatToken = chatCreatedModel.dataOfChat?.chatToken;
+
+      final chatRef = _db.child('chat_dev/$chatToken');
+
+      try {
+        final snapshot = await chatRef.get();
+        if (snapshot.value != null) {
+          final messages = snapshot.value as Map<dynamic, dynamic>;
+
+          // Iterate through each message and update the read status
+          for (var entry in messages.entries) {
+            final messageRef = chatRef.child(entry.key);
+            await messageRef.update({'read': true});
+          }
+        }
+        getChatList();
+        AppLog.log("All messages marked as read.");
+      } catch (e) {
+        AppLog.log('Error marking messages as read: $e');
+        showToastMessage('Error marking messages as read');
+      }
+    }
+
+
 
 
 }

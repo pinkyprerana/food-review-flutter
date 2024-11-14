@@ -81,6 +81,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     final followNotifier = ref.watch(followNotifierProvider.notifier);
     final profileState = ref.watch(profileNotifierProvider);
     final userId = followNotifier.getUserId;
+    bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     String formattedTimestamp(int timestamp) {
       try {
@@ -452,6 +453,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 ),
               ),
             _buildMessageInput(userId!),
+            isSmallScreen ? 10.verticalSpace: 0.verticalSpace
           ],
         ),
       ),
