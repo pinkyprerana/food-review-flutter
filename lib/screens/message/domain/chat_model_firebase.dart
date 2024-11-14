@@ -7,7 +7,7 @@ class ChatModel with _$ChatModel {
   const factory ChatModel({
     required String chatAttachment,
     required int createdAt,
-    required String message,
+    required String? message,
     required String reaction,
     required bool read,
     required String receiverID,
@@ -22,7 +22,7 @@ class ChatModel with _$ChatModel {
 class ReplyTo with _$ReplyTo {
   const factory ReplyTo({
     required String messageId,
-    required String message,
+    required String? message,
     required String chatAttachment,
   }) = _ReplyTo;
 

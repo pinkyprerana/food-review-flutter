@@ -363,8 +363,8 @@ class _$ChatStateImpl extends _ChatState {
                 other.currentPage == currentPage) &&
             (identical(other.totalPages, totalPages) ||
                 other.totalPages == totalPages) &&
-            const DeepCollectionEquality()
-                .equals(other.imageOrVideo, imageOrVideo) &&
+            (identical(other.imageOrVideo, imageOrVideo) ||
+                other.imageOrVideo == imageOrVideo) &&
             (identical(
                     other.isLoadingForImageUpload, isLoadingForImageUpload) ||
                 other.isLoadingForImageUpload == isLoadingForImageUpload) &&
@@ -385,7 +385,7 @@ class _$ChatStateImpl extends _ChatState {
       errorMessage,
       currentPage,
       totalPages,
-      const DeepCollectionEquality().hash(imageOrVideo),
+      imageOrVideo,
       isLoadingForImageUpload,
       isVideo,
       isLoadingForSubmit);

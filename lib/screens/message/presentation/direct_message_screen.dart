@@ -109,6 +109,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
           leading: GestureDetector(
             onTap: () {
               _messageController.clear();
+              stateNotifier.deleteChatToken();
               Navigator.pop(context);
               },
             child: Container(
@@ -229,8 +230,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                           //     color: AppColors.colorText3,
                           //   ),
                           // ),
-
-                          Row(
+                          if (message.message != null && message.message!.isNotEmpty)
+                            Row(
                             mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -285,7 +286,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                       ),
                                     ),
                                     child: Text(
-                                      message.message,
+                                      message.message ?? '',
                                       style: TextStyle(
                                         color: isSent ? Colors.black : Colors.white,
                                         fontSize: 14.sp,
@@ -340,10 +341,99 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                           ),
 
                           if (message.chatAttachment.isNotEmpty)
-                            CachedNetworkImage(
-                              imageUrl: message.chatAttachment,
-                              placeholder: (context, url) => const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                            Column(
+                              crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                              children: [
+                                isSent
+                                    ? const SizedBox()
+                                    : ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: SizedBox(
+                                    width: 20.w,
+                                    height: 18.h,
+                                    child: CachedNetworkImage(
+                                      imageUrl: peopleImage,
+                                      placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                      errorWidget: (context, url, error) => ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.asset(
+                                          Assets.avatar,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      imageBuilder: (context, imageProvider) => Container(
+                                        width: 50.w,
+                                        height: 47.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                isSent ? 0.horizontalSpace : 5.horizontalSpace,
+                                Row(
+                                  mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: CachedNetworkImage(
+                                        imageUrl: message.chatAttachment,
+                                        placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,)),
+                                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                                      ),
+                                    ),
+                                    isSent ? 5.horizontalSpace : 0.horizontalSpace,
+                                    isSent
+                                        ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: SizedBox(
+                                        width: 20.w,
+                                        height: 18.h,
+                                        child: CachedNetworkImage(
+                                          imageUrl: profileState.profileImgPath,
+                                          placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                          errorWidget: (context, url, error) => ClipRRect(
+                                            borderRadius: BorderRadius.circular(10),
+                                            child: Image.asset(
+                                              Assets.avatar,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          imageBuilder: (context, imageProvider) => Container(
+                                            width: 50.w,
+                                            height: 47.h,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(50),
+                                              image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                        : const SizedBox(),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
+                                  child: Text(
+                                    formattedTimestamp(message.createdAt),
+                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                      fontSize: 10.sp,
+                                      color: AppColors.colorText3,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                         ],
                       );
@@ -457,9 +547,9 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     if(_messageController.text.isNotEmpty || stateNotifier.image!.path.isNotEmpty)
                     {
                       final chatModel = ChatModel(
-                        chatAttachment: stateNotifier.image?.path ?? '', //await MultipartFile.fromFile(filePicked.path),
+                        chatAttachment: stateNotifier.image?.path ?? '',
                         createdAt: Timestamp.now().millisecondsSinceEpoch,
-                        message: _messageController.text,
+                        message: _messageController.text.isNotEmpty ? _messageController.text : null,
                         reaction: '',
                         read: false,
                         receiverID: widget.peopleId,

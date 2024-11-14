@@ -398,4 +398,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
     AppLog.log("Image path cleared.");
   }
 
+  void deleteChatToken() {
+    _hiveDataBase.box.delete(AppPreferenceKeys.chatToken);
+    AppLog.log("Chat token deleted.");
+  }
+
+
 }

@@ -134,14 +134,14 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                       final chat = state.allChatList[index];
                       final user = chat.userDetails;
+                      final peopleId = chat.userDetails?.id;
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
-
+                      AppLog.log("userId : ${user?.id}");
                       return GestureDetector(
-                        onTap: () {
-                          final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                          chatNotifier.initiateChatWithPeopleId(chat.lastMessage?.senderId ?? '');
-                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.lastMessage?.senderId ?? ''),);
+                        onTap: () async {
+                          await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
+                          await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''),);
                         },
                         child: ListTile(
                           contentPadding: EdgeInsets.symmetric(vertical: 1.h),
@@ -224,10 +224,9 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                             ],
                           ),
-                          onTap: () {
-                            final chatNotifier = ref.read(chatNotifierProvider.notifier);
-                            chatNotifier.initiateChatWithPeopleId(chat.lastMessage?.senderId ?? '');
-                            AutoRouter.of(context).push(DirectMessageRoute(peopleId: chat.lastMessage?.senderId ?? ''));
+                          onTap: () async {
+                            await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
+                            await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
 
                           },
                         ),

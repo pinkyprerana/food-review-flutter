@@ -10,7 +10,7 @@ _$ChatModelImpl _$$ChatModelImplFromJson(Map<String, dynamic> json) =>
     _$ChatModelImpl(
       chatAttachment: json['chatAttachment'] as String,
       createdAt: (json['createdAt'] as num).toInt(),
-      message: json['message'] as String,
+      message: json['message'] as String?,
       reaction: json['reaction'] as String,
       read: json['read'] as bool,
       receiverID: json['receiverID'] as String,
@@ -35,7 +35,7 @@ Map<String, dynamic> _$$ChatModelImplToJson(_$ChatModelImpl instance) =>
 _$ReplyToImpl _$$ReplyToImplFromJson(Map<String, dynamic> json) =>
     _$ReplyToImpl(
       messageId: json['messageId'] as String,
-      message: json['message'] as String,
+      message: json['message'] as String?,
       chatAttachment: json['chatAttachment'] as String,
     );
 

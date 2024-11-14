@@ -22,7 +22,7 @@ ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
 mixin _$ChatModel {
   String get chatAttachment => throw _privateConstructorUsedError;
   int get createdAt => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   String get reaction => throw _privateConstructorUsedError;
   bool get read => throw _privateConstructorUsedError;
   String get receiverID => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $ChatModelCopyWith<$Res> {
   $Res call(
       {String chatAttachment,
       int createdAt,
-      String message,
+      String? message,
       String reaction,
       bool read,
       String receiverID,
@@ -74,7 +74,7 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
   $Res call({
     Object? chatAttachment = null,
     Object? createdAt = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? reaction = null,
     Object? read = null,
     Object? receiverID = null,
@@ -90,10 +90,10 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       reaction: null == reaction
           ? _value.reaction
           : reaction // ignore: cast_nullable_to_non_nullable
@@ -143,7 +143,7 @@ abstract class _$$ChatModelImplCopyWith<$Res>
   $Res call(
       {String chatAttachment,
       int createdAt,
-      String message,
+      String? message,
       String reaction,
       bool read,
       String receiverID,
@@ -169,7 +169,7 @@ class __$$ChatModelImplCopyWithImpl<$Res>
   $Res call({
     Object? chatAttachment = null,
     Object? createdAt = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? reaction = null,
     Object? read = null,
     Object? receiverID = null,
@@ -185,10 +185,10 @@ class __$$ChatModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       reaction: null == reaction
           ? _value.reaction
           : reaction // ignore: cast_nullable_to_non_nullable
@@ -234,7 +234,7 @@ class _$ChatModelImpl implements _ChatModel {
   @override
   final int createdAt;
   @override
-  final String message;
+  final String? message;
   @override
   final String reaction;
   @override
@@ -296,7 +296,7 @@ abstract class _ChatModel implements ChatModel {
   const factory _ChatModel(
       {required final String chatAttachment,
       required final int createdAt,
-      required final String message,
+      required final String? message,
       required final String reaction,
       required final bool read,
       required final String receiverID,
@@ -311,7 +311,7 @@ abstract class _ChatModel implements ChatModel {
   @override
   int get createdAt;
   @override
-  String get message;
+  String? get message;
   @override
   String get reaction;
   @override
@@ -338,7 +338,7 @@ ReplyTo _$ReplyToFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ReplyTo {
   String get messageId => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
   String get chatAttachment => throw _privateConstructorUsedError;
 
   /// Serializes this ReplyTo to a JSON map.
@@ -355,7 +355,7 @@ abstract class $ReplyToCopyWith<$Res> {
   factory $ReplyToCopyWith(ReplyTo value, $Res Function(ReplyTo) then) =
       _$ReplyToCopyWithImpl<$Res, ReplyTo>;
   @useResult
-  $Res call({String messageId, String message, String chatAttachment});
+  $Res call({String messageId, String? message, String chatAttachment});
 }
 
 /// @nodoc
@@ -374,7 +374,7 @@ class _$ReplyToCopyWithImpl<$Res, $Val extends ReplyTo>
   @override
   $Res call({
     Object? messageId = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? chatAttachment = null,
   }) {
     return _then(_value.copyWith(
@@ -382,10 +382,10 @@ class _$ReplyToCopyWithImpl<$Res, $Val extends ReplyTo>
           ? _value.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
               as String,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       chatAttachment: null == chatAttachment
           ? _value.chatAttachment
           : chatAttachment // ignore: cast_nullable_to_non_nullable
@@ -401,7 +401,7 @@ abstract class _$$ReplyToImplCopyWith<$Res> implements $ReplyToCopyWith<$Res> {
       __$$ReplyToImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String messageId, String message, String chatAttachment});
+  $Res call({String messageId, String? message, String chatAttachment});
 }
 
 /// @nodoc
@@ -418,7 +418,7 @@ class __$$ReplyToImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messageId = null,
-    Object? message = null,
+    Object? message = freezed,
     Object? chatAttachment = null,
   }) {
     return _then(_$ReplyToImpl(
@@ -426,10 +426,10 @@ class __$$ReplyToImplCopyWithImpl<$Res>
           ? _value.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
               as String,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       chatAttachment: null == chatAttachment
           ? _value.chatAttachment
           : chatAttachment // ignore: cast_nullable_to_non_nullable
@@ -452,7 +452,7 @@ class _$ReplyToImpl implements _ReplyTo {
   @override
   final String messageId;
   @override
-  final String message;
+  final String? message;
   @override
   final String chatAttachment;
 
@@ -497,7 +497,7 @@ class _$ReplyToImpl implements _ReplyTo {
 abstract class _ReplyTo implements ReplyTo {
   const factory _ReplyTo(
       {required final String messageId,
-      required final String message,
+      required final String? message,
       required final String chatAttachment}) = _$ReplyToImpl;
 
   factory _ReplyTo.fromJson(Map<String, dynamic> json) = _$ReplyToImpl.fromJson;
@@ -505,7 +505,7 @@ abstract class _ReplyTo implements ReplyTo {
   @override
   String get messageId;
   @override
-  String get message;
+  String? get message;
   @override
   String get chatAttachment;
 
