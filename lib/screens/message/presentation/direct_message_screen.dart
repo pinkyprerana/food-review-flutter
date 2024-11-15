@@ -7,6 +7,7 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/message/presentation/view_attachment.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
@@ -99,6 +100,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
 
     getDetails = followNotifier.getUserById(widget.peopleId);
     String peopleName = getDetails?.fullName ?? '';
+    String peopleId = getDetails?.id ?? '';
     final peopleImage = '${AppUrls.profilePicLocation}/${getDetails?.profileImage ?? ''}';
 
     return GestureDetector(
@@ -133,56 +135,61 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               ),
             ),
           ),
-          title: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: SizedBox(
-                  width: 45.w,
-                  height: 43.h,
-                  child: CachedNetworkImage(
-                    imageUrl: peopleImage,
-                    placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                    errorWidget: (context, url, error) => ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        Assets.avatar,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    imageBuilder: (context, imageProvider) => Container(
-                      width: 50.w,
-                      height: 47.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        image: DecorationImage(
-                          image: imageProvider,
+          title: GestureDetector(
+            onTap: (){
+              AutoRouter.of(context).push(PeopleProfileRoute(peopleId: peopleId));
+            },
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: SizedBox(
+                    width: 45.w,
+                    height: 43.h,
+                    child: CachedNetworkImage(
+                      imageUrl: peopleImage,
+                      placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                      errorWidget: (context, url, error) => ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          Assets.avatar,
                           fit: BoxFit.cover,
+                        ),
+                      ),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 50.w,
+                        height: 47.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              8.horizontalSpace,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    peopleName,
-                    style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
-                      fontSize: 14.sp,
-                      color: AppColors.colorText2,
+                8.horizontalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      peopleName,
+                      style: AppTextStyles.textStylePoppinsSemiBold.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.colorText2,
+                      ),
                     ),
-                  ),
-                  // if (_isTyping)
-                  //   Text(
-                  //     'Typing...',
-                  //     style: TextStyle(fontSize: 10.sp, color: AppColors.colorText3),
-                  //   ),
-                ],
-              ),
-            ],
+                    // if (_isTyping)
+                    //   Text(
+                    //     'Typing...',
+                    //     style: TextStyle(fontSize: 10.sp, color: AppColors.colorText3),
+                    //   ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         body: Column(
