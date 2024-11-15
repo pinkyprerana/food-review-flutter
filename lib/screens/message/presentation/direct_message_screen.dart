@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
+import 'package:for_the_table/screens/message/presentation/view_attachment.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,7 @@ import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
 import '../../../widgets/show_video_post.dart';
+import '../../../widgets/video_thumbnail.dart';
 import '../../people_profile/domain/other_people_profile_model.dart';
 import '../../people_profile/shared/providers.dart';
 import '../../restaurant/presentation/widgets/video_widget.dart';
@@ -289,16 +291,75 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                         bottomRight: Radius.circular(16),
                                       ),
                                     ),
-                                    child: Text(
-                                      message.message ?? '',
-                                      style: TextStyle(
-                                        color: isSent ? Colors.black : Colors.white,
-                                        fontSize: 14.sp,
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        message.chatAttachment.isNotEmpty
+                                        ? SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: GestureDetector(
+                                              onTap: () {
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return SizedBox(
+                                                      height: MediaQuery.of(context).size.height ,
+                                                      child: Column(
+                                                        children: [
+                                                          Expanded(
+                                                              child:
+                                                              Expanded(
+                                                                  child: CachedNetworkImage(
+                                                                    imageUrl: message.chatAttachment,
+                                                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                                                                    errorWidget: (context, url, error) => Image.asset(Assets.playVideo),
+                                                                  )
+                                                              )
+
+                                                          ),
+                                                          IconButton(
+                                                            icon: const Icon(Icons.close),
+                                                            onPressed: () {
+                                                              Navigator.pop(context);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: CachedNetworkImage(
+                                                imageUrl: message.chatAttachment,
+                                                placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                                                errorWidget: (context, url, error) => GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => ShowVideoWidget(videoUrl: message.chatAttachment),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Image.asset(Assets.playVideo),
+                                                ),
+                                              )
+
+                                          ),
+                                        )
+                                        : const SizedBox(),
+                                        Text(
+                                          message.message ?? '',
+                                          style: TextStyle(
+                                            color: isSent ? Colors.black : Colors.white,
+                                            fontSize: 14.sp,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
+                                    padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
                                     child: Text(
                                       formattedTimestamp(message.createdAt),
                                       style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -424,14 +485,12 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                           placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
                                           errorWidget: (context, url, error) => GestureDetector(
                                             onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => ShowVideoWidget(videoUrl: message.chatAttachment),
+                                              Navigator.push(context, MaterialPageRoute(
+                                                  builder: (context) => ViewAttachment(attachmentUrl: message.chatAttachment),
                                                 ),
                                               );
                                             },
-                                            child: Image.asset(Assets.playVideo),
+                                            child: VideoThumbnails(videoUrl: message.chatAttachment),
                                           ),
                                         )
 
@@ -472,7 +531,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0),
+                                  padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
                                   child: Text(
                                     formattedTimestamp(message.createdAt),
                                     style: AppTextStyles.textStylePoppinsRegular.copyWith(
@@ -483,6 +542,8 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                 ),
                               ],
                             ),
+
+                          10.verticalSpace
                         ],
                       );
                     },
