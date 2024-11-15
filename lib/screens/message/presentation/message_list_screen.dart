@@ -52,35 +52,13 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatNotifierProvider);
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
-    final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
+    // final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
 
-    // final chatList = state.allChatList.where((chat) {
-    //   try {
-    //     return chat.userDetails?.id != stateNotifier.getUserId &&
-    //         chat.creatorDetails?.id != stateNotifier.getUserId;
-    //   } catch (e) {
-    //     print("Error filtering chat: $e");
-    //     return false; // Exclude the chat if an error occurs
-    //   }
-    // }).toList();
-    // final filteredChatList = chatList.fold<Set<String>>({}, (acc, chat) {
-    //   try {
-    //     final participantId = chat.userDetails?.id;
-    //     final creatorId = chat.creatorDetails?.id;
-    //
-    //     if (participantId != null) {
-    //       acc.add(participantId);
-    //     }
-    //     if (creatorId != null && creatorId != stateNotifier.getUserId) {
-    //       acc.add(creatorId);
-    //     }
-    //     return acc;
-    //   } catch (e) {
-    //     print("Error extracting user ID: $e");
-    //     return acc; // Continue processing other chats
-    //   }
-    // }).toList();
 
+    final filteredChatList = state.allChatList.where((chat) {
+      return chat.lastMessage?.receiverId != stateNotifier.getUserId ||
+          chat.lastMessage?.senderId != stateNotifier.getUserId;
+    }).toList();
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -160,9 +138,9 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                     itemCount: filteredChatList.length,
                     itemBuilder: (context, index) {
                       final chat = filteredChatList[index];
-                      final user = chat.userDetails;
-                      // final userID = chat.userDetails?.id;
-                      final peopleId = chat.userDetails?.id;
+                      final user = chat.userDetails?.id == stateNotifier.getUserId ?  chat.creatorDetails : chat.userDetails;
+                      final peopleId = chat.userDetails?.id == stateNotifier.getUserId ? chat.creatorDetails?.id : chat.userDetails?.id;
+
                       bool isMedia = (chat.lastMessage?.message?.toLowerCase().endsWith('.mp4') ?? false) ||
                           (chat.lastMessage?.message?.toLowerCase().endsWith('.mov') ?? false) ||
                           (chat.lastMessage?.message?.toLowerCase().endsWith('.avi') ?? false) ||

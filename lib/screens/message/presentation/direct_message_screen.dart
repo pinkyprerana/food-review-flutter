@@ -405,7 +405,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                             ],
                           ),
 
-                          if (message.chatAttachment.isNotEmpty)
+                          if (message.chatAttachment.isNotEmpty && message.message==null)
                             Column(
                               crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                               children: [
