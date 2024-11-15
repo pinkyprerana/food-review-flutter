@@ -54,6 +54,34 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
     final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
 
+    // final chatList = state.allChatList.where((chat) {
+    //   try {
+    //     return chat.userDetails?.id != stateNotifier.getUserId &&
+    //         chat.creatorDetails?.id != stateNotifier.getUserId;
+    //   } catch (e) {
+    //     print("Error filtering chat: $e");
+    //     return false; // Exclude the chat if an error occurs
+    //   }
+    // }).toList();
+    // final filteredChatList = chatList.fold<Set<String>>({}, (acc, chat) {
+    //   try {
+    //     final participantId = chat.userDetails?.id;
+    //     final creatorId = chat.creatorDetails?.id;
+    //
+    //     if (participantId != null) {
+    //       acc.add(participantId);
+    //     }
+    //     if (creatorId != null && creatorId != stateNotifier.getUserId) {
+    //       acc.add(creatorId);
+    //     }
+    //     return acc;
+    //   } catch (e) {
+    //     print("Error extracting user ID: $e");
+    //     return acc; // Continue processing other chats
+    //   }
+    // }).toList();
+
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -131,7 +159,6 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       : ListView.builder(
                     itemCount: filteredChatList.length,
                     itemBuilder: (context, index) {
-                      // final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
                       final chat = filteredChatList[index];
                       final user = chat.userDetails;
                       // final userID = chat.userDetails?.id;
