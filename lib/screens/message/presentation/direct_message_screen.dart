@@ -11,7 +11,6 @@ import 'package:for_the_table/core/utils/common_util.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
-import 'package:video_player/video_player.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
@@ -22,6 +21,8 @@ import '../../people_profile/domain/other_people_profile_model.dart';
 import '../../people_profile/shared/providers.dart';
 import '../../restaurant/presentation/widgets/video_widget.dart';
 import '../domain/chat_model_firebase.dart';
+import 'dart:core';
+
 
 @RoutePage()
 class DirectMessageScreen extends ConsumerStatefulWidget {
@@ -222,10 +223,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                       final message = messages[index];
                       AppLog.log("attachment received : ${message.chatAttachment}");
                       bool isSent = message.senderID == userId;
-                      final media = message.chatAttachment.isNotEmpty ? message.chatAttachment : null;
-                      bool isVideo = (media?.toLowerCase().endsWith('.mp4') ?? false) ||
-                          (media?.toLowerCase().endsWith('.mov') ?? false) ||
-                          (media?.toLowerCase().endsWith('.avi') ?? false);
 
                       return Column(
                         children: [
@@ -396,15 +393,19 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return SizedBox(
-                                                height: MediaQuery.of(context).size.height * 0.8,
+                                                height: MediaQuery.of(context).size.height ,
                                                 child: Column(
                                                   children: [
                                                     Expanded(
-                                                      child: isVideo
-                                                          ? VideoPlayer(
-                                                        VideoPlayerController.network(message.chatAttachment),
+                                                      child:
+                                                      Expanded(
+                                                        child: CachedNetworkImage(
+                                                            imageUrl: message.chatAttachment,
+                                                            placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                                                            errorWidget: (context, url, error) => Image.asset(Assets.playVideo),
+                                                          )
                                                       )
-                                                          : Image.network(message.chatAttachment),
+
                                                     ),
                                                     IconButton(
                                                       icon: const Icon(Icons.close),
@@ -418,13 +419,22 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                                             },
                                           );
                                         },
-                                        child: isVideo
-                                            ? ShowVideoWidget(videoUrl: message.chatAttachment)
-                                            : CachedNetworkImage(
+                                        child: CachedNetworkImage(
                                           imageUrl: message.chatAttachment,
-                                          placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary,)),
-                                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                                        ),
+                                          placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                                          errorWidget: (context, url, error) => GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => ShowVideoWidget(videoUrl: message.chatAttachment),
+                                                ),
+                                              );
+                                            },
+                                            child: Image.asset(Assets.playVideo),
+                                          ),
+                                        )
+
                                       ),
                                     ),
                                     isSent ? 5.horizontalSpace : 0.horizontalSpace,
@@ -504,7 +514,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         children: [
-          if (stateNotifier.image != null)
+          if (stateNotifier.media != null)
             SizedBox(
                 width: state.imageOrVideo == null ? 0:100,
                 height: state.imageOrVideo == null ? 0:100,
@@ -583,10 +593,10 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     fit: BoxFit.cover,
                   ),
                   onPressed: () {
-                    if(_messageController.text.isNotEmpty || stateNotifier.image!.path.isNotEmpty)
+                    if(_messageController.text.isNotEmpty || stateNotifier.media!.path.isNotEmpty)
                     {
                       final chatModel = ChatModel(
-                        chatAttachment: stateNotifier.image?.path ?? '',
+                        chatAttachment: stateNotifier.media?.path ?? '',
                         createdAt: Timestamp.now().millisecondsSinceEpoch,
                         message: _messageController.text.trim().isNotEmpty ? _messageController.text.trim() : null,
                         reaction: '',
@@ -597,10 +607,10 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                       );
                       stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
                     }
-                    AppLog.log("Picked image path: ${stateNotifier.image?.path}");
+                    AppLog.log("Picked image path: ${stateNotifier.media?.path}");
 
                     _messageController.clear();
-                    stateNotifier.image = null;
+                    stateNotifier.media = null;
                     stateNotifier.clearImage();
                     setState(() {
                       // _isTyping = false;
@@ -631,3 +641,4 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
 
 
 }
+

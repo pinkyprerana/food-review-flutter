@@ -20,6 +20,7 @@ class Assets {
   static const String rest4 = 'assets/images/rest4.png';
   static const String post2 = 'assets/images/post.png';
   static const String photo = 'assets/images/photo.png';
+  static const String playVideo = 'assets/images/playVideo.png';
   static const String avatar = "assets/images/no-profile-image.png";
 
   // base assets

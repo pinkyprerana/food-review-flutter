@@ -134,11 +134,18 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       // final filteredChatList = state.allChatList.where((chat) => chat.userDetails?.id != stateNotifier.getUserId).toList();
                       final chat = filteredChatList[index];
                       final user = chat.userDetails;
+                      // final userID = chat.userDetails?.id;
                       final peopleId = chat.userDetails?.id;
+                      bool isMedia = (chat.lastMessage?.message?.toLowerCase().endsWith('.mp4') ?? false) ||
+                          (chat.lastMessage?.message?.toLowerCase().endsWith('.mov') ?? false) ||
+                          (chat.lastMessage?.message?.toLowerCase().endsWith('.avi') ?? false) ||
+                          (chat.lastMessage?.message?.toLowerCase().endsWith('.png') ?? false) ||
+                          (chat.lastMessage?.message?.toLowerCase().endsWith('.jpg') ?? false);
+
 
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
-                      AppLog.log("peopleId : ${peopleId}");
+                      AppLog.log("peopleId : $peopleId");
                       return ListTile(
                         contentPadding: EdgeInsets.symmetric(vertical: 1.h),
                         leading: ClipRRect(
@@ -178,7 +185,9 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                           ),
                           maxLines: 1,
                         ),
-                        subtitle: Text(
+                        subtitle:  isMedia
+                        ? const Icon(Icons.attach_file)
+                        : Text(
                           chat.lastMessage?.message ?? '',
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             color: AppColors.colorPrimaryAlpha,

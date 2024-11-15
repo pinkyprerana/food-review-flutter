@@ -253,7 +253,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
   }
 
   final ImagePicker picker = ImagePicker();
-  XFile? image;
+  XFile? media;
 
   Future<void> checkPermissionForGallery(BuildContext context) async {
     PermissionStatus permission;
@@ -362,13 +362,10 @@ class ChatNotifier extends StateNotifier<ChatState> {
       return;
     }
 
-    // Set the picked file to imageOrVideo and state
-    state = (photo)
-        ? state.copyWith(imageOrVideo: pickedFile, isVideo: false)
-        : state.copyWith(imageOrVideo: pickedFile, isVideo: true);
+    bool isVideo = !photo;
+    state = state.copyWith(imageOrVideo: pickedFile, isVideo: isVideo);
 
-    // Also set the image or video directly in the 'image' field
-    image = pickedFile;
+    media = pickedFile;
   }
 
 
