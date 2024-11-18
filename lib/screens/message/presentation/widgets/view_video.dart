@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/widgets/show_video_post.dart';
 import '../../../../core/styles/app_colors.dart';
 
