@@ -62,14 +62,17 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
       final chatToken = stateNotifier.getChatToken;
       stateNotifier.initiateChatWithPeopleId(widget.peopleId);
       stateNotifier.getMessages(widget.peopleId, chatToken!);
-      _messageSubscription = stateNotifier.getMessages(widget.peopleId, chatToken)
-          .listen((messages) {
+      _messageSubscription = stateNotifier.getMessages(widget.peopleId, chatToken).listen((messages) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          scrollToLatestMessage();
+        });
       });
       final followNotifier = ref.read(followNotifierProvider.notifier);
       await followNotifier.getOtherPeopleDetails(() {}, widget.peopleId);
       final profileNotifier = ref.read(profileNotifierProvider.notifier);
       await profileNotifier.getUserDetails();
-      _scrollToBottom();
+      // await Future.delayed(const Duration(milliseconds: 100));
+      // scrollToLatestMessage();
     });
   }
 
@@ -684,7 +687,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                       // _isTyping = false;
                       _isEmojiVisible = false;
                     });
-                    _scrollToBottom();
+                    scrollToLatestMessage();
                     dismissKeyboard(context);
                   },
                 ),
@@ -696,7 +699,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     );
   }
 
-  void _scrollToBottom() {
+  void scrollToLatestMessage() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
