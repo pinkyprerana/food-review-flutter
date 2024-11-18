@@ -242,11 +242,10 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                           ],
                         ),
-                        onTap: () {
-                          stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
+                        onTap: () async {
+                          await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
+                          await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
                           stateNotifier.markChatAsRead(peopleId??'');
-                          stateNotifier.getChatList();
-                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
                         },
                       );
                     },
