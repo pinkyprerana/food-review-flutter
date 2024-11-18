@@ -17,25 +17,29 @@ class ViewVideo extends StatelessWidget {
         backgroundColor: AppColors.colorPrimary,
         centerTitle: false,
         automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 0, bottom: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.colorPrimary.withOpacity(0.20),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.colorPrimary.withOpacity(0.20),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.close, color: AppColors.colorWhite),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                tooltip: 'Close',
+                splashRadius: 20.0,
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.arrow_back_ios, color: AppColors.colorWhite, size: 15.h),
-              ],
-            ),
-          ),
-        ),
+          )
+        ],
       ),
       body: ShowVideoWidget(videoUrl: attachmentUrl)
     );
