@@ -141,13 +141,6 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       final user = chat.userDetails?.id == stateNotifier.getUserId ?  chat.creatorDetails : chat.userDetails;
                       final peopleId = chat.userDetails?.id == stateNotifier.getUserId ? chat.creatorDetails?.id : chat.userDetails?.id;
 
-                      bool isMedia = (chat.lastMessage?.message?.toLowerCase().endsWith('.mp4') ?? false) ||
-                          (chat.lastMessage?.message?.toLowerCase().endsWith('.mov') ?? false) ||
-                          (chat.lastMessage?.message?.toLowerCase().endsWith('.avi') ?? false) ||
-                          (chat.lastMessage?.message?.toLowerCase().endsWith('.png') ?? false) ||
-                          (chat.lastMessage?.message?.toLowerCase().endsWith('.jpg') ?? false);
-
-
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
                       AppLog.log("peopleId : $peopleId");
@@ -190,16 +183,31 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                           ),
                           maxLines: 1,
                         ),
-                        subtitle:  isMedia
-                        ? const Icon(Icons.attach_file)
-                        : Text(
+                        subtitle:  chat.lastMessage?.message != null
+                        ? Text(
                           chat.lastMessage?.message ?? '',
                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                             color: AppColors.colorPrimaryAlpha,
                             fontSize: 10.sp,
                           ),
                           maxLines: 1,
-                        ),
+                        )
+                        : Align(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              children: [
+                                Image.asset(Assets.addAttachment, scale: 3,),
+                                5.horizontalSpace,
+                                Text(
+                                  'Media',
+                                  style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                                    color: AppColors.colorPrimaryAlpha,
+                                    fontSize: 10.sp,
+                                  ),
+                                  maxLines: 1,
+                                ),
+                              ],
+                            )),
                         trailing: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -234,10 +242,11 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                           ],
                         ),
-                        onTap: () async {
-                          await stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
-                          await AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
+                        onTap: () {
+                          stateNotifier.initiateChatWithPeopleId(peopleId ?? '');
                           stateNotifier.markChatAsRead(peopleId??'');
+                          stateNotifier.getChatList();
+                          AutoRouter.of(context).push(DirectMessageRoute(peopleId: peopleId ?? ''));
                         },
                       );
                     },
