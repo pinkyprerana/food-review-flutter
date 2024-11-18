@@ -48,6 +48,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
       case 'comment_add':
        AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.refPostId?? "", userId: notifications.receiverUserInfo?.id??""));
         break;
+      case 'chat':
+            AutoRouter.of(context).push(DirectMessageRoute(peopleId: notifications.postedUserInfo?.id??""));
+        break;
       default:
         break;
     }
