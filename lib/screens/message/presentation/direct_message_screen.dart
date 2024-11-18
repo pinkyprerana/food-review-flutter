@@ -9,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/utils/common_util.dart';
-import 'package:for_the_table/screens/message/presentation/view_attachment.dart';
+import 'package:for_the_table/screens/message/presentation/widgets/view_image.dart';
+import 'package:for_the_table/screens/message/presentation/widgets/view_video.dart';
 import 'package:for_the_table/screens/message/shared/providers.dart';
 import 'package:for_the_table/screens/profile/shared/providers.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +18,6 @@ import '../../../core/constants/app_urls.dart';
 import '../../../core/constants/assets.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
-import '../../../core/utils/app_log.dart';
-import '../../../widgets/show_video_post.dart';
 import '../../../widgets/video_thumbnail.dart';
 import '../../people_profile/domain/other_people_profile_model.dart';
 import '../../people_profile/shared/providers.dart';
@@ -83,23 +82,21 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     super.dispose();
   }
 
+  String formattedTimestamp(int timestamp) {
+    try {
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+      return DateFormat('hh:mm a').format(dateTime);
+    } catch (e) {
+      return "Invalid time";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final state = ref.watch(chatNotifierProvider);
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
     final followNotifier = ref.watch(followNotifierProvider.notifier);
-    final profileState = ref.watch(profileNotifierProvider);
     final userId = followNotifier.getUserId;
     bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-    String formattedTimestamp(int timestamp) {
-      try {
-        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-        return DateFormat('hh:mm a').format(dateTime);
-      } catch (e) {
-        return "Invalid time";
-      }
-    }
 
     getDetails = followNotifier.getUserById(widget.peopleId);
     String peopleName = getDetails?.fullName ?? '';
@@ -201,9 +198,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
               child: StreamBuilder<List<ChatModel>>(
                 stream: stateNotifier.getMessages(widget.peopleId, stateNotifier.getChatToken ?? ''),
                 builder: (context, snapshot) {
-                  // if (snapshot.connectionState == ConnectionState.waiting) {
-                  //   return const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary));
-                  // }
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(
                         child: Column(
@@ -233,7 +227,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index];
-                      AppLog.log("attachment received : ${message.chatAttachment}");
                       bool isSent = message.senderID == userId;
 
                       return Column(
@@ -247,311 +240,10 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                           //   ),
                           // ),
                           if (message.message != null && message.message!.isNotEmpty)
-                            Row(
-                            mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              isSent
-                                  ? const SizedBox()
-                                  : ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: SizedBox(
-                                  width: 20.w,
-                                  height: 18.h,
-                                  child: CachedNetworkImage(
-                                    imageUrl: peopleImage,
-                                    placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                                    errorWidget: (context, url, error) => ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(
-                                        Assets.avatar,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      width: 50.w,
-                                      height: 47.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              isSent ? 0.horizontalSpace : 5.horizontalSpace,
-                              Column(
-                                crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth: MediaQuery.of(context).size.width * 0.7,
-                                    ),
-                                    padding: const EdgeInsets.all(12.0),
-                                    margin: const EdgeInsets.symmetric(vertical: 4.0),
-                                    decoration: BoxDecoration(
-                                      color: isSent ? AppColors.colorGrey2 : AppColors.colorPrimary,
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16),
-                                        bottomLeft: Radius.circular(16),
-                                        bottomRight: Radius.circular(16),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        message.chatAttachment.isNotEmpty
-                                        ? SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: GestureDetector(
-                                              onTap: () {
-                                                showModalBottomSheet(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return SizedBox(
-                                                      height: MediaQuery.of(context).size.height ,
-                                                      child: Column(
-                                                        children: [
-                                                          Expanded(
-                                                              child:
-                                                              Expanded(
-                                                                  child: CachedNetworkImage(
-                                                                    imageUrl: message.chatAttachment,
-                                                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
-                                                                    errorWidget: (context, url, error) => Image.asset(Assets.playVideo),
-                                                                  )
-                                                              )
-
-                                                          ),
-                                                          IconButton(
-                                                            icon: const Icon(Icons.close),
-                                                            onPressed: () {
-                                                              Navigator.pop(context);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: CachedNetworkImage(
-                                                imageUrl: message.chatAttachment,
-                                                placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
-                                                errorWidget: (context, url, error) => GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) => ShowVideoWidget(videoUrl: message.chatAttachment),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Image.asset(Assets.playVideo),
-                                                ),
-                                              )
-
-                                          ),
-                                        )
-                                        : const SizedBox(),
-                                        Text(
-                                          message.message ?? '',
-                                          style: TextStyle(
-                                            color: isSent ? Colors.black : Colors.white,
-                                            fontSize: 14.sp,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
-                                    child: Text(
-                                      formattedTimestamp(message.createdAt),
-                                      style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.colorText3,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              isSent ? 5.horizontalSpace : 0.horizontalSpace,
-                              isSent
-                              ? ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: SizedBox(
-                                  width: 20.w,
-                                  height: 18.h,
-                                  child: CachedNetworkImage(
-                                    imageUrl: profileState.profileImgPath,
-                                    placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                                    errorWidget: (context, url, error) => ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(
-                                        Assets.avatar,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      width: 50.w,
-                                      height: 47.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                              : const SizedBox(),
-                            ],
-                          ),
+                            buildOnlyMessage(isSent, peopleImage, message),
 
                           if (message.chatAttachment.isNotEmpty && message.message==null)
-                            Column(
-                              crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                              children: [
-                                isSent
-                                    ? const SizedBox()
-                                    : ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: SizedBox(
-                                    width: 20.w,
-                                    height: 18.h,
-                                    child: CachedNetworkImage(
-                                      imageUrl: peopleImage,
-                                      placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                                      errorWidget: (context, url, error) => ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                          Assets.avatar,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      imageBuilder: (context, imageProvider) => Container(
-                                        width: 50.w,
-                                        height: 47.h,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                isSent ? 0.horizontalSpace : 5.horizontalSpace,
-                                Row(
-                                  mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return SizedBox(
-                                                height: MediaQuery.of(context).size.height ,
-                                                child: Column(
-                                                  children: [
-                                                    Expanded(
-                                                      child:
-                                                      Expanded(
-                                                        child: CachedNetworkImage(
-                                                            imageUrl: message.chatAttachment,
-                                                            placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
-                                                            errorWidget: (context, url, error) => Image.asset(Assets.playVideo),
-                                                          )
-                                                      )
-
-                                                    ),
-                                                    IconButton(
-                                                      icon: const Icon(Icons.close),
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: CachedNetworkImage(
-                                          imageUrl: message.chatAttachment,
-                                          placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
-                                          errorWidget: (context, url, error) => GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(context, MaterialPageRoute(
-                                                  builder: (context) => ViewAttachment(attachmentUrl: message.chatAttachment),
-                                                ),
-                                              );
-                                            },
-                                            child: VideoThumbnails(videoUrl: message.chatAttachment),
-                                          ),
-                                        )
-
-                                      ),
-                                    ),
-                                    isSent ? 5.horizontalSpace : 0.horizontalSpace,
-                                    isSent
-                                        ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: SizedBox(
-                                        width: 20.w,
-                                        height: 18.h,
-                                        child: CachedNetworkImage(
-                                          imageUrl: profileState.profileImgPath,
-                                          placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
-                                          errorWidget: (context, url, error) => ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
-                                            child: Image.asset(
-                                              Assets.avatar,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          imageBuilder: (context, imageProvider) => Container(
-                                            width: 50.w,
-                                            height: 47.h,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(50),
-                                              image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
-                                  child: Text(
-                                    formattedTimestamp(message.createdAt),
-                                    style: AppTextStyles.textStylePoppinsRegular.copyWith(
-                                      fontSize: 10.sp,
-                                      color: AppColors.colorText3,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            buildMessageAndAttachment(isSent, peopleImage, message),
 
                           10.verticalSpace
                         ],
@@ -570,14 +262,14 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   },
                 ),
               ),
-            _buildMessageInput(userId!),
+            buildMessageInput(userId!),
             isSmallScreen ? 10.verticalSpace: 0.verticalSpace
           ],
         ),
       ),
     );
   }
-  Widget _buildMessageInput(userId) {
+  Widget buildMessageInput(userId) {
     final stateNotifier = ref.watch(chatNotifierProvider.notifier);
     final state = ref.watch(chatNotifierProvider);
 
@@ -678,8 +370,6 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                       );
                       stateNotifier.sendOnceMessage(widget.peopleId, chatModel);
                     }
-                    AppLog.log("Picked image path: ${stateNotifier.media?.path}");
-
                     _messageController.clear();
                     stateNotifier.media = null;
                     stateNotifier.clearImage();
@@ -699,6 +389,279 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     );
   }
 
+  Widget buildOnlyMessage(isSent, peopleImage, message){
+    final profileState = ref.watch(profileNotifierProvider);
+    return Row(
+      mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        isSent
+            ? const SizedBox()
+            : ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: SizedBox(
+            width: 20.w,
+            height: 18.h,
+            child: CachedNetworkImage(
+              imageUrl: peopleImage,
+              placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+              errorWidget: (context, url, error) => ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  Assets.avatar,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              imageBuilder: (context, imageProvider) => Container(
+                width: 50.w,
+                height: 47.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        isSent ? 0.horizontalSpace : 5.horizontalSpace,
+        Column(
+          crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            message.chatAttachment.isNotEmpty
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: const BoxDecoration(
+                  color: AppColors.colorTransparent,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                ),
+                child: GestureDetector(
+                    onTap: () {
+                      showImageDialog(context, message.chatAttachment);
+                    },
+                    child: CachedNetworkImage(
+                      imageUrl: message.chatAttachment,
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                      errorWidget: (context, url, error) => GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ViewVideo(attachmentUrl: message.chatAttachment),
+                          ),
+                          );
+                        },
+                        child: VideoThumbnails(videoUrl: message.chatAttachment),
+                      ),
+                    )
+                ),
+              ),
+            )
+                : const SizedBox(),
+            Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
+              ),
+              padding: const EdgeInsets.all(12.0),
+              margin: const EdgeInsets.symmetric(vertical: 4.0),
+              decoration: BoxDecoration(
+                color: isSent ? AppColors.colorGrey2 : AppColors.colorPrimary,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+              ),
+              child: Text(
+                message.message ?? '',
+                style: TextStyle(
+                  color: isSent ? Colors.black : Colors.white,
+                  fontSize: 14.sp,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
+              child: Text(
+                formattedTimestamp(message.createdAt),
+                style: AppTextStyles.textStylePoppinsRegular.copyWith(
+                  fontSize: 10.sp,
+                  color: AppColors.colorText3,
+                ),
+              ),
+            ),
+          ],
+        ),
+        isSent ? 5.horizontalSpace : 0.horizontalSpace,
+        isSent
+            ? ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: SizedBox(
+            width: 20.w,
+            height: 18.h,
+            child: CachedNetworkImage(
+              imageUrl: profileState.profileImgPath,
+              placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+              errorWidget: (context, url, error) => ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  Assets.avatar,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              imageBuilder: (context, imageProvider) => Container(
+                width: 50.w,
+                height: 47.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+            : const SizedBox(),
+      ],
+    );
+  }
+
+  Widget buildMessageAndAttachment(isSent, peopleImage, message){
+    final profileState = ref.watch(profileNotifierProvider);
+    return Column(
+      crossAxisAlignment: isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            isSent
+                ? const SizedBox()
+                : ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SizedBox(
+                width: 20.w,
+                height: 18.h,
+                child: CachedNetworkImage(
+                  imageUrl: peopleImage,
+                  placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                  errorWidget: (context, url, error) => ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      Assets.avatar,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: 50.w,
+                    height: 47.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            isSent ? 0.horizontalSpace : 5.horizontalSpace,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: const BoxDecoration(
+                  color: AppColors.colorTransparent,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                ),
+                child: GestureDetector(
+                    onTap: () {
+                      showImageDialog(context, message.chatAttachment);
+                    },
+                    child: CachedNetworkImage(
+                      imageUrl: message.chatAttachment,
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+                      errorWidget: (context, url, error) => GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ViewVideo(attachmentUrl: message.chatAttachment),
+                          ),
+                          );
+                        },
+                        child: VideoThumbnails(videoUrl: message.chatAttachment),
+                      ),
+                    )
+
+                ),
+              ),
+            ),
+            isSent ? 5.horizontalSpace : 0.horizontalSpace,
+            isSent
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SizedBox(
+                width: 20.w,
+                height: 18.h,
+                child: CachedNetworkImage(
+                  imageUrl: profileState.profileImgPath,
+                  placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                  errorWidget: (context, url, error) => ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      Assets.avatar,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: 50.w,
+                    height: 47.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+                : const SizedBox(),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
+          child: Text(
+            formattedTimestamp(message.createdAt),
+            style: AppTextStyles.textStylePoppinsRegular.copyWith(
+              fontSize: 10.sp,
+              color: AppColors.colorText3,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   void scrollToLatestMessage() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -709,7 +672,14 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
     }
   }
 
-
+  void showImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ViewImageDialog(imageUrl: imageUrl);
+      },
+    );
+  }
 
 }
 
