@@ -154,7 +154,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
 
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
-                      AppLog.log("peopleId : $peopleId");
+                      AppLog.log("chat.userUnreadCount : ${chat.userUnreadCount}");
                       return ListTile(
                         contentPadding: EdgeInsets.symmetric(vertical: 1.h),
                         leading: ClipRRect(

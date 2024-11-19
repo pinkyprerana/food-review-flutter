@@ -405,18 +405,59 @@ class ChatNotifier extends StateNotifier<ChatState> {
     AppLog.log("Chat token deleted.");
   }
 
+  // void markChatAsRead(String peopleId) async {
+  //   try {
+  //     var (response, _) = await _networkApiService.postApiRequestWithToken(
+  //       url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}',
+  //       body: {"user_id": peopleId},
+  //     );
+  //     ChatCreatedModel chatCreatedModel = ChatCreatedModel.fromJson(response.data);
+  //     String? chatToken = chatCreatedModel.dataOfChat?.chatToken;
+  //
+  //     final chatRef = _db.child('chat_dev/$chatToken');
+  //
+  //     final snapshot = await chatRef.get();
+  //     if (snapshot.value != null) {
+  //       final messages = snapshot.value as Map<dynamic, dynamic>;
+  //
+  //       for (var entry in messages.entries) {
+  //         final messageKey = entry.key;
+  //         final messageData = entry.value as Map<dynamic, dynamic>;
+  //
+  //         if (messageData['receiverId'] == getUserId && messageData['read'] == false) {
+  //           final messageRef = chatRef.child(messageKey);
+  //           await messageRef.update({'read': true});
+  //         }
+  //       }
+  //     }
+  //
+  //     state = state.copyWith(
+  //       allChatList: state.allChatList.map((chat) {
+  //         if (chat.userDetails?.id == peopleId || chat.creatorDetails?.id == peopleId) {
+  //           return chat.copyWith(
+  //             creatorUnreadCount: 0,
+  //             userUnreadCount: 0,
+  //             lastMessage: chat.lastMessage?.copyWith(read: true),
+  //           );
+  //         }
+  //         return chat;
+  //       }).toList(),
+  //     );
+  //
+  //     AppLog.log("All messages for chat with $peopleId marked as read.");
+  //   } catch (e) {
+  //     AppLog.log('Error marking messages as read: $e');
+  //     showToastMessage('Error marking messages as read');
+  //   }
+  // }
+
   void markChatAsRead(String peopleId) async {
     try {
-      var (response, _) = await _networkApiService.postApiRequestWithToken(
-        url: '${AppUrls.baseUrl}${AppUrls.chatTokenGenerate}',
-        body: {"user_id": peopleId},
-      );
-      ChatCreatedModel chatCreatedModel = ChatCreatedModel.fromJson(response.data);
-      String? chatToken = chatCreatedModel.dataOfChat?.chatToken;
+      String? chatToken = getChatToken;
 
       final chatRef = _db.child('chat_dev/$chatToken');
-
       final snapshot = await chatRef.get();
+
       if (snapshot.value != null) {
         final messages = snapshot.value as Map<dynamic, dynamic>;
 
@@ -424,6 +465,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
           final messageKey = entry.key;
           final messageData = entry.value as Map<dynamic, dynamic>;
 
+          // Mark all messages as read for the current user
           if (messageData['receiverId'] == getUserId && messageData['read'] == false) {
             final messageRef = chatRef.child(messageKey);
             await messageRef.update({'read': true});
@@ -431,6 +473,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
         }
       }
 
+      // Update local state
       state = state.copyWith(
         allChatList: state.allChatList.map((chat) {
           if (chat.userDetails?.id == peopleId || chat.creatorDetails?.id == peopleId) {
@@ -450,5 +493,6 @@ class ChatNotifier extends StateNotifier<ChatState> {
       showToastMessage('Error marking messages as read');
     }
   }
+
 
 }
