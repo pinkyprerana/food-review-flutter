@@ -11,6 +11,7 @@ import '../../../core/routes/app_router.dart';
 import '../../../core/styles/app_colors.dart';
 import '../../../core/styles/app_text_styles.dart';
 import '../../../core/utils/app_log.dart';
+import '../domain/chat_user_list_model.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -140,6 +141,16 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                       final chat = filteredChatList[index];
                       final user = chat.userDetails?.id == stateNotifier.getUserId ?  chat.creatorDetails : chat.userDetails;
                       final peopleId = chat.userDetails?.id == stateNotifier.getUserId ? chat.creatorDetails?.id : chat.userDetails?.id;
+                      final userUnreadCount = chat.creatorDetails?.id == stateNotifier.getUserId
+                          ? chat.creatorUnreadCount
+                          : chat.userUnreadCount;
+
+                      bool hasUnreadMessages(DataOfChatList chat) {
+                        return chat.lastMessage?.read == false &&
+                            (chat.creatorDetails?.id == stateNotifier.getUserId
+                                ? chat.creatorUnreadCount ?? 0
+                                : chat.userUnreadCount ?? 0) > 0;
+                      }
 
                       String formattedChatDate = formatDate(chat.chatDate.toString());
                       final profileImage = '${AppUrls.profilePicLocation}/${user?.profileImage ?? ''}';
@@ -220,7 +231,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                               ),
                             ),
                             4.verticalSpace,
-                            (chat.lastMessage?.read == false && (chat.userUnreadCount ?? 0) > 0)
+                            hasUnreadMessages(chat)
                                 ? Container(
                               width: 16.w,
                               height: 16.h,
@@ -230,7 +241,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  chat.userUnreadCount.toString(),
+                                  userUnreadCount.toString(),
                                   style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                     color: AppColors.colorWhite,
                                     fontSize: 8.sp,
@@ -239,6 +250,7 @@ class _MessageListScreenState extends ConsumerState<MessageListScreen> {
                               ),
                             )
                                 : const SizedBox(),
+
 
                           ],
                         ),
