@@ -221,7 +221,7 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
   final receiverId = notifications?.receiverUserInfo?.id;
   final postId = notifications?.refPostId;
 
-  final autoRouter = AppRouter();
+  final autoRouter = AutoRouter.of(context);
   switch (type) {
     case 'user_accept':
     case 'user_deny':

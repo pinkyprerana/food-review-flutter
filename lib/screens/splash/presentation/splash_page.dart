@@ -61,6 +61,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     if (mounted) {
       if (token != null && token.toString().isNotEmpty) {
         if (widget.peopleId != null) {
+          AppLog.log('Navigating to PeopleProfileRoute with peopleId: ${widget.peopleId}');
           AutoRouter.of(context).pushAndPopUntil(
               PeopleProfileRoute(
                   peopleId: widget.peopleId!, isDeepLinking: true),
