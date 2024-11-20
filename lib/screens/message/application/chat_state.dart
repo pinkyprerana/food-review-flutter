@@ -20,6 +20,8 @@ class ChatState with _$ChatState {
     @Default(false) bool isLoadingForImageUpload,
     @Default(false) bool isVideo,
     @Default(false) bool isLoadingForSubmit,
+    @Default(false) bool isRead,
+    @Default(0) int unreadCount,
   }) = _ChatState;
 
   const ChatState._();

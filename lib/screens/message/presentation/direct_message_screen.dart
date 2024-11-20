@@ -63,9 +63,9 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
       stateNotifier.getMessages(widget.peopleId, chatToken!);
       _messageSubscription = stateNotifier.getMessages(widget.peopleId, chatToken).listen((messages) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Future.delayed(const Duration(milliseconds: 100), () {
+          // Future.delayed(const Duration(milliseconds: 100), () {
             scrollToLatestMessage();
-          });
+          // });
         });
       });
       final followNotifier = ref.read(followNotifierProvider.notifier);
@@ -312,6 +312,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
+                    maxLines: null,
                     // onChanged: (text) {
                     //   setState(() => _isTyping = text.isNotEmpty);
                     // },
@@ -341,7 +342,7 @@ class _DirectMessageScreenState extends ConsumerState<DirectMessageScreen> {
                   icon: Image.asset(Assets.addAttachment,
                     width: 20.r,
                     height: 20.r,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                   onPressed: () {
                     stateNotifier.checkPermissionForGallery(context);
