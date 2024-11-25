@@ -11,6 +11,8 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../core/constants/app_urls.dart';
+
 @RoutePage()
 class SavedRestaurantsPage extends ConsumerStatefulWidget {
   const SavedRestaurantsPage({super.key});
@@ -172,7 +174,7 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                               false))
                                       ? CachedNetworkImage(
                                           imageUrl:
-                                              'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.savedRestaurantList?[index].image?[0]}',
+                                              '${AppUrls.restaurantLocation}${state.savedRestaurantList?[index].image?[0]}',
                                           width: 48.r,
                                           height: 48.r,
                                           fit: BoxFit.cover,

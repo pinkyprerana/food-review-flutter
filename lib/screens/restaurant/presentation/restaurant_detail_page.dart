@@ -549,7 +549,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       widget.image.contains('nef') ||
                                                       widget.image.contains('arw'))
                                                   ? CachedNetworkImageProvider(
-                                                      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${widget.image}')
+                                                      '${AppUrls.restaurantLocation}${widget.image}')
                                                   : const AssetImage(Assets.noRestaurantImage),
                                               fit: BoxFit.cover,
                                             )),
