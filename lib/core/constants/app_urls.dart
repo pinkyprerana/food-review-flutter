@@ -1,7 +1,5 @@
 class AppUrls {
   static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
-  static const postImageLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   //Authentication
   static const signup = '/user/signup';
@@ -18,8 +16,9 @@ class AppUrls {
   static const profile = '/user/profile';
   static const profileUpdate = '/user/profile-update';
   static const logout = '/user/logout';
-  static const profilePicLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
+  static const profilePicLocation ='https://d2g7lffxna0ji8.cloudfront.net/user/profile_pic';
+  // static const profilePicLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
   static const socialLogin = '/user/social-signin';
 
   //Post Feed
@@ -30,6 +29,9 @@ class AppUrls {
   static const addComment = '/post-comment/add';
   static const likeUnlikeComment = '/post-like/comment';
   static const getPostDetials = '/post/details';
+  static const postImageLocation = 'https://d2g7lffxna0ji8.cloudfront.net/post/';
+  // static const postImageLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   //Other User's
   static const getOtherUserDetails = '/user/other/profile';
@@ -54,8 +56,9 @@ class AppUrls {
   static const getLeaderboardList = '/user/leaderboard/list';
 
   // Pic Locations
-  static const bannerLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
+  static const bannerLocation = 'https://d2g7lffxna0ji8.cloudfront.net/user/banner';
+  // static const bannerLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
 
   // Restaurant
   static const postListPerRestaurant = '/post/list';

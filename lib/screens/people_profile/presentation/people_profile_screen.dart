@@ -383,7 +383,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: (peopleimage !=
-                                                  'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/' &&
+                                                  '${AppUrls.profilePicLocation}/' &&
                                               peopleimage != '')
                                           ? CachedNetworkImageProvider(
                                               peopleimage.toString())
