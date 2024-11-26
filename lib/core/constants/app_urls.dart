@@ -1,5 +1,6 @@
 class AppUrls {
-  static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
+  static const baseUrl = 'https://admin.forthetable.co/api';
+  // static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
 
   //Authentication
   static const signup = '/user/signup';
