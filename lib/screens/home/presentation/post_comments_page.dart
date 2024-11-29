@@ -52,12 +52,12 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final homeState = ref.watch(homeNotifierProvider);
     final profileState = ref.watch(profileNotifierProvider);
     final homeNotifier = ref.watch(homeNotifierProvider.notifier);
+    final followNotifier = ref.watch(followNotifierProvider.notifier);
 
     if (homeState.postList == null ||
         homeState.postList!.isEmpty ||
@@ -106,6 +106,7 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
       );
     }
 
+    final getSavedId = followNotifier.getUserId;
     final String postId = widget.postId;//postInfoList.id;
     final String userId = postInfoList.userInfo?.id ?? "";
     final String name = postInfoList.userInfo?.fullName ?? "";
@@ -120,13 +121,9 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     const int amount = 100; //widget.postInfoList.commentCount;
     final bool? isSaved = postInfoList.isSave;
     final bool? isLiked = postInfoList.isMyLike;
-    // final bool? isFollowing = postInfoList.isFollowing;
-    // final bool? isRequested = postInfoList.isFollowingRequest;
+    final bool? isFollowing = postInfoList.isFollowing;
+    final bool? isRequested = postInfoList.isFollowingRequest;
     final deviceHeight = MediaQuery.sizeOf(context).height;
-    // final comments = [
-    //   ...?homeState.commentsList?.where((comment) => comment.postId == postId),
-    //   ...?profileState.commentsList?.where((comment) => comment.postId == postId)
-    // ];
 
     //Solved unstable comments issue in liked & disliked post screen
     final List<CommentInfo> comments = [
@@ -184,9 +181,11 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
                                         .copyWith(fontSize: 16.sp, color: AppColors.colorWhite),
                                   ),
                                   8.horizontalSpace,
-                                  GestureDetector(
-                                    onTap: () =>
-                                        homeNotifier.onFollowUnfollowButtonPressed(userId),
+
+                                  userId == getSavedId
+                                  ? const SizedBox()
+                                  : GestureDetector(
+                                    onTap: () => handleFollowButtonPressed(userId),
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
@@ -197,7 +196,11 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          homeState.followStatus,
+                                          (isFollowing ?? false)
+                                              ? 'Following'
+                                              : (isRequested ?? false)
+                                              ? 'Requested'
+                                              : 'Follow',
                                           style: AppTextStyles.textStylePoppinsRegular.copyWith(
                                             color: AppColors.colorWhite,
                                             fontSize: 10.sp,
@@ -461,5 +464,11 @@ class _PostCommentsPageState extends ConsumerState<PostCommentsPage> {
     await profileNotifier.fetchlikedPosts(); // Liked post
     await profileNotifier.fetchDislikedPosts(); //Disliked post
   }
+
+ void handleFollowButtonPressed(userId) {
+   final followNotifier = ref.read(followNotifierProvider.notifier);
+   followNotifier.followUnfollow(() {}, userId);
+   _fetchPostDetails(userId);
+ }
 
 }
