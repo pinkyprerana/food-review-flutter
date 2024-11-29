@@ -85,7 +85,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
     //         (post) => post.id == widget.postId,
     //     orElse: () => const DataOfPostModel(id: '', file: ''));
 
-    String file= '${AppUrls.postImageLocation}/${widget.postPicture}';
+    String file= '${AppUrls.postImageLocation}${widget.postPicture}';
     bool isVideo = file.toLowerCase().endsWith('.mp4') || file.toLowerCase().endsWith('.mov') || file.toLowerCase().endsWith('.avi');
     bool isImage = file.toLowerCase().endsWith('.jpg') || file.toLowerCase().endsWith('.png') || file.toLowerCase().endsWith('.jpeg');
 
