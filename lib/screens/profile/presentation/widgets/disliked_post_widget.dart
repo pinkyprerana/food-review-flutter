@@ -66,7 +66,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
     _isLike = widget.isLiked;
   }
 
-  void _handleFollowUnfollowButtonPressed(userId) {
+  void handleFollowUnfollowButtonPressed(userId) {
     final followNotifier = ref.read(followNotifierProvider.notifier);
     final yourPeopleNotifier = ref.read(yourPeopleNotifierProvider.notifier);
     final profileNotifier = ref.read(profileNotifierProvider.notifier);
@@ -81,6 +81,7 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
     final profileNotifier = ref.watch(profileNotifierProvider.notifier);
     final postFeedState = ref.watch(homeNotifierProvider);
     final postFeedNotifier = ref.watch(homeNotifierProvider.notifier);
+    final followNotifier = ref.watch(followNotifierProvider.notifier);
     // postInfo = postFeedState.postList?.firstWhere(
     //         (post) => post.id == widget.postId,
     //     orElse: () => const DataOfPostModel(id: '', file: ''));
@@ -192,9 +193,11 @@ class _DislikedPostWidgetState extends ConsumerState<DislikedPostWidget> {
                                   ),
                                 ),
                                 8.horizontalSpace,
-                                GestureDetector(
+                                widget.userId == followNotifier.getUserId
+                                ? const SizedBox()
+                                : GestureDetector(
                                   onTap: () {
-                                    _handleFollowUnfollowButtonPressed(widget.userId);
+                                    handleFollowUnfollowButtonPressed(widget.userId);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
