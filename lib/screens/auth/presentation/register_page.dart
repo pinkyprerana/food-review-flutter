@@ -236,7 +236,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     });
                                   }
                                 } else {
-                                  showToastMessage('Working');
+                                  await landingNotifier.signInWithFacebook(voidCallback: () {
+                                    AutoRouter.of(context)
+                                        .pushAndPopUntil(const LocationRoute(), predicate: (_) => false);
+                                  });
                                 }
                               },
                               child: Container(

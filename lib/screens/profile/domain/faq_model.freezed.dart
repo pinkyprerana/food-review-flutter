@@ -29,8 +29,12 @@ mixin _$FaqModel {
   @JsonKey(name: "data")
   List<DataOfFQA>? get faqList => throw _privateConstructorUsedError;
 
+  /// Serializes this FaqModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FaqModelCopyWith<FaqModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$FaqModelCopyWithImpl<$Res, $Val extends FaqModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +115,8 @@ class __$$FaqModelImplCopyWithImpl<$Res>
       _$FaqModelImpl _value, $Res Function(_$FaqModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -187,12 +195,14 @@ class _$FaqModelImpl implements _FaqModel {
             const DeepCollectionEquality().equals(other._faqList, _faqList));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, type, message,
       const DeepCollectionEquality().hash(_faqList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FaqModelImplCopyWith<_$FaqModelImpl> get copyWith =>
@@ -228,8 +238,11 @@ abstract class _FaqModel implements FaqModel {
   @override
   @JsonKey(name: "data")
   List<DataOfFQA>? get faqList;
+
+  /// Create a copy of FaqModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FaqModelImplCopyWith<_$FaqModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -249,8 +262,12 @@ mixin _$DataOfFQA {
   @JsonKey(name: "createdAt")
   String? get createdAt => throw _privateConstructorUsedError;
 
+  /// Serializes this DataOfFQA to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataOfFQA
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataOfFQACopyWith<DataOfFQA> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -277,6 +294,8 @@ class _$DataOfFQACopyWithImpl<$Res, $Val extends DataOfFQA>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataOfFQA
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -329,6 +348,8 @@ class __$$DataOfFQAImplCopyWithImpl<$Res>
       _$DataOfFQAImpl _value, $Res Function(_$DataOfFQAImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataOfFQA
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -401,11 +422,13 @@ class _$DataOfFQAImpl implements _DataOfFQA {
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, question, answer, createdAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataOfFQA
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataOfFQAImplCopyWith<_$DataOfFQAImpl> get copyWith =>
@@ -441,8 +464,11 @@ abstract class _DataOfFQA implements DataOfFQA {
   @override
   @JsonKey(name: "createdAt")
   String? get createdAt;
+
+  /// Create a copy of DataOfFQA
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataOfFQAImplCopyWith<_$DataOfFQAImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

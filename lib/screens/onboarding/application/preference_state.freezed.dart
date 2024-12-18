@@ -23,7 +23,9 @@ mixin _$PreferenceState {
   List<PreferenceList>? get data => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PreferenceState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PreferenceStateCopyWith<PreferenceState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,6 +55,8 @@ class _$PreferenceStateCopyWithImpl<$Res, $Val extends PreferenceState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PreferenceState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -117,6 +121,8 @@ class __$$PreferenceStateImplCopyWithImpl<$Res>
       _$PreferenceStateImpl _value, $Res Function(_$PreferenceStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PreferenceState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -230,7 +236,9 @@ class _$PreferenceStateImpl implements _PreferenceState {
       const DeepCollectionEquality().hash(_data),
       const DeepCollectionEquality().hash(_tags));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PreferenceState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PreferenceStateImplCopyWith<_$PreferenceStateImpl> get copyWith =>
@@ -259,8 +267,11 @@ abstract class _PreferenceState implements PreferenceState {
   List<PreferenceList>? get data;
   @override
   List<String> get tags;
+
+  /// Create a copy of PreferenceState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PreferenceStateImplCopyWith<_$PreferenceStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

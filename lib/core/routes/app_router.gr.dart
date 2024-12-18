@@ -44,6 +44,16 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    DirectMessageRoute.name: (routeData) {
+      final args = routeData.argsAs<DirectMessageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DirectMessageScreen(
+          peopleId: args.peopleId,
+          key: args.key,
+        ),
+      );
+    },
     DislikedPostsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -114,6 +124,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LoginPage(),
+      );
+    },
+    MessageListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MessageListScreen(),
       );
     },
     NotificationRoute.name: (routeData) {
@@ -351,6 +367,44 @@ class CreatePostRouteArgs {
 }
 
 /// generated route for
+/// [DirectMessageScreen]
+class DirectMessageRoute extends PageRouteInfo<DirectMessageRouteArgs> {
+  DirectMessageRoute({
+    required String peopleId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          DirectMessageRoute.name,
+          args: DirectMessageRouteArgs(
+            peopleId: peopleId,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'DirectMessageRoute';
+
+  static const PageInfo<DirectMessageRouteArgs> page =
+      PageInfo<DirectMessageRouteArgs>(name);
+}
+
+class DirectMessageRouteArgs {
+  const DirectMessageRouteArgs({
+    required this.peopleId,
+    this.key,
+  });
+
+  final String peopleId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'DirectMessageRouteArgs{peopleId: $peopleId, key: $key}';
+  }
+}
+
+/// generated route for
 /// [DislikedPostsPage]
 class DislikedPostsRoute extends PageRouteInfo<void> {
   const DislikedPostsRoute({List<PageRouteInfo>? children})
@@ -514,6 +568,20 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MessageListScreen]
+class MessageListRoute extends PageRouteInfo<void> {
+  const MessageListRoute({List<PageRouteInfo>? children})
+      : super(
+          MessageListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MessageListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

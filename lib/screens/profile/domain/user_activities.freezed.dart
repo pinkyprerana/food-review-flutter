@@ -37,8 +37,12 @@ mixin _$UserActivities {
   @JsonKey(name: "limit")
   int? get limit => throw _privateConstructorUsedError;
 
+  /// Serializes this UserActivities to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserActivities
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserActivitiesCopyWith<UserActivities> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,6 +74,8 @@ class _$UserActivitiesCopyWithImpl<$Res, $Val extends UserActivities>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserActivities
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,6 +152,8 @@ class __$$UserActivitiesImplCopyWithImpl<$Res>
       _$UserActivitiesImpl _value, $Res Function(_$UserActivitiesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserActivities
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -266,7 +274,7 @@ class _$UserActivitiesImpl implements _UserActivities {
             (identical(other.limit, limit) || other.limit == limit));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -279,7 +287,9 @@ class _$UserActivitiesImpl implements _UserActivities {
       pages,
       limit);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserActivities
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserActivitiesImplCopyWith<_$UserActivitiesImpl> get copyWith =>
@@ -332,8 +342,11 @@ abstract class _UserActivities implements UserActivities {
   @override
   @JsonKey(name: "limit")
   int? get limit;
+
+  /// Create a copy of UserActivities
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserActivitiesImplCopyWith<_$UserActivitiesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -357,8 +370,12 @@ mixin _$Activity {
   @JsonKey(name: "user_info")
   UserInfo? get userInfo => throw _privateConstructorUsedError;
 
+  /// Serializes this Activity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Activity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ActivityCopyWith<Activity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -389,6 +406,8 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Activity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -427,6 +446,8 @@ class _$ActivityCopyWithImpl<$Res, $Val extends Activity>
     ) as $Val);
   }
 
+  /// Create a copy of Activity
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserInfoCopyWith<$Res>? get userInfo {
@@ -468,6 +489,8 @@ class __$$ActivityImplCopyWithImpl<$Res>
       _$ActivityImpl _value, $Res Function(_$ActivityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Activity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -562,12 +585,14 @@ class _$ActivityImpl implements _Activity {
                 other.userInfo == userInfo));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, title, description, imagePath, createdAt, userInfo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Activity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityImplCopyWith<_$ActivityImpl> get copyWith =>
@@ -611,8 +636,11 @@ abstract class _Activity implements Activity {
   @override
   @JsonKey(name: "user_info")
   UserInfo? get userInfo;
+
+  /// Create a copy of Activity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityImplCopyWith<_$ActivityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -634,8 +662,12 @@ mixin _$UserInfo {
   @JsonKey(name: "profile_image")
   String? get profileImage => throw _privateConstructorUsedError;
 
+  /// Serializes this UserInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserInfoCopyWith<UserInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -663,6 +695,8 @@ class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -721,6 +755,8 @@ class __$$UserInfoImplCopyWithImpl<$Res>
       _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -803,12 +839,14 @@ class _$UserInfoImpl implements _UserInfo {
                 other.profileImage == profileImage));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, fullName, email, phone, profileImage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
@@ -849,8 +887,11 @@ abstract class _UserInfo implements UserInfo {
   @override
   @JsonKey(name: "profile_image")
   String? get profileImage;
+
+  /// Create a copy of UserInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

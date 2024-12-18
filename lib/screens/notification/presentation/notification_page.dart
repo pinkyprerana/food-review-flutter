@@ -10,6 +10,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constants/app_urls.dart';
 import '../../../core/routes/app_router.dart';
 import '../../../model/notification_model/notification_model.dart';
+import '../../message/shared/providers.dart';
 import '../shared/providers.dart';
 
 @RoutePage()
@@ -33,6 +34,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
   }
 
   _handleNotificationTap(BuildContext context, NotificationData notifications) {
+    final stateNotifier = ref.watch(chatNotifierProvider.notifier);
     final notificationType = notifications.type;
     switch (notificationType) {
       case 'user_accept':
@@ -47,6 +49,10 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
       case 'comment_like':
       case 'comment_add':
        AutoRouter.of(context).push(PostDetailsRoute(postId: notifications.refPostId?? "", userId: notifications.receiverUserInfo?.id??""));
+        break;
+      case 'chat':
+            stateNotifier.initiateChatWithPeopleId(notifications.postedUserInfo?.id ?? '');
+            AutoRouter.of(context).push(DirectMessageRoute(peopleId: notifications.postedUserInfo?.id??""));
         break;
       default:
         break;

@@ -549,7 +549,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                                       widget.image.contains('nef') ||
                                                       widget.image.contains('arw'))
                                                   ? CachedNetworkImageProvider(
-                                                      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${widget.image}')
+                                                      '${AppUrls.restaurantLocation}${widget.image}')
                                                   : const AssetImage(Assets.noRestaurantImage),
                                               fit: BoxFit.cover,
                                             )),
@@ -687,7 +687,7 @@ class _RestaurantDetailPageState extends ConsumerState<RestaurantDetailPage> {
                                 description: state.postPerRestaurantList?[index].description ?? '',
                                 title: state.postPerRestaurantList?[index].title ?? '',
                                 image:
-                                    'https://forthetable.dedicateddevelopers.us/uploads/post/${state.postPerRestaurantList?[index].file}',
+                                    '${AppUrls.postImageLocation}${state.postPerRestaurantList?[index].file}',
                                 isLiked: state.postPerRestaurantList?[index].isMyLike,
                                 isSaved: state.postPerRestaurantList?[index].isSave,
                               );

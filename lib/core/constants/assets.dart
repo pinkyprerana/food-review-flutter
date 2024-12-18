@@ -1,7 +1,7 @@
 class Assets {
-  static const String logo = 'assets/images/logo.png';
-  static const String logoTransparent = 'assets/images/logo-transparent.png';
-  static const String logoFull = 'assets/images/logo.jpg';
+  static const String logo = 'assets/images/logo-full.jpeg';
+  static const String logoTransparent = 'assets/images/logo-transparent-old.png';
+  static const String logoFull = 'assets/images/logo-full.jpeg';
   //
   static const String landingintro = 'assets/images/landing-intro.png';
   //
@@ -20,6 +20,7 @@ class Assets {
   static const String rest4 = 'assets/images/rest4.png';
   static const String post2 = 'assets/images/post.png';
   static const String photo = 'assets/images/photo.png';
+  static const String playVideo = 'assets/images/playVideo.png';
   static const String avatar = "assets/images/no-profile-image.png";
 
   // base assets
@@ -91,6 +92,11 @@ class Assets {
   static const String bookmarkFilled = 'assets/icons/bookmark_filled.png';
   static const String volumeHigh = 'assets/icons/volume-high.png';
   static const String volumeLow = 'assets/icons/volume-low.png';
+  static const String startChat = 'assets/icons/dm.png';
+  static const String sendMessage = 'assets/icons/sendMessage.png';
+  static const String addEmoji = 'assets/icons/addEmoji.png';
+  static const String addAttachment = 'assets/icons/addAttachment.png';
+  static const String initiateChat = 'assets/icons/initiateChat.png';
 
   //photo
   static const String rotateCamera = 'assets/icons/rotate_camera.png';

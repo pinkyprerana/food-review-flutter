@@ -48,4 +48,5 @@ class AppPreferenceKeys {
   static const String location = 'location';
   static const String isLocationFetched = 'isLocationFetched';
   static const String deviceToken = 'deviceToken';
+  static const String chatToken = 'chatToken';
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +55,11 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
   void shareProfile(String profileUrl) {
     Share.share('Check out this profile: $profileUrl');
   }
+
+
+  // String generateChatId(String userId1, String userId2) {
+  //   return userId1.compareTo(userId2) < 0 ? '$userId1\_$userId2' : '$userId2\_$userId1';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +212,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       }
                                     },
                                     child: Container(
-                                      width: 158.w,
+                                      width: Platform.isIOS ? 100.w : 158.w,
                                       height: 50.h,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
@@ -245,7 +252,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  20.horizontalSpace,
+                                  Platform.isIOS ? 5.horizontalSpace : 20.horizontalSpace,
                                   GestureDetector(
                                     onTap: () {
                                       String profileUrl =
@@ -256,6 +263,20 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                         widget: Center(
                                       child: Image.asset(Assets.share),
                                     )),
+                                  ),
+                                  Platform.isIOS ? 5.horizontalSpace : 20.horizontalSpace,
+                                  (widget.peopleId == getUserId)
+                                   ? const SizedBox()
+                                  : GestureDetector(
+                                    onTap: () {
+                                      // final chatNotifier = ref.read(chatNotifierProvider.notifier);
+                                      // chatNotifier.initiateChatWithPeopleId(widget.peopleId);
+                                      AutoRouter.of(context).push( DirectMessageRoute(peopleId: widget.peopleId));
+                                    },
+                                    child: SmallProfileContainer(
+                                        widget: Center(
+                                          child: Image.asset(Assets.startChat),
+                                        )),
                                   ),
                                 ],
                               ),
@@ -362,7 +383,7 @@ class _PeopleProfilePageState extends ConsumerState<PeopleProfilePage> {
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: (peopleimage !=
-                                                  'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic/' &&
+                                                  '${AppUrls.profilePicLocation}/' &&
                                               peopleimage != '')
                                           ? CachedNetworkImageProvider(
                                               peopleimage.toString())

@@ -101,6 +101,8 @@ class OtherOptionsWidget extends ConsumerWidget {
                   ),
                 ],
               ));
+        } else if (title == 'Messages') {
+          AutoRouter.of(context).push(const MessageListRoute());
         } else if (title == 'FAQs') {
           AutoRouter.of(context).push(const FaqsRoute());
         } else if (title == 'Liked Posts') {

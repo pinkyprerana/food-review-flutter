@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_the_table/core/constants/app_urls.dart';
 import 'package:for_the_table/core/constants/assets.dart';
 import 'package:for_the_table/core/routes/app_router.dart';
 import 'package:for_the_table/core/styles/app_colors.dart';
@@ -141,24 +142,36 @@ class _RestaurantListViewState extends ConsumerState<RestaurantListView> {
                                         (allRestaurantList[index].image?[0].contains('nef') ??
                                             false))
                                     ? CachedNetworkImage(
-                                        imageUrl:
-                                            'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${allRestaurantList[index].image?[0]}',
-                                        width: 48.r,
-                                        height: 48.r,
+                                  imageUrl: '${AppUrls.restaurantLocation}${allRestaurantList[index].image?[0]}',
+                                  width: 48.r,
+                                  height: 48.r,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                  errorWidget: (context, url, error) => ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                      Assets.noRestaurantImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  imageBuilder: (context, imageProvider) => Container(
+                                    width: 48.r,
+                                    height: 48.r,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: imageProvider,
                                         fit: BoxFit.cover,
-                                      )
+                                      ),
+                                    ),
+                                  ),
+                                )
                                     : Image.asset(
                                         Assets.noRestaurantImage,
                                         width: 48.r,
                                         height: 48.r,
                                         fit: BoxFit.cover,
                                       ),
-                                // child: Image.asset(
-                                //   widget.restaurants[0]['image']!,
-                                //   width: 48.r,
-                                //   height: 48.r,
-                                //   fit: BoxFit.cover,
-                                // ),
                               ),
                               10.horizontalSpace,
                               Expanded(

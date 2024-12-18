@@ -11,6 +11,8 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/restaurant/shared/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../core/constants/app_urls.dart';
+
 @RoutePage()
 class SavedRestaurantsPage extends ConsumerStatefulWidget {
   const SavedRestaurantsPage({super.key});
@@ -171,12 +173,30 @@ class _SavedRestaurantsPageState extends ConsumerState<SavedRestaurantsPage> {
                                           (state.savedRestaurantList?[index].image?[0].contains('nef') ??
                                               false))
                                       ? CachedNetworkImage(
-                                          imageUrl:
-                                              'https://forthetable.dedicateddevelopers.us/uploads/restaurant/${state.savedRestaurantList?[index].image?[0]}',
+                                        imageUrl: '${AppUrls.restaurantLocation}${state.savedRestaurantList?[index].image?[0]}',
+                                        width: 48.r,
+                                        height: 48.r,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                        errorWidget: (context, url, error) => ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: Image.asset(
+                                            Assets.noRestaurantImage,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        imageBuilder: (context, imageProvider) => Container(
                                           width: 48.r,
                                           height: 48.r,
-                                          fit: BoxFit.cover,
-                                        )
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                       : Image.asset(
                                           Assets.noRestaurantImage,
                                           width: 48.r,

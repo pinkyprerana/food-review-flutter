@@ -29,8 +29,12 @@ mixin _$PrivacyPolicyModel {
   @JsonKey(name: "data")
   DataOfPrivacyPolicy? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this PrivacyPolicyModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PrivacyPolicyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PrivacyPolicyModelCopyWith<PrivacyPolicyModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$PrivacyPolicyModelCopyWithImpl<$Res, $Val extends PrivacyPolicyModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PrivacyPolicyModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +94,8 @@ class _$PrivacyPolicyModelCopyWithImpl<$Res, $Val extends PrivacyPolicyModel>
     ) as $Val);
   }
 
+  /// Create a copy of PrivacyPolicyModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DataOfPrivacyPolicyCopyWith<$Res>? get data {
@@ -127,6 +135,8 @@ class __$$PrivacyPolicyModelImplCopyWithImpl<$Res>
       $Res Function(_$PrivacyPolicyModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PrivacyPolicyModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -197,11 +207,13 @@ class _$PrivacyPolicyModelImpl implements _PrivacyPolicyModel {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, type, message, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PrivacyPolicyModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PrivacyPolicyModelImplCopyWith<_$PrivacyPolicyModelImpl> get copyWith =>
@@ -239,8 +251,11 @@ abstract class _PrivacyPolicyModel implements PrivacyPolicyModel {
   @override
   @JsonKey(name: "data")
   DataOfPrivacyPolicy? get data;
+
+  /// Create a copy of PrivacyPolicyModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PrivacyPolicyModelImplCopyWith<_$PrivacyPolicyModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -260,8 +275,12 @@ mixin _$DataOfPrivacyPolicy {
   @JsonKey(name: "content")
   String? get content => throw _privateConstructorUsedError;
 
+  /// Serializes this DataOfPrivacyPolicy to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataOfPrivacyPolicy
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataOfPrivacyPolicyCopyWith<DataOfPrivacyPolicy> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -289,6 +308,8 @@ class _$DataOfPrivacyPolicyCopyWithImpl<$Res, $Val extends DataOfPrivacyPolicy>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataOfPrivacyPolicy
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -341,6 +362,8 @@ class __$$DataOfPrivacyPolicyImplCopyWithImpl<$Res>
       $Res Function(_$DataOfPrivacyPolicyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataOfPrivacyPolicy
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -411,11 +434,13 @@ class _$DataOfPrivacyPolicyImpl implements _DataOfPrivacyPolicy {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, slug, content);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataOfPrivacyPolicy
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataOfPrivacyPolicyImplCopyWith<_$DataOfPrivacyPolicyImpl> get copyWith =>
@@ -453,8 +478,11 @@ abstract class _DataOfPrivacyPolicy implements DataOfPrivacyPolicy {
   @override
   @JsonKey(name: "content")
   String? get content;
+
+  /// Create a copy of DataOfPrivacyPolicy
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataOfPrivacyPolicyImplCopyWith<_$DataOfPrivacyPolicyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

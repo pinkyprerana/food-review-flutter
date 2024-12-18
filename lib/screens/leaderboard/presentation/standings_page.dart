@@ -152,6 +152,25 @@ class _StandingsPageState extends ConsumerState<StandingsPage> {
                                   width: 48.r,
                                   height: 48.r,
                                   fit: BoxFit.cover,
+                                  placeholder: (context, url) => const CircularProgressIndicator(color: AppColors.colorPrimary),
+                                  errorWidget: (context, url, error) => ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                      Assets.noProfileImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  imageBuilder: (context, imageProvider) => Container(
+                                    width: 48.r,
+                                    height: 48.r,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
                                 )
                                     : Image.asset(
                                   Assets.noProfileImage,

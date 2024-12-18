@@ -10,7 +10,7 @@ import 'package:for_the_table/core/styles/app_text_styles.dart';
 import 'package:for_the_table/screens/home/shared/provider.dart';
 import '../../../../core/constants/app_urls.dart';
 import '../../../../widgets/like_icon.dart';
-import '../../../../widgets/post_feed_widgets/widgets/save_icon.dart';
+import '../../../../widgets/save_icon.dart';
 import '../../../people_profile/shared/providers.dart';
 import '../../domain/post_feed_model.dart';
 

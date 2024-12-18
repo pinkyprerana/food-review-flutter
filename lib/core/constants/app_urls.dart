@@ -1,7 +1,6 @@
 class AppUrls {
-  static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
-  static const postImageLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/post/';
+  static const baseUrl = 'https://admin.forthetable.co/api';
+  // static const baseUrl = 'https://forthetable.dedicateddevelopers.us/api';
 
   //Authentication
   static const signup = '/user/signup';
@@ -18,8 +17,9 @@ class AppUrls {
   static const profile = '/user/profile';
   static const profileUpdate = '/user/profile-update';
   static const logout = '/user/logout';
-  static const profilePicLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
+  static const profilePicLocation ='https://d2g7lffxna0ji8.cloudfront.net/user/profile_pic';
+  // static const profilePicLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/user/profile_pic';
   static const socialLogin = '/user/social-signin';
 
   //Post Feed
@@ -30,6 +30,9 @@ class AppUrls {
   static const addComment = '/post-comment/add';
   static const likeUnlikeComment = '/post-like/comment';
   static const getPostDetials = '/post/details';
+  static const postImageLocation = 'https://d2g7lffxna0ji8.cloudfront.net/post/';
+  // static const postImageLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/post/';
 
   //Other User's
   static const getOtherUserDetails = '/user/other/profile';
@@ -54,19 +57,25 @@ class AppUrls {
   static const getLeaderboardList = '/user/leaderboard/list';
 
   // Pic Locations
-  static const bannerLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
+  static const bannerLocation = 'https://d2g7lffxna0ji8.cloudfront.net/user/banner';
+  // static const bannerLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/user/banner';
 
   // Restaurant
   static const postListPerRestaurant = '/post/list';
 
   //restaurant
-  static const restaurantLocation =
-      'https://forthetable.dedicateddevelopers.us/uploads/restaurant/';
+  static const restaurantLocation = 'https://d2g7lffxna0ji8.cloudfront.net/restaurant/';
+  // static const restaurantLocation =
+  //     'https://forthetable.dedicateddevelopers.us/uploads/restaurant/';
   static const restaurantList = '/restaurant/list';
   static const saveRestaurant = '/restaurant/save';
   static const restaurnatDetails = '/restaurant/details';
   static const getSavedRestaurantList = '/restaurant/save/list';
   static const reviewSubmit = '/restaurant/review/add';
   static const getAllRestaurants = '/restaurant/full-list';
+
+  //chat
+  static const chatTokenGenerate = '/chat/token/create';
+  static const chatList = '/chat/user/list';
 }

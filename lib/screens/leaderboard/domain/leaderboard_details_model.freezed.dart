@@ -38,8 +38,12 @@ mixin _$LeaderboardDetailsModel {
   @JsonKey(name: "limit")
   int? get limit => throw _privateConstructorUsedError;
 
+  /// Serializes this LeaderboardDetailsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LeaderboardDetailsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LeaderboardDetailsModelCopyWith<LeaderboardDetailsModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -72,6 +76,8 @@ class _$LeaderboardDetailsModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LeaderboardDetailsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,6 +157,8 @@ class __$$LeaderboardDetailsModelImplCopyWithImpl<$Res>
       $Res Function(_$LeaderboardDetailsModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LeaderboardDetailsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -270,12 +278,14 @@ class _$LeaderboardDetailsModelImpl implements _LeaderboardDetailsModel {
             (identical(other.limit, limit) || other.limit == limit));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, type, message,
       const DeepCollectionEquality().hash(_data), total, page, pages, limit);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LeaderboardDetailsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LeaderboardDetailsModelImplCopyWith<_$LeaderboardDetailsModelImpl>
@@ -329,8 +339,11 @@ abstract class _LeaderboardDetailsModel implements LeaderboardDetailsModel {
   @override
   @JsonKey(name: "limit")
   int? get limit;
+
+  /// Create a copy of LeaderboardDetailsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LeaderboardDetailsModelImplCopyWith<_$LeaderboardDetailsModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -362,8 +375,12 @@ mixin _$LeaderboardDetail {
   @JsonKey(name: "point")
   int? get point => throw _privateConstructorUsedError;
 
+  /// Serializes this LeaderboardDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LeaderboardDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LeaderboardDetailCopyWith<LeaderboardDetail> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -399,6 +416,8 @@ class _$LeaderboardDetailCopyWithImpl<$Res, $Val extends LeaderboardDetail>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LeaderboardDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -457,6 +476,8 @@ class _$LeaderboardDetailCopyWithImpl<$Res, $Val extends LeaderboardDetail>
     ) as $Val);
   }
 
+  /// Create a copy of LeaderboardDetail
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RoleInfoCopyWith<$Res>? get roleInfo {
@@ -502,6 +523,8 @@ class __$$LeaderboardDetailImplCopyWithImpl<$Res>
       $Res Function(_$LeaderboardDetailImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LeaderboardDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -638,12 +661,14 @@ class _$LeaderboardDetailImpl implements _LeaderboardDetail {
             (identical(other.point, point) || other.point == point));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, firstName, lastName,
       fullName, email, profileImage, roleInfo, location, city, point);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LeaderboardDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LeaderboardDetailImplCopyWith<_$LeaderboardDetailImpl> get copyWith =>
@@ -704,8 +729,11 @@ abstract class _LeaderboardDetail implements LeaderboardDetail {
   @override
   @JsonKey(name: "point")
   int? get point;
+
+  /// Create a copy of LeaderboardDetail
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LeaderboardDetailImplCopyWith<_$LeaderboardDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -723,8 +751,12 @@ mixin _$RoleInfo {
   @JsonKey(name: "role")
   String? get role => throw _privateConstructorUsedError;
 
+  /// Serializes this RoleInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RoleInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RoleInfoCopyWith<RoleInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -750,6 +782,8 @@ class _$RoleInfoCopyWithImpl<$Res, $Val extends RoleInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RoleInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -796,6 +830,8 @@ class __$$RoleInfoImplCopyWithImpl<$Res>
       _$RoleInfoImpl _value, $Res Function(_$RoleInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RoleInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -857,11 +893,13 @@ class _$RoleInfoImpl implements _RoleInfo {
             (identical(other.role, role) || other.role == role));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, roleDisplayName, role);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RoleInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RoleInfoImplCopyWith<_$RoleInfoImpl> get copyWith =>
@@ -893,8 +931,11 @@ abstract class _RoleInfo implements RoleInfo {
   @override
   @JsonKey(name: "role")
   String? get role;
+
+  /// Create a copy of RoleInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RoleInfoImplCopyWith<_$RoleInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

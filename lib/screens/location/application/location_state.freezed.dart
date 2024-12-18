@@ -19,7 +19,9 @@ mixin _$LocationState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLocationFetched => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocationStateCopyWith<LocationState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$LocationStateCopyWithImpl<$Res, $Val extends LocationState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$LocationStateImplCopyWithImpl<$Res>
       _$LocationStateImpl _value, $Res Function(_$LocationStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LocationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,7 +138,9 @@ class _$LocationStateImpl implements _LocationState {
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, isLocationFetched);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocationStateImplCopyWith<_$LocationStateImpl> get copyWith =>
@@ -148,8 +156,11 @@ abstract class _LocationState implements LocationState {
   bool get isLoading;
   @override
   bool get isLocationFetched;
+
+  /// Create a copy of LocationState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocationStateImplCopyWith<_$LocationStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

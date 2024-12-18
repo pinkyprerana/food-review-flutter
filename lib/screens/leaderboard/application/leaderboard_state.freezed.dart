@@ -23,7 +23,9 @@ mixin _$LeaderboardState {
   int get currentPage => throw _privateConstructorUsedError;
   int get totalPages => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LeaderboardState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LeaderboardStateCopyWith<LeaderboardState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +54,8 @@ class _$LeaderboardStateCopyWithImpl<$Res, $Val extends LeaderboardState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LeaderboardState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +114,8 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
       $Res Function(_$LeaderboardStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LeaderboardState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -209,7 +215,9 @@ class _$LeaderboardStateImpl extends _LeaderboardState {
       currentPage,
       totalPages);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LeaderboardState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LeaderboardStateImplCopyWith<_$LeaderboardStateImpl> get copyWith =>
@@ -236,8 +244,11 @@ abstract class _LeaderboardState extends LeaderboardState {
   int get currentPage;
   @override
   int get totalPages;
+
+  /// Create a copy of LeaderboardState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LeaderboardStateImplCopyWith<_$LeaderboardStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

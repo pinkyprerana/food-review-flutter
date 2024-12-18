@@ -20,7 +20,9 @@ mixin _$BaseState {
   int get bottomNavIndex => throw _privateConstructorUsedError;
   int get lastBottomNavIndex => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BaseState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BaseStateCopyWith<BaseState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$BaseStateCopyWithImpl<$Res, $Val extends BaseState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BaseState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +90,8 @@ class __$$BaseStateImplCopyWithImpl<$Res>
       _$BaseStateImpl _value, $Res Function(_$BaseStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BaseState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,7 +157,9 @@ class _$BaseStateImpl extends _BaseState {
   int get hashCode =>
       Object.hash(runtimeType, isLoading, bottomNavIndex, lastBottomNavIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BaseState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BaseStateImplCopyWith<_$BaseStateImpl> get copyWith =>
@@ -171,8 +179,11 @@ abstract class _BaseState extends BaseState {
   int get bottomNavIndex;
   @override
   int get lastBottomNavIndex;
+
+  /// Create a copy of BaseState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BaseStateImplCopyWith<_$BaseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

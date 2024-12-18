@@ -221,7 +221,7 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
   final receiverId = notifications?.receiverUserInfo?.id;
   final postId = notifications?.refPostId;
 
-  final autoRouter = AppRouter();
+  final autoRouter = AutoRouter.of(context);
   switch (type) {
     case 'user_accept':
     case 'user_deny':
@@ -251,6 +251,15 @@ void _navigateToNotificationScreen(BuildContext context, String type) {
       );
       AppLog.log("Navigating to PostDetailsRoute");
       break;
+    case 'chat':
+      autoRouter.pushAndPopUntil(
+        DirectMessageRoute(
+            peopleId: notifications?.postedUserInfo?.id??""
+          // isDeepLinking: true
+        ),
+        predicate: (_) => false,
+      );
+      AppLog.log("Navigating to DirectMessageRoute");
     default:
       AppLog.log('Unhandled notification type: $type');
       break;
